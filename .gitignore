@@ -34,6 +34,7 @@
 *.exe
 *.out
 *.app
+!Info.plist.app
 
 ### Intellij ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm
