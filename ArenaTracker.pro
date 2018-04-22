@@ -24,20 +24,37 @@ UI_DIR = tmp
 DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
-        src/main.cpp \
-        src/settings.cpp
+    src/main.cpp \
+    src/settings.cpp \
+    src/arenatracker.cpp
 
 HEADERS += \
-        src/settings.h
+    src/settings.h \
+    src/arenatracker.h
 
 FORMS += \
-        src/settings.ui
+    src/settings.ui
 
 mac {
+
   QT += macextras
+
+  ICON = res/icon.icns
 
   DEFINES += PLATFORM=\\\"mac\\\"
 
   QMAKE_INFO_PLIST = Info.plist.app
+
+}
+
+win32 {
+
+  QT += winextras
+
+  CONFIG += embed_manifest_exe
+
+  DEFINES += PLATFORM=\\\"win32\\\"
+
+  DEFINES += _CRT_SECURE_NO_WARNINGS
 
 }
