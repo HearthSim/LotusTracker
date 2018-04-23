@@ -1,6 +1,6 @@
 <ui version="4.0">
- <class>Settings</class>
- <widget class="QMainWindow" name="Settings" >
+ <class>Preferences</class>
+ <widget class="QMainWindow" name="Preferences" >
   <property name="geometry" >
    <rect>
     <x>0</x>
@@ -10,7 +10,7 @@
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>Settings</string>
+   <string>Preferences</string>
   </property>
   <widget class="QMenuBar" name="menuBar" />
   <widget class="QToolBar" name="mainToolBar" />

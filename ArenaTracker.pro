@@ -25,15 +25,20 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     src/main.cpp \
-    src/settings.cpp \
-    src/arenatracker.cpp
+    src/arenatracker.cpp \
+    src/trayicon.cpp \
+    src/ui/preferences.cpp
 
 HEADERS += \
-    src/settings.h \
-    src/arenatracker.h
+    src/arenatracker.h \
+    src/trayicon.h \
+    src/ui/preferences.h \
+    src/defines.h
 
 FORMS += \
-    src/settings.ui
+    src/ui/preferences.ui
+
+RESOURCES += resources.qrc
 
 mac {
 

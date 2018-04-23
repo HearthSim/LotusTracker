@@ -3,19 +3,24 @@
 ArenaTracker::ArenaTracker(int& argc, char **argv)
     : QApplication(argc, argv)
 {
-    settings = new Settings();
-    setup();
+    setupApp();
+    preferences = new Preferences();
+    trayIcon = new TrayIcon(this);
 }
 
 ArenaTracker::~ArenaTracker()
 {
-    if(settings){
-        delete settings;
-        settings = NULL;
+    if(preferences){
+        delete preferences;
+        preferences = NULL;
+    }
+    if(trayIcon){
+        delete trayIcon;
+        trayIcon = NULL;
     }
 }
 
-void ArenaTracker::setup()
+void ArenaTracker::setupApp()
 {
 #if defined Q_OS_MAC
   setAttribute(Qt::AA_UseHighDpiPixmaps);
@@ -24,7 +29,7 @@ void ArenaTracker::setup()
 #elif defined Q_OS_WIN
   QIcon icon(":/res/icon.ico");
 #endif
-  setApplicationName("Arena Tracker"); // for proper DataLocation handling
+  setApplicationName("Arena Tracker");
   setOrganizationName("edipo.com");
   setOrganizationDomain("edipo.com");
   setWindowIcon(icon);
@@ -32,6 +37,10 @@ void ArenaTracker::setup()
 
 int ArenaTracker::run()
 {
-    settings->show();
     return exec();
+}
+
+void ArenaTracker::showPreferences()
+{
+    preferences->show();
 }

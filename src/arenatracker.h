@@ -4,7 +4,8 @@
 #define ARENATRACKER_H
 
 #include <QApplication>
-#include "settings.h"
+#include "ui/preferences.h"
+#include "trayicon.h"
 
 class ArenaTracker : public QApplication
 {
@@ -13,10 +14,12 @@ public:
     ArenaTracker(int& argc, char **argv);
     ~ArenaTracker();
     int run();
+    void showPreferences();
 
 private:
-    Settings *settings;
-    void setup();
+    void setupApp();
+    TrayIcon *trayIcon;
+    Preferences *preferences;
 
 signals:
 
