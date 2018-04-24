@@ -1,11 +1,10 @@
-#pragma once
-
 #ifndef ARENATRACKER_H
 #define ARENATRACKER_H
 
-#include <QApplication>
-#include "ui/preferences.h"
+#include "macros.h"
+#include "logger.h"
 #include "trayicon.h"
+#include "ui/preferences.h"
 
 class ArenaTracker : public QApplication
 {
@@ -13,6 +12,7 @@ class ArenaTracker : public QApplication
 public:
     ArenaTracker(int& argc, char **argv);
     ~ArenaTracker();
+    Logger *logger;
     int run();
     void showPreferences();
 

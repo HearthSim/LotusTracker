@@ -4,12 +4,18 @@ ArenaTracker::ArenaTracker(int& argc, char **argv)
     : QApplication(argc, argv)
 {
     setupApp();
+    logger = new Logger(this);
     preferences = new Preferences();
     trayIcon = new TrayIcon(this);
+    LOGI("Arena Tracker started");
 }
 
 ArenaTracker::~ArenaTracker()
 {
+    if(logger){
+        delete logger;
+        logger = NULL;
+    }
     if(preferences){
         delete preferences;
         preferences = NULL;

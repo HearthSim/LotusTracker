@@ -27,13 +27,15 @@ SOURCES += \
     src/main.cpp \
     src/arenatracker.cpp \
     src/trayicon.cpp \
+    src/logger.cpp \
     src/ui/preferences.cpp
 
 HEADERS += \
     src/arenatracker.h \
     src/trayicon.h \
-    src/ui/preferences.h \
-    src/defines.h
+    src/logger.h \
+    src/macros.h \
+    src/ui/preferences.h
 
 FORMS += \
     src/ui/preferences.ui

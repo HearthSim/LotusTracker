@@ -1,6 +1,6 @@
 #include "arenatracker.h"
 #include "trayicon.h"
-#include "defines.h"
+#include "macros.h"
 #include <QAction>
 #include <QApplication>
 #include <QMenu>
