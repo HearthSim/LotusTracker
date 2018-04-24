@@ -9,4 +9,10 @@
 #define LOGD(msg) ((ArenaTracker*) qApp->instance())->logger->logD(msg)
 #define LOGW(msg) ((ArenaTracker*) qApp->instance())->logger->logW(msg)
 
+#define DELETE(__CLASSNAME__) \
+if(__CLASSNAME__){ \
+    delete __CLASSNAME__; \
+    __CLASSNAME__ = NULL; \
+} \
+
 #endif // MACROS_H

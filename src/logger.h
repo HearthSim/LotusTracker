@@ -17,6 +17,10 @@ class Logger : public QObject
 {
     Q_OBJECT
 
+private:
+    QFile *logFile;
+    void log(LogType type, const QString &msg);
+
 public:
     Logger(QObject *parent);
     ~Logger();
@@ -24,12 +28,8 @@ public:
     void logD(const QString &msg);
     void logW(const QString &msg);
 
-private:
-    QFile *logFile;
-    void log(LogType type, const QString &msg);
-
 signals:
-    void NewLogMsg(LogType type, const QString &msg);
+    void sgnLog(LogType type, const QString &msg);
 
 public slots:
 };

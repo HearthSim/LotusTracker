@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -28,6 +28,7 @@ SOURCES += \
     src/arenatracker.cpp \
     src/trayicon.cpp \
     src/logger.cpp \
+    src/mtgarena.cpp \
     src/ui/preferences.cpp
 
 HEADERS += \
@@ -35,6 +36,7 @@ HEADERS += \
     src/trayicon.h \
     src/logger.h \
     src/macros.h \
+    src/mtgarena.h \
     src/ui/preferences.h
 
 FORMS += \
@@ -45,23 +47,31 @@ RESOURCES += resources.qrc
 mac {
 
   QT += macextras
-
   ICON = res/icon.icns
-
   DEFINES += PLATFORM=\\\"mac\\\"
 
   QMAKE_INFO_PLIST = Info.plist.app
+
+  LIBS += -framework ApplicationServices
+
+  SOURCES += src/utils/MacOSWindowFinder.cpp
+
+  HEADERS += src/utils/MacOSWindowFinder.h
 
 }
 
 win32 {
 
   QT += winextras
-
+  ICON = res/icon.ico
   CONFIG += embed_manifest_exe
-
   DEFINES += PLATFORM=\\\"win32\\\"
-
   DEFINES += _CRT_SECURE_NO_WARNINGS
+
+  LIBS += user32.lib
+
+  SOURCES += src/utils/WinWindowFinder.cpp
+
+  HEADERS += src/utils/WinWindowFinder.h
 
 }

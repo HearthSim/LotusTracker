@@ -14,13 +14,13 @@ class Preferences : public QMainWindow
 {
     Q_OBJECT
 
-public:
-    explicit Preferences(QWidget *parent = 0);
-    ~Preferences();
-
 private:
     void closeEvent(QCloseEvent *event);
     Ui::Preferences *ui;
+
+public:
+    explicit Preferences(QWidget *parent = 0);
+    ~Preferences();
 };
 
 #endif // PREFERENCES_H

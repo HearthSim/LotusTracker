@@ -48,7 +48,7 @@ void Logger::logW(const QString &msg)
 void Logger::log(LogType type, const QString &msg)
 {
     QString timestamp = QTime::currentTime().toString("hh:mm:ss");
-    QString line = QString("[%1] %2: %3\n")
+    QString line = QString("[%1] %2: %3")
             .arg(timestamp)
             .arg(LOG_TYPE_NAMES[type])
             .arg(msg);
@@ -67,8 +67,8 @@ void Logger::log(LogType type, const QString &msg)
 
     if(logFile && logFile->isOpen()) {
       QTextStream out(logFile);
-      out << line;
+      out << line << endl;
       logFile->flush();
     }
-    emit NewLogMsg(type, msg);
+    emit sgnLog(type, msg);
 }

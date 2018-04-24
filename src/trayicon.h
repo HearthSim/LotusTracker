@@ -7,13 +7,14 @@
 class TrayIcon : public QObject
 {
     Q_OBJECT
-public:
-    explicit TrayIcon(QObject *parent = nullptr);
 
 private:
     void TrayIconActivated(QSystemTrayIcon::ActivationReason reason);
     void setupTrayIcon();
     void openPreferences();
+
+public:
+    explicit TrayIcon(QObject *parent = nullptr);
 
 signals:
 

@@ -7,23 +7,16 @@ ArenaTracker::ArenaTracker(int& argc, char **argv)
     logger = new Logger(this);
     preferences = new Preferences();
     trayIcon = new TrayIcon(this);
+    mtgArena = new MtgArena(this);
     LOGI("Arena Tracker started");
 }
 
 ArenaTracker::~ArenaTracker()
 {
-    if(logger){
-        delete logger;
-        logger = NULL;
-    }
-    if(preferences){
-        delete preferences;
-        preferences = NULL;
-    }
-    if(trayIcon){
-        delete trayIcon;
-        trayIcon = NULL;
-    }
+    DELETE(logger)
+    DELETE(preferences)
+    DELETE(trayIcon)
+    DELETE(mtgArena)
 }
 
 void ArenaTracker::setupApp()
@@ -36,8 +29,8 @@ void ArenaTracker::setupApp()
   QIcon icon(":/res/icon.ico");
 #endif
   setApplicationName("Arena Tracker");
-  setOrganizationName("edipo.com");
-  setOrganizationDomain("edipo.com");
+  setOrganizationName("ArenaMeta");
+  setOrganizationDomain("arenameta.com");
   setWindowIcon(icon);
 }
 
