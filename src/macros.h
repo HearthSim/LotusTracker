@@ -3,6 +3,8 @@
 #define UNUSED(x) (void)(x)
 
 #include "arenatracker.h"
+#include "logger.h"
+
 #include <QApplication>
 
 #define LOGI(msg) ((ArenaTracker*) qApp->instance())->logger->logI(msg)

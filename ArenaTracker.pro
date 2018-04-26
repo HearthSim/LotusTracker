@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT += core gui
+QT += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -29,7 +29,8 @@ SOURCES += \
     src/trayicon.cpp \
     src/logger.cpp \
     src/mtgarena.cpp \
-    src/ui/preferences.cpp
+    src/ui/preferences.cpp \
+    src/mtgcards.cpp
 
 HEADERS += \
     src/arenatracker.h \
@@ -37,7 +38,9 @@ HEADERS += \
     src/logger.h \
     src/macros.h \
     src/mtgarena.h \
-    src/ui/preferences.h
+    src/ui/preferences.h \
+    src/entities.h \
+    src/mtgcards.h
 
 FORMS += \
     src/ui/preferences.ui

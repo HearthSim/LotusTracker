@@ -7,8 +7,9 @@ ArenaTracker::ArenaTracker(int& argc, char **argv)
     logger = new Logger(this);
     preferences = new Preferences();
     trayIcon = new TrayIcon(this);
-    mtgArena = new MtgArena(this);
     LOGI("Arena Tracker started");
+    mtgArena = new MtgArena(this);
+    mtgCards = new MtgCards(this);
 }
 
 ArenaTracker::~ArenaTracker()
@@ -17,6 +18,7 @@ ArenaTracker::~ArenaTracker()
     DELETE(preferences)
     DELETE(trayIcon)
     DELETE(mtgArena)
+    DELETE(mtgCards)
 }
 
 void ArenaTracker::setupApp()

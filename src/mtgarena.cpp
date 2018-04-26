@@ -5,8 +5,10 @@
 #include "utils/MacOSWindowFinder.h"
 #elif defined Q_OS_WIN
 #include "utils/WinWindowFinder.h"
-#include <Window.h>
+#include <windows.h>
 #endif
+
+#include <QString>
 
 #define MTG_ARENA_NAME "basicWindow"
 #define MTG_ARENA_TITLE "Simple example"
@@ -15,12 +17,18 @@
 
 MtgArena::MtgArena(QObject *parent) : QObject(parent), isFocused(false), isRunning(false)
 {
-  timer = new QTimer(this);
-  connect(timer, &QTimer::timeout, this, &MtgArena::findGameWindow);
-  timer->start(SLOW_FIND_WINDOW_INTERVAL);
-  connect(this, &MtgArena::sgnGameStarted, this, &MtgArena::gameStarted);
-  connect(this, &MtgArena::sgnGameStopped, this, &MtgArena::gameStopped);
-  connect(this, &MtgArena::sgnGameFocusChanged, this, &MtgArena::gameFocusChanged);
+    timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &MtgArena::findGameWindow);
+    timer->start(SLOW_FIND_WINDOW_INTERVAL);
+    connect(this, &MtgArena::sgnGameStarted, this, &MtgArena::gameStarted);
+    connect(this, &MtgArena::sgnGameStopped, this, &MtgArena::gameStopped);
+    connect(this, &MtgArena::sgnGameFocusChanged, this, &MtgArena::gameFocusChanged);
+    fetchCards();
+}
+
+void MtgArena::fetchCards()
+{
+    
 }
 
 void MtgArena::findGameWindow()
@@ -31,7 +39,7 @@ void MtgArena::findGameWindow()
     bool hasFocus = MacOSWindowFinder::isWindowFocused(wndId);
 #elif defined Q_OS_WIN
 	HWND wnd = WinWindowFinder::FindWindow(MTG_ARENA_NAME, MTG_ARENA_TITLE);
-    bool hasFind = wnd != NULL
+    bool hasFind = wnd != NULL;
     bool hasFocus = WinWindowFinder::isWindowFocused(wnd);
 #endif
     if(!isRunning && hasFind) {

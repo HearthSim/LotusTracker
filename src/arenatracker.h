@@ -3,6 +3,7 @@
 
 #include "macros.h"
 #include "mtgarena.h"
+#include "mtgcards.h"
 #include "logger.h"
 #include "trayicon.h"
 #include "ui/preferences.h"
@@ -21,6 +22,7 @@ public:
     ~ArenaTracker();
     Logger *logger;
     MtgArena *mtgArena;
+    MtgCards *mtgCards;
     int run();
     void showPreferences();
 
