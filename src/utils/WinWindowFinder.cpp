@@ -1,14 +1,15 @@
 ﻿#include "WinWindowFinder.h"
 
 #include <QtWinExtras/qwinfunctions.h>
+#include "psapi.h"
 
 WinWindowFinder::WinWindowFinder()
 {
 }
 
-HWND MacOSWindowFinder::FindWindow(const QString& name, const QString& title)
+HWND MacOSWindowFinder::findWindow(QString& title)
 {
-  HWND hwnd = FindWindowW(NULL, (TCHAR*)name.utf16());
+  HWND hwnd = FindWindowW(NULL, (const wchar_t*)name.utf16());
   if(!hwnd) {
     // Fallback for localized
     HWND unityHwnd = FindWindowW(L"UnityWndClass", NULL);
@@ -30,6 +31,6 @@ HWND MacOSWindowFinder::FindWindow(const QString& name, const QString& title)
   return hwnd;
 }
 
-bool WinWindowFinder::HasFocus(HWND hwnd) {
+bool WinWindowFinder::isWindowFocused(HWND hwnd) {
   return GetForegroundWindow() == hwnd;
 }

@@ -9,7 +9,7 @@ class MacOSWindowFinder : public QObject
 public:
     MacOSWindowFinder();
 
-    static int FindWindowId(const QString& name, const QString& title = NULL);
+    static int findWindowId(const QString& name, const QString& title = NULL);
     static bool isWindowFocused(int wId);
 
 };

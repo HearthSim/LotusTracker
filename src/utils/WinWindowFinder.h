@@ -1,8 +1,10 @@
 #ifndef WINWINDOWFINDER_H
 #define WINWINDOWFINDER_H
 
+#define WIN32_LEAN_AND_MEAN
+
 #include <QObject>
-#include <Windows.h>
+#include <windows.h>
 
 class WinWindowFinder : public QObject
 {
@@ -10,7 +12,7 @@ class WinWindowFinder : public QObject
 public:
   WinWindowFinder();
 
-  static HWND FindWindow(const QString& name, const QString& title = NULL);
+  static HWND findWindow(QString& title);
   static bool isWindowFocused(HWND hwnd);
 
 };

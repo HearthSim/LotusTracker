@@ -7,7 +7,7 @@ MacOSWindowFinder::MacOSWindowFinder()
 {
 }
 
-int MacOSWindowFinder::FindWindowId(const QString& name, const QString& title)
+int MacOSWindowFinder::findWindowId(const QString& name, const QString& title)
 {
   int wId = 0;
 

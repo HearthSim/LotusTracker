@@ -42,7 +42,7 @@ void TrayIcon::setupTrayIcon()
 void TrayIcon::TrayIconActivated(QSystemTrayIcon::ActivationReason reason) {
 #ifdef Q_OS_WIN
     if(reason == QSystemTrayIcon::ActivationReason::DoubleClick) {
-        openSettings();
+        openPreferences();
     }
 #else
     UNUSED(reason);

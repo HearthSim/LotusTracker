@@ -47,6 +47,8 @@ FORMS += \
 
 RESOURCES += resources.qrc
 
+CONFIG(debug, debug|release): DEFINES += _DEBUG
+
 mac {
 
   QT += macextras
@@ -67,11 +69,12 @@ win32 {
 
   QT += winextras
   ICON = res/icon.ico
+
   CONFIG += embed_manifest_exe
   DEFINES += PLATFORM=\\\"win32\\\"
   DEFINES += _CRT_SECURE_NO_WARNINGS
 
-  LIBS += user32.lib
+  LIBS += -luser32 -lpsapi
 
   SOURCES += src/utils/WinWindowFinder.cpp
 

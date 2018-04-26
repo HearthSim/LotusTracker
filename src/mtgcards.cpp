@@ -109,10 +109,6 @@ void MtgCards::loadSetFromFile(QString setFileName) {
 	}
 
     LOGI(QString("%1 set loaded with %2 cards").arg(setCode).arg(jsonCards.count()));
-
-    for(Card *card : cards) {
-    	LOGD(QString("%1:%2 - %3").arg(card->number).arg(card->mtgaId).arg(card->name));
-    }
 }
 
 Card* MtgCards::getCard(int mtgaId)
