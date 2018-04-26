@@ -18,12 +18,16 @@ private:
     void downloadSetOnFinish();
     void loadSet(QString setCode);
     void loadSetFromFile(QString setFileName);
+    int getMtgaId(QString setCode, QString cardNumber);
+
     QString setsDir;
-	QMap<QString, QList<Card>> sets;
+    QMap<QString, QMap<QString, int>> mtgaIds;
+	QMap<int, Card*> cards;		//indexed by mtgaId
 	QNetworkAccessManager networkManager;
 
 public:
     MtgCards(QObject *parent = nullptr);
+    Card* getCard(int mtgaId);
 
 signals:
 

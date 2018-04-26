@@ -6,11 +6,13 @@
 class Card
 {
 public:
-    const QString &number;
-    const QString &name;
+    const int mtgaId;
+    const QString number;
+    const QString name;
+    const QString setCode;
 
-	Card(const QString &number, const QString &name) 
-        : number(number), name(name){}
+	Card(const int mtgaId, const QString number, const QString name, const QString setCode) 
+        : mtgaId(mtgaId), number(number), name(name), setCode(setCode){}
 };
 
 #endif // ENTITIES_H

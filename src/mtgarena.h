@@ -11,7 +11,6 @@ class MtgArena : public QObject
 private:
 	QTimer *timer;
 
-	void fetchCards();
     void findGameWindow();
     void gameStarted();
     void gameStopped();

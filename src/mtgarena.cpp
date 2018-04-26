@@ -23,12 +23,6 @@ MtgArena::MtgArena(QObject *parent) : QObject(parent), isFocused(false), isRunni
     connect(this, &MtgArena::sgnGameStarted, this, &MtgArena::gameStarted);
     connect(this, &MtgArena::sgnGameStopped, this, &MtgArena::gameStopped);
     connect(this, &MtgArena::sgnGameFocusChanged, this, &MtgArena::gameFocusChanged);
-    fetchCards();
-}
-
-void MtgArena::fetchCards()
-{
-    
 }
 
 void MtgArena::findGameWindow()
