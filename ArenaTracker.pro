@@ -68,7 +68,7 @@ mac {
 win32 {
 
   QT += winextras
-  ICON = res/icon.ico
+  RC_FILE += arenatracker.rc
 
   CONFIG += embed_manifest_exe
   DEFINES += PLATFORM=\\\"win32\\\"

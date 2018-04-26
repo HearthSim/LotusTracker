@@ -7,9 +7,9 @@ WinWindowFinder::WinWindowFinder()
 {
 }
 
-HWND MacOSWindowFinder::findWindow(QString& title)
+HWND WinWindowFinder::findWindow(const QString& title)
 {
-  HWND hwnd = FindWindowW(NULL, (const wchar_t*)name.utf16());
+  HWND hwnd = FindWindowW(NULL, (const wchar_t*)title.utf16());
   if(!hwnd) {
     // Fallback for localized
     HWND unityHwnd = FindWindowW(L"UnityWndClass", NULL);
@@ -23,7 +23,7 @@ HWND MacOSWindowFinder::findWindow(QString& title)
       CloseHandle(handle);
 
       QString path = QString::fromWCharArray(buffer);
-      if(path.contains(name)) {
+      if(path.contains(title)) {
         hwnd = unityHwnd;
       }
     }
