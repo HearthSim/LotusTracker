@@ -3,6 +3,7 @@
 
 #include "entities.h"
 
+#include <QJsonObject>
 #include <QList>
 #include <QMap>
 #include <QNetworkAccessManager>
@@ -18,7 +19,7 @@ private:
     void downloadSetOnFinish();
     void loadSet(QString setCode);
     void loadSetFromFile(QString setFileName);
-    int getMtgaId(QString setCode, QString cardNumber);
+    Card* jsonObject2Card(QJsonObject jsonCard, QString setCode);
 
     QString setsDir;
     QMap<QString, QMap<QString, int>> mtgaIds;
@@ -27,7 +28,7 @@ private:
 
 public:
     MtgCards(QObject *parent = nullptr);
-    Card* getCard(int mtgaId);
+    Card* findCard(int mtgaId);
 
 signals:
 

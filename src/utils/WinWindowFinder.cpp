@@ -1,4 +1,4 @@
-﻿#include "WinWindowFinder.h"
+﻿#include "winwindowfinder.h"
 
 #include <QtWinExtras/qwinfunctions.h>
 #include "psapi.h"

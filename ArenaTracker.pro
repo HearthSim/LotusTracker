@@ -59,9 +59,11 @@ mac {
 
   LIBS += -framework ApplicationServices
 
-  SOURCES += src/utils/MacOSWindowFinder.cpp
+  SOURCES += src/utils/macautostart.cpp \
+      src/utils/macwindowfinder.cpp
 
-  HEADERS += src/utils/MacOSWindowFinder.h
+  HEADERS += src/utils/macautostart.h \
+      src/utils/macwindowfinder.h
 
 }
 
@@ -76,8 +78,10 @@ win32 {
 
   LIBS += -luser32 -lpsapi
 
-  SOURCES += src/utils/WinWindowFinder.cpp
+  SOURCES += src/utils/winautostart.cpp \
+      src/utils/winwindowfinder.cpp
 
-  HEADERS += src/utils/WinWindowFinder.h
+  HEADERS += src/utils/winautostart.h \
+      src/utils/winwindowfinder.h
 
 }

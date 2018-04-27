@@ -6,9 +6,7 @@
 #include <QCloseEvent>
 #include <QMainWindow>
 
-namespace Ui {
-class Preferences;
-}
+namespace Ui { class Preferences; }
 
 class Preferences : public QMainWindow
 {
@@ -16,6 +14,7 @@ class Preferences : public QMainWindow
 
 private:
     void closeEvent(QCloseEvent *event);
+    void onStartAtLoginChange();
     Ui::Preferences *ui;
 
 public:

@@ -1,17 +1,17 @@
-#ifndef MACOSWINDOWFINDER_H
-#define MACOSWINDOWFINDER_H
+#ifndef MACWINDOWFINDER_H
+#define MACWINDOWFINDER_H
 
 #include <QObject>
 
-class MacOSWindowFinder : public QObject
+class MacWindowFinder : public QObject
 {
     Q_OBJECT
 public:
-    MacOSWindowFinder();
+    MacWindowFinder();
 
     static int findWindowId(const QString& name, const QString& title = NULL);
     static bool isWindowFocused(int wId);
 
 };
 
-#endif // MACOSWINDOWFINDER_H
+#endif // MACWINDOWFINDER_H

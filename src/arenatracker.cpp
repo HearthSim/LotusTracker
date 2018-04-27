@@ -44,4 +44,5 @@ int ArenaTracker::run()
 void ArenaTracker::showPreferences()
 {
     preferences->show();
+    preferences->raise();
 }

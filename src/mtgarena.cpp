@@ -2,9 +2,9 @@
 #include "macros.h"
 
 #if defined Q_OS_MAC
-#include "utils/MacOSWindowFinder.h"
+#include "utils/macwindowfinder.h"
 #elif defined Q_OS_WIN
-#include "utils/WinWindowFinder.h"
+#include "utils/winwindowfinder.h"
 #include <windows.h>
 #endif
 
@@ -28,9 +28,9 @@ MtgArena::MtgArena(QObject *parent) : QObject(parent), isFocused(false), isRunni
 void MtgArena::findGameWindow()
 {
 #if defined Q_OS_MAC
-    int wndId = MacOSWindowFinder::findWindowId(MTG_ARENA_NAME, MTG_ARENA_TITLE);
+    int wndId = MacWindowFinder::findWindowId(MTG_ARENA_NAME, MTG_ARENA_TITLE);
     bool hasFind = wndId != 0;
-    bool hasFocus = MacOSWindowFinder::isWindowFocused(wndId);
+    bool hasFocus = MacWindowFinder::isWindowFocused(wndId);
 #elif defined Q_OS_WIN
     HWND wnd = WinWindowFinder::findWindow(MTG_ARENA_TITLE);
     bool hasFind = wnd != NULL;

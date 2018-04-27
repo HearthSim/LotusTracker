@@ -1,13 +1,13 @@
-#include "MacOSWindowFinder.h"
+#include "macwindowfinder.h"
 
 #include <ApplicationServices/ApplicationServices.h>
 #include <QtMac>
 
-MacOSWindowFinder::MacOSWindowFinder()
+MacWindowFinder::MacWindowFinder()
 {
 }
 
-int MacOSWindowFinder::findWindowId(const QString& name, const QString& title)
+int MacWindowFinder::findWindowId(const QString& name, const QString& title)
 {
   int wId = 0;
 
@@ -35,7 +35,7 @@ int MacOSWindowFinder::findWindowId(const QString& name, const QString& title)
   return wId;
 }
 
-bool MacOSWindowFinder::isWindowFocused(int wId)
+bool MacWindowFinder::isWindowFocused(int wId)
 {
     CFArrayRef windowList = CGWindowListCopyWindowInfo(kCGWindowListOptionIncludingWindow, wId);
     CFIndex numWindows = CFArrayGetCount(windowList);
