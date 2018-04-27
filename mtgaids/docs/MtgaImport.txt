@@ -1,0 +1,1504 @@
+--- AKH ---
+1 Angel of Sanctions (AKH) 1
+2 Anointed Procession (AKH) 2
+3 Anointer Priest (AKH) 3
+4 Approach of the Second Sun (AKH) 4
+5 Aven Mindcensor (AKH) 5
+6 Binding Mummy (AKH) 6
+7 Cartouche of Solidarity (AKH) 7
+8 Cast Out (AKH) 8
+9 Compulsory Rest (AKH) 9
+10 Devoted Crop-Mate (AKH) 10
+11 Djeru's Resolve (AKH) 11
+12 Fan Bearer (AKH) 12
+13 Forsake the Worldly (AKH) 13
+14 Gideon of the Trials (AKH) 14
+15 Gideon's Intervention (AKH) 15
+16 Glory-Bound Initiate (AKH) 16
+17 Gust Walker (AKH) 17
+18 Impeccable Timing (AKH) 18
+19 In Oketra's Name (AKH) 19
+20 Mighty Leap (AKH) 20
+1 Oketra the True (AKH) 21
+2 Oketra's Attendant (AKH) 22
+3 Protection of the Hekma (AKH) 23
+4 Regal Caracal (AKH) 24
+5 Renewed Faith (AKH) 25
+6 Rhet-Crop Spearmaster (AKH) 26
+7 Sacred Cat (AKH) 27
+8 Seraph of the Suns (AKH) 28
+9 Sparring Mummy (AKH) 29
+10 Supply Caravan (AKH) 30
+11 Tah-Crop Elite (AKH) 31
+12 Those Who Serve (AKH) 32
+13 Time to Reflect (AKH) 33
+14 Trial of Solidarity (AKH) 34
+15 Trueheart Duelist (AKH) 35
+16 Unwavering Initiate (AKH) 36
+17 Vizier of Deferment (AKH) 37
+18 Vizier of Remedies (AKH) 38
+19 Winged Shepherd (AKH) 39
+20 Ancient Crab (AKH) 40
+1 Angler Drake (AKH) 41
+2 As Foretold (AKH) 42
+3 Aven Initiate (AKH) 43
+4 Cancel (AKH) 44
+5 Cartouche of Knowledge (AKH) 45
+6 Censor (AKH) 46
+7 Compelling Argument (AKH) 47
+8 Cryptic Serpent (AKH) 48
+9 Curator of Mysteries (AKH) 49
+10 Decision Paralysis (AKH) 50
+11 Drake Haven (AKH) 51
+12 Essence Scatter (AKH) 52
+13 Floodwaters (AKH) 53
+14 Galestrike (AKH) 54
+15 Glyph Keeper (AKH) 55
+16 Hekma Sentinels (AKH) 56
+17 Hieroglyphic Illumination (AKH) 57
+18 Illusory Wrappings (AKH) 58
+19 Kefnet the Mindful (AKH) 59
+20 Labyrinth Guardian (AKH) 60
+1 Lay Claim (AKH) 61
+2 Naga Oracle (AKH) 62
+3 New Perspectives (AKH) 63
+4 Open into Wonder (AKH) 64
+5 Pull from Tomorrow (AKH) 65
+6 River Serpent (AKH) 66
+7 Sacred Excavation (AKH) 67
+8 Scribe of the Mindful (AKH) 68
+9 Seeker of Insight (AKH) 69
+10 Shimmerscale Drake (AKH) 70
+11 Slither Blade (AKH) 71
+12 Tah-Crop Skirmisher (AKH) 72
+13 Trial of Knowledge (AKH) 73
+14 Vizier of Many Faces (AKH) 74
+15 Vizier of Tumbling Sands (AKH) 75
+16 Winds of Rebuke (AKH) 76
+17 Zenith Seeker (AKH) 77
+18 Archfiend of Ifnir (AKH) 78
+19 Baleful Ammit (AKH) 79
+20 Blighted Bat (AKH) 80
+1 Bone Picker (AKH) 81
+2 Bontu the Glorified (AKH) 82
+3 Cartouche of Ambition (AKH) 83
+4 Cruel Reality (AKH) 84
+5 Cursed Minotaur (AKH) 85
+6 Dispossess (AKH) 86
+7 Doomed Dissenter (AKH) 87
+8 Dread Wanderer (AKH) 88
+9 Dune Beetle (AKH) 89
+10 Faith of the Devoted (AKH) 90
+11 Festering Mummy (AKH) 91
+12 Final Reward (AKH) 92
+13 Gravedigger (AKH) 93
+14 Grim Strider (AKH) 94
+15 Horror of the Broken Lands (AKH) 95
+16 Lay Bare the Heart (AKH) 96
+17 Liliana, Death's Majesty (AKH) 97
+18 Liliana's Mastery (AKH) 98
+19 Lord of the Accursed (AKH) 99
+20 Miasmic Mummy (AKH) 100
+1 Nest of Scarabs (AKH) 101
+2 Painful Lesson (AKH) 102
+3 Pitiless Vizier (AKH) 103
+4 Plague Belcher (AKH) 104
+5 Ruthless Sniper (AKH) 105
+6 Scarab Feast (AKH) 106
+7 Shadow of the Grave (AKH) 107
+8 Soulstinger (AKH) 108
+9 Splendid Agony (AKH) 109
+10 Stir the Sands (AKH) 110
+11 Supernatural Stamina (AKH) 111
+12 Trespasser's Curse (AKH) 112
+13 Trial of Ambition (AKH) 113
+14 Unburden (AKH) 114
+15 Wander in Death (AKH) 115
+16 Wasteland Scorpion (AKH) 116
+17 Ahn-Crop Crasher (AKH) 117
+18 Battlefield Scavenger (AKH) 118
+19 Blazing Volley (AKH) 119
+20 Bloodlust Inciter (AKH) 120
+1 Bloodrage Brawler (AKH) 121
+2 Brute Strength (AKH) 122
+3 By Force (AKH) 123
+4 Cartouche of Zeal (AKH) 124
+5 Combat Celebrant (AKH) 125
+6 Consuming Fervor (AKH) 126
+7 Deem Worthy (AKH) 127
+8 Desert Cerodon (AKH) 128
+9 Electrify (AKH) 129
+10 Emberhorn Minotaur (AKH) 130
+11 Flameblade Adept (AKH) 131
+12 Fling (AKH) 132
+13 Glorious End (AKH) 133
+14 Glorybringer (AKH) 134
+15 Harsh Mentor (AKH) 135
+16 Hazoret the Fervent (AKH) 136
+17 Hazoret's Favor (AKH) 137
+18 Heart-Piercer Manticore (AKH) 138
+19 Hyena Pack (AKH) 139
+20 Limits of Solidarity (AKH) 140
+1 Magma Spray (AKH) 141
+2 Manticore of the Gauntlet (AKH) 142
+3 Minotaur Sureshot (AKH) 143
+4 Nef-Crop Entangler (AKH) 144
+5 Nimble-Blade Khenra (AKH) 145
+6 Pathmaker Initiate (AKH) 146
+7 Pursue Glory (AKH) 147
+8 Soul-Scar Mage (AKH) 148
+9 Sweltering Suns (AKH) 149
+10 Thresher Lizard (AKH) 150
+11 Tormenting Voice (AKH) 151
+12 Trial of Zeal (AKH) 152
+13 Trueheart Twins (AKH) 153
+14 Violent Impact (AKH) 154
+15 Warfire Javelineer (AKH) 155
+16 Benefaction of Rhonas (AKH) 156
+17 Bitterblade Warrior (AKH) 157
+18 Cartouche of Strength (AKH) 158
+19 Champion of Rhonas (AKH) 159
+20 Channeler Initiate (AKH) 160
+1 Colossapede (AKH) 161
+2 Crocodile of the Crossing (AKH) 162
+3 Defiant Greatmaw (AKH) 163
+4 Dissenter's Deliverance (AKH) 164
+5 Exemplar of Strength (AKH) 165
+6 Giant Spider (AKH) 166
+7 Gift of Paradise (AKH) 167
+8 Greater Sandwurm (AKH) 168
+9 Hapatra's Mark (AKH) 169
+10 Harvest Season (AKH) 170
+11 Haze of Pollen (AKH) 171
+12 Honored Hydra (AKH) 172
+13 Hooded Brawler (AKH) 173
+14 Initiate's Companion (AKH) 174
+15 Manglehorn (AKH) 175
+16 Naga Vitalist (AKH) 176
+17 Oashra Cultivator (AKH) 177
+18 Ornery Kudu (AKH) 178
+19 Pouncing Cheetah (AKH) 179
+20 Prowling Serpopard (AKH) 180
+1 Quarry Hauler (AKH) 181
+2 Rhonas the Indomitable (AKH) 182
+3 Sandwurm Convergence (AKH) 183
+4 Scaled Behemoth (AKH) 184
+5 Shed Weakness (AKH) 185
+6 Shefet Monitor (AKH) 186
+7 Sixth Sense (AKH) 187
+8 Spidery Grasp (AKH) 188
+9 Stinging Shot (AKH) 189
+10 Synchronized Strike (AKH) 190
+11 Trial of Strength (AKH) 191
+12 Vizier of the Menagerie (AKH) 192
+13 Watchful Naga (AKH) 193
+14 Ahn-Crop Champion (AKH) 194
+15 Aven Wind Guide (AKH) 195
+16 Bounty of the Luxa (AKH) 196
+17 Decimator Beetle (AKH) 197
+18 Enigma Drake (AKH) 198
+19 Hapatra, Vizier of Poisons (AKH) 199
+20 Honored Crop-Captain (AKH) 200
+1 Khenra Charioteer (AKH) 201
+2 Merciless Javelineer (AKH) 202
+3 Neheb, the Worthy (AKH) 203
+4 Nissa, Steward of Elements (AKH) 204
+5 Samut, Voice of Dissent (AKH) 205
+6 Shadowstorm Vizier (AKH) 206
+7 Temmet, Vizier of Naktamun (AKH) 207
+8 Wayward Servant (AKH) 208
+9 Weaver of Currents (AKH) 209
+10 Dusk (AKH) 210a
+10 Dawn (AKH) 210b
+11 Commit (AKH) 211a
+11 Memory (AKH) 211b
+12 Never (AKH) 212a
+12 Return (AKH) 212b
+13 Insult (AKH) 213a
+13 Injury (AKH) 213b
+14 Mouth (AKH) 214a
+14 Feed (AKH) 214b
+15 Start (AKH) 215a
+15 Finish (AKH) 215b
+16 Reduce (AKH) 216a
+16 Rubble (AKH) 216b
+17 Destined (AKH) 217a
+17 Lead (AKH) 217b
+18 Onward (AKH) 218a
+18 Victory (AKH) 218b
+19 Spring (AKH) 219a
+19 Mind (AKH) 219b
+20 Prepare (AKH) 220a
+20 Fight (AKH) 220b
+1 Failure (AKH) 221a
+1 Comply (AKH) 221b
+2 Rags (AKH) 222a
+2 Riches (AKH) 222b
+3 Cut (AKH) 223a
+3 Ribbons (AKH) 223b
+4 Heaven (AKH) 224a
+4 Earth (AKH) 224b
+5 Bontu's Monument (AKH) 225
+6 Edifice of Authority (AKH) 226
+7 Embalmer's Tools (AKH) 227
+8 Gate to the Afterlife (AKH) 228
+9 Hazoret's Monument (AKH) 229
+10 Honed Khopesh (AKH) 230
+11 Kefnet's Monument (AKH) 231
+12 Luxa River Shrine (AKH) 232
+13 Oketra's Monument (AKH) 233
+14 Oracle's Vault (AKH) 234
+15 Pyramid of the Pantheon (AKH) 235
+16 Rhonas's Monument (AKH) 236
+17 Throne of the God-Pharaoh (AKH) 237
+18 Watchers of the Dead (AKH) 238
+19 Canyon Slough (AKH) 239
+20 Cascading Cataracts (AKH) 240
+1 Cradle of the Accursed (AKH) 241
+2 Evolving Wilds (AKH) 242
+3 Fetid Pools (AKH) 243
+4 Grasping Dunes (AKH) 244
+5 Irrigated Farmland (AKH) 245
+6 Painted Bluffs (AKH) 246
+7 Scattered Groves (AKH) 247
+8 Sheltered Thicket (AKH) 248
+9 Sunscorched Desert (AKH) 249
+10 Plains (AKH) 250
+11 Island (AKH) 251
+12 Swamp (AKH) 252
+13 Mountain (AKH) 253
+14 Forest (AKH) 254
+15 Plains (AKH) 255
+16 Plains (AKH) 256
+17 Plains (AKH) 257
+18 Island (AKH) 258
+19 Island (AKH) 259
+20 Island (AKH) 260
+1 Swamp (AKH) 261
+2 Swamp (AKH) 262
+3 Swamp (AKH) 263
+4 Mountain (AKH) 264
+5 Mountain (AKH) 265
+6 Mountain (AKH) 266
+7 Forest (AKH) 267
+8 Forest (AKH) 268
+9 Forest (AKH) 269
+10 Gideon, Martial Paragon (AKH) 270
+11 Companion of the Trials (AKH) 271
+12 Gideon's Resolve (AKH) 272
+13 Graceful Cat (AKH) 273
+14 Stone Quarry (AKH) 274
+15 Liliana, Death Wielder (AKH) 275
+16 Desiccated Naga (AKH) 276
+17 Liliana's Influence (AKH) 277
+18 Tattered Mummy (AKH) 278
+19 Foul Orchard (AKH) 279
+20 Cinder Barrens (AKH) 280
+1 Forsaken Sanctuary (AKH) 281
+2 Highland Lake (AKH) 282
+3 Meandering River (AKH) 283
+4 Submerged Boneyard (AKH) 284
+5 Timber Gorge (AKH) 285
+6 Tranquil Expanse (AKH) 286
+7 Woodland Stream (AKH) 287
+--- HOU ---
+1 Act of Heroism (HOU) 1
+2 Adorned Pouncer (HOU) 2
+3 Angel of Condemnation (HOU) 3
+4 Angel of the God-Pharaoh (HOU) 4
+5 Aven of Enduring Hope (HOU) 5
+6 Crested Sunmare (HOU) 6
+7 Dauntless Aven (HOU) 7
+8 Desert's Hold (HOU) 8
+9 Disposal Mummy (HOU) 9
+10 Djeru, With Eyes Open (HOU) 10
+11 Djeru's Renunciation (HOU) 11
+12 Dutiful Servants (HOU) 12
+13 Gideon's Defeat (HOU) 13
+14 God-Pharaoh's Faithful (HOU) 14
+15 Hour of Revelation (HOU) 15
+16 Mummy Paramount (HOU) 16
+17 Oketra's Avenger (HOU) 17
+18 Oketra's Last Mercy (HOU) 18
+19 Overwhelming Splendor (HOU) 19
+20 Sandblast (HOU) 20
+1 Saving Grace (HOU) 21
+2 Solemnity (HOU) 22
+3 Solitary Camel (HOU) 23
+4 Steadfast Sentinel (HOU) 24
+5 Steward of Solidarity (HOU) 25
+6 Sunscourge Champion (HOU) 26
+7 Unconventional Tactics (HOU) 27
+8 Vizier of the True (HOU) 28
+9 Aerial Guide (HOU) 29
+10 Aven Reedstalker (HOU) 30
+11 Champion of Wits (HOU) 31
+12 Countervailing Winds (HOU) 32
+13 Cunning Survivor (HOU) 33
+14 Eternal of Harsh Truths (HOU) 34
+15 Fraying Sanity (HOU) 35
+16 Hour of Eternity (HOU) 36
+17 Imaginary Threats (HOU) 37
+18 Jace's Defeat (HOU) 38
+19 Kefnet's Last Word (HOU) 39
+20 Nimble Obstructionist (HOU) 40
+1 Ominous Sphinx (HOU) 41
+2 Proven Combatant (HOU) 42
+3 Riddleform (HOU) 43
+4 Seer of the Last Tomorrow (HOU) 44
+5 Sinuous Striker (HOU) 45
+6 Spellweaver Eternal (HOU) 46
+7 Strategic Planning (HOU) 47
+8 Striped Riverwinder (HOU) 48
+9 Supreme Will (HOU) 49
+10 Swarm Intelligence (HOU) 50
+11 Tragic Lesson (HOU) 51
+12 Unesh, Criosphinx Sovereign (HOU) 52
+13 Unquenchable Thirst (HOU) 53
+14 Unsummon (HOU) 54
+15 Vizier of the Anointed (HOU) 55
+16 Accursed Horde (HOU) 56
+17 Ammit Eternal (HOU) 57
+18 Apocalypse Demon (HOU) 58
+19 Banewhip Punisher (HOU) 59
+20 Bontu's Last Reckoning (HOU) 60
+1 Carrion Screecher (HOU) 61
+2 Doomfall (HOU) 62
+3 Dreamstealer (HOU) 63
+4 Grisly Survivor (HOU) 64
+5 Hour of Glory (HOU) 65
+6 Khenra Eternal (HOU) 66
+7 Lethal Sting (HOU) 67
+8 Liliana's Defeat (HOU) 68
+9 Lurching Rotbeast (HOU) 69
+10 Marauding Boneslasher (HOU) 70
+11 Merciless Eternal (HOU) 71
+12 Moaning Wall (HOU) 72
+13 Razaketh, the Foulblooded (HOU) 73
+14 Razaketh's Rite (HOU) 74
+15 Ruin Rat (HOU) 75
+16 Scrounger of Souls (HOU) 76
+17 Torment of Hailfire (HOU) 77
+18 Torment of Scarabs (HOU) 78
+19 Torment of Venom (HOU) 79
+20 Vile Manifestation (HOU) 80
+1 Without Weakness (HOU) 81
+2 Wretched Camel (HOU) 82
+3 Abrade (HOU) 83
+4 Blur of Blades (HOU) 84
+5 Burning-Fist Minotaur (HOU) 85
+6 Chandra's Defeat (HOU) 86
+7 Chaos Maw (HOU) 87
+8 Crash Through (HOU) 88
+9 Defiant Khenra (HOU) 89
+10 Earthshaker Khenra (HOU) 90
+11 Fervent Paincaster (HOU) 91
+12 Firebrand Archer (HOU) 92
+13 Frontline Devastator (HOU) 93
+14 Gilded Cerodon (HOU) 94
+15 Granitic Titan (HOU) 95
+16 Hazoret's Undying Fury (HOU) 96
+17 Hour of Devastation (HOU) 97
+18 Imminent Doom (HOU) 98
+19 Inferno Jet (HOU) 99
+20 Khenra Scrapper (HOU) 100
+1 Kindled Fury (HOU) 101
+2 Magmaroth (HOU) 102
+3 Manticore Eternal (HOU) 103
+4 Neheb, the Eternal (HOU) 104
+5 Open Fire (HOU) 105
+6 Puncturing Blow (HOU) 106
+7 Sand Strangler (HOU) 107
+8 Thorned Moloch (HOU) 108
+9 Wildfire Eternal (HOU) 109
+10 Ambuscade (HOU) 110
+11 Beneath the Sands (HOU) 111
+12 Bitterbow Sharpshooters (HOU) 112
+13 Devotee of Strength (HOU) 113
+14 Dune Diviner (HOU) 114
+15 Feral Prowler (HOU) 115
+16 Frilled Sandwalla (HOU) 116
+17 Gift of Strength (HOU) 117
+18 Harrier Naga (HOU) 118
+19 Hope Tender (HOU) 119
+20 Hour of Promise (HOU) 120
+1 Life Goes On (HOU) 121
+2 Majestic Myriarch (HOU) 122
+3 Nissa's Defeat (HOU) 123
+4 Oasis Ritualist (HOU) 124
+5 Overcome (HOU) 125
+6 Pride Sovereign (HOU) 126
+7 Quarry Beetle (HOU) 127
+8 Rampaging Hippo (HOU) 128
+9 Ramunap Excavator (HOU) 129
+10 Ramunap Hydra (HOU) 130
+11 Resilient Khenra (HOU) 131
+12 Rhonas's Last Stand (HOU) 132
+13 Rhonas's Stalwart (HOU) 133
+14 Sidewinder Naga (HOU) 134
+15 Sifter Wurm (HOU) 135
+16 Tenacious Hunter (HOU) 136
+17 Uncage the Menagerie (HOU) 137
+18 Bloodwater Entity (HOU) 138
+19 The Locust God (HOU) 139
+20 Nicol Bolas, God-Pharaoh (HOU) 140
+1 Obelisk Spider (HOU) 141
+2 Resolute Survivors (HOU) 142
+3 River Hoopoe (HOU) 143
+4 Samut, the Tested (HOU) 144
+5 The Scarab God (HOU) 145
+6 The Scorpion God (HOU) 146
+7 Unraveling Mummy (HOU) 147
+8 Farm (HOU) 148a
+8 Market (HOU) 148b
+9 Consign (HOU) 149a
+9 Oblivion (HOU) 149b
+10 Claim (HOU) 150a
+10 Fame (HOU) 150b
+11 Struggle (HOU) 151a
+11 Survive (HOU) 151b
+12 Appeal (HOU) 152a
+12 Authority (HOU) 152b
+13 Leave (HOU) 153a
+13 Chance (HOU) 153b
+14 Reason (HOU) 154a
+14 Believe (HOU) 154b
+15 Grind (HOU) 155a
+15 Dust (HOU) 155b
+16 Refuse (HOU) 156a
+16 Cooperate (HOU) 156b
+17 Driven (HOU) 157a
+17 Despair (HOU) 157b
+18 Abandoned Sarcophagus (HOU) 158
+19 Crook of Condemnation (HOU) 159
+20 Dagger of the Worthy (HOU) 160
+1 God-Pharaoh's Gift (HOU) 161
+2 Graven Abomination (HOU) 162
+3 Hollow One (HOU) 163
+4 Manalith (HOU) 164
+5 Mirage Mirror (HOU) 165
+6 Sunset Pyramid (HOU) 166
+7 Traveler's Amulet (HOU) 167
+8 Wall of Forgotten Pharaohs (HOU) 168
+9 Crypt of the Eternals (HOU) 169
+10 Desert of the Fervent (HOU) 170
+11 Desert of the Glorified (HOU) 171
+12 Desert of the Indomitable (HOU) 172
+13 Desert of the Mindful (HOU) 173
+14 Desert of the True (HOU) 174
+15 Dunes of the Dead (HOU) 175
+16 Endless Sands (HOU) 176
+17 Hashep Oasis (HOU) 177
+18 Hostile Desert (HOU) 178
+19 Ifnir Deadlands (HOU) 179
+20 Ipnu Rivulet (HOU) 180
+1 Ramunap Ruins (HOU) 181
+2 Scavenger Grounds (HOU) 182
+3 Shefet Dunes (HOU) 183
+4 Survivors' Encampment (HOU) 184
+5 Plains (HOU) 185
+6 Island (HOU) 186
+7 Swamp (HOU) 187
+8 Mountain (HOU) 188
+9 Forest (HOU) 189
+10 Plains (HOU) 190
+11 Plains (HOU) 191
+12 Island (HOU) 192
+13 Island (HOU) 193
+14 Swamp (HOU) 194
+15 Swamp (HOU) 195
+16 Mountain (HOU) 196
+17 Mountain (HOU) 197
+18 Forest (HOU) 198
+19 Forest (HOU) 199
+20 Nissa, Genesis Mage (HOU) 200
+1 Avid Reclaimer (HOU) 201
+2 Brambleweft Behemoth (HOU) 202
+3 Nissa's Encouragement (HOU) 203
+4 Woodland Stream (HOU) 204
+5 Nicol Bolas, the Deceiver (HOU) 205
+6 Wasp of the Bitter End (HOU) 206
+7 Zealot of the God-Pharaoh (HOU) 207
+8 Visage of Bolas (HOU) 208
+9 Cinder Barrens (HOU) 209
+--- OGW ---
+1 Deceiver of Form (OGW) 1
+2 Eldrazi Mimic (OGW) 2
+3 Endbringer (OGW) 3
+4 Kozilek, the Great Distortion (OGW) 4
+5 Kozilek's Pathfinder (OGW) 5
+6 Matter Reshaper (OGW) 6
+7 Reality Smasher (OGW) 7
+8 Spatial Contortion (OGW) 8
+9 Thought-Knot Seer (OGW) 9
+10 Walker of the Wastes (OGW) 10
+11 Warden of Geometries (OGW) 11
+12 Warping Wail (OGW) 12
+13 Eldrazi Displacer (OGW) 13
+14 Affa Protector (OGW) 14
+15 Allied Reinforcements (OGW) 15
+16 Call the Gatewatch (OGW) 16
+17 Dazzling Reflection (OGW) 17
+18 Expedition Raptor (OGW) 18
+19 General Tazri (OGW) 19
+20 Immolating Glare (OGW) 20
+1 Iona's Blessing (OGW) 21
+2 Isolation Zone (OGW) 22
+3 Kor Scythemaster (OGW) 23
+4 Kor Sky Climber (OGW) 24
+5 Linvala, the Preserver (OGW) 25
+6 Make a Stand (OGW) 26
+7 Makindi Aeronaut (OGW) 27
+8 Mighty Leap (OGW) 28
+9 Munda's Vanguard (OGW) 29
+10 Oath of Gideon (OGW) 30
+11 Ondu War Cleric (OGW) 31
+12 Relief Captain (OGW) 32
+13 Searing Light (OGW) 33
+14 Shoulder to Shoulder (OGW) 34
+15 Spawnbinder Mage (OGW) 35
+16 Steppe Glider (OGW) 36
+17 Stone Haven Outfitter (OGW) 37
+18 Stoneforge Acolyte (OGW) 38
+19 Wall of Resurgence (OGW) 39
+20 Abstruse Interference (OGW) 40
+1 Blinding Drone (OGW) 41
+2 Cultivator Drone (OGW) 42
+3 Deepfathom Skulker (OGW) 43
+4 Dimensional Infiltrator (OGW) 44
+5 Gravity Negator (OGW) 45
+6 Prophet of Distortion (OGW) 46
+7 Slip Through Space (OGW) 47
+8 Thought Harvester (OGW) 48
+9 Void Shatter (OGW) 49
+10 Ancient Crab (OGW) 50
+11 Comparative Analysis (OGW) 51
+12 Containment Membrane (OGW) 52
+13 Crush of Tentacles (OGW) 53
+14 Cyclone Sire (OGW) 54
+15 Gift of Tusks (OGW) 55
+16 Grip of the Roil (OGW) 56
+17 Hedron Alignment (OGW) 57
+18 Jwar Isle Avenger (OGW) 58
+19 Negate (OGW) 59
+20 Oath of Jace (OGW) 60
+1 Overwhelming Denial (OGW) 61
+2 Roiling Waters (OGW) 62
+3 Sphinx of the Final Word (OGW) 63
+4 Sweep Away (OGW) 64
+5 Umara Entangler (OGW) 65
+6 Unity of Purpose (OGW) 66
+7 Bearer of Silence (OGW) 67
+8 Dread Defiler (OGW) 68
+9 Essence Depleter (OGW) 69
+10 Flaying Tendrils (OGW) 70
+11 Havoc Sower (OGW) 71
+12 Inverter of Truth (OGW) 72
+13 Kozilek's Shrieker (OGW) 73
+14 Kozilek's Translator (OGW) 74
+15 Oblivion Strike (OGW) 75
+16 Reaver Drone (OGW) 76
+17 Sifter of Skulls (OGW) 77
+18 Sky Scourer (OGW) 78
+19 Slaughter Drone (OGW) 79
+20 Unnatural Endurance (OGW) 80
+1 Visions of Brutality (OGW) 81
+2 Witness the End (OGW) 82
+3 Corpse Churn (OGW) 83
+4 Drana's Chosen (OGW) 84
+5 Grasp of Darkness (OGW) 85
+6 Kalitas, Traitor of Ghet (OGW) 86
+7 Malakir Soothsayer (OGW) 87
+8 Null Caller (OGW) 88
+9 Remorseless Punishment (OGW) 89
+10 Tar Snare (OGW) 90
+11 Untamed Hunger (OGW) 91
+12 Vampire Envoy (OGW) 92
+13 Zulaport Chainmage (OGW) 93
+14 Consuming Sinkhole (OGW) 94
+15 Eldrazi Aggressor (OGW) 95
+16 Eldrazi Obligator (OGW) 96
+17 Immobilizer Eldrazi (OGW) 97
+18 Kozilek's Return (OGW) 98
+19 Maw of Kozilek (OGW) 99
+20 Reality Hemorrhage (OGW) 100
+1 Akoum Flameseeker (OGW) 101
+2 Boulder Salvo (OGW) 102
+3 Brute Strength (OGW) 103
+4 Chandra, Flamecaller (OGW) 104
+5 Cinder Hellion (OGW) 105
+6 Devour in Flames (OGW) 106
+7 Embodiment of Fury (OGW) 107
+8 Expedite (OGW) 108
+9 Fall of the Titans (OGW) 109
+10 Goblin Dark-Dwellers (OGW) 110
+11 Goblin Freerunner (OGW) 111
+12 Kazuul's Toll Collector (OGW) 112
+13 Oath of Chandra (OGW) 113
+14 Press into Service (OGW) 114
+15 Pyromancer's Assault (OGW) 115
+16 Reckless Bushwhacker (OGW) 116
+17 Sparkmage's Gambit (OGW) 117
+18 Tears of Valakut (OGW) 118
+19 Tyrant of Valakut (OGW) 119
+20 Zada's Commando (OGW) 120
+1 Birthing Hulk (OGW) 121
+2 Ruin in Their Wake (OGW) 122
+3 Scion Summoner (OGW) 123
+4 Stalking Drone (OGW) 124
+5 Vile Redeemer (OGW) 125
+6 World Breaker (OGW) 126
+7 Baloth Pup (OGW) 127
+8 Bonds of Mortality (OGW) 128
+9 Canopy Gorger (OGW) 129
+10 Elemental Uprising (OGW) 130
+11 Embodiment of Insight (OGW) 131
+12 Gladehart Cavalry (OGW) 132
+13 Harvester Troll (OGW) 133
+14 Lead by Example (OGW) 134
+15 Loam Larva (OGW) 135
+16 Natural State (OGW) 136
+17 Netcaster Spider (OGW) 137
+18 Nissa, Voice of Zendikar (OGW) 138
+19 Nissa's Judgment (OGW) 139
+20 Oath of Nissa (OGW) 140
+1 Pulse of Murasa (OGW) 141
+2 Saddleback Lagac (OGW) 142
+3 Seed Guardian (OGW) 143
+4 Sylvan Advocate (OGW) 144
+5 Tajuru Pathwarden (OGW) 145
+6 Vines of the Recluse (OGW) 146
+7 Zendikar Resurgent (OGW) 147
+8 Flayer Drone (OGW) 148
+9 Mindmelter (OGW) 149
+10 Void Grafter (OGW) 150
+11 Ayli, Eternal Pilgrim (OGW) 151
+12 Baloth Null (OGW) 152
+13 Cliffhaven Vampire (OGW) 153
+14 Joraga Auxiliary (OGW) 154
+15 Jori En, Ruin Diver (OGW) 155
+16 Mina and Denn, Wildborn (OGW) 156
+17 Reflector Mage (OGW) 157
+18 Relentless Hunter (OGW) 158
+19 Stormchaser Mage (OGW) 159
+20 Weapons Trainer (OGW) 160
+1 Bone Saw (OGW) 161
+2 Captain's Claws (OGW) 162
+3 Chitinous Cloak (OGW) 163
+4 Hedron Crawler (OGW) 164
+5 Seer's Lantern (OGW) 165
+6 Stoneforge Masterwork (OGW) 166
+7 Strider Harness (OGW) 167
+8 Cinder Barrens (OGW) 168
+9 Corrupted Crossroads (OGW) 169
+10 Crumbling Vestige (OGW) 170
+11 Hissing Quagmire (OGW) 171
+12 Holdout Settlement (OGW) 172
+13 Meandering River (OGW) 173
+14 Mirrorpool (OGW) 174
+15 Needle Spires (OGW) 175
+16 Ruins of Oran-Rief (OGW) 176
+17 Sea Gate Wreckage (OGW) 177
+18 Submerged Boneyard (OGW) 178
+19 Timber Gorge (OGW) 179
+20 Tranquil Expanse (OGW) 180
+1 Unknown Shores (OGW) 181
+2 Wandering Fumarole (OGW) 182
+3 Wastes (OGW) 183
+3 Wastes (OGW) 183
+4 Wastes (OGW) 184
+4 Wastes (OGW) 184
+--- XLN ---
+1 Adanto Vanguard (XLN) 1
+2 Ashes of the Abhorrent (XLN) 2
+3 Axis of Mortality (XLN) 3
+4 Bellowing Aegisaur (XLN) 4
+5 Bishop of Rebirth (XLN) 5
+6 Bishop's Soldier (XLN) 6
+7 Bright Reprisal (XLN) 7
+8 Demystify (XLN) 8
+9 Duskborne Skymarcher (XLN) 9
+10 Emissary of Sunrise (XLN) 10
+11 Encampment Keeper (XLN) 11
+12 Glorifier of Dusk (XLN) 12
+13 Goring Ceratops (XLN) 13
+14 Imperial Aerosaur (XLN) 14
+15 Imperial Lancer (XLN) 15
+16 Inspiring Cleric (XLN) 16
+17 Ixalan's Binding (XLN) 17
+18 Kinjalli's Caller (XLN) 18
+19 Kinjalli's Sunwing (XLN) 19
+20 Legion Conquistador (XLN) 20
+1 Legion's Judgment (XLN) 21
+20 Legion's Landing (XLN) 22a
+20 Adanto, the First Fort (XLN) 22b
+3 Looming Altisaur (XLN) 23
+4 Mavren Fein, Dusk Apostle (XLN) 24
+5 Paladin of the Bloodstained (XLN) 25
+6 Pious Interdiction (XLN) 26
+7 Priest of the Wakening Sun (XLN) 27
+8 Pterodon Knight (XLN) 28
+9 Queen's Commission (XLN) 29
+10 Rallying Roar (XLN) 30
+11 Raptor Companion (XLN) 31
+12 Ritual of Rejuvenation (XLN) 32
+13 Sanguine Sacrament (XLN) 33
+14 Settle the Wreckage (XLN) 34
+15 Sheltering Light (XLN) 35
+16 Shining Aerosaur (XLN) 36
+17 Skyblade of the Legion (XLN) 37
+18 Slash of Talons (XLN) 38
+19 Steadfast Armasaur (XLN) 39
+20 Sunrise Seeker (XLN) 40
+1 Territorial Hammerskull (XLN) 41
+2 Tocatli Honor Guard (XLN) 42
+3 Vampire's Zeal (XLN) 43
+4 Wakening Sun's Avatar (XLN) 44
+5 Air Elemental (XLN) 45
+6 Arcane Adaptation (XLN) 46
+7 Cancel (XLN) 47
+8 Chart a Course (XLN) 48
+9 Daring Saboteur (XLN) 49
+10 Deadeye Quartermaster (XLN) 50
+11 Deeproot Waters (XLN) 51
+12 Depths of Desire (XLN) 52
+13 Dive Down (XLN) 53
+14 Dreamcaller Siren (XLN) 54
+15 Entrancing Melody (XLN) 55
+16 Favorable Winds (XLN) 56
+17 Fleet Swallower (XLN) 57
+18 Headwater Sentries (XLN) 58
+19 Herald of Secret Streams (XLN) 59
+20 Jace, Cunning Castaway (XLN) 60
+1 Kopala, Warden of Waves (XLN) 61
+2 Lookout's Dispersal (XLN) 62
+3 Navigator's Ruin (XLN) 63
+4 One With the Wind (XLN) 64
+5 Opt (XLN) 65
+6 Overflowing Insight (XLN) 66
+7 Perilous Voyage (XLN) 67
+8 Pirate's Prize (XLN) 68
+9 Prosperous Pirates (XLN) 69
+10 River Sneak (XLN) 70
+11 River's Rebuke (XLN) 71
+12 Run Aground (XLN) 72
+13 Sailor of Means (XLN) 73
+20 Search for Azcanta (XLN) 74a
+20 Azcanta, the Sunken Ruin (XLN) 74b
+15 Shaper Apprentice (XLN) 75
+16 Shipwreck Looter (XLN) 76
+17 Shore Keeper (XLN) 77
+18 Siren Lookout (XLN) 78
+19 Siren Stormtamer (XLN) 79
+20 Siren's Ruse (XLN) 80
+1 Spell Pierce (XLN) 81
+2 Spell Swindle (XLN) 82
+3 Storm Fleet Aerialist (XLN) 83
+4 Storm Fleet Spy (XLN) 84
+5 Storm Sculptor (XLN) 85
+6 Tempest Caller (XLN) 86
+7 Watertrap Weaver (XLN) 87
+8 Wind Strider (XLN) 88
+9 Anointed Deacon (XLN) 89
+20 Arguel's Blood Fast (XLN) 90a
+20 Temple of Aclazotz (XLN) 90b
+11 Bishop of the Bloodstained (XLN) 91
+12 Blight Keeper (XLN) 92
+13 Bloodcrazed Paladin (XLN) 93
+14 Boneyard Parley (XLN) 94
+15 Contract Killing (XLN) 95
+16 Costly Plunder (XLN) 96
+17 Dark Nourishment (XLN) 97
+18 Deadeye Tormentor (XLN) 98
+19 Deadeye Tracker (XLN) 99
+20 Deathless Ancient (XLN) 100
+1 Desperate Castaways (XLN) 101
+2 Dire Fleet Hoarder (XLN) 102
+3 Dire Fleet Interloper (XLN) 103
+4 Dire Fleet Ravager (XLN) 104
+5 Duress (XLN) 105
+6 Fathom Fleet Captain (XLN) 106
+7 Fathom Fleet Cutthroat (XLN) 107
+8 Grim Captain's Call (XLN) 108
+9 Heartless Pillage (XLN) 109
+10 Kitesail Freebooter (XLN) 110
+11 Lurking Chupacabra (XLN) 111
+12 March of the Drowned (XLN) 112
+13 Mark of the Vampire (XLN) 113
+14 Queen's Agent (XLN) 114
+15 Queen's Bay Soldier (XLN) 115
+16 Raiders' Wake (XLN) 116
+17 Revel in Riches (XLN) 117
+18 Ruin Raider (XLN) 118
+19 Ruthless Knave (XLN) 119
+20 Sanctum Seeker (XLN) 120
+1 Seekers' Squire (XLN) 121
+2 Skittering Heartstopper (XLN) 122
+3 Skulduggery (XLN) 123
+4 Skymarch Bloodletter (XLN) 124
+5 Spreading Rot (XLN) 125
+6 Sword-Point Diplomacy (XLN) 126
+7 Vanquish the Weak (XLN) 127
+8 Vicious Conquistador (XLN) 128
+9 Vraska's Contempt (XLN) 129
+10 Walk the Plank (XLN) 130
+11 Wanted Scoundrels (XLN) 131
+12 Angrath's Marauders (XLN) 132
+13 Bonded Horncrest (XLN) 133
+14 Brazen Buccaneers (XLN) 134
+15 Burning Sun's Avatar (XLN) 135
+16 Captain Lannery Storm (XLN) 136
+17 Captivating Crew (XLN) 137
+18 Charging Monstrosaur (XLN) 138
+19 Demolish (XLN) 139
+20 Dinosaur Stampede (XLN) 140
+1 Dual Shot (XLN) 141
+2 Fathom Fleet Firebrand (XLN) 142
+3 Fiery Cannonade (XLN) 143
+4 Fire Shrine Keeper (XLN) 144
+5 Firecannon Blast (XLN) 145
+6 Frenzied Raptor (XLN) 146
+7 Headstrong Brute (XLN) 147
+8 Hijack (XLN) 148
+9 Lightning Strike (XLN) 149
+10 Lightning-Rig Crew (XLN) 150
+11 Makeshift Munitions (XLN) 151
+12 Nest Robber (XLN) 152
+13 Otepec Huntmaster (XLN) 153
+14 Rampaging Ferocidon (XLN) 154
+15 Raptor Hatchling (XLN) 155
+16 Repeating Barrage (XLN) 156
+17 Rigging Runner (XLN) 157
+18 Rile (XLN) 158
+19 Rowdy Crew (XLN) 159
+20 Rummaging Goblin (XLN) 160
+1 Star of Extinction (XLN) 161
+2 Storm Fleet Arsonist (XLN) 162
+3 Storm Fleet Pyromancer (XLN) 163
+4 Sun-Crowned Hunters (XLN) 164
+5 Sunbird's Invocation (XLN) 165
+6 Sure Strike (XLN) 166
+7 Swashbuckling (XLN) 167
+8 Thrash of Raptors (XLN) 168
+9 Tilonalli's Knight (XLN) 169
+10 Tilonalli's Skinshifter (XLN) 170
+11 Trove of Temptation (XLN) 171
+12 Unfriendly Fire (XLN) 172
+13 Vance's Blasting Cannons (XLN) 173a
+13 Spitfire Bastion (XLN) 173b
+14 Wily Goblin (XLN) 174
+15 Ancient Brontodon (XLN) 175
+16 Atzocan Archer (XLN) 176
+17 Blinding Fog (XLN) 177
+18 Blossom Dryad (XLN) 178
+19 Carnage Tyrant (XLN) 179
+20 Colossal Dreadmaw (XLN) 180
+1 Commune with Dinosaurs (XLN) 181
+2 Crash the Ramparts (XLN) 182
+3 Crushing Canopy (XLN) 183
+4 Deathgorge Scavenger (XLN) 184
+5 Deeproot Champion (XLN) 185
+6 Deeproot Warrior (XLN) 186
+7 Drover of the Mighty (XLN) 187
+8 Emergent Growth (XLN) 188
+9 Emperor's Vanguard (XLN) 189
+10 Grazing Whiptail (XLN) 190
+11 Growing Rites of Itlimoc (XLN) 191a
+11 Itlimoc, Cradle of the Sun (XLN) 191b
+12 Ixalli's Diviner (XLN) 192
+13 Ixalli's Keeper (XLN) 193
+14 Jade Guardian (XLN) 194
+15 Jungle Delver (XLN) 195
+16 Kumena's Speaker (XLN) 196
+17 Merfolk Branchwalker (XLN) 197
+18 New Horizons (XLN) 198
+19 Old-Growth Dryads (XLN) 199
+20 Pounce (XLN) 200
+1 Ranging Raptors (XLN) 201
+2 Ravenous Daggertooth (XLN) 202
+3 Ripjaw Raptor (XLN) 203
+4 River Heralds' Boon (XLN) 204
+5 Savage Stomp (XLN) 205
+6 Shapers' Sanctuary (XLN) 206
+7 Slice in Twain (XLN) 207
+8 Snapping Sailback (XLN) 208
+9 Spike-Tailed Ceratops (XLN) 209
+10 Thundering Spineback (XLN) 210
+11 Tishana's Wayfinder (XLN) 211
+12 Verdant Rebirth (XLN) 212
+13 Verdant Sun's Avatar (XLN) 213
+14 Vineshaper Mystic (XLN) 214
+15 Waker of the Wilds (XLN) 215
+16 Wildgrowth Walker (XLN) 216
+17 Admiral Beckett Brass (XLN) 217
+18 Belligerent Brontodon (XLN) 218
+19 Call to the Feast (XLN) 219
+20 Deadeye Plunderers (XLN) 220
+1 Dire Fleet Captain (XLN) 221
+2 Gishath, Sun's Avatar (XLN) 222
+3 Hostage Taker (XLN) 223
+4 Huatli, Warrior Poet (XLN) 224
+5 Marauding Looter (XLN) 225
+6 Raging Swordtooth (XLN) 226
+7 Regisaur Alpha (XLN) 227
+8 Shapers of Nature (XLN) 228
+9 Sky Terror (XLN) 229
+10 Tishana, Voice of Thunder (XLN) 230
+11 Vona, Butcher of Magan (XLN) 231
+12 Vraska, Relic Seeker (XLN) 232
+13 Cobbled Wings (XLN) 233
+14 Conqueror's Galleon (XLN) 234a
+14 Conqueror's Foothold (XLN) 234b
+15 Dowsing Dagger (XLN) 235a
+15 Lost Vale (XLN) 235b
+16 Dusk Legion Dreadnought (XLN) 236
+17 Elaborate Firecannon (XLN) 237
+18 Fell Flagship (XLN) 238
+19 Gilded Sentinel (XLN) 239
+20 Hierophant's Chalice (XLN) 240
+1 Pillar of Origins (XLN) 241
+2 Pirate's Cutlass (XLN) 242
+3 Primal Amulet (XLN) 243a
+3 Primal Wellspring (XLN) 243b
+4 Prying Blade (XLN) 244
+5 Sentinel Totem (XLN) 245
+6 Shadowed Caravel (XLN) 246
+7 Sleek Schooner (XLN) 247
+8 Sorcerous Spyglass (XLN) 248
+9 Thaumatic Compass (XLN) 249a
+9 Spires of Orazca (XLN) 249b
+10 Treasure Map (XLN) 250a
+10 Treasure Cove (XLN) 250b
+11 Vanquisher's Banner (XLN) 251
+12 Dragonskull Summit (XLN) 252
+13 Drowned Catacomb (XLN) 253
+14 Field of Ruin (XLN) 254
+15 Glacial Fortress (XLN) 255
+16 Rootbound Crag (XLN) 256
+17 Sunpetal Grove (XLN) 257
+18 Unclaimed Territory (XLN) 258
+19 Unknown Shores (XLN) 259
+20 Plains (XLN) 260
+1 Plains (XLN) 261
+2 Plains (XLN) 262
+3 Plains (XLN) 263
+4 Island (XLN) 264
+5 Island (XLN) 265
+6 Island (XLN) 266
+7 Island (XLN) 267
+8 Swamp (XLN) 268
+9 Swamp (XLN) 269
+10 Swamp (XLN) 270
+11 Swamp (XLN) 271
+12 Mountain (XLN) 272
+13 Mountain (XLN) 273
+14 Mountain (XLN) 274
+15 Mountain (XLN) 275
+16 Forest (XLN) 276
+17 Forest (XLN) 277
+18 Forest (XLN) 278
+19 Forest (XLN) 279
+20 Jace, Ingenious Mind-Mage (XLN) 280
+1 Castaway's Despair (XLN) 281
+2 Grasping Current (XLN) 282
+3 Jace's Sentinel (XLN) 283
+4 Woodland Stream (XLN) 284
+5 Huatli, Dinosaur Knight (XLN) 285
+6 Huatli's Snubhorn (XLN) 286
+7 Huatli's Spurring (XLN) 287
+8 Sun-Blessed Mount (XLN) 288
+9 Stone Quarry (XLN) 289
+--- RIX ---
+1 Baffling End (RIX) 1
+2 Bishop of Binding (RIX) 2
+3 Blazing Hope (RIX) 3
+4 Cleansing Ray (RIX) 4
+5 Divine Verdict (RIX) 5
+6 Everdawn Champion (RIX) 6
+7 Exultant Skymarcher (RIX) 7
+8 Famished Paladin (RIX) 8
+9 Forerunner of the Legion (RIX) 9
+10 Imperial Ceratops (RIX) 10
+11 Legion Conquistador (RIX) 11
+12 Luminous Bonds (RIX) 12
+13 Majestic Heliopterus (RIX) 13
+14 Martyr of Dusk (RIX) 14
+15 Moment of Triumph (RIX) 15
+16 Paladin of Atonement (RIX) 16
+17 Pride of Conquerors (RIX) 17
+18 Radiant Destiny (RIX) 18
+19 Raptor Companion (RIX) 19
+20 Sanguine Glorifier (RIX) 20
+1 Skymarcher Aspirant (RIX) 21
+2 Slaughter the Strong (RIX) 22
+3 Snubhorn Sentry (RIX) 23
+4 Sphinx's Decree (RIX) 24
+5 Squire's Devotion (RIX) 25
+6 Sun Sentinel (RIX) 26
+7 Sun-Crested Pterodon (RIX) 27
+8 Temple Altisaur (RIX) 28
+9 Trapjaw Tyrant (RIX) 29
+10 Zetalpa, Primal Dawn (RIX) 30
+11 Admiral's Order (RIX) 31
+12 Aquatic Incursion (RIX) 32
+13 Crafty Cutpurse (RIX) 33
+14 Crashing Tide (RIX) 34
+15 Curious Obsession (RIX) 35
+16 Deadeye Rig-Hauler (RIX) 36
+17 Expel from Orazca (RIX) 37
+18 Flood of Recollection (RIX) 38
+19 Hornswoggle (RIX) 39
+20 Induced Amnesia (RIX) 40
+1 Kitesail Corsair (RIX) 41
+2 Kumena's Awakening (RIX) 42
+3 Mist-Cloaked Herald (RIX) 43
+4 Negate (RIX) 44
+5 Nezahal, Primal Tide (RIX) 45
+6 Release to the Wind (RIX) 46
+7 River Darter (RIX) 47
+8 Riverwise Augur (RIX) 48
+9 Sailor of Means (RIX) 49
+10 Sea Legs (RIX) 50
+11 Seafloor Oracle (RIX) 51
+12 Secrets of the Golden City (RIX) 52
+13 Silvergill Adept (RIX) 53
+14 Siren Reaver (RIX) 54
+15 Slippery Scoundrel (RIX) 55
+16 Soul of the Rapids (RIX) 56
+17 Spire Winder (RIX) 57
+18 Sworn Guardian (RIX) 58
+19 Timestream Navigator (RIX) 59
+20 Warkite Marauder (RIX) 60
+1 Waterknot (RIX) 61
+2 Arterial Flow (RIX) 62
+3 Canal Monitor (RIX) 63
+4 Champion of Dusk (RIX) 64
+5 Dark Inquiry (RIX) 65
+6 Dead Man's Chest (RIX) 66
+7 Dinosaur Hunter (RIX) 67
+8 Dire Fleet Poisoner (RIX) 68
+9 Dusk Charger (RIX) 69
+10 Dusk Legion Zealot (RIX) 70
+11 Fathom Fleet Boarder (RIX) 71
+12 Forerunner of the Coalition (RIX) 72
+13 Golden Demise (RIX) 73
+14 Grasping Scoundrel (RIX) 74
+15 Gruesome Fate (RIX) 75
+16 Impale (RIX) 76
+17 Mastermind's Acquisition (RIX) 77
+18 Mausoleum Harpy (RIX) 78
+19 Moment of Craving (RIX) 79
+20 Oathsworn Vampire (RIX) 80
+1 Pitiless Plunderer (RIX) 81
+2 Ravenous Chupacabra (RIX) 82
+3 Reaver Ambush (RIX) 83
+4 Recover (RIX) 84
+5 Sadistic Skymarcher (RIX) 85
+6 Tetzimoc, Primal Death (RIX) 86
+7 Tomb Robber (RIX) 87
+8 Twilight Prophet (RIX) 88
+9 Vampire Revenant (RIX) 89
+10 Vona's Hunger (RIX) 90
+11 Voracious Vampire (RIX) 91
+12 Blood Sun (RIX) 92
+13 Bombard (RIX) 93
+14 Brass's Bounty (RIX) 94
+15 Brazen Freebooter (RIX) 95
+16 Buccaneer's Bravado (RIX) 96
+17 Charging Tuskodon (RIX) 97
+18 Daring Buccaneer (RIX) 98
+19 Dire Fleet Daredevil (RIX) 99
+20 Etali, Primal Storm (RIX) 100
+1 Fanatical Firebrand (RIX) 101
+2 Forerunner of the Empire (RIX) 102
+3 Form of the Dinosaur (RIX) 103
+4 Frilled Deathspitter (RIX) 104
+5 Goblin Trailblazer (RIX) 105
+6 Mutiny (RIX) 106
+7 Needletooth Raptor (RIX) 107
+8 Orazca Raptor (RIX) 108
+9 Pirate's Pillage (RIX) 109
+10 Reckless Rage (RIX) 110
+11 Rekindling Phoenix (RIX) 111
+12 See Red (RIX) 112
+13 Shake the Foundations (RIX) 113
+14 Shatter (RIX) 114
+15 Silverclad Ferocidons (RIX) 115
+16 Stampeding Horncrest (RIX) 116
+17 Storm Fleet Swashbuckler (RIX) 117
+18 Sun-Collared Raptor (RIX) 118
+19 Swaggering Corsair (RIX) 119
+20 Tilonalli's Crown (RIX) 120
+1 Tilonalli's Summoner (RIX) 121
+2 Aggressive Urge (RIX) 122
+3 Cacophodon (RIX) 123
+4 Cherished Hatchling (RIX) 124
+5 Colossal Dreadmaw (RIX) 125
+6 Crested Herdcaller (RIX) 126
+7 Deeproot Elite (RIX) 127
+8 Enter the Unknown (RIX) 128
+9 Forerunner of the Heralds (RIX) 129
+10 Ghalta, Primal Hunger (RIX) 130
+11 Giltgrove Stalker (RIX) 131
+12 Hardy Veteran (RIX) 132
+13 Hunt the Weak (RIX) 133
+14 Jade Bearer (RIX) 134
+15 Jadecraft Artisan (RIX) 135
+16 Jadelight Ranger (RIX) 136
+17 Jungleborn Pioneer (RIX) 137
+18 Knight of the Stampede (RIX) 138
+19 Naturalize (RIX) 139
+20 Orazca Frillback (RIX) 140
+1 Overgrown Armasaur (RIX) 141
+2 Path of Discovery (RIX) 142
+3 Plummet (RIX) 143
+4 Polyraptor (RIX) 144
+5 Strength of the Pack (RIX) 145
+6 Swift Warden (RIX) 146
+7 Tendershoot Dryad (RIX) 147
+8 Thrashing Brontodon (RIX) 148
+9 Thunderherd Migration (RIX) 149
+10 Wayward Swordtooth (RIX) 150
+11 World Shaper (RIX) 151
+12 Angrath, the Flame-Chained (RIX) 152
+13 Atzocan Seer (RIX) 153
+14 Azor, the Lawbringer (RIX) 154
+15 Deadeye Brawler (RIX) 155
+16 Dire Fleet Neckbreaker (RIX) 156
+17 Elenda, the Dusk Rose (RIX) 157
+18 Hadana's Climb (RIX) 158a
+18 Winged Temple of Orazca (RIX) 158b
+19 Huatli, Radiant Champion (RIX) 159
+20 Journey to Eternity (RIX) 160a
+20 Atzal, Cave of Eternity (RIX) 160b
+1 Jungle Creeper (RIX) 161
+2 Kumena, Tyrant of Orazca (RIX) 162
+3 Legion Lieutenant (RIX) 163
+4 Merfolk Mistbinder (RIX) 164
+5 Path of Mettle (RIX) 165a
+5 Metzali, Tower of Triumph (RIX) 165b
+6 Profane Procession (RIX) 166a
+6 Tomb of the Dusk Rose (RIX) 166b
+7 Protean Raider (RIX) 167
+8 Raging Regisaur (RIX) 168
+9 Relentless Raptor (RIX) 169
+10 Resplendent Griffin (RIX) 170
+11 Siegehorn Ceratops (RIX) 171
+12 Storm Fleet Sprinter (RIX) 172
+13 Storm the Vault (RIX) 173a
+13 Vault of Catlacan (RIX) 173b
+14 Zacama, Primal Calamity (RIX) 174
+15 Awakened Amalgam (RIX) 175
+16 Azor's Gateway (RIX) 176a
+16 Sanctum of the Sun (RIX) 176b
+17 Captain's Hook (RIX) 177
+18 Gleaming Barrier (RIX) 178
+19 Golden Guardian (RIX) 179a
+19 Gold-Forge Garrison (RIX) 179b
+20 The Immortal Sun (RIX) 180
+1 Orazca Relic (RIX) 181
+2 Silent Gravestone (RIX) 182
+3 Strider Harness (RIX) 183
+4 Traveler's Amulet (RIX) 184
+5 Arch of Orazca (RIX) 185
+6 Evolving Wilds (RIX) 186
+7 Forsaken Sanctuary (RIX) 187
+8 Foul Orchard (RIX) 188
+9 Highland Lake (RIX) 189
+10 Stone Quarry (RIX) 190
+11 Woodland Stream (RIX) 191
+12 Plains (RIX) 192
+13 Island (RIX) 193
+14 Swamp (RIX) 194
+15 Mountain (RIX) 195
+16 Forest (RIX) 196
+17 Vraska, Scheming Gorgon (RIX) 197
+18 Vampire Champion (RIX) 198
+19 Vraska's Conquistador (RIX) 199
+20 Vraska's Scorn (RIX) 200
+1 Angrath, Minotaur Pirate (RIX) 201
+2 Angrath's Ambusher (RIX) 202
+3 Swab Goblin (RIX) 203
+4 Angrath's Fury (RIX) 204
+5 Cinder Barrens (RIX) 205
+--- DOM ---
+1 Karn, Scion of Urza (DOM) 1
+2 Adamant Will (DOM) 2
+3 Aven Sentry (DOM) 3
+4 Baird, Steward of Argive (DOM) 4
+5 Benalish Honor Guard (DOM) 5
+6 Benalish Marshal (DOM) 6
+7 Blessed Light (DOM) 7
+8 Board the Weatherlight (DOM) 8
+9 Call the Cavalry (DOM) 9
+10 Charge (DOM) 10
+11 D'Avenant Trapper (DOM) 11
+12 Danitha Capashen, Paragon (DOM) 12
+13 Daring Archaeologist (DOM) 13
+14 Dauntless Bodyguard (DOM) 14
+15 Dub (DOM) 15
+16 Evra, Halcyon Witness (DOM) 16
+17 Excavation Elephant (DOM) 17
+18 Fall of the Thran (DOM) 18
+19 Gideon's Reproach (DOM) 19
+20 Healing Grace (DOM) 20
+1 History of Benalia (DOM) 21
+2 Invoke the Divine (DOM) 22
+3 Knight of Grace (DOM) 23
+4 Knight of New Benalia (DOM) 24
+5 Kwende, Pride of Femeref (DOM) 25
+6 Lyra Dawnbringer (DOM) 26
+7 Mesa Unicorn (DOM) 27
+8 On Serra's Wings (DOM) 28
+9 Pegasus Courser (DOM) 29
+10 Sanctum Spirit (DOM) 30
+11 Seal Away (DOM) 31
+12 Sergeant-at-Arms (DOM) 32
+13 Serra Angel (DOM) 33
+14 Serra Disciple (DOM) 34
+15 Shalai, Voice of Plenty (DOM) 35
+16 Teshar, Ancestor's Apostle (DOM) 36
+17 Tragic Poet (DOM) 37
+18 Triumph of Gerrard (DOM) 38
+19 Urza's Ruinous Blast (DOM) 39
+20 Academy Drake (DOM) 40
+1 Academy Journeymage (DOM) 41
+2 The Antiquities War (DOM) 42
+3 Arcane Flight (DOM) 43
+4 Artificer's Assistant (DOM) 44
+5 Befuddle (DOM) 45
+6 Blink of an Eye (DOM) 46
+7 Cloudreader Sphinx (DOM) 47
+8 Cold-Water Snapper (DOM) 48
+9 Curator's Ward (DOM) 49
+10 Deep Freeze (DOM) 50
+11 Diligent Excavator (DOM) 51
+12 Divination (DOM) 52
+13 Homarid Explorer (DOM) 53
+14 In Bolas's Clutches (DOM) 54
+15 Karn's Temporal Sundering (DOM) 55
+16 Merfolk Trickster (DOM) 56
+17 The Mirari Conjecture (DOM) 57
+18 Naban, Dean of Iteration (DOM) 58
+19 Naru Meha, Master Wizard (DOM) 59
+20 Opt (DOM) 60
+1 Precognition Field (DOM) 61
+2 Relic Runner (DOM) 62
+3 Rescue (DOM) 63
+4 Sage of Lat-Nam (DOM) 64
+5 Sentinel of the Pearl Trident (DOM) 65
+6 Slinn Voda, the Rising Deep (DOM) 66
+7 Syncopate (DOM) 67
+8 Tempest Djinn (DOM) 68
+9 Tetsuko Umezawa, Fugitive (DOM) 69
+10 Time of Ice (DOM) 70
+11 Tolarian Scholar (DOM) 71
+12 Unwind (DOM) 72
+13 Vodalian Arcanist (DOM) 73
+14 Weight of Memory (DOM) 74
+15 Wizard's Retort (DOM) 75
+16 Zahid, Djinn of the Lamp (DOM) 76
+17 Blessing of Belzenlok (DOM) 77
+18 Cabal Evangel (DOM) 78
+19 Cabal Paladin (DOM) 79
+20 Caligo Skin-Witch (DOM) 80
+1 Cast Down (DOM) 81
+2 Chainer's Torment (DOM) 82
+3 Dark Bargain (DOM) 83
+4 Deathbloom Thallid (DOM) 84
+5 Demonic Vigor (DOM) 85
+6 Demonlord Belzenlok (DOM) 86
+7 Divest (DOM) 87
+8 Dread Shade (DOM) 88
+9 Drudge Sentinel (DOM) 89
+10 The Eldest Reborn (DOM) 90
+11 Eviscerate (DOM) 91
+12 Feral Abomination (DOM) 92
+13 Final Parting (DOM) 93
+14 Fungal Infection (DOM) 94
+15 Josu Vess, Lich Knight (DOM) 95
+16 Kazarov, Sengir Pureblood (DOM) 96
+17 Knight of Malice (DOM) 97
+18 Lich's Mastery (DOM) 98
+19 Lingering Phantom (DOM) 99
+20 Phyrexian Scriptures (DOM) 100
+1 Rat Colony (DOM) 101
+2 Rite of Belzenlok (DOM) 102
+3 Settle the Score (DOM) 103
+4 Soul Salvage (DOM) 104
+5 Stronghold Confessor (DOM) 105
+6 Thallid Omnivore (DOM) 106
+7 Thallid Soothsayer (DOM) 107
+8 Torgaar, Famine Incarnate (DOM) 108
+9 Urgoros, the Empty One (DOM) 109
+10 Vicious Offering (DOM) 110
+11 Whisper, Blood Liturgist (DOM) 111
+12 Windgrace Acolyte (DOM) 112
+13 Yargle, Glutton of Urborg (DOM) 113
+14 Yawgmoth's Vile Offering (DOM) 114
+15 Bloodstone Goblin (DOM) 115
+16 Champion of the Flame (DOM) 116
+17 Fervent Strike (DOM) 117
+18 Fiery Intervention (DOM) 118
+19 Fight with Fire (DOM) 119
+20 Fire Elemental (DOM) 120
+1 Firefist Adept (DOM) 121
+2 The First Eruption (DOM) 122
+3 The Flame of Keld (DOM) 123
+4 Frenzied Rage (DOM) 124
+5 Ghitu Chronicler (DOM) 125
+6 Ghitu Journeymage (DOM) 126
+7 Ghitu Lavarunner (DOM) 127
+8 Goblin Barrage (DOM) 128
+9 Goblin Chainwhirler (DOM) 129
+10 Goblin Warchief (DOM) 130
+11 Haphazard Bombardment (DOM) 131
+12 Jaya Ballard (DOM) 132
+13 Jaya's Immolating Inferno (DOM) 133
+14 Keldon Overseer (DOM) 134
+15 Keldon Raider (DOM) 135
+16 Keldon Warcaller (DOM) 136
+17 Orcish Vandal (DOM) 137
+18 Radiating Lightning (DOM) 138
+19 Rampaging Cyclops (DOM) 139
+20 Run Amok (DOM) 140
+1 Seismic Shift (DOM) 141
+2 Shivan Fire (DOM) 142
+3 Siege-Gang Commander (DOM) 143
+4 Skirk Prospector (DOM) 144
+5 Skizzik (DOM) 145
+6 Squee, the Immortal (DOM) 146
+7 Two-Headed Giant (DOM) 147
+8 Valduk, Keeper of the Flame (DOM) 148
+9 Verix Bladewing (DOM) 149
+10 Warcry Phoenix (DOM) 150
+11 Warlord's Fury (DOM) 151
+12 Wizard's Lightning (DOM) 152
+13 Adventurous Impulse (DOM) 153
+14 Ancient Animus (DOM) 154
+15 Arbor Armament (DOM) 155
+16 Baloth Gorger (DOM) 156
+17 Broken Bond (DOM) 157
+18 Corrosive Ooze (DOM) 158
+19 Elfhame Druid (DOM) 159
+20 Fungal Plots (DOM) 160
+1 Gaea's Blessing (DOM) 161
+2 Gaea's Protector (DOM) 162
+3 Gift of Growth (DOM) 163
+4 Grow from the Ashes (DOM) 164
+5 Grunn, the Lonely King (DOM) 165
+6 Kamahl's Druidic Vow (DOM) 166
+7 Krosan Druid (DOM) 167
+8 Llanowar Elves (DOM) 168
+9 Llanowar Envoy (DOM) 169
+10 Llanowar Scout (DOM) 170
+11 Mammoth Spider (DOM) 171
+12 Marwyn, the Nurturer (DOM) 172
+13 The Mending of Dominaria (DOM) 173
+14 Multani, Yavimaya's Avatar (DOM) 174
+15 Nature's Spiral (DOM) 175
+16 Pierce the Sky (DOM) 176
+17 Primordial Wurm (DOM) 177
+18 Saproling Migration (DOM) 178
+19 Song of Freyalise (DOM) 179
+20 Spore Swarm (DOM) 180
+1 Sporecrown Thallid (DOM) 181
+2 Steel Leaf Champion (DOM) 182
+3 Sylvan Awakening (DOM) 183
+4 Territorial Allosaurus (DOM) 184
+5 Thorn Elemental (DOM) 185
+6 Untamed Kavu (DOM) 186
+7 Verdant Force (DOM) 187
+8 Wild Onslaught (DOM) 188
+9 Yavimaya Sapherd (DOM) 189
+10 Adeliz, the Cinder Wind (DOM) 190
+11 Arvad the Cursed (DOM) 191
+12 Aryel, Knight of Windgrace (DOM) 192
+13 Darigaaz Reincarnated (DOM) 193
+14 Garna, the Bloodflame (DOM) 194
+15 Grand Warlord Radha (DOM) 195
+16 Hallar, the Firefletcher (DOM) 196
+17 Jhoira, Weatherlight Captain (DOM) 197
+18 Jodah, Archmage Eternal (DOM) 198
+19 Muldrotha, the Gravetide (DOM) 199
+20 Oath of Teferi (DOM) 200
+1 Primevals' Glorious Rebirth (DOM) 201
+2 Raff Capashen, Ship's Mage (DOM) 202
+3 Rona, Disciple of Gix (DOM) 203
+4 Shanna, Sisay's Legacy (DOM) 204
+5 Slimefoot, the Stowaway (DOM) 205
+6 Tatyova, Benthic Druid (DOM) 206
+7 Teferi, Hero of Dominaria (DOM) 207
+8 Tiana, Ship's Caretaker (DOM) 208
+9 Aesthir Glider (DOM) 209
+10 Amaranthine Wall (DOM) 210
+11 Blackblade Reforged (DOM) 211
+12 Bloodtallow Candle (DOM) 212
+13 Damping Sphere (DOM) 213
+14 Forebear's Blade (DOM) 214
+15 Gilded Lotus (DOM) 215
+16 Guardians of Koilos (DOM) 216
+17 Helm of the Host (DOM) 217
+18 Howling Golem (DOM) 218
+19 Icy Manipulator (DOM) 219
+20 Jhoira's Familiar (DOM) 220
+1 Jousting Lance (DOM) 221
+2 Juggernaut (DOM) 222
+3 Mishra's Self-Replicator (DOM) 223
+4 Mox Amber (DOM) 224
+5 Navigator's Compass (DOM) 225
+6 Pardic Wanderer (DOM) 226
+7 Powerstone Shard (DOM) 227
+8 Shield of the Realm (DOM) 228
+9 Short Sword (DOM) 229
+10 Skittering Surveyor (DOM) 230
+11 Sorcerer's Wand (DOM) 231
+12 Sparring Construct (DOM) 232
+13 Thran Temporal Gateway (DOM) 233
+14 Traxos, Scourge of Kroog (DOM) 234
+15 Urza's Tome (DOM) 235
+16 Voltaic Servant (DOM) 236
+17 Weatherlight (DOM) 237
+18 Cabal Stronghold (DOM) 238
+19 Clifftop Retreat (DOM) 239
+20 Hinterland Harbor (DOM) 240
+1 Isolated Chapel (DOM) 241
+2 Memorial to Folly (DOM) 242
+3 Memorial to Genius (DOM) 243
+4 Memorial to Glory (DOM) 244
+5 Memorial to Unity (DOM) 245
+6 Memorial to War (DOM) 246
+7 Sulfur Falls (DOM) 247
+8 Woodland Cemetery (DOM) 248
+9 Zhalfirin Void (DOM) 249
+10 Plains (DOM) 250
+11 Plains (DOM) 251
+12 Plains (DOM) 252
+13 Plains (DOM) 253
+14 Island (DOM) 254
+15 Island (DOM) 255
+16 Island (DOM) 256
+17 Island (DOM) 257
+18 Swamp (DOM) 258
+19 Swamp (DOM) 259
+20 Swamp (DOM) 260
+1 Swamp (DOM) 261
+2 Mountain (DOM) 262
+3 Mountain (DOM) 263
+4 Mountain (DOM) 264
+5 Mountain (DOM) 265
+6 Forest (DOM) 266
+7 Forest (DOM) 267
+8 Forest (DOM) 268
+9 Forest (DOM) 269
+10 Teferi, Timebender (DOM) 270
+11 Temporal Machinations (DOM) 271
+12 Niambi, Faithful Healer (DOM) 272
+13 Teferi's Sentinel (DOM) 273
+14 Meandering River (DOM) 274
+15 Chandra, Bold Pyromancer (DOM) 275
+16 Chandra's Outburst (DOM) 276
+17 Karplusan Hound (DOM) 277
+18 Pyromantic Pilgrim (DOM) 278
+19 Timber Gorge (DOM) 279
+20 Firesong and Sunspeaker (DOM) 280

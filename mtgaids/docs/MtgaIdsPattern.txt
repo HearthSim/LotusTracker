@@ -1,0 +1,171 @@
+
+MtgaID - (OrderedID, CardName)
+
+MtgaID* = Same id as OrderedID
+MtgaID+ = Virtual card
+
+--------------------------------- OGW ----------------------------------
+
+? - (62165, Deceiver of Form)			//Not in game yet
+...									
+? - (62497, Strider Harness),			//Not in game yet
+62499* - (62499, Cinder Barrens),
+? - (62501, Corrupted Crossroads),		//Not in game yet
+? - (62503, Crumbling Vestige),			//Not in game yet
+? - (62505, Hissing Quagmire),			//Not in game yet
+? - (62507, Holdout Settlement),		//Not in game yet
+62509* - (62509, Meandering River),
+? - (62511, Mirrorpool),				//Not in game yet
+? - (62513, Needle Spires),				//Not in game yet
+? - (62515, Ruins of Oran-Rief),		//Not in game yet
+? - (62517, Sea Gate Wreckage),			//Not in game yet
+62519* - (62519, Submerged Boneyard),
+62521* - (62521, Timber Gorge),
+62523* - (62523, Tranquil Expanse),
+? - (62525, Unknown Shores),			//Not in game yet
+? - (62527, Wandering Fumarole),		//Not in game yet
+? - (62529, Wastes),					//Not in game yet
+? - (62531, Wastes),					//Not in game yet
+? - (62533, Wastes),					//Not in game yet
+? - (62535, Wastes)						//Not in game yet
+
+--------------------------------- AKH ----------------------------------
+
+*64801-(64801, Angel of Sanctions),
+...
+*65139- (65139, Harvest Season),
+65427 - (65141, Haze of Pollen),
+65141 - (65143, Honored Hydra),
+65143 - (65145, Hooded Brawler),
+65145 - (65147, Initiate's Companion),
+*65149- (65149, Manglehorn),
+...
+*65217- (65217, Weaver of Currents),
++65219 - Dusk /// Dawn
+65221 - (65219, Dusk),
+65223 - (65222, Dawn),
++65225 - Commit /// Memory
+65227 - (65225, Commit),
+65229 - (65228, Memory),
+...
++65303 - Heaven // Earth,
+65305 - (65303, Heaven),
+65307 - (65306, Earth),
+*65309- (65309, Bontu's Monument),
+...
+*65337- (65337, Canyon Slough),
+65431 - (65339, Cascading Cataracts),
+65339 - (65341, Cradle of the Accursed)
+65341 - (65343, Evolving Wilds),
+65343 - (65345, Fetid Pools),
+65345 - (65347, Grasping Dunes),
+65347 - (65349, Irrigated Farmland),
+*65351- (65351, Painted Bluffs),
+...
+*65357- (65357, Sunscorched Desert),
+*65359- (65359, Plains),
+65369 - (65361, Island),
+65375 - (65363, Swamp),
+65385 - (65365, Mountain),
+65393 - (65367, Forest),
+--- repeat same land id
+65443 - (65399, Gideon, Martial Paragon),
+...
+65477 - (65433, Woodland Stream),
+
+--------------------------------- HOU ----------------------------------
+
+65479*- (65479, Act of Heroism),
+...
+65493*- (65493, Desert's Hold),
+65957 - (65495, Disposal Mummy),
+65495 - (65497, Djeru, With Eyes Open),
+65497 - (65499, Djeru's Renunciation),
+65499 - (65501, Dutiful Servants),
+65503*- (65503, Gideon's Defeat),
+...
+65591*- (65591, Ammit Eternal),
+65595 - (65593, Apocalypse Demon),
+65593 - (65595, Banewhip Punisher),
+65597*- (65597, Bontu's Last Reckoning),
+...
+65663*- (65663, Frontline Devastator),
+65693 - (65665, Gilded Cerodon),
+65691 - (65667, Granitic Titan),
+65667 - (65669, Hazoret's Undying Fury),
+...
+65689 - (65691, Sand Strangler),
+65665 - (65693, Thorned Moloch),
+65695*- (65695, Wildfire Eternal),
+...
+65713*- (65713, Harrier Naga),
+65717 - (65715, Hope Tender),
+65715 - (65717, Hour of Promise), 
+65719*- (65719, Life Goes On),
+...
+65753*- (65753, Bloodwater Entity),
+65757 - (65755, The Locust God),
+...
+65769 - (65767, The Scarab God),
+65755 - (65769, The Scorpion God),
+65771*- (65771, Unraveling Mummy),
++65773 - Farm /// Market
+65775 - (65773, Farm),
+65777 - (65776, Market),
++65779 - Consign /// Oblivion
+65781 - (65779, Consign),
+65783 - (65782, Oblivion),
+...
++65827 - Driven /// Despair,
+65829 - (65827, Driven),
+65831 - (65830, Despair),
+65833* - (65833, Abandoned Sarcophagus),
+...
+65853*- (65853, Wall of Forgotten Pharaohs),
+65959 - (65855, Crypt of the Eternals),
+65857*- (65857, Desert of the Fervent),
+...
+65887 - (65887, Plains),
+65889, Island),
+65891, Swamp),
+65893, Mountain),
+65895, Forest),
+--- repeat same land id
+65937 - (65917, Nissa, Genesis Mage),
+...
+65955 - (65935, Cinder Barrens)
+
+--------------------------------- XLN ----------------------------------
+
+65961*- (65961, Adanto Vanguard),
+...
+66499*- (66499, Plains),
+66507 - (66507, Island),
+66515 - (66515, Swamp),
+66523 - (66523, Mountain),
+66531 - (66531, Forest),
+--- repeat same land id
+66541- (66539, Jace, Ingenious Mind-Mage),
+...
+66559 - (66557, Stone Quarry)
+
+--------------------------------- RIX ----------------------------------
+
+66619*- (66619, Baffling End),
+...
+67041 - (67041, Cinder Barrens)
+
+--------------------------------- DOM ----------------------------------
+
+67106*- (67106, Karn, Scion of Urza),
+...
+67602*- (67602, Zhalfirin Void),
+67604*- (67604, Plains),
+67612, Island),
+67620, Swamp),
+67628, Mountain),
+67636, Forest),
+67644*- (67644, Teferi, Timebender)
+...
+67662*- (67662, Timber Gorge)
+68369 - (68364, Firesong and Sunspeaker)
