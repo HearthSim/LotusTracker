@@ -30,45 +30,47 @@ Logger::~Logger()
     }
 }
 
-void Logger::logI(const QString &msg)
+void Logger::logI(const QString &source, const int line, const QString &msg)
 {
-    log(INFO, msg);
+    log(INFO, source, line, msg);
 }
 
-void Logger::logD(const QString &msg)
+void Logger::logD(const QString &source, const int line, const QString &msg)
 {
-    log(DEBUG, msg);
+    log(DEBUG, source, line, msg);
 }
 
-void Logger::logW(const QString &msg)
+void Logger::logW(const QString &source, const int line, const QString &msg)
 {
-    log(WARNING, msg);
+    log(WARNING, source, line, msg);
 }
 
-void Logger::log(LogType type, const QString &msg)
+void Logger::log(LogType type, const QString &source, const int line, const QString &msg)
 {
     QString timestamp = QTime::currentTime().toString("hh:mm:ss");
-    QString line = QString("[%1] %2: %3")
+    QString log = QString("[%1] %2 %3(%4): %5")
             .arg(timestamp)
-            .arg(LOG_TYPE_NAMES[type])
+            .arg(LOG_TYPE_NAMES[type], 7)
+            .arg(source.left(source.indexOf("::")), 15)
+            .arg(line)
             .arg(msg);
 
     switch (type) {
     case DEBUG:
-        qDebug("%s", qUtf8Printable(line));
+        qDebug("%s", qUtf8Printable(log));
         break;
     case INFO:
-        qInfo("%s", qUtf8Printable(line));
+        qInfo("%s", qUtf8Printable(log));
         break;
     case WARNING:
-        qWarning("%s", qUtf8Printable(line));
+        qWarning("%s", qUtf8Printable(log));
         break;
     }
 
     if(logFile && logFile->isOpen()) {
       QTextStream out(logFile);
-      out << line << endl;
+      out << log << endl;
       logFile->flush();
     }
-    emit sgnLog(type, msg);
+    emit sgnLog(type, log);
 }

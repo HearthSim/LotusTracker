@@ -23,6 +23,14 @@ MtgArena::MtgArena(QObject *parent) : QObject(parent), isFocused(false), isRunni
     connect(this, &MtgArena::sgnGameStarted, this, &MtgArena::gameStarted);
     connect(this, &MtgArena::sgnGameStopped, this, &MtgArena::gameStopped);
     connect(this, &MtgArena::sgnGameFocusChanged, this, &MtgArena::gameFocusChanged);
+    logWatcher = new MtgaLogWatcher(this);
+    connect(logWatcher, &MtgaLogWatcher::sgnNewLogContent, this, &MtgArena::onNewLogContent);
+}
+
+MtgArena::~MtgArena()
+{
+    DELETE(timer);
+    DELETE(logWatcher);
 }
 
 void MtgArena::findGameWindow()
@@ -65,4 +73,9 @@ void MtgArena::gameFocusChanged(bool hasFocus)
 {
 	LOGD(hasFocus ? "Game gains focus" : "Game loses focus");
 	isFocused = hasFocus;
+}
+
+void MtgArena::onNewLogContent(QString logNewContent)
+{
+    LOGD(logNewContent);
 }

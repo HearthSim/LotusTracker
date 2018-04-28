@@ -7,9 +7,9 @@
 
 #include <QApplication>
 
-#define LOGI(msg) ((ArenaTracker*) qApp->instance())->logger->logI(msg)
-#define LOGD(msg) ((ArenaTracker*) qApp->instance())->logger->logD(msg)
-#define LOGW(msg) ((ArenaTracker*) qApp->instance())->logger->logW(msg)
+#define LOGI(msg) ((ArenaTracker*) qApp->instance())->logger->logI(__PRETTY_FUNCTION__, __LINE__, msg)
+#define LOGD(msg) ((ArenaTracker*) qApp->instance())->logger->logD(__PRETTY_FUNCTION__, __LINE__, msg)
+#define LOGW(msg) ((ArenaTracker*) qApp->instance())->logger->logW(__PRETTY_FUNCTION__, __LINE__, msg)
 
 #define DELETE(__CLASSNAME__) \
 if(__CLASSNAME__){ \

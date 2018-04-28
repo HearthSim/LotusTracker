@@ -26,21 +26,23 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     src/main.cpp \
     src/arenatracker.cpp \
-    src/trayicon.cpp \
     src/logger.cpp \
     src/mtgarena.cpp \
-    src/ui/preferences.cpp \
-    src/mtgcards.cpp
+    src/mtgalogwatcher.cpp \
+    src/mtgcards.cpp \
+    src/trayicon.cpp \
+    src/ui/preferences.cpp
 
 HEADERS += \
     src/arenatracker.h \
-    src/trayicon.h \
+    src/entities.h \
     src/logger.h \
     src/macros.h \
     src/mtgarena.h \
-    src/ui/preferences.h \
-    src/entities.h \
-    src/mtgcards.h
+    src/mtgalogwatcher.h \
+    src/mtgcards.h \
+    src/trayicon.h \
+    src/ui/preferences.h
 
 FORMS += \
     src/ui/preferences.ui
