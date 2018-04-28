@@ -51,7 +51,7 @@ void Logger::log(LogType type, const QString &source, const int line, const QStr
     QString log = QString("[%1] %2 %3(%4): %5")
             .arg(timestamp)
             .arg(LOG_TYPE_NAMES[type], 7)
-            .arg(source.left(source.indexOf("::")), 15)
+            .arg(source.left(source.indexOf("::")), 20)
             .arg(line)
             .arg(msg);
 

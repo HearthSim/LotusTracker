@@ -1,10 +1,11 @@
 #ifndef MTGARENA_H
 #define MTGARENA_H
 
+#include "mtgalogparser.h"
+#include "mtgalogwatcher.h"
+
 #include <QObject>
 #include <QTimer>
-
-#include "mtgalogwatcher.h"
 
 class MtgArena : public QObject
 {
@@ -12,6 +13,7 @@ class MtgArena : public QObject
 
 private:
 	QTimer *timer;
+    MtgaLogParser *logParser;
 	MtgaLogWatcher *logWatcher;
 
     void findGameWindow();

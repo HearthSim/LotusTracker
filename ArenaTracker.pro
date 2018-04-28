@@ -31,7 +31,8 @@ SOURCES += \
     src/mtgalogwatcher.cpp \
     src/mtgcards.cpp \
     src/trayicon.cpp \
-    src/ui/preferences.cpp
+    src/ui/preferences.cpp \
+    src/mtgalogparser.cpp
 
 HEADERS += \
     src/arenatracker.h \
@@ -42,7 +43,8 @@ HEADERS += \
     src/mtgalogwatcher.h \
     src/mtgcards.h \
     src/trayicon.h \
-    src/ui/preferences.h
+    src/ui/preferences.h \
+    src/mtgalogparser.h
 
 FORMS += \
     src/ui/preferences.ui

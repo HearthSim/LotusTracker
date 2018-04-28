@@ -1,4 +1,5 @@
 GetInfos -> \s(Response|Incoming|Match\sto|to\sMatch).+(\s|\n)\{(\n\s+.*)+\n\}
+GetNumber -> (Response|Incoming|Match\sto|to\sMatch)\s.+(?=\:\s)
 GetInfos -> \s(AM|PM).+(\s|\n)\{(\n\s+.*)+\n\}
 GetCMD	 -> \S+(?=(\s|\n)\{)
 GetJson	 -> \{(\n\s+.*)+\n\}

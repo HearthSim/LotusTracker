@@ -15,4 +15,6 @@ public:
         : mtgaId(mtgaId), number(number), name(name), setCode(setCode){}
 };
 
+
+
 #endif // ENTITIES_H
