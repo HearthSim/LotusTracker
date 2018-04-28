@@ -8,12 +8,18 @@
 #include <windows.h>
 #endif
 
+#include <QList>
+#include <QRegularExpression>
 #include <QString>
 
 #define MTG_ARENA_NAME "MTGA"
 #define MTG_ARENA_TITLE "MTGA"
 #define SLOW_FIND_WINDOW_INTERVAL 5000
 #define FAST_FIND_WINDOW_INTERVAL 500
+
+#define REGEXP_RAW_MSG "\\s(Response|Incoming|Match\\sto|to\\sMatch).+(\\s|\\n)\\{(\\n\\s+.*)+\\n\\}"
+#define REGEXP_MSG_ID "\\S+(?=(\\s|\\n)\\{)"
+#define REGEXP_MSG_JSON "\\{(\\n\\s+.*)+\\n\\}"
 
 MtgArena::MtgArena(QObject *parent) : QObject(parent), isFocused(false), isRunning(false)
 {
@@ -77,5 +83,32 @@ void MtgArena::gameFocusChanged(bool hasFocus)
 
 void MtgArena::onNewLogContent(QString logNewContent)
 {
-    LOGD(logNewContent);
+    // Extract raw msgs
+    QRegularExpression reRawMsg(REGEXP_RAW_MSG);
+    QRegularExpressionMatchIterator iterator = reRawMsg.globalMatch(logNewContent);
+    QList<QString> rawMsgs;
+    while(iterator.hasNext()) {
+        rawMsgs << iterator.next().captured(0);
+    }
+    // Extract msg id and json
+    QRegularExpression reMsgId(REGEXP_MSG_ID);
+    QRegularExpression reMsgJson(REGEXP_MSG_JSON);
+    QList<QPair<QString, QString>> msgs;
+    for(QString msg: rawMsgs){
+        QString msgId = "";
+        QRegularExpressionMatch idMatch = reMsgId.match(msg);
+        if(idMatch.hasMatch()) {
+            msgId = idMatch.captured(0);
+        }
+        QString msgJson = "";
+        QRegularExpressionMatch jsonMatch = reMsgJson.match(msg);
+        if(jsonMatch.hasMatch()) {
+            msgJson = jsonMatch.captured(0);
+        }
+        msgs << QPair<QString, QString>(msgId, msgJson);
+    }
+    // Log msgs
+    for(QPair<QString, QString> msg: msgs){
+        LOGD(QString("%1 : %2").arg(msg.first).arg(msg.second));
+    }
 }
