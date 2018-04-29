@@ -8,6 +8,7 @@
 class MtgaLogParser : public QObject
 {
     Q_OBJECT
+
 private:
     QList<int> msgResponseNumbers;
     void parseMsg(QPair<QString, QString> msg);

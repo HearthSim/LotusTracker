@@ -5,6 +5,7 @@
 #include "mtgarena.h"
 #include "mtgcards.h"
 #include "trayicon.h"
+#include "ui/decktrackeroverlay.h"
 #include "ui/preferences.h"
 
 class ArenaTracker : public QApplication
@@ -13,6 +14,7 @@ class ArenaTracker : public QApplication
 
 private:
     void setupApp();
+    DeckTrackerOverlay *deckTracker;
     TrayIcon *trayIcon;
     Preferences *preferences;
 

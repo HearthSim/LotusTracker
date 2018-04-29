@@ -5,16 +5,18 @@ ArenaTracker::ArenaTracker(int& argc, char **argv)
 {
     setupApp();
     logger = new Logger(this);
+    deckTracker = new DeckTrackerOverlay();
     preferences = new Preferences();
     trayIcon = new TrayIcon(this);
-    LOGI("Arena Tracker started");
     mtgArena = new MtgArena(this);
     mtgCards = new MtgCards(this);
+    LOGI("Arena Tracker started");
 }
 
 ArenaTracker::~ArenaTracker()
 {
     DELETE(logger)
+    DELETE(deckTracker)
     DELETE(preferences)
     DELETE(trayIcon)
     DELETE(mtgArena)

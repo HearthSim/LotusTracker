@@ -28,11 +28,13 @@ SOURCES += \
     src/arenatracker.cpp \
     src/logger.cpp \
     src/mtgarena.cpp \
+    src/mtgalogparser.cpp \
     src/mtgalogwatcher.cpp \
     src/mtgcards.cpp \
     src/trayicon.cpp \
     src/ui/preferences.cpp \
-    src/mtgalogparser.cpp
+    src/ui/decktrackeroverlay.cpp \
+    src/ui/decktrackerui.cpp
 
 HEADERS += \
     src/arenatracker.h \
@@ -40,13 +42,16 @@ HEADERS += \
     src/logger.h \
     src/macros.h \
     src/mtgarena.h \
+    src/mtgalogparser.h \
     src/mtgalogwatcher.h \
     src/mtgcards.h \
     src/trayicon.h \
     src/ui/preferences.h \
-    src/mtgalogparser.h
+    src/ui/decktrackeroverlay.h \
+    src/ui/decktrackerui.h
 
 FORMS += \
+    src/ui/decktrackeroverlay.ui \
     src/ui/preferences.ui
 
 RESOURCES += resources.qrc
@@ -61,7 +66,8 @@ mac {
 
   QMAKE_INFO_PLIST = Info.plist.app
 
-  LIBS += -framework ApplicationServices
+  INCLUDEPATH += "\ -F/Library/Frameworks"
+  LIBS += -framework ApplicationServices -F/Library/Frameworks -framework AppKit
 
   SOURCES += src/utils/macautostart.cpp \
       src/utils/macwindowfinder.cpp
