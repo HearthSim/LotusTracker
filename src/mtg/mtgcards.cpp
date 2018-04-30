@@ -1,5 +1,5 @@
 #include "mtgcards.h"
-#include "macros.h"
+#include "../macros.h"
 
 #include <QByteArray>
 #include <QDir>

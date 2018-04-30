@@ -1,7 +1,7 @@
 #ifndef MTGALOGPARSER_H
 #define MTGALOGPARSER_H
 
-#include "entity/deck.h"
+#include "../entity/deck.h"
 
 #include <QObject>
 

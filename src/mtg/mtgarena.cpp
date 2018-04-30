@@ -1,10 +1,10 @@
 #include "mtgarena.h"
-#include "macros.h"
+#include "../macros.h"
 
 #if defined Q_OS_MAC
-#include "utils/macwindowfinder.h"
+#include "../utils/macwindowfinder.h"
 #elif defined Q_OS_WIN
-#include "utils/winwindowfinder.h"
+#include "../utils/winwindowfinder.h"
 #include <windows.h>
 #endif
 

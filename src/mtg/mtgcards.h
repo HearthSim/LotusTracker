@@ -1,7 +1,7 @@
 #ifndef MTGCARDS_H
 #define MTGCARDS_H
 
-#include "entity/card.h"
+#include "../entity/card.h"
 
 #include <QJsonObject>
 #include <QList>

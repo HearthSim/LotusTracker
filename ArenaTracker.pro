@@ -27,29 +27,29 @@ SOURCES += \
     src/main.cpp \
     src/arenatracker.cpp \
     src/logger.cpp \
-    src/mtgarena.cpp \
-    src/mtgalogparser.cpp \
-    src/mtgalogwatcher.cpp \
-    src/mtgcards.cpp \
-    src/trayicon.cpp \
-    src/ui/preferences.cpp \
+    src/mtg/mtgarena.cpp \
+    src/mtg/mtgalogparser.cpp \
+    src/mtg/mtgalogwatcher.cpp \
+    src/mtg/mtgcards.cpp \
     src/ui/decktrackeroverlay.cpp \
-    src/ui/decktrackerui.cpp
+    src/ui/decktrackerui.cpp \
+    src/ui/preferences.cpp \
+    src/ui/trayicon.cpp
 
 HEADERS += \
     src/arenatracker.h \
     src/logger.h \
     src/macros.h \
-    src/mtgarena.h \
-    src/mtgalogparser.h \
-    src/mtgalogwatcher.h \
-    src/mtgcards.h \
-    src/trayicon.h \
     src/entity/card.h \
     src/entity/deck.h \
+    src/mtg/mtgarena.h \
+    src/mtg/mtgalogparser.h \
+    src/mtg/mtgalogwatcher.h \
+    src/mtg/mtgcards.h \
     src/ui/preferences.h \
     src/ui/decktrackeroverlay.h \
-    src/ui/decktrackerui.h
+    src/ui/decktrackerui.h \
+    src/ui/trayicon.h
 
 FORMS += \
     src/ui/decktrackeroverlay.ui \

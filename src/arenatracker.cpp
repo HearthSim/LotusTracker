@@ -1,5 +1,5 @@
 #include "arenatracker.h"
-#include "mtgalogparser.h"
+#include "mtg/mtgalogparser.h"
 
 ArenaTracker::ArenaTracker(int& argc, char **argv)
     : QApplication(argc, argv)

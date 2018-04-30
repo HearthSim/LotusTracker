@@ -2,11 +2,11 @@
 #define ARENATRACKER_H
 
 #include "macros.h"
-#include "mtgarena.h"
-#include "mtgcards.h"
-#include "trayicon.h"
+#include "mtg/mtgarena.h"
+#include "mtg/mtgcards.h"
 #include "ui/decktrackeroverlay.h"
 #include "ui/preferences.h"
+#include "ui/trayicon.h"
 
 class ArenaTracker : public QApplication
 {

@@ -1,7 +1,7 @@
 #include "decktrackeroverlay.h"
 #include "ui_decktrackeroverlay.h"
 #include "../macros.h"
-#include "../mtgcards.h"
+#include "../mtg/mtgcards.h"
 
 #ifdef Q_OS_MAC
 #include <objc/objc-runtime.h>

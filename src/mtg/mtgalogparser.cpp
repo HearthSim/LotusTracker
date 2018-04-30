@@ -1,5 +1,5 @@
 #include "mtgalogparser.h"
-#include "macros.h"
+#include "../macros.h"
 
 #include <QList>
 #include <QRegularExpression>
