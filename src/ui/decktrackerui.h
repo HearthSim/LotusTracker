@@ -14,6 +14,8 @@ class DeckTrackerUI : public QObject
 private:
     QPoint pos;
     int _width, _height;
+    Deck deck;
+    bool deckLoaded;
     QPen coverPen;
     QBrush coverBrush;
     QPen titlePen;
@@ -22,7 +24,6 @@ private:
     int titleTextOptions;
     bool mousePressed;
     QPoint mouseRelativePosition;
-    Deck *deck;
     void drawCover(QPainter &painter);
     void drawDeckInfo(QPainter &painter);
 
@@ -32,7 +33,7 @@ public:
     void move(int x, int y);
     int height();
     int width();
-    void setupDeck(Deck *deck);
+    void setupDeck(Deck deck);
     void paintEvent(QPainter &painter);
     // Dragging functions
     bool isMouseOver(QMouseEvent *event);

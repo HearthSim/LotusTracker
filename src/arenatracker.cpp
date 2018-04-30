@@ -1,4 +1,5 @@
 #include "arenatracker.h"
+#include "macros.h"
 #include "mtg/mtgalogparser.h"
 
 ArenaTracker::ArenaTracker(int& argc, char **argv)

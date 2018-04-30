@@ -50,10 +50,10 @@ void DeckTrackerOverlay::setupWindow()
     hide();
 }
 
-void DeckTrackerOverlay::onPlayerDeckSelected(Deck *deck)
+void DeckTrackerOverlay::onPlayerDeckSelected(Deck deck)
 {
     playerDeckTrackerUI->setupDeck(deck);
-    opponentDeckTrackerUI->setupDeck(new Deck());
+    opponentDeckTrackerUI->setupDeck(Deck());
 }
 
 void DeckTrackerOverlay::paintEvent(QPaintEvent*)

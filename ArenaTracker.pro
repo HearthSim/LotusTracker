@@ -26,6 +26,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     src/main.cpp \
     src/arenatracker.cpp \
+    src/extensions.cpp \
     src/logger.cpp \
     src/mtg/mtgarena.cpp \
     src/mtg/mtgalogparser.cpp \
@@ -38,10 +39,12 @@ SOURCES += \
 
 HEADERS += \
     src/arenatracker.h \
+    src/extensions.h \
     src/logger.h \
     src/macros.h \
     src/entity/card.h \
     src/entity/deck.h \
+    src/entity/user.h \
     src/mtg/mtgarena.h \
     src/mtg/mtgalogparser.h \
     src/mtg/mtgalogwatcher.h \

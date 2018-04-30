@@ -1,4 +1,5 @@
 #include "mtgalogparser.h"
+#include "../extensions.h"
 #include "../macros.h"
 
 #include <QList>
@@ -90,12 +91,35 @@ void MtgaLogParser::parseMsg(QPair<QString, QString> msg)
 
 void MtgaLogParser::parsePlayerInventory(QString json)
 {
-
+    QJsonObject jsonPlayerIventory = Extensions::stringToJsonObject(json);
+    if (jsonPlayerIventory.empty()) {
+        return;
+    }
+    int playerId = jsonPlayerIventory["playerId"].toInt();
+    int wcCommon = jsonPlayerIventory["wcCommon"].toInt();
+    int wcUncommon = jsonPlayerIventory["wcUncommon"].toInt();
+    int wcRare = jsonPlayerIventory["wcRare"].toInt();
+    int wcMythic = jsonPlayerIventory["wcMythic"].toInt();
+    float vaultProgress = jsonPlayerIventory["vaultProgress"].toDouble();
+    PlayerInventory playerInventory(playerId, wcCommon, wcUncommon, wcRare, wcMythic, vaultProgress);
+    emit sgnPlayerInventory(playerInventory);
 }
 
 void MtgaLogParser::parsePlayerInventoryUpdate(QString json)
 {
+    QJsonObject jsonPlayerIventoryUpdate = Extensions::stringToJsonObject(json);
+    if (jsonPlayerIventoryUpdate.empty()) {
+        return;
+    }
+    QJsonObject delta = jsonPlayerIventoryUpdate["delta"].toObject();
+    QJsonArray jsonCards = delta["cardsAdded"].toArray();
 
+    QList<int> newCards;
+    for (QJsonValueRef jsonCardRef: jsonCards) {
+        int newCardId = jsonCardRef.toInt();
+        newCards << newCardId;
+    }
+    emit sgnPlayerInventoryUpdate(newCards);
 }
 
 void MtgaLogParser::parsePlayerCollection(QString json)

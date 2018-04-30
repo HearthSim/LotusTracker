@@ -34,7 +34,7 @@ public:
 signals:
 
 public slots:
-    void onPlayerDeckSelected(Deck *deck);
+    void onPlayerDeckSelected(Deck deck);
 };
 
 #endif // DECKTRACKEROVERLAY_H

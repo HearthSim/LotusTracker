@@ -4,7 +4,7 @@
 #include <QFontDatabase>
 
 DeckTrackerUI::DeckTrackerUI(QObject *parent) : QObject(parent),
-    _width(200), _height(50), mousePressed(false), mouseRelativePosition(QPoint())
+    _width(200), _height(50), deckLoaded(false), mousePressed(false), mouseRelativePosition(QPoint())
 {
     move(10, 10);
     coverPen = QPen(QColor(160, 160, 160));
@@ -21,7 +21,7 @@ DeckTrackerUI::DeckTrackerUI(QObject *parent) : QObject(parent),
 
 DeckTrackerUI::~DeckTrackerUI()
 {
-    DELETE(deck);
+
 }
 
 void DeckTrackerUI::move(int x, int y)
@@ -39,10 +39,11 @@ int DeckTrackerUI::width()
     return _width;
 }
 
-void DeckTrackerUI::setupDeck(Deck *_deck)
+void DeckTrackerUI::setupDeck(Deck _deck)
 {
     deck = _deck;
-    LOGD(QString("Loading deck %1").arg(deck->name));
+    deckLoaded = true;
+    LOGD(QString("Loading deck %1").arg(deck.name));
 }
 
 void DeckTrackerUI::paintEvent(QPainter &painter)
@@ -62,8 +63,8 @@ void DeckTrackerUI::drawCover(QPainter &painter)
     // Cover image
     bool coverImgLoaded = false;
     QImage coverImg;
-    if (deck) {
-        QString deckColorIdentity = deck->colorIdentity();
+    if (deckLoaded) {
+        QString deckColorIdentity = deck.colorIdentity();
         coverImgLoaded = coverImg.load(QString(":/res/covers/%1.jpg").arg(deckColorIdentity));
     }
     if (!coverImgLoaded) {
@@ -76,7 +77,7 @@ void DeckTrackerUI::drawCover(QPainter &painter)
 
 void DeckTrackerUI::drawDeckInfo(QPainter &painter)
 {
-    if (!deck) {
+    if (!deckLoaded) {
         return;
     }
     painter.setFont(titleFont);
@@ -86,10 +87,10 @@ void DeckTrackerUI::drawDeckInfo(QPainter &painter)
     int y = pos.y() + 10;
     // Title  shadow
     painter.setPen(titleShadowPen);
-    painter.drawText(x - 1, y + 1, _width, titleHeight, titleTextOptions, deck->name);
+    painter.drawText(x - 1, y + 1, _width, titleHeight, titleTextOptions, deck.name);
     // Deck title
     painter.setPen(titlePen);
-    painter.drawText(x, y, _width, titleHeight, titleTextOptions, deck->name);
+    painter.drawText(x, y, _width, titleHeight, titleTextOptions, deck.name);
 }
 
 bool DeckTrackerUI::isMouseOver(QMouseEvent *event)

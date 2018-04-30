@@ -11,6 +11,7 @@ class Deck
 {
 private:
     QString _colorIdentity;
+    QMap<Card*, int> cardsDrawed;
 
     QString calcColorIdentity()
     {
@@ -33,9 +34,8 @@ private:
     }
 
 public:
-    const QString name;
-    const QMap<Card*, int> cards;
-    QMap<Card*, int> cardsDrawed;
+    QString name;
+    QMap<Card*, int> cards;
 
     Deck(QString name = "", QMap<Card*, int> cards = {}): name(name), cards(cards){
         _colorIdentity = calcColorIdentity();

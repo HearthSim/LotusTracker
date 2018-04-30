@@ -1,12 +1,14 @@
 #ifndef ARENATRACKER_H
 #define ARENATRACKER_H
 
-#include "macros.h"
+#include "logger.h"
 #include "mtg/mtgarena.h"
 #include "mtg/mtgcards.h"
 #include "ui/decktrackeroverlay.h"
 #include "ui/preferences.h"
 #include "ui/trayicon.h"
+
+#include <QApplication>
 
 class ArenaTracker : public QApplication
 {

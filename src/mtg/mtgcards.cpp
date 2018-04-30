@@ -1,13 +1,11 @@
 #include "mtgcards.h"
+#include "../extensions.h"
 #include "../macros.h"
 
 #include <QByteArray>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
-#include <QJsonArray>
-#include <QJsonDocument>
-#include <QJsonParseError>
 #include <QJsonValueRef>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -64,8 +62,10 @@ void MtgCards::downloadSetOnFinish()
         return;
   	}
 
-    QJsonParseError error;
-    QJsonObject jsonSet = QJsonDocument::fromJson(jsonData, &error).object();
+    QJsonObject jsonSet = Extensions::stringToJsonObject(jsonData);
+    if (jsonSet.empty()) {
+        return;
+    }
     QString setCode = jsonSet["code"].toString();
     LOGD(QString("Downloaded %1 bytes from %2 json").arg(jsonData.size()).arg(setCode));
 
@@ -93,13 +93,15 @@ void MtgCards::loadSetFromFile(QString setFileName) {
     }
 
     QByteArray jsonData = setFile.readAll();
-    QJsonParseError error;
-    QJsonObject jsonSet = QJsonDocument::fromJson(jsonData, &error).object();
+    QJsonObject jsonSet = Extensions::stringToJsonObject(jsonData);
+    if (jsonSet.empty()) {
+        return;
+    }
     QString setCode = jsonSet["code"].toString();
     QJsonArray jsonCards = jsonSet["cards"].toArray();
 
     for (QJsonValueRef jsonCardRef: jsonCards) {
-    		QJsonObject jsonCard = jsonCardRef.toObject();
+		QJsonObject jsonCard = jsonCardRef.toObject();
         Card* card = jsonObject2Card(jsonCard, setCode);
         cards[card->mtgaId] = card;
     }

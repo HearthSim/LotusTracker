@@ -2,6 +2,7 @@
 #define MTGALOGPARSER_H
 
 #include "../entity/deck.h"
+#include "../entity/user.h"
 
 #include <QObject>
 
@@ -28,7 +29,9 @@ public:
     void parse(QString logNewContent);
 
 signals:
-    void sgnPlayerDeckSelected(Deck *deck);
+    void sgnPlayerInventory(PlayerInventory playerInventory);
+    void sgnPlayerInventoryUpdate(QList<int> newCards);
+    void sgnPlayerDeckSelected(Deck deck);
 
 public slots:
 };
