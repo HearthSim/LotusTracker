@@ -1,6 +1,8 @@
 #ifndef DECKTRACKERUI_H
 #define DECKTRACKERUI_H
 
+#include "../entities.h"
+
 #include <QObject>
 #include <QPainter>
 #include <QPoint>
@@ -14,15 +16,25 @@ private:
     int _width, _height;
     QPen coverPen;
     QBrush coverBrush;
+    QPen titlePen;
+    QPen titleShadowPen;
+    QFont titleFont;
+    int titleTextOptions;
     bool mousePressed;
-    QPoint mousePosition;
+    QPoint mouseRelativePosition;
+    Deck *deck;
+    void drawCover(QPainter &painter);
+    void drawDeckInfo(QPainter &painter);
 
 public:
     explicit DeckTrackerUI(QObject *parent = nullptr);
+    ~DeckTrackerUI();
     void move(int x, int y);
     int height();
     int width();
+    void setupDeck(Deck *deck);
     void paintEvent(QPainter &painter);
+    // Dragging functions
     bool isMouseOver(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);

@@ -2,6 +2,7 @@
 #define DECKTRACKEROVERLAY_H
 
 #include "decktrackerui.h"
+#include "../entities.h"
 
 #include <QMainWindow>
 #include <QPainter>
@@ -33,6 +34,7 @@ public:
 signals:
 
 public slots:
+    void onPlayerDeckSelected(Deck *deck);
 };
 
 #endif // DECKTRACKEROVERLAY_H

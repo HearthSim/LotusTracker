@@ -1,8 +1,32 @@
 <RCC>
-  <qresource prefix="/">
-    <file>res/icon_black.png</file>
-    <file>res/icon_black@2x.png</file>
-    <file>res/icon.png</file>
-    <file>res/icon.ico</file>
-  </qresource>
+    <qresource prefix="/">
+        <file>res/icons/icon_black.png</file>
+        <file>res/icons/icon_black@2x.png</file>
+        <file>res/icons/icon.png</file>
+        <file>res/icons/icon.ico</file>
+		<file>res/covers/b.jpg</file>
+		<file>res/covers/c.jpg</file>
+		<file>res/covers/gw.jpg</file>
+		<file>res/covers/rg.jpg</file>
+		<file>res/covers/ub.jpg</file>
+		<file>res/covers/wb.jpg</file>
+		<file>res/covers/bg.jpg</file>
+		<file>res/covers/default.jpg</file>
+		<file>res/covers/gwu.jpg</file>
+		<file>res/covers/rgw.jpg</file>
+		<file>res/covers/ubr.jpg</file>
+		<file>res/covers/wu.jpg</file>
+		<file>res/covers/br.jpg</file>
+		<file>res/covers/g.jpg</file>
+		<file>res/covers/m.jpg</file>
+		<file>res/covers/rw.jpg</file>
+		<file>res/covers/ur.jpg</file>
+		<file>res/covers/wub.jpg</file>
+		<file>res/covers/brg.jpg</file>
+		<file>res/covers/gu.jpg</file>
+		<file>res/covers/r.jpg</file>
+		<file>res/covers/u.jpg</file>
+		<file>res/covers/w.jpg</file>
+        <file>res/fonts/Beleren-Bold.ttf</file>
+    </qresource>
 </RCC>

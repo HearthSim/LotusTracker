@@ -28,6 +28,7 @@ public:
     void parse(QString logNewContent);
 
 signals:
+    void sgnPlayerDeckSelected(Deck *deck);
 
 public slots:
 };

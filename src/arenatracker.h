@@ -14,7 +14,7 @@ class ArenaTracker : public QApplication
 
 private:
     void setupApp();
-    DeckTrackerOverlay *deckTracker;
+    DeckTrackerOverlay *deckTrackerOverlay;
     TrayIcon *trayIcon;
     Preferences *preferences;
 

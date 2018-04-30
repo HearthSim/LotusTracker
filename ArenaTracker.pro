@@ -61,7 +61,7 @@ CONFIG(debug, debug|release): DEFINES += _DEBUG
 mac {
 
   QT += macextras
-  ICON = res/icon.icns
+  ICON = res/icons/icon.icns
   DEFINES += PLATFORM=\\\"mac\\\"
 
   QMAKE_INFO_PLIST = Info.plist.app

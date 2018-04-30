@@ -1,22 +1,25 @@
 #include "arenatracker.h"
+#include "mtgalogparser.h"
 
 ArenaTracker::ArenaTracker(int& argc, char **argv)
     : QApplication(argc, argv)
 {
     setupApp();
     logger = new Logger(this);
-    deckTracker = new DeckTrackerOverlay();
-    preferences = new Preferences();
-    trayIcon = new TrayIcon(this);
     mtgArena = new MtgArena(this);
     mtgCards = new MtgCards(this);
+    deckTrackerOverlay = new DeckTrackerOverlay();
+    preferences = new Preferences();
+    trayIcon = new TrayIcon(this);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckSelected,
+            deckTrackerOverlay, &DeckTrackerOverlay::onPlayerDeckSelected);
     LOGI("Arena Tracker started");
 }
 
 ArenaTracker::~ArenaTracker()
 {
     DELETE(logger)
-    DELETE(deckTracker)
+    DELETE(deckTrackerOverlay)
     DELETE(preferences)
     DELETE(trayIcon)
     DELETE(mtgArena)

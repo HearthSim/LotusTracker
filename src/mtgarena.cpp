@@ -33,6 +33,11 @@ MtgArena::~MtgArena()
     DELETE(logWatcher);
 }
 
+MtgaLogParser* MtgArena::getLogParser()
+{
+    return logParser;
+}
+
 void MtgArena::findGameWindow()
 {
 #if defined Q_OS_MAC
@@ -44,13 +49,13 @@ void MtgArena::findGameWindow()
     bool hasFind = wnd != NULL;
     bool hasFocus = WinWindowFinder::isWindowFocused(wnd);
 #endif
-    if(!isRunning && hasFind) {
+    if (!isRunning && hasFind) {
 		emit sgnGameStarted();
     }
-    if(isFocused != hasFocus){
+    if (isFocused != hasFocus){
         emit sgnGameFocusChanged(hasFocus);
     }
-    if(isRunning && !hasFind) {
+    if (isRunning && !hasFind) {
         emit sgnGameStopped();
     }
 }

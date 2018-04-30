@@ -10,21 +10,21 @@
 Logger::Logger(QObject *parent) : QObject(parent)
 {
     QString dataDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
-    if(!QFile::exists(dataDir)) {
+    if (!QFile::exists(dataDir)) {
       QDir dir;
       dir.mkpath(dataDir);
     }
     qDebug("Logging to -> %s", qUtf8Printable(dataDir));
     QString appName = qApp->applicationName();
     logFile = new QFile(dataDir + QDir::separator() + appName + ".log");
-    if(logFile) {
+    if (logFile) {
         logFile->open(QIODevice::WriteOnly | QIODevice::Text);
     }
 }
 
 Logger::~Logger()
 {
-    if(logFile) {
+    if (logFile) {
         delete logFile;
         logFile = NULL;
     }
@@ -67,7 +67,7 @@ void Logger::log(LogType type, const QString &source, const int line, const QStr
         break;
     }
 
-    if(logFile && logFile->isOpen()) {
+    if (logFile && logFile->isOpen()) {
       QTextStream out(logFile);
       out << log << endl;
       logFile->flush();

@@ -3,6 +3,7 @@
 
 #include "mtgalogparser.h"
 #include "mtgalogwatcher.h"
+#include "entities.h"
 
 #include <QObject>
 #include <QTimer>
@@ -12,7 +13,7 @@ class MtgArena : public QObject
     Q_OBJECT
 
 private:
-	QTimer *timer;
+    QTimer *timer;
     MtgaLogParser *logParser;
 	MtgaLogWatcher *logWatcher;
 
@@ -24,9 +25,10 @@ private:
 
 public:
 	explicit MtgArena(QObject *parent = nullptr);
-	~MtgArena();
+    ~MtgArena();
 	bool isFocused;
 	bool isRunning;
+    MtgaLogParser* getLogParser();
 
 signals:
 	void sgnGameFocusChanged(bool hasFocus);

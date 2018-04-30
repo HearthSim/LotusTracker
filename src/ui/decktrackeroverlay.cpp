@@ -1,6 +1,7 @@
 #include "decktrackeroverlay.h"
 #include "ui_decktracker.h"
 #include "../macros.h"
+#include "../mtgcards.h"
 
 #ifdef Q_OS_MAC
 #include <objc/objc-runtime.h>
@@ -18,7 +19,6 @@ DeckTrackerOverlay::DeckTrackerOverlay(QWidget *parent) : QMainWindow(parent),
     playerDeckTrackerUI->move(10, 10);
     opponentDeckTrackerUI = new DeckTrackerUI(this);
     opponentDeckTrackerUI->move(screen.width() - opponentDeckTrackerUI->width() - 10, 10);
-    show();
 }
 
 DeckTrackerOverlay::~DeckTrackerOverlay()
@@ -50,6 +50,12 @@ void DeckTrackerOverlay::setupWindow()
     hide();
 }
 
+void DeckTrackerOverlay::onPlayerDeckSelected(Deck *deck)
+{
+    playerDeckTrackerUI->setupDeck(deck);
+    opponentDeckTrackerUI->setupDeck(new Deck());
+}
+
 void DeckTrackerOverlay::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
@@ -62,10 +68,10 @@ void DeckTrackerOverlay::paintEvent(QPaintEvent*)
 
 void DeckTrackerOverlay::mousePressEvent(QMouseEvent *event)
 {
-    if(playerDeckTrackerUI->isMouseOver(event)){
+    if (playerDeckTrackerUI->isMouseOver(event)) {
         return playerDeckTrackerUI->mousePressEvent(event);
     }
-    if(opponentDeckTrackerUI->isMouseOver(event)){
+    if (opponentDeckTrackerUI->isMouseOver(event)) {
         return opponentDeckTrackerUI->mousePressEvent(event);
     }
 }

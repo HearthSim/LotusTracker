@@ -8,7 +8,7 @@
 
 TrayIcon::TrayIcon(QObject *parent) : QObject(parent)
 {
-    if(QSystemTrayIcon::isSystemTrayAvailable()){
+    if (QSystemTrayIcon::isSystemTrayAvailable()) {
         setupTrayIcon();
     }
 }
@@ -22,11 +22,11 @@ void TrayIcon::setupTrayIcon()
 
 #if defined Q_OS_MAC
     QIcon icon;
-    icon.addFile(":/res/icon_black.png");
-    icon.addFile(":/res/icon_black@2x.png");
+    icon.addFile(":/res/icons/icon_black.png");
+    icon.addFile(":/res/icons/icon_black@2x.png");
     icon.setIsMask(true);
 #elif defined Q_OS_WIN
-    QIcon icon = QIcon(":/res/icon.ico");
+    QIcon icon = QIcon(":/res/icons/icon.ico");
 #endif
     trayIcon->setIcon(icon);
 
@@ -42,7 +42,7 @@ void TrayIcon::setupTrayIcon()
 
 void TrayIcon::TrayIconActivated(QSystemTrayIcon::ActivationReason reason) {
 #ifdef Q_OS_WIN
-    if(reason == QSystemTrayIcon::ActivationReason::DoubleClick) {
+    if (reason == QSystemTrayIcon::ActivationReason::DoubleClick) {
         openPreferences();
     }
 #else

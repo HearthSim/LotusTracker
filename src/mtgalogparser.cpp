@@ -5,7 +5,7 @@
 #include <QRegularExpression>
 
 #define REGEXP_RAW_MSG "\\s(Response|Incoming|Match\\sto|to\\sMatch).+(\\s|\\n)\\{(\\n\\s+.*)+\\n\\}"
-#define REGEXP_MSG_RESPONSE_NUMBER "\\d+(?=\\:\\s)"
+#define REGEXP_MSG_RESPONSE_NUMBER "(?<=\\s)\\d+(?=\\:\\s)"
 #define REGEXP_MSG_ID "\\S+(?=(\\s|\\n)\\{)"
 #define REGEXP_MSG_JSON "\\{(\\n\\s+.*)+\\n\\}"
 
@@ -20,7 +20,7 @@ void MtgaLogParser::parse(QString logNewContent)
     QRegularExpression reRawMsg(REGEXP_RAW_MSG);
     QRegularExpressionMatchIterator iterator = reRawMsg.globalMatch(logNewContent);
     QList<QString> rawMsgs;
-    while(iterator.hasNext()) {
+    while (iterator.hasNext()) {
         rawMsgs << iterator.next().captured(0);
     }
     // Extract msg id and json
@@ -29,35 +29,35 @@ void MtgaLogParser::parse(QString logNewContent)
     QRegularExpression reMsgJson(REGEXP_MSG_JSON);
     // List of msgs in format (msgId, msgJson)
     QList<QPair<QString, QString>> msgs;
-    for(QString msg: rawMsgs){
+    for (QString msg: rawMsgs) {
         QRegularExpressionMatch numberMatch = reMsgNumber.match(msg);
-        if(numberMatch.hasMatch()) {
+        if (numberMatch.hasMatch()) {
             int msgNumber = numberMatch.captured(0).toInt();
             // Avoid process duplicated responses
-            if(msgResponseNumbers.contains(msgNumber)){
+            if (msgResponseNumbers.contains(msgNumber)) {
                 continue;
             } else {
                 msgResponseNumbers << msgNumber;
                 // Store only last 4 msg resposne number
-                if(msgResponseNumbers.size() >= 5){
+                if (msgResponseNumbers.size() >= 5) {
                     msgResponseNumbers.removeFirst();
                 }
             }
         }
         QString msgId = "";
         QRegularExpressionMatch idMatch = reMsgId.match(msg);
-        if(idMatch.hasMatch()) {
+        if (idMatch.hasMatch()) {
             msgId = idMatch.captured(0);
         }
         QString msgJson = "";
         QRegularExpressionMatch jsonMatch = reMsgJson.match(msg);
-        if(jsonMatch.hasMatch()) {
+        if (jsonMatch.hasMatch()) {
             msgJson = jsonMatch.captured(0);
         }
         msgs << QPair<QString, QString>(msgId, msgJson);
     }
     // Log msgs
-    for(QPair<QString, QString> msg: msgs){
+    for (QPair<QString, QString> msg: msgs) {
         parseMsg(msg);
     }
 }
@@ -65,25 +65,25 @@ void MtgaLogParser::parse(QString logNewContent)
 void MtgaLogParser::parseMsg(QPair<QString, QString> msg)
 {
     LOGD(QString("Receive msg %1 with json size: %2").arg(msg.first).arg(msg.second.size()));
-    if(msg.first == "PlayerInventory.GetPlayerInventory") {
+    if (msg.first == "PlayerInventory.GetPlayerInventory") {
         parsePlayerInventory(msg.second);
-    } else if(msg.first == "Inventory.Updated"){
+    } else if (msg.first == "Inventory.Updated"){
         parsePlayerInventoryUpdate(msg.second);
-    } else if(msg.first == "PlayerInventory.GetPlayerCardsV3"){
+    } else if (msg.first == "PlayerInventory.GetPlayerCardsV3"){
         parsePlayerCollection(msg.second);
-    } else if(msg.first == "Deck.GetDeckLists"){
+    } else if (msg.first == "Deck.GetDeckLists"){
         parsePlayerDecks(msg.second);
-    } else if(msg.first == "Event.MatchCreated"){
+    } else if (msg.first == "Event.MatchCreated"){
         parseOpponentInfo(msg.second);
-    } else if(msg.first == "MatchGameRoomStateChangedEvent"){
+    } else if (msg.first == "MatchGameRoomStateChangedEvent"){
         parseMatchInfo(msg.second);
-    } else if(msg.first == "Event.GetCombinedRankInfo"){
+    } else if (msg.first == "Event.GetCombinedRankInfo"){
         parsePlayerRankInfo(msg.second);
-    } else if(msg.first == "Event.DeckSelect"){
+    } else if (msg.first == "Event.DeckSelect"){
         parsePlayerDeckSelected(msg.second);
-    } else if(msg.first == "ClientToGreMessage"){
+    } else if (msg.first == "ClientToGreMessage"){
         parsePlayerMulliganInfo(msg.second);
-    } else if(msg.first == "GreToClientEvent"){
+    } else if (msg.first == "GreToClientEvent"){
         parsePlayerMatchState(msg.second);
     }
 }
