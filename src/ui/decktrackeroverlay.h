@@ -2,7 +2,7 @@
 #define DECKTRACKEROVERLAY_H
 
 #include "decktrackerui.h"
-#include "../entities.h"
+#include "../entity/deck.h"
 
 #include <QMainWindow>
 #include <QPainter>

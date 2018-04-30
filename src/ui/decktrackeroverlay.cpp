@@ -1,5 +1,5 @@
 #include "decktrackeroverlay.h"
-#include "ui_decktracker.h"
+#include "ui_decktrackeroverlay.h"
 #include "../macros.h"
 #include "../mtgcards.h"
 

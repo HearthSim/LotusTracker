@@ -1,7 +1,7 @@
 #ifndef DECKTRACKERUI_H
 #define DECKTRACKERUI_H
 
-#include "../entities.h"
+#include "../entity/deck.h"
 
 #include <QObject>
 #include <QPainter>

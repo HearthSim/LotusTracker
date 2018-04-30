@@ -3,7 +3,6 @@
 
 #include "mtgalogparser.h"
 #include "mtgalogwatcher.h"
-#include "entities.h"
 
 #include <QObject>
 #include <QTimer>

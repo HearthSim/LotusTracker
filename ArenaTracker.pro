@@ -38,7 +38,6 @@ SOURCES += \
 
 HEADERS += \
     src/arenatracker.h \
-    src/entities.h \
     src/logger.h \
     src/macros.h \
     src/mtgarena.h \
@@ -46,6 +45,8 @@ HEADERS += \
     src/mtgalogwatcher.h \
     src/mtgcards.h \
     src/trayicon.h \
+    src/entity/card.h \
+    src/entity/deck.h \
     src/ui/preferences.h \
     src/ui/decktrackeroverlay.h \
     src/ui/decktrackerui.h
