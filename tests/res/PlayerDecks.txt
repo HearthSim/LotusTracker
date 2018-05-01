@@ -1,0 +1,283 @@
+3/18/2018 5:02:40 PM Response 49: Deck.GetDeckLists [
+  {
+    "id": "01f31abe-fb84-48db-b53a-e75bd69f1001",
+    "name": "Vraska Control",
+    "description": "",
+    "format": "Standard",
+    "resourceId": "6f7b76fc-c988-4a35-b7cf-f5932c609571",
+    "deckTileId": 66175,
+    "mainDeck": [
+      {
+        "id": "67019",
+        "quantity": 9
+      },
+      {
+        "id": "66223",
+        "quantity": 3
+      },
+      {
+        "id": "67023",
+        "quantity": 8
+      },
+      {
+        "id": "66375",
+        "quantity": 2
+      },
+      {
+        "id": "66775",
+        "quantity": 3
+      },
+      {
+        "id": "66793",
+        "quantity": 2
+      },
+      {
+        "id": "66789",
+        "quantity": 2
+      },
+      {
+        "id": "66325",
+        "quantity": 2
+      },
+      {
+        "id": "66433",
+        "quantity": 2
+      },
+      {
+        "id": "66477",
+        "quantity": 2
+      },
+      {
+        "id": "67007",
+        "quantity": 4
+      },
+      {
+        "id": "67001",
+        "quantity": 1
+      },
+      {
+        "id": "66487",
+        "quantity": 2
+      },
+      {
+        "id": "66913",
+        "quantity": 4
+      },
+      {
+        "id": "66763",
+        "quantity": 3
+      },
+      {
+        "id": "66781",
+        "quantity": 3
+      },
+      {
+        "id": "66939",
+        "quantity": 1
+      },
+      {
+        "id": "66783",
+        "quantity": 3
+      },
+      {
+        "id": "66915",
+        "quantity": 3
+      },
+      {
+        "id": "66143",
+        "quantity": 1
+      }
+    ],
+    "sideboard": [],
+    "lastUpdated": "2018-02-27T23:36:50",
+    "lockedForUse": false,
+    "lockedForEdit": false,
+    "isValid": true
+  },
+  {
+    "id": "71e10af0-6aec-445e-8556-9f07689e26c6",
+    "name": "Dino",
+    "description": "",
+    "format": "Standard",
+    "resourceId": "6f7b76fc-c988-4a35-b7cf-f5932c609571",
+    "deckTileId": 66281,
+    "mainDeck": [
+      {
+        "id": "62521",
+        "quantity": 4
+      },
+      {
+        "id": "67021",
+        "quantity": 5
+      },
+      {
+        "id": "66263",
+        "quantity": 4
+      },
+      {
+        "id": "66271",
+        "quantity": 4
+      },
+      {
+        "id": "66329",
+        "quantity": 3
+      },
+      {
+        "id": "67023",
+        "quantity": 8
+      },
+      {
+        "id": "66379",
+        "quantity": 3
+      },
+      {
+        "id": "66375",
+        "quantity": 4
+      },
+      {
+        "id": "66325",
+        "quantity": 2
+      },
+      {
+        "id": "66423",
+        "quantity": 4
+      },
+      {
+        "id": "66491",
+        "quantity": 1
+      },
+      {
+        "id": "66495",
+        "quantity": 3
+      },
+      {
+        "id": "67001",
+        "quantity": 1
+      },
+      {
+        "id": "66341",
+        "quantity": 3
+      },
+      {
+        "id": "66241",
+        "quantity": 2
+      },
+      {
+        "id": "66371",
+        "quantity": 2
+      },
+      {
+        "id": "66913",
+        "quantity": 2
+      },
+      {
+        "id": "66487",
+        "quantity": 2
+      },
+      {
+        "id": "66247",
+        "quantity": 3
+      }
+    ],
+    "sideboard": [],
+    "lastUpdated": "2018-02-18T13:57:52",
+    "lockedForUse": false,
+    "lockedForEdit": false,
+    "isValid": true
+  },
+  {
+    "id": "d974b191-fbb9-4dcc-88fc-233afb11ad41",
+    "name": "Vamps",
+    "description": "",
+    "format": "Standard",
+    "resourceId": "6f7b76fc-c988-4a35-b7cf-f5932c609571",
+    "deckTileId": 65977,
+    "mainDeck": [
+      {
+        "id": "65977",
+        "quantity": 4
+      },
+      {
+        "id": "67015",
+        "quantity": 7
+      },
+      {
+        "id": "65961",
+        "quantity": 4
+      },
+      {
+        "id": "66003",
+        "quantity": 2
+      },
+      {
+        "id": "66009",
+        "quantity": 2
+      },
+      {
+        "id": "67019",
+        "quantity": 8
+      },
+      {
+        "id": "66947",
+        "quantity": 4
+      },
+      {
+        "id": "66205",
+        "quantity": 2
+      },
+      {
+        "id": "66793",
+        "quantity": 2
+      },
+      {
+        "id": "66645",
+        "quantity": 3
+      },
+      {
+        "id": "66757",
+        "quantity": 3
+      },
+      {
+        "id": "66653",
+        "quantity": 1
+      },
+      {
+        "id": "65993",
+        "quantity": 2
+      },
+      {
+        "id": "66775",
+        "quantity": 2
+      },
+      {
+        "id": "66225",
+        "quantity": 2
+      },
+      {
+        "id": "67005",
+        "quantity": 4
+      },
+      {
+        "id": "66481",
+        "quantity": 1
+      },
+      {
+        "id": "66495",
+        "quantity": 3
+      },
+      {
+        "id": "66781",
+        "quantity": 2
+      },
+      {
+        "id": "66047",
+        "quantity": 2
+      }
+    ],
+    "sideboard": [],
+    "lastUpdated": "2018-02-17T14:37:17",
+    "lockedForUse": false,
+    "lockedForEdit": false,
+    "isValid": true
+  }
+]

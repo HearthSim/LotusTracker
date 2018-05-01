@@ -23,7 +23,7 @@ private:
 	void onNewLogContent(QString logNewContent);
 
 public:
-	explicit MtgArena(QObject *parent = nullptr);
+    explicit MtgArena(QObject *parent = nullptr);
     ~MtgArena();
 	bool isFocused;
 	bool isRunning;

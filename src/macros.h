@@ -9,6 +9,7 @@
 #include <QDebug>
 
 #define LOG_IN_TESTS false
+#define RUNNING_TESTS !qApp
 
 #define LOGI(msg) \
 if(qApp){ \

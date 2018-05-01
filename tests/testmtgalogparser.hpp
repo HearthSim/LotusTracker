@@ -9,18 +9,21 @@
 #include <QSignalSpy>
 #include <QtTest/QtTest>
 
+Q_DECLARE_METATYPE(Deck)
 Q_DECLARE_METATYPE(PlayerInventory)
 
 class TestMtgaLogParser: public QObject
 {
     Q_OBJECT
 private:
+    MtgCards *mtgCards;
     MtgaLogParser *mtgaLogParser;
 
 public:
     TestMtgaLogParser()
     {
-        mtgaLogParser = new MtgaLogParser(this);
+        mtgCards = new MtgCards(this);
+        mtgaLogParser = new MtgaLogParser(this, mtgCards);
     }
 
 private slots:
@@ -64,6 +67,22 @@ private slots:
         QMap<int, int> playerCollection = args.first().value<QMap<int, int>>();
         QVERIFY(playerCollection.size() == 421);
         QVERIFY(playerCollection[66041] == 3);
+    }
+
+    void testParsePlayerDecks()
+    {
+        qRegisterMetaType<QList<Deck>>();
+        QString log;
+        READ_LOG("PlayerDecks.txt", log);
+        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnPlayerDecks);
+        mtgaLogParser->parse(log);
+
+        QCOMPARE(spy.count(), 1);
+        QList<QVariant> args = spy.takeFirst();
+        QList<Deck> playerDecks = args.first().value<QList<Deck>>();
+        QVERIFY(playerDecks.size() == 3);
+        Card* card = mtgCards->findCard(66223);
+        QVERIFY(playerDecks.first().cards[card] == 3);
     }
 
 };

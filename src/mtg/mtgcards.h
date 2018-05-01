@@ -23,8 +23,8 @@ private:
 
     QString setsDir;
     QMap<QString, QMap<QString, int>> mtgaIds;
-	QMap<int, Card*> cards;		//indexed by mtgaId
-	QNetworkAccessManager networkManager;
+    QMap<int, Card*> cards;		//indexed by mtgaId
+    QNetworkAccessManager networkManager;
 
 public:
     MtgCards(QObject *parent = nullptr);

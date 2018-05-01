@@ -1,6 +1,13 @@
 <RCC>
     <qresource prefix="/">
+        <file>res/sets/AKH.json</file>
+        <file>res/sets/DOM.json</file>
+        <file>res/sets/HOU.json</file>
+        <file>res/sets/OGW.json</file>
+        <file>res/sets/RIX.json</file>
+        <file>res/sets/XLN.json</file>
         <file>res/PlayerCollection.txt</file>
+        <file>res/PlayerDecks.txt</file>
         <file>res/PlayerInventory.txt</file>
         <file>res/PlayerInventoryUpdate.txt</file>
     </qresource>

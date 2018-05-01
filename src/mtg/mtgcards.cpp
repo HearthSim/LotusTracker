@@ -14,6 +14,9 @@
 MtgCards::MtgCards(QObject *parent) : QObject(parent)
 {
     QString dataDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+    if(RUNNING_TESTS){
+        dataDir = ":res";
+    }
     setsDir = dataDir + QDir::separator() + "sets";
     if (!QFile::exists(setsDir)) {
         QDir dir;
@@ -30,6 +33,11 @@ MtgCards::MtgCards(QObject *parent) : QObject(parent)
     for (QString setCode : mtgaIds.keys()){
         loadSet(setCode);	
     }
+}
+
+Card* MtgCards::findCard(int mtgaId)
+{
+    return cards[mtgaId];
 }
 
 void MtgCards::loadSet(QString setCode)
@@ -107,11 +115,6 @@ void MtgCards::loadSetFromFile(QString setFileName) {
     }
 
     LOGI(QString("%1 set loaded with %2 cards").arg(setCode).arg(jsonCards.count()));
-}
-
-Card* MtgCards::findCard(int mtgaId)
-{
-    return cards[mtgaId];
 }
 
 Card* MtgCards::jsonObject2Card(QJsonObject jsonCard, QString setCode)

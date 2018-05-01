@@ -8,7 +8,6 @@ ArenaTracker::ArenaTracker(int& argc, char **argv)
     setupApp();
     logger = new Logger(this);
     mtgArena = new MtgArena(this);
-    mtgCards = new MtgCards(this);
     deckTrackerOverlay = new DeckTrackerOverlay();
     preferences = new Preferences();
     trayIcon = new TrayIcon(this);
@@ -24,7 +23,6 @@ ArenaTracker::~ArenaTracker()
     DELETE(preferences)
     DELETE(trayIcon)
     DELETE(mtgArena)
-    DELETE(mtgCards)
 }
 
 void ArenaTracker::setupApp()

@@ -1,18 +1,27 @@
 #include "mtgalogparser.h"
+#include "../arenatracker.h"
 #include "../extensions.h"
 #include "../macros.h"
 
 #include <QList>
 #include <QRegularExpression>
 
-#define REGEXP_RAW_MSG "\\s(Response|Incoming|Match\\sto|to\\sMatch).+(\\s|\\n)\\{(\\n\\s+.*)+\\n\\}"
+#define REGEXP_RAW_MSG "\\s(Response|Incoming|Match\\sto|to\\sMatch).+(\\s|\\n)(\\{|\\[)(\\n\\s+.*)+\\n(\\}|\\])"
 #define REGEXP_MSG_RESPONSE_NUMBER "(?<=\\s)\\d+(?=\\:\\s)"
-#define REGEXP_MSG_ID "\\S+(?=(\\s|\\n)\\{)"
-#define REGEXP_MSG_JSON "\\{(\\n\\s+.*)+\\n\\}"
+#define REGEXP_MSG_ID "\\S+(?=(\\s|\\n)(\\{|\\[))"
+#define REGEXP_MSG_JSON "(\\{|\\[)(\\n\\s+.*)+\\n(\\}||\\])"
 
-MtgaLogParser::MtgaLogParser(QObject *parent) : QObject(parent)
+MtgaLogParser::MtgaLogParser(QObject *parent, MtgCards* mtgCards)
+    : QObject(parent), mtgCards(mtgCards)
 {
+    if (mtgCards == NULL) {
+        mtgCards = new MtgCards(this);
+    }
+}
 
+MtgaLogParser::~MtgaLogParser()
+{
+    DELETE(mtgCards);
 }
 
 void MtgaLogParser::parse(QString logNewContent)
@@ -54,6 +63,9 @@ void MtgaLogParser::parse(QString logNewContent)
         QRegularExpressionMatch jsonMatch = reMsgJson.match(msg);
         if (jsonMatch.hasMatch()) {
             msgJson = jsonMatch.captured(0);
+            if (msgJson.at(0) == '[' && msgJson.right(1) != ']') {
+                msgJson += "]";
+            }
         }
         msgs << QPair<QString, QString>(msgId, msgJson);
     }
@@ -138,7 +150,27 @@ void MtgaLogParser::parsePlayerCollection(QString json)
 
 void MtgaLogParser::parsePlayerDecks(QString json)
 {
-
+    QJsonArray jsonPlayerDecks = Extensions::stringToJsonArray(json);
+    if (jsonPlayerDecks.empty()) {
+        return;
+    }
+    QList<Deck> playerDecks;
+    for (QJsonValueRef jsonDeckRef: jsonPlayerDecks) {
+        QJsonObject jsonDeck = jsonDeckRef.toObject();
+        QString name = jsonDeck["name"].toString();
+        QJsonArray jsonCards = jsonDeck["mainDeck"].toArray();
+        QMap<Card*, int> cards;
+        for(QJsonValueRef jsonCardRef : jsonCards){
+            QJsonObject jsonCard = jsonCardRef.toObject();
+            int cardId = jsonCard["id"].toString().toInt();
+            Card* card = mtgCards->findCard(cardId);
+            if (card) {
+                cards[card] = jsonCard["quantity"].toInt();
+            }
+        }
+        playerDecks << Deck(name, cards);
+    }
+    emit sgnPlayerDecks(playerDecks);
 }
 
 void MtgaLogParser::parseOpponentInfo(QString json)
