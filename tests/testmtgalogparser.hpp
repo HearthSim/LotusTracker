@@ -10,6 +10,7 @@
 #include <QtTest/QtTest>
 
 Q_DECLARE_METATYPE(Deck)
+Q_DECLARE_METATYPE(Match)
 Q_DECLARE_METATYPE(PlayerInventory)
 
 class TestMtgaLogParser: public QObject
@@ -83,6 +84,21 @@ private slots:
         QVERIFY(playerDecks.size() == 3);
         Card* vraskasContemptCard = mtgCards->findCard(66223);
         QVERIFY(playerDecks.first().cards[vraskasContemptCard] == 3);
+    }
+
+    void testParseMatchCreated()
+    {
+        qRegisterMetaType<Match>();
+        QString log;
+        READ_LOG("MatchCreated.txt", log);
+        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnMatchCreated);
+        mtgaLogParser->parse(log);
+
+        QCOMPARE(spy.count(), 1);
+        QList<QVariant> args = spy.takeFirst();
+        Match match = args.first().value<Match>();
+        QVERIFY(match.opponentRankClass == "Beginner");
+        QVERIFY(match.opponentRankTier == 1);
     }
 
     void testParsePlayerDeckSelected()

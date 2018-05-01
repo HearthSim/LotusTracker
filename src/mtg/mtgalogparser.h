@@ -4,6 +4,7 @@
 #include "mtgcards.h"
 #include "../entity/deck.h"
 #include "../entity/user.h"
+#include "../entity/match.h"
 
 #include <QObject>
 #include <QTimer>
@@ -21,7 +22,7 @@ private:
     void parsePlayerInventoryUpdate(QString json);
     void parsePlayerCollection(QString json);
     void parsePlayerDecks(QString json);
-    void parseOpponentInfo(QString json);
+    void parseMatchCreated(QString json);
     void parseMatchInfo(QString json);
     void parsePlayerRankInfo(QString json);
     void parsePlayerDeckSelected(QString json);
@@ -39,6 +40,7 @@ signals:
     void sgnPlayerCollection(QMap<int, int> ownedCards);
     void sgnPlayerDecks(QList<Deck> playerDecks);
     void sgnPlayerDeckSelected(Deck deck);
+    void sgnMatchCreated(Match match);
 
 public slots:
 };

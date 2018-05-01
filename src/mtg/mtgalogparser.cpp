@@ -103,7 +103,7 @@ void MtgaLogParser::parseMsg(QPair<QString, QString> msg)
     } else if (msg.first == "Deck.GetDeckLists"){
         parsePlayerDecks(msg.second);
     } else if (msg.first == "Event.MatchCreated"){
-        parseOpponentInfo(msg.second);
+        parseMatchCreated(msg.second);
     } else if (msg.first == "MatchGameRoomStateChangedEvent"){
         parseMatchInfo(msg.second);
     } else if (msg.first == "Event.GetCombinedRankInfo"){
@@ -178,9 +178,17 @@ void MtgaLogParser::parsePlayerDecks(QString json)
     emit sgnPlayerDecks(playerDecks);
 }
 
-void MtgaLogParser::parseOpponentInfo(QString json)
+void MtgaLogParser::parseMatchCreated(QString json)
 {
-
+    QJsonObject jsonMatchCreated = Extensions::stringToJsonObject(json);
+    if (jsonMatchCreated.empty()) {
+        return;
+    }
+    QString opponentName = jsonMatchCreated["opponentScreenName"].toString();
+    QString opponentRankClass = jsonMatchCreated["opponentRankingClass"].toString();
+    int opponentRankTier = jsonMatchCreated["opponentRankingTier"].toInt();
+    Match match(opponentName, opponentRankClass, opponentRankTier);
+    emit sgnMatchCreated(match);
 }
 
 void MtgaLogParser::parseMatchInfo(QString json)

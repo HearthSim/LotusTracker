@@ -1,4 +1,7 @@
 
+build/
+tmp/
+
 # Created by https://www.gitignore.io/api/osx,windows,gradle,c++,qt,intellij
 
 ### C++ ###
