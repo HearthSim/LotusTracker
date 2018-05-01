@@ -124,7 +124,16 @@ void MtgaLogParser::parsePlayerInventoryUpdate(QString json)
 
 void MtgaLogParser::parsePlayerCollection(QString json)
 {
-
+    QJsonObject jsonPlayerCollection = Extensions::stringToJsonObject(json);
+    if (jsonPlayerCollection.empty()) {
+        return;
+    }
+    QMap<int, int> ownedCards;
+    for (QString ownedCardId: jsonPlayerCollection.keys()) {
+        int ownedCardQtd = jsonPlayerCollection[ownedCardId].toInt();
+        ownedCards[ownedCardId.toInt()] = ownedCardQtd;
+    }
+    emit sgnPlayerCollection(ownedCards);
 }
 
 void MtgaLogParser::parsePlayerDecks(QString json)

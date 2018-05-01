@@ -8,10 +8,12 @@
 #include <QApplication>
 #include <QDebug>
 
+#define LOG_IN_TESTS false
+
 #define LOGI(msg) \
 if(qApp){ \
     ((ArenaTracker*) qApp->instance())->logger->logI(__PRETTY_FUNCTION__, __LINE__, msg); \
-} else { \
+} else if(LOG_IN_TESTS) { \
     QString prettyFunction = QString(__PRETTY_FUNCTION__); \
     QString function = prettyFunction.left(prettyFunction.indexOf("::")); \
     qDebug() << QString("%1:%2 - %3").arg(function).arg(__LINE__).arg(msg); \
@@ -20,7 +22,7 @@ if(qApp){ \
 #define LOGD(msg) \
 if(qApp){ \
     ((ArenaTracker*) qApp->instance())->logger->logD(__PRETTY_FUNCTION__, __LINE__, msg); \
-} else { \
+} else if(LOG_IN_TESTS) { \
     QString prettyFunction = QString(__PRETTY_FUNCTION__); \
     QString function = prettyFunction.left(prettyFunction.indexOf("::")); \
     qDebug() << QString("%1:%2 - %3").arg(function).arg(__LINE__).arg(msg); \
@@ -29,7 +31,7 @@ if(qApp){ \
 #define LOGW(msg) \
 if(qApp){ \
     ((ArenaTracker*) qApp->instance())->logger->logW(__PRETTY_FUNCTION__, __LINE__, msg); \
-} else { \
+} else if(LOG_IN_TESTS) { \
     QString prettyFunction = QString(__PRETTY_FUNCTION__); \
     QString function = prettyFunction.left(prettyFunction.indexOf("::")); \
     qDebug() << QString("%1:%2 - %3").arg(function).arg(__LINE__).arg(msg); \

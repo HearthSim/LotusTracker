@@ -32,6 +32,7 @@ public:
 signals:
     void sgnPlayerInventory(PlayerInventory playerInventory);
     void sgnPlayerInventoryUpdate(QList<int> newCards);
+    void sgnPlayerCollection(QMap<int, int> ownedCards);
     void sgnPlayerDeckSelected(Deck deck);
 
 public slots:
