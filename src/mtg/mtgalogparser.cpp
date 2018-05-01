@@ -24,6 +24,22 @@ MtgaLogParser::~MtgaLogParser()
     DELETE(mtgCards);
 }
 
+Deck MtgaLogParser::jsonObject2Deck(QJsonObject jsonDeck)
+{
+    QString name = jsonDeck["name"].toString();
+    QJsonArray jsonCards = jsonDeck["mainDeck"].toArray();
+    QMap<Card*, int> cards;
+    for(QJsonValueRef jsonCardRef : jsonCards){
+        QJsonObject jsonCard = jsonCardRef.toObject();
+        int cardId = jsonCard["id"].toString().toInt();
+        Card* card = mtgCards->findCard(cardId);
+        if (card) {
+            cards[card] = jsonCard["quantity"].toInt();
+        }
+    }
+    return Deck(name, cards);
+}
+
 void MtgaLogParser::parse(QString logNewContent)
 {
     // Extract raw msgs
@@ -157,18 +173,7 @@ void MtgaLogParser::parsePlayerDecks(QString json)
     QList<Deck> playerDecks;
     for (QJsonValueRef jsonDeckRef: jsonPlayerDecks) {
         QJsonObject jsonDeck = jsonDeckRef.toObject();
-        QString name = jsonDeck["name"].toString();
-        QJsonArray jsonCards = jsonDeck["mainDeck"].toArray();
-        QMap<Card*, int> cards;
-        for(QJsonValueRef jsonCardRef : jsonCards){
-            QJsonObject jsonCard = jsonCardRef.toObject();
-            int cardId = jsonCard["id"].toString().toInt();
-            Card* card = mtgCards->findCard(cardId);
-            if (card) {
-                cards[card] = jsonCard["quantity"].toInt();
-            }
-        }
-        playerDecks << Deck(name, cards);
+        playerDecks << jsonObject2Deck(jsonDeck);
     }
     emit sgnPlayerDecks(playerDecks);
 }
@@ -190,7 +195,13 @@ void MtgaLogParser::parsePlayerRankInfo(QString json)
 
 void MtgaLogParser::parsePlayerDeckSelected(QString json)
 {
-
+    QJsonObject jsonPlayerDeckSelected = Extensions::stringToJsonObject(json);
+    if (jsonPlayerDeckSelected.empty()) {
+        return;
+    }
+    QJsonObject jsonDeck = jsonPlayerDeckSelected["CourseDeck"].toObject();
+    Deck deckSelected = jsonObject2Deck(jsonDeck);
+    emit sgnPlayerDeckSelected(deckSelected);
 }
 
 void MtgaLogParser::parsePlayerMulliganInfo(QString json)

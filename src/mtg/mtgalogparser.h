@@ -15,6 +15,7 @@ class MtgaLogParser : public QObject
 private:
     MtgCards *mtgCards;
     QList<int> msgResponseNumbers;
+    Deck jsonObject2Deck(QJsonObject jsonDeck);
     void parseMsg(QPair<QString, QString> msg);
     void parsePlayerInventory(QString json);
     void parsePlayerInventoryUpdate(QString json);

@@ -81,8 +81,23 @@ private slots:
         QList<QVariant> args = spy.takeFirst();
         QList<Deck> playerDecks = args.first().value<QList<Deck>>();
         QVERIFY(playerDecks.size() == 3);
-        Card* card = mtgCards->findCard(66223);
-        QVERIFY(playerDecks.first().cards[card] == 3);
+        Card* vraskasContemptCard = mtgCards->findCard(66223);
+        QVERIFY(playerDecks.first().cards[vraskasContemptCard] == 3);
+    }
+
+    void testParsePlayerDeckSelected()
+    {
+        qRegisterMetaType<Deck>();
+        QString log;
+        READ_LOG("PlayerDeckSelected.txt", log);
+        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnPlayerDeckSelected);
+        mtgaLogParser->parse(log);
+
+        QCOMPARE(spy.count(), 1);
+        QList<QVariant> args = spy.takeFirst();
+        Deck playerDeckSelected = args.first().value<Deck>();
+        Card* forerunnerOfTheEmpireCard = mtgCards->findCard(66821);
+        QVERIFY(playerDeckSelected.cards[forerunnerOfTheEmpireCard] == 2);
     }
 
 };
