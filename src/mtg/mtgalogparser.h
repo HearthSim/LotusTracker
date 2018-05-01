@@ -5,6 +5,7 @@
 #include "../entity/user.h"
 
 #include <QObject>
+#include <QTimer>
 
 class MtgaLogParser : public QObject
 {

@@ -1,0 +1,23 @@
+3/17/2018 1:32:47 PM Response 6: PlayerInventory.GetPlayerInventory {
+  "playerId": "A3461766D4******",
+  "wcCommon": 4,
+  "wcUncommon": 4,
+  "wcRare": 1,
+  "wcMythic": 6,
+  "gold": 0,
+  "gems": 0,
+  "aether": 0,
+  "draftTokens": 0,
+  "sealedTokens": 0,
+  "vaultProgress": 0.869,
+  "boosters": [
+    {
+      "collationId": 100005,
+      "count": 4
+    },
+    {
+      "collationId": 100006,
+      "count": 4
+    }
+  ]
+}

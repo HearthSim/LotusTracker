@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/logs/PlayerInventory.txt</file>
+    </qresource>
+</RCC>

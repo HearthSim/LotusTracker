@@ -12,6 +12,7 @@ TARGET = ArenaTracker
 TEMPLATE = app
 VERSION = 0.0.1
 
+DESTDIR = build
 OBJECTS_DIR = tmp
 MOC_DIR = tmp
 RCC_DIR = tmp
@@ -22,20 +23,6 @@ UI_DIR = tmp
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
-
-SOURCES += \
-    src/main.cpp \
-    src/arenatracker.cpp \
-    src/extensions.cpp \
-    src/logger.cpp \
-    src/mtg/mtgarena.cpp \
-    src/mtg/mtgalogparser.cpp \
-    src/mtg/mtgalogwatcher.cpp \
-    src/mtg/mtgcards.cpp \
-    src/ui/decktrackeroverlay.cpp \
-    src/ui/decktrackerui.cpp \
-    src/ui/preferences.cpp \
-    src/ui/trayicon.cpp
 
 HEADERS += \
     src/arenatracker.h \
@@ -53,6 +40,20 @@ HEADERS += \
     src/ui/decktrackeroverlay.h \
     src/ui/decktrackerui.h \
     src/ui/trayicon.h
+
+SOURCES += \
+    src/main.cpp \
+    src/arenatracker.cpp \
+    src/extensions.cpp \
+    src/logger.cpp \
+    src/mtg/mtgarena.cpp \
+    src/mtg/mtgalogparser.cpp \
+    src/mtg/mtgalogwatcher.cpp \
+    src/mtg/mtgcards.cpp \
+    src/ui/decktrackeroverlay.cpp \
+    src/ui/decktrackerui.cpp \
+    src/ui/preferences.cpp \
+    src/ui/trayicon.cpp
 
 FORMS += \
     src/ui/decktrackeroverlay.ui \

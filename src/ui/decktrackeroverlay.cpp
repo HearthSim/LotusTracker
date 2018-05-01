@@ -54,6 +54,7 @@ void DeckTrackerOverlay::onPlayerDeckSelected(Deck deck)
 {
     playerDeckTrackerUI->setupDeck(deck);
     opponentDeckTrackerUI->setupDeck(Deck());
+    update();
 }
 
 void DeckTrackerOverlay::paintEvent(QPaintEvent*)

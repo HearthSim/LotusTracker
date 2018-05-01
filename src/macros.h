@@ -6,10 +6,34 @@
 #include "logger.h"
 
 #include <QApplication>
+#include <QDebug>
 
-#define LOGI(msg) ((ArenaTracker*) qApp->instance())->logger->logI(__PRETTY_FUNCTION__, __LINE__, msg)
-#define LOGD(msg) ((ArenaTracker*) qApp->instance())->logger->logD(__PRETTY_FUNCTION__, __LINE__, msg)
-#define LOGW(msg) ((ArenaTracker*) qApp->instance())->logger->logW(__PRETTY_FUNCTION__, __LINE__, msg)
+#define LOGI(msg) \
+if(qApp){ \
+    ((ArenaTracker*) qApp->instance())->logger->logI(__PRETTY_FUNCTION__, __LINE__, msg); \
+} else { \
+    QString prettyFunction = QString(__PRETTY_FUNCTION__); \
+    QString function = prettyFunction.left(prettyFunction.indexOf("::")); \
+    qDebug() << QString("%1:%2 - %3").arg(function).arg(__LINE__).arg(msg); \
+}
+
+#define LOGD(msg) \
+if(qApp){ \
+    ((ArenaTracker*) qApp->instance())->logger->logD(__PRETTY_FUNCTION__, __LINE__, msg); \
+} else { \
+    QString prettyFunction = QString(__PRETTY_FUNCTION__); \
+    QString function = prettyFunction.left(prettyFunction.indexOf("::")); \
+    qDebug() << QString("%1:%2 - %3").arg(function).arg(__LINE__).arg(msg); \
+}
+
+#define LOGW(msg) \
+if(qApp){ \
+    ((ArenaTracker*) qApp->instance())->logger->logW(__PRETTY_FUNCTION__, __LINE__, msg); \
+} else { \
+    QString prettyFunction = QString(__PRETTY_FUNCTION__); \
+    QString function = prettyFunction.left(prettyFunction.indexOf("::")); \
+    qDebug() << QString("%1:%2 - %3").arg(function).arg(__LINE__).arg(msg); \
+}
 
 #define DELETE(__CLASSNAME__) \
 if(__CLASSNAME__){ \

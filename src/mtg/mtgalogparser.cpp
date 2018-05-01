@@ -11,7 +11,6 @@
 #define REGEXP_MSG_JSON "\\{(\\n\\s+.*)+\\n\\}"
 
 MtgaLogParser::MtgaLogParser(QObject *parent) : QObject(parent)
-{
 
 }
 
@@ -95,7 +94,7 @@ void MtgaLogParser::parsePlayerInventory(QString json)
     if (jsonPlayerIventory.empty()) {
         return;
     }
-    int playerId = jsonPlayerIventory["playerId"].toInt();
+    QString playerId = jsonPlayerIventory["playerId"].toString();
     int wcCommon = jsonPlayerIventory["wcCommon"].toInt();
     int wcUncommon = jsonPlayerIventory["wcUncommon"].toInt();
     int wcRare = jsonPlayerIventory["wcRare"].toInt();
