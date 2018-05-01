@@ -21,12 +21,12 @@ public:
     TestMtgaLogParser()
     {
         mtgaLogParser = new MtgaLogParser(this);
-        qRegisterMetaType<PlayerInventory>("PlayerInventory");
     }
 
 private slots:
-    void parsePlayerInventory()
+    void testParsePlayerInventory()
 	{
+        qRegisterMetaType<PlayerInventory>("PlayerInventory");
 		QString log;
         READ_LOG("PlayerInventory.txt", log);
         QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnPlayerInventory);
@@ -37,5 +37,18 @@ private slots:
         PlayerInventory playerInventory = args.first().value<PlayerInventory>();
         QVERIFY(playerInventory.wcMythic == 6);
 	}
+
+    void testParsePlayerInventoryUpdate()
+    {
+        QString log;
+        READ_LOG("PlayerInventoryUpdate.txt", log);
+        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnPlayerInventoryUpdate);
+        mtgaLogParser->parse(log);
+
+        QCOMPARE(spy.count(), 1);
+        QList<QVariant> args = spy.takeFirst();
+        QList<int> newCards = args.first().value<QList<int>>();
+        QVERIFY(newCards.first() == 65963);
+    }
 
 };

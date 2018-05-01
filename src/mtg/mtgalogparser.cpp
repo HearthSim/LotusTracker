@@ -11,6 +11,7 @@
 #define REGEXP_MSG_JSON "\\{(\\n\\s+.*)+\\n\\}"
 
 MtgaLogParser::MtgaLogParser(QObject *parent) : QObject(parent)
+{
 
 }
 
