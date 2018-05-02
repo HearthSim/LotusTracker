@@ -1,0 +1,61 @@
+3/24/2018 5:23:14 PM: Match to A3461766D418FFE6: MatchGameRoomStateChangedEvent
+{
+  "matchGameRoomStateChangedEvent": {
+    "gameRoomInfo": {
+      "gameRoomConfig": {
+        "eventId": "ConstructedRanked1",
+        "reservedPlayers": [
+          {
+            "userId": "A3461766D418FFE6",
+            "playerName": "Edipo2s",
+            "systemSeatId": 1,
+            "teamId": 1,
+            "connectionInfo": {
+              "connectionState": "ConnectionState_Open"
+            },
+            "courseId": "00000000-0000-0000-0000-000000000000"
+          },
+          {
+            "userId": "CF42471DCC08550A",
+            "playerName": "Abenzii",
+            "systemSeatId": 2,
+            "teamId": 2,
+            "connectionInfo": {
+              "connectionState": "ConnectionState_Open"
+            },
+            "courseId": "00000000-0000-0000-0000-000000000000"
+          }
+        ],
+        "matchId": "7e8f32b6-b526-4f19-9a54-101db2e3f220",
+        "matchConfig": {},
+        "greConfig": {
+          "gameStateRedactorConfiguration": {
+            "enableRedaction": true,
+            "enableForceDiff": true
+          },
+          "clipsConfiguration": {}
+        },
+        "greHostLoggerLevel": "Info",
+        "joinRoomTimeoutSecs": 30,
+        "playerDisconnectTimeoutSecs": 30
+      },
+      "stateType": "MatchGameRoomStateType_MatchCompleted",
+      "finalMatchResult": {
+        "matchId": "7e8f32b6-b526-4f19-9a54-101db2e3f220",
+        "matchCompletedReason": "MatchCompletedReasonType_Success",
+        "resultList": [
+          {
+            "scope": "MatchScope_Game",
+            "result": "ResultType_WinLoss",
+            "winningTeamId": 1
+          },
+          {
+            "scope": "MatchScope_Match",
+            "result": "ResultType_WinLoss",
+            "winningTeamId": 1
+          }
+        ]
+      }
+    }
+  }
+}

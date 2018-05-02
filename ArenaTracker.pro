@@ -40,7 +40,8 @@ HEADERS += \
     src/ui/decktrackeroverlay.h \
     src/ui/decktrackerui.h \
     src/ui/trayicon.h \
-    src/entity/match.h
+    src/entity/match.h \
+    src/entity/matchplayer.h
 
 SOURCES += \
     src/main.cpp \

@@ -7,6 +7,8 @@
         <file>res/sets/RIX.json</file>
         <file>res/sets/XLN.json</file>
         <file>res/MatchCreated.txt</file>
+        <file>res/MatchInfoResult.txt</file>
+        <file>res/MatchInfoSeats.txt</file>
         <file>res/PlayerCollection.txt</file>
         <file>res/PlayerDecks.txt</file>
         <file>res/PlayerDeckSelected.txt</file>

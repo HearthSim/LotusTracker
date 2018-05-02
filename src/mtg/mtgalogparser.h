@@ -5,6 +5,7 @@
 #include "../entity/deck.h"
 #include "../entity/user.h"
 #include "../entity/match.h"
+#include "../entity/matchplayer.h"
 
 #include <QObject>
 #include <QTimer>
@@ -39,8 +40,10 @@ signals:
     void sgnPlayerInventoryUpdate(QList<int> newCards);
     void sgnPlayerCollection(QMap<int, int> ownedCards);
     void sgnPlayerDecks(QList<Deck> playerDecks);
-    void sgnPlayerDeckSelected(Deck deck);
     void sgnMatchCreated(Match match);
+    void sgnMatchInfoSeats(QList<MatchPlayer>);
+    void sgnMatchInfoResultMatch(int winningTeamId);
+    void sgnPlayerDeckSelected(Deck deck);
 
 public slots:
 };

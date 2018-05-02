@@ -11,6 +11,7 @@
 
 Q_DECLARE_METATYPE(Deck)
 Q_DECLARE_METATYPE(Match)
+Q_DECLARE_METATYPE(MatchPlayer)
 Q_DECLARE_METATYPE(PlayerInventory)
 
 class TestMtgaLogParser: public QObject
@@ -99,6 +100,34 @@ private slots:
         Match match = args.first().value<Match>();
         QVERIFY(match.opponentRankClass == "Beginner");
         QVERIFY(match.opponentRankTier == 1);
+    }
+
+    void testParseMatchInfoSeats()
+    {
+        qRegisterMetaType<QList<MatchPlayer>>();
+        QString log;
+        READ_LOG("MatchInfoSeats.txt", log);
+        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnMatchInfoSeats);
+        mtgaLogParser->parse(log);
+
+        QCOMPARE(spy.count(), 1);
+        QList<QVariant> args = spy.takeFirst();
+        QList<MatchPlayer> matchPlayers = args.first().value<QList<MatchPlayer>>();
+        MatchPlayer matchPlayer = matchPlayers.first();
+        QVERIFY(matchPlayer.name == "Edipo2s" && matchPlayer.seat == 1);
+    }
+
+    void testParseMatchInfoMatchResult()
+    {
+        QString log;
+        READ_LOG("MatchInfoResult.txt", log);
+        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnMatchInfoResultMatch);
+        mtgaLogParser->parse(log);
+
+        QCOMPARE(spy.count(), 1);
+        QList<QVariant> args = spy.takeFirst();
+        int matchWinningTeamId = args.first().toInt();
+        QVERIFY(matchWinningTeamId == 1);
     }
 
     void testParsePlayerDeckSelected()

@@ -123,13 +123,12 @@ void MtgaLogParser::parsePlayerInventory(QString json)
     if (jsonPlayerIventory.empty()) {
         return;
     }
-    QString playerId = jsonPlayerIventory["playerId"].toString();
     int wcCommon = jsonPlayerIventory["wcCommon"].toInt();
     int wcUncommon = jsonPlayerIventory["wcUncommon"].toInt();
     int wcRare = jsonPlayerIventory["wcRare"].toInt();
     int wcMythic = jsonPlayerIventory["wcMythic"].toInt();
     float vaultProgress = jsonPlayerIventory["vaultProgress"].toDouble();
-    PlayerInventory playerInventory(playerId, wcCommon, wcUncommon, wcRare, wcMythic, vaultProgress);
+    PlayerInventory playerInventory(wcCommon, wcUncommon, wcRare, wcMythic, vaultProgress);
     emit sgnPlayerInventory(playerInventory);
 }
 
@@ -193,7 +192,39 @@ void MtgaLogParser::parseMatchCreated(QString json)
 
 void MtgaLogParser::parseMatchInfo(QString json)
 {
-
+    QJsonObject jsonMatchInfo = Extensions::stringToJsonObject(json);
+    if (jsonMatchInfo.empty()) {
+        return;
+    }
+    QJsonObject jsonMatchState = jsonMatchInfo["matchGameRoomStateChangedEvent"].toObject();
+    QJsonObject jsonRoomInfo = jsonMatchState["gameRoomInfo"].toObject();
+    QString roomState = jsonRoomInfo["stateType"].toString();
+    if (roomState == "MatchGameRoomStateType_Playing"){
+        QJsonObject jsonRoomConfig = jsonRoomInfo["gameRoomConfig"].toObject();
+        QJsonArray jsonPlayers = jsonRoomConfig["reservedPlayers"].toArray();
+        QList<MatchPlayer> matchPlayers;
+        for (QJsonValueRef jsonPlayerRef : jsonPlayers) {
+            QJsonObject jsonPlayer = jsonPlayerRef.toObject();
+            QString playerName = jsonPlayer["playerName"].toString();
+            int playerSeat = jsonPlayer["systemSeatId"].toInt();
+            int playerTeamId = jsonPlayer["teamId"].toInt();
+            matchPlayers << MatchPlayer(playerName, playerSeat, playerTeamId);
+        }
+        emit sgnMatchInfoSeats(matchPlayers);
+    }
+    if (roomState == "MatchGameRoomStateType_MatchCompleted"){
+        QJsonObject jsonFinalMatchResult = jsonRoomInfo["finalMatchResult"].toObject();
+        QJsonArray jsonResults = jsonFinalMatchResult["resultList"].toArray();
+        int matchWinningTeamId;
+        for (QJsonValueRef jsonPlayerRef : jsonResults) {
+            QJsonObject jsonResult = jsonPlayerRef.toObject();
+            QString resultScope = jsonResult["scope"].toString();
+            if (resultScope == "MatchScope_Match") {
+                matchWinningTeamId = jsonResult["winningTeamId"].toInt();
+            }
+        }
+        emit sgnMatchInfoResultMatch(matchWinningTeamId);
+    }
 }
 
 void MtgaLogParser::parsePlayerRankInfo(QString json)
