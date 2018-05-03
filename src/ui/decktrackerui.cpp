@@ -4,7 +4,7 @@
 #include <QFontDatabase>
 
 DeckTrackerUI::DeckTrackerUI(QObject *parent) : QObject(parent),
-    _width(200), _height(50), deckLoaded(false), mousePressed(false), mouseRelativePosition(QPoint())
+    height(0), width(200), deckLoaded(false), mousePressed(false), mouseRelativePosition(QPoint())
 {
     move(10, 10);
     coverPen = QPen(QColor(160, 160, 160));
@@ -24,19 +24,14 @@ DeckTrackerUI::~DeckTrackerUI()
 
 }
 
+int DeckTrackerUI::getWidth()
+{
+    return width;
+}
+
 void DeckTrackerUI::move(int x, int y)
 {
     pos = QPoint(x, y);
-}
-
-int DeckTrackerUI::height()
-{
-    return _height;
-}
-
-int DeckTrackerUI::width()
-{
-    return _width;
 }
 
 void DeckTrackerUI::setupDeck(Deck _deck)
@@ -48,14 +43,16 @@ void DeckTrackerUI::setupDeck(Deck _deck)
 
 void DeckTrackerUI::paintEvent(QPainter &painter)
 {
-    drawCover(painter);
-    drawDeckInfo(painter);
+    height = drawCover(painter);
+    if (deckLoaded) {
+        drawDeckInfo(painter);
+    }
 }
 
-void DeckTrackerUI::drawCover(QPainter &painter)
+int DeckTrackerUI::drawCover(QPainter &painter)
 {
     // Cover BG
-    QRect coverRect(pos.x(), pos.y(), _width, _height);
+    QRect coverRect(pos.x(), pos.y(), width, 50);
     painter.setPen(coverPen);
     painter.setBrush(coverBrush);
     painter.setClipRect(coverRect);
@@ -73,29 +70,42 @@ void DeckTrackerUI::drawCover(QPainter &painter)
     QSize coverImgSize(coverRect.width() - 4, coverRect.height() - 4);
     QImage coverImgScaled = coverImg.scaled(coverImgSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     painter.drawImage(pos.x() + 2, pos.y() + 2, coverImgScaled);
+    return coverRect.height();
 }
 
 void DeckTrackerUI::drawDeckInfo(QPainter &painter)
 {
-    if (!deckLoaded) {
-        return;
-    }
     painter.setFont(titleFont);
     QFontMetrics titleMetrics(titleFont);
     int titleHeight = titleMetrics.ascent() - titleMetrics.descent();
-    int x = pos.x() + 10;
-    int y = pos.y() + 10;
+    int titleX = pos.x() + 10;
+    int titleY = pos.y() + 10;
     // Title  shadow
     painter.setPen(titleShadowPen);
-    painter.drawText(x - 1, y + 1, _width, titleHeight, titleTextOptions, deck.name);
+    painter.drawText(titleX - 1, titleY + 1, width, titleHeight, titleTextOptions, deck.name);
     // Deck title
     painter.setPen(titlePen);
-    painter.drawText(x, y, _width, titleHeight, titleTextOptions, deck.name);
+    painter.drawText(titleX, titleY, width, titleHeight, titleTextOptions, deck.name);
+    // Deck identity
+    int manaSize = 13;
+    int manaX = titleX;
+    int manaY = pos.y() + height - manaSize - 7;
+    QString deckColorIdentity = deck.colorIdentity();
+    if (deckColorIdentity != "default" && deckColorIdentity != "m"){
+        for (int i=0; i<deckColorIdentity.length(); i++) {
+            QChar color = deckColorIdentity.at(i);
+            QImage manaImg;
+            manaImg.load(QString(":/res/mana/%1.png").arg(color));
+            QImage manaImgScaled = manaImg.scaled(manaSize, manaSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+            painter.drawImage(manaX, manaY, manaImgScaled);
+            manaX += manaSize + 5;
+        }
+    }
 }
 
 bool DeckTrackerUI::isMouseOver(QMouseEvent *event)
 {
-    QRect uiRect = QRect(pos.x(), pos.y(), _width, _height);
+    QRect uiRect = QRect(pos.x(), pos.y(), width, height);
     return uiRect.contains(event->pos());
 }
 

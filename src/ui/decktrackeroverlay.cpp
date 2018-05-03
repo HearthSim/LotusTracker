@@ -18,7 +18,7 @@ DeckTrackerOverlay::DeckTrackerOverlay(QWidget *parent) : QMainWindow(parent),
     playerDeckTrackerUI = new DeckTrackerUI(this);
     playerDeckTrackerUI->move(10, 10);
     opponentDeckTrackerUI = new DeckTrackerUI(this);
-    opponentDeckTrackerUI->move(screen.width() - opponentDeckTrackerUI->width() - 10, 10);
+    opponentDeckTrackerUI->move(screen.width() - opponentDeckTrackerUI->getWidth() - 10, 10);
 }
 
 DeckTrackerOverlay::~DeckTrackerOverlay()

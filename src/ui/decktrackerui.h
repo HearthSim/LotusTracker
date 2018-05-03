@@ -13,7 +13,8 @@ class DeckTrackerUI : public QObject
     Q_OBJECT
 private:
     QPoint pos;
-    int _width, _height;
+    int height;
+    int width;
     Deck deck;
     bool deckLoaded;
     QPen coverPen;
@@ -24,15 +25,14 @@ private:
     int titleTextOptions;
     bool mousePressed;
     QPoint mouseRelativePosition;
-    void drawCover(QPainter &painter);
+    int drawCover(QPainter &painter);
     void drawDeckInfo(QPainter &painter);
 
 public:
     explicit DeckTrackerUI(QObject *parent = nullptr);
     ~DeckTrackerUI();
+    int getWidth();
     void move(int x, int y);
-    int height();
-    int width();
     void setupDeck(Deck deck);
     void paintEvent(QPainter &painter);
     // Dragging functions

@@ -28,5 +28,10 @@
 		<file>res/covers/u.jpg</file>
 		<file>res/covers/w.jpg</file>
         <file>res/fonts/Beleren-Bold.ttf</file>
+        <file>res/mana/b.png</file>
+        <file>res/mana/g.png</file>
+        <file>res/mana/r.png</file>
+        <file>res/mana/u.png</file>
+        <file>res/mana/w.png</file>
     </qresource>
 </RCC>
