@@ -7,7 +7,8 @@ ArenaTracker::ArenaTracker(int& argc, char **argv)
 {
     setupApp();
     logger = new Logger(this);
-    mtgArena = new MtgArena(this);
+    mtgCards = new MtgCards(this);
+    mtgArena = new MtgArena(this, mtgCards);
     deckTrackerOverlay = new DeckTrackerOverlay();
     preferences = new Preferences();
     trayIcon = new TrayIcon(this);

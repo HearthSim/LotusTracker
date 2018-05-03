@@ -12,6 +12,7 @@ private:
     void TrayIconActivated(QSystemTrayIcon::ActivationReason reason);
     void setupTrayIcon();
     void openPreferences();
+    void configTestMenu(QMenu* testMenu);
 
 public:
     explicit TrayIcon(QObject *parent = nullptr);

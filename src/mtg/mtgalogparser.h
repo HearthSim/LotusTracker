@@ -31,7 +31,7 @@ private:
     void parsePlayerMatchState(QString json);
 
 public:
-    explicit MtgaLogParser(QObject *parent = nullptr, MtgCards* mtgCards = nullptr);
+    explicit MtgaLogParser(QObject *parent = nullptr, MtgCards *mtgCards = nullptr);
     ~MtgaLogParser();
     void parse(QString logNewContent);
 

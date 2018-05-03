@@ -1,6 +1,8 @@
 #include "trayicon.h"
 #include "../arenatracker.h"
 #include "../macros.h"
+#include "../mtg/mtgalogparser.h"
+#include "../mtg/mtgcards.h"
 
 #include <QAction>
 #include <QApplication>
@@ -33,6 +35,10 @@ void TrayIcon::setupTrayIcon()
     QAction *settingsAction = new QAction(tr("Preferences"), this);
     connect(settingsAction, &QAction::triggered, this, &TrayIcon::openPreferences);
     trayMenu->addAction(settingsAction);
+#ifdef QT_DEBUG
+    QMenu* testMenu = trayMenu->addMenu(tr("Tests"));
+    configTestMenu(testMenu);
+#endif
     QAction *quitAction = new QAction(tr("Quit"), this);
     connect(quitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
     trayMenu->addAction(quitAction);
@@ -54,4 +60,19 @@ void TrayIcon::openPreferences()
 {
     ArenaTracker *arenaTracker = (ArenaTracker*) qApp->instance();
     arenaTracker->showPreferences();
+}
+
+void TrayIcon::configTestMenu(QMenu* testMenu)
+{
+    QAction *loadDeckAction = new QAction(tr("Load Deck"), this);
+    connect(loadDeckAction, &QAction::triggered, this, [this](){
+        MtgArena* mtgArena = ((ArenaTracker*) qApp->instance())->mtgArena;
+        MtgCards* mtgCards = ((ArenaTracker*) qApp->instance())->mtgCards;
+        QMap<Card*, int> cards;
+        cards[mtgCards->findCard(65663)] = 2;
+        cards[mtgCards->findCard(65769)] = 4;
+        Deck deck("Grixis control", cards);
+        emit mtgArena->getLogParser()->sgnPlayerDeckSelected(deck);
+    });
+    testMenu->addAction(loadDeckAction);
 }

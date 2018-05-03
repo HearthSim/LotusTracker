@@ -11,17 +11,15 @@
 #define REGEXP_MSG_ID "\\S+(?=(\\s|\\n)(\\{|\\[))"
 #define REGEXP_MSG_JSON "(\\{|\\[)(\\n\\s+.*)+\\n(\\}||\\])"
 
-MtgaLogParser::MtgaLogParser(QObject *parent, MtgCards* mtgCards)
+MtgaLogParser::MtgaLogParser(QObject *parent, MtgCards *mtgCards)
     : QObject(parent), mtgCards(mtgCards)
 {
-    if (mtgCards == NULL) {
-        mtgCards = new MtgCards(this);
-    }
+
 }
 
 MtgaLogParser::~MtgaLogParser()
 {
-    DELETE(mtgCards);
+
 }
 
 Deck MtgaLogParser::jsonObject2Deck(QJsonObject jsonDeck)

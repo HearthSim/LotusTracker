@@ -12,6 +12,8 @@ TARGET = ArenaTracker
 TEMPLATE = app
 VERSION = 0.1
 
+CONFIG+=debug
+
 DESTDIR = build
 OBJECTS_DIR = tmp
 MOC_DIR = tmp
@@ -62,8 +64,6 @@ FORMS += \
     src/ui/preferences.ui
 
 RESOURCES += resources.qrc
-
-CONFIG(debug, debug|release): DEFINES += _DEBUG
 
 mac {
 

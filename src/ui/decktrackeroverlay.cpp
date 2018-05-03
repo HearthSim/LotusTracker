@@ -45,8 +45,9 @@ void DeckTrackerOverlay::setupWindow()
 #endif
 
     screen = QApplication::desktop()->screenGeometry();
-    resize(screen.width(), screen.height() - 100);
     move(0, 0);
+    resize(screen.width(), screen.height() - 100);
+    show();
     hide();
 }
 
@@ -55,6 +56,7 @@ void DeckTrackerOverlay::onPlayerDeckSelected(Deck deck)
     playerDeckTrackerUI->setupDeck(deck);
     opponentDeckTrackerUI->setupDeck(Deck());
     update();
+    show();
 }
 
 void DeckTrackerOverlay::paintEvent(QPaintEvent*)
