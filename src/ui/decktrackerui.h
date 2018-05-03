@@ -13,20 +13,26 @@ class DeckTrackerUI : public QObject
     Q_OBJECT
 private:
     QPoint pos;
-    int height;
-    int width;
+    int uiHeight;
+    int uiWidth;
+    QString cardBGSkin;
     Deck deck;
     bool deckLoaded;
+    // Draw
     QPen coverPen;
     QBrush coverBrush;
-    QPen titlePen;
-    QPen titleShadowPen;
+    QFont cardFont;
+    QPen cardPen;
     QFont titleFont;
-    int titleTextOptions;
+    QPen titlePen;
     bool mousePressed;
     QPoint mouseRelativePosition;
-    int drawCover(QPainter &painter);
+    void drawCover(QPainter &painter);
     void drawDeckInfo(QPainter &painter);
+    void drawDeckCards(QPainter &painter);
+    void drawTextWithShadow(QPainter &painter, QFont textFont, QPen textPen, QString text,
+                            int textOptions, int textX, int textY, int textHeight, int textWidth);
+    void drawMana(QPainter &painter, QChar manaSymbol, int manaSize, int manaX, int manaY);
 
 public:
     explicit DeckTrackerUI(QObject *parent = nullptr);
