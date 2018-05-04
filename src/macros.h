@@ -38,7 +38,7 @@ if(qApp){ \
     qDebug() << QString("%1:%2 - %3").arg(function).arg(__LINE__).arg(msg); \
 }
 
-#define DELETE(__CLASSNAME__) \
+#define DEL(__CLASSNAME__) \
 if(__CLASSNAME__){ \
     delete __CLASSNAME__; \
     __CLASSNAME__ = NULL; \

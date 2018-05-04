@@ -19,11 +19,11 @@ ArenaTracker::ArenaTracker(int& argc, char **argv)
 
 ArenaTracker::~ArenaTracker()
 {
-    DELETE(logger)
-    DELETE(deckTrackerOverlay)
-    DELETE(preferences)
-    DELETE(trayIcon)
-    DELETE(mtgArena)
+    DEL(logger)
+    DEL(deckTrackerOverlay)
+    DEL(preferences)
+    DEL(trayIcon)
+    DEL(mtgArena)
 }
 
 void ArenaTracker::setupApp()

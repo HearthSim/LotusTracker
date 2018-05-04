@@ -26,8 +26,8 @@ MtgaLogWatcher::MtgaLogWatcher(QObject *parent) : QObject(parent),
 
 MtgaLogWatcher::~MtgaLogWatcher()
 {
-	DELETE(logFile);
-	DELETE(timer);
+    DEL(logFile);
+    DEL(timer);
 }
 
 void MtgaLogWatcher::setLogPath(QString logPath){

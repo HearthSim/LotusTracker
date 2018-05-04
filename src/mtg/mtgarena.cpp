@@ -29,9 +29,9 @@ MtgArena::MtgArena(QObject *parent, MtgCards *mtgCards)
 
 MtgArena::~MtgArena()
 {
-    DELETE(timer);
-    DELETE(logParser);
-    DELETE(logWatcher);
+    DEL(timer);
+    DEL(logParser);
+    DEL(logWatcher);
 }
 
 MtgaLogParser* MtgArena::getLogParser()

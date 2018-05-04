@@ -24,8 +24,8 @@ DeckTrackerOverlay::DeckTrackerOverlay(QWidget *parent) : QMainWindow(parent),
 DeckTrackerOverlay::~DeckTrackerOverlay()
 {
     delete ui;
-    DELETE(playerDeckTrackerUI);
-    DELETE(opponentDeckTrackerUI);
+    DEL(playerDeckTrackerUI);
+    DEL(opponentDeckTrackerUI);
 }
 
 void DeckTrackerOverlay::setupWindow()
