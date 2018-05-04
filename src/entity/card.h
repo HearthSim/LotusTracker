@@ -44,6 +44,20 @@ public:
         _manaColorIdentity = calcManaColorIdentity();
     }
 
+    bool isLand()
+    {
+        return type.toLower().contains("land");
+    }
+
+    int manaCostValue()
+    {
+        int manaValue = 0;
+        for (QChar mana : manaCost) {
+            manaValue += mana.isDigit() ? QString(mana).toInt() : 1;
+        }
+        return manaValue;
+    }
+
     QList<QChar> manaColorIdentity()
     {
         return _manaColorIdentity;

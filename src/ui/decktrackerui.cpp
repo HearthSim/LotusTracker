@@ -2,6 +2,7 @@
 #include "../macros.h"
 
 #include <QFontDatabase>
+#include <tuple>
 
 DeckTrackerUI::DeckTrackerUI(QObject *parent) : QObject(parent),
     uiHeight(0), uiWidth(160), cardBGSkin("mtga"), deckLoaded(false), mousePressed(false), mouseRelativePosition(QPoint())
@@ -111,7 +112,12 @@ void DeckTrackerUI::drawDeckCards(QPainter &painter)
     int cardQtdOptions = Qt::AlignCenter | Qt::AlignVCenter | Qt::TextDontClip;
     int cardTextHeight = cardMetrics.ascent() - cardMetrics.descent();
     int cardTextOptions = Qt::AlignLeft | Qt::AlignVCenter | Qt::TextDontClip;
-    for (Card* card : deck.cards.keys()) {
+    QList<Card*> deckCards(deck.cards.keys());
+    std::sort(std::begin(deckCards), std::end(deckCards), [](Card*& lhs, Card*& rhs) {
+        return std::make_tuple(lhs->isLand(), lhs->manaCostValue(), lhs->name) <
+                std::make_tuple(rhs->isLand(), rhs->manaCostValue(), rhs->name);
+    });
+    for (Card* card : deckCards) {
         QList<QChar> cardManaList = card->manaColorIdentity();
         QString cardManaIdentity;
         for (QChar manaSymbol : cardManaList) {

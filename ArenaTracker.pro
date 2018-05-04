@@ -12,7 +12,7 @@ TARGET = ArenaTracker
 TEMPLATE = app
 VERSION = 0.1
 
-CONFIG+=debug
+CONFIG+=debug c++11
 
 DESTDIR = build
 OBJECTS_DIR = tmp
