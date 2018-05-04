@@ -16,9 +16,14 @@ TrayIcon::TrayIcon(QObject *parent) : QObject(parent)
     }
 }
 
+TrayIcon::~TrayIcon()
+{
+    DEL(trayIcon);
+}
+
 void TrayIcon::setupTrayIcon()
 {
-    QSystemTrayIcon *trayIcon = new QSystemTrayIcon();
+    trayIcon = new QSystemTrayIcon();
     connect(trayIcon, &QSystemTrayIcon::activated, this, &TrayIcon::TrayIconActivated);
     QMenu *trayMenu = new QMenu();
     trayIcon->setContextMenu(trayMenu);

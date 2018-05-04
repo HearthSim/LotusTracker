@@ -46,3 +46,18 @@ QJsonObject Extensions::stringToJsonObject(QString json)
         return jsonObject;       
     }
 }
+
+QImage Extensions::applyRoundedCorners2Image(QImage image, int cornerRadius)
+{
+    QImage roundedImage(image.width(), image.height(), QImage::Format_ARGB32);
+    roundedImage.fill(Qt::transparent);
+    QBrush brush(image);
+    QPen pen;
+    pen.setColor(Qt::darkGray);
+    pen.setJoinStyle(Qt::RoundJoin);
+    QPainter painter(&roundedImage);
+    painter.setBrush(brush);
+    painter.setPen(pen);
+    painter.drawRoundedRect(0, 0, image.width(), image.height(), cornerRadius, cornerRadius);
+    return roundedImage;
+}

@@ -19,8 +19,8 @@ private:
     Deck deck;
     bool deckLoaded;
     // Draw
-    QPen coverPen;
-    QBrush coverBrush;
+    QPen bgPen;
+    QBrush bgBrush;
     QFont cardFont;
     QPen cardPen;
     QFont titleFont;

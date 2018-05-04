@@ -8,18 +8,26 @@ DeckTrackerUI::DeckTrackerUI(QObject *parent) : QObject(parent),
     uiHeight(0), uiWidth(160), cardBGSkin("mtga"), deckLoaded(false), mousePressed(false), mouseRelativePosition(QPoint())
 {
     move(10, 10);
-    coverPen = QPen(QColor(160, 160, 160));
-    coverPen.setWidth(3);
-    coverBrush = QBrush(QColor(70, 70, 70, 175));
+    bgPen = QPen(QColor(160, 160, 160));
+    bgPen.setWidth(2);
+    bgBrush = QBrush(QColor(70, 70, 70, 175));
     int belerenID = QFontDatabase::addApplicationFont(":/res/fonts/Beleren-Bold.ttf");
     // Card
+    int cardFontSize = 7;
+#if defined Q_OS_MAC
+    cardFontSize += 2;
+#endif
     cardFont.setFamily(QFontDatabase::applicationFontFamilies(belerenID).at(0));
-    cardFont.setPointSize(9);
+    cardFont.setPointSize(cardFontSize);
     cardFont.setBold(true);
     cardPen = QPen(Qt::black);
     // Title
+    int titleFontSize = 11;
+#if defined Q_OS_MAC
+    titleFontSize += 4;
+#endif
     titleFont.setFamily(QFontDatabase::applicationFontFamilies(belerenID).at(0));
-    titleFont.setPointSize(15);
+    titleFont.setPointSize(titleFontSize);
     titleFont.setBold(true);
     titlePen = QPen(Qt::white);
 }
@@ -49,21 +57,18 @@ void DeckTrackerUI::setupDeck(Deck _deck)
 void DeckTrackerUI::paintEvent(QPainter &painter)
 {
     drawCover(painter);
-    painter.restore();
     if (deckLoaded) {
         drawDeckInfo(painter);
         drawDeckCards(painter);
     }
-    painter.save();
 }
 
 void DeckTrackerUI::drawCover(QPainter &painter)
 {
     // Cover BG
     QRect coverRect(pos.x(), pos.y(), uiWidth, uiWidth/4);
-    painter.setPen(coverPen);
-    painter.setBrush(coverBrush);
-    painter.setClipRect(coverRect);
+    painter.setPen(bgPen);
+    painter.setBrush(bgBrush);
     painter.drawRoundedRect(coverRect, 10, 10);
     // Cover image
     bool coverImgLoaded = false;
@@ -75,9 +80,10 @@ void DeckTrackerUI::drawCover(QPainter &painter)
     if (!coverImgLoaded) {
         coverImg.load(":/res/covers/default.jpg");
     }
-    QSize coverImgSize(coverRect.width() - 4, coverRect.height() - 4);
+    QSize coverImgSize(coverRect.width() - 2, coverRect.height() - 2);
     QImage coverImgScaled = coverImg.scaled(coverImgSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    painter.drawImage(pos.x() + 2, pos.y() + 2, coverImgScaled);
+    QImage coverImgWithRoundedCorders = Extensions::applyRoundedCorners2Image(coverImgScaled, 10);
+    painter.drawImage(pos.x() + 2, pos.y() + 2, coverImgWithRoundedCorders);
     uiHeight = coverRect.height();
 }
 
@@ -105,7 +111,7 @@ void DeckTrackerUI::drawDeckInfo(QPainter &painter)
 
 void DeckTrackerUI::drawDeckCards(QPainter &painter)
 {
-    int cardListHeight = uiHeight;
+    int cardListHeight = 0;
     QSize cardBGImgSize(uiWidth, uiWidth/7);
     painter.setFont(cardFont);
     QFontMetrics cardMetrics(cardFont);
@@ -124,7 +130,7 @@ void DeckTrackerUI::drawDeckCards(QPainter &painter)
             cardManaIdentity += manaSymbol;
         }
         // Card BG
-        int cardBGY = pos.y() + cardListHeight;
+        int cardBGY = pos.y() + uiHeight + cardListHeight;
         QImage cardBGImg;
         cardBGImg.load(QString(":/res/cards/%1/%2.png").arg(cardBGSkin).arg(cardManaIdentity));
         QImage cardBGImgScaled = cardBGImg.scaled(cardBGImgSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
