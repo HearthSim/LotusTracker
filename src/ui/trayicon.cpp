@@ -6,6 +6,7 @@
 
 #include <QAction>
 #include <QApplication>
+#include <QDir>
 #include <QMenu>
 
 TrayIcon::TrayIcon(QObject *parent) : QObject(parent)
@@ -66,13 +67,19 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
 {
     QAction *loadDeckAction = new QAction(tr("Load Deck"), this);
     connect(loadDeckAction, &QAction::triggered, this, [this](){
-        MtgArena* mtgArena = ((ArenaTracker*) qApp->instance())->mtgArena;
-        MtgCards* mtgCards = ((ArenaTracker*) qApp->instance())->mtgCards;
-        QMap<Card*, int> cards;
-        cards[mtgCards->findCard(65663)] = 2;
-        cards[mtgCards->findCard(65769)] = 4;
-        Deck deck("Grixis control", cards);
-        emit mtgArena->getLogParser()->sgnPlayerDeckSelected(deck);
+        QString currentDir = QDir::currentPath();
+#ifdef Q_OS_MAC
+        currentDir = currentDir.left(currentDir.indexOf(".app"));
+        currentDir = currentDir.left(currentDir.lastIndexOf(QDir::separator()));
+#endif
+        QFile *logFile = new QFile(currentDir + QDir::separator() + "PlayerDeckSelected.txt");
+        if(logFile->open(QFile::ReadOnly | QFile::Text)) {
+            QString logContent = QTextStream(logFile).readAll();
+            MtgArena* mtgArena = ((ArenaTracker*) qApp->instance())->mtgArena;
+            mtgArena->getLogParser()->parse(logContent);
+        } else {
+            LOGW("PlayerDeckSelected.txt file not found in current dir");
+        }
     });
     testMenu->addAction(loadDeckAction);
 }

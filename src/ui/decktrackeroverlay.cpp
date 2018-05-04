@@ -40,13 +40,14 @@ void DeckTrackerOverlay::setupWindow()
     objc_object* nsWindowObject = objc_msgSend(nsviewObject, sel_registerName("window"));
     int NSWindowCollectionBehaviorCanJoinAllSpaces = 1 << 0;
     objc_msgSend(nsWindowObject, sel_registerName("setCollectionBehavior:"), NSWindowCollectionBehaviorCanJoinAllSpaces);
+    objc_msgSend(nsWindowObject, sel_registerName("setLevel:"), sel_registerName("NSFloatingWindowLevel"));
 #else
     setWindowFlags(windowFlags() | Qt::Tool);
 #endif
 
     screen = QApplication::desktop()->screenGeometry();
     move(0, 0);
-    resize(screen.width(), screen.height() - 100);
+    resize(screen.width(), screen.height());
     show();
     hide();
 }
