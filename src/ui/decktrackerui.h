@@ -30,8 +30,8 @@ private:
     void drawCover(QPainter &painter);
     void drawDeckInfo(QPainter &painter);
     void drawDeckCards(QPainter &painter);
-    void drawTextWithShadow(QPainter &painter, QFont textFont, QPen textPen, QString text,
-                            int textOptions, int textX, int textY, int textHeight, int textWidth);
+    void drawText(QPainter &painter, QFont textFont, QPen textPen, QString text, int textOptions,
+                  bool shadow, int textX, int textY, int textHeight, int textWidth);
     void drawMana(QPainter &painter, QChar manaSymbol, int manaSize, int manaX, int manaY);
 
 public:

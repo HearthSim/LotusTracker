@@ -4,7 +4,7 @@
 #include <QFontDatabase>
 
 DeckTrackerUI::DeckTrackerUI(QObject *parent) : QObject(parent),
-    uiHeight(0), uiWidth(180), cardBGSkin("mtga"), deckLoaded(false), mousePressed(false), mouseRelativePosition(QPoint())
+    uiHeight(0), uiWidth(160), cardBGSkin("mtga"), deckLoaded(false), mousePressed(false), mouseRelativePosition(QPoint())
 {
     move(10, 10);
     coverPen = QPen(QColor(160, 160, 160));
@@ -13,12 +13,12 @@ DeckTrackerUI::DeckTrackerUI(QObject *parent) : QObject(parent),
     int belerenID = QFontDatabase::addApplicationFont(":/res/fonts/Beleren-Bold.ttf");
     // Card
     cardFont.setFamily(QFontDatabase::applicationFontFamilies(belerenID).at(0));
-    cardFont.setPointSize(10);
+    cardFont.setPointSize(9);
     cardFont.setBold(true);
-    cardPen = QPen(Qt::white);
+    cardPen = QPen(Qt::black);
     // Title
     titleFont.setFamily(QFontDatabase::applicationFontFamilies(belerenID).at(0));
-    titleFont.setPointSize(16);
+    titleFont.setPointSize(15);
     titleFont.setBold(true);
     titlePen = QPen(Qt::white);
 }
@@ -63,7 +63,7 @@ void DeckTrackerUI::drawCover(QPainter &painter)
     painter.setPen(coverPen);
     painter.setBrush(coverBrush);
     painter.setClipRect(coverRect);
-    painter.drawRoundedRect(coverRect, 15, 15);
+    painter.drawRoundedRect(coverRect, 10, 10);
     // Cover image
     bool coverImgLoaded = false;
     QImage coverImg;
@@ -86,8 +86,8 @@ void DeckTrackerUI::drawDeckInfo(QPainter &painter)
     QFontMetrics titleMetrics(titleFont);
     int titleHeight = titleMetrics.ascent() - titleMetrics.descent();
     int titleTextOptions = Qt::AlignLeft | Qt::AlignVCenter | Qt::TextDontClip;
-    drawTextWithShadow(painter, titleFont, titlePen, deck.name, titleTextOptions,
-                       pos.x() + 8, pos.y() + 8, titleHeight, uiWidth);
+    drawText(painter, titleFont, titlePen, deck.name, titleTextOptions, true,
+             pos.x() + 8, pos.y() + 8, titleHeight, uiWidth);
     // Deck identity
     int manaSize = 12;
     int manaX = pos.x() + 8;
@@ -124,21 +124,23 @@ void DeckTrackerUI::drawDeckCards(QPainter &painter)
         QImage cardBGImgScaled = cardBGImg.scaled(cardBGImgSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
         painter.drawImage(pos.x(), cardBGY, cardBGImgScaled);
         // Card quantity
-        QString cardQtd = QString("%1").arg(deck.cards[card]);
+        QString cardQtd = QString("%1 ").arg(deck.cards[card]);
         int cardQtdWidth = painter.fontMetrics().width(cardQtd);
         int cardQtdX = pos.x() + 12;
-        int cardQtdY = cardBGY + cardBGImgSize.height()/2 - cardTextHeight/2 + 1;
-        drawTextWithShadow(painter, cardFont, cardPen, cardQtd, cardQtdOptions,
-                           cardQtdX, cardQtdY, cardTextHeight, cardQtdWidth);
+        int cardQtdY = cardBGY + cardBGImgSize.height()/2 - cardTextHeight/2;
+        drawText(painter, cardFont, cardPen, cardQtd, cardQtdOptions, false,
+                 cardQtdX, cardQtdY, cardTextHeight, cardQtdWidth);
         // Card name
-        drawTextWithShadow(painter, cardFont, cardPen, card->name, cardTextOptions,
-                           cardQtdX + cardQtdWidth + 4, cardQtdY, cardTextHeight, uiWidth);
+        drawText(painter, cardFont, cardPen, card->name, cardTextOptions, false,
+                 cardQtdX + cardQtdWidth, cardQtdY, cardTextHeight, uiWidth);
         // Card mana
+        int manaRightMargin = 7;
         int manaMargin = 2;
-        int manaSize = 10;
-        int manaX = pos.x() + uiWidth - 7 - cardManaList.size() * (manaSize + manaMargin);
+        int manaSize = 8;
+        int manaCostWidth = card->manaCost.length() * (manaSize + manaMargin);
+        int manaX = pos.x() + uiWidth - manaRightMargin - manaCostWidth;
         int manaY = cardBGY + cardBGImgSize.height()/2 - manaSize/2;
-        for (QChar manaSymbol : cardManaList) {
+        for (QChar manaSymbol : card->manaCost) {
             drawMana(painter, manaSymbol, manaSize, manaX, manaY);
             manaX += manaSize + manaMargin;
         }
@@ -147,12 +149,14 @@ void DeckTrackerUI::drawDeckCards(QPainter &painter)
     uiHeight += cardListHeight;
 }
 
-void DeckTrackerUI::drawTextWithShadow(QPainter &painter, QFont textFont, QPen textPen, QString text,
-                        int textOptions, int textX, int textY, int textHeight, int textWidth)
+void DeckTrackerUI::drawText(QPainter &painter, QFont textFont, QPen textPen, QString text,
+                        int textOptions, bool shadow, int textX, int textY, int textHeight, int textWidth)
 {
     painter.setFont(textFont);
-    painter.setPen(QPen(Qt::black));
-    painter.drawText(textX - 1, textY + 1, textWidth, textHeight, textOptions, text);
+    if (shadow) {
+        painter.setPen(QPen(Qt::black));
+        painter.drawText(textX - 1, textY + 1, textWidth, textHeight, textOptions, text);
+    }
     painter.setPen(textPen);
     painter.drawText(textX, textY, textWidth, textHeight, textOptions, text);
 }

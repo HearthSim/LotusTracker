@@ -122,7 +122,13 @@ Card* MtgCards::jsonObject2Card(QJsonObject jsonCard, QString setCode)
     QString number = jsonCard["number"].toString();
     QString name = jsonCard["name"].toString();
     QString type = jsonCard["type"].toString();
-    QString manaCost = jsonCard["manaCost"].toString();
+    QString rawManaCost = jsonCard["manaCost"].toString();
+    QRegularExpression reManaSymbol("(?<=\\{)\\w(?=\\})");
+    QRegularExpressionMatchIterator iterator = reManaSymbol.globalMatch(rawManaCost);
+    QString manaCost;
+    while (iterator.hasNext()) {
+        manaCost += iterator.next().captured(0).toLower().at(0);
+    }
     int mtgaId = mtgaIds[setCode][number];
     return new Card(mtgaId, setCode, number, name, type, manaCost);
 }

@@ -14,10 +14,12 @@ private:
     QList<QChar> calcManaColorIdentity()
     {
         QList<QChar> manaSymbols;
-        QRegularExpression reManaSymbol("(?<=\\{)\\D(?=\\})");
-        QRegularExpressionMatchIterator iterator = reManaSymbol.globalMatch(manaCost);
-        while (iterator.hasNext()) {
-            manaSymbols << iterator.next().captured(0).toLower().at(0);
+        for (QChar manaSymbol : manaCost) {
+            if (manaSymbol.isLetter()){
+                if (!manaSymbols.contains(manaSymbol)){
+                    manaSymbols << manaSymbol;
+                }
+            }
         }
         if (manaSymbols.size() >= 4) {
             manaSymbols.clear();
