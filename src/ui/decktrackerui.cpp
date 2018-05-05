@@ -4,6 +4,8 @@
 #include <QFontDatabase>
 #include <tuple>
 
+#define CORNERS_RADIUS 10
+
 DeckTrackerUI::DeckTrackerUI(QObject *parent) : QObject(parent),
     uiHeight(0), uiWidth(160), cardBGSkin("mtga"), deckLoaded(false), mousePressed(false), mouseRelativePosition(QPoint())
 {
@@ -30,6 +32,14 @@ DeckTrackerUI::DeckTrackerUI(QObject *parent) : QObject(parent),
     titleFont.setPointSize(titleFontSize);
     titleFont.setBold(true);
     titlePen = QPen(Qt::white);
+    // Statistics
+    int statisticsFontSize = 8;
+#if defined Q_OS_MAC
+    statisticsFontSize += 2;
+#endif
+    statisticsFont.setFamily(QFontDatabase::applicationFontFamilies(belerenID).at(0));
+    statisticsFont.setPointSize(statisticsFontSize);
+    statisticsPen = QPen(Qt::white);
 }
 
 DeckTrackerUI::~DeckTrackerUI()
@@ -60,6 +70,7 @@ void DeckTrackerUI::paintEvent(QPainter &painter)
     if (deckLoaded) {
         drawDeckInfo(painter);
         drawDeckCards(painter);
+        drawStatistics(painter);
     }
 }
 
@@ -69,7 +80,7 @@ void DeckTrackerUI::drawCover(QPainter &painter)
     QRect coverRect(pos.x(), pos.y(), uiWidth, uiWidth/4);
     painter.setPen(bgPen);
     painter.setBrush(bgBrush);
-    painter.drawRoundedRect(coverRect, 10, 10);
+    painter.drawRoundedRect(coverRect, CORNERS_RADIUS, CORNERS_RADIUS);
     // Cover image
     bool coverImgLoaded = false;
     QImage coverImg;
@@ -82,7 +93,7 @@ void DeckTrackerUI::drawCover(QPainter &painter)
     }
     QSize coverImgSize(coverRect.width() - 2, coverRect.height() - 2);
     QImage coverImgScaled = coverImg.scaled(coverImgSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    QImage coverImgWithRoundedCorders = Extensions::applyRoundedCorners2Image(coverImgScaled, 10);
+    QImage coverImgWithRoundedCorders = Extensions::applyRoundedCorners2Image(coverImgScaled, CORNERS_RADIUS);
     painter.drawImage(pos.x() + 2, pos.y() + 2, coverImgWithRoundedCorders);
     uiHeight = coverRect.height();
 }
@@ -113,11 +124,10 @@ void DeckTrackerUI::drawDeckCards(QPainter &painter)
 {
     int cardListHeight = 0;
     QSize cardBGImgSize(uiWidth, uiWidth/7);
-    painter.setFont(cardFont);
     QFontMetrics cardMetrics(cardFont);
-    int cardQtdOptions = Qt::AlignCenter | Qt::AlignVCenter | Qt::TextDontClip;
     int cardTextHeight = cardMetrics.ascent() - cardMetrics.descent();
     int cardTextOptions = Qt::AlignLeft | Qt::AlignVCenter | Qt::TextDontClip;
+    int cardQtdOptions = Qt::AlignCenter | Qt::AlignVCenter | Qt::TextDontClip;
     QList<Card*> deckCards(deck.cards.keys());
     std::sort(std::begin(deckCards), std::end(deckCards), [](Card*& lhs, Card*& rhs) {
         return std::make_tuple(lhs->isLand(), lhs->manaCostValue(), lhs->name) <
@@ -159,6 +169,53 @@ void DeckTrackerUI::drawDeckCards(QPainter &painter)
         cardListHeight += cardBGImgSize.height();
     }
     uiHeight += cardListHeight;
+}
+
+void DeckTrackerUI::drawStatistics(QPainter &painter)
+{
+    if (deck.cards.size() == 0) {
+        return;
+    }
+    // Statistics BG
+    QRect coverRect(pos.x(), pos.y() + uiHeight, uiWidth, uiWidth/4);
+    painter.setPen(bgPen);
+    painter.setBrush(bgBrush);
+    painter.drawRoundedRect(coverRect, CORNERS_RADIUS, CORNERS_RADIUS);
+    // Statistics info
+    QFontMetrics statisticsMetrics(statisticsFont);
+    int statisticsTextHeight = statisticsMetrics.ascent() - statisticsMetrics.descent();
+    int statisticsTextMargin = 5;
+    // Statistics title
+    int statisticsBorderMargin = 2;
+    int statisticsTitleOptions = Qt::AlignLeft | Qt::AlignVCenter | Qt::TextDontClip;
+    QString statisticsTitle = QString(tr("Draw chances:"));
+    int statisticsTitleX = pos.x() + 8;
+    int statisticsTitleY = pos.y() + uiHeight + statisticsTextMargin;
+    drawText(painter, statisticsFont, statisticsPen, statisticsTitle, statisticsTitleOptions, false,
+             statisticsTitleX, statisticsTitleY, statisticsTextHeight, uiWidth - statisticsBorderMargin);
+    // Statistics text
+    int statisticsTextOptions = Qt::AlignCenter | Qt::AlignVCenter | Qt::TextDontClip;
+    int statisticsTextX = pos.x() + statisticsBorderMargin;
+    int statisticsText1Y = statisticsTitleY + statisticsTextHeight + statisticsTextMargin + statisticsBorderMargin;
+    float totalCards = deck.totalCards();
+    float drawChanceLandCards = deck.totalCardsLand() * 100 / totalCards;
+    float drawChance1xCards = deck.totalCardsOfQtd(1) > 0 ? 1 * 100 / totalCards : 0;
+    float drawChance2xCards = deck.totalCardsOfQtd(2) > 0 ? 2 * 100 / totalCards : 0;
+    float drawChance3xCards = deck.totalCardsOfQtd(3) > 0 ? 3 * 100 / totalCards : 0 ;
+    float drawChance4xCards = deck.totalCardsOfQtd(4) > 0 ? 4 * 100 / totalCards : 0;
+    QString statisticsText1 = QString("1x: %1%    2x: %2%    3x: %3%")
+            .arg(drawChance1xCards, 0, 'g', 2)
+            .arg(drawChance2xCards, 0, 'g', 2)
+            .arg(drawChance3xCards, 0, 'g', 2);
+    drawText(painter, statisticsFont, statisticsPen, statisticsText1, statisticsTextOptions, false,
+             statisticsTextX, statisticsText1Y, statisticsTextHeight, uiWidth - statisticsBorderMargin);
+    int statisticsText2Y = statisticsText1Y + statisticsTextHeight + statisticsTextMargin;
+    QString statisticsText2 = QString("4x: %1%    Land: %2%")
+            .arg(drawChance4xCards, 0, 'g', 2)
+            .arg(drawChanceLandCards, 0, 'g', 2);
+    drawText(painter, statisticsFont, statisticsPen, statisticsText2, statisticsTextOptions, false,
+             statisticsTextX, statisticsText2Y, statisticsTextHeight, uiWidth - statisticsBorderMargin);
+    uiHeight += coverRect.height();
 }
 
 void DeckTrackerUI::drawText(QPainter &painter, QFont textFont, QPen textPen, QString text,

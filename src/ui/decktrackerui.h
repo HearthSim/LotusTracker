@@ -25,11 +25,14 @@ private:
     QPen cardPen;
     QFont titleFont;
     QPen titlePen;
+    QFont statisticsFont;
+    QPen statisticsPen;
     bool mousePressed;
     QPoint mouseRelativePosition;
     void drawCover(QPainter &painter);
     void drawDeckInfo(QPainter &painter);
     void drawDeckCards(QPainter &painter);
+    void drawStatistics(QPainter &painter);
     void drawText(QPainter &painter, QFont textFont, QPen textPen, QString text, int textOptions,
                   bool shadow, int textX, int textY, int textHeight, int textWidth);
     void drawMana(QPainter &painter, QChar manaSymbol, int manaSize, int manaX, int manaY);

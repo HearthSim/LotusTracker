@@ -38,11 +38,61 @@ public:
     QMap<Card*, int> cards;
 
     Deck(QString name = "", QMap<Card*, int> cards = {}): name(name), cards(cards){
+        for (Card *card : cards.keys()) {
+            cardsDrawed[card] = 0;
+        }
         _colorIdentity = calcColorIdentity();
     }
 
-    QString colorIdentity(){
+    QString colorIdentity()
+    {
         return _colorIdentity;
+    }
+
+    void drawCard(Card *card)
+    {
+        cardsDrawed[card] += 1;
+    }
+
+    void insertCard(Card *card)
+    {
+        if (cards.keys().contains(card)) {
+            cards[card] += 1;
+        } else {
+            cards[card] = 1;
+            cardsDrawed[card] = 0;
+        }
+    }
+
+    int totalCards()
+    {
+        int totalCards = 0;
+        for (Card *card : cards.keys()) {
+            totalCards += cards[card];
+        }
+        return totalCards;
+    }
+
+    int totalCardsLand()
+    {
+        int totalLandCards = 0;
+        for (Card *card : cards.keys()) {
+            if (card->isLand()) {
+                totalLandCards += cards[card];
+            }
+        }
+        return totalLandCards;
+    }
+
+    int totalCardsOfQtd(int qtd)
+    {
+        int totalXCards = 0;
+        for (Card *card : cards.keys()) {
+            if (!card->isLand() && cards[card] == qtd) {
+                totalXCards += qtd;
+            }
+        }
+        return totalXCards;
     }
 
 };

@@ -91,7 +91,7 @@ void MtgaLogParser::parse(QString logNewContent)
 
 void MtgaLogParser::parseMsg(QPair<QString, QString> msg)
 {
-    LOGD(QString("Receive msg %1 with json size: %2").arg(msg.first).arg(msg.second.size()));
+    LOGD(QString("Receive msg %1 with json size: %2bytes").arg(msg.first).arg(msg.second.size()));
     if (msg.first == "PlayerInventory.GetPlayerInventory") {
         parsePlayerInventory(msg.second);
     } else if (msg.first == "Inventory.Updated"){
