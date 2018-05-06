@@ -17,25 +17,23 @@ class DeckTrackerUI : public QObject
 private:
     QMainWindow *parentQMainWindow;
     QPoint pos;
-    int uiHeight;
-    int uiWidth;
+    qreal uiScale;
+    int uiHeight, uiWidth;
+    QRect zoomMinusButton, zoomPlusButton;
     QString cardBGSkin;
     Deck deck;
     bool deckLoaded;
     // Draw
-    QPen bgPen;
+    QPen bgPen, cardPen, titlePen, statisticsPen;
     QBrush bgBrush;
-    QFont cardFont;
-    QPen cardPen;
-    QFont titleFont;
-    QPen titlePen;
-    QFont statisticsFont;
-    QPen statisticsPen;
+    QFont cardFont, titleFont, statisticsFont;
     QMap<Card*, BlinkInfo*> cardsBlink;
     bool mousePressed;
     QPoint mouseRelativePosition;
+    void update();
     void blinkCard(Card* card);
     void drawCover(QPainter &painter);
+    void drawZoomButtons(QPainter &painter);
     void drawDeckInfo(QPainter &painter);
     void drawDeckCards(QPainter &painter);
     void drawStatistics(QPainter &painter);

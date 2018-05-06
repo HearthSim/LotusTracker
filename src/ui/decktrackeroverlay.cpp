@@ -73,9 +73,12 @@ void DeckTrackerOverlay::onPlayerDeckSelected(Deck deck)
 void DeckTrackerOverlay::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setRenderHints(QPainter::HighQualityAntialiasing | QPainter::TextAntialiasing |
+                           QPainter::SmoothPixmapTransform);
     painter.save();
     playerDeckTrackerUI->paintEvent(painter);
+    painter.restore();
+    painter.save();
     opponentDeckTrackerUI->paintEvent(painter);
     painter.restore();
 }

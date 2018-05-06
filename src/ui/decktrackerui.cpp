@@ -6,8 +6,9 @@
 
 #define CORNERS_RADIUS 10
 
-DeckTrackerUI::DeckTrackerUI(QMainWindow *parent) : QObject(parent),
-    uiHeight(0), uiWidth(160), cardBGSkin("mtga"), deckLoaded(false), mousePressed(false), mouseRelativePosition(QPoint())
+DeckTrackerUI::DeckTrackerUI(QMainWindow *parent) : QObject(parent), uiScale(1.0), uiHeight(0),
+    uiWidth(160), zoomMinusButton(QRect(0, 0, 0, 0)), zoomPlusButton(QRect(0, 0, 0, 0)),
+    cardBGSkin("mtga"), deckLoaded(false), mousePressed(false), mouseRelativePosition(QPoint())
 {
     parentQMainWindow = parent;
     move(10, 10);
@@ -79,9 +80,16 @@ void DeckTrackerUI::drawCard(Card* card, bool opponent)
     }
 }
 
+void DeckTrackerUI::update()
+{
+    parentQMainWindow->update();
+}
+
 void DeckTrackerUI::paintEvent(QPainter &painter)
 {
+    painter.scale(uiScale, uiScale);
     drawCover(painter);
+    drawZoomButtons(painter);
     if (deckLoaded) {
         drawDeckInfo(painter);
         drawDeckCards(painter);
@@ -120,6 +128,29 @@ void DeckTrackerUI::drawCover(QPainter &painter)
     QImage coverImgWithRoundedCorders = Extensions::applyRoundedCorners2Image(coverImgScaled, CORNERS_RADIUS);
     painter.drawImage(pos.x() + 2, pos.y() + 2, coverImgWithRoundedCorders);
     uiHeight = coverRect.height();
+}
+
+void DeckTrackerUI::drawZoomButtons(QPainter &painter)
+{
+    int zoomButtonSize = 12;
+    int zoomButtonMargin = 6;
+    int zoomButtonY = pos.y() + zoomButtonMargin;
+    // Plus button
+    QImage zoomPlus(":res/zoom_plus.png");
+    QImage zoomPlusScaled = zoomPlus.scaled(zoomButtonSize, zoomButtonSize,
+                                            Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    int zoomPlusX = pos.x() + uiWidth - zoomButtonSize - zoomButtonMargin;
+    painter.drawImage(zoomPlusX, zoomButtonY, zoomPlusScaled);
+    zoomPlusButton = QRect(zoomPlusX*uiScale, zoomButtonY*uiScale,
+                           zoomButtonSize*uiScale, zoomButtonSize*uiScale);
+    // Minus button
+    QImage zoomMinus(":res/zoom_minus.png");
+    QImage zoomMinusScaled = zoomMinus.scaled(zoomButtonSize, zoomButtonSize,
+                                              Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    int zoomMinusX = zoomPlusX - zoomButtonSize - 3*uiScale;
+    painter.drawImage(zoomMinusX, zoomButtonY, zoomMinusScaled);
+    zoomMinusButton = QRect(zoomMinusX*uiScale, zoomButtonY*uiScale,
+                            zoomButtonSize*uiScale, zoomButtonSize*uiScale);
 }
 
 void DeckTrackerUI::drawDeckInfo(QPainter &painter)
@@ -238,7 +269,7 @@ void DeckTrackerUI::drawStatistics(QPainter &painter)
     float drawChanceLandCards = deck.totalCardsLand() * 100 / totalCards;
     float drawChance1xCards = deck.totalCardsOfQtd(1) > 0 ? 1 * 100 / totalCards : 0;
     float drawChance2xCards = deck.totalCardsOfQtd(2) > 0 ? 2 * 100 / totalCards : 0;
-    float drawChance3xCards = deck.totalCardsOfQtd(3) > 0 ? 3 * 100 / totalCards : 0 ;
+    float drawChance3xCards = deck.totalCardsOfQtd(3) > 0 ? 3 * 100 / totalCards : 0;
     float drawChance4xCards = deck.totalCardsOfQtd(4) > 0 ? 4 * 100 / totalCards : 0;
     QString statisticsText1 = QString("1x: %1%    2x: %2%    3x: %3%")
             .arg(drawChance1xCards, 0, 'g', 2)
@@ -288,10 +319,15 @@ bool DeckTrackerUI::isMouseOver(QMouseEvent *event)
 
 void DeckTrackerUI::mousePressEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::LeftButton) {
-        mousePressed = true;
-        mouseRelativePosition = event->pos() - pos;
+    if (event->button() != Qt::LeftButton) {
+        return;
     }
+    if (zoomMinusButton.contains(event->pos()) ||
+            zoomPlusButton.contains(event->pos())) {
+        return;
+    }
+    mousePressed = true;
+    mouseRelativePosition = event->pos() - pos;
 }
 
 void DeckTrackerUI::mouseMoveEvent(QMouseEvent *event)
@@ -303,7 +339,20 @@ void DeckTrackerUI::mouseMoveEvent(QMouseEvent *event)
 
 void DeckTrackerUI::mouseReleaseEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::LeftButton) {
+    if (event->button() != Qt::LeftButton) {
+        return;
+    }
+    if (zoomMinusButton.contains(event->pos())) {
+        if (uiScale > 0.9) {
+            uiScale -= 0.05;
+            update();
+        }
+    } else if (zoomPlusButton.contains(event->pos())) {
+        if (uiScale < 1.1) {
+            uiScale += 0.05;
+            update();
+        }
+    } else {
         mousePressed = false;
         mouseRelativePosition = QPoint();
     }
