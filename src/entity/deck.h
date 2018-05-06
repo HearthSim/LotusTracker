@@ -17,7 +17,10 @@ private:
     {
         QList<QChar> distinctManaSymbols;
         for (Card *card : cards.keys()) {
-            for (QChar symbol : card->manaColorIdentity()) {
+            if (card->isLand) {
+                continue;
+            }
+            for (QChar symbol : card->manaColorIdentity) {
                 if (distinctManaSymbols.contains(QChar('m'))) {
                     return QString("m");
                 }
@@ -77,7 +80,7 @@ public:
     {
         int totalLandCards = 0;
         for (Card *card : cards.keys()) {
-            if (card->isLand()) {
+            if (card->isLand) {
                 totalLandCards += cards[card];
             }
         }
@@ -88,7 +91,7 @@ public:
     {
         int totalXCards = 0;
         for (Card *card : cards.keys()) {
-            if (!card->isLand() && cards[card] == qtd) {
+            if (!card->isLand && cards[card] == qtd) {
                 totalXCards += qtd;
             }
         }

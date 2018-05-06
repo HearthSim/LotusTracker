@@ -122,6 +122,16 @@ Card* MtgCards::jsonObject2Card(QJsonObject jsonCard, QString setCode)
     QString number = jsonCard["number"].toString();
     QString name = jsonCard["name"].toString();
     QString type = jsonCard["type"].toString();
+    QJsonArray jsonTypes = jsonCard["types"].toArray();
+    bool isLand = false;
+    for (QJsonValueRef typeRef : jsonTypes) {
+        if (typeRef.toString() == "Land") {
+            isLand = true;
+            break;
+        }
+    }
+    int mtgaId = mtgaIds[setCode][number];
+    // Mana color
     QString rawManaCost = jsonCard["manaCost"].toString();
     QRegularExpression reManaSymbol("(?<=\\{)\\w(?=\\})");
     QRegularExpressionMatchIterator iterator = reManaSymbol.globalMatch(rawManaCost);
@@ -129,6 +139,38 @@ Card* MtgCards::jsonObject2Card(QJsonObject jsonCard, QString setCode)
     while (iterator.hasNext()) {
         manaCost += iterator.next().captured(0).toLower().at(0);
     }
-    int mtgaId = mtgaIds[setCode][number];
-    return new Card(mtgaId, setCode, number, name, type, manaCost);
+    // Mana color identity
+    QString text = jsonCard["text"].toString();
+    QList<QChar> manaColorIdentity;
+    if (isLand) {
+        QJsonArray jsonColorIdentity = jsonCard["colorIdentity"].toArray();
+        for (QJsonValueRef colorIdentityRef : jsonColorIdentity) {
+            manaColorIdentity << colorIdentityRef.toString().toLower().at(0);
+        }
+        if (manaColorIdentity.isEmpty()) {
+            manaColorIdentity << QChar(text.contains("mana of any color") ? 'm' : 'c');
+        }
+    } else {
+        manaColorIdentity = manaCost2ManaColorIdentity(manaCost);
+    }
+    return new Card(mtgaId, setCode, number, name, type, manaCost, manaColorIdentity, isLand);
+}
+
+QList<QChar> MtgCards::manaCost2ManaColorIdentity(QString manaCost)
+{
+    QList<QChar> manaSymbols;
+    for (QChar manaSymbol : manaCost) {
+        if (manaSymbol.isLetter()){
+            if (!manaSymbols.contains(manaSymbol)){
+                manaSymbols << manaSymbol;
+            }
+        }
+    }
+    if (manaSymbols.isEmpty()) {
+        manaSymbols << 'a';
+    } else if (manaSymbols.size() >= 4) {
+        manaSymbols.clear();
+        manaSymbols << QChar('m');
+    }
+    return manaSymbols;
 }

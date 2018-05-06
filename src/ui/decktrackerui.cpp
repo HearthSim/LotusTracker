@@ -130,15 +130,11 @@ void DeckTrackerUI::drawDeckCards(QPainter &painter)
     int cardQtdOptions = Qt::AlignCenter | Qt::AlignVCenter | Qt::TextDontClip;
     QList<Card*> deckCards(deck.cards.keys());
     std::sort(std::begin(deckCards), std::end(deckCards), [](Card*& lhs, Card*& rhs) {
-        return std::make_tuple(lhs->isLand(), lhs->manaCostValue(), lhs->name) <
-                std::make_tuple(rhs->isLand(), rhs->manaCostValue(), rhs->name);
+        return std::make_tuple(lhs->isLand, lhs->manaCostValue(), lhs->name) <
+                std::make_tuple(rhs->isLand, rhs->manaCostValue(), rhs->name);
     });
     for (Card* card : deckCards) {
-        QList<QChar> cardManaList = card->manaColorIdentity();
-        QString cardManaIdentity;
-        for (QChar manaSymbol : cardManaList) {
-            cardManaIdentity += manaSymbol;
-        }
+        QString cardManaIdentity = card->manaColorIdentityAsString();
         // Card BG
         int cardBGY = pos.y() + uiHeight + cardListHeight;
         QImage cardBGImg;

@@ -8,29 +8,6 @@
 
 class Card
 {
-private:
-    QList<QChar> _manaColorIdentity;
-
-    QList<QChar> calcManaColorIdentity()
-    {
-        QList<QChar> manaSymbols;
-        for (QChar manaSymbol : manaCost) {
-            if (manaSymbol.isLetter()){
-                if (!manaSymbols.contains(manaSymbol)){
-                    manaSymbols << manaSymbol;
-                }
-            }
-        }
-        if (manaSymbols.size() >= 4) {
-            manaSymbols.clear();
-            manaSymbols << QChar('m');
-        }
-        if (manaSymbols.isEmpty()) {
-            manaSymbols << QChar(type == "Artifact" ? 'a' : 'c');
-        }
-        return manaSymbols;
-    }
-
 public:
     const int mtgaId;
     const QString setCode;
@@ -38,16 +15,13 @@ public:
     const QString name;
     const QString type;
     const QString manaCost;
+    const QList<QChar> manaColorIdentity;
+    bool isLand;
 
-    Card(int mtgaId, QString setCode, QString number, QString name, QString type, QString manaCost)
-        : mtgaId(mtgaId), setCode(setCode), number(number), name(name), type(type), manaCost(manaCost){
-        _manaColorIdentity = calcManaColorIdentity();
-    }
-
-    bool isLand()
-    {
-        return type.toLower().contains("land");
-    }
+    Card(int mtgaId, QString setCode, QString number, QString name, QString type,
+         QString manaCost, QList<QChar> manaColorIdentity, bool isLand)
+        : mtgaId(mtgaId), setCode(setCode), number(number), name(name), type(type),
+          manaCost(manaCost), manaColorIdentity(manaColorIdentity), isLand(isLand){}
 
     int manaCostValue()
     {
@@ -58,14 +32,9 @@ public:
         return manaValue;
     }
 
-    QList<QChar> manaColorIdentity()
-    {
-        return _manaColorIdentity;
-    }
-
     QString manaColorIdentityAsString()
     {
-        return Extensions::colorIdentityListToString(_manaColorIdentity);
+        return Extensions::colorIdentityListToString(manaColorIdentity);
     }
 
 };

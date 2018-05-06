@@ -5,6 +5,9 @@
 
 QString Extensions::colorIdentityListToString(QList<QChar> distinctManaSymbols)
 {
+    if (distinctManaSymbols.contains(QChar('a'))) { return "a"; }
+    if (distinctManaSymbols.contains(QChar('c'))) { return "c"; }
+    if (distinctManaSymbols.contains(QChar('m'))) { return "m"; }
     QString identity = "";
     if (distinctManaSymbols.contains(QChar('b'))) { identity += "b"; }
     if (distinctManaSymbols.contains(QChar('g'))) { identity += "g"; }
