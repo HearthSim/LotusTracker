@@ -6,9 +6,10 @@
 
 #define CORNERS_RADIUS 10
 
-DeckTrackerUI::DeckTrackerUI(QObject *parent) : QObject(parent),
+DeckTrackerUI::DeckTrackerUI(QMainWindow *parent) : QObject(parent),
     uiHeight(0), uiWidth(160), cardBGSkin("mtga"), deckLoaded(false), mousePressed(false), mouseRelativePosition(QPoint())
 {
+    parentQMainWindow = parent;
     move(10, 10);
     bgPen = QPen(QColor(160, 160, 160));
     bgPen.setWidth(2);
@@ -44,7 +45,9 @@ DeckTrackerUI::DeckTrackerUI(QObject *parent) : QObject(parent),
 
 DeckTrackerUI::~DeckTrackerUI()
 {
-
+    for (BlinkInfo *blinkInfo : cardsBlink.values()){
+        delete blinkInfo;
+    }
 }
 
 int DeckTrackerUI::getWidth()
@@ -64,6 +67,18 @@ void DeckTrackerUI::setupDeck(Deck _deck)
     LOGD(QString("Loading deck %1").arg(deck.name));
 }
 
+void DeckTrackerUI::drawCard(Card* card, bool opponent)
+{
+    if (opponent) {
+        deck.insertCard(card);
+        blinkCard(card);
+    } else {
+        if (deck.drawCard(card)) {
+            blinkCard(card);
+        }
+    }
+}
+
 void DeckTrackerUI::paintEvent(QPainter &painter)
 {
     drawCover(painter);
@@ -72,6 +87,15 @@ void DeckTrackerUI::paintEvent(QPainter &painter)
         drawDeckCards(painter);
         drawStatistics(painter);
     }
+}
+
+void DeckTrackerUI::blinkCard(Card* card)
+{
+    QTimer *blinkTimer = new QTimer();
+    BlinkInfo *blinkInfo = new BlinkInfo(parentQMainWindow, card, blinkTimer);
+    cardsBlink[card] = blinkInfo;
+    connect(blinkTimer, &QTimer::timeout, blinkInfo, &BlinkInfo::timeout);
+    blinkTimer->start(100);
 }
 
 void DeckTrackerUI::drawCover(QPainter &painter)
@@ -114,7 +138,7 @@ void DeckTrackerUI::drawDeckInfo(QPainter &painter)
     if (deckColorIdentity != "default" && deckColorIdentity != "m"){
         for (int i=0; i<deckColorIdentity.length(); i++) {
             QChar manaSymbol = deckColorIdentity.at(i);
-            drawMana(painter, manaSymbol, manaSize, manaX, manaY);
+            drawMana(painter, manaSymbol, manaSize, false, manaX, manaY);
             manaX += manaSize + 5;
         }
     }
@@ -134,15 +158,19 @@ void DeckTrackerUI::drawDeckCards(QPainter &painter)
                 std::make_tuple(rhs->isLand, rhs->manaCostValue(), rhs->name);
     });
     for (Card* card : deckCards) {
+        int cardQtdRemains = deck.cards[card];
         QString cardManaIdentity = card->manaColorIdentityAsString();
         // Card BG
         int cardBGY = pos.y() + uiHeight + cardListHeight;
         QImage cardBGImg;
         cardBGImg.load(QString(":/res/cards/%1/%2.png").arg(cardBGSkin).arg(cardManaIdentity));
         QImage cardBGImgScaled = cardBGImg.scaled(cardBGImgSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+        if (cardQtdRemains == 0) {
+            cardBGImgScaled = Extensions::toGrayscale(cardBGImgScaled);
+        }
         painter.drawImage(pos.x(), cardBGY, cardBGImgScaled);
         // Card quantity
-        QString cardQtd = QString("%1 ").arg(deck.cards[card]);
+        QString cardQtd = QString("%1 ").arg(cardQtdRemains);
         int cardQtdWidth = painter.fontMetrics().width(cardQtd);
         int cardQtdX = pos.x() + 12;
         int cardQtdY = cardBGY + cardBGImgSize.height()/2 - cardTextHeight/2;
@@ -158,18 +186,31 @@ void DeckTrackerUI::drawDeckCards(QPainter &painter)
         int manaCostWidth = card->manaCost.length() * (manaSize + manaMargin);
         int manaX = pos.x() + uiWidth - manaRightMargin - manaCostWidth;
         int manaY = cardBGY + cardBGImgSize.height()/2 - manaSize/2;
-        for (QChar manaSymbol : card->manaCost) {
-            drawMana(painter, manaSymbol, manaSize, manaX, manaY);
+        for (QChar manaSymbol : card->manaCost) {;
+            drawMana(painter, manaSymbol, manaSize, cardQtdRemains == 0, manaX, manaY);
             manaX += manaSize + manaMargin;
         }
         cardListHeight += cardBGImgSize.height();
+        // Blink
+        if (cardsBlink.keys().contains(card)) {
+            BlinkInfo *blinkInfo = cardsBlink[card];
+            if (blinkInfo->alpha > 0) {
+                QRect coverRect(pos.x(), cardBGY, cardBGImgSize.width(), cardBGImgSize.height());
+                painter.setPen(QPen(QColor(255, 255, 0)));
+                painter.setBrush(QBrush(QColor(255, 255, 0, blinkInfo->alpha)));
+                painter.drawRoundedRect(coverRect, CORNERS_RADIUS, CORNERS_RADIUS);
+            } else {
+                cardsBlink.remove(blinkInfo->card);
+                delete blinkInfo;
+            }
+        }
     }
     uiHeight += cardListHeight;
 }
 
 void DeckTrackerUI::drawStatistics(QPainter &painter)
 {
-    if (deck.cards.size() == 0) {
+    if (deck.cards.size() == 0 || deck.name.isEmpty()) {
         return;
     }
     // Statistics BG
@@ -214,8 +255,8 @@ void DeckTrackerUI::drawStatistics(QPainter &painter)
     uiHeight += coverRect.height();
 }
 
-void DeckTrackerUI::drawText(QPainter &painter, QFont textFont, QPen textPen, QString text,
-                        int textOptions, bool shadow, int textX, int textY, int textHeight, int textWidth)
+void DeckTrackerUI::drawText(QPainter &painter, QFont textFont, QPen textPen, QString text, int textOptions,
+                             bool shadow, int textX, int textY, int textHeight, int textWidth)
 {
     painter.setFont(textFont);
     if (shadow) {
@@ -226,12 +267,17 @@ void DeckTrackerUI::drawText(QPainter &painter, QFont textFont, QPen textPen, QS
     painter.drawText(textX, textY, textWidth, textHeight, textOptions, text);
 }
 
-void DeckTrackerUI::drawMana(QPainter &painter, QChar manaSymbol, int manaSize, int manaX, int manaY)
+void DeckTrackerUI::drawMana(QPainter &painter, QChar manaSymbol, int manaSize,
+                             bool grayscale, int manaX, int manaY)
 {
     QImage manaImg;
     manaImg.load(QString(":/res/mana/%1.png").arg(manaSymbol));
     QImage manaImgScaled = manaImg.scaled(manaSize, manaSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    painter.drawImage(manaX, manaY, manaImgScaled);
+    if (grayscale) {
+        painter.drawImage(manaX, manaY, Extensions::toGrayscale(manaImgScaled));
+    } else {
+        painter.drawImage(manaX, manaY, manaImgScaled);
+    }
 }
 
 bool DeckTrackerUI::isMouseOver(QMouseEvent *event)

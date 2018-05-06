@@ -44,6 +44,8 @@ signals:
     void sgnMatchInfoSeats(QList<MatchPlayer>);
     void sgnMatchInfoResultMatch(int winningTeamId);
     void sgnPlayerDeckSelected(Deck deck);
+    void sgnPlayerDrawCard(Card* card);
+    void sgnOpponentPlayCard(Card* card);
 
 public slots:
 };

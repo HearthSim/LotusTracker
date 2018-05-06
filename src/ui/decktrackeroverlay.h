@@ -35,6 +35,8 @@ signals:
 
 public slots:
     void onPlayerDeckSelected(Deck deck);
+    void onPlayerDrawCard(Card* card);
+    void onOpponentPlayCard(Card* card);
 };
 
 #endif // DECKTRACKEROVERLAY_H

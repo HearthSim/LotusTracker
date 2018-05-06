@@ -14,6 +14,10 @@ ArenaTracker::ArenaTracker(int& argc, char **argv)
     trayIcon = new TrayIcon(this);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckSelected,
             deckTrackerOverlay, &DeckTrackerOverlay::onPlayerDeckSelected);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDrawCard,
+            deckTrackerOverlay, &DeckTrackerOverlay::onPlayerDrawCard);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnOpponentPlayCard,
+            deckTrackerOverlay, &DeckTrackerOverlay::onOpponentPlayCard);
     LOGI("Arena Tracker started");
 }
 

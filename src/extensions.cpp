@@ -64,3 +64,18 @@ QImage Extensions::applyRoundedCorners2Image(QImage image, int cornerRadius)
     painter.drawRoundedRect(0, 0, image.width(), image.height(), cornerRadius, cornerRadius);
     return roundedImage;
 }
+
+QImage Extensions::toGrayscale(QImage image)
+{
+    QImage grayscaleImage = image.convertToFormat(image.hasAlphaChannel() ?
+          QImage::Format_ARGB32 : QImage::Format_RGB32);
+    unsigned int *data = (unsigned int*)grayscaleImage.bits();
+    int pixelCount = grayscaleImage.width() * grayscaleImage.height();
+    // Convert each pixel to grayscale
+    for(int i = 0; i < pixelCount; ++i) {
+        int val = qGray(*data);
+        *data = qRgba(val, val, val, qAlpha(*data));
+        ++data;
+    }
+    return grayscaleImage;
+}

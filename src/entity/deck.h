@@ -11,7 +11,7 @@ class Deck
 {
 private:
     QString _colorIdentity;
-    QMap<Card*, int> cardsDrawed;
+    QMap<Card*, int> cardsInitial;
 
     QString calcColorIdentity()
     {
@@ -42,7 +42,7 @@ public:
 
     Deck(QString name = "", QMap<Card*, int> cards = {}): name(name), cards(cards){
         for (Card *card : cards.keys()) {
-            cardsDrawed[card] = 0;
+            cardsInitial[card] = cards[card];
         }
         _colorIdentity = calcColorIdentity();
     }
@@ -52,9 +52,14 @@ public:
         return _colorIdentity;
     }
 
-    void drawCard(Card *card)
+    bool drawCard(Card *card)
     {
-        cardsDrawed[card] += 1;
+        if (cards[card] > 0) {
+            cards[card] -= 1;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     void insertCard(Card *card)
@@ -63,7 +68,6 @@ public:
             cards[card] += 1;
         } else {
             cards[card] = 1;
-            cardsDrawed[card] = 0;
         }
     }
 
@@ -91,7 +95,7 @@ public:
     {
         int totalXCards = 0;
         for (Card *card : cards.keys()) {
-            if (!card->isLand && cards[card] == qtd) {
+            if (cards[card] == qtd && !card->isLand) {
                 totalXCards += qtd;
             }
         }

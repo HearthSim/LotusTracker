@@ -52,6 +52,16 @@ void DeckTrackerOverlay::setupWindow()
     hide();
 }
 
+void DeckTrackerOverlay::onPlayerDrawCard(Card* card)
+{
+    playerDeckTrackerUI->drawCard(card, false);
+}
+
+void DeckTrackerOverlay::onOpponentPlayCard(Card* card)
+{
+    opponentDeckTrackerUI->drawCard(card, true);
+}
+
 void DeckTrackerOverlay::onPlayerDeckSelected(Deck deck)
 {
     playerDeckTrackerUI->setupDeck(deck);

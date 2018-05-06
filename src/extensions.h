@@ -13,6 +13,7 @@ public:
     static QJsonArray stringToJsonArray(QString json);
     static QJsonObject stringToJsonObject(QString json);
     static QImage applyRoundedCorners2Image(QImage image, int cornerRadius);
+    static QImage toGrayscale(QImage image);
 };
 
 #endif // EXTENSIONS_H

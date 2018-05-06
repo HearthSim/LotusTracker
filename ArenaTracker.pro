@@ -39,6 +39,7 @@ HEADERS += \
     src/mtg/mtgalogwatcher.h \
     src/mtg/mtgcards.h \
     src/ui/preferences.h \
+    src/ui/blinkinfo.h \
     src/ui/decktrackeroverlay.h \
     src/ui/decktrackerui.h \
     src/ui/trayicon.h \
