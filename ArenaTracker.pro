@@ -42,10 +42,10 @@ HEADERS += \
     src/ui/trayicon.h \
     src/entity/match.h \
     src/entity/matchplayer.h \
+    src/ui/cardblinkinfo.h \
     src/ui/decktrackerbase.h \
     src/ui/decktrackerplayer.h \
-    src/ui/decktrackeropponent.h \
-    src/ui/cardblinkinfo.h
+    src/ui/decktrackeropponent.h
 
 SOURCES += \
     src/main.cpp \

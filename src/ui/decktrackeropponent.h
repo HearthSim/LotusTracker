@@ -10,6 +10,9 @@ class DeckTrackerOpponent : public DeckTrackerBase
 {
     Q_OBJECT
 
+protected:
+    void afterPaintEvent(QPainter &painter);
+
 public:
     explicit DeckTrackerOpponent(QWidget *parent = nullptr);
     ~DeckTrackerOpponent();

@@ -10,6 +10,13 @@
 class DeckTrackerPlayer : public DeckTrackerBase
 {
     Q_OBJECT
+private:
+    QPen bgPen, statisticsPen;
+    QFont statisticsFont;
+    void drawStatistics(QPainter &painter);
+
+protected:
+    void afterPaintEvent(QPainter &painter);
 
 public:
     explicit DeckTrackerPlayer(QWidget *parent = nullptr);

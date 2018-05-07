@@ -16,6 +16,11 @@ DeckTrackerOpponent::~DeckTrackerOpponent()
 
 }
 
+void DeckTrackerOpponent::afterPaintEvent(QPainter &painter)
+{
+
+}
+
 void DeckTrackerOpponent::onOpponentPlayCard(Card* card)
 {
     deck.insertCard(card);

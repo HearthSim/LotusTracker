@@ -10,12 +10,11 @@
 #include <objc/objc-runtime.h>
 #endif
 
-#define CORNERS_RADIUS 10
-
 DeckTrackerBase::DeckTrackerBase(QWidget *parent) : QMainWindow(parent),
-    ui(new Ui::DeckTracker()), uiScale(1.0), cardBGSkin("mtga"), zoomMinusButton(QRect(0, 0, 0, 0)),
-    zoomPlusButton(QRect(0, 0, 0, 0)), mousePressed(false), mouseRelativePosition(QPoint()),
-    uiPos(10, 10), uiHeight(0), uiWidth(160), deck(Deck())
+    ui(new Ui::DeckTracker()), uiScale(1.0), cardBGSkin("mtga"),
+    zoomMinusButton(QRect(0, 0, 0, 0)), zoomPlusButton(QRect(0, 0, 0, 0)),
+    mousePressed(false), mouseRelativePosition(QPoint()),
+    cornerRadius(10), uiPos(10, 10), uiHeight(0), uiWidth(160), deck(Deck())
 {
     ui->setupUi(this);
     setupWindow();
@@ -77,14 +76,6 @@ void DeckTrackerBase::setupDrawTools()
     titleFont.setPointSize(titleFontSize);
     titleFont.setBold(true);
     titlePen = QPen(Qt::white);
-    // Statistics
-    int statisticsFontSize = 8;
-#if defined Q_OS_MAC
-    statisticsFontSize += 2;
-#endif
-    statisticsFont.setFamily(QFontDatabase::applicationFontFamilies(belerenID).at(0));
-    statisticsFont.setPointSize(statisticsFontSize);
-    statisticsPen = QPen(Qt::white);
 }
 
 void DeckTrackerBase::blinkCard(Card* card)
@@ -107,7 +98,7 @@ void DeckTrackerBase::paintEvent(QPaintEvent*)
     drawZoomButtons(painter);
     drawDeckInfo(painter);
     drawDeckCards(painter);
-    drawStatistics(painter);
+    afterPaintEvent(painter);
     painter.restore();
 }
 
@@ -116,7 +107,7 @@ void DeckTrackerBase::drawCover(QPainter &painter)
     // Cover BG
     QRect coverRect(uiPos.x(), uiPos.y(), uiWidth, uiWidth/4);
     painter.setPen(bgPen);
-    painter.drawRoundedRect(coverRect, CORNERS_RADIUS, CORNERS_RADIUS);
+    painter.drawRoundedRect(coverRect, cornerRadius, cornerRadius);
     // Cover image
     bool coverImgLoaded = false;
     QImage coverImg;
@@ -127,7 +118,7 @@ void DeckTrackerBase::drawCover(QPainter &painter)
     }
     QSize coverImgSize(coverRect.width() - 2, coverRect.height() - 2);
     QImage coverImgScaled = coverImg.scaled(coverImgSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    QImage coverImgWithRoundedCorders = Extensions::applyRoundedCorners2Image(coverImgScaled, CORNERS_RADIUS);
+    QImage coverImgWithRoundedCorders = Extensions::applyRoundedCorners2Image(coverImgScaled, cornerRadius);
     painter.drawImage(uiPos.x() + 1, uiPos.y() + 1, coverImgWithRoundedCorders);
     uiHeight = coverRect.height();
 }
@@ -231,7 +222,7 @@ void DeckTrackerBase::drawDeckCards(QPainter &painter)
                 QRect coverRect(uiPos.x(), cardBGY, cardBGImgSize.width(), cardBGImgSize.height());
                 painter.setPen(QPen(QColor(255, 255, 0)));
                 painter.setBrush(QBrush(QColor(255, 255, 0, cardBlinkInfo->alpha)));
-                painter.drawRoundedRect(coverRect, CORNERS_RADIUS, CORNERS_RADIUS);
+                painter.drawRoundedRect(coverRect, cornerRadius, cornerRadius);
             } else {
                 cardsBlinkInfo.remove(cardBlinkInfo->card);
                 delete cardBlinkInfo;
@@ -239,53 +230,6 @@ void DeckTrackerBase::drawDeckCards(QPainter &painter)
         }
     }
     uiHeight += cardListHeight;
-}
-
-void DeckTrackerBase::drawStatistics(QPainter &painter)
-{
-    if (deck.cards.size() == 0) {
-        return;
-    }
-    // Statistics BG
-    QRect coverRect(uiPos.x(), uiPos.y() + uiHeight, uiWidth, uiWidth/4);
-    painter.setPen(bgPen);
-    painter.setBrush(QBrush(QColor(70, 70, 70, 175)));
-    painter.drawRoundedRect(coverRect, CORNERS_RADIUS, CORNERS_RADIUS);
-    // Statistics info
-    QFontMetrics statisticsMetrics(statisticsFont);
-    int statisticsTextHeight = statisticsMetrics.ascent() - statisticsMetrics.descent();
-    int statisticsTextMargin = 5;
-    // Statistics title
-    int statisticsBorderMargin = 2;
-    int statisticsTitleOptions = Qt::AlignLeft | Qt::AlignVCenter | Qt::TextDontClip;
-    QString statisticsTitle = QString(tr("Draw chances:"));
-    int statisticsTitleX = uiPos.x() + 8;
-    int statisticsTitleY = uiPos.y() + uiHeight + statisticsTextMargin;
-    drawText(painter, statisticsFont, statisticsPen, statisticsTitle, statisticsTitleOptions, false,
-             statisticsTitleX, statisticsTitleY, statisticsTextHeight, uiWidth - statisticsBorderMargin);
-    // Statistics text
-    int statisticsTextOptions = Qt::AlignCenter | Qt::AlignVCenter | Qt::TextDontClip;
-    int statisticsTextX = uiPos.x() + statisticsBorderMargin;
-    int statisticsText1Y = statisticsTitleY + statisticsTextHeight + statisticsTextMargin + statisticsBorderMargin;
-    float totalCards = deck.totalCards();
-    float drawChanceLandCards = deck.totalCardsLand() * 100 / totalCards;
-    float drawChance1xCards = deck.totalCardsOfQtd(1) > 0 ? 1 * 100 / totalCards : 0;
-    float drawChance2xCards = deck.totalCardsOfQtd(2) > 0 ? 2 * 100 / totalCards : 0;
-    float drawChance3xCards = deck.totalCardsOfQtd(3) > 0 ? 3 * 100 / totalCards : 0;
-    float drawChance4xCards = deck.totalCardsOfQtd(4) > 0 ? 4 * 100 / totalCards : 0;
-    QString statisticsText1 = QString("1x: %1%    2x: %2%    3x: %3%")
-            .arg(drawChance1xCards, 0, 'g', 2)
-            .arg(drawChance2xCards, 0, 'g', 2)
-            .arg(drawChance3xCards, 0, 'g', 2);
-    drawText(painter, statisticsFont, statisticsPen, statisticsText1, statisticsTextOptions, false,
-             statisticsTextX, statisticsText1Y, statisticsTextHeight, uiWidth - statisticsBorderMargin);
-    int statisticsText2Y = statisticsText1Y + statisticsTextHeight + statisticsTextMargin;
-    QString statisticsText2 = QString("4x: %1%    Land: %2%")
-            .arg(drawChance4xCards, 0, 'g', 2)
-            .arg(drawChanceLandCards, 0, 'g', 2);
-    drawText(painter, statisticsFont, statisticsPen, statisticsText2, statisticsTextOptions, false,
-             statisticsTextX, statisticsText2Y, statisticsTextHeight, uiWidth - statisticsBorderMargin);
-    uiHeight += coverRect.height();
 }
 
 void DeckTrackerBase::drawText(QPainter &painter, QFont textFont, QPen textPen, QString text, int textOptions,
