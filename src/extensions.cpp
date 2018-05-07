@@ -23,7 +23,7 @@ QString Extensions::colorIdentityListToString(QList<QChar> distinctManaSymbols)
     if (identity == "grw") { identity = "rgw"; }
     if (identity == "bru") { identity = "ubr"; }
     if (identity == "bwu") { identity = "wub"; }
-    return (!identity.isEmpty()) ? identity : "default";
+    return (identity.isEmpty()) ? "" : identity;
 }
 
 QJsonArray Extensions::stringToJsonArray(QString json)

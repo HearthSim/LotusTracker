@@ -2,9 +2,11 @@
 #define ARENATRACKER_H
 
 #include "logger.h"
+#include "entity/match.h"
 #include "mtg/mtgarena.h"
 #include "mtg/mtgcards.h"
-#include "ui/decktrackeroverlay.h"
+#include "ui/decktrackerplayer.h"
+#include "ui/decktrackeropponent.h"
 #include "ui/preferences.h"
 #include "ui/trayicon.h"
 
@@ -16,9 +18,11 @@ class ArenaTracker : public QApplication
 
 private:
     void setupApp();
-    DeckTrackerOverlay *deckTrackerOverlay;
+    DeckTrackerPlayer *deckTrackerPlayer;
+    DeckTrackerOpponent *deckTrackerOpponent;
     TrayIcon *trayIcon;
     Preferences *preferences;
+    void onNewMatchStart(Match match);
 
 public:
     ArenaTracker(int& argc, char **argv);

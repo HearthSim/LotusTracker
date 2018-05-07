@@ -39,12 +39,13 @@ HEADERS += \
     src/mtg/mtgalogwatcher.h \
     src/mtg/mtgcards.h \
     src/ui/preferences.h \
-    src/ui/blinkinfo.h \
-    src/ui/decktrackeroverlay.h \
-    src/ui/decktrackerui.h \
     src/ui/trayicon.h \
     src/entity/match.h \
-    src/entity/matchplayer.h
+    src/entity/matchplayer.h \
+    src/ui/decktrackerbase.h \
+    src/ui/decktrackerplayer.h \
+    src/ui/decktrackeropponent.h \
+    src/ui/cardblinkinfo.h
 
 SOURCES += \
     src/main.cpp \
@@ -55,14 +56,15 @@ SOURCES += \
     src/mtg/mtgalogparser.cpp \
     src/mtg/mtgalogwatcher.cpp \
     src/mtg/mtgcards.cpp \
-    src/ui/decktrackeroverlay.cpp \
-    src/ui/decktrackerui.cpp \
     src/ui/preferences.cpp \
-    src/ui/trayicon.cpp
+    src/ui/trayicon.cpp \
+    src/ui/decktrackerbase.cpp \
+    src/ui/decktrackerplayer.cpp \
+    src/ui/decktrackeropponent.cpp
 
 FORMS += \
-    src/ui/decktrackeroverlay.ui \
-    src/ui/preferences.ui
+    src/ui/preferences.ui \
+    src/ui/decktrackerbase.ui
 
 RESOURCES += resources.qrc
 

@@ -3,35 +3,31 @@
 
 #include "../entity/card.h"
 #include "../entity/deck.h"
-#include "blinkinfo.h"
+#include "cardblinkinfo.h"
 
-#include <QObject>
+#include <QMainWindow>
 #include <QPainter>
 #include <QPoint>
-#include <QMainWindow>
 #include <QMouseEvent>
 
-class DeckTrackerUI : public QObject
+namespace Ui { class DeckTracker; }
+
+class DeckTrackerBase : public QMainWindow
 {
     Q_OBJECT
 private:
-    QMainWindow *parentQMainWindow;
-    QPoint pos;
+    Ui::DeckTracker *ui;
     qreal uiScale;
-    int uiHeight, uiWidth;
-    QRect zoomMinusButton, zoomPlusButton;
     QString cardBGSkin;
-    Deck deck;
-    bool deckLoaded;
-    // Draw
-    QPen bgPen, cardPen, titlePen, statisticsPen;
-    QBrush bgBrush;
-    QFont cardFont, titleFont, statisticsFont;
-    QMap<Card*, BlinkInfo*> cardsBlink;
+    QRect zoomMinusButton, zoomPlusButton;
     bool mousePressed;
     QPoint mouseRelativePosition;
-    void update();
-    void blinkCard(Card* card);
+    // Draw
+    QPen bgPen, cardPen, titlePen, statisticsPen;
+    QFont cardFont, titleFont, statisticsFont;
+    QMap<Card*, CardBlinkInfo*> cardsBlinkInfo;
+    void setupWindow();
+    void setupDrawTools();
     void drawCover(QPainter &painter);
     void drawZoomButtons(QPainter &painter);
     void drawDeckInfo(QPainter &painter);
@@ -42,19 +38,19 @@ private:
     void drawMana(QPainter &painter, QChar manaSymbol, int manaSize,
                   bool grayscale, int manaX, int manaY);
 
+protected:
+    QPoint uiPos;
+    int uiHeight, uiWidth;
+    Deck deck;
+    void blinkCard(Card* card);
+    void paintEvent(QPaintEvent *event);
+    virtual void mousePressEvent(QMouseEvent *event);
+    virtual void mouseMoveEvent(QMouseEvent *event);
+    virtual void mouseReleaseEvent(QMouseEvent *event);
+
 public:
-    explicit DeckTrackerUI(QMainWindow *parent = nullptr);
-    ~DeckTrackerUI();
-    int getWidth();
-    void move(int x, int y);
-    void setupDeck(Deck deck);
-    void drawCard(Card* card, bool opponent);
-    void paintEvent(QPainter &painter);
-    // Dragging functions
-    bool isMouseOver(QMouseEvent *event);
-    void mousePressEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
+    explicit DeckTrackerBase(QWidget *parent = nullptr);
+    ~DeckTrackerBase();
 
 signals:
 

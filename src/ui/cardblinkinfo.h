@@ -7,7 +7,7 @@
 #include <QMainWindow>
 #include <QTimer>
 
-class BlinkInfo : public QObject
+class CardBlinkInfo : public QObject
 {
     Q_OBJECT
 
@@ -18,12 +18,12 @@ public:
     int alpha;
     int acc;
 
-    BlinkInfo(QMainWindow *parentQMainWindow, Card* card, QTimer* timer):
+    CardBlinkInfo(QMainWindow *parentQMainWindow, Card* card, QTimer* timer):
         parentQMainWindow(parentQMainWindow), card(card), timer(timer), alpha(200){
         acc = 0;
     }
 
-    ~BlinkInfo()
+    ~CardBlinkInfo()
     {
         if (timer) {
             if (timer->isActive()) {

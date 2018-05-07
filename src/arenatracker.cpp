@@ -9,22 +9,26 @@ ArenaTracker::ArenaTracker(int& argc, char **argv)
     logger = new Logger(this);
     mtgCards = new MtgCards(this);
     mtgArena = new MtgArena(this, mtgCards);
-    deckTrackerOverlay = new DeckTrackerOverlay();
+    deckTrackerPlayer = new DeckTrackerPlayer();
+    deckTrackerOpponent = new DeckTrackerOpponent();
     preferences = new Preferences();
     trayIcon = new TrayIcon(this);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchCreated,
+            this, &ArenaTracker::onNewMatchStart);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckSelected,
-            deckTrackerOverlay, &DeckTrackerOverlay::onPlayerDeckSelected);
+            deckTrackerPlayer, &DeckTrackerPlayer::onPlayerDeckSelected);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDrawCard,
-            deckTrackerOverlay, &DeckTrackerOverlay::onPlayerDrawCard);
+            deckTrackerPlayer, &DeckTrackerPlayer::onPlayerDrawCard);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnOpponentPlayCard,
-            deckTrackerOverlay, &DeckTrackerOverlay::onOpponentPlayCard);
+            deckTrackerOpponent, &DeckTrackerOpponent::onOpponentPlayCard);
     LOGI("Arena Tracker started");
 }
 
 ArenaTracker::~ArenaTracker()
 {
     DEL(logger)
-    DEL(deckTrackerOverlay)
+    DEL(deckTrackerPlayer)
+    DEL(deckTrackerOpponent)
     DEL(preferences)
     DEL(trayIcon)
     DEL(mtgArena)
@@ -48,6 +52,14 @@ void ArenaTracker::setupApp()
 int ArenaTracker::run()
 {
     return exec();
+}
+
+
+void ArenaTracker::onNewMatchStart(Match match)
+{
+    UNUSED(match)
+    deckTrackerPlayer->show();
+    deckTrackerOpponent->show();
 }
 
 void ArenaTracker::showPreferences()

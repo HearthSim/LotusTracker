@@ -58,7 +58,7 @@ void TrayIcon::TrayIconActivated(QSystemTrayIcon::ActivationReason reason) {
         openPreferences();
     }
 #else
-    UNUSED(reason);
+    UNUSED(reason)
 #endif
 }
 
@@ -73,6 +73,10 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
     // Load Deck
     QAction *loadDeckAction = new QAction(tr("Load Deck"), this);
     connect(loadDeckAction, &QAction::triggered, this, [this](){
+        ArenaTracker *arenaTracker = (ArenaTracker*) qApp;
+        MtgaLogParser *mtgaLogParser = arenaTracker->mtgArena->getLogParser();
+        emit mtgaLogParser->sgnMatchCreated(Match("Opponent", "Beginner", 0));
+        // Player Select Deck
         QString currentDir = QDir::currentPath();
 #ifdef Q_OS_MAC
         currentDir = currentDir.left(currentDir.indexOf(".app"));
@@ -81,8 +85,7 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
         QFile *logFile = new QFile(currentDir + QDir::separator() + "PlayerDeckSelected.txt");
         if(logFile->open(QFile::ReadOnly | QFile::Text)) {
             QString logContent = QTextStream(logFile).readAll();
-            MtgArena* mtgArena = ((ArenaTracker*) qApp->instance())->mtgArena;
-            mtgArena->getLogParser()->parse(logContent);
+            mtgaLogParser->parse(logContent);
         } else {
             LOGW("PlayerDeckSelected.txt file not found in current dir");
         }
