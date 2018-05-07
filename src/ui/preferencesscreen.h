@@ -1,12 +1,12 @@
-#ifndef PREFERENCES_H
-#define PREFERENCES_H
+#ifndef PREFERENCESSCREEN_H
+#define PREFERENCESSCREEN_H
 
 #include <QCloseEvent>
 #include <QMainWindow>
 
 namespace Ui { class Preferences; }
 
-class Preferences : public QMainWindow
+class PreferencesScreen : public QMainWindow
 {
     Q_OBJECT
 
@@ -16,8 +16,8 @@ private:
     Ui::Preferences *ui;
 
 public:
-    explicit Preferences(QWidget *parent = 0);
-    ~Preferences();
+    explicit PreferencesScreen(QWidget *parent = 0);
+    ~PreferencesScreen();
 };
 
-#endif // PREFERENCES_H
+#endif // PREFERENCESSCREEN_H

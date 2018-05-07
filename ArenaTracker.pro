@@ -29,7 +29,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 HEADERS += \
     src/arenatracker.h \
     src/extensions.h \
-    src/logger.h \
     src/macros.h \
     src/entity/card.h \
     src/entity/deck.h \
@@ -38,29 +37,32 @@ HEADERS += \
     src/mtg/mtgalogparser.h \
     src/mtg/mtgalogwatcher.h \
     src/mtg/mtgcards.h \
-    src/ui/preferences.h \
     src/ui/trayicon.h \
     src/entity/match.h \
     src/entity/matchplayer.h \
     src/ui/cardblinkinfo.h \
     src/ui/decktrackerbase.h \
     src/ui/decktrackerplayer.h \
-    src/ui/decktrackeropponent.h
+    src/ui/decktrackeropponent.h \
+    src/utils/appsettings.h \
+    src/utils/logger.h \
+    src/ui/preferencesscreen.h
 
 SOURCES += \
     src/main.cpp \
     src/arenatracker.cpp \
     src/extensions.cpp \
-    src/logger.cpp \
     src/mtg/mtgarena.cpp \
     src/mtg/mtgalogparser.cpp \
     src/mtg/mtgalogwatcher.cpp \
     src/mtg/mtgcards.cpp \
-    src/ui/preferences.cpp \
     src/ui/trayicon.cpp \
     src/ui/decktrackerbase.cpp \
     src/ui/decktrackerplayer.cpp \
-    src/ui/decktrackeropponent.cpp
+    src/ui/decktrackeropponent.cpp \
+    src/utils/appsettings.cpp \
+    src/utils/logger.cpp \
+    src/ui/preferencesscreen.cpp
 
 FORMS += \
     src/ui/preferences.ui \

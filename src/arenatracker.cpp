@@ -7,11 +7,12 @@ ArenaTracker::ArenaTracker(int& argc, char **argv)
 {
     setupApp();
     logger = new Logger(this);
+    appSettings = new AppSettings(this);
     mtgCards = new MtgCards(this);
     mtgArena = new MtgArena(this, mtgCards);
     deckTrackerPlayer = new DeckTrackerPlayer();
     deckTrackerOpponent = new DeckTrackerOpponent();
-    preferences = new Preferences();
+    preferencesScreen = new PreferencesScreen();
     trayIcon = new TrayIcon(this);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchCreated,
             this, &ArenaTracker::onNewMatchStart);
@@ -29,7 +30,7 @@ ArenaTracker::~ArenaTracker()
     DEL(logger)
     DEL(deckTrackerPlayer)
     DEL(deckTrackerOpponent)
-    DEL(preferences)
+    DEL(preferencesScreen)
     DEL(trayIcon)
     DEL(mtgArena)
 }
@@ -64,6 +65,6 @@ void ArenaTracker::onNewMatchStart(Match match)
 
 void ArenaTracker::showPreferences()
 {
-    preferences->show();
-    preferences->raise();
+    preferencesScreen->show();
+    preferencesScreen->raise();
 }

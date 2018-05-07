@@ -1,14 +1,15 @@
 #ifndef ARENATRACKER_H
 #define ARENATRACKER_H
 
-#include "logger.h"
 #include "entity/match.h"
 #include "mtg/mtgarena.h"
 #include "mtg/mtgcards.h"
 #include "ui/decktrackerplayer.h"
 #include "ui/decktrackeropponent.h"
-#include "ui/preferences.h"
+#include "ui/preferencesscreen.h"
 #include "ui/trayicon.h"
+#include "utils/appsettings.h"
+#include "utils/logger.h"
 
 #include <QApplication>
 
@@ -21,12 +22,13 @@ private:
     DeckTrackerPlayer *deckTrackerPlayer;
     DeckTrackerOpponent *deckTrackerOpponent;
     TrayIcon *trayIcon;
-    Preferences *preferences;
+    PreferencesScreen *preferencesScreen;
     void onNewMatchStart(Match match);
 
 public:
     ArenaTracker(int& argc, char **argv);
     ~ArenaTracker();
+    AppSettings *appSettings;
     Logger *logger;
     MtgArena *mtgArena;
     MtgCards *mtgCards;
