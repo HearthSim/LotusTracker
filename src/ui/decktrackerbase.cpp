@@ -11,10 +11,10 @@
 #endif
 
 DeckTrackerBase::DeckTrackerBase(QWidget *parent) : QMainWindow(parent),
-    ui(new Ui::DeckTracker()), uiScale(1.0), cardBGSkin(APP_SETTINGS->getCardLayout()),
+    ui(new Ui::DeckTracker()), cardBGSkin(APP_SETTINGS->getCardLayout()),
     zoomMinusButton(QRect(0, 0, 0, 0)), zoomPlusButton(QRect(0, 0, 0, 0)),
-    mousePressed(false), mouseRelativePosition(QPoint()),
-    cornerRadius(10), uiPos(10, 10), uiHeight(0), uiWidth(160), deck(Deck())
+    mousePressed(false), mouseRelativePosition(QPoint()), cornerRadius(10),
+    uiPos(10, 10), uiScale(1.0), uiHeight(0), uiWidth(160), deck(Deck())
 {
     ui->setupUi(this);
     setupWindow();
@@ -294,14 +294,21 @@ void DeckTrackerBase::mouseReleaseEvent(QMouseEvent *event)
             uiScale -= 0.05;
             uiPos += QPoint(uiPos.x()*0.05, 0);
             update();
+            onScaleChanged();
         }
-    } else if (zoomPlusButton.contains(event->pos())) {
+        return;
+    }
+    if (zoomPlusButton.contains(event->pos())) {
         if (uiScale < 1.1) {
             uiScale += 0.05;
             uiPos -= QPoint(uiPos.x()*0.05, 0);
             update();
+            onScaleChanged();
         }
-    } else {
+        return;
+    }
+    if (mousePressed) {
+        onPositionChanged();
         mousePressed = false;
         mouseRelativePosition = QPoint();
     }

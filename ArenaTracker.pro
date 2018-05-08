@@ -33,20 +33,20 @@ HEADERS += \
     src/entity/card.h \
     src/entity/deck.h \
     src/entity/user.h \
+    src/entity/match.h \
+    src/entity/matchplayer.h \
     src/mtg/mtgarena.h \
     src/mtg/mtgalogparser.h \
     src/mtg/mtgalogwatcher.h \
     src/mtg/mtgcards.h \
-    src/ui/trayicon.h \
-    src/entity/match.h \
-    src/entity/matchplayer.h \
     src/ui/cardblinkinfo.h \
     src/ui/decktrackerbase.h \
     src/ui/decktrackerplayer.h \
     src/ui/decktrackeropponent.h \
+    src/ui/preferencesscreen.h \
+    src/ui/trayicon.h \
     src/utils/appsettings.h \
-    src/utils/logger.h \
-    src/ui/preferencesscreen.h
+    src/utils/logger.h
 
 SOURCES += \
     src/main.cpp \
@@ -56,13 +56,13 @@ SOURCES += \
     src/mtg/mtgalogparser.cpp \
     src/mtg/mtgalogwatcher.cpp \
     src/mtg/mtgcards.cpp \
-    src/ui/trayicon.cpp \
     src/ui/decktrackerbase.cpp \
     src/ui/decktrackerplayer.cpp \
     src/ui/decktrackeropponent.cpp \
+    src/ui/preferencesscreen.cpp \
+    src/ui/trayicon.cpp \
     src/utils/appsettings.cpp \
-    src/utils/logger.cpp \
-    src/ui/preferencesscreen.cpp
+    src/utils/logger.cpp
 
 FORMS += \
     src/ui/preferences.ui \

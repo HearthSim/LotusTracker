@@ -16,6 +16,8 @@ private:
     void drawStatistics(QPainter &painter);
 
 protected:
+    void onPositionChanged();
+    void onScaleChanged();
     void afterPaintEvent(QPainter &painter);
 
 public:

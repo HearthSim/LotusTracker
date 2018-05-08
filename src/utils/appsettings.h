@@ -17,6 +17,14 @@ public:
     void setAutoStart(bool enabled);
     QString getCardLayout();
     void setCardLayout(QString cardLayout);
+    QPoint getDeckTrackerPlayerPos();
+    void setDeckTrackerPlayerPos(QPoint pos);
+    qreal getDeckTrackerPlayerScale();
+    void setDeckTrackerPlayerScale(qreal scale);
+    QPoint getDeckTrackerOpponentPos(int uiWidth);
+    void setDeckTrackerOpponentPos(QPoint pos);
+    qreal getDeckTrackerOpponentScale();
+    void setDeckTrackerOpponentScale(qreal scale);
 
 };
 

@@ -17,7 +17,6 @@ class DeckTrackerBase : public QMainWindow
     Q_OBJECT
 private:
     Ui::DeckTracker *ui;
-    qreal uiScale;
     QString cardBGSkin;
     QRect zoomMinusButton, zoomPlusButton;
     bool mousePressed;
@@ -34,10 +33,13 @@ private:
 protected:
     const int cornerRadius;
     QPoint uiPos;
+    qreal uiScale;
     int uiHeight, uiWidth;
     Deck deck;
     void blinkCard(Card* card);
     void paintEvent(QPaintEvent *event);
+    virtual void onPositionChanged() = 0;
+    virtual void onScaleChanged() = 0;
     virtual void afterPaintEvent(QPainter &painter) = 0;
     virtual void mousePressEvent(QMouseEvent *event);
     virtual void mouseMoveEvent(QMouseEvent *event);

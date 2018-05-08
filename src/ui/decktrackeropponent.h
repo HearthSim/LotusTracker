@@ -11,6 +11,8 @@ class DeckTrackerOpponent : public DeckTrackerBase
     Q_OBJECT
 
 protected:
+    void onPositionChanged();
+    void onScaleChanged();
     void afterPaintEvent(QPainter &painter);
 
 public:

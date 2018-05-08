@@ -2,19 +2,27 @@
 #include "../macros.h"
 
 #include <QApplication>
-#include <QDesktopWidget>
 #include <QPoint>
 
 DeckTrackerOpponent::DeckTrackerOpponent(QWidget *parent) : DeckTrackerBase(parent)
 {
-    QRect screen = QApplication::desktop()->screenGeometry();
-    int x = screen.width() - uiWidth - 10;
-    uiPos = QPoint(x, uiPos.y());
+    uiPos = APP_SETTINGS->getDeckTrackerOpponentPos(uiWidth);
+    uiScale = APP_SETTINGS->getDeckTrackerOpponentScale();
 }
 
 DeckTrackerOpponent::~DeckTrackerOpponent()
 {
 
+}
+
+void DeckTrackerOpponent::onPositionChanged()
+{
+    APP_SETTINGS->setDeckTrackerOpponentPos(uiPos);
+}
+
+void DeckTrackerOpponent::onScaleChanged()
+{
+    APP_SETTINGS->setDeckTrackerOpponentScale(uiScale);
 }
 
 void DeckTrackerOpponent::afterPaintEvent(QPainter &painter)

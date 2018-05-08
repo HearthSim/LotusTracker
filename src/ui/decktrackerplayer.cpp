@@ -5,7 +5,8 @@
 
 DeckTrackerPlayer::DeckTrackerPlayer(QWidget *parent) : DeckTrackerBase(parent)
 {
-    uiPos = QPoint(10, 10);
+    uiPos = APP_SETTINGS->getDeckTrackerPlayerPos();
+    uiScale = APP_SETTINGS->getDeckTrackerPlayerScale();
     // Statistics
     int statisticsFontSize = 8;
 #if defined Q_OS_MAC
@@ -20,6 +21,16 @@ DeckTrackerPlayer::DeckTrackerPlayer(QWidget *parent) : DeckTrackerBase(parent)
 DeckTrackerPlayer::~DeckTrackerPlayer()
 {
 
+}
+
+void DeckTrackerPlayer::onPositionChanged()
+{
+    APP_SETTINGS->setDeckTrackerPlayerPos(uiPos);
+}
+
+void DeckTrackerPlayer::onScaleChanged()
+{
+    APP_SETTINGS->setDeckTrackerPlayerScale(uiScale);
 }
 
 void DeckTrackerPlayer::afterPaintEvent(QPainter &painter)
