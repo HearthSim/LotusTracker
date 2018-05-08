@@ -43,6 +43,7 @@ signals:
     void sgnMatchCreated(Match match);
     void sgnMatchInfoSeats(QList<MatchPlayer>);
     void sgnMatchInfoResultMatch(int winningTeamId);
+    void sgnPlayerRankInfo(QPair<QString, int> playerRankInfo);
     void sgnPlayerDeckSelected(Deck deck);
     void sgnPlayerDrawCard(Card* card);
     void sgnOpponentPlayCard(Card* card);

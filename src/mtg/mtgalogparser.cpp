@@ -227,7 +227,14 @@ void MtgaLogParser::parseMatchInfo(QString json)
 
 void MtgaLogParser::parsePlayerRankInfo(QString json)
 {
-
+    QJsonObject jsonPlayerRankInfo = Transformations::stringToJsonObject(json);
+    if (jsonPlayerRankInfo.empty()) {
+        return;
+    }
+    QJsonObject jsonConstructed = jsonPlayerRankInfo["constructed"].toObject();
+    QString rankClass = jsonConstructed["class"].toString();
+    int rankTier = jsonConstructed["tier"].toInt();
+    emit sgnPlayerRankInfo(qMakePair(rankClass, rankTier));
 }
 
 void MtgaLogParser::parsePlayerDeckSelected(QString json)

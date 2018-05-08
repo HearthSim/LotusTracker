@@ -130,6 +130,20 @@ private slots:
         QVERIFY(matchWinningTeamId == 1);
     }
 
+    void testParsePlayerRankInfo()
+    {
+        qRegisterMetaType<QPair<QString, int>>();
+        QString log;
+        READ_LOG("PlayerRankInfo.txt", log);
+        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnPlayerRankInfo);
+        mtgaLogParser->parse(log);
+
+        QCOMPARE(spy.count(), 1);
+        QList<QVariant> args = spy.takeFirst();
+        QPair<QString, int> playerRankInfo = args.first().value<QPair<QString, int>>();
+        QVERIFY(playerRankInfo.first == "Intermediate" && playerRankInfo.second == 1);
+    }
+
     void testParsePlayerDeckSelected()
     {
         qRegisterMetaType<Deck>();

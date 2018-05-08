@@ -1,0 +1,22 @@
+3/18/2018 5:04:09 PM Response 56: Event.GetCombinedRankInfo {
+  "constructed": {
+    "playerId": "A3461766D418FFE6",
+    "class": "Intermediate",
+    "classHighWaterMark": "Intermediate",
+    "tier": 1,
+    "progress": 90,
+    "streak": -1,
+    "wins": 56,
+    "losses": 31
+  },
+  "limited": {
+    "playerId": "A3461766D418FFE6",
+    "class": "New",
+    "classHighWaterMark": "New",
+    "tier": 0,
+    "progress": 0,
+    "streak": 0,
+    "wins": 0,
+    "losses": 0
+  }
+}

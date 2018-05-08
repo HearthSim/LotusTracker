@@ -14,5 +14,6 @@
         <file>res/PlayerDeckSelected.txt</file>
         <file>res/PlayerInventory.txt</file>
         <file>res/PlayerInventoryUpdate.txt</file>
+        <file>res/PlayerRankInfo.txt</file>
     </qresource>
 </RCC>
