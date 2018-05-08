@@ -27,7 +27,7 @@ void DeckTrackerOpponent::onScaleChanged()
 
 void DeckTrackerOpponent::afterPaintEvent(QPainter &painter)
 {
-    UNUSED(painter)
+    UNUSED(painter);
 }
 
 void DeckTrackerOpponent::onOpponentPlayCard(Card* card)

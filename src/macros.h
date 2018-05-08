@@ -1,6 +1,6 @@
 #ifndef MACROS_H
 
-#define UNUSED(x) (void)(x);
+#define UNUSED(x) (void)(x)
 
 #include "arenatracker.h"
 #include "utils/appsettings.h"

@@ -5,9 +5,14 @@
 
 #define KEY_AUTOSTART "autoStart"
 #define KEY_TRACKER_LAYOUT "Tracker/layout"
+
+#define KEY_TRACKER_PLAYER_ENABLED "Tracker/playerPrefs/enabled"
+#define KEY_TRACKER_PLAYER_STATISTICS "Tracker/playerPrefs/statistics"
 #define KEY_TRACKER_PLAYER_X "Tracker/playerPrefs/x"
 #define KEY_TRACKER_PLAYER_Y "Tracker/playerPrefs/y"
 #define KEY_TRACKER_PLAYER_SCALE "Tracker/playerPrefs/scale"
+
+#define KEY_TRACKER_OPPONENT_ENABLED "Tracker/opponentPrefs/enabled"
 #define KEY_TRACKER_OPPONENT_X "Tracker/opponentPrefs/x"
 #define KEY_TRACKER_OPPONENT_Y "Tracker/opponentPrefs/y"
 #define KEY_TRACKER_OPPONENT_SCALE "Tracker/opponentPrefs/scale"
@@ -19,10 +24,10 @@ AppSettings::AppSettings(QObject *parent) : QObject(parent)
 
 bool AppSettings::isAutoStartEnabled()
 {
-    return settings.value(KEY_AUTOSTART).toBool();
+    return settings.value(KEY_AUTOSTART, false).toBool();
 }
 
-void AppSettings::setAutoStart(bool enabled)
+void AppSettings::enableAutoStart(bool enabled)
 {
     settings.setValue(KEY_AUTOSTART, enabled);
 }
@@ -35,6 +40,28 @@ QString AppSettings::getCardLayout()
 void AppSettings::setCardLayout(QString cardLayout)
 {
     settings.setValue(KEY_TRACKER_LAYOUT, cardLayout);
+}
+
+// Deck tracker player
+
+bool AppSettings::isDeckTrackerPlayerEnabled()
+{
+    return settings.value(KEY_TRACKER_PLAYER_ENABLED, true).toBool();
+}
+
+void AppSettings::enableDeckTrackerPlayer(bool enabled)
+{
+    settings.setValue(KEY_TRACKER_PLAYER_ENABLED, enabled);
+}
+
+bool AppSettings::isDeckTrackerPlayerStatisticsEnabled()
+{
+    return settings.value(KEY_TRACKER_PLAYER_STATISTICS, true).toBool();
+}
+
+void AppSettings::enableDeckTrackerPlayerStatistics(bool enabled)
+{
+    settings.setValue(KEY_TRACKER_PLAYER_STATISTICS, enabled);
 }
 
 QPoint AppSettings::getDeckTrackerPlayerPos()
@@ -58,6 +85,18 @@ qreal AppSettings::getDeckTrackerPlayerScale()
 void AppSettings::setDeckTrackerPlayerScale(qreal scale)
 {
     settings.setValue(KEY_TRACKER_PLAYER_SCALE, scale);
+}
+
+// Deck tracker opponent
+
+bool AppSettings::isDeckTrackerOpponentEnabled()
+{
+    return settings.value(KEY_TRACKER_OPPONENT_ENABLED, true).toBool();
+}
+
+void AppSettings::enableDeckTrackerOpponent(bool enabled)
+{
+    settings.setValue(KEY_TRACKER_OPPONENT_ENABLED, enabled);
 }
 
 QPoint AppSettings::getDeckTrackerOpponentPos(int uiWidth)

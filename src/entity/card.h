@@ -4,7 +4,7 @@
 #include <QRegularExpression>
 #include <QString>
 
-#include "../extensions.h"
+#include "../transformations.h"
 
 class Card
 {
@@ -34,7 +34,7 @@ public:
 
     QString manaColorIdentityAsString()
     {
-        return Extensions::colorIdentityListToString(manaColorIdentity);
+        return Transformations::colorIdentityListToString(manaColorIdentity);
     }
 
 };

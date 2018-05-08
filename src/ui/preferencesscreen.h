@@ -14,6 +14,9 @@ private:
     void closeEvent(QCloseEvent *event);
     void onStartAtLoginChanged();
     void onCardLayoutChanged();
+    void onPTEnabledChanged();
+    void onPTStatisticsChanged();
+    void onOTEnabledChanged();
     Ui::Preferences *ui;
 
 public:
@@ -22,6 +25,9 @@ public:
 
 signals:
     void sgnTrackerCardLayout(QString cardLayout);
+    void sgnPlayerTrackerEnabled(bool enabled);
+    void sgnPlayerTrackerStatistics(bool enabled);
+    void sgnOpponentTrackerEnabled(bool enabled);
 
 };
 

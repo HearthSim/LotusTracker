@@ -124,7 +124,7 @@ void DeckTrackerBase::drawCover(QPainter &painter)
     }
     QSize coverImgSize(coverRect.width() - 1, coverRect.height() - 1);
     QImage coverImgScaled = coverImg.scaled(coverImgSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    QImage coverImgWithRoundedCorders = Extensions::applyRoundedCorners2Image(coverImgScaled, cornerRadius);
+    QImage coverImgWithRoundedCorders = Transformations::applyRoundedCorners2Image(coverImgScaled, cornerRadius);
     painter.drawImage(uiPos.x() + 1, uiPos.y() + 1, coverImgWithRoundedCorders);
     uiHeight = coverRect.height();
 }
@@ -196,7 +196,7 @@ void DeckTrackerBase::drawDeckCards(QPainter &painter)
         cardBGImg.load(QString(":/res/cards/%1/%2.png").arg(cardBGSkin).arg(cardManaIdentity));
         QImage cardBGImgScaled = cardBGImg.scaled(cardBGImgSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
         if (cardQtdRemains == 0) {
-            cardBGImgScaled = Extensions::toGrayscale(cardBGImgScaled);
+            cardBGImgScaled = Transformations::toGrayscale(cardBGImgScaled);
         }
         painter.drawImage(uiPos.x(), cardBGY, cardBGImgScaled);
         // Card quantity
@@ -257,7 +257,7 @@ void DeckTrackerBase::drawMana(QPainter &painter, QChar manaSymbol, int manaSize
     manaImg.load(QString(":/res/mana/%1.png").arg(manaSymbol));
     QImage manaImgScaled = manaImg.scaled(manaSize, manaSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     if (grayscale) {
-        painter.drawImage(manaX, manaY, Extensions::toGrayscale(manaImgScaled));
+        painter.drawImage(manaX, manaY, Transformations::toGrayscale(manaImgScaled));
     } else {
         painter.drawImage(manaX, manaY, manaImgScaled);
     }

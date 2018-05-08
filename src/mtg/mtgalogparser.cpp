@@ -1,6 +1,6 @@
 #include "mtgalogparser.h"
 #include "../arenatracker.h"
-#include "../extensions.h"
+#include "../transformations.h"
 #include "../macros.h"
 
 #include <QList>
@@ -117,7 +117,7 @@ void MtgaLogParser::parseMsg(QPair<QString, QString> msg)
 
 void MtgaLogParser::parsePlayerInventory(QString json)
 {
-    QJsonObject jsonPlayerIventory = Extensions::stringToJsonObject(json);
+    QJsonObject jsonPlayerIventory = Transformations::stringToJsonObject(json);
     if (jsonPlayerIventory.empty()) {
         return;
     }
@@ -132,7 +132,7 @@ void MtgaLogParser::parsePlayerInventory(QString json)
 
 void MtgaLogParser::parsePlayerInventoryUpdate(QString json)
 {
-    QJsonObject jsonPlayerIventoryUpdate = Extensions::stringToJsonObject(json);
+    QJsonObject jsonPlayerIventoryUpdate = Transformations::stringToJsonObject(json);
     if (jsonPlayerIventoryUpdate.empty()) {
         return;
     }
@@ -149,7 +149,7 @@ void MtgaLogParser::parsePlayerInventoryUpdate(QString json)
 
 void MtgaLogParser::parsePlayerCollection(QString json)
 {
-    QJsonObject jsonPlayerCollection = Extensions::stringToJsonObject(json);
+    QJsonObject jsonPlayerCollection = Transformations::stringToJsonObject(json);
     if (jsonPlayerCollection.empty()) {
         return;
     }
@@ -163,7 +163,7 @@ void MtgaLogParser::parsePlayerCollection(QString json)
 
 void MtgaLogParser::parsePlayerDecks(QString json)
 {
-    QJsonArray jsonPlayerDecks = Extensions::stringToJsonArray(json);
+    QJsonArray jsonPlayerDecks = Transformations::stringToJsonArray(json);
     if (jsonPlayerDecks.empty()) {
         return;
     }
@@ -177,7 +177,7 @@ void MtgaLogParser::parsePlayerDecks(QString json)
 
 void MtgaLogParser::parseMatchCreated(QString json)
 {
-    QJsonObject jsonMatchCreated = Extensions::stringToJsonObject(json);
+    QJsonObject jsonMatchCreated = Transformations::stringToJsonObject(json);
     if (jsonMatchCreated.empty()) {
         return;
     }
@@ -190,7 +190,7 @@ void MtgaLogParser::parseMatchCreated(QString json)
 
 void MtgaLogParser::parseMatchInfo(QString json)
 {
-    QJsonObject jsonMatchInfo = Extensions::stringToJsonObject(json);
+    QJsonObject jsonMatchInfo = Transformations::stringToJsonObject(json);
     if (jsonMatchInfo.empty()) {
         return;
     }
@@ -232,7 +232,7 @@ void MtgaLogParser::parsePlayerRankInfo(QString json)
 
 void MtgaLogParser::parsePlayerDeckSelected(QString json)
 {
-    QJsonObject jsonPlayerDeckSelected = Extensions::stringToJsonObject(json);
+    QJsonObject jsonPlayerDeckSelected = Transformations::stringToJsonObject(json);
     if (jsonPlayerDeckSelected.empty()) {
         return;
     }

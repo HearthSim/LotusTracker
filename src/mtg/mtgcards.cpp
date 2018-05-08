@@ -1,5 +1,5 @@
 #include "mtgcards.h"
-#include "../extensions.h"
+#include "../transformations.h"
 #include "../macros.h"
 
 #include <QByteArray>
@@ -70,7 +70,7 @@ void MtgCards::downloadSetOnFinish()
         return;
   	}
 
-    QJsonObject jsonSet = Extensions::stringToJsonObject(jsonData);
+    QJsonObject jsonSet = Transformations::stringToJsonObject(jsonData);
     if (jsonSet.empty()) {
         return;
     }
@@ -101,7 +101,7 @@ void MtgCards::loadSetFromFile(QString setFileName) {
     }
 
     QByteArray jsonData = setFile.readAll();
-    QJsonObject jsonSet = Extensions::stringToJsonObject(jsonData);
+    QJsonObject jsonSet = Transformations::stringToJsonObject(jsonData);
     if (jsonSet.empty()) {
         return;
     }

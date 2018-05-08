@@ -2,7 +2,7 @@
 #define DECK_H
 
 #include "card.h"
-#include "../extensions.h"
+#include "../transformations.h"
 
 #include <QString>
 #include <QMap>
@@ -32,7 +32,7 @@ private:
         if (distinctManaSymbols.size() >= 4) {
             return QString("m");
         } else {
-            return Extensions::colorIdentityListToString(distinctManaSymbols);
+            return Transformations::colorIdentityListToString(distinctManaSymbols);
         }
     }
 

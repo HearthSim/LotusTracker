@@ -18,12 +18,13 @@ class ArenaTracker : public QApplication
     Q_OBJECT
 
 private:
-    void setupApp();
+    bool isMatchRunning;
     DeckTrackerPlayer *deckTrackerPlayer;
     DeckTrackerOpponent *deckTrackerOpponent;
     TrayIcon *trayIcon;
     PreferencesScreen *preferencesScreen;
-    void onNewMatchStart(Match match);
+    void setupApp();
+    void createPreferencesScreen();
 
 public:
     ArenaTracker(int& argc, char **argv);
@@ -33,11 +34,14 @@ public:
     MtgArena *mtgArena;
     MtgCards *mtgCards;
     int run();
-    void showPreferences();
+    void showPreferencesScreen();
 
 signals:
 
-public slots:
+private slots:
+    void onNewMatchStart(Match match);
+    void onDeckTrackerPlayerEnabledChange(bool enabled);
+    void onDeckTrackerOpponentEnabledChange(bool enabled);
 };
 
 #endif // ARENATRACKER_H

@@ -2,8 +2,8 @@
 #include "macros.h"
 #include "mtg/mtgalogparser.h"
 
-ArenaTracker::ArenaTracker(int& argc, char **argv)
-    : QApplication(argc, argv)
+ArenaTracker::ArenaTracker(int& argc, char **argv): QApplication(argc, argv),
+    isMatchRunning(false)
 {
     setupApp();
     logger = new Logger(this);
@@ -12,12 +12,8 @@ ArenaTracker::ArenaTracker(int& argc, char **argv)
     mtgArena = new MtgArena(this, mtgCards);
     deckTrackerPlayer = new DeckTrackerPlayer();
     deckTrackerOpponent = new DeckTrackerOpponent();
-    preferencesScreen = new PreferencesScreen();
     trayIcon = new TrayIcon(this);
-    connect(preferencesScreen, &PreferencesScreen::sgnTrackerCardLayout,
-            deckTrackerPlayer, &DeckTrackerPlayer::changeCardLayout);
-    connect(preferencesScreen, &PreferencesScreen::sgnTrackerCardLayout,
-            deckTrackerOpponent, &DeckTrackerPlayer::changeCardLayout);
+    createPreferencesScreen();
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchCreated,
             this, &ArenaTracker::onNewMatchStart);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckSelected,
@@ -39,6 +35,11 @@ ArenaTracker::~ArenaTracker()
     DEL(mtgArena)
 }
 
+int ArenaTracker::run()
+{
+    return exec();
+}
+
 void ArenaTracker::setupApp()
 {
 #if defined Q_OS_MAC
@@ -54,21 +55,58 @@ void ArenaTracker::setupApp()
   setWindowIcon(icon);
 }
 
-int ArenaTracker::run()
+void ArenaTracker::createPreferencesScreen()
 {
-    return exec();
+    preferencesScreen = new PreferencesScreen();
+    // Deck tracker player
+    connect(preferencesScreen, &PreferencesScreen::sgnPlayerTrackerEnabled,
+            this, &ArenaTracker::onDeckTrackerPlayerEnabledChange);
+    connect(preferencesScreen, &PreferencesScreen::sgnTrackerCardLayout,
+            deckTrackerPlayer, &DeckTrackerPlayer::changeCardLayout);
+    connect(preferencesScreen, &PreferencesScreen::sgnPlayerTrackerStatistics,
+            deckTrackerPlayer, &DeckTrackerPlayer::onStatisticsEnabled);
+    // Deck tracker opponent
+    connect(preferencesScreen, &PreferencesScreen::sgnOpponentTrackerEnabled,
+            this, &ArenaTracker::onDeckTrackerOpponentEnabledChange);
+    connect(preferencesScreen, &PreferencesScreen::sgnTrackerCardLayout,
+            deckTrackerOpponent, &DeckTrackerPlayer::changeCardLayout);
+
 }
 
-
-void ArenaTracker::onNewMatchStart(Match match)
-{
-    UNUSED(match)
-    deckTrackerPlayer->show();
-    deckTrackerOpponent->show();
-}
-
-void ArenaTracker::showPreferences()
+void ArenaTracker::showPreferencesScreen()
 {
     preferencesScreen->show();
     preferencesScreen->raise();
+}
+
+void ArenaTracker::onNewMatchStart(Match match)
+{
+    UNUSED(match);
+    isMatchRunning = true;
+    if (APP_SETTINGS->isDeckTrackerPlayerEnabled()) {
+        deckTrackerPlayer->show();
+    }
+    if (APP_SETTINGS->isDeckTrackerOpponentEnabled()) {
+        deckTrackerOpponent->show();
+    }
+}
+
+void ArenaTracker::onDeckTrackerPlayerEnabledChange(bool enabled)
+{
+    if (enabled && isMatchRunning) {
+        deckTrackerPlayer->show();
+    }
+    if (!enabled && isMatchRunning) {
+        deckTrackerPlayer->hide();
+    }
+}
+
+void ArenaTracker::onDeckTrackerOpponentEnabledChange(bool enabled)
+{
+    if (enabled && isMatchRunning) {
+        deckTrackerOpponent->show();
+    }
+    if (!enabled && isMatchRunning) {
+        deckTrackerOpponent->hide();
+    }
 }

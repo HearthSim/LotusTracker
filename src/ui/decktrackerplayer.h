@@ -11,6 +11,7 @@ class DeckTrackerPlayer : public DeckTrackerBase
 {
     Q_OBJECT
 private:
+    bool isStatisticsEnabled;
     QPen bgPen, statisticsPen;
     QFont statisticsFont;
     void drawStatistics(QPainter &painter);
@@ -29,6 +30,7 @@ signals:
 public slots:
     void onPlayerDeckSelected(Deck deck);
     void onPlayerDrawCard(Card* card);
+    void onStatisticsEnabled(bool enabled);
 };
 
 #endif // DECKTRACKERPLAYER_H

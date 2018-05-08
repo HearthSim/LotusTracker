@@ -6,7 +6,7 @@
 #include <QJsonDocument>
 #include <QString>
 
-class Extensions final
+class Transformations final
 {
 public:
     static QString colorIdentityListToString(QList<QChar> distinctManaSymbols);

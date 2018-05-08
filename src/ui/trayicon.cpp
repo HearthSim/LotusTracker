@@ -58,14 +58,14 @@ void TrayIcon::TrayIconActivated(QSystemTrayIcon::ActivationReason reason) {
         openPreferences();
     }
 #else
-    UNUSED(reason)
+    UNUSED(reason);
 #endif
 }
 
 void TrayIcon::openPreferences()
 {
     ArenaTracker *arenaTracker = (ArenaTracker*) qApp->instance();
-    arenaTracker->showPreferences();
+    arenaTracker->showPreferencesScreen();
 }
 
 void TrayIcon::configTestMenu(QMenu* testMenu)

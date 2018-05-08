@@ -5,6 +5,7 @@
 
 DeckTrackerPlayer::DeckTrackerPlayer(QWidget *parent) : DeckTrackerBase(parent)
 {
+    isStatisticsEnabled = APP_SETTINGS->isDeckTrackerPlayerStatisticsEnabled();
     uiPos = APP_SETTINGS->getDeckTrackerPlayerPos();
     uiScale = APP_SETTINGS->getDeckTrackerPlayerScale();
     // Statistics
@@ -35,19 +36,8 @@ void DeckTrackerPlayer::onScaleChanged()
 
 void DeckTrackerPlayer::afterPaintEvent(QPainter &painter)
 {
-    drawStatistics(painter);
-}
-
-void DeckTrackerPlayer::onPlayerDeckSelected(Deck deck)
-{
-    this->deck = deck;
-    LOGD(QString("Loading deck %1").arg(deck.name));
-}
-
-void DeckTrackerPlayer::onPlayerDrawCard(Card* card)
-{
-    if (deck.drawCard(card)) {
-        blinkCard(card);
+    if (isStatisticsEnabled) {
+        drawStatistics(painter);
     }
 }
 
@@ -96,4 +86,23 @@ void DeckTrackerPlayer::drawStatistics(QPainter &painter)
     drawText(painter, statisticsFont, statisticsPen, statisticsText2, statisticsTextOptions, false,
              statisticsTextX, statisticsText2Y, statisticsTextHeight, uiWidth - statisticsBorderMargin);
     uiHeight += coverRect.height();
+}
+
+void DeckTrackerPlayer::onPlayerDeckSelected(Deck deck)
+{
+    this->deck = deck;
+    LOGD(QString("Loading deck %1").arg(deck.name));
+}
+
+void DeckTrackerPlayer::onPlayerDrawCard(Card* card)
+{
+    if (deck.drawCard(card)) {
+        blinkCard(card);
+    }
+}
+
+void DeckTrackerPlayer::onStatisticsEnabled(bool enabled)
+{
+    isStatisticsEnabled = enabled;
+    update();
 }

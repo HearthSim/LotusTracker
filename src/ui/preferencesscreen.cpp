@@ -18,9 +18,15 @@ PreferencesScreen::PreferencesScreen(QWidget *parent) : QMainWindow(parent),
     } else {
         ui->rbMTGA->setChecked(true);
     }
+    ui->cbPTEnabled->setChecked(APP_SETTINGS->isDeckTrackerPlayerEnabled());
+    ui->cbPTStatistics->setChecked(APP_SETTINGS->isDeckTrackerPlayerStatisticsEnabled());
+    ui->cbOTEnabled->setChecked(APP_SETTINGS->isDeckTrackerOpponentEnabled());
     connect(ui->cbStartAtLogin, &QCheckBox::clicked, this, &PreferencesScreen::onStartAtLoginChanged);
     connect(ui->rbMTG, &QRadioButton::clicked, this, &PreferencesScreen::onCardLayoutChanged);
     connect(ui->rbMTGA, &QRadioButton::clicked, this, &PreferencesScreen::onCardLayoutChanged);
+    connect(ui->cbPTEnabled, &QCheckBox::clicked, this, &PreferencesScreen::onPTEnabledChanged);
+    connect(ui->cbPTStatistics, &QCheckBox::clicked, this, &PreferencesScreen::onPTStatisticsChanged);
+    connect(ui->cbOTEnabled, &QCheckBox::clicked, this, &PreferencesScreen::onOTEnabledChanged);
 }
 
 PreferencesScreen::~PreferencesScreen()
@@ -43,7 +49,7 @@ void PreferencesScreen::onStartAtLoginChanged()
     WinAutoStart::setEnabled(enabled);
 #endif
     LOGD(QString("StartAtLogin: %1").arg(enabled ? "true" : "false"));
-    APP_SETTINGS->setAutoStart(enabled);
+    APP_SETTINGS->enableAutoStart(enabled);
 }
 
 void PreferencesScreen::onCardLayoutChanged()
@@ -52,6 +58,31 @@ void PreferencesScreen::onCardLayoutChanged()
     if (ui->rbMTG->isChecked()) {
         cardLayout = "mtg";
     }
-    APP_SETTINGS->setCardLayout(cardLayout);
     emit sgnTrackerCardLayout(cardLayout);
+    LOGD(QString("CardLayout: %1").arg(cardLayout));
+    APP_SETTINGS->setCardLayout(cardLayout);
+}
+
+void PreferencesScreen::onPTEnabledChanged()
+{
+    bool enabled = ui->cbPTEnabled->isChecked();
+    emit sgnPlayerTrackerEnabled(enabled);
+    LOGD(QString("PlayerTrackerEnabled: %1").arg(enabled ? "true" : "false"));
+    APP_SETTINGS->enableDeckTrackerPlayer(enabled);
+}
+
+void PreferencesScreen::onPTStatisticsChanged()
+{
+    bool enabled = ui->cbPTStatistics->isChecked();
+    emit sgnPlayerTrackerStatistics(enabled);
+    LOGD(QString("PlayerTrackerStatistics: %1").arg(enabled ? "true" : "false"));
+    APP_SETTINGS->enableDeckTrackerPlayerStatistics(enabled);
+}
+
+void PreferencesScreen::onOTEnabledChanged()
+{
+    bool enabled = ui->cbOTEnabled->isChecked();
+    emit sgnOpponentTrackerEnabled(enabled);
+    LOGD(QString("DeckTrackerOpponent(: %1").arg(enabled ? "true" : "false"));
+    APP_SETTINGS->enableDeckTrackerOpponent(enabled);
 }
