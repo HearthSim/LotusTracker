@@ -1,4 +1,5 @@
 #include "decktrackeropponent.h"
+#include "../macros.h"
 
 #include <QApplication>
 #include <QDesktopWidget>
@@ -18,7 +19,7 @@ DeckTrackerOpponent::~DeckTrackerOpponent()
 
 void DeckTrackerOpponent::afterPaintEvent(QPainter &painter)
 {
-
+    UNUSED(painter)
 }
 
 void DeckTrackerOpponent::onOpponentPlayCard(Card* card)

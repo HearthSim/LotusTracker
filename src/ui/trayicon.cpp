@@ -73,8 +73,7 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
     // Load Deck
     QAction *loadDeckAction = new QAction(tr("Load Deck"), this);
     connect(loadDeckAction, &QAction::triggered, this, [this](){
-        ArenaTracker *arenaTracker = (ArenaTracker*) qApp;
-        MtgaLogParser *mtgaLogParser = arenaTracker->mtgArena->getLogParser();
+        MtgaLogParser *mtgaLogParser = ARENA_TRACKER->mtgArena->getLogParser();
         emit mtgaLogParser->sgnMatchCreated(Match("Opponent", "Beginner", 0));
         // Player Select Deck
         QString currentDir = QDir::currentPath();
@@ -94,19 +93,17 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
     // Player Draw card
     QAction *playerDrawAction = new QAction(tr("Player Draw"), this);
     connect(playerDrawAction, &QAction::triggered, this, [this](){
-        ArenaTracker *arenaTracker = (ArenaTracker*) qApp->instance();
-        Card* card = arenaTracker->mtgCards->findCard(66825);
-        MtgaLogParser *mtgaLogParser = arenaTracker->mtgArena->getLogParser();
+        Card* card = ARENA_TRACKER->mtgCards->findCard(66825);
+        MtgaLogParser *mtgaLogParser = ARENA_TRACKER->mtgArena->getLogParser();
         emit mtgaLogParser->sgnPlayerDrawCard(card);
     });
     testMenu->addAction(playerDrawAction);
     // Opponent play card
     QAction *opponentPlayAction = new QAction(tr("Opponent Play"), this);
     connect(opponentPlayAction, &QAction::triggered, this, [this](){
-        ArenaTracker *arenaTracker = (ArenaTracker*) qApp->instance();
         int randomCardNumber = rand() % 200;
-        Card* card = arenaTracker->mtgCards->findCard(66619 + randomCardNumber * 2);
-        MtgaLogParser *mtgaLogParser = arenaTracker->mtgArena->getLogParser();
+        Card* card = ARENA_TRACKER->mtgCards->findCard(66619 + randomCardNumber * 2);
+        MtgaLogParser *mtgaLogParser = ARENA_TRACKER->mtgArena->getLogParser();
         emit mtgaLogParser->sgnOpponentPlayCard(card);
     });
     testMenu->addAction(opponentPlayAction);

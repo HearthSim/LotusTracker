@@ -1,5 +1,23 @@
 <RCC>
     <qresource prefix="/">
+        <file>res/cards/mtg/a.png</file>
+        <file>res/cards/mtg/bg.png</file>
+        <file>res/cards/mtg/c.png</file>
+        <file>res/cards/mtg/gu.png</file>
+        <file>res/cards/mtg/m.png</file>
+        <file>res/cards/mtg/rg.png</file>
+        <file>res/cards/mtg/u.png</file>
+        <file>res/cards/mtg/ur.png</file>
+        <file>res/cards/mtg/wb.png</file>
+        <file>res/cards/mtg/b.png</file>
+        <file>res/cards/mtg/br.png</file>
+        <file>res/cards/mtg/g.png</file>
+        <file>res/cards/mtg/gw.png</file>
+        <file>res/cards/mtg/r.png</file>
+        <file>res/cards/mtg/rw.png</file>
+        <file>res/cards/mtg/ub.png</file>
+        <file>res/cards/mtg/w.png</file>
+        <file>res/cards/mtg/wu.png</file>
         <file>res/cards/mtga/a.png</file>
         <file>res/cards/mtga/bg.png</file>
         <file>res/cards/mtga/c.png</file>

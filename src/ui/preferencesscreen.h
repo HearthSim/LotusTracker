@@ -12,12 +12,17 @@ class PreferencesScreen : public QMainWindow
 
 private:
     void closeEvent(QCloseEvent *event);
-    void onStartAtLoginChange();
+    void onStartAtLoginChanged();
+    void onCardLayoutChanged();
     Ui::Preferences *ui;
 
 public:
     explicit PreferencesScreen(QWidget *parent = 0);
     ~PreferencesScreen();
+
+signals:
+    void sgnTrackerCardLayout(QString cardLayout);
+
 };
 
 #endif // PREFERENCESSCREEN_H

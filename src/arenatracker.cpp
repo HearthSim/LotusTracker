@@ -14,6 +14,10 @@ ArenaTracker::ArenaTracker(int& argc, char **argv)
     deckTrackerOpponent = new DeckTrackerOpponent();
     preferencesScreen = new PreferencesScreen();
     trayIcon = new TrayIcon(this);
+    connect(preferencesScreen, &PreferencesScreen::sgnTrackerCardLayout,
+            deckTrackerPlayer, &DeckTrackerPlayer::changeCardLayout);
+    connect(preferencesScreen, &PreferencesScreen::sgnTrackerCardLayout,
+            deckTrackerOpponent, &DeckTrackerPlayer::changeCardLayout);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchCreated,
             this, &ArenaTracker::onNewMatchStart);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckSelected,

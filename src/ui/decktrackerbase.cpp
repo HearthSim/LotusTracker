@@ -11,7 +11,7 @@
 #endif
 
 DeckTrackerBase::DeckTrackerBase(QWidget *parent) : QMainWindow(parent),
-    ui(new Ui::DeckTracker()), uiScale(1.0), cardBGSkin("mtga"),
+    ui(new Ui::DeckTracker()), uiScale(1.0), cardBGSkin(APP_SETTINGS->getCardLayout()),
     zoomMinusButton(QRect(0, 0, 0, 0)), zoomPlusButton(QRect(0, 0, 0, 0)),
     mousePressed(false), mouseRelativePosition(QPoint()),
     cornerRadius(10), uiPos(10, 10), uiHeight(0), uiWidth(160), deck(Deck())
@@ -56,7 +56,7 @@ void DeckTrackerBase::setupWindow()
 void DeckTrackerBase::setupDrawTools()
 {
     bgPen = QPen(QColor(160, 160, 160));
-    bgPen.setWidth(2);
+    bgPen.setWidth(1);
     int belerenID = QFontDatabase::addApplicationFont(":/res/fonts/Beleren-Bold.ttf");
     // Card
     int cardFontSize = 7;
@@ -76,6 +76,12 @@ void DeckTrackerBase::setupDrawTools()
     titleFont.setPointSize(titleFontSize);
     titleFont.setBold(true);
     titlePen = QPen(Qt::white);
+}
+
+void DeckTrackerBase::changeCardLayout(QString cardLayout)
+{
+    cardBGSkin = cardLayout;
+    update();
 }
 
 void DeckTrackerBase::blinkCard(Card* card)
@@ -116,7 +122,7 @@ void DeckTrackerBase::drawCover(QPainter &painter)
     if (!coverImgLoaded) {
         coverImg.load(":/res/covers/default.jpg");
     }
-    QSize coverImgSize(coverRect.width() - 2, coverRect.height() - 2);
+    QSize coverImgSize(coverRect.width() - 1, coverRect.height() - 1);
     QImage coverImgScaled = coverImg.scaled(coverImgSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     QImage coverImgWithRoundedCorders = Extensions::applyRoundedCorners2Image(coverImgScaled, cornerRadius);
     painter.drawImage(uiPos.x() + 1, uiPos.y() + 1, coverImgWithRoundedCorders);
@@ -220,8 +226,8 @@ void DeckTrackerBase::drawDeckCards(QPainter &painter)
             CardBlinkInfo *cardBlinkInfo = cardsBlinkInfo[card];
             if (cardBlinkInfo->alpha > 0) {
                 QRect coverRect(uiPos.x(), cardBGY, cardBGImgSize.width(), cardBGImgSize.height());
-                painter.setPen(QPen(QColor(255, 255, 0)));
-                painter.setBrush(QBrush(QColor(255, 255, 0, cardBlinkInfo->alpha)));
+                painter.setPen(QPen(QColor(255, 255, 255)));
+                painter.setBrush(QBrush(QColor(255, 255, 255, cardBlinkInfo->alpha)));
                 painter.drawRoundedRect(coverRect, cornerRadius, cornerRadius);
             } else {
                 cardsBlinkInfo.remove(cardBlinkInfo->card);

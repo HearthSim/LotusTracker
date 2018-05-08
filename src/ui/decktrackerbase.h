@@ -57,6 +57,7 @@ public:
 signals:
 
 public slots:
+    void changeCardLayout(QString cardLayout);
 };
 
 #endif // DECKTRACKERUI_H

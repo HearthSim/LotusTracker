@@ -18,11 +18,13 @@ if(__CLASSNAME__){ \
     __CLASSNAME__ = NULL; \
 } \
 
-#define APP_SETTINGS ((ArenaTracker*) qApp->instance())->appSettings
+#define ARENA_TRACKER ((ArenaTracker*) qApp->instance())
+
+#define APP_SETTINGS ARENA_TRACKER->appSettings
 
 #define LOGI(msg) \
 if(qApp){ \
-    ((ArenaTracker*) qApp->instance())->logger->logI(__PRETTY_FUNCTION__, __LINE__, msg); \
+    ARENA_TRACKER->logger->logI(__PRETTY_FUNCTION__, __LINE__, msg); \
 } else if(LOG_IN_TESTS) { \
     QString prettyFunction = QString(__PRETTY_FUNCTION__); \
     QString function = prettyFunction.left(prettyFunction.indexOf("::")); \
@@ -31,7 +33,7 @@ if(qApp){ \
 
 #define LOGD(msg) \
 if(qApp){ \
-    ((ArenaTracker*) qApp->instance())->logger->logD(__PRETTY_FUNCTION__, __LINE__, msg); \
+    ARENA_TRACKER->logger->logD(__PRETTY_FUNCTION__, __LINE__, msg); \
 } else if(LOG_IN_TESTS) { \
     QString prettyFunction = QString(__PRETTY_FUNCTION__); \
     QString function = prettyFunction.left(prettyFunction.indexOf("::")); \
@@ -40,7 +42,7 @@ if(qApp){ \
 
 #define LOGW(msg) \
 if(qApp){ \
-    ((ArenaTracker*) qApp->instance())->logger->logW(__PRETTY_FUNCTION__, __LINE__, msg); \
+    ARENA_TRACKER->logger->logW(__PRETTY_FUNCTION__, __LINE__, msg); \
 } else if(LOG_IN_TESTS) { \
     QString prettyFunction = QString(__PRETTY_FUNCTION__); \
     QString function = prettyFunction.left(prettyFunction.indexOf("::")); \

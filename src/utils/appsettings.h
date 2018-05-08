@@ -15,6 +15,8 @@ public:
 
     bool isAutoStartEnabled();
     void setAutoStart(bool enabled);
+    QString getCardLayout();
+    void setCardLayout(QString cardLayout);
 
 };
 

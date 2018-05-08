@@ -8,11 +8,19 @@
 #include "../utils/winautostart.h"
 #endif
 
-PreferencesScreen::PreferencesScreen(QWidget *parent) : QMainWindow(parent), ui(new Ui::Preferences())
+PreferencesScreen::PreferencesScreen(QWidget *parent) : QMainWindow(parent),
+    ui(new Ui::Preferences())
 {
     ui->setupUi(this);
     ui->cbStartAtLogin->setChecked(APP_SETTINGS->isAutoStartEnabled());
-    connect(ui->cbStartAtLogin, &QAbstractButton::clicked, this, &PreferencesScreen::onStartAtLoginChange);
+    if (APP_SETTINGS->getCardLayout() == "mtg") {
+        ui->rbMTG->setChecked(true);
+    } else {
+        ui->rbMTGA->setChecked(true);
+    }
+    connect(ui->cbStartAtLogin, &QCheckBox::clicked, this, &PreferencesScreen::onStartAtLoginChanged);
+    connect(ui->rbMTG, &QRadioButton::clicked, this, &PreferencesScreen::onCardLayoutChanged);
+    connect(ui->rbMTGA, &QRadioButton::clicked, this, &PreferencesScreen::onCardLayoutChanged);
 }
 
 PreferencesScreen::~PreferencesScreen()
@@ -26,7 +34,7 @@ void PreferencesScreen::closeEvent(QCloseEvent *event)
     event->ignore();
 }
 
-void PreferencesScreen::onStartAtLoginChange()
+void PreferencesScreen::onStartAtLoginChanged()
 {
     bool enabled = ui->cbStartAtLogin->isChecked();
 #if defined Q_OS_MAC
@@ -36,4 +44,14 @@ void PreferencesScreen::onStartAtLoginChange()
 #endif
     LOGD(QString("StartAtLogin: %1").arg(enabled ? "true" : "false"));
     APP_SETTINGS->setAutoStart(enabled);
+}
+
+void PreferencesScreen::onCardLayoutChanged()
+{
+    QString cardLayout = "mtga";
+    if (ui->rbMTG->isChecked()) {
+        cardLayout = "mtg";
+    }
+    APP_SETTINGS->setCardLayout(cardLayout);
+    emit sgnTrackerCardLayout(cardLayout);
 }
