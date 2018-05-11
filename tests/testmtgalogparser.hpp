@@ -159,4 +159,24 @@ private slots:
         QVERIFY(playerDeckSelected.cards[forerunnerOfTheEmpireCard] == 2);
     }
 
+    void testParsePlayerAcceptsHand()
+    {
+        QString log;
+        READ_LOG("PlayerAcceptHand.txt", log);
+        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnPlayerAcceptsHand);
+        mtgaLogParser->parse(log);
+
+        QCOMPARE(spy.count(), 1);
+    }
+
+    void testParsePlayerTakesMulligan()
+    {
+        QString log;
+        READ_LOG("PlayerTakesMulligan.txt", log);
+        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnPlayerTakeMulligan);
+        mtgaLogParser->parse(log);
+
+        QCOMPARE(spy.count(), 1);
+    }
+
 };

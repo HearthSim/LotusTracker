@@ -9,11 +9,13 @@
         <file>res/MatchCreated.txt</file>
         <file>res/MatchInfoResult.txt</file>
         <file>res/MatchInfoSeats.txt</file>
+        <file>res/PlayerAcceptHand.txt</file>
         <file>res/PlayerCollection.txt</file>
         <file>res/PlayerDecks.txt</file>
         <file>res/PlayerDeckSelected.txt</file>
         <file>res/PlayerInventory.txt</file>
         <file>res/PlayerInventoryUpdate.txt</file>
         <file>res/PlayerRankInfo.txt</file>
+        <file>res/PlayerTakesMulligan.txt</file>
     </qresource>
 </RCC>

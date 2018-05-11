@@ -1,0 +1,18 @@
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+3/25/2018 9:44:44 PM: A3461766D418FFE6 to Match: ClientToGreMessage
+{
+  "clientId": "A3461766D418FFE6",
+  "requestId": 5,
+  "clientToGreMessage": {
+    "type": "ClientMessageType_MulliganResp",
+    "systemSeatId": 2,
+    "gameStateId": 3,
+    "respId": 14,
+    "mulliganResp": {
+      "decision": "MulliganOption_Mulligan"
+    }
+  }
+}
+ 

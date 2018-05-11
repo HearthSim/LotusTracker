@@ -27,7 +27,7 @@ private:
     void parseMatchInfo(QString json);
     void parsePlayerRankInfo(QString json);
     void parsePlayerDeckSelected(QString json);
-    void parsePlayerMulliganInfo(QString json);
+    void parsePlayerToClientMessages(QString json);
     void parsePlayerMatchState(QString json);
 
 public:
@@ -45,6 +45,8 @@ signals:
     void sgnMatchInfoResultMatch(int winningTeamId);
     void sgnPlayerRankInfo(QPair<QString, int> playerRankInfo);
     void sgnPlayerDeckSelected(Deck deck);
+    void sgnPlayerAcceptsHand();
+    void sgnPlayerTakeMulligan();
     void sgnPlayerDrawCard(Card* card);
     void sgnOpponentPlayCard(Card* card);
 

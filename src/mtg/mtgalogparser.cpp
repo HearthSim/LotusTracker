@@ -109,7 +109,7 @@ void MtgaLogParser::parseMsg(QPair<QString, QString> msg)
     } else if (msg.first == "Event.DeckSelect"){
         parsePlayerDeckSelected(msg.second);
     } else if (msg.first == "ClientToGreMessage"){
-        parsePlayerMulliganInfo(msg.second);
+        parsePlayerToClientMessages(msg.second);
     } else if (msg.first == "GreToClientEvent"){
         parsePlayerMatchState(msg.second);
     }
@@ -248,9 +248,24 @@ void MtgaLogParser::parsePlayerDeckSelected(QString json)
     emit sgnPlayerDeckSelected(deckSelected);
 }
 
-void MtgaLogParser::parsePlayerMulliganInfo(QString json)
+void MtgaLogParser::parsePlayerToClientMessages(QString json)
 {
-
+    QJsonObject jsonPlayerToClientMsg = Transformations::stringToJsonObject(json);
+    if (jsonPlayerToClientMsg.empty()) {
+        return;
+    }
+    if (!jsonPlayerToClientMsg.contains("clientToGreMessage")) {
+        return;
+    }
+    QJsonObject jsonClientToGreMsg = jsonPlayerToClientMsg["clientToGreMessage"].toObject();
+    QJsonObject jsonMulliganResp = jsonClientToGreMsg["mulliganResp"].toObject();
+    QString action = jsonMulliganResp["decision"].toString();
+    if (action == "MulliganOption_AcceptHand") {
+        emit sgnPlayerAcceptsHand();
+    }
+    if (action == "MulliganOption_Mulligan") {
+        emit sgnPlayerTakeMulligan();
+    }
 }
 
 void MtgaLogParser::parsePlayerMatchState(QString json)
