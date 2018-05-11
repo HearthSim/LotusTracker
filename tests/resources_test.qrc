@@ -6,6 +6,8 @@
         <file>res/sets/OGW.json</file>
         <file>res/sets/RIX.json</file>
         <file>res/sets/XLN.json</file>
+        <file>res/DieRollResultsResp.txt</file>
+        <file>res/DieRollResultsResp2.txt</file>
         <file>res/MatchCreated.txt</file>
         <file>res/MatchInfoResult.txt</file>
         <file>res/MatchInfoSeats.txt</file>

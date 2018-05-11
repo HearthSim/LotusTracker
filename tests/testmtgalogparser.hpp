@@ -199,4 +199,30 @@ private slots:
         QCOMPARE(spy.count(), 1);
     }
 
+    void testParseSeatIdThatGoFirst()
+    {
+        QString log;
+        READ_LOG("DieRollResultsResp.txt", log);
+        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnSeatIdThatGoFirst);
+        mtgaLogParser->parse(log);
+
+        QCOMPARE(spy.count(), 1);
+        QList<QVariant> args = spy.takeFirst();
+        int seatIdThatGoFirst = args.first().toInt();
+        QVERIFY(seatIdThatGoFirst == 1);
+    }
+
+    void testParseSeatIdThatGoFirst2()
+    {
+        QString log;
+        READ_LOG("DieRollResultsResp2.txt", log);
+        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnSeatIdThatGoFirst);
+        mtgaLogParser->parse(log);
+
+        QCOMPARE(spy.count(), 1);
+        QList<QVariant> args = spy.takeFirst();
+        int seatIdThatGoFirst = args.first().toInt();
+        QVERIFY(seatIdThatGoFirst == 2);
+    }
+
 };

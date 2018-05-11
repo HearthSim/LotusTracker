@@ -109,9 +109,9 @@ void MtgaLogParser::parseMsg(QPair<QString, QString> msg)
     } else if (msg.first == "Event.DeckSelect"){
         parsePlayerDeckSelected(msg.second);
     } else if (msg.first == "ClientToGreMessage"){
-        parsePlayerToClientMessages(msg.second);
+        parseClientToGreMessages(msg.second);
     } else if (msg.first == "GreToClientEvent"){
-        parsePlayerMatchState(msg.second);
+        parseGreToClientMessages(msg.second);
     }
 }
 
@@ -248,7 +248,7 @@ void MtgaLogParser::parsePlayerDeckSelected(QString json)
     emit sgnPlayerDeckSelected(deckSelected);
 }
 
-void MtgaLogParser::parsePlayerToClientMessages(QString json)
+void MtgaLogParser::parseClientToGreMessages(QString json)
 {
     QJsonObject jsonPlayerToClientMsg = Transformations::stringToJsonObject(json);
     if (jsonPlayerToClientMsg.empty()) {
@@ -276,7 +276,41 @@ void MtgaLogParser::parsePlayerToClientMessages(QString json)
     }
 }
 
-void MtgaLogParser::parsePlayerMatchState(QString json)
+void MtgaLogParser::parseGreToClientMessages(QString json)
 {
+    QJsonObject jsonPlayerToClientMsg = Transformations::stringToJsonObject(json);
+    if (jsonPlayerToClientMsg.empty()) {
+        return;
+    }
+    QJsonObject jsonGreToClientEvent = jsonPlayerToClientMsg["greToClientEvent"].toObject();
+    QJsonArray jsonGreToClientMessages = jsonGreToClientEvent["greToClientMessages"].toArray();
+    for (QJsonValueRef jsonMessageRef : jsonGreToClientMessages) {
+        QJsonObject jsonMessage = jsonMessageRef.toObject();
+        QString messageType = jsonMessage["type"].toString();
+        if (messageType == "GREMessageType_DieRollResultsResp") {
+            parseDieRollResult(jsonMessage);
+        }
+    }
 
 }
+
+void MtgaLogParser::parseDieRollResult(QJsonObject jsonMessage)
+{
+    QJsonObject jsonDieRollResultsResp = jsonMessage["dieRollResultsResp"].toObject();
+    QJsonArray jsonPlayerDieRolls = jsonDieRollResultsResp["playerDieRolls"].toArray();
+    QPair<int, int> highRollValueAndSeatId = qMakePair(0, 0);
+    for (QJsonValueRef jsonPlayerDieRollsRef : jsonPlayerDieRolls) {
+        QJsonObject jsonPlayerDieRoll = jsonPlayerDieRollsRef.toObject();
+//        if (jsonPlayerDieRoll.contains("rollValue")) {
+            int playerDieRollValue = jsonPlayerDieRoll["rollValue"].toInt();
+            if (playerDieRollValue > highRollValueAndSeatId.first) {
+                int playerSeatId = jsonPlayerDieRoll["systemSeatId"].toInt();
+                highRollValueAndSeatId = qMakePair(playerDieRollValue, playerSeatId);
+            }
+//        }
+    }
+    if (highRollValueAndSeatId.first > 0) {
+        emit sgnSeatIdThatGoFirst(highRollValueAndSeatId.second);
+    }
+}
+
