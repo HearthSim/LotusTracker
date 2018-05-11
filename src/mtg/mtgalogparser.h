@@ -6,6 +6,7 @@
 #include "../entity/user.h"
 #include "../entity/match.h"
 #include "../entity/matchplayer.h"
+#include "../entity/matchzone.h"
 
 #include <QJsonObject>
 #include <QObject>
@@ -31,6 +32,7 @@ private:
     void parseClientToGreMessages(QString json);
     void parseGreToClientMessages(QString json);
     void parseDieRollResult(QJsonObject jsonMessage);
+    void parseGameStateFull(QJsonObject jsonMessage);
 
 public:
     explicit MtgaLogParser(QObject *parent = nullptr, MtgCards *mtgCards = nullptr);
@@ -52,6 +54,7 @@ signals:
     void sgnPlayerCardHoverEnds();
     void sgnPlayerTakeMulligan();
     void sgnSeatIdThatGoFirst(int seatId);
+    void sgnMatchStartZones(QList<MatchZone> zones);
     void sgnPlayerDrawCard(Card* card);
     void sgnOpponentPlayCard(Card* card);
 

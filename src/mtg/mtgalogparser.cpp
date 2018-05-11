@@ -290,6 +290,13 @@ void MtgaLogParser::parseGreToClientMessages(QString json)
         if (messageType == "GREMessageType_DieRollResultsResp") {
             parseDieRollResult(jsonMessage);
         }
+        if (messageType == "GREMessageType_GameStateMessage") {
+            QJsonObject jsonGameStateMessage = jsonMessage["gameStateMessage"].toObject();
+            QString gameStateType = jsonGameStateMessage["type"].toString();
+            if (gameStateType == "GameStateType_Full") {
+                parseGameStateFull(jsonGameStateMessage);
+            }
+        }
     }
 
 }
@@ -301,16 +308,36 @@ void MtgaLogParser::parseDieRollResult(QJsonObject jsonMessage)
     QPair<int, int> highRollValueAndSeatId = qMakePair(0, 0);
     for (QJsonValueRef jsonPlayerDieRollsRef : jsonPlayerDieRolls) {
         QJsonObject jsonPlayerDieRoll = jsonPlayerDieRollsRef.toObject();
-//        if (jsonPlayerDieRoll.contains("rollValue")) {
-            int playerDieRollValue = jsonPlayerDieRoll["rollValue"].toInt();
-            if (playerDieRollValue > highRollValueAndSeatId.first) {
-                int playerSeatId = jsonPlayerDieRoll["systemSeatId"].toInt();
-                highRollValueAndSeatId = qMakePair(playerDieRollValue, playerSeatId);
-            }
-//        }
+        int playerDieRollValue = jsonPlayerDieRoll["rollValue"].toInt();
+        if (playerDieRollValue > highRollValueAndSeatId.first) {
+            int playerSeatId = jsonPlayerDieRoll["systemSeatId"].toInt();
+            highRollValueAndSeatId = qMakePair(playerDieRollValue, playerSeatId);
+        }
     }
     if (highRollValueAndSeatId.first > 0) {
         emit sgnSeatIdThatGoFirst(highRollValueAndSeatId.second);
     }
 }
 
+void MtgaLogParser::parseGameStateFull(QJsonObject jsonMessage)
+{
+    QJsonArray jsonZones = jsonMessage["zones"].toArray();
+    QList<MatchZone> zones;
+    for (QJsonValueRef jsonZoneRef : jsonZones) {
+        QJsonObject jsonZone = jsonZoneRef.toObject();
+        QString zoneTypeName = jsonZone["type"].toString();
+        ZoneType zoneType = MatchZone::zoneTypeFromName(zoneTypeName);
+        if (zoneType != ZoneType_UNKNOWN) {
+            int id = jsonZone["id"].toInt();
+            int ownerSeatId = jsonZone["ownerSeatId"].toInt();
+            QMap<int, int> objectIds;
+            QJsonArray jsonObjectInstanceIds = jsonZone["objectInstanceIds"].toArray();
+            for (QJsonValueRef jsonObjectIdRef : jsonObjectInstanceIds) {
+                int objectId = jsonObjectIdRef.toInt();
+                objectIds[objectId] = 0;
+            }
+            zones << MatchZone(id, ownerSeatId, zoneType, objectIds);
+        }
+    }
+    emit sgnMatchStartZones(zones);
+}

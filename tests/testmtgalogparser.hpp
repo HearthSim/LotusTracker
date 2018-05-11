@@ -12,6 +12,7 @@
 Q_DECLARE_METATYPE(Deck)
 Q_DECLARE_METATYPE(Match)
 Q_DECLARE_METATYPE(MatchPlayer)
+Q_DECLARE_METATYPE(MatchZone)
 Q_DECLARE_METATYPE(PlayerInventory)
 
 class TestMtgaLogParser: public QObject
@@ -40,7 +41,7 @@ private slots:
         QCOMPARE(spy.count(), 1);
         QList<QVariant> args = spy.takeFirst();
         PlayerInventory playerInventory = args.first().value<PlayerInventory>();
-        QVERIFY(playerInventory.wcMythic == 6);
+        QCOMPARE(playerInventory.wcMythic, 6);
     }
 
     void testParsePlayerInventoryUpdate()
@@ -53,7 +54,7 @@ private slots:
         QCOMPARE(spy.count(), 1);
         QList<QVariant> args = spy.takeFirst();
         QList<int> newCards = args.first().value<QList<int>>();
-        QVERIFY(newCards.first() == 65963);
+        QCOMPARE(newCards.first(), 65963);
     }
 
     void testParsePlayerCollection()
@@ -67,8 +68,8 @@ private slots:
         QCOMPARE(spy.count(), 1);
         QList<QVariant> args = spy.takeFirst();
         QMap<int, int> playerCollection = args.first().value<QMap<int, int>>();
-        QVERIFY(playerCollection.size() == 421);
-        QVERIFY(playerCollection[66041] == 3);
+        QCOMPARE(playerCollection.size(), 421);
+        QCOMPARE(playerCollection[66041], 3);
     }
 
     void testParsePlayerDecks()
@@ -82,9 +83,9 @@ private slots:
         QCOMPARE(spy.count(), 1);
         QList<QVariant> args = spy.takeFirst();
         QList<Deck> playerDecks = args.first().value<QList<Deck>>();
-        QVERIFY(playerDecks.size() == 3);
+        QCOMPARE(playerDecks.size(), 3);
         Card* vraskasContemptCard = mtgCards->findCard(66223);
-        QVERIFY(playerDecks.first().cards[vraskasContemptCard] == 3);
+        QCOMPARE(playerDecks.first().cards[vraskasContemptCard], 3);
     }
 
     void testParseMatchCreated()
@@ -98,8 +99,8 @@ private slots:
         QCOMPARE(spy.count(), 1);
         QList<QVariant> args = spy.takeFirst();
         Match match = args.first().value<Match>();
-        QVERIFY(match.opponentRankClass == "Beginner");
-        QVERIFY(match.opponentRankTier == 1);
+        QCOMPARE(match.opponentRankClass, "Beginner");
+        QCOMPARE(match.opponentRankTier, 1);
     }
 
     void testParseMatchInfoSeats()
@@ -114,7 +115,8 @@ private slots:
         QList<QVariant> args = spy.takeFirst();
         QList<MatchPlayer> matchPlayers = args.first().value<QList<MatchPlayer>>();
         MatchPlayer matchPlayer = matchPlayers.first();
-        QVERIFY(matchPlayer.name == "Edipo2s" && matchPlayer.seat == 1);
+        QCOMPARE(matchPlayer.name, "Edipo2s");
+        QCOMPARE(matchPlayer.seat, 1);
     }
 
     void testParseMatchInfoMatchResult()
@@ -127,7 +129,7 @@ private slots:
         QCOMPARE(spy.count(), 1);
         QList<QVariant> args = spy.takeFirst();
         int matchWinningTeamId = args.first().toInt();
-        QVERIFY(matchWinningTeamId == 1);
+        QCOMPARE(matchWinningTeamId, 1);
     }
 
     void testParsePlayerRankInfo()
@@ -141,7 +143,8 @@ private slots:
         QCOMPARE(spy.count(), 1);
         QList<QVariant> args = spy.takeFirst();
         QPair<QString, int> playerRankInfo = args.first().value<QPair<QString, int>>();
-        QVERIFY(playerRankInfo.first == "Intermediate" && playerRankInfo.second == 1);
+        QCOMPARE(playerRankInfo.first, "Intermediate");
+        QCOMPARE(playerRankInfo.second, 1);
     }
 
     void testParsePlayerDeckSelected()
@@ -156,7 +159,7 @@ private slots:
         QList<QVariant> args = spy.takeFirst();
         Deck playerDeckSelected = args.first().value<Deck>();
         Card* forerunnerOfTheEmpireCard = mtgCards->findCard(66821);
-        QVERIFY(playerDeckSelected.cards[forerunnerOfTheEmpireCard] == 2);
+        QCOMPARE(playerDeckSelected.cards[forerunnerOfTheEmpireCard], 2);
     }
 
     void testParsePlayerAcceptsHand()
@@ -209,7 +212,7 @@ private slots:
         QCOMPARE(spy.count(), 1);
         QList<QVariant> args = spy.takeFirst();
         int seatIdThatGoFirst = args.first().toInt();
-        QVERIFY(seatIdThatGoFirst == 1);
+        QCOMPARE(seatIdThatGoFirst, 1);
     }
 
     void testParseSeatIdThatGoFirst2()
@@ -222,7 +225,26 @@ private slots:
         QCOMPARE(spy.count(), 1);
         QList<QVariant> args = spy.takeFirst();
         int seatIdThatGoFirst = args.first().toInt();
-        QVERIFY(seatIdThatGoFirst == 2);
+        QCOMPARE(seatIdThatGoFirst, 2);
+    }
+
+    void testParseMatchStartZones()
+    {
+        qRegisterMetaType<QList<MatchZone>>();
+        QString log;
+        READ_LOG("GameStateFull.txt", log);
+        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnMatchStartZones);
+        mtgaLogParser->parse(log);
+
+        QCOMPARE(spy.count(), 1);
+        QList<QVariant> args = spy.takeFirst();
+        QList<MatchZone> zones = args.first().value<QList<MatchZone>>();
+        QCOMPARE(zones.size(), 10);
+        for (MatchZone zone : zones) {
+            if (zone.type == ZoneType_LIBRARY) {
+                QCOMPARE(zone.objectIds.size(), 60);
+            }
+        }
     }
 
 };

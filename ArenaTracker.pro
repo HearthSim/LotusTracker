@@ -46,7 +46,8 @@ HEADERS += \
     src/ui/preferencesscreen.h \
     src/ui/trayicon.h \
     src/utils/appsettings.h \
-    src/utils/logger.h
+    src/utils/logger.h \
+    src/entity/matchzone.h
 
 SOURCES += \
     src/arenatracker.cpp \
