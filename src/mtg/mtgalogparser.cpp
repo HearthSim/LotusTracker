@@ -254,17 +254,25 @@ void MtgaLogParser::parsePlayerToClientMessages(QString json)
     if (jsonPlayerToClientMsg.empty()) {
         return;
     }
-    if (!jsonPlayerToClientMsg.contains("clientToGreMessage")) {
-        return;
-    }
     QJsonObject jsonClientToGreMsg = jsonPlayerToClientMsg["clientToGreMessage"].toObject();
-    QJsonObject jsonMulliganResp = jsonClientToGreMsg["mulliganResp"].toObject();
-    QString action = jsonMulliganResp["decision"].toString();
-    if (action == "MulliganOption_AcceptHand") {
-        emit sgnPlayerAcceptsHand();
+    if (jsonClientToGreMsg.contains("uiMessage")) {
+        QJsonObject jsonUiMessage = jsonClientToGreMsg["uiMessage"].toObject();
+        QJsonObject jsonOnHover = jsonUiMessage["onHover"].toObject();
+        if (jsonOnHover.contains("objectId")) {
+            emit sgnPlayerCardHoverStarts();
+        } else  {
+            emit sgnPlayerCardHoverEnds();
+        }
     }
-    if (action == "MulliganOption_Mulligan") {
-        emit sgnPlayerTakeMulligan();
+    if (jsonClientToGreMsg.contains("mulliganResp")) {
+        QJsonObject jsonMulliganResp = jsonClientToGreMsg["mulliganResp"].toObject();
+        QString action = jsonMulliganResp["decision"].toString();
+        if (action == "MulliganOption_AcceptHand") {
+            emit sgnPlayerAcceptsHand();
+        }
+        if (action == "MulliganOption_Mulligan") {
+            emit sgnPlayerTakeMulligan();
+        }
     }
 }
 

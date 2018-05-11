@@ -46,6 +46,8 @@ signals:
     void sgnPlayerRankInfo(QPair<QString, int> playerRankInfo);
     void sgnPlayerDeckSelected(Deck deck);
     void sgnPlayerAcceptsHand();
+    void sgnPlayerCardHoverStarts();
+    void sgnPlayerCardHoverEnds();
     void sgnPlayerTakeMulligan();
     void sgnPlayerDrawCard(Card* card);
     void sgnOpponentPlayCard(Card* card);

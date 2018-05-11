@@ -179,4 +179,24 @@ private slots:
         QCOMPARE(spy.count(), 1);
     }
 
+    void testParsePlayerCardHoverStarts()
+    {
+        QString log;
+        READ_LOG("PlayerCardHoverStarts.txt", log);
+        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnPlayerCardHoverStarts);
+        mtgaLogParser->parse(log);
+
+        QCOMPARE(spy.count(), 1);
+    }
+
+    void testParsePlayerCardHoverEnds()
+    {
+        QString log;
+        READ_LOG("PlayerCardHoverEnds.txt", log);
+        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnPlayerCardHoverEnds);
+        mtgaLogParser->parse(log);
+
+        QCOMPARE(spy.count(), 1);
+    }
+
 };
