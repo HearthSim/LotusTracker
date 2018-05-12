@@ -340,7 +340,42 @@ void MtgaLogParser::parseGameStateDiff(QJsonObject jsonMessage)
             }
         }
     }
-    MatchStateDiff matchStateDiff(zones);
+    QMap<int, int> idsChanged;
+    QMap<int, QPair<int, int>> idsZoneChanged;
+    QJsonArray jsonAnnotations = jsonMessage["annotations"].toArray();
+    for (QJsonValueRef jsonAnnotationRef : jsonAnnotations) {
+        QJsonObject jsonAnnotation = jsonAnnotationRef.toObject();
+        QString type = jsonAnnotation["type"].toArray().first().toString();
+        if (type == "AnnotationType_ObjectIdChanged") {
+            QJsonArray jsonDetails = jsonAnnotation["details"].toArray();
+            int orgId, newId;
+            for (QJsonValueRef jsonDetailsRef : jsonDetails) {
+                QJsonObject details = jsonDetailsRef.toObject();
+                QString key = details["key"].toString();
+                if (key == "orig_id") {
+                    orgId = details["valueInt32"].toArray().first().toInt();
+                } else if (key == "new_id") {
+                    newId = details["valueInt32"].toArray().first().toInt();
+                }
+            }
+            idsChanged[orgId] = newId;
+        } else if (type == "AnnotationType_ZoneTransfer") {
+            int transferId = jsonAnnotation["affectedIds"].toArray().first().toInt();
+            QJsonArray jsonDetails = jsonAnnotation["details"].toArray();
+            int srcZone, destZone;
+            for (QJsonValueRef jsonDetailsRef : jsonDetails) {
+                QJsonObject details = jsonDetailsRef.toObject();
+                QString key = details["key"].toString();
+                if (key == "zone_src") {
+                    srcZone = details["valueInt32"].toArray().first().toInt();
+                } else if (key == "zone_dest") {
+                    destZone = details["valueInt32"].toArray().first().toInt();
+                }
+            }
+            idsZoneChanged[transferId] = qMakePair(srcZone, destZone);
+        }
+    }
+    MatchStateDiff matchStateDiff(zones, idsChanged, idsZoneChanged);
     emit sgnMatchStateDiff(matchStateDiff);
 }
 

@@ -248,7 +248,7 @@ private slots:
         }
     }
 
-    void testParseMatchStateDiff()
+    void testParseMatchStateDiffObjectIds()
     {
         qRegisterMetaType<MatchStateDiff>();
         QString log;
@@ -274,6 +274,21 @@ private slots:
         QCOMPARE(zonePlayerHand.objectIds[107], 64913);
         QCOMPARE(zonePlayerHand.objectIds[108], 65889);
         QCOMPARE(zonePlayerHand.objectIds[109], 66223);
+    }
+
+    void testParseMatchStateDiffZoneTransfer()
+    {
+        qRegisterMetaType<MatchStateDiff>();
+        QString log;
+        READ_LOG("GameStateDiff2.txt", log);
+        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnMatchStateDiff);
+        mtgaLogParser->parse(log);
+
+        QCOMPARE(spy.count(), 1);
+        QList<QVariant> args = spy.takeFirst();
+        MatchStateDiff matchStateDiff = args.first().value<MatchStateDiff>();
+        QCOMPARE(matchStateDiff.idsChanged()[287], 343);
+        QCOMPARE(matchStateDiff.idsZoneChanged()[343], qMakePair(35, 28));
     }
 
 };
