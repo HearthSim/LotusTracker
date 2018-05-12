@@ -340,41 +340,20 @@ void MtgaLogParser::parseGameStateDiff(QJsonObject jsonMessage)
             }
         }
     }
-    QMap<int, int> idsChanged;
-    QMap<int, QPair<int, int>> idsZoneChanged;
-    QJsonArray jsonAnnotations = jsonMessage["annotations"].toArray();
-    for (QJsonValueRef jsonAnnotationRef : jsonAnnotations) {
+    QJsonArray jsonGSMAnnotations = jsonMessage["annotations"].toArray();
+    for (QJsonValueRef jsonAnnotationRef : jsonGSMAnnotations) {
         QJsonObject jsonAnnotation = jsonAnnotationRef.toObject();
         QString type = jsonAnnotation["type"].toArray().first().toString();
-        if (type == "AnnotationType_ObjectIdChanged") {
-            QJsonArray jsonDetails = jsonAnnotation["details"].toArray();
-            int orgId, newId;
-            for (QJsonValueRef jsonDetailsRef : jsonDetails) {
-                QJsonObject details = jsonDetailsRef.toObject();
-                QString key = details["key"].toString();
-                if (key == "orig_id") {
-                    orgId = details["valueInt32"].toArray().first().toInt();
-                } else if (key == "new_id") {
-                    newId = details["valueInt32"].toArray().first().toInt();
-                }
+        if (type == "AnnotationType_NewTurnStarted") {
+            QJsonObject jsonTurnInfo = jsonMessage["turnInfo"].toObject();
+            if (jsonTurnInfo.contains("turnNumber")) {
+                int turnNumber = jsonTurnInfo["turnNumber"].toInt();
+                emit sgnNewTurnStarted(turnNumber);
             }
-            idsChanged[orgId] = newId;
-        } else if (type == "AnnotationType_ZoneTransfer") {
-            int transferId = jsonAnnotation["affectedIds"].toArray().first().toInt();
-            QJsonArray jsonDetails = jsonAnnotation["details"].toArray();
-            int srcZone, destZone;
-            for (QJsonValueRef jsonDetailsRef : jsonDetails) {
-                QJsonObject details = jsonDetailsRef.toObject();
-                QString key = details["key"].toString();
-                if (key == "zone_src") {
-                    srcZone = details["valueInt32"].toArray().first().toInt();
-                } else if (key == "zone_dest") {
-                    destZone = details["valueInt32"].toArray().first().toInt();
-                }
-            }
-            idsZoneChanged[transferId] = qMakePair(srcZone, destZone);
         }
     }
+    QMap<int, int> idsChanged = getIdsChanged(jsonGSMAnnotations);
+    QMap<int, QPair<int, int>> idsZoneChanged = getIdsZoneChanged(jsonGSMAnnotations);
     MatchStateDiff matchStateDiff(zones, idsChanged, idsZoneChanged);
     emit sgnMatchStateDiff(matchStateDiff);
 }
@@ -400,4 +379,54 @@ QList<MatchZone> MtgaLogParser::getMatchZones(QJsonObject jsonGameStateMessage)
         }
     }
     return zones;
+}
+
+QMap<int, int> MtgaLogParser::getIdsChanged(QJsonArray jsonGSMAnnotations)
+{
+
+    QMap<int, int> idsChanged;
+    for (QJsonValueRef jsonAnnotationRef : jsonGSMAnnotations) {
+        QJsonObject jsonAnnotation = jsonAnnotationRef.toObject();
+        QString type = jsonAnnotation["type"].toArray().first().toString();
+        if (type == "AnnotationType_ObjectIdChanged") {
+            QJsonArray jsonDetails = jsonAnnotation["details"].toArray();
+            int orgId, newId;
+            for (QJsonValueRef jsonDetailsRef : jsonDetails) {
+                QJsonObject details = jsonDetailsRef.toObject();
+                QString key = details["key"].toString();
+                if (key == "orig_id") {
+                    orgId = details["valueInt32"].toArray().first().toInt();
+                } else if (key == "new_id") {
+                    newId = details["valueInt32"].toArray().first().toInt();
+                }
+            }
+            idsChanged[orgId] = newId;
+        }
+    }
+    return idsChanged;
+}
+
+QMap<int, QPair<int, int>> MtgaLogParser::getIdsZoneChanged(QJsonArray jsonGSMAnnotations)
+{
+    QMap<int, QPair<int, int>> idsZoneChanged;
+    for (QJsonValueRef jsonAnnotationRef : jsonGSMAnnotations) {
+        QJsonObject jsonAnnotation = jsonAnnotationRef.toObject();
+        QString type = jsonAnnotation["type"].toArray().first().toString();
+        if (type == "AnnotationType_ZoneTransfer") {
+            int transferId = jsonAnnotation["affectedIds"].toArray().first().toInt();
+            QJsonArray jsonDetails = jsonAnnotation["details"].toArray();
+            int srcZone, destZone;
+            for (QJsonValueRef jsonDetailsRef : jsonDetails) {
+                QJsonObject details = jsonDetailsRef.toObject();
+                QString key = details["key"].toString();
+                if (key == "zone_src") {
+                    srcZone = details["valueInt32"].toArray().first().toInt();
+                } else if (key == "zone_dest") {
+                    destZone = details["valueInt32"].toArray().first().toInt();
+                }
+            }
+            idsZoneChanged[transferId] = qMakePair(srcZone, destZone);
+        }
+    }
+    return idsZoneChanged;
 }

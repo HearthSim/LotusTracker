@@ -252,7 +252,7 @@ private slots:
     {
         qRegisterMetaType<MatchStateDiff>();
         QString log;
-        READ_LOG("GameStateDiff1.txt", log);
+        READ_LOG("GameStateDiffObjectIds.txt", log);
         QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnMatchStateDiff);
         mtgaLogParser->parse(log);
 
@@ -280,7 +280,7 @@ private slots:
     {
         qRegisterMetaType<MatchStateDiff>();
         QString log;
-        READ_LOG("GameStateDiff2.txt", log);
+        READ_LOG("GameStateDiffZoneTransfer.txt", log);
         QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnMatchStateDiff);
         mtgaLogParser->parse(log);
 
@@ -289,6 +289,19 @@ private slots:
         MatchStateDiff matchStateDiff = args.first().value<MatchStateDiff>();
         QCOMPARE(matchStateDiff.idsChanged()[287], 343);
         QCOMPARE(matchStateDiff.idsZoneChanged()[343], qMakePair(35, 28));
+    }
+
+    void testParseMatchStateDiffNewTurn()
+    {
+        QString log;
+        READ_LOG("GameStateDiffNewTurn.txt", log);
+        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnNewTurnStarted);
+        mtgaLogParser->parse(log);
+
+        QCOMPARE(spy.count(), 1);
+        QList<QVariant> args = spy.takeFirst();
+        int turnNumber = args.first().toInt();
+        QCOMPARE(turnNumber, 2);
     }
 
 };

@@ -9,9 +9,9 @@
         <file>res/DieRollResultsResp.txt</file>
         <file>res/DieRollResultsResp2.txt</file>
         <file>res/GameStateFull.txt</file>
-        <file>res/GameStateDiff1.txt</file>
-        <file>res/GameStateDiff2.txt</file>
-        <file>res/GameStateDiff3.txt</file>
+        <file>res/GameStateDiffNewTurn.txt</file>
+        <file>res/GameStateDiffObjectIds.txt</file>
+        <file>res/GameStateDiffZoneTransfer.txt</file>
         <file>res/MatchCreated.txt</file>
         <file>res/MatchInfoResult.txt</file>
         <file>res/MatchInfoSeats.txt</file>

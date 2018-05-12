@@ -36,6 +36,8 @@ private:
     void parseGameStateFull(QJsonObject jsonMessage);
     void parseGameStateDiff(QJsonObject jsonMessage);
     QList<MatchZone> getMatchZones(QJsonObject jsonGameStateMessage);
+    QMap<int, int> getIdsChanged(QJsonArray jsonGSMAnnotations);
+    QMap<int, QPair<int, int>> getIdsZoneChanged(QJsonArray jsonGSMAnnotations);
 
 public:
     explicit MtgaLogParser(QObject *parent = nullptr, MtgCards *mtgCards = nullptr);
@@ -59,6 +61,7 @@ signals:
     void sgnSeatIdThatGoFirst(int seatId);
     void sgnMatchStartZones(QList<MatchZone> zones);
     void sgnMatchStateDiff(MatchStateDiff matchStateDiff);
+    void sgnNewTurnStarted(int turnNumber);
     void sgnPlayerDrawCard(Card* card);
     void sgnOpponentPlayCard(Card* card);
 
