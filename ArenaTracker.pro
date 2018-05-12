@@ -35,6 +35,8 @@ HEADERS += \
     src/entity/user.h \
     src/entity/match.h \
     src/entity/matchplayer.h \
+    src/entity/matchstatediff.h \
+    src/entity/matchzone.h \
     src/mtg/mtgarena.h \
     src/mtg/mtgalogparser.h \
     src/mtg/mtgalogwatcher.h \
@@ -46,8 +48,7 @@ HEADERS += \
     src/ui/preferencesscreen.h \
     src/ui/trayicon.h \
     src/utils/appsettings.h \
-    src/utils/logger.h \
-    src/entity/matchzone.h
+    src/utils/logger.h
 
 SOURCES += \
     src/arenatracker.cpp \

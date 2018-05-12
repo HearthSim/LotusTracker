@@ -12,6 +12,7 @@
 Q_DECLARE_METATYPE(Deck)
 Q_DECLARE_METATYPE(Match)
 Q_DECLARE_METATYPE(MatchPlayer)
+Q_DECLARE_METATYPE(MatchStateDiff)
 Q_DECLARE_METATYPE(MatchZone)
 Q_DECLARE_METATYPE(PlayerInventory)
 
@@ -99,8 +100,8 @@ private slots:
         QCOMPARE(spy.count(), 1);
         QList<QVariant> args = spy.takeFirst();
         Match match = args.first().value<Match>();
-        QCOMPARE(match.opponentRankClass, "Beginner");
-        QCOMPARE(match.opponentRankTier, 1);
+        QCOMPARE(match.opponentRankClass(), "Beginner");
+        QCOMPARE(match.opponentRankTier(), 1);
     }
 
     void testParseMatchInfoSeats()
@@ -115,8 +116,8 @@ private slots:
         QList<QVariant> args = spy.takeFirst();
         QList<MatchPlayer> matchPlayers = args.first().value<QList<MatchPlayer>>();
         MatchPlayer matchPlayer = matchPlayers.first();
-        QCOMPARE(matchPlayer.name, "Edipo2s");
-        QCOMPARE(matchPlayer.seat, 1);
+        QCOMPARE(matchPlayer.name(), "Edipo2s");
+        QCOMPARE(matchPlayer.seatId(), 1);
     }
 
     void testParseMatchInfoMatchResult()
@@ -241,10 +242,38 @@ private slots:
         QList<MatchZone> zones = args.first().value<QList<MatchZone>>();
         QCOMPARE(zones.size(), 10);
         for (MatchZone zone : zones) {
-            if (zone.type == ZoneType_LIBRARY) {
+            if (zone.type() == ZoneType_LIBRARY) {
                 QCOMPARE(zone.objectIds.size(), 60);
             }
         }
+    }
+
+    void testParseMatchStateDiff()
+    {
+        qRegisterMetaType<MatchStateDiff>();
+        QString log;
+        READ_LOG("GameStateDiff1.txt", log);
+        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnMatchStateDiff);
+        mtgaLogParser->parse(log);
+
+        QCOMPARE(spy.count(), 1);
+        QList<QVariant> args = spy.takeFirst();
+        MatchStateDiff matchStateDiff = args.first().value<MatchStateDiff>();
+        QCOMPARE(matchStateDiff.zones().size(), 4);
+        MatchZone zonePlayerHand;
+        for (MatchZone zone : matchStateDiff.zones()) {
+            if (zone.id() == 31) {
+                zonePlayerHand = zone;
+                break;
+            }
+        }
+        QCOMPARE(zonePlayerHand.objectIds[103], 65889);
+        QCOMPARE(zonePlayerHand.objectIds[104], 65575);
+        QCOMPARE(zonePlayerHand.objectIds[105], 65769);
+        QCOMPARE(zonePlayerHand.objectIds[106], 66707);
+        QCOMPARE(zonePlayerHand.objectIds[107], 64913);
+        QCOMPARE(zonePlayerHand.objectIds[108], 65889);
+        QCOMPARE(zonePlayerHand.objectIds[109], 66223);
     }
 
 };

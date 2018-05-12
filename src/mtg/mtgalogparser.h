@@ -5,6 +5,7 @@
 #include "../entity/deck.h"
 #include "../entity/user.h"
 #include "../entity/match.h"
+#include "../entity/matchstatediff.h"
 #include "../entity/matchplayer.h"
 #include "../entity/matchzone.h"
 
@@ -33,6 +34,8 @@ private:
     void parseGreToClientMessages(QString json);
     void parseDieRollResult(QJsonObject jsonMessage);
     void parseGameStateFull(QJsonObject jsonMessage);
+    void parseGameStateDiff(QJsonObject jsonMessage);
+    QList<MatchZone> getMatchZones(QJsonObject jsonGameStateMessage);
 
 public:
     explicit MtgaLogParser(QObject *parent = nullptr, MtgCards *mtgCards = nullptr);
@@ -55,6 +58,7 @@ signals:
     void sgnPlayerTakeMulligan();
     void sgnSeatIdThatGoFirst(int seatId);
     void sgnMatchStartZones(QList<MatchZone> zones);
+    void sgnMatchStateDiff(MatchStateDiff matchStateDiff);
     void sgnPlayerDrawCard(Card* card);
     void sgnOpponentPlayCard(Card* card);
 

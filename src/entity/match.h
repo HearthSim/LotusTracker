@@ -5,14 +5,20 @@
 
 class Match
 {
+private:
+    QString _opponentName;
+    QString _opponentRankClass;
+    int _opponentRankTier;
 public:
-    const QString opponentName;
-    const QString opponentRankClass;
-    const int opponentRankTier;
 
     Match(QString opponentName = "", QString opponentRankClass = "", int opponentRankTier = 0)
-        : opponentName(opponentName), opponentRankClass(opponentRankClass),
-          opponentRankTier(opponentRankTier) {}
+        : _opponentName(opponentName), _opponentRankClass(opponentRankClass),
+          _opponentRankTier(opponentRankTier) {}
+
+    QString opponentName(){ return _opponentName; }
+    QString opponentRankClass(){ return _opponentRankClass; }
+    int opponentRankTier(){ return _opponentRankTier; }
+
 };
 
 #endif // MATCH_H

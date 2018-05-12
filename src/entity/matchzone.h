@@ -17,13 +17,18 @@ typedef enum {
 
 class MatchZone
 {
+private:
+    int _id, _ownerSeatId;
+    ZoneType _type;
 public:
-    int id, ownerSeatId;
-    ZoneType type;
     QMap<int, int> objectIds;
 
     MatchZone(int id = 0, int ownerSeatId = 0, ZoneType type = ZoneType_UNKNOWN, QMap<int, int> objectIds = {}) :
-        id(id), ownerSeatId(ownerSeatId), type(type), objectIds(objectIds){}
+        _id(id), _ownerSeatId(ownerSeatId), _type(type), objectIds(objectIds){}
+
+    int id(){ return _id; }
+    int ownerSeatId(){ return _ownerSeatId; }
+    ZoneType type(){ return _type; }
 
     static ZoneType zoneTypeFromName(QString zoneTypeName)
     {
