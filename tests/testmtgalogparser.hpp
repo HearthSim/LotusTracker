@@ -177,7 +177,7 @@ private slots:
     {
         QString log;
         READ_LOG("PlayerTakesMulligan.txt", log);
-        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnPlayerTakeMulligan);
+        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnPlayerTakesMulligan);
         mtgaLogParser->parse(log);
 
         QCOMPARE(spy.count(), 1);
@@ -302,6 +302,19 @@ private slots:
         QList<QVariant> args = spy.takeFirst();
         int turnNumber = args.first().toInt();
         QCOMPARE(turnNumber, 2);
+    }
+
+    void testParseOpponentTakesMulligan()
+    {
+        QString log;
+        READ_LOG("OpponentTakesMulligan.txt", log);
+        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnOpponentTakesMulligan);
+        mtgaLogParser->parse(log);
+
+        QCOMPARE(spy.count(), 1);
+        QList<QVariant> args = spy.takeFirst();
+        int opponentSeatId = args.first().toInt();
+        QCOMPARE(opponentSeatId, 2);
     }
 
 };

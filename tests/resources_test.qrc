@@ -25,5 +25,6 @@
         <file>res/PlayerInventoryUpdate.txt</file>
         <file>res/PlayerRankInfo.txt</file>
         <file>res/PlayerTakesMulligan.txt</file>
+        <file>res/OpponentTakesMulligan.txt</file>
     </qresource>
 </RCC>

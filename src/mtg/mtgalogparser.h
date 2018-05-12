@@ -57,13 +57,14 @@ signals:
     void sgnPlayerAcceptsHand();
     void sgnPlayerCardHoverStarts();
     void sgnPlayerCardHoverEnds();
-    void sgnPlayerTakeMulligan();
+    void sgnPlayerTakesMulligan();
     void sgnSeatIdThatGoFirst(int seatId);
     void sgnMatchStartZones(QList<MatchZone> zones);
     void sgnMatchStateDiff(MatchStateDiff matchStateDiff);
     void sgnNewTurnStarted(int turnNumber);
     void sgnPlayerDrawCard(Card* card);
     void sgnOpponentPlayCard(Card* card);
+    void sgnOpponentTakesMulligan(int opponentSeatId);
 
 public slots:
 };

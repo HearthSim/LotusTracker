@@ -270,7 +270,7 @@ void MtgaLogParser::parseClientToGreMessages(QString json)
         if (action == "MulliganOption_AcceptHand") {
             emit sgnPlayerAcceptsHand();
         } else if (action == "MulliganOption_Mulligan") {
-            emit sgnPlayerTakeMulligan();
+            emit sgnPlayerTakesMulligan();
         }
     }
 }
@@ -327,6 +327,11 @@ void MtgaLogParser::parseGameStateFull(QJsonObject jsonMessage)
 void MtgaLogParser::parseGameStateDiff(QJsonObject jsonMessage)
 {
     QList<MatchZone> zones = getMatchZones(jsonMessage);
+    for (MatchZone zone : zones) {
+        if (zone.type() == ZoneType_HAND && zone.objectIds.isEmpty()) {
+            emit sgnOpponentTakesMulligan(zone.ownerSeatId());
+        }
+    }
     QJsonArray jsonGameObjects = jsonMessage["gameObjects"].toArray();
     for (QJsonValueRef jsonGameObjectRef : jsonGameObjects) {
         QJsonObject jsonGameObject = jsonGameObjectRef.toObject();
