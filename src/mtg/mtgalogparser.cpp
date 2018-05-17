@@ -106,6 +106,8 @@ void MtgaLogParser::parseMsg(QPair<QString, QString> msg)
         parseMatchInfo(msg.second);
     } else if (msg.first == "Event.GetCombinedRankInfo"){
         parsePlayerRankInfo(msg.second);
+    } else if (msg.first == "Rank.Updated"){
+        parsePlayerRankUpdated(msg.second);
     } else if (msg.first == "Event.DeckSelect"){
         parsePlayerDeckSelected(msg.second);
     } else if (msg.first == "ClientToGreMessage"){
@@ -235,6 +237,20 @@ void MtgaLogParser::parsePlayerRankInfo(QString json)
     QString rankClass = jsonConstructed["class"].toString();
     int rankTier = jsonConstructed["tier"].toInt();
     emit sgnPlayerRankInfo(qMakePair(rankClass, rankTier));
+}
+
+void MtgaLogParser::parsePlayerRankUpdated(QString json)
+{
+    QJsonObject jsonPlayerRankUpdate = Transformations::stringToJsonObject(json);
+    if (jsonPlayerRankUpdate.empty()) {
+        return;
+    }
+    int oldRankTier = jsonPlayerRankUpdate["oldTier"].toInt();
+    int newRankTier = jsonPlayerRankUpdate["newTier"].toInt();
+    if (newRankTier != oldRankTier) {
+        QString rankClass = jsonPlayerRankUpdate["newClass"].toString();
+        emit sgnPlayerRankUpdated(qMakePair(rankClass, newRankTier));
+    }
 }
 
 void MtgaLogParser::parsePlayerDeckSelected(QString json)

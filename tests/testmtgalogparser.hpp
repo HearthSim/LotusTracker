@@ -148,6 +148,21 @@ private slots:
         QCOMPARE(playerRankInfo.second, 1);
     }
 
+    void testParsePlayerRankUpdated()
+    {
+        qRegisterMetaType<QPair<QString, int>>();
+        QString log;
+        READ_LOG("PlayerRankUpdated.txt", log);
+        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnPlayerRankUpdated);
+        mtgaLogParser->parse(log);
+
+        QCOMPARE(spy.count(), 1);
+        QList<QVariant> args = spy.takeFirst();
+        QPair<QString, int> playerRankInfo = args.first().value<QPair<QString, int>>();
+        QCOMPARE(playerRankInfo.first, "Bronze");
+        QCOMPARE(playerRankInfo.second, 4);
+    }
+
     void testParsePlayerDeckSelected()
     {
         qRegisterMetaType<Deck>();

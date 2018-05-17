@@ -1,0 +1,15 @@
+
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+3/25/2018 9:52:36 PM Incoming Rank.Updated {
+  "playerId": "A3461766D418FFE6",
+  "newTier": 4,
+  "oldTier": 3,
+  "newClass": "Bronze",
+  "oldClass": "Bronze",
+  "oldProgress": 90,
+  "newProgress": 0,
+  "newStreak": -1,
+  "oldStreak": 1
+}
+ 
