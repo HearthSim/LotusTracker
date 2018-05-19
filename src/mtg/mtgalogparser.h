@@ -4,7 +4,7 @@
 #include "mtgcards.h"
 #include "../entity/deck.h"
 #include "../entity/user.h"
-#include "../entity/match.h"
+#include "../entity/matchinfo.h"
 #include "../entity/matchstatediff.h"
 #include "../entity/matchplayer.h"
 #include "../entity/matchzone.h"
@@ -35,7 +35,7 @@ private:
     void parseGreToClientMessages(QString json);
     void parseDieRollResult(QJsonObject jsonMessage);
     void parseGameStateFull(QJsonObject jsonMessage);
-    void parseGameStateDiff(QJsonObject jsonMessage);
+    void parseGameStateDiff(int gameStateId, QJsonObject jsonMessage);
     QList<MatchZone> getMatchZones(QJsonObject jsonGameStateMessage);
     QMap<int, int> getIdsChanged(QJsonArray jsonGSMAnnotations);
     QMap<int, QPair<int, int>> getIdsZoneChanged(QJsonArray jsonGSMAnnotations);
@@ -50,10 +50,11 @@ signals:
     void sgnPlayerInventoryUpdate(QList<int> newCards);
     void sgnPlayerCollection(QMap<int, int> ownedCards);
     void sgnPlayerDecks(QList<Deck> playerDecks);
-    void sgnMatchCreated(Match match);
+    void sgnMatchCreated(MatchInfo match);
     void sgnMatchInfoSeats(QList<MatchPlayer>);
     void sgnMatchInfoResultMatch(int winningTeamId);
     void sgnPlayerRankInfo(QPair<QString, int> playerRankInfo);
+    void sgnPlayerRankStatus(QPair<QString, int> playerRankStatus);
     void sgnPlayerRankUpdated(QPair<QString, int> playerNewRank);
     void sgnPlayerDeckSelected(Deck deck);
     void sgnPlayerAcceptsHand();
@@ -64,8 +65,6 @@ signals:
     void sgnMatchStartZones(QList<MatchZone> zones);
     void sgnMatchStateDiff(MatchStateDiff matchStateDiff);
     void sgnNewTurnStarted(int turnNumber);
-    void sgnPlayerDrawCard(Card* card);
-    void sgnOpponentPlayCard(Card* card);
     void sgnOpponentTakesMulligan(int opponentSeatId);
 
 public slots:

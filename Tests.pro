@@ -12,7 +12,8 @@ CONFIG -= app_bundle
 
 HEADERS += \
 	tests/macros_test.h \
-	tests/testmtgalogparser.hpp
+        tests/testmtgalogparser.hpp \
+        tests/testmtgamatch.hpp
 
 SOURCES += \
 	tests/main.cpp

@@ -186,7 +186,7 @@ void MtgaLogParser::parseMatchCreated(QString json)
     QString opponentName = jsonMatchCreated["opponentScreenName"].toString();
     QString opponentRankClass = jsonMatchCreated["opponentRankingClass"].toString();
     int opponentRankTier = jsonMatchCreated["opponentRankingTier"].toInt();
-    Match match(opponentName, opponentRankClass, opponentRankTier);
+    MatchInfo match(opponentName, opponentRankClass, opponentRankTier);
     emit sgnMatchCreated(match);
 }
 
@@ -236,7 +236,10 @@ void MtgaLogParser::parsePlayerRankInfo(QString json)
     QJsonObject jsonConstructed = jsonPlayerRankInfo["constructed"].toObject();
     QString rankClass = jsonConstructed["class"].toString();
     int rankTier = jsonConstructed["tier"].toInt();
+    int wins = jsonConstructed["wins"].toInt();
+    int losses = jsonConstructed["losses"].toInt();
     emit sgnPlayerRankInfo(qMakePair(rankClass, rankTier));
+    emit sgnPlayerRankStatus(qMakePair(wins, losses));
 }
 
 void MtgaLogParser::parsePlayerRankUpdated(QString json)
@@ -304,13 +307,15 @@ void MtgaLogParser::parseGreToClientMessages(QString json)
         QString messageType = jsonMessage["type"].toString();
         if (messageType == "GREMessageType_DieRollResultsResp") {
             parseDieRollResult(jsonMessage);
-        } else if (messageType == "GREMessageType_GameStateMessage") {
+        } else if (messageType == "GREMessageType_GameStateMessage" ||
+                   messageType == "GREMessageType_QueuedGameStateMessage") {
+            int gameStateId = jsonMessage["gameStateId"].toInt();
             QJsonObject jsonGameStateMessage = jsonMessage["gameStateMessage"].toObject();
             QString gameStateType = jsonGameStateMessage["type"].toString();
             if (gameStateType == "GameStateType_Full") {
                 parseGameStateFull(jsonGameStateMessage);
             } else if (gameStateType == "GameStateType_Diff") {
-                parseGameStateDiff(jsonGameStateMessage);
+                parseGameStateDiff(gameStateId, jsonGameStateMessage);
             }
         }
     }
@@ -340,7 +345,7 @@ void MtgaLogParser::parseGameStateFull(QJsonObject jsonMessage)
     emit sgnMatchStartZones(zones);
 }
 
-void MtgaLogParser::parseGameStateDiff(QJsonObject jsonMessage)
+void MtgaLogParser::parseGameStateDiff(int gameStateId, QJsonObject jsonMessage)
 {
     QList<MatchZone> zones = getMatchZones(jsonMessage);
     for (MatchZone zone : zones) {
@@ -375,7 +380,7 @@ void MtgaLogParser::parseGameStateDiff(QJsonObject jsonMessage)
     }
     QMap<int, int> idsChanged = getIdsChanged(jsonGSMAnnotations);
     QMap<int, QPair<int, int>> idsZoneChanged = getIdsZoneChanged(jsonGSMAnnotations);
-    MatchStateDiff matchStateDiff(zones, idsChanged, idsZoneChanged);
+    MatchStateDiff matchStateDiff(gameStateId, zones, idsChanged, idsZoneChanged);
     emit sgnMatchStateDiff(matchStateDiff);
 }
 
@@ -436,17 +441,17 @@ QMap<int, QPair<int, int>> MtgaLogParser::getIdsZoneChanged(QJsonArray jsonGSMAn
         if (type == "AnnotationType_ZoneTransfer") {
             int transferId = jsonAnnotation["affectedIds"].toArray().first().toInt();
             QJsonArray jsonDetails = jsonAnnotation["details"].toArray();
-            int srcZone, destZone;
+            int srcZone, dstZone;
             for (QJsonValueRef jsonDetailsRef : jsonDetails) {
                 QJsonObject details = jsonDetailsRef.toObject();
                 QString key = details["key"].toString();
                 if (key == "zone_src") {
                     srcZone = details["valueInt32"].toArray().first().toInt();
                 } else if (key == "zone_dest") {
-                    destZone = details["valueInt32"].toArray().first().toInt();
+                    dstZone = details["valueInt32"].toArray().first().toInt();
                 }
             }
-            idsZoneChanged[transferId] = qMakePair(srcZone, destZone);
+            idsZoneChanged[transferId] = qMakePair(srcZone, dstZone);
         }
     }
     return idsZoneChanged;

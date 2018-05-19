@@ -33,13 +33,14 @@ HEADERS += \
     src/entity/card.h \
     src/entity/deck.h \
     src/entity/user.h \
-    src/entity/match.h \
+    src/entity/matchinfo.h \
     src/entity/matchplayer.h \
     src/entity/matchstatediff.h \
     src/entity/matchzone.h \
     src/mtg/mtgarena.h \
     src/mtg/mtgalogparser.h \
     src/mtg/mtgalogwatcher.h \
+    src/mtg/mtgamatch.h \
     src/mtg/mtgcards.h \
     src/ui/cardblinkinfo.h \
     src/ui/decktrackerbase.h \
@@ -57,6 +58,7 @@ SOURCES += \
     src/mtg/mtgarena.cpp \
     src/mtg/mtgalogparser.cpp \
     src/mtg/mtgalogwatcher.cpp \
+    src/mtg/mtgamatch.cpp \
     src/mtg/mtgcards.cpp \
     src/ui/decktrackerbase.cpp \
     src/ui/decktrackerplayer.cpp \

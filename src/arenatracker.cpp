@@ -12,16 +12,13 @@ ArenaTracker::ArenaTracker(int& argc, char **argv): QApplication(argc, argv),
     mtgArena = new MtgArena(this, mtgCards);
     deckTrackerPlayer = new DeckTrackerPlayer();
     deckTrackerOpponent = new DeckTrackerOpponent();
-    trayIcon = new TrayIcon(this);
-    createPreferencesScreen();
+    trayIcon = new TrayIcon(this, mtgCards);
+    setupMtgaMatch();
+    setupPreferencesScreen();
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchCreated,
             this, &ArenaTracker::onNewMatchStart);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckSelected,
             deckTrackerPlayer, &DeckTrackerPlayer::onPlayerDeckSelected);
-    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDrawCard,
-            deckTrackerPlayer, &DeckTrackerPlayer::onPlayerDrawCard);
-    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnOpponentPlayCard,
-            deckTrackerOpponent, &DeckTrackerOpponent::onOpponentPlayCard);
     LOGI("Arena Tracker started");
 }
 
@@ -33,6 +30,7 @@ ArenaTracker::~ArenaTracker()
     DEL(preferencesScreen)
     DEL(trayIcon)
     DEL(mtgArena)
+    DEL(mtgaMatch)
 }
 
 int ArenaTracker::run()
@@ -55,7 +53,7 @@ void ArenaTracker::setupApp()
   setWindowIcon(icon);
 }
 
-void ArenaTracker::createPreferencesScreen()
+void ArenaTracker::setupPreferencesScreen()
 {
     preferencesScreen = new PreferencesScreen();
     // Deck tracker player
@@ -73,16 +71,37 @@ void ArenaTracker::createPreferencesScreen()
 
 }
 
+void ArenaTracker::setupMtgaMatch()
+{
+    mtgaMatch = new MtgaMatch(this, mtgCards);
+    connect(mtgaMatch, &MtgaMatch::sgnPlayerDrawCard,
+            deckTrackerPlayer, &DeckTrackerPlayer::onPlayerDrawCard);
+    connect(mtgaMatch, &MtgaMatch::sgnOpponentPlayCard,
+            deckTrackerOpponent, &DeckTrackerOpponent::onOpponentPlayCard);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchInfoSeats,
+            mtgaMatch, &MtgaMatch::onMatchInfoSeats);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchInfoResultMatch,
+            mtgaMatch, &MtgaMatch::onMatchInfoResultMatch);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnSeatIdThatGoFirst,
+            mtgaMatch, &MtgaMatch::onSeatIdThatGoFirst);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchStartZones,
+            mtgaMatch, &MtgaMatch::onMatchStartZones);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchStateDiff,
+            mtgaMatch, &MtgaMatch::onMatchStateDiff);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnNewTurnStarted,
+            mtgaMatch, &MtgaMatch::onNewTurnStarted);
+}
+
 void ArenaTracker::showPreferencesScreen()
 {
     preferencesScreen->show();
     preferencesScreen->raise();
 }
 
-void ArenaTracker::onNewMatchStart(Match match)
+void ArenaTracker::onNewMatchStart(MatchInfo matchInfo)
 {
-    UNUSED(match);
     isMatchRunning = true;
+    mtgaMatch->startNewMatch(matchInfo);
     if (APP_SETTINGS->isDeckTrackerPlayerEnabled()) {
         deckTrackerPlayer->show();
     }

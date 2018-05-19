@@ -8,6 +8,37 @@
         <file>res/sets/XLN.json</file>
         <file>res/DieRollResultsResp.txt</file>
         <file>res/DieRollResultsResp2.txt</file>
+        <file>res/game/GameStateDiff0.txt</file>
+        <file>res/game/GameStateDiff1.txt</file>
+        <file>res/game/GameStateDiff2.txt</file>
+        <file>res/game/GameStateDiff3.txt</file>
+        <file>res/game/GameStateDiff4.txt</file>
+        <file>res/game/GameStateDiff5.txt</file>
+        <file>res/game/GameStateDiff6.txt</file>
+        <file>res/game/GameStateDiff7.txt</file>
+        <file>res/game/GameStateDiff8.txt</file>
+        <file>res/game/GameStateDiff9.txt</file>
+        <file>res/game/GameStateDiff10.txt</file>
+        <file>res/game/GameStateDiff11.txt</file>
+        <file>res/game/GameStateDiff12.txt</file>
+        <file>res/game/GameStateDiff13.txt</file>
+        <file>res/game/GameStateDiff14.txt</file>
+        <file>res/game/GameStateDiff15.txt</file>
+        <file>res/game/GameStateDiff16.txt</file>
+        <file>res/game/GameStateDiff17.txt</file>
+        <file>res/game/GameStateDiff18.txt</file>
+        <file>res/game/GameStateDiff19.txt</file>
+        <file>res/game/GameStateDiff20.txt</file>
+        <file>res/game/GameStateDiff21.txt</file>
+        <file>res/game/GameStateDiff22.txt</file>
+        <file>res/game/GameStateDiff23.txt</file>
+        <file>res/game/GameStateDiff24.txt</file>
+        <file>res/game/GameStateDiff25.txt</file>
+        <file>res/game/GameStateDiff26.txt</file>
+        <file>res/game/GameStateDiff27.txt</file>
+        <file>res/game/GameStateDiff28.txt</file>
+        <file>res/game/GameStateDiff29.txt</file>
+        <file>res/game/GameStateDiff30.txt</file>
         <file>res/GameStateFull.txt</file>
         <file>res/GameStateDiffNewTurn.txt</file>
         <file>res/GameStateDiffObjectIds.txt</file>

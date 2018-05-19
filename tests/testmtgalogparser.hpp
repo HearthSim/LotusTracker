@@ -10,7 +10,7 @@
 #include <QtTest/QtTest>
 
 Q_DECLARE_METATYPE(Deck)
-Q_DECLARE_METATYPE(Match)
+Q_DECLARE_METATYPE(MatchInfo)
 Q_DECLARE_METATYPE(MatchPlayer)
 Q_DECLARE_METATYPE(MatchStateDiff)
 Q_DECLARE_METATYPE(MatchZone)
@@ -91,7 +91,7 @@ private slots:
 
     void testParseMatchCreated()
     {
-        qRegisterMetaType<Match>();
+        qRegisterMetaType<MatchInfo>();
         QString log;
         READ_LOG("MatchCreated.txt", log);
         QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnMatchCreated);
@@ -99,9 +99,9 @@ private slots:
 
         QCOMPARE(spy.count(), 1);
         QList<QVariant> args = spy.takeFirst();
-        Match match = args.first().value<Match>();
-        QCOMPARE(match.opponentRankClass(), "Beginner");
-        QCOMPARE(match.opponentRankTier(), 1);
+        MatchInfo match = args.first().value<MatchInfo>();
+        QCOMPARE(match.opponentRankClass(), "Bronze");
+        QCOMPARE(match.opponentRankTier(), 4);
     }
 
     void testParseMatchInfoSeats()
@@ -115,9 +115,9 @@ private slots:
         QCOMPARE(spy.count(), 1);
         QList<QVariant> args = spy.takeFirst();
         QList<MatchPlayer> matchPlayers = args.first().value<QList<MatchPlayer>>();
-        MatchPlayer matchPlayer = matchPlayers.first();
+        MatchPlayer matchPlayer = matchPlayers[1];
         QCOMPARE(matchPlayer.name(), "Edipo2s");
-        QCOMPARE(matchPlayer.seatId(), 1);
+        QCOMPARE(matchPlayer.seatId(), 2);
     }
 
     void testParseMatchInfoMatchResult()
@@ -139,13 +139,21 @@ private slots:
         QString log;
         READ_LOG("PlayerRankInfo.txt", log);
         QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnPlayerRankInfo);
+        QSignalSpy spy2(mtgaLogParser, &MtgaLogParser::sgnPlayerRankStatus);
         mtgaLogParser->parse(log);
 
+        // Rank
         QCOMPARE(spy.count(), 1);
         QList<QVariant> args = spy.takeFirst();
         QPair<QString, int> playerRankInfo = args.first().value<QPair<QString, int>>();
         QCOMPARE(playerRankInfo.first, "Intermediate");
         QCOMPARE(playerRankInfo.second, 1);
+        // Status
+        QCOMPARE(spy2.count(), 1);
+        QList<QVariant> args2 = spy2.takeFirst();
+        QPair<QString, int> playerRankStatus = args2.first().value<QPair<QString, int>>();
+        QCOMPARE(playerRankStatus.first, 56);
+        QCOMPARE(playerRankStatus.second, 31);
     }
 
     void testParsePlayerRankUpdated()

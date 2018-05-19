@@ -1,9 +1,11 @@
-3/18/2018 5:04:37 PM Incoming Event.MatchCreated {
-  "controllerFabricUri": "fabric:/Prod_MatchApp/Prod_MatchController/68c9688f-6672-48de-9b63-88c725ba6796",
+
+3/25/2018 9:44:24 PM Incoming Event.MatchCreated {
+  "controllerFabricUri": "fabric:/Prod_MatchApp/Prod_MatchController/05d80dff-5c88-4897-ae3e-dc4d6dbe99f2",
   "matchEndpointUri": "wss://matcheastsfc.mtgabeta.com:9505/Prod/MatchGatewayWS",
-  "opponentScreenName": "jpe***",
+  "opponentScreenName": "Niv-Mi****",
   "opponentIsWotc": false,
-  "matchId": "68c9688f-6672-48de-9b63-88c725ba6796",
-  "opponentRankingClass": "Beginner",
-  "opponentRankingTier": 1
+  "matchId": "05d80dff-5c88-4897-ae3e-dc4d6dbe99f2",
+  "opponentRankingClass": "Bronze",
+  "opponentRankingTier": 4
 }
+ 

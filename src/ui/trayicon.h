@@ -1,6 +1,8 @@
 #ifndef TRAYICON_H
 #define TRAYICON_H
 
+#include "../mtg/mtgcards.h"
+
 #include <QObject>
 #include <QSystemTrayIcon>
 
@@ -9,6 +11,7 @@ class TrayIcon : public QObject
     Q_OBJECT
 
 private:
+    MtgCards *mtgCards;
     QSystemTrayIcon *trayIcon;
     void TrayIconActivated(QSystemTrayIcon::ActivationReason reason);
     void setupTrayIcon();
@@ -16,7 +19,7 @@ private:
     void configTestMenu(QMenu* testMenu);
 
 public:
-    explicit TrayIcon(QObject *parent = nullptr);
+    explicit TrayIcon(QObject *parent = nullptr, MtgCards *mtgCards = nullptr);
     ~TrayIcon();
 
 signals:

@@ -9,7 +9,8 @@
 #include <QDir>
 #include <QMenu>
 
-TrayIcon::TrayIcon(QObject *parent) : QObject(parent)
+TrayIcon::TrayIcon(QObject *parent, MtgCards *mtgCards)
+    : QObject(parent), mtgCards(mtgCards)
 {
     if (QSystemTrayIcon::isSystemTrayAvailable()) {
         setupTrayIcon();
@@ -74,7 +75,7 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
     QAction *loadDeckAction = new QAction(tr("Load Deck"), this);
     connect(loadDeckAction, &QAction::triggered, this, [this](){
         MtgaLogParser *mtgaLogParser = ARENA_TRACKER->mtgArena->getLogParser();
-        emit mtgaLogParser->sgnMatchCreated(Match("Opponent", "Beginner", 0));
+        emit mtgaLogParser->sgnMatchCreated(MatchInfo("Opponent", "Beginner", 0));
         // Player Select Deck
         QString currentDir = QDir::currentPath();
 #ifdef Q_OS_MAC
@@ -93,18 +94,16 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
     // Player Draw card
     QAction *playerDrawAction = new QAction(tr("Player Draw"), this);
     connect(playerDrawAction, &QAction::triggered, this, [this](){
-        Card* card = ARENA_TRACKER->mtgCards->findCard(66825);
-        MtgaLogParser *mtgaLogParser = ARENA_TRACKER->mtgArena->getLogParser();
-        emit mtgaLogParser->sgnPlayerDrawCard(card);
+        Card* card = mtgCards->findCard(66825);
+        emit ARENA_TRACKER->mtgaMatch->sgnPlayerDrawCard(card);
     });
     testMenu->addAction(playerDrawAction);
     // Opponent play card
     QAction *opponentPlayAction = new QAction(tr("Opponent Play"), this);
     connect(opponentPlayAction, &QAction::triggered, this, [this](){
         int randomCardNumber = rand() % 200;
-        Card* card = ARENA_TRACKER->mtgCards->findCard(66619 + randomCardNumber * 2);
-        MtgaLogParser *mtgaLogParser = ARENA_TRACKER->mtgArena->getLogParser();
-        emit mtgaLogParser->sgnOpponentPlayCard(card);
+        Card* card = mtgCards->findCard(66619 + randomCardNumber * 2);
+        emit ARENA_TRACKER->mtgaMatch->sgnOpponentPlayCard(card);
     });
     testMenu->addAction(opponentPlayAction);
 }

@@ -9,6 +9,7 @@
 #include <QApplication>
 #include <QDebug>
 
+#define LOG_LEVEL DEBUG //DEBUG, INFO, WARNING
 #define LOG_IN_TESTS false
 #define RUNNING_TESTS !qApp
 
@@ -22,31 +23,35 @@ if(__CLASSNAME__){ \
 
 #define APP_SETTINGS ARENA_TRACKER->appSettings
 
-#define LOGI(msg) \
-if(qApp){ \
-    ARENA_TRACKER->logger->logI(__PRETTY_FUNCTION__, __LINE__, msg); \
-} else if(LOG_IN_TESTS) { \
-    QString prettyFunction = QString(__PRETTY_FUNCTION__); \
-    QString function = prettyFunction.left(prettyFunction.indexOf("::")); \
-    qDebug() << QString("%1:%2 - %3").arg(function).arg(__LINE__).arg(msg); \
-}
-
 #define LOGD(msg) \
-if(qApp){ \
-    ARENA_TRACKER->logger->logD(__PRETTY_FUNCTION__, __LINE__, msg); \
-} else if(LOG_IN_TESTS) { \
-    QString prettyFunction = QString(__PRETTY_FUNCTION__); \
-    QString function = prettyFunction.left(prettyFunction.indexOf("::")); \
-    qDebug() << QString("%1:%2 - %3").arg(function).arg(__LINE__).arg(msg); \
-}
+    if (LOG_LEVEL == DEBUG) { \
+        if (qApp) { \
+            ARENA_TRACKER->logger->logD(__PRETTY_FUNCTION__, __LINE__, msg); \
+        } else if (LOG_IN_TESTS) { \
+            QString prettyFunction = QString(__PRETTY_FUNCTION__); \
+            QString function = prettyFunction.left(prettyFunction.indexOf("::")); \
+            qDebug() << QString("%1:%2 - %3").arg(function).arg(__LINE__).arg(msg); \
+        } \
+    }
+
+#define LOGI(msg) \
+    if (LOG_LEVEL == INFO || LOG_LEVEL == DEBUG) { \
+        if (qApp) { \
+            ARENA_TRACKER->logger->logI(__PRETTY_FUNCTION__, __LINE__, msg); \
+        } else if (LOG_IN_TESTS) { \
+            QString prettyFunction = QString(__PRETTY_FUNCTION__); \
+            QString function = prettyFunction.left(prettyFunction.indexOf("::")); \
+            qDebug() << QString("%1:%2 - %3").arg(function).arg(__LINE__).arg(msg); \
+        } \
+    }
 
 #define LOGW(msg) \
-if(qApp){ \
-    ARENA_TRACKER->logger->logW(__PRETTY_FUNCTION__, __LINE__, msg); \
-} else if(LOG_IN_TESTS) { \
-    QString prettyFunction = QString(__PRETTY_FUNCTION__); \
-    QString function = prettyFunction.left(prettyFunction.indexOf("::")); \
-    qDebug() << QString("%1:%2 - %3").arg(function).arg(__LINE__).arg(msg); \
-}
+    if (qApp) { \
+        ARENA_TRACKER->logger->logW(__PRETTY_FUNCTION__, __LINE__, msg); \
+    } else if (LOG_IN_TESTS) { \
+        QString prettyFunction = QString(__PRETTY_FUNCTION__); \
+        QString function = prettyFunction.left(prettyFunction.indexOf("::")); \
+        qDebug() << QString("%1:%2 - %3").arg(function).arg(__LINE__).arg(msg); \
+    }
 
 #endif // MACROS_H

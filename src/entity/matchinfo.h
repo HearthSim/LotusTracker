@@ -1,9 +1,9 @@
-#ifndef MATCH_H
-#define MATCH_H
+#ifndef MATCHINFO_H
+#define MATCHINFO_H
 
 #include <QString>
 
-class Match
+class MatchInfo
 {
 private:
     QString _opponentName;
@@ -11,7 +11,7 @@ private:
     int _opponentRankTier;
 public:
 
-    Match(QString opponentName = "", QString opponentRankClass = "", int opponentRankTier = 0)
+    MatchInfo(QString opponentName = "", QString opponentRankClass = "", int opponentRankTier = 0)
         : _opponentName(opponentName), _opponentRankClass(opponentRankClass),
           _opponentRankTier(opponentRankTier) {}
 
@@ -21,4 +21,4 @@ public:
 
 };
 
-#endif // MATCH_H
+#endif // MATCHINFO_H

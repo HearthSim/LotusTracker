@@ -21,12 +21,21 @@ private:
     int _id, _ownerSeatId;
     ZoneType _type;
 public:
+    // objectId, mtgCardId
     QMap<int, int> objectIds;
 
     MatchZone(int id = 0, int ownerSeatId = 0, ZoneType type = ZoneType_UNKNOWN, QMap<int, int> objectIds = {}) :
         _id(id), _ownerSeatId(ownerSeatId), _type(type), objectIds(objectIds){}
 
     int id(){ return _id; }
+    QString name(){
+        QMap<ZoneType, QString> zoneTypeNames = {
+            {ZoneType_HAND, "Hand"}, {ZoneType_LIBRARY, "Library"},
+            {ZoneType_GRAVEYARD, "Graveyard"}, {ZoneType_EXILE, "Exile"},
+            {ZoneType_LIMBO, "Limbo"}, {ZoneType_STACK, "Stack"},
+            {ZoneType_BATTLEFIELD, "Battlefield"} };
+        return zoneTypeNames[_type];
+    }
     int ownerSeatId(){ return _ownerSeatId; }
     ZoneType type(){ return _type; }
 

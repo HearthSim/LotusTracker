@@ -30,16 +30,16 @@ Logger::~Logger()
     }
 }
 
-void Logger::logI(const QString &source, const int line, const QString &msg)
-{
-    log(INFO, source, line, msg);
-}
-
 void Logger::logD(const QString &source, const int line, const QString &msg)
 {
 #ifdef QT_DEBUG
     log(DEBUG, source, line, msg);
 #endif
+}
+
+void Logger::logI(const QString &source, const int line, const QString &msg)
+{
+    log(INFO, source, line, msg);
 }
 
 void Logger::logW(const QString &source, const int line, const QString &msg)

@@ -18,8 +18,8 @@ public:
     const QList<QChar> manaColorIdentity;
     bool isLand;
 
-    Card(int mtgaId, QString setCode, QString number, QString name, QString type,
-         QString manaCost, QList<QChar> manaColorIdentity, bool isLand)
+    Card(int mtgaId = 0, QString setCode = "", QString number = "", QString name = "", QString type = "",
+         QString manaCost = "", QList<QChar> manaColorIdentity = {}, bool isLand = false)
         : mtgaId(mtgaId), setCode(setCode), number(number), name(name), type(type),
           manaCost(manaCost), manaColorIdentity(manaColorIdentity), isLand(isLand){}
 

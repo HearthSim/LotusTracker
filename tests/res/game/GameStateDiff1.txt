@@ -1,0 +1,519 @@
+
+3/25/2018 9:44:34 PM: Match to A3461766D418FFE6: GreToClientEvent
+{
+  "greToClientEvent": {
+    "greToClientMessages": [
+      {
+        "type": "GREMessageType_GameStateMessage",
+        "systemSeatIds": [
+          2
+        ],
+        "msgId": 8,
+        "gameStateId": 2,
+        "gameStateMessage": {
+          "type": "GameStateType_Diff",
+          "gameStateId": 2,
+          "turnInfo": {
+            "activePlayer": 1,
+            "decisionPlayer": 1
+          },
+          "zones": [
+            {
+              "zoneId": 31,
+              "type": "ZoneType_Hand",
+              "visibility": "Visibility_Private",
+              "ownerSeatId": 1,
+              "objectInstanceIds": [
+                105,
+                104,
+                103,
+                102,
+                101,
+                100,
+                99
+              ],
+              "viewers": [
+                1
+              ]
+            },
+            {
+              "zoneId": 32,
+              "type": "ZoneType_Library",
+              "visibility": "Visibility_Hidden",
+              "ownerSeatId": 1,
+              "objectInstanceIds": [
+                106,
+                107,
+                108,
+                109,
+                110,
+                111,
+                112,
+                113,
+                114,
+                115,
+                116,
+                117,
+                118,
+                119,
+                120,
+                121,
+                122,
+                123,
+                124,
+                125,
+                126,
+                127,
+                128,
+                129,
+                130,
+                131,
+                132,
+                133,
+                134,
+                135,
+                136,
+                137,
+                138,
+                139,
+                140,
+                141,
+                142,
+                143,
+                144,
+                145,
+                146,
+                147,
+                148,
+                149,
+                150,
+                151,
+                152,
+                153,
+                154,
+                155,
+                156,
+                157,
+                158
+              ]
+            },
+            {
+              "zoneId": 35,
+              "type": "ZoneType_Hand",
+              "visibility": "Visibility_Private",
+              "ownerSeatId": 2,
+              "objectInstanceIds": [
+                225,
+                224,
+                223,
+                222,
+                221,
+                220,
+                219
+              ],
+              "viewers": [
+                2
+              ]
+            },
+            {
+              "zoneId": 36,
+              "type": "ZoneType_Library",
+              "visibility": "Visibility_Hidden",
+              "ownerSeatId": 2,
+              "objectInstanceIds": [
+                226,
+                227,
+                228,
+                229,
+                230,
+                231,
+                232,
+                233,
+                234,
+                235,
+                236,
+                237,
+                238,
+                239,
+                240,
+                241,
+                242,
+                243,
+                244,
+                245,
+                246,
+                247,
+                248,
+                249,
+                250,
+                251,
+                252,
+                253,
+                254,
+                255,
+                256,
+                257,
+                258,
+                259,
+                260,
+                261,
+                262,
+                263,
+                264,
+                265,
+                266,
+                267,
+                268,
+                269,
+                270,
+                271,
+                272,
+                273,
+                274,
+                275,
+                276,
+                277,
+                278
+              ]
+            }
+          ],
+          "gameObjects": [
+            {
+              "instanceId": 219,
+              "grpId": 66235,
+              "type": "GameObjectType_Card",
+              "zoneId": 35,
+              "visibility": "Visibility_Private",
+              "ownerSeatId": 2,
+              "controllerSeatId": 2,
+              "cardTypes": [
+                "CardType_Creature"
+              ],
+              "subtypes": [
+                "SubType_Dinosaur",
+                "SubType_Avatar"
+              ],
+              "color": [
+                "CardColor_Red"
+              ],
+              "power": {
+                "value": 6
+              },
+              "toughness": {
+                "value": 6
+              },
+              "viewers": [
+                2
+              ],
+              "name": 878,
+              "abilities": [
+                118588
+              ],
+              "overlayGrpId": 66235
+            },
+            {
+              "instanceId": 220,
+              "grpId": 66329,
+              "type": "GameObjectType_Card",
+              "zoneId": 35,
+              "visibility": "Visibility_Private",
+              "ownerSeatId": 2,
+              "controllerSeatId": 2,
+              "cardTypes": [
+                "CardType_Sorcery"
+              ],
+              "color": [
+                "CardColor_Green"
+              ],
+              "viewers": [
+                2
+              ],
+              "name": 173888,
+              "abilities": [
+                116753
+              ],
+              "overlayGrpId": 66329
+            },
+            {
+              "instanceId": 221,
+              "grpId": 66915,
+              "type": "GameObjectType_Card",
+              "zoneId": 35,
+              "visibility": "Visibility_Private",
+              "ownerSeatId": 2,
+              "controllerSeatId": 2,
+              "cardTypes": [
+                "CardType_Sorcery"
+              ],
+              "color": [
+                "CardColor_Green"
+              ],
+              "viewers": [
+                2
+              ],
+              "name": 181914,
+              "abilities": [
+                117133,
+                62342
+              ],
+              "overlayGrpId": 66915
+            },
+            {
+              "instanceId": 222,
+              "grpId": 66961,
+              "type": "GameObjectType_Card",
+              "zoneId": 35,
+              "visibility": "Visibility_Private",
+              "ownerSeatId": 2,
+              "controllerSeatId": 2,
+              "cardTypes": [
+                "CardType_Creature"
+              ],
+              "subtypes": [
+                "SubType_Dinosaur"
+              ],
+              "color": [
+                "CardColor_Red",
+                "CardColor_Green"
+              ],
+              "power": {
+                "value": 4
+              },
+              "toughness": {
+                "value": 4
+              },
+              "viewers": [
+                2
+              ],
+              "name": 181982,
+              "abilities": [
+                119064
+              ],
+              "overlayGrpId": 66961
+            },
+            {
+              "instanceId": 223,
+              "grpId": 66389,
+              "type": "GameObjectType_Card",
+              "zoneId": 35,
+              "visibility": "Visibility_Private",
+              "ownerSeatId": 2,
+              "controllerSeatId": 2,
+              "cardTypes": [
+                "CardType_Creature"
+              ],
+              "subtypes": [
+                "SubType_Dinosaur"
+              ],
+              "color": [
+                "CardColor_Green"
+              ],
+              "power": {
+                "value": 5
+              },
+              "toughness": {
+                "value": 5
+              },
+              "viewers": [
+                2
+              ],
+              "name": 173939,
+              "abilities": [
+                116766,
+                116767
+              ],
+              "overlayGrpId": 66389
+            },
+            {
+              "instanceId": 224,
+              "grpId": 67021,
+              "type": "GameObjectType_Card",
+              "zoneId": 35,
+              "visibility": "Visibility_Private",
+              "ownerSeatId": 2,
+              "controllerSeatId": 2,
+              "superTypes": [
+                "SuperType_Basic"
+              ],
+              "cardTypes": [
+                "CardType_Land"
+              ],
+              "subtypes": [
+                "SubType_Mountain"
+              ],
+              "viewers": [
+                2
+              ],
+              "name": 1250,
+              "abilities": [
+                1004
+              ],
+              "overlayGrpId": 67021
+            },
+            {
+              "instanceId": 225,
+              "grpId": 66831,
+              "type": "GameObjectType_Card",
+              "zoneId": 35,
+              "visibility": "Visibility_Private",
+              "ownerSeatId": 2,
+              "controllerSeatId": 2,
+              "cardTypes": [
+                "CardType_Creature"
+              ],
+              "subtypes": [
+                "SubType_Dinosaur"
+              ],
+              "color": [
+                "CardColor_Red"
+              ],
+              "power": {
+                "value": 2
+              },
+              "toughness": {
+                "value": 2
+              },
+              "viewers": [
+                2
+              ],
+              "name": 181817,
+              "abilities": [
+                116982
+              ],
+              "overlayGrpId": 66831
+            }
+          ],
+          "annotations": [
+            {
+              "id": 2002,
+              "affectorId": 1,
+              "affectedIds": [
+                1
+              ],
+              "type": [
+                "AnnotationType_NewTurnStarted"
+              ]
+            }
+          ],
+          "diffDeletedInstanceIds": [
+            99,
+            100,
+            101,
+            102,
+            103,
+            104,
+            105
+          ],
+          "prevGameStateId": 1,
+          "timers": [
+            {
+              "timerId": 1,
+              "type": "TimerType_Prologue",
+              "durationSec": 120,
+              "running": true,
+              "behavior": "TimerBehavior_TakeControl",
+              "warningThresholdSec": 90,
+              "elapsedMs": 137
+            },
+            {
+              "timerId": 5,
+              "type": "TimerType_Inactivity",
+              "durationSec": 150,
+              "running": true,
+              "behavior": "TimerBehavior_Timeout",
+              "warningThresholdSec": 130,
+              "elapsedMs": 5
+            }
+          ],
+          "update": "GameStateUpdate_SendAndRecord",
+          "actions": [
+            {
+              "seatId": 2,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 219
+              }
+            },
+            {
+              "seatId": 2,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 220
+              }
+            },
+            {
+              "seatId": 2,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 225
+              }
+            },
+            {
+              "seatId": 2,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 222
+              }
+            },
+            {
+              "seatId": 2,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 221
+              }
+            },
+            {
+              "seatId": 2,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 223
+              }
+            },
+            {
+              "seatId": 2,
+              "action": {
+                "actionType": "ActionType_Play",
+                "instanceId": 224
+              }
+            }
+          ]
+        },
+        "prompt": {
+          "promptId": 1,
+          "parameters": [
+            {
+              "parameterName": "TurnNumber",
+              "type": "ParameterType_Number"
+            },
+            {
+              "parameterName": "Phase",
+              "type": "ParameterType_Number"
+            },
+            {
+              "parameterName": "Step",
+              "type": "ParameterType_Number"
+            }
+          ]
+        },
+        "nonDecisionPlayerPrompt": {
+          "promptId": 1,
+          "parameters": [
+            {
+              "parameterName": "TurnNumber",
+              "type": "ParameterType_Number"
+            },
+            {
+              "parameterName": "Phase",
+              "type": "ParameterType_Number"
+            },
+            {
+              "parameterName": "Step",
+              "type": "ParameterType_Number"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
+ 

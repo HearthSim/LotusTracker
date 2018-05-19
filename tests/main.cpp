@@ -1,4 +1,5 @@
 #include "testmtgalogparser.hpp"
+#include "testmtgamatch.hpp"
 
 #include <QtTest/QtTest>
 
@@ -10,5 +11,6 @@ int main(int argc, char *argv[])
     };
 
     runTest(new TestMtgaLogParser);
+    runTest(new TestMtgaMatch);
     return status;
 }

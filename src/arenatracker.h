@@ -1,9 +1,10 @@
 #ifndef ARENATRACKER_H
 #define ARENATRACKER_H
 
-#include "entity/match.h"
+#include "entity/matchinfo.h"
 #include "mtg/mtgarena.h"
 #include "mtg/mtgcards.h"
+#include "mtg/mtgamatch.h"
 #include "ui/decktrackerplayer.h"
 #include "ui/decktrackeropponent.h"
 #include "ui/preferencesscreen.h"
@@ -19,12 +20,14 @@ class ArenaTracker : public QApplication
 
 private:
     bool isMatchRunning;
+    MtgCards *mtgCards;
     DeckTrackerPlayer *deckTrackerPlayer;
     DeckTrackerOpponent *deckTrackerOpponent;
     TrayIcon *trayIcon;
     PreferencesScreen *preferencesScreen;
     void setupApp();
-    void createPreferencesScreen();
+    void setupPreferencesScreen();
+    void setupMtgaMatch();
 
 public:
     ArenaTracker(int& argc, char **argv);
@@ -32,14 +35,14 @@ public:
     AppSettings *appSettings;
     Logger *logger;
     MtgArena *mtgArena;
-    MtgCards *mtgCards;
+    MtgaMatch *mtgaMatch;
     int run();
     void showPreferencesScreen();
 
 signals:
 
 private slots:
-    void onNewMatchStart(Match match);
+    void onNewMatchStart(MatchInfo match);
     void onDeckTrackerPlayerEnabledChange(bool enabled);
     void onDeckTrackerOpponentEnabledChange(bool enabled);
 };
