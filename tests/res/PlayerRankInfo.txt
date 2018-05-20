@@ -1,22 +1,24 @@
-3/18/2018 5:04:09 PM Response 56: Event.GetCombinedRankInfo {
+
+5/20/2018 12:25:46 AM Response 76: Event.GetCombinedRankInfo {
   "constructed": {
     "playerId": "A3461766D418FFE6",
-    "class": "Intermediate",
-    "classHighWaterMark": "Intermediate",
-    "tier": 1,
-    "progress": 90,
-    "streak": -1,
-    "wins": 56,
-    "losses": 31
+    "class": "Bronze",
+    "classHighWaterMark": "Bronze",
+    "tier": 2,
+    "progress": 70,
+    "streak": -6,
+    "wins": 43,
+    "losses": 36
   },
   "limited": {
     "playerId": "A3461766D418FFE6",
-    "class": "New",
-    "classHighWaterMark": "New",
-    "tier": 0,
+    "class": "Beginner",
+    "classHighWaterMark": "Beginner",
+    "tier": 1,
     "progress": 0,
     "streak": 0,
     "wins": 0,
     "losses": 0
   }
 }
+ 

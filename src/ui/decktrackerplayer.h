@@ -28,7 +28,7 @@ public:
 signals:
 
 public slots:
-    void onPlayerDeckSelected(Deck deck);
+    void onPlayerDeckSubmited(Deck deck);
     void onPlayerDrawCard(Card* card);
     void onStatisticsEnabled(bool enabled);
 };

@@ -8,7 +8,6 @@
         <file>res/sets/XLN.json</file>
         <file>res/DieRollResultsResp.txt</file>
         <file>res/DieRollResultsResp2.txt</file>
-        <file>res/game/GameStateDiff0.txt</file>
         <file>res/game/GameStateDiff1.txt</file>
         <file>res/game/GameStateDiff2.txt</file>
         <file>res/game/GameStateDiff3.txt</file>
@@ -39,6 +38,26 @@
         <file>res/game/GameStateDiff28.txt</file>
         <file>res/game/GameStateDiff29.txt</file>
         <file>res/game/GameStateDiff30.txt</file>
+        <file>res/game/GameStateDiff31.txt</file>
+        <file>res/game/GameStateDiff32.txt</file>
+        <file>res/game/GameStateDiff33.txt</file>
+        <file>res/game/GameStateDiff34.txt</file>
+        <file>res/game/GameStateDiff35.txt</file>
+        <file>res/game/GameStateDiff36.txt</file>
+        <file>res/game/GameStateDiff37.txt</file>
+        <file>res/game/GameStateDiff38.txt</file>
+        <file>res/game/GameStateDiff39.txt</file>
+        <file>res/game/GameStateDiff40.txt</file>
+        <file>res/game/GameStateDiff41.txt</file>
+        <file>res/game/GameStateDiff42.txt</file>
+        <file>res/game/GameStateDiff43.txt</file>
+        <file>res/game/GameStateDiff44.txt</file>
+        <file>res/game/GameStateDiff45.txt</file>
+        <file>res/game/GameStateDiff46.txt</file>
+        <file>res/game/GameStateDiff47.txt</file>
+        <file>res/game/GameStateDiff48.txt</file>
+        <file>res/game/GameStateDiff49.txt</file>
+        <file>res/game/GameStateDiff50.txt</file>
         <file>res/GameStateFull.txt</file>
         <file>res/GameStateDiffNewTurn.txt</file>
         <file>res/GameStateDiffObjectIds.txt</file>
@@ -51,7 +70,7 @@
         <file>res/PlayerCardHoverEnds.txt</file>
         <file>res/PlayerCollection.txt</file>
         <file>res/PlayerDecks.txt</file>
-        <file>res/PlayerDeckSelected.txt</file>
+        <file>res/PlayerDeckSubmit.txt</file>
         <file>res/PlayerInventory.txt</file>
         <file>res/PlayerInventoryUpdate.txt</file>
         <file>res/PlayerRankInfo.txt</file>

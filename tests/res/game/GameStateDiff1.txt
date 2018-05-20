@@ -1,14 +1,14 @@
 
-3/25/2018 9:44:34 PM: Match to A3461766D418FFE6: GreToClientEvent
+5/20/2018 12:12:32 AM: Match to A3461766D418FFE6: GreToClientEvent
 {
   "greToClientEvent": {
     "greToClientMessages": [
       {
         "type": "GREMessageType_GameStateMessage",
         "systemSeatIds": [
-          2
+          1
         ],
-        "msgId": 8,
+        "msgId": 10,
         "gameStateId": 2,
         "gameStateMessage": {
           "type": "GameStateType_Diff",
@@ -179,159 +179,13 @@
           ],
           "gameObjects": [
             {
-              "instanceId": 219,
-              "grpId": 66235,
-              "type": "GameObjectType_Card",
-              "zoneId": 35,
-              "visibility": "Visibility_Private",
-              "ownerSeatId": 2,
-              "controllerSeatId": 2,
-              "cardTypes": [
-                "CardType_Creature"
-              ],
-              "subtypes": [
-                "SubType_Dinosaur",
-                "SubType_Avatar"
-              ],
-              "color": [
-                "CardColor_Red"
-              ],
-              "power": {
-                "value": 6
-              },
-              "toughness": {
-                "value": 6
-              },
-              "viewers": [
-                2
-              ],
-              "name": 878,
-              "abilities": [
-                118588
-              ],
-              "overlayGrpId": 66235
-            },
-            {
-              "instanceId": 220,
-              "grpId": 66329,
-              "type": "GameObjectType_Card",
-              "zoneId": 35,
-              "visibility": "Visibility_Private",
-              "ownerSeatId": 2,
-              "controllerSeatId": 2,
-              "cardTypes": [
-                "CardType_Sorcery"
-              ],
-              "color": [
-                "CardColor_Green"
-              ],
-              "viewers": [
-                2
-              ],
-              "name": 173888,
-              "abilities": [
-                116753
-              ],
-              "overlayGrpId": 66329
-            },
-            {
-              "instanceId": 221,
-              "grpId": 66915,
-              "type": "GameObjectType_Card",
-              "zoneId": 35,
-              "visibility": "Visibility_Private",
-              "ownerSeatId": 2,
-              "controllerSeatId": 2,
-              "cardTypes": [
-                "CardType_Sorcery"
-              ],
-              "color": [
-                "CardColor_Green"
-              ],
-              "viewers": [
-                2
-              ],
-              "name": 181914,
-              "abilities": [
-                117133,
-                62342
-              ],
-              "overlayGrpId": 66915
-            },
-            {
-              "instanceId": 222,
-              "grpId": 66961,
-              "type": "GameObjectType_Card",
-              "zoneId": 35,
-              "visibility": "Visibility_Private",
-              "ownerSeatId": 2,
-              "controllerSeatId": 2,
-              "cardTypes": [
-                "CardType_Creature"
-              ],
-              "subtypes": [
-                "SubType_Dinosaur"
-              ],
-              "color": [
-                "CardColor_Red",
-                "CardColor_Green"
-              ],
-              "power": {
-                "value": 4
-              },
-              "toughness": {
-                "value": 4
-              },
-              "viewers": [
-                2
-              ],
-              "name": 181982,
-              "abilities": [
-                119064
-              ],
-              "overlayGrpId": 66961
-            },
-            {
-              "instanceId": 223,
-              "grpId": 66389,
-              "type": "GameObjectType_Card",
-              "zoneId": 35,
-              "visibility": "Visibility_Private",
-              "ownerSeatId": 2,
-              "controllerSeatId": 2,
-              "cardTypes": [
-                "CardType_Creature"
-              ],
-              "subtypes": [
-                "SubType_Dinosaur"
-              ],
-              "color": [
-                "CardColor_Green"
-              ],
-              "power": {
-                "value": 5
-              },
-              "toughness": {
-                "value": 5
-              },
-              "viewers": [
-                2
-              ],
-              "name": 173939,
-              "abilities": [
-                116766,
-                116767
-              ],
-              "overlayGrpId": 66389
-            },
-            {
-              "instanceId": 224,
+              "instanceId": 99,
               "grpId": 67021,
               "type": "GameObjectType_Card",
-              "zoneId": 35,
+              "zoneId": 31,
               "visibility": "Visibility_Private",
-              "ownerSeatId": 2,
-              "controllerSeatId": 2,
+              "ownerSeatId": 1,
+              "controllerSeatId": 1,
               "superTypes": [
                 "SuperType_Basic"
               ],
@@ -342,7 +196,7 @@
                 "SubType_Mountain"
               ],
               "viewers": [
-                2
+                1
               ],
               "name": 1250,
               "abilities": [
@@ -351,41 +205,153 @@
               "overlayGrpId": 67021
             },
             {
-              "instanceId": 225,
-              "grpId": 66831,
+              "instanceId": 100,
+              "grpId": 67017,
               "type": "GameObjectType_Card",
-              "zoneId": 35,
+              "zoneId": 31,
               "visibility": "Visibility_Private",
-              "ownerSeatId": 2,
-              "controllerSeatId": 2,
+              "ownerSeatId": 1,
+              "controllerSeatId": 1,
+              "superTypes": [
+                "SuperType_Basic"
+              ],
               "cardTypes": [
-                "CardType_Creature"
+                "CardType_Land"
               ],
               "subtypes": [
-                "SubType_Dinosaur"
+                "SubType_Island"
+              ],
+              "viewers": [
+                1
+              ],
+              "name": 652,
+              "abilities": [
+                1002
+              ],
+              "overlayGrpId": 67017
+            },
+            {
+              "instanceId": 101,
+              "grpId": 65601,
+              "type": "GameObjectType_Card",
+              "zoneId": 31,
+              "visibility": "Visibility_Private",
+              "ownerSeatId": 1,
+              "controllerSeatId": 1,
+              "cardTypes": [
+                "CardType_Sorcery"
+              ],
+              "color": [
+                "CardColor_Black"
+              ],
+              "viewers": [
+                1
+              ],
+              "name": 125173,
+              "abilities": [
+                120836
+              ],
+              "overlayGrpId": 65601
+            },
+            {
+              "instanceId": 102,
+              "grpId": 64887,
+              "type": "GameObjectType_Card",
+              "zoneId": 31,
+              "visibility": "Visibility_Private",
+              "ownerSeatId": 1,
+              "controllerSeatId": 1,
+              "cardTypes": [
+                "CardType_Instant"
+              ],
+              "color": [
+                "CardColor_Blue"
+              ],
+              "viewers": [
+                1
+              ],
+              "name": 2278,
+              "abilities": [
+                25846
+              ],
+              "overlayGrpId": 64887
+            },
+            {
+              "instanceId": 103,
+              "grpId": 64903,
+              "type": "GameObjectType_Card",
+              "zoneId": 31,
+              "visibility": "Visibility_Private",
+              "ownerSeatId": 1,
+              "controllerSeatId": 1,
+              "cardTypes": [
+                "CardType_Instant"
+              ],
+              "color": [
+                "CardColor_Blue"
+              ],
+              "viewers": [
+                1
+              ],
+              "name": 2774,
+              "abilities": [
+                24121
+              ],
+              "overlayGrpId": 64903
+            },
+            {
+              "instanceId": 104,
+              "grpId": 65643,
+              "type": "GameObjectType_Card",
+              "zoneId": 31,
+              "visibility": "Visibility_Private",
+              "ownerSeatId": 1,
+              "controllerSeatId": 1,
+              "cardTypes": [
+                "CardType_Instant"
               ],
               "color": [
                 "CardColor_Red"
               ],
-              "power": {
-                "value": 2
-              },
-              "toughness": {
-                "value": 2
-              },
               "viewers": [
-                2
+                1
               ],
-              "name": 181817,
+              "name": 125232,
               "abilities": [
-                116982
+                103801
               ],
-              "overlayGrpId": 66831
+              "overlayGrpId": 65643
+            },
+            {
+              "instanceId": 105,
+              "grpId": 67019,
+              "type": "GameObjectType_Card",
+              "zoneId": 31,
+              "visibility": "Visibility_Private",
+              "ownerSeatId": 1,
+              "controllerSeatId": 1,
+              "superTypes": [
+                "SuperType_Basic"
+              ],
+              "cardTypes": [
+                "CardType_Land"
+              ],
+              "subtypes": [
+                "SubType_Swamp"
+              ],
+              "viewers": [
+                1
+              ],
+              "name": 653,
+              "abilities": [
+                1003
+              ],
+              "overlayGrpId": 67019
             }
           ],
           "annotations": [
             {
-              "id": 2002,
+              "id": 2020,
               "affectorId": 1,
               "affectedIds": [
                 1
@@ -396,14 +362,15 @@
             }
           ],
           "diffDeletedInstanceIds": [
-            99,
-            100,
-            101,
-            102,
-            103,
-            104,
-            105
+            219,
+            220,
+            221,
+            222,
+            223,
+            224,
+            225
           ],
+          "pendingMessageCount": 1,
           "prevGameStateId": 1,
           "timers": [
             {
@@ -413,7 +380,7 @@
               "running": true,
               "behavior": "TimerBehavior_TakeControl",
               "warningThresholdSec": 90,
-              "elapsedMs": 137
+              "elapsedMs": 912
             },
             {
               "timerId": 5,
@@ -428,87 +395,99 @@
           "update": "GameStateUpdate_SendAndRecord",
           "actions": [
             {
-              "seatId": 2,
+              "seatId": 1,
               "action": {
                 "actionType": "ActionType_Cast",
-                "instanceId": 219
+                "instanceId": 101
               }
             },
             {
-              "seatId": 2,
+              "seatId": 1,
               "action": {
                 "actionType": "ActionType_Cast",
-                "instanceId": 220
+                "instanceId": 102
               }
             },
             {
-              "seatId": 2,
+              "seatId": 1,
               "action": {
                 "actionType": "ActionType_Cast",
-                "instanceId": 225
+                "instanceId": 103
               }
             },
             {
-              "seatId": 2,
+              "seatId": 1,
               "action": {
                 "actionType": "ActionType_Cast",
-                "instanceId": 222
+                "instanceId": 104
               }
             },
             {
-              "seatId": 2,
-              "action": {
-                "actionType": "ActionType_Cast",
-                "instanceId": 221
-              }
-            },
-            {
-              "seatId": 2,
-              "action": {
-                "actionType": "ActionType_Cast",
-                "instanceId": 223
-              }
-            },
-            {
-              "seatId": 2,
+              "seatId": 1,
               "action": {
                 "actionType": "ActionType_Play",
-                "instanceId": 224
+                "instanceId": 100
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Play",
+                "instanceId": 105
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Play",
+                "instanceId": 99
               }
             }
           ]
-        },
+        }
+      },
+      {
+        "type": "GREMessageType_MulliganReq",
+        "systemSeatIds": [
+          1
+        ],
+        "msgId": 11,
+        "gameStateId": 2,
         "prompt": {
-          "promptId": 1,
+          "promptId": 34,
           "parameters": [
             {
-              "parameterName": "TurnNumber",
-              "type": "ParameterType_Number"
+              "parameterName": "NumberOfCards",
+              "type": "ParameterType_Number",
+              "numberValue": 6
+            }
+          ],
+          "choices": [
+            {
+              "choiceId": 38,
+              "responseValue": 1
             },
             {
-              "parameterName": "Phase",
-              "type": "ParameterType_Number"
-            },
-            {
-              "parameterName": "Step",
-              "type": "ParameterType_Number"
+              "choiceId": 39,
+              "responseValue": 2
             }
           ]
         },
         "nonDecisionPlayerPrompt": {
-          "promptId": 1,
+          "promptId": 35,
           "parameters": [
             {
-              "parameterName": "TurnNumber",
-              "type": "ParameterType_Number"
+              "parameterName": "PlayerId",
+              "type": "ParameterType_Reference",
+              "reference": {
+                "type": "ReferenceType_PlayerSeatId",
+                "id": 1
+              }
             },
             {
-              "parameterName": "Phase",
-              "type": "ParameterType_Number"
-            },
-            {
-              "parameterName": "Step",
-              "type": "ParameterType_Number"
+              "parameterName": "NumberOfCards",
+              "type": "ParameterType_Number",
+              "numberValue": 6
             }
           ]
         }

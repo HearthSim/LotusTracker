@@ -37,6 +37,7 @@ HEADERS += \
     src/entity/matchplayer.h \
     src/entity/matchstatediff.h \
     src/entity/matchzone.h \
+    src/entity/matchzonetransfer.h \
     src/mtg/mtgarena.h \
     src/mtg/mtgalogparser.h \
     src/mtg/mtgalogwatcher.h \

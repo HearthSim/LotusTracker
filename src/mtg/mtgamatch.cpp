@@ -17,6 +17,7 @@ void MtgaMatch::startNewMatch(MatchInfo matchInfo)
     currentTurn = 1;
     playerGoFirst = false;
     resultPlayerWins = false;
+    LOGI("New match started")
 }
 
 void MtgaMatch::onMatchInfoSeats(QList<MatchPlayer> players)
@@ -33,11 +34,13 @@ void MtgaMatch::onMatchInfoSeats(QList<MatchPlayer> players)
 void MtgaMatch::onMatchInfoResultMatch(int winningTeamId)
 {
     resultPlayerWins = player.teamId() == winningTeamId;
+    LOGI(QString("%1 win").arg(resultPlayerWins ? "Player" : "Opponent"))
 }
 
 void MtgaMatch::onSeatIdThatGoFirst(int seatId)
 {
     playerGoFirst = player.seatId() == seatId;
+    LOGI(QString("%1 go first").arg(playerGoFirst ? "Player" : "Opponent"))
 }
 
 void MtgaMatch::onMatchStartZones(QList<MatchZone> matchZones)
@@ -52,15 +55,13 @@ void MtgaMatch::onMatchStateDiff(MatchStateDiff matchStateDiff)
     updateZones(matchStateDiff);
     updateIdsChanged(matchStateDiff);
     // Analyse objects that change zone
-    QMap<int, QPair<int, int>> idsZoneChanged = matchStateDiff.idsZoneChanged();
+    QMap<int, MatchZoneTransfer> idsZoneChanged = matchStateDiff.idsZoneChanged();
     for (int objectId : idsZoneChanged.keys()) {
-        MatchZone zoneSrc = zones[idsZoneChanged[objectId].first];
-        MatchZone zoneDst = zones[idsZoneChanged[objectId].second];
-        if (zoneDst.type() == ZoneType_STACK) {
-            stackOwnerTrack[objectId] = zoneSrc.ownerSeatId();
-            stackZoneSrcTrack[objectId] = zoneSrc.type();
-        }
-        ZoneTransferType zoneTransferType = getZoneTransferType(objectId, zoneSrc, zoneDst);
+        MatchZone zoneSrc = zones[idsZoneChanged[objectId].zoneSrcId()];
+        MatchZone zoneDst = zones[idsZoneChanged[objectId].zoneDstId()];
+        ZoneTransferCategory zoneTransferCategory = idsZoneChanged[objectId].category();
+        ZoneTransferType zoneTransferType = getZoneTransferType(objectId, zoneSrc,
+                                                                zoneDst, zoneTransferCategory);
         notifyCardZoneChange(objectId, zoneSrc, zoneDst, zoneTransferType);
     }
 }
@@ -72,10 +73,9 @@ void MtgaMatch::notifyCardZoneChange(int objectId, MatchZone zoneSrc, MatchZone 
     bool isTransferFromPlayer = ownerIdenfitier == "player";
     Card* card = getCardByObjectId(zoneDst, objectId);
     QString cardName = card ? card->name : QString("Object %1").arg(objectId);
-    QString baseMsg = QString("Turn %1 - %2").arg(currentTurn).arg(ownerIdenfitier);
     switch (zoneTransferType) {
         case TRANSFER_DRAW: {
-            LOGI(QString("%1 draw %2").arg(baseMsg).arg(cardName));
+            LOGD(QString("%1 draw %2").arg(ownerIdenfitier).arg(cardName));
             if (isTransferFromPlayer) {
                 emit sgnPlayerDrawCard(card);
             } else {
@@ -83,8 +83,10 @@ void MtgaMatch::notifyCardZoneChange(int objectId, MatchZone zoneSrc, MatchZone 
             }
             break;
         }
+        case TRANSFER_CAST:
         case TRANSFER_PLAY: {
-            LOGI(QString("%1 play %2").arg(baseMsg).arg(cardName));
+            QString action = zoneTransferType == TRANSFER_CAST ? "cast" : "play";
+            LOGD(QString("%1 %2 %3").arg(ownerIdenfitier).arg(action).arg(cardName));
             if (isTransferFromPlayer) {
                 emit sgnPlayerPlayCard(card);
             } else {
@@ -93,15 +95,27 @@ void MtgaMatch::notifyCardZoneChange(int objectId, MatchZone zoneSrc, MatchZone 
             break;
         }
         case TRANSFER_DESTROY: {
-            LOGI(QString("Turn %1 - %2 destroyed").arg(currentTurn).arg(cardName));
+            LOGD(QString("%1 destroyed").arg(cardName));
+            break;
+        }
+        case TRANSFER_DISCARD: {
+            LOGD(QString("%1 discarded").arg(cardName));
             break;
         }
         case TRANSFER_EXILE: {
-            LOGI(QString("Turn %1 - %2 exiled").arg(currentTurn).arg(cardName));
+            LOGD(QString("%1 exiled").arg(cardName));
+            break;
+        }
+        case TRANSFER_COUNTERED: {
+            LOGD(QString("%1 countered").arg(cardName));
+            break;
+        }
+        case TRANSFER_RESOLVE: {
+            LOGD(QString("%1 resolved").arg(cardName));
             break;
         }
         default: {
-            LOGI(QString("*** %1 move %2 from %3 to %4").arg(baseMsg)
+            LOGD(QString("*** %1 move %2 from %3 to %4").arg(ownerIdenfitier)
                  .arg(cardName).arg(zoneSrc.name()).arg(zoneDst.name()));
         }
     }
@@ -166,8 +180,14 @@ QString MtgaMatch::getOwnerIdentifier(int objectId, MatchZone zoneSrc)
     return "Unknown";
 }
 
-ZoneTransferType MtgaMatch::getZoneTransferType(int objectId, MatchZone zoneSrc, MatchZone zoneDst)
+ZoneTransferType MtgaMatch::getZoneTransferType(int objectId, MatchZone zoneSrc,
+                                                MatchZone zoneDst, ZoneTransferCategory category)
 {
+    if (zoneSrc.type() == ZoneType_HAND && zoneDst.type() == ZoneType_STACK) {
+        stackOwnerTrack[objectId] = zoneSrc.ownerSeatId();
+        stackZoneSrcTrack[objectId] = zoneSrc.type();
+        return TRANSFER_CAST;
+    }
     if (zoneSrc.type() == ZoneType_LIBRARY && zoneDst.type() == ZoneType_HAND) {
         return TRANSFER_DRAW;
     }
@@ -177,18 +197,26 @@ ZoneTransferType MtgaMatch::getZoneTransferType(int objectId, MatchZone zoneSrc,
     if (zoneSrc.type() == ZoneType_BATTLEFIELD && zoneDst.type() == ZoneType_GRAVEYARD) {
         return TRANSFER_DESTROY;
     }
-    if (zoneSrc.type() == ZoneType_BATTLEFIELD && zoneDst.type() == ZoneType_EXILE) {
+    if (zoneDst.type() == ZoneType_EXILE) {
         return TRANSFER_EXILE;
+    }
+    if (zoneSrc.type() == ZoneType_HAND && zoneDst.type() == ZoneType_GRAVEYARD) {
+        return TRANSFER_DISCARD;
     }
     if (zoneSrc.type() == ZoneType_STACK && zoneDst.type() == ZoneType_BATTLEFIELD
             && stackZoneSrcTrack[objectId] == ZoneType_HAND) {
         stackZoneSrcTrack.remove(objectId);
-        return TRANSFER_PLAY;
+        return TRANSFER_RESOLVE;
     }
     if (zoneSrc.type() == ZoneType_STACK && zoneDst.type() == ZoneType_GRAVEYARD
             && stackZoneSrcTrack[objectId] == ZoneType_HAND) {
         stackZoneSrcTrack.remove(objectId);
-        return TRANSFER_PLAY;
+        if (category == ZoneTransfer_RESOLVED) {
+            return TRANSFER_RESOLVE;
+        }
+        if (category == ZoneTransfer_COUNTERED) {
+            return TRANSFER_COUNTERED;
+        }
     }
     return TRANSFER_UNKOWN;
 }

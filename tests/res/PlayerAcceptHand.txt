@@ -1,15 +1,15 @@
 
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-3/25/2018 9:44:49 PM: A3461766D418FFE6 to Match: ClientToGreMessage
+5/20/2018 12:12:58 AM: A3461766D418FFE6 to Match: ClientToGreMessage
 {
   "clientId": "A3461766D418FFE6",
-  "requestId": 16,
+  "requestId": 14,
   "clientToGreMessage": {
     "type": "ClientMessageType_MulliganResp",
-    "systemSeatId": 2,
-    "gameStateId": 4,
-    "respId": 17,
+    "systemSeatId": 1,
+    "gameStateId": 2,
+    "respId": 11,
     "mulliganResp": {
       "decision": "MulliganOption_AcceptHand"
     }

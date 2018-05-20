@@ -1,5 +1,5 @@
 
-5/10/2018 11:28:25 PM: Match to A3461766D418FFE6: GreToClientEvent
+5/20/2018 12:12:31 AM: Match to A3461766D418FFE6: GreToClientEvent
 {
   "greToClientEvent": {
     "greToClientMessages": [
@@ -261,7 +261,7 @@
           "playerDieRolls": [
             {
               "systemSeatId": 1,
-              "rollValue": 3
+              "rollValue": 2
             },
             {
               "systemSeatId": 2,
@@ -281,7 +281,7 @@
           "type": "GameStateType_Full",
           "gameStateId": 1,
           "gameInfo": {
-            "matchID": "3a323a4c-3166-43d4-bced-3afe4de97e29",
+            "matchID": "fc8c88ed-8ed9-4121-ad45-e89fe27243ea",
             "gameNumber": 1,
             "stage": "GameStage_Play",
             "type": "GameType_Duel",
@@ -712,7 +712,7 @@
               "running": true,
               "behavior": "TimerBehavior_TakeControl",
               "warningThresholdSec": 90,
-              "elapsedMs": 3
+              "elapsedMs": 4
             },
             {
               "timerId": 2,
@@ -742,7 +742,7 @@
               "running": true,
               "behavior": "TimerBehavior_Timeout",
               "warningThresholdSec": 130,
-              "elapsedMs": 3
+              "elapsedMs": 4
             },
             {
               "timerId": 6,

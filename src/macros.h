@@ -10,7 +10,7 @@
 #include <QDebug>
 
 #define LOG_LEVEL DEBUG //DEBUG, INFO, WARNING
-#define LOG_IN_TESTS false
+#define LOG_IN_TESTS true
 #define RUNNING_TESTS !qApp
 
 #define DEL(__CLASSNAME__) \

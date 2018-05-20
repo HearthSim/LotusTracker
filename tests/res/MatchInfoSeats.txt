@@ -1,5 +1,5 @@
 
-3/25/2018 9:44:33 PM: Match to A3461766D418FFE6: MatchGameRoomStateChangedEvent
+5/20/2018 12:12:31 AM: Match to A3461766D418FFE6: MatchGameRoomStateChangedEvent
 {
   "matchGameRoomStateChangedEvent": {
     "gameRoomInfo": {
@@ -7,8 +7,8 @@
         "eventId": "ConstructedRanked1",
         "reservedPlayers": [
           {
-            "userId": "67B9044AD3DEBCF",
-            "playerName": "Niv-Mi****",
+            "userId": "A3461766D418FFE6",
+            "playerName": "Edipo2s",
             "systemSeatId": 1,
             "teamId": 1,
             "connectionInfo": {
@@ -17,8 +17,8 @@
             "courseId": "00000000-0000-0000-0000-000000000000"
           },
           {
-            "userId": "A3461766D418FFE6",
-            "playerName": "Edipo2s",
+            "userId": "64241855F4C3FC49",
+            "playerName": "Temple Scrybottom",
             "systemSeatId": 2,
             "teamId": 2,
             "connectionInfo": {
@@ -27,7 +27,7 @@
             "courseId": "00000000-0000-0000-0000-000000000000"
           }
         ],
-        "matchId": "05d80dff-5c88-4897-ae3e-dc4d6dbe99f2",
+        "matchId": "fc8c88ed-8ed9-4121-ad45-e89fe27243ea",
         "matchConfig": {},
         "greConfig": {
           "gameStateRedactorConfiguration": {
@@ -43,11 +43,11 @@
       "stateType": "MatchGameRoomStateType_Playing",
       "players": [
         {
-          "userId": "67B9044AD3DEBCF",
+          "userId": "A3461766D418FFE6",
           "systemSeatId": 1
         },
         {
-          "userId": "A3461766D418FFE6",
+          "userId": "64241855F4C3FC49",
           "systemSeatId": 2
         }
       ]

@@ -1,10 +1,10 @@
 
-3/25/2018 9:44:24 PM Incoming Event.MatchCreated {
-  "controllerFabricUri": "fabric:/Prod_MatchApp/Prod_MatchController/05d80dff-5c88-4897-ae3e-dc4d6dbe99f2",
-  "matchEndpointUri": "wss://matcheastsfc.mtgabeta.com:9505/Prod/MatchGatewayWS",
-  "opponentScreenName": "Niv-Mi****",
+5/20/2018 12:12:24 AM Incoming Event.MatchCreated {
+  "controllerFabricUri": "fabric:/Prod_MatchApp/Prod_MatchController/fc8c88ed-8ed9-4121-ad45-e89fe27243ea",
+  "matchEndpointUri": "wss://client.arenamatch-b.east.magic-the-gathering-arena.com:9505/Prod/MatchGatewayWS",
+  "opponentScreenName": "Temple Scrybottom",
   "opponentIsWotc": false,
-  "matchId": "05d80dff-5c88-4897-ae3e-dc4d6dbe99f2",
+  "matchId": "fc8c88ed-8ed9-4121-ad45-e89fe27243ea",
   "opponentRankingClass": "Bronze",
   "opponentRankingTier": 4
 }

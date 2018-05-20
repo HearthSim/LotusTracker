@@ -1,1422 +1,18 @@
 
-3/25/2018 9:46:39 PM: Match to A3461766D418FFE6: GreToClientEvent
+5/20/2018 12:16:05 AM: Match to A3461766D418FFE6: GreToClientEvent
 {
   "greToClientEvent": {
     "greToClientMessages": [
       {
         "type": "GREMessageType_GameStateMessage",
         "systemSeatIds": [
-          2
+          1
         ],
-        "msgId": 216,
-        "gameStateId": 155,
+        "msgId": 167,
+        "gameStateId": 117,
         "gameStateMessage": {
           "type": "GameStateType_Diff",
-          "gameStateId": 155,
-          "turnInfo": {
-            "phase": "Phase_Main1",
-            "turnNumber": 8,
-            "activePlayer": 2,
-            "priorityPlayer": 2,
-            "decisionPlayer": 1,
-            "stormCount": 2
-          },
-          "zones": [
-            {
-              "zoneId": 27,
-              "type": "ZoneType_Stack",
-              "visibility": "Visibility_Public",
-              "objectInstanceIds": [
-                362
-              ]
-            },
-            {
-              "zoneId": 30,
-              "type": "ZoneType_Limbo",
-              "visibility": "Visibility_Hidden",
-              "objectInstanceIds": [
-                364,
-                100,
-                280,
-                352,
-                289,
-                108,
-                282,
-                283,
-                288,
-                103,
-                347,
-                107,
-                279,
-                287,
-                102,
-                106,
-                281,
-                286,
-                105
-              ]
-            },
-            {
-              "zoneId": 32,
-              "type": "ZoneType_Library",
-              "visibility": "Visibility_Hidden",
-              "ownerSeatId": 1,
-              "objectInstanceIds": [
-                110,
-                111,
-                112,
-                113,
-                114,
-                115,
-                116,
-                117,
-                118,
-                119,
-                120,
-                121,
-                122,
-                123,
-                124,
-                125,
-                126,
-                127,
-                128,
-                129,
-                130,
-                131,
-                132,
-                133,
-                134,
-                135,
-                136,
-                137,
-                138,
-                139,
-                140,
-                141,
-                142,
-                143,
-                144,
-                145,
-                146,
-                147,
-                148,
-                149,
-                150,
-                151,
-                152,
-                153,
-                154,
-                155,
-                156,
-                157,
-                158,
-                109
-              ]
-            },
-            {
-              "zoneId": 33,
-              "type": "ZoneType_Graveyard",
-              "visibility": "Visibility_Public",
-              "ownerSeatId": 1,
-              "objectInstanceIds": [
-                366
-              ]
-            }
-          ],
-          "gameObjects": [
-            {
-              "instanceId": 364,
-              "grpId": 66031,
-              "type": "GameObjectType_Card",
-              "zoneId": 30,
-              "visibility": "Visibility_Public",
-              "ownerSeatId": 1,
-              "controllerSeatId": 1,
-              "cardTypes": [
-                "CardType_Instant",
-                "CardType_Instant"
-              ],
-              "color": [
-                "CardColor_White"
-              ],
-              "name": 173601,
-              "abilities": [
-                116742
-              ],
-              "overlayGrpId": 66031
-            },
-            {
-              "instanceId": 366,
-              "grpId": 66031,
-              "type": "GameObjectType_Card",
-              "zoneId": 33,
-              "visibility": "Visibility_Public",
-              "ownerSeatId": 1,
-              "controllerSeatId": 1,
-              "cardTypes": [
-                "CardType_Instant"
-              ],
-              "color": [
-                "CardColor_White"
-              ],
-              "name": 173601,
-              "abilities": [
-                116742
-              ],
-              "overlayGrpId": 66031
-            }
-          ],
-          "annotations": [
-            {
-              "id": 2206,
-              "affectorId": 364,
-              "affectedIds": [
-                364
-              ],
-              "type": [
-                "AnnotationType_ResolutionComplete"
-              ],
-              "details": [
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    66031
-                  ]
-                }
-              ]
-            },
-            {
-              "id": 2207,
-              "affectorId": 1,
-              "affectedIds": [
-                364
-              ],
-              "type": [
-                "AnnotationType_ObjectIdChanged"
-              ],
-              "details": [
-                {
-                  "key": "orig_id",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    364
-                  ]
-                },
-                {
-                  "key": "new_id",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    366
-                  ]
-                }
-              ]
-            },
-            {
-              "id": 2208,
-              "affectorId": 1,
-              "affectedIds": [
-                366
-              ],
-              "type": [
-                "AnnotationType_ZoneTransfer"
-              ],
-              "details": [
-                {
-                  "key": "zone_src",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    27
-                  ]
-                },
-                {
-                  "key": "zone_dest",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    33
-                  ]
-                },
-                {
-                  "key": "category",
-                  "type": "KeyValuePairValueType_string",
-                  "valueString": [
-                    "Resolve"
-                  ]
-                }
-              ]
-            },
-            {
-              "id": 2098,
-              "affectorId": 349,
-              "affectedIds": [
-                343
-              ],
-              "type": [
-                "AnnotationType_Attachment"
-              ]
-            },
-            {
-              "id": 2099,
-              "affectorId": 349,
-              "affectedIds": [
-                343
-              ],
-              "type": [
-                "AnnotationType_ModifiedToughness",
-                "AnnotationType_ModifiedPower"
-              ]
-            },
-            {
-              "id": 2101,
-              "affectorId": 349,
-              "affectedIds": [
-                343
-              ],
-              "type": [
-                "AnnotationType_AddAbility"
-              ],
-              "details": [
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                }
-              ]
-            },
-            {
-              "id": 2189,
-              "affectorId": 362,
-              "affectedIds": [
-                354
-              ],
-              "type": [
-                "AnnotationType_TargetSpec"
-              ],
-              "details": [
-                {
-                  "key": "index",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    1
-                  ]
-                }
-              ]
-            },
-            {
-              "id": 2190,
-              "affectorId": 362,
-              "affectedIds": [
-                343
-              ],
-              "type": [
-                "AnnotationType_TargetSpec"
-              ],
-              "details": [
-                {
-                  "key": "index",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    2
-                  ]
-                }
-              ]
-            },
-            {
-              "id": 2204,
-              "affectorId": 364,
-              "affectedIds": [
-                343
-              ],
-              "type": [
-                "AnnotationType_AddAbility"
-              ],
-              "details": [
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    104
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    104
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    104
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    104
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    104
-                  ]
-                }
-              ]
-            }
-          ],
-          "prevGameStateId": 154,
-          "timers": [
-            {
-              "timerId": 4,
-              "type": "TimerType_NonActivePlayer",
-              "durationSec": 45,
-              "elapsedSec": 6,
-              "behavior": "TimerBehavior_TakeControl",
-              "warningThresholdSec": 15,
-              "elapsedMs": 6193
-            },
-            {
-              "timerId": 5,
-              "type": "TimerType_Inactivity",
-              "durationSec": 150,
-              "behavior": "TimerBehavior_Timeout",
-              "warningThresholdSec": 130
-            }
-          ],
-          "update": "GameStateUpdate_SendHiFi",
-          "actions": [
-            {
-              "seatId": 2,
-              "action": {
-                "actionType": "ActionType_Cast",
-                "instanceId": 284
-              }
-            },
-            {
-              "seatId": 2,
-              "action": {
-                "actionType": "ActionType_Cast",
-                "instanceId": 340
-              }
-            },
-            {
-              "seatId": 2,
-              "action": {
-                "actionType": "ActionType_Cast",
-                "instanceId": 360
-              }
-            },
-            {
-              "seatId": 2,
-              "action": {
-                "actionType": "ActionType_Play",
-                "instanceId": 345
-              }
-            },
-            {
-              "seatId": 1,
-              "action": {
-                "actionType": "ActionType_Activate",
-                "abilityGrpId": 1002,
-                "sourceId": 348
-              }
-            },
-            {
-              "seatId": 2,
-              "action": {
-                "actionType": "ActionType_Activate",
-                "abilityGrpId": 1004,
-                "sourceId": 353
-              }
-            },
-            {
-              "seatId": 2,
-              "action": {
-                "actionType": "ActionType_Activate",
-                "abilityGrpId": 1005,
-                "sourceId": 361
-              }
-            },
-            {
-              "seatId": 2,
-              "action": {
-                "actionType": "ActionType_Activate",
-                "abilityGrpId": 1152,
-                "sourceId": 346
-              }
-            },
-            {
-              "seatId": 1,
-              "action": {
-                "actionType": "ActionType_Activate",
-                "abilityGrpId": 1209,
-                "sourceId": 339
-              }
-            },
-            {
-              "seatId": 2,
-              "action": {
-                "actionType": "ActionType_Activate",
-                "abilityGrpId": 1131,
-                "sourceId": 341
-              }
-            },
-            {
-              "seatId": 2,
-              "action": {
-                "actionType": "ActionType_Activate",
-                "abilityGrpId": 117038,
-                "sourceId": 346
-              }
-            }
-          ]
-        },
-        "prompt": {
-          "promptId": 1,
-          "parameters": [
-            {
-              "parameterName": "TurnNumber",
-              "type": "ParameterType_Number",
-              "numberValue": 8
-            },
-            {
-              "parameterName": "Phase",
-              "type": "ParameterType_Number",
-              "numberValue": 2
-            },
-            {
-              "parameterName": "Step",
-              "type": "ParameterType_Number"
-            }
-          ]
-        },
-        "nonDecisionPlayerPrompt": {
-          "promptId": 1,
-          "parameters": [
-            {
-              "parameterName": "TurnNumber",
-              "type": "ParameterType_Number",
-              "numberValue": 8
-            },
-            {
-              "parameterName": "Phase",
-              "type": "ParameterType_Number",
-              "numberValue": 2
-            },
-            {
-              "parameterName": "Step",
-              "type": "ParameterType_Number"
-            }
-          ]
-        }
-      },
-      {
-        "type": "GREMessageType_GameStateMessage",
-        "systemSeatIds": [
-          2
-        ],
-        "msgId": 217,
-        "gameStateId": 156,
-        "gameStateMessage": {
-          "type": "GameStateType_Diff",
-          "gameStateId": 156,
-          "turnInfo": {
-            "phase": "Phase_Main1",
-            "turnNumber": 8,
-            "activePlayer": 2,
-            "priorityPlayer": 1,
-            "decisionPlayer": 1,
-            "stormCount": 2
-          },
-          "annotations": [
-            {
-              "id": 2098,
-              "affectorId": 349,
-              "affectedIds": [
-                343
-              ],
-              "type": [
-                "AnnotationType_Attachment"
-              ]
-            },
-            {
-              "id": 2099,
-              "affectorId": 349,
-              "affectedIds": [
-                343
-              ],
-              "type": [
-                "AnnotationType_ModifiedToughness",
-                "AnnotationType_ModifiedPower"
-              ]
-            },
-            {
-              "id": 2101,
-              "affectorId": 349,
-              "affectedIds": [
-                343
-              ],
-              "type": [
-                "AnnotationType_AddAbility"
-              ],
-              "details": [
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                }
-              ]
-            },
-            {
-              "id": 2189,
-              "affectorId": 362,
-              "affectedIds": [
-                354
-              ],
-              "type": [
-                "AnnotationType_TargetSpec"
-              ],
-              "details": [
-                {
-                  "key": "index",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    1
-                  ]
-                }
-              ]
-            },
-            {
-              "id": 2190,
-              "affectorId": 362,
-              "affectedIds": [
-                343
-              ],
-              "type": [
-                "AnnotationType_TargetSpec"
-              ],
-              "details": [
-                {
-                  "key": "index",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    2
-                  ]
-                }
-              ]
-            },
-            {
-              "id": 2204,
-              "affectorId": 364,
-              "affectedIds": [
-                343
-              ],
-              "type": [
-                "AnnotationType_AddAbility"
-              ],
-              "details": [
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    104
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    104
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    104
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    104
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    104
-                  ]
-                }
-              ]
-            }
-          ],
-          "prevGameStateId": 155,
-          "update": "GameStateUpdate_SendHiFi",
-          "actions": [
-            {
-              "seatId": 2,
-              "action": {
-                "actionType": "ActionType_Cast",
-                "instanceId": 284
-              }
-            },
-            {
-              "seatId": 2,
-              "action": {
-                "actionType": "ActionType_Cast",
-                "instanceId": 340
-              }
-            },
-            {
-              "seatId": 2,
-              "action": {
-                "actionType": "ActionType_Cast",
-                "instanceId": 360
-              }
-            },
-            {
-              "seatId": 2,
-              "action": {
-                "actionType": "ActionType_Play",
-                "instanceId": 345
-              }
-            },
-            {
-              "seatId": 1,
-              "action": {
-                "actionType": "ActionType_Activate",
-                "abilityGrpId": 1002,
-                "sourceId": 348
-              }
-            },
-            {
-              "seatId": 2,
-              "action": {
-                "actionType": "ActionType_Activate",
-                "abilityGrpId": 1004,
-                "sourceId": 353
-              }
-            },
-            {
-              "seatId": 2,
-              "action": {
-                "actionType": "ActionType_Activate",
-                "abilityGrpId": 1005,
-                "sourceId": 361
-              }
-            },
-            {
-              "seatId": 2,
-              "action": {
-                "actionType": "ActionType_Activate",
-                "abilityGrpId": 1152,
-                "sourceId": 346
-              }
-            },
-            {
-              "seatId": 1,
-              "action": {
-                "actionType": "ActionType_Activate",
-                "abilityGrpId": 1209,
-                "sourceId": 339
-              }
-            },
-            {
-              "seatId": 2,
-              "action": {
-                "actionType": "ActionType_Activate",
-                "abilityGrpId": 1131,
-                "sourceId": 341
-              }
-            },
-            {
-              "seatId": 2,
-              "action": {
-                "actionType": "ActionType_Activate",
-                "abilityGrpId": 117038,
-                "sourceId": 346
-              }
-            }
-          ]
-        },
-        "prompt": {
-          "promptId": 1,
-          "parameters": [
-            {
-              "parameterName": "TurnNumber",
-              "type": "ParameterType_Number",
-              "numberValue": 8
-            },
-            {
-              "parameterName": "Phase",
-              "type": "ParameterType_Number",
-              "numberValue": 2
-            },
-            {
-              "parameterName": "Step",
-              "type": "ParameterType_Number"
-            }
-          ]
-        },
-        "nonDecisionPlayerPrompt": {
-          "promptId": 1,
-          "parameters": [
-            {
-              "parameterName": "TurnNumber",
-              "type": "ParameterType_Number",
-              "numberValue": 8
-            },
-            {
-              "parameterName": "Phase",
-              "type": "ParameterType_Number",
-              "numberValue": 2
-            },
-            {
-              "parameterName": "Step",
-              "type": "ParameterType_Number"
-            }
-          ]
-        }
-      },
-      {
-        "type": "GREMessageType_GameStateMessage",
-        "systemSeatIds": [
-          2
-        ],
-        "msgId": 218,
-        "gameStateId": 157,
-        "gameStateMessage": {
-          "type": "GameStateType_Diff",
-          "gameStateId": 157,
-          "players": [
-            {
-              "lifeTotal": 29,
-              "systemSeatNumber": 1,
-              "maxHandSize": 7,
-              "turnNumber": 4,
-              "teamId": 1,
-              "timerIds": [
-                1,
-                2,
-                3,
-                4,
-                5
-              ],
-              "controllerSeatId": 1,
-              "controllerType": "ControllerType_Player",
-              "timeoutCount": 1,
-              "pipCount": 1
-            }
-          ],
-          "turnInfo": {
-            "phase": "Phase_Main1",
-            "turnNumber": 8,
-            "activePlayer": 2,
-            "priorityPlayer": 2,
-            "decisionPlayer": 2,
-            "stormCount": 2
-          },
+          "gameStateId": 117,
           "zones": [
             {
               "zoneId": 27,
@@ -1424,46 +20,104 @@
               "visibility": "Visibility_Public"
             },
             {
-              "zoneId": 28,
-              "type": "ZoneType_Battlefield",
-              "visibility": "Visibility_Public",
-              "objectInstanceIds": [
-                361,
-                353,
-                349,
-                348,
-                346,
-                343,
-                341,
-                339
-              ]
-            },
-            {
               "zoneId": 30,
               "type": "ZoneType_Limbo",
               "visibility": "Visibility_Hidden",
               "objectInstanceIds": [
-                354,
-                362,
-                364,
-                100,
-                280,
-                352,
-                289,
-                108,
-                282,
-                283,
-                288,
-                103,
-                347,
+                303,
+                231,
+                223,
+                221,
+                230,
+                299,
                 107,
-                279,
-                287,
-                102,
-                106,
-                281,
+                290,
+                282,
+                292,
+                104,
+                288,
+                229,
+                222,
                 286,
-                105
+                227,
+                99,
+                106,
+                220,
+                225,
+                226,
+                100
+              ]
+            },
+            {
+              "zoneId": 35,
+              "type": "ZoneType_Hand",
+              "visibility": "Visibility_Private",
+              "ownerSeatId": 2,
+              "objectInstanceIds": [
+                306,
+                301,
+                280,
+                224,
+                219
+              ],
+              "viewers": [
+                2
+              ]
+            },
+            {
+              "zoneId": 36,
+              "type": "ZoneType_Library",
+              "visibility": "Visibility_Hidden",
+              "ownerSeatId": 2,
+              "objectInstanceIds": [
+                232,
+                233,
+                234,
+                235,
+                236,
+                237,
+                238,
+                239,
+                240,
+                241,
+                242,
+                243,
+                244,
+                245,
+                246,
+                247,
+                248,
+                249,
+                250,
+                251,
+                252,
+                253,
+                254,
+                255,
+                256,
+                257,
+                258,
+                259,
+                260,
+                261,
+                262,
+                263,
+                264,
+                265,
+                266,
+                267,
+                268,
+                269,
+                270,
+                271,
+                272,
+                273,
+                274,
+                275,
+                276,
+                277,
+                278,
+                228
               ]
             },
             {
@@ -1472,291 +126,63 @@
               "visibility": "Visibility_Public",
               "ownerSeatId": 2,
               "objectInstanceIds": [
-                368,
-                367
+                307,
+                296,
+                291
               ]
             }
           ],
           "gameObjects": [
             {
-              "instanceId": 343,
-              "grpId": 64853,
-              "type": "GameObjectType_Card",
-              "zoneId": 28,
-              "visibility": "Visibility_Public",
-              "ownerSeatId": 1,
-              "controllerSeatId": 1,
-              "cardTypes": [
-                "CardType_Creature"
-              ],
-              "subtypes": [
-                "SubType_Cat"
-              ],
-              "color": [
-                "CardColor_White"
-              ],
-              "power": {
-                "value": 3
-              },
-              "toughness": {
-                "value": 3
-              },
-              "isTapped": true,
-              "damage": 4,
-              "name": 76366,
-              "abilities": [
-                12,
-                88103,
-                8,
-                104
-              ],
-              "overlayGrpId": 64853
-            },
-            {
-              "instanceId": 354,
-              "grpId": 66335,
+              "instanceId": 303,
+              "grpId": 67224,
               "type": "GameObjectType_Card",
               "zoneId": 30,
               "visibility": "Visibility_Public",
               "ownerSeatId": 2,
               "controllerSeatId": 2,
               "cardTypes": [
-                "CardType_Creature",
-                "CardType_Creature"
-              ],
-              "subtypes": [
-                "SubType_Dinosaur"
+                "CardType_Instant",
+                "CardType_Instant"
               ],
               "color": [
-                "CardColor_Green"
+                "CardColor_Blue"
               ],
-              "power": {
-                "value": 4
-              },
-              "toughness": {
-                "value": 3
-              },
-              "damage": 3,
-              "name": 173892,
+              "name": 16650,
               "abilities": [
-                116897
+                66937,
+                25848
               ],
-              "overlayGrpId": 66335
+              "overlayGrpId": 67224
             },
             {
-              "instanceId": 362,
-              "grpId": 66379,
-              "type": "GameObjectType_Card",
-              "zoneId": 30,
-              "visibility": "Visibility_Public",
-              "ownerSeatId": 2,
-              "controllerSeatId": 2,
-              "cardTypes": [
-                "CardType_Sorcery",
-                "CardType_Sorcery"
-              ],
-              "color": [
-                "CardColor_Green"
-              ],
-              "name": 173932,
-              "abilities": [
-                116763,
-                20207
-              ],
-              "overlayGrpId": 66379
-            },
-            {
-              "instanceId": 367,
-              "grpId": 66379,
+              "instanceId": 307,
+              "grpId": 67224,
               "type": "GameObjectType_Card",
               "zoneId": 37,
               "visibility": "Visibility_Public",
               "ownerSeatId": 2,
               "controllerSeatId": 2,
               "cardTypes": [
-                "CardType_Sorcery"
+                "CardType_Instant"
               ],
               "color": [
-                "CardColor_Green"
+                "CardColor_Blue"
               ],
-              "name": 173932,
+              "name": 16650,
               "abilities": [
-                116763,
-                20207
+                66937,
+                25848
               ],
-              "overlayGrpId": 66379
-            },
-            {
-              "instanceId": 368,
-              "grpId": 66335,
-              "type": "GameObjectType_Card",
-              "zoneId": 37,
-              "visibility": "Visibility_Public",
-              "ownerSeatId": 2,
-              "controllerSeatId": 2,
-              "cardTypes": [
-                "CardType_Creature"
-              ],
-              "subtypes": [
-                "SubType_Dinosaur"
-              ],
-              "color": [
-                "CardColor_Green"
-              ],
-              "power": {
-                "value": 3
-              },
-              "toughness": {
-                "value": 2
-              },
-              "name": 173892,
-              "abilities": [
-                116897
-              ],
-              "overlayGrpId": 66335
+              "overlayGrpId": 67224
             }
           ],
           "annotations": [
             {
-              "id": 2209,
-              "affectorId": 362,
+              "id": 2181,
+              "affectorId": 303,
               "affectedIds": [
-                362
-              ],
-              "type": [
-                "AnnotationType_ResolutionStart"
-              ],
-              "details": [
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    66379
-                  ]
-                }
-              ]
-            },
-            {
-              "id": 2211,
-              "affectorId": 362,
-              "affectedIds": [
-                354
-              ],
-              "type": [
-                "AnnotationType_CounterAdded"
-              ],
-              "details": [
-                {
-                  "key": "counter_type",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    1
-                  ]
-                },
-                {
-                  "key": "transaction_amount",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    1
-                  ]
-                }
-              ]
-            },
-            {
-              "id": 2212,
-              "affectorId": 354,
-              "affectedIds": [
-                343
-              ],
-              "type": [
-                "AnnotationType_DamageDealt"
-              ],
-              "details": [
-                {
-                  "key": "damage",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    4
-                  ]
-                },
-                {
-                  "key": "type",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    3
-                  ]
-                }
-              ]
-            },
-            {
-              "id": 2213,
-              "affectorId": 343,
-              "affectedIds": [
-                354
-              ],
-              "type": [
-                "AnnotationType_DamageDealt"
-              ],
-              "details": [
-                {
-                  "key": "damage",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    3
-                  ]
-                },
-                {
-                  "key": "type",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    3
-                  ]
-                }
-              ]
-            },
-            {
-              "id": 2214,
-              "affectorId": 343,
-              "affectedIds": [
-                1
-              ],
-              "type": [
-                "AnnotationType_ModifiedLife"
-              ],
-              "details": [
-                {
-                  "key": "life",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    3
-                  ]
-                }
-              ]
-            },
-            {
-              "id": 2215,
-              "affectorId": 362,
-              "affectedIds": [
-                362
-              ],
-              "type": [
-                "AnnotationType_ResolutionComplete"
-              ],
-              "details": [
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    66379
-                  ]
-                }
-              ]
-            },
-            {
-              "id": 2216,
-              "affectorId": 2,
-              "affectedIds": [
-                362
+                231
               ],
               "type": [
                 "AnnotationType_ObjectIdChanged"
@@ -1766,23 +192,101 @@
                   "key": "orig_id",
                   "type": "KeyValuePairValueType_int32",
                   "valueInt32": [
-                    362
+                    231
                   ]
                 },
                 {
                   "key": "new_id",
                   "type": "KeyValuePairValueType_int32",
                   "valueInt32": [
-                    367
+                    306
                   ]
                 }
               ]
             },
             {
-              "id": 2217,
+              "id": 2182,
+              "affectorId": 303,
+              "affectedIds": [
+                306
+              ],
+              "type": [
+                "AnnotationType_ZoneTransfer"
+              ],
+              "details": [
+                {
+                  "key": "zone_src",
+                  "type": "KeyValuePairValueType_int32",
+                  "valueInt32": [
+                    36
+                  ]
+                },
+                {
+                  "key": "zone_dest",
+                  "type": "KeyValuePairValueType_int32",
+                  "valueInt32": [
+                    35
+                  ]
+                },
+                {
+                  "key": "category",
+                  "type": "KeyValuePairValueType_string",
+                  "valueString": [
+                    "Draw"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 2183,
+              "affectorId": 303,
+              "affectedIds": [
+                303
+              ],
+              "type": [
+                "AnnotationType_ResolutionComplete"
+              ],
+              "details": [
+                {
+                  "key": "grpid",
+                  "type": "KeyValuePairValueType_int32",
+                  "valueInt32": [
+                    67224
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 2184,
               "affectorId": 2,
               "affectedIds": [
-                367
+                303
+              ],
+              "type": [
+                "AnnotationType_ObjectIdChanged"
+              ],
+              "details": [
+                {
+                  "key": "orig_id",
+                  "type": "KeyValuePairValueType_int32",
+                  "valueInt32": [
+                    303
+                  ]
+                },
+                {
+                  "key": "new_id",
+                  "type": "KeyValuePairValueType_int32",
+                  "valueInt32": [
+                    307
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 2185,
+              "affectorId": 2,
+              "affectedIds": [
+                307
               ],
               "type": [
                 "AnnotationType_ZoneTransfer"
@@ -1812,540 +316,83 @@
               ]
             },
             {
-              "id": 2218,
+              "id": 2003,
+              "affectorId": 27,
               "affectedIds": [
-                354
+                303
               ],
               "type": [
-                "AnnotationType_ObjectIdChanged"
-              ],
-              "details": [
-                {
-                  "key": "orig_id",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    354
-                  ]
-                },
-                {
-                  "key": "new_id",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    368
-                  ]
-                }
+                "AnnotationType_EnteredZoneThisTurn"
               ]
             },
             {
-              "id": 2219,
+              "id": 2004,
+              "affectorId": 28,
               "affectedIds": [
-                368
+                302
               ],
               "type": [
-                "AnnotationType_ZoneTransfer"
-              ],
-              "details": [
-                {
-                  "key": "zone_src",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    28
-                  ]
-                },
-                {
-                  "key": "zone_dest",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    37
-                  ]
-                },
-                {
-                  "key": "category",
-                  "type": "KeyValuePairValueType_string",
-                  "valueString": [
-                    "SBA_Damage"
-                  ]
-                }
+                "AnnotationType_EnteredZoneThisTurn"
               ]
             },
             {
-              "id": 2098,
-              "affectorId": 349,
+              "id": 2014,
+              "affectorId": 35,
               "affectedIds": [
-                343
+                306,
+                301
               ],
               "type": [
-                "AnnotationType_Attachment"
+                "AnnotationType_EnteredZoneThisTurn"
               ]
             },
             {
-              "id": 2099,
-              "affectorId": 349,
+              "id": 2016,
+              "affectorId": 37,
               "affectedIds": [
-                343
+                307
+              ],
+              "type": [
+                "AnnotationType_EnteredZoneThisTurn"
+              ]
+            },
+            {
+              "id": 2176,
+              "affectorId": 305,
+              "affectedIds": [
+                303
+              ],
+              "type": [
+                "AnnotationType_TriggeringObject"
+              ]
+            },
+            {
+              "id": 2177,
+              "affectorId": 7005,
+              "affectedIds": [
+                297
               ],
               "type": [
                 "AnnotationType_ModifiedToughness",
                 "AnnotationType_ModifiedPower"
               ]
-            },
-            {
-              "id": 2101,
-              "affectorId": 349,
-              "affectedIds": [
-                343
-              ],
-              "type": [
-                "AnnotationType_AddAbility"
-              ],
-              "details": [
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    8
-                  ]
-                }
-              ]
-            },
-            {
-              "id": 2204,
-              "affectorId": 364,
-              "affectedIds": [
-                343
-              ],
-              "type": [
-                "AnnotationType_AddAbility"
-              ],
-              "details": [
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    104
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    104
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    104
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    104
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    104
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    104
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    104
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    104
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    104
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    104
-                  ]
-                },
-                {
-                  "key": "grpid",
-                  "type": "KeyValuePairValueType_int32",
-                  "valueInt32": [
-                    104
-                  ]
-                }
-              ]
             }
           ],
-          "pendingMessageCount": 1,
-          "prevGameStateId": 156,
+          "diffDeletedInstanceIds": [
+            231,
+            306
+          ],
+          "prevGameStateId": 116,
           "timers": [
             {
               "timerId": 8,
               "type": "TimerType_ActivePlayer",
               "durationSec": 120,
-              "elapsedSec": 25,
+              "elapsedSec": 16,
               "running": true,
               "behavior": "TimerBehavior_TakeControl",
               "warningThresholdSec": 75,
-              "elapsedMs": 25432
+              "elapsedMs": 16477
             },
             {
               "timerId": 10,
@@ -2353,37 +400,45 @@
               "durationSec": 150,
               "running": true,
               "behavior": "TimerBehavior_Timeout",
-              "warningThresholdSec": 130
+              "warningThresholdSec": 130,
+              "elapsedMs": 1
             }
           ],
           "update": "GameStateUpdate_SendAndRecord",
           "actions": [
             {
-              "seatId": 2,
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 101
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 102
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 103
+              }
+            },
+            {
+              "seatId": 1,
               "action": {
                 "actionType": "ActionType_Cast",
                 "instanceId": 284
               }
             },
             {
-              "seatId": 2,
-              "action": {
-                "actionType": "ActionType_Cast",
-                "instanceId": 340
-              }
-            },
-            {
-              "seatId": 2,
-              "action": {
-                "actionType": "ActionType_Cast",
-                "instanceId": 360
-              }
-            },
-            {
-              "seatId": 2,
+              "seatId": 1,
               "action": {
                 "actionType": "ActionType_Play",
-                "instanceId": 345
+                "instanceId": 105
               }
             },
             {
@@ -2391,7 +446,23 @@
               "action": {
                 "actionType": "ActionType_Activate",
                 "abilityGrpId": 1002,
-                "sourceId": 348
+                "sourceId": 279
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Activate",
+                "abilityGrpId": 1002,
+                "sourceId": 300
+              }
+            },
+            {
+              "seatId": 2,
+              "action": {
+                "actionType": "ActionType_Activate",
+                "abilityGrpId": 1002,
+                "sourceId": 302
               }
             },
             {
@@ -2399,304 +470,24 @@
               "action": {
                 "actionType": "ActionType_Activate",
                 "abilityGrpId": 1004,
-                "sourceId": 353
-              }
-            },
-            {
-              "seatId": 2,
-              "action": {
-                "actionType": "ActionType_Activate",
-                "abilityGrpId": 1005,
-                "sourceId": 361
-              }
-            },
-            {
-              "seatId": 2,
-              "action": {
-                "actionType": "ActionType_Activate",
-                "abilityGrpId": 1152,
-                "sourceId": 346
+                "sourceId": 281
               }
             },
             {
               "seatId": 1,
               "action": {
                 "actionType": "ActionType_Activate",
-                "abilityGrpId": 1209,
-                "sourceId": 339
+                "abilityGrpId": 1004,
+                "sourceId": 285
               }
             },
             {
               "seatId": 2,
               "action": {
                 "actionType": "ActionType_Activate",
-                "abilityGrpId": 1131,
-                "sourceId": 341
+                "abilityGrpId": 1039,
+                "sourceId": 287
               }
-            },
-            {
-              "seatId": 2,
-              "action": {
-                "actionType": "ActionType_Activate",
-                "abilityGrpId": 117038,
-                "sourceId": 346
-              }
-            }
-          ]
-        },
-        "prompt": {
-          "promptId": 1,
-          "parameters": [
-            {
-              "parameterName": "TurnNumber",
-              "type": "ParameterType_Number",
-              "numberValue": 8
-            },
-            {
-              "parameterName": "Phase",
-              "type": "ParameterType_Number",
-              "numberValue": 2
-            },
-            {
-              "parameterName": "Step",
-              "type": "ParameterType_Number"
-            }
-          ]
-        },
-        "nonDecisionPlayerPrompt": {
-          "promptId": 1,
-          "parameters": [
-            {
-              "parameterName": "TurnNumber",
-              "type": "ParameterType_Number",
-              "numberValue": 8
-            },
-            {
-              "parameterName": "Phase",
-              "type": "ParameterType_Number",
-              "numberValue": 2
-            },
-            {
-              "parameterName": "Step",
-              "type": "ParameterType_Number"
-            }
-          ]
-        }
-      },
-      {
-        "type": "GREMessageType_ActionsAvailableReq",
-        "systemSeatIds": [
-          2
-        ],
-        "msgId": 219,
-        "gameStateId": 157,
-        "prompt": {
-          "promptId": 2,
-          "parameters": [
-            {
-              "parameterName": "MayCast",
-              "type": "ParameterType_Number",
-              "numberValue": 1
-            },
-            {
-              "parameterName": "MayPlay",
-              "type": "ParameterType_Number"
-            }
-          ]
-        },
-        "actionsAvailableReq": {
-          "actions": [
-            {
-              "actionType": "ActionType_Cast",
-              "grpId": 66241,
-              "instanceId": 340,
-              "grouping": "Grouping_Single",
-              "manaCost": [
-                {
-                  "color": [
-                    "ManaColor_Generic"
-                  ],
-                  "count": 4,
-                  "costId": 12368
-                },
-                {
-                  "color": [
-                    "ManaColor_Red"
-                  ],
-                  "count": 1,
-                  "costId": 12369
-                }
-              ],
-              "shouldStop": true
-            },
-            {
-              "actionType": "ActionType_Cast",
-              "grpId": 66341,
-              "instanceId": 360,
-              "grouping": "Grouping_Single",
-              "autoTapActions": [
-                {
-                  "instanceId": 341,
-                  "abilityGrpId": 1131,
-                  "manaPaymentOption": {
-                    "payments": [
-                      {
-                        "color": "ManaColor_Green",
-                        "count": 1
-                      }
-                    ]
-                  },
-                  "costCategory": "CostCategory_Executable"
-                },
-                {
-                  "instanceId": 353,
-                  "abilityGrpId": 1004,
-                  "manaPaymentOption": {
-                    "payments": [
-                      {
-                        "color": "ManaColor_Red",
-                        "count": 1
-                      }
-                    ]
-                  },
-                  "costCategory": "CostCategory_Executable"
-                }
-              ],
-              "manaCost": [
-                {
-                  "color": [
-                    "ManaColor_Generic"
-                  ],
-                  "count": 1,
-                  "costId": 12370
-                },
-                {
-                  "color": [
-                    "ManaColor_Green"
-                  ],
-                  "count": 1,
-                  "costId": 12371
-                }
-              ],
-              "shouldStop": true
-            },
-            {
-              "actionType": "ActionType_Activate_Mana",
-              "grpId": 65473,
-              "instanceId": 341,
-              "grouping": "Grouping_Single",
-              "abilityGrpId": 1131,
-              "manaPaymentOptions": [
-                {
-                  "mana": [
-                    {
-                      "manaId": 11101,
-                      "color": "ManaColor_Red",
-                      "srcInstanceId": 341,
-                      "specs": [
-                        {
-                          "type": "ManaSpecType_Predictive"
-                        }
-                      ],
-                      "abilityGrpId": 1131
-                    }
-                  ]
-                },
-                {
-                  "mana": [
-                    {
-                      "manaId": 11102,
-                      "color": "ManaColor_Green",
-                      "srcInstanceId": 341,
-                      "specs": [
-                        {
-                          "type": "ManaSpecType_Predictive"
-                        }
-                      ],
-                      "abilityGrpId": 1131
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "actionType": "ActionType_Activate_Mana",
-              "grpId": 67001,
-              "instanceId": 346,
-              "grouping": "Grouping_Single",
-              "abilityGrpId": 1152,
-              "manaPaymentOptions": [
-                {
-                  "mana": [
-                    {
-                      "manaId": 11100,
-                      "color": "ManaColor_Colorless",
-                      "srcInstanceId": 346,
-                      "specs": [
-                        {
-                          "type": "ManaSpecType_Predictive"
-                        }
-                      ],
-                      "abilityGrpId": 1152
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "actionType": "ActionType_Activate_Mana",
-              "grpId": 67021,
-              "instanceId": 353,
-              "grouping": "Grouping_Batchable",
-              "abilityGrpId": 1004,
-              "manaPaymentOptions": [
-                {
-                  "mana": [
-                    {
-                      "manaId": 11099,
-                      "color": "ManaColor_Red",
-                      "srcInstanceId": 353,
-                      "specs": [
-                        {
-                          "type": "ManaSpecType_Predictive"
-                        }
-                      ],
-                      "abilityGrpId": 1004
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "actionType": "ActionType_Pass",
-              "grouping": "Grouping_Single"
-            }
-          ],
-          "inactiveActions": [
-            {
-              "actionType": "ActionType_Play",
-              "grpId": 67023,
-              "instanceId": 345,
-              "grouping": "Grouping_Single"
-            }
-          ]
-        },
-        "nonDecisionPlayerPrompt": {
-          "promptId": 15,
-          "parameters": [
-            {
-              "parameterName": "PlayerId",
-              "type": "ParameterType_Number",
-              "numberValue": 2
-            },
-            {
-              "parameterName": "MayCast",
-              "type": "ParameterType_Number",
-              "numberValue": 1
-            },
-            {
-              "parameterName": "MayPlay",
-              "type": "ParameterType_Number"
             }
           ]
         }

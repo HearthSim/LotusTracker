@@ -1,0 +1,33 @@
+
+T1	Pl: Island
+T2	Op: Mountain / Ghitu lava
+T3	Pl: Mountain
+T4	Op: Sulfur
+	Op: Opt / Draw
+	Pl: Abrade
+	Op: Soul-scar
+T5	Pl: Island
+T6	Op: Island
+	Op: Opt / Draw
+	Op: Opt / Draw
+T7	Pl: Swamp
+T8	Op: Mountain
+	Op: Naban
+	Pl: Essence
+	Op: Naban
+	Pl: Censor
+
+T9	Op: Guitu journeymage
+	Pl: Cancel
+T8	Pl: Treasure map
+	Op: Guitu jouneymage
+T9	Op: Island
+	Pl: Vraska comtemplate
+	Op: Wizard report
+T10	Pl: Treasure cove
+	Pl: Island
+	Pl: Tetizemic
+	Op: Wizard report
+T11	Op: Guitu lava
+T12	Pl: The scarab god
+	Pl: Doomfall

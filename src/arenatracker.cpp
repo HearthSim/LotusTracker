@@ -17,8 +17,8 @@ ArenaTracker::ArenaTracker(int& argc, char **argv): QApplication(argc, argv),
     setupPreferencesScreen();
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchCreated,
             this, &ArenaTracker::onNewMatchStart);
-    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckSelected,
-            deckTrackerPlayer, &DeckTrackerPlayer::onPlayerDeckSelected);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckSubmited,
+            deckTrackerPlayer, &DeckTrackerPlayer::onPlayerDeckSubmited);
     LOGI("Arena Tracker started");
 }
 

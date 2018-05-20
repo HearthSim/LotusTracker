@@ -1,5 +1,5 @@
 
-4/15/2018 1:08:37 PM: Match to A3461766D418FFE6: GreToClientEvent
+5/20/2018 12:12:31 AM: Match to A3461766D418FFE6: GreToClientEvent
 {
   "greToClientEvent": {
     "greToClientMessages": [
@@ -13,8 +13,8 @@
           "status": "ConnectionStatus_Success",
           "majorVer": 1,
           "revisionVer": 1,
-          "buildVer": 2474,
-          "protoVer": 25,
+          "buildVer": 2759,
+          "protoVer": "ProtoVersion_AutoSelectReplacementSetting",
           "settings": {
             "stops": [
               {
@@ -261,11 +261,11 @@
           "playerDieRolls": [
             {
               "systemSeatId": 1,
-              "rollValue": 3
+              "rollValue": 2
             },
             {
               "systemSeatId": 2,
-              "rollValue": 5
+              "rollValue": 1
             }
           ]
         }
@@ -281,7 +281,7 @@
           "type": "GameStateType_Full",
           "gameStateId": 1,
           "gameInfo": {
-            "matchID": "dc67bb4f-1ca0-46b1-9fb6-75b0ebe084ff",
+            "matchID": "fc8c88ed-8ed9-4121-ad45-e89fe27243ea",
             "gameNumber": 1,
             "stage": "GameStage_Play",
             "type": "GameType_Duel",
@@ -290,7 +290,8 @@
             "matchWinCondition": "MatchWinCondition_SingleElimination",
             "maxTimeoutCount": 1000,
             "maxPipCount": 3,
-            "timeoutDurationSec": 30
+            "timeoutDurationSec": 45,
+            "superFormat": "SuperFormat_Constructed"
           },
           "teams": [
             {
@@ -339,7 +340,7 @@
             }
           ],
           "turnInfo": {
-            "decisionPlayer": 2
+            "decisionPlayer": 1
           },
           "zones": [
             {
@@ -399,6 +400,10 @@
               "visibility": "Visibility_Hidden",
               "ownerSeatId": 1,
               "objectInstanceIds": [
+                99,
+                100,
+                101,
+                102,
                 103,
                 104,
                 105,
@@ -454,11 +459,7 @@
                 155,
                 156,
                 157,
-                158,
-                159,
-                160,
-                161,
-                162
+                158
               ]
             },
             {
@@ -491,6 +492,10 @@
               "visibility": "Visibility_Hidden",
               "ownerSeatId": 2,
               "objectInstanceIds": [
+                219,
+                220,
+                221,
+                222,
                 223,
                 224,
                 225,
@@ -546,11 +551,7 @@
                 275,
                 276,
                 277,
-                278,
-                279,
-                280,
-                281,
-                282
+                278
               ]
             },
             {
@@ -566,6 +567,17 @@
               "ownerSeatId": 2,
               "viewers": [
                 2
+              ]
+            }
+          ],
+          "annotations": [
+            {
+              "id": 2019,
+              "affectedIds": [
+                7002
+              ],
+              "type": [
+                "AnnotationType_LayeredEffectCreated"
               ]
             }
           ],
@@ -613,6 +625,8 @@
             79,
             80,
             81,
+            82,
+            83,
             84,
             85,
             86,
@@ -628,8 +642,10 @@
             96,
             97,
             98,
-            99,
-            100,
+            159,
+            160,
+            161,
+            162,
             163,
             164,
             165,
@@ -685,19 +701,18 @@
             215,
             216,
             217,
-            218,
-            219,
-            220,
-            221,
-            222
+            218
           ],
+          "pendingMessageCount": 1,
           "timers": [
             {
               "timerId": 1,
               "type": "TimerType_Prologue",
               "durationSec": 120,
+              "running": true,
               "behavior": "TimerBehavior_TakeControl",
-              "warningThresholdSec": 90
+              "warningThresholdSec": 90,
+              "elapsedMs": 4
             },
             {
               "timerId": 2,
@@ -724,17 +739,17 @@
               "timerId": 5,
               "type": "TimerType_Inactivity",
               "durationSec": 150,
+              "running": true,
               "behavior": "TimerBehavior_Timeout",
-              "warningThresholdSec": 130
+              "warningThresholdSec": 130,
+              "elapsedMs": 4
             },
             {
               "timerId": 6,
               "type": "TimerType_Prologue",
               "durationSec": 120,
-              "running": true,
               "behavior": "TimerBehavior_TakeControl",
-              "warningThresholdSec": 90,
-              "elapsedMs": 4
+              "warningThresholdSec": 90
             },
             {
               "timerId": 7,
@@ -761,44 +776,49 @@
               "timerId": 10,
               "type": "TimerType_Inactivity",
               "durationSec": 150,
-              "running": true,
               "behavior": "TimerBehavior_Timeout",
-              "warningThresholdSec": 130,
-              "elapsedMs": 4
+              "warningThresholdSec": 130
             }
           ],
           "update": "GameStateUpdate_SendAndRecord"
-        },
-        "prompt": {
-          "promptId": 1,
-          "parameters": [
-            {
-              "parameterName": "TurnNumber",
-              "type": "ParameterType_Number"
-            },
-            {
-              "parameterName": "Phase",
-              "type": "ParameterType_Number"
-            },
-            {
-              "parameterName": "Step",
-              "type": "ParameterType_Number"
-            }
-          ]
+        }
+      },
+      {
+        "type": "GREMessageType_ChooseStartingPlayerReq",
+        "systemSeatIds": [
+          1
+        ],
+        "msgId": 5,
+        "gameStateId": 1,
+        "chooseStartingPlayerReq": {
+          "teamType": "TeamType_Individual",
+          "systemSeatIds": [
+            1,
+            2
+          ],
+          "prompt": {
+            "promptId": 32,
+            "parameters": [
+              {
+                "parameterName": "PlayerOrTeam",
+                "type": "ParameterType_Number"
+              }
+            ]
+          }
         },
         "nonDecisionPlayerPrompt": {
-          "promptId": 1,
+          "promptId": 33,
           "parameters": [
             {
-              "parameterName": "TurnNumber",
-              "type": "ParameterType_Number"
+              "parameterName": "PlayerId",
+              "type": "ParameterType_Reference",
+              "reference": {
+                "type": "ReferenceType_PlayerSeatId",
+                "id": 1
+              }
             },
             {
-              "parameterName": "Phase",
-              "type": "ParameterType_Number"
-            },
-            {
-              "parameterName": "Step",
+              "parameterName": "PlayerOrTeam",
               "type": "ParameterType_Number"
             }
           ]

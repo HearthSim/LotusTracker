@@ -6,15 +6,20 @@
 #include "../entity/matchstatediff.h"
 #include "../entity/matchplayer.h"
 #include "../entity/matchzone.h"
+#include "../entity/matchzonetransfer.h"
 #include "../mtg/mtgcards.h"
 
 #include <QObject>
 
 typedef enum {
-    TRANSFER_DRAW,
-    TRANSFER_PLAY,
+    TRANSFER_CAST,
+    TRANSFER_COUNTERED,
     TRANSFER_DESTROY,
+    TRANSFER_DISCARD,
+    TRANSFER_DRAW,
     TRANSFER_EXILE,
+    TRANSFER_PLAY,
+    TRANSFER_RESOLVE,
     TRANSFER_UNKOWN
 } ZoneTransferType;
 
@@ -40,7 +45,8 @@ private:
                               ZoneTransferType zoneTransferType);
     Card* getCardByObjectId(MatchZone zoneDst, int objectId);
     QString getOwnerIdentifier(int objectId, MatchZone zoneSrc);
-    ZoneTransferType getZoneTransferType(int objectId, MatchZone zoneSrc, MatchZone zoneDst);
+    ZoneTransferType getZoneTransferType(int objectId, MatchZone zoneSrc,
+                                         MatchZone zoneDst, ZoneTransferCategory category);
 
 public:
     explicit MtgaMatch(QObject *parent = nullptr, MtgCards *mtgCards = nullptr);

@@ -91,7 +91,6 @@ void MtgaLogParser::parse(QString logNewContent)
 
 void MtgaLogParser::parseMsg(QPair<QString, QString> msg)
 {
-    LOGD(QString("Receive msg %1 with json size: %2bytes").arg(msg.first).arg(msg.second.size()));
     if (msg.first == "PlayerInventory.GetPlayerInventory") {
         parsePlayerInventory(msg.second);
     } else if (msg.first == "Inventory.Updated"){
@@ -108,8 +107,8 @@ void MtgaLogParser::parseMsg(QPair<QString, QString> msg)
         parsePlayerRankInfo(msg.second);
     } else if (msg.first == "Rank.Updated"){
         parsePlayerRankUpdated(msg.second);
-    } else if (msg.first == "Event.DeckSelect"){
-        parsePlayerDeckSelected(msg.second);
+    } else if (msg.first == "Event.DeckSubmit"){
+        parsePlayerDeckSubmited(msg.second);
     } else if (msg.first == "ClientToGreMessage"){
         parseClientToGreMessages(msg.second);
     } else if (msg.first == "GreToClientEvent"){
@@ -129,6 +128,8 @@ void MtgaLogParser::parsePlayerInventory(QString json)
     int wcMythic = jsonPlayerIventory["wcMythic"].toInt();
     float vaultProgress = jsonPlayerIventory["vaultProgress"].toDouble();
     PlayerInventory playerInventory(wcCommon, wcUncommon, wcRare, wcMythic, vaultProgress);
+    LOGD(QString("PlayerInventory: %1 wcC, %2 wcR, %3 wcM, %4% vault")
+         .arg(wcCommon).arg(wcUncommon).arg(wcRare).arg(wcMythic).arg(vaultProgress));
     emit sgnPlayerInventory(playerInventory);
 }
 
@@ -146,6 +147,7 @@ void MtgaLogParser::parsePlayerInventoryUpdate(QString json)
         int newCardId = jsonCardRef.toInt();
         newCards << newCardId;
     }
+    LOGD(QString("PlayerInventoryUpdate: %1 new cards").arg(newCards.size()));
     emit sgnPlayerInventoryUpdate(newCards);
 }
 
@@ -160,6 +162,7 @@ void MtgaLogParser::parsePlayerCollection(QString json)
         int ownedCardQtd = jsonPlayerCollection[ownedCardId].toInt();
         ownedCards[ownedCardId.toInt()] = ownedCardQtd;
     }
+    LOGD(QString("PlayerCollection: %1 unique cards").arg(ownedCards.size()));
     emit sgnPlayerCollection(ownedCards);
 }
 
@@ -174,6 +177,7 @@ void MtgaLogParser::parsePlayerDecks(QString json)
         QJsonObject jsonDeck = jsonDeckRef.toObject();
         playerDecks << jsonObject2Deck(jsonDeck);
     }
+    LOGD(QString("PlayerDecks: %1 decks").arg(playerDecks.size()));
     emit sgnPlayerDecks(playerDecks);
 }
 
@@ -187,6 +191,8 @@ void MtgaLogParser::parseMatchCreated(QString json)
     QString opponentRankClass = jsonMatchCreated["opponentRankingClass"].toString();
     int opponentRankTier = jsonMatchCreated["opponentRankingTier"].toInt();
     MatchInfo match(opponentName, opponentRankClass, opponentRankTier);
+    LOGD(QString("MatchCreated: Opponent %1, rank: %2 - %3").arg(opponentName)
+         .arg(opponentRankClass).arg(opponentRankTier));
     emit sgnMatchCreated(match);
 }
 
@@ -210,6 +216,7 @@ void MtgaLogParser::parseMatchInfo(QString json)
             int playerTeamId = jsonPlayer["teamId"].toInt();
             matchPlayers << MatchPlayer(playerName, playerSeat, playerTeamId);
         }
+        LOGD("MatchInfoSeats");
         emit sgnMatchInfoSeats(matchPlayers);
     }
     if (roomState == "MatchGameRoomStateType_MatchCompleted"){
@@ -223,6 +230,7 @@ void MtgaLogParser::parseMatchInfo(QString json)
                 matchWinningTeamId = jsonResult["winningTeamId"].toInt();
             }
         }
+        LOGD("MatchInfoResult");
         emit sgnMatchInfoResultMatch(matchWinningTeamId);
     }
 }
@@ -238,6 +246,8 @@ void MtgaLogParser::parsePlayerRankInfo(QString json)
     int rankTier = jsonConstructed["tier"].toInt();
     int wins = jsonConstructed["wins"].toInt();
     int losses = jsonConstructed["losses"].toInt();
+    LOGD(QString("PlayerRankInfo: %1 - %2, Status Wins: %3 Losses: %4")
+         .arg(rankClass).arg(rankTier).arg(wins).arg(losses));
     emit sgnPlayerRankInfo(qMakePair(rankClass, rankTier));
     emit sgnPlayerRankStatus(qMakePair(wins, losses));
 }
@@ -252,19 +262,21 @@ void MtgaLogParser::parsePlayerRankUpdated(QString json)
     int newRankTier = jsonPlayerRankUpdate["newTier"].toInt();
     if (newRankTier != oldRankTier) {
         QString rankClass = jsonPlayerRankUpdate["newClass"].toString();
+        LOGD(QString("RankUpdate: new rank %1").arg(rankClass));
         emit sgnPlayerRankUpdated(qMakePair(rankClass, newRankTier));
     }
 }
 
-void MtgaLogParser::parsePlayerDeckSelected(QString json)
+void MtgaLogParser::parsePlayerDeckSubmited(QString json)
 {
-    QJsonObject jsonPlayerDeckSelected = Transformations::stringToJsonObject(json);
-    if (jsonPlayerDeckSelected.empty()) {
+    QJsonObject jsonPlayerDeckSubmited = Transformations::stringToJsonObject(json);
+    if (jsonPlayerDeckSubmited.empty()) {
         return;
     }
-    QJsonObject jsonDeck = jsonPlayerDeckSelected["CourseDeck"].toObject();
-    Deck deckSelected = jsonObject2Deck(jsonDeck);
-    emit sgnPlayerDeckSelected(deckSelected);
+    QJsonObject jsonDeck = jsonPlayerDeckSubmited["CourseDeck"].toObject();
+    Deck deckSubmited = jsonObject2Deck(jsonDeck);
+    LOGD(QString("Deck submited: %1").arg(deckSubmited.name));
+    emit sgnPlayerDeckSubmited(deckSubmited);
 }
 
 void MtgaLogParser::parseClientToGreMessages(QString json)
@@ -287,8 +299,10 @@ void MtgaLogParser::parseClientToGreMessages(QString json)
         QJsonObject jsonMulliganResp = jsonClientToGreMsg["mulliganResp"].toObject();
         QString action = jsonMulliganResp["decision"].toString();
         if (action == "MulliganOption_AcceptHand") {
+            LOGD("Player AcceptHand");
             emit sgnPlayerAcceptsHand();
         } else if (action == "MulliganOption_Mulligan") {
+            LOGD("Player mulligan");
             emit sgnPlayerTakesMulligan();
         }
     }
@@ -335,6 +349,7 @@ void MtgaLogParser::parseDieRollResult(QJsonObject jsonMessage)
         }
     }
     if (highRollValueAndSeatId.first > 0) {
+        LOGD(QString("SeatIdThatGoFirst: %1").arg(highRollValueAndSeatId.second))
         emit sgnSeatIdThatGoFirst(highRollValueAndSeatId.second);
     }
 }
@@ -342,6 +357,7 @@ void MtgaLogParser::parseDieRollResult(QJsonObject jsonMessage)
 void MtgaLogParser::parseGameStateFull(QJsonObject jsonMessage)
 {
     QList<MatchZone> zones = getMatchZones(jsonMessage);
+    LOGD(QString("MatchStartZones: %1").arg(zones.size()));
     emit sgnMatchStartZones(zones);
 }
 
@@ -350,6 +366,7 @@ void MtgaLogParser::parseGameStateDiff(int gameStateId, QJsonObject jsonMessage)
     QList<MatchZone> zones = getMatchZones(jsonMessage);
     for (MatchZone zone : zones) {
         if (zone.type() == ZoneType_HAND && zone.objectIds.isEmpty()) {
+            LOGD("OpponentTakesMulligan");
             emit sgnOpponentTakesMulligan(zone.ownerSeatId());
         }
     }
@@ -374,12 +391,13 @@ void MtgaLogParser::parseGameStateDiff(int gameStateId, QJsonObject jsonMessage)
             QJsonObject jsonTurnInfo = jsonMessage["turnInfo"].toObject();
             if (jsonTurnInfo.contains("turnNumber")) {
                 int turnNumber = jsonTurnInfo["turnNumber"].toInt();
+                LOGD(QString("NewTurn: %1").arg(turnNumber));
                 emit sgnNewTurnStarted(turnNumber);
             }
         }
     }
     QMap<int, int> idsChanged = getIdsChanged(jsonGSMAnnotations);
-    QMap<int, QPair<int, int>> idsZoneChanged = getIdsZoneChanged(jsonGSMAnnotations);
+    QMap<int, MatchZoneTransfer> idsZoneChanged = getIdsZoneChanged(jsonGSMAnnotations);
     MatchStateDiff matchStateDiff(gameStateId, zones, idsChanged, idsZoneChanged);
     emit sgnMatchStateDiff(matchStateDiff);
 }
@@ -432,9 +450,9 @@ QMap<int, int> MtgaLogParser::getIdsChanged(QJsonArray jsonGSMAnnotations)
     return idsChanged;
 }
 
-QMap<int, QPair<int, int>> MtgaLogParser::getIdsZoneChanged(QJsonArray jsonGSMAnnotations)
+QMap<int, MatchZoneTransfer> MtgaLogParser::getIdsZoneChanged(QJsonArray jsonGSMAnnotations)
 {
-    QMap<int, QPair<int, int>> idsZoneChanged;
+    QMap<int, MatchZoneTransfer> idsZoneChanged;
     for (QJsonValueRef jsonAnnotationRef : jsonGSMAnnotations) {
         QJsonObject jsonAnnotation = jsonAnnotationRef.toObject();
         QString type = jsonAnnotation["type"].toArray().first().toString();
@@ -442,6 +460,7 @@ QMap<int, QPair<int, int>> MtgaLogParser::getIdsZoneChanged(QJsonArray jsonGSMAn
             int transferId = jsonAnnotation["affectedIds"].toArray().first().toInt();
             QJsonArray jsonDetails = jsonAnnotation["details"].toArray();
             int srcZone, dstZone;
+            ZoneTransferCategory transferCategory;
             for (QJsonValueRef jsonDetailsRef : jsonDetails) {
                 QJsonObject details = jsonDetailsRef.toObject();
                 QString key = details["key"].toString();
@@ -449,9 +468,13 @@ QMap<int, QPair<int, int>> MtgaLogParser::getIdsZoneChanged(QJsonArray jsonGSMAn
                     srcZone = details["valueInt32"].toArray().first().toInt();
                 } else if (key == "zone_dest") {
                     dstZone = details["valueInt32"].toArray().first().toInt();
+                } else if (key == "category") {
+                    QString category = details["valueString"].toArray().first().toString();
+                    transferCategory = category == "Resolve" ? ZoneTransfer_RESOLVED
+                                     : category == "Countered" ? ZoneTransfer_COUNTERED : ZoneTransfer_UNKOWN;
                 }
             }
-            idsZoneChanged[transferId] = qMakePair(srcZone, dstZone);
+            idsZoneChanged[transferId] = MatchZoneTransfer(srcZone, dstZone, transferCategory);
         }
     }
     return idsZoneChanged;

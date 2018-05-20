@@ -60,7 +60,8 @@ private slots:
         qRegisterMetaType<Card*>();
         mtgaLogParser->parse(readFile("MatchCreated.txt"));
         mtgaLogParser->parse(readFile("MatchInfoSeats.txt"));
-        mtgaLogParser->parse(readFile("game/GameStateDiff0.txt"));
+        mtgaLogParser->parse(readFile("GameStateFull.txt"));
+        mtgaLogParser->parse(readFile("PlayerAcceptHand.txt"));
         mtgaLogParser->parse(readFile("game/GameStateDiff1.txt"));
         mtgaLogParser->parse(readFile("game/GameStateDiff2.txt"));
         mtgaLogParser->parse(readFile("game/GameStateDiff3.txt"));
@@ -91,6 +92,26 @@ private slots:
         mtgaLogParser->parse(readFile("game/GameStateDiff28.txt"));
         mtgaLogParser->parse(readFile("game/GameStateDiff29.txt"));
         mtgaLogParser->parse(readFile("game/GameStateDiff30.txt"));
+        mtgaLogParser->parse(readFile("game/GameStateDiff31.txt"));
+        mtgaLogParser->parse(readFile("game/GameStateDiff32.txt"));
+        mtgaLogParser->parse(readFile("game/GameStateDiff33.txt"));
+        mtgaLogParser->parse(readFile("game/GameStateDiff34.txt"));
+        mtgaLogParser->parse(readFile("game/GameStateDiff35.txt"));
+        mtgaLogParser->parse(readFile("game/GameStateDiff36.txt"));
+        mtgaLogParser->parse(readFile("game/GameStateDiff37.txt"));
+        mtgaLogParser->parse(readFile("game/GameStateDiff38.txt"));
+        mtgaLogParser->parse(readFile("game/GameStateDiff39.txt"));
+        mtgaLogParser->parse(readFile("game/GameStateDiff40.txt"));
+        mtgaLogParser->parse(readFile("game/GameStateDiff41.txt"));
+        mtgaLogParser->parse(readFile("game/GameStateDiff42.txt"));
+        mtgaLogParser->parse(readFile("game/GameStateDiff43.txt"));
+        mtgaLogParser->parse(readFile("game/GameStateDiff44.txt"));
+        mtgaLogParser->parse(readFile("game/GameStateDiff45.txt"));
+        mtgaLogParser->parse(readFile("game/GameStateDiff46.txt"));
+        mtgaLogParser->parse(readFile("game/GameStateDiff47.txt"));
+        mtgaLogParser->parse(readFile("game/GameStateDiff48.txt"));
+        mtgaLogParser->parse(readFile("game/GameStateDiff49.txt"));
+        mtgaLogParser->parse(readFile("game/GameStateDiff50.txt"));
     }
 
 };
