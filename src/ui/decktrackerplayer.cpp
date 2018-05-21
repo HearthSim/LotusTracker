@@ -88,10 +88,15 @@ void DeckTrackerPlayer::drawStatistics(QPainter &painter)
     uiHeight += coverRect.height();
 }
 
-void DeckTrackerPlayer::onPlayerDeckSubmited(Deck deck)
+void DeckTrackerPlayer::loadDeck(Deck deck)
 {
     this->deck = deck;
     LOGD(QString("Loading deck %1").arg(deck.name));
+}
+
+void DeckTrackerPlayer::onPlayerUndrawCard(Card* card)
+{
+    deck.insertCard(card);
 }
 
 void DeckTrackerPlayer::onPlayerDrawCard(Card* card)

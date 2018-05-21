@@ -43,6 +43,34 @@ void MtgaMatch::onSeatIdThatGoFirst(int seatId)
     LOGI(QString("%1 go first").arg(playerGoFirst ? "Player" : "Opponent"))
 }
 
+void MtgaMatch::onPlayerTakesMulligan()
+{
+    QMap<int, int> handObjectIds;
+    for (MatchZone zone : zones.values()) {
+        if (zone.type() == ZoneType_HAND && zone.ownerSeatId() == player.seatId()) {
+            handObjectIds = zone.objectIds;
+            break;
+        }
+    }
+    for (int zoneId : zones.keys()) {
+        MatchZone zone = zones[zoneId];
+        if (zone.type() == ZoneType_LIBRARY && zone.ownerSeatId() == player.seatId()) {
+            for (int objectId : handObjectIds.keys()) {
+                zone.objectIds[objectId] = 0;
+                Card* card = mtgCards->findCard(handObjectIds[objectId]);
+                emit sgnPlayerUndrawCard(card);
+            }
+            zones[zoneId] = zone;
+            break;
+        }
+    }
+}
+
+void MtgaMatch::onOpponentTakesMulligan(int opponentSeatId)
+{
+
+}
+
 void MtgaMatch::onMatchStartZones(QList<MatchZone> matchZones)
 {
     for (MatchZone zone : matchZones) {
@@ -52,6 +80,15 @@ void MtgaMatch::onMatchStartZones(QList<MatchZone> matchZones)
 
 void MtgaMatch::onMatchStateDiff(MatchStateDiff matchStateDiff)
 {
+    // Initial player hand draws
+    for (MatchZone zone : zones) {
+        if (zone.type() == ZoneType_LIBRARY && zone.ownerSeatId() == player.seatId()) {
+            if (zone.objectIds.size() == 60) {
+                notifyHandCardsDraw(matchStateDiff);
+            }
+            break;
+        }
+    }
     updateZones(matchStateDiff);
     updateIdsChanged(matchStateDiff);
     // Analyse objects that change zone
@@ -59,18 +96,37 @@ void MtgaMatch::onMatchStateDiff(MatchStateDiff matchStateDiff)
     for (int objectId : idsZoneChanged.keys()) {
         MatchZone zoneSrc = zones[idsZoneChanged[objectId].zoneSrcId()];
         MatchZone zoneDst = zones[idsZoneChanged[objectId].zoneDstId()];
+        int oldObjectId;
+        for (auto idChanged : matchStateDiff.idsChanged().toStdMap()) {
+            if (idChanged.second == objectId) {
+                oldObjectId = idChanged.first;
+            }
+        }
         ZoneTransferCategory zoneTransferCategory = idsZoneChanged[objectId].category();
         ZoneTransferType zoneTransferType = getZoneTransferType(objectId, zoneSrc,
                                                                 zoneDst, zoneTransferCategory);
-        notifyCardZoneChange(objectId, zoneSrc, zoneDst, zoneTransferType);
+        notifyCardZoneChange(objectId, oldObjectId, zoneSrc, zoneDst, zoneTransferType);
     }
 }
 
-void MtgaMatch::notifyCardZoneChange(int objectId, MatchZone zoneSrc, MatchZone zoneDst,
-                                     ZoneTransferType zoneTransferType)
+void MtgaMatch::notifyHandCardsDraw(MatchStateDiff matchStateDiff)
+{
+    for (MatchZone zone : matchStateDiff.zones()) {
+        if (zone.type() == ZoneType_HAND && zone.ownerSeatId() == player.seatId()) {
+            for(int mtgaCardId : zone.objectIds.values()) {
+                Card* card = mtgCards->findCard(mtgaCardId);
+                LOGD(QString("Player draw %1").arg(card->name));
+                emit sgnPlayerDrawCard(card);
+            }
+        }
+    }
+}
+
+void MtgaMatch::notifyCardZoneChange(int objectId, int oldObjectId, MatchZone zoneSrc,
+                                     MatchZone zoneDst, ZoneTransferType zoneTransferType)
 {
     QString ownerIdenfitier = getOwnerIdentifier(objectId, zoneSrc);
-    bool isTransferFromPlayer = ownerIdenfitier == "player";
+    bool isTransferFromPlayer = ownerIdenfitier == "Player";
     Card* card = getCardByObjectId(zoneDst, objectId);
     QString cardName = card ? card->name : QString("Object %1").arg(objectId);
     switch (zoneTransferType) {
@@ -112,6 +168,25 @@ void MtgaMatch::notifyCardZoneChange(int objectId, MatchZone zoneSrc, MatchZone 
         }
         case TRANSFER_RESOLVE: {
             LOGD(QString("%1 resolved").arg(cardName));
+            break;
+        }
+        case TRANSFER_PUT_ON_TOP: {
+            LOGD(QString("%1 put %2 on top of deck").arg(ownerIdenfitier).arg(cardName));
+            break;
+        }
+        case TRANSFER_RETURN: {
+            Card* returnedCard = nullptr;
+            for (MatchZone zone : zones) {
+                if (zone.type() == ZoneType_LIMBO) {
+                    returnedCard = getCardByObjectId(zone, oldObjectId);
+                    break;
+                }
+            }
+            if (returnedCard) {
+                LOGD(QString("%1 returned to hand").arg(returnedCard->name));
+            } else {
+                LOGD(QString("%1 returned to hand").arg(cardName));
+            }
             break;
         }
         default: {
@@ -158,9 +233,9 @@ void MtgaMatch::updateIdsChanged(MatchStateDiff matchStateDiff)
     }
 }
 
-Card* MtgaMatch::getCardByObjectId(MatchZone zoneDst, int objectId)
+Card* MtgaMatch::getCardByObjectId(MatchZone zone, int objectId)
 {
-    int cardId = zoneDst.objectIds[objectId];
+    int cardId = zone.objectIds[objectId];
     if (cardId > 0) {
         return mtgCards->findCard(cardId);
     }
@@ -191,6 +266,9 @@ ZoneTransferType MtgaMatch::getZoneTransferType(int objectId, MatchZone zoneSrc,
     if (zoneSrc.type() == ZoneType_LIBRARY && zoneDst.type() == ZoneType_HAND) {
         return TRANSFER_DRAW;
     }
+    if (zoneSrc.type() == ZoneType_LIBRARY && zoneDst.type() == ZoneType_LIBRARY) {
+        return TRANSFER_PUT_ON_TOP;
+    }
     if (zoneSrc.type() == ZoneType_HAND && zoneDst.type() == ZoneType_BATTLEFIELD) {
         return TRANSFER_PLAY;
     }
@@ -202,6 +280,9 @@ ZoneTransferType MtgaMatch::getZoneTransferType(int objectId, MatchZone zoneSrc,
     }
     if (zoneSrc.type() == ZoneType_HAND && zoneDst.type() == ZoneType_GRAVEYARD) {
         return TRANSFER_DISCARD;
+    }
+    if (zoneSrc.type() == ZoneType_BATTLEFIELD && zoneDst.type() == ZoneType_HAND) {
+        return TRANSFER_RETURN;
     }
     if (zoneSrc.type() == ZoneType_STACK && zoneDst.type() == ZoneType_BATTLEFIELD
             && stackZoneSrcTrack[objectId] == ZoneType_HAND) {

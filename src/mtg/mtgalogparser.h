@@ -37,6 +37,7 @@ private:
     void parseDieRollResult(QJsonObject jsonMessage);
     void parseGameStateFull(QJsonObject jsonMessage);
     void parseGameStateDiff(int gameStateId, QJsonObject jsonMessage);
+    void checkOpponentMulligan(QList<MatchZone> zones);
     QList<MatchZone> getMatchZones(QJsonObject jsonGameStateMessage);
     QMap<int, int> getIdsChanged(QJsonArray jsonGSMAnnotations);
     QMap<int, MatchZoneTransfer> getIdsZoneChanged(QJsonArray jsonGSMAnnotations);

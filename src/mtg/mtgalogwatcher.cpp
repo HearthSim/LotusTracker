@@ -7,12 +7,13 @@
 #include <QStandardPaths>
 
 #define LOG_PATH "AppData" + QDir::separator() + "LocalLow" + QDir::separator() + "Wizards of the Coast" + QDir::separator() + "MTGA"
+#define TEST_LOG_PATH "Documents"
 
 MtgaLogWatcher::MtgaLogWatcher(QObject *parent) : QObject(parent), 
 	timer(new QTimer(this)), lastFilePos(0)
 {
     QString homeDir = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
-    QString logPath = homeDir + QDir::separator() + LOG_PATH;
+    logPath = homeDir + QDir::separator() + TEST_LOG_PATH;
     if (QFileInfo(logPath + QDir::separator() + "output_log.txt").exists()) {
     	setLogPath(logPath);
     } else {
@@ -43,8 +44,13 @@ void MtgaLogWatcher::setLogPath(QString logPath){
 
 void MtgaLogWatcher::startWatching(){
     if (logFilePath.isEmpty()) {
-      	LOGW("Log file path was not setted");
-		return;
+        LOGW("Log file path was not setted. Looking for log file.");
+        if (QFileInfo(logPath + QDir::separator() + "output_log.txt").exists()) {
+            setLogPath(logPath);
+        } else {
+            LOGW(QString("Game log file not found: %1").arg(logPath));
+            return;
+        }
 	}
     if (!logFile->open(QIODevice::ReadOnly)) {
         LOGW("Error oppening log file");

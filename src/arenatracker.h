@@ -42,6 +42,7 @@ public:
 signals:
 
 private slots:
+    void onDeckSubmited(Deck deck);
     void onNewMatchStart(MatchInfo match);
     void onDeckTrackerPlayerEnabledChange(bool enabled);
     void onDeckTrackerOpponentEnabledChange(bool enabled);

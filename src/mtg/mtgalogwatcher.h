@@ -11,6 +11,7 @@ class MtgaLogWatcher : public QObject
     Q_OBJECT
 
 private:
+    QString logPath;
 	QFile *logFile;
     QTimer *timer;
     QString logFilePath;

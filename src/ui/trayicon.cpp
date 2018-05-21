@@ -82,19 +82,19 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
         currentDir = currentDir.left(currentDir.indexOf(".app"));
         currentDir = currentDir.left(currentDir.lastIndexOf(QDir::separator()));
 #endif
-        QFile *logFile = new QFile(currentDir + QDir::separator() + "PlayerDeckSelected.txt");
+        QFile *logFile = new QFile(currentDir + QDir::separator() + "PlayerDeckSubmit.txt");
         if(logFile->open(QFile::ReadOnly | QFile::Text)) {
             QString logContent = QTextStream(logFile).readAll();
             mtgaLogParser->parse(logContent);
         } else {
-            LOGW("PlayerDeckSelected.txt file not found in current dir");
+            LOGW("PlayerDeckSubmit.txt file not found in current dir");
         }
     });
     testMenu->addAction(loadDeckAction);
     // Player Draw card
     QAction *playerDrawAction = new QAction(tr("Player Draw"), this);
     connect(playerDrawAction, &QAction::triggered, this, [this](){
-        Card* card = mtgCards->findCard(66825);
+        Card* card = mtgCards->findCard(65669);
         emit ARENA_TRACKER->mtgaMatch->sgnPlayerDrawCard(card);
     });
     testMenu->addAction(playerDrawAction);

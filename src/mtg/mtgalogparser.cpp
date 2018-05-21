@@ -128,7 +128,7 @@ void MtgaLogParser::parsePlayerInventory(QString json)
     int wcMythic = jsonPlayerIventory["wcMythic"].toInt();
     float vaultProgress = jsonPlayerIventory["vaultProgress"].toDouble();
     PlayerInventory playerInventory(wcCommon, wcUncommon, wcRare, wcMythic, vaultProgress);
-    LOGD(QString("PlayerInventory: %1 wcC, %2 wcR, %3 wcM, %4% vault")
+    LOGD(QString("PlayerInventory: %1 wcC, %2 wcI, %3 wcR, %4 wcM, %5% vault")
          .arg(wcCommon).arg(wcUncommon).arg(wcRare).arg(wcMythic).arg(vaultProgress));
     emit sgnPlayerInventory(playerInventory);
 }
@@ -299,7 +299,7 @@ void MtgaLogParser::parseClientToGreMessages(QString json)
         QJsonObject jsonMulliganResp = jsonClientToGreMsg["mulliganResp"].toObject();
         QString action = jsonMulliganResp["decision"].toString();
         if (action == "MulliganOption_AcceptHand") {
-            LOGD("Player AcceptHand");
+            LOGD("Player accept hand");
             emit sgnPlayerAcceptsHand();
         } else if (action == "MulliganOption_Mulligan") {
             LOGD("Player mulligan");
@@ -364,12 +364,7 @@ void MtgaLogParser::parseGameStateFull(QJsonObject jsonMessage)
 void MtgaLogParser::parseGameStateDiff(int gameStateId, QJsonObject jsonMessage)
 {
     QList<MatchZone> zones = getMatchZones(jsonMessage);
-    for (MatchZone zone : zones) {
-        if (zone.type() == ZoneType_HAND && zone.objectIds.isEmpty()) {
-            LOGD("OpponentTakesMulligan");
-            emit sgnOpponentTakesMulligan(zone.ownerSeatId());
-        }
-    }
+    checkOpponentMulligan(zones);
     QJsonArray jsonGameObjects = jsonMessage["gameObjects"].toArray();
     for (QJsonValueRef jsonGameObjectRef : jsonGameObjects) {
         QJsonObject jsonGameObject = jsonGameObjectRef.toObject();
@@ -478,4 +473,24 @@ QMap<int, MatchZoneTransfer> MtgaLogParser::getIdsZoneChanged(QJsonArray jsonGSM
         }
     }
     return idsZoneChanged;
+}
+
+void MtgaLogParser::checkOpponentMulligan(QList<MatchZone> zones)
+{
+    int libraryFullOwnerId = 0;
+    for (MatchZone zone : zones) {
+        if (zone.type() == ZoneType_LIBRARY && zone.objectIds.size() == 60) {
+            libraryFullOwnerId = zone.ownerSeatId();
+        }
+    }
+    if (libraryFullOwnerId == 0) {
+        return;
+    }
+    for (MatchZone zone : zones) {
+        if (zone.type() == ZoneType_HAND && zone.ownerSeatId() == libraryFullOwnerId
+                && zone.objectIds.isEmpty()) {
+            LOGD("OpponentTakesMulligan");
+            emit sgnOpponentTakesMulligan(zone.ownerSeatId());
+        }
+    }
 }

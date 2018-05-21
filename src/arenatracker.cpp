@@ -18,7 +18,7 @@ ArenaTracker::ArenaTracker(int& argc, char **argv): QApplication(argc, argv),
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchCreated,
             this, &ArenaTracker::onNewMatchStart);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckSubmited,
-            deckTrackerPlayer, &DeckTrackerPlayer::onPlayerDeckSubmited);
+            this, &ArenaTracker::onDeckSubmited);
     LOGI("Arena Tracker started");
 }
 
@@ -74,6 +74,8 @@ void ArenaTracker::setupPreferencesScreen()
 void ArenaTracker::setupMtgaMatch()
 {
     mtgaMatch = new MtgaMatch(this, mtgCards);
+    connect(mtgaMatch, &MtgaMatch::sgnPlayerUndrawCard,
+            deckTrackerPlayer, &DeckTrackerPlayer::onPlayerUndrawCard);
     connect(mtgaMatch, &MtgaMatch::sgnPlayerDrawCard,
             deckTrackerPlayer, &DeckTrackerPlayer::onPlayerDrawCard);
     connect(mtgaMatch, &MtgaMatch::sgnOpponentPlayCard,
@@ -90,6 +92,10 @@ void ArenaTracker::setupMtgaMatch()
             mtgaMatch, &MtgaMatch::onMatchStateDiff);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnNewTurnStarted,
             mtgaMatch, &MtgaMatch::onNewTurnStarted);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerTakesMulligan,
+            mtgaMatch, &MtgaMatch::onPlayerTakesMulligan);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnOpponentTakesMulligan,
+            mtgaMatch, &MtgaMatch::onOpponentTakesMulligan);
 }
 
 void ArenaTracker::showPreferencesScreen()
@@ -98,16 +104,21 @@ void ArenaTracker::showPreferencesScreen()
     preferencesScreen->raise();
 }
 
-void ArenaTracker::onNewMatchStart(MatchInfo matchInfo)
+void ArenaTracker::onDeckSubmited(Deck deck)
 {
-    isMatchRunning = true;
-    mtgaMatch->startNewMatch(matchInfo);
+    deckTrackerPlayer->loadDeck(deck);
     if (APP_SETTINGS->isDeckTrackerPlayerEnabled()) {
         deckTrackerPlayer->show();
     }
     if (APP_SETTINGS->isDeckTrackerOpponentEnabled()) {
         deckTrackerOpponent->show();
     }
+}
+
+void ArenaTracker::onNewMatchStart(MatchInfo matchInfo)
+{
+    isMatchRunning = true;
+    mtgaMatch->startNewMatch(matchInfo);
 }
 
 void ArenaTracker::onDeckTrackerPlayerEnabledChange(bool enabled)

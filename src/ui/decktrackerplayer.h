@@ -24,11 +24,12 @@ protected:
 public:
     explicit DeckTrackerPlayer(QWidget *parent = nullptr);
     ~DeckTrackerPlayer();
+    void loadDeck(Deck deck);
 
 signals:
 
 public slots:
-    void onPlayerDeckSubmited(Deck deck);
+    void onPlayerUndrawCard(Card* card);
     void onPlayerDrawCard(Card* card);
     void onStatisticsEnabled(bool enabled);
 };

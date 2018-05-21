@@ -19,7 +19,9 @@ typedef enum {
     TRANSFER_DRAW,
     TRANSFER_EXILE,
     TRANSFER_PLAY,
+    TRANSFER_PUT_ON_TOP,
     TRANSFER_RESOLVE,
+    TRANSFER_RETURN,
     TRANSFER_UNKOWN
 } ZoneTransferType;
 
@@ -37,12 +39,12 @@ private:
     // objectId, zoneType
     QMap<int, ZoneType> stackZoneSrcTrack;
     int currentTurn;
-    bool playerGoFirst;
-    bool resultPlayerWins;
+    bool playerGoFirst, resultPlayerWins;
     void updateZones(MatchStateDiff matchStateDiff);
     void updateIdsChanged(MatchStateDiff matchStateDiff);
-    void notifyCardZoneChange(int objectId, MatchZone zoneSrc, MatchZone zoneDst,
-                              ZoneTransferType zoneTransferType);
+    void notifyHandCardsDraw(MatchStateDiff matchStateDiff);
+    void notifyCardZoneChange(int objectId, int oldObjectId, MatchZone zoneSrc,
+                              MatchZone zoneDst, ZoneTransferType zoneTransferType);
     Card* getCardByObjectId(MatchZone zoneDst, int objectId);
     QString getOwnerIdentifier(int objectId, MatchZone zoneSrc);
     ZoneTransferType getZoneTransferType(int objectId, MatchZone zoneSrc,
@@ -53,6 +55,7 @@ public:
     void startNewMatch(MatchInfo matchInfo);
 
 signals:
+    void sgnPlayerUndrawCard(Card* card);
     void sgnPlayerDrawCard(Card* card);
     void sgnOpponentDrawCard();
     void sgnPlayerPlayCard(Card* card);
@@ -62,6 +65,8 @@ public slots:
     void onMatchInfoSeats(QList<MatchPlayer> players);
     void onMatchInfoResultMatch(int winningTeamId);
     void onSeatIdThatGoFirst(int seatId);
+    void onPlayerTakesMulligan();
+    void onOpponentTakesMulligan(int opponentSeatId);
     void onMatchStartZones(QList<MatchZone> zones);
     void onMatchStateDiff(MatchStateDiff matchStateDiff);
     void onNewTurnStarted(int turnNumber);

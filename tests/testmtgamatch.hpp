@@ -61,8 +61,8 @@ private slots:
         mtgaLogParser->parse(readFile("MatchCreated.txt"));
         mtgaLogParser->parse(readFile("MatchInfoSeats.txt"));
         mtgaLogParser->parse(readFile("GameStateFull.txt"));
-        mtgaLogParser->parse(readFile("PlayerAcceptHand.txt"));
         mtgaLogParser->parse(readFile("game/GameStateDiff1.txt"));
+        mtgaLogParser->parse(readFile("PlayerAcceptHand.txt"));
         mtgaLogParser->parse(readFile("game/GameStateDiff2.txt"));
         mtgaLogParser->parse(readFile("game/GameStateDiff3.txt"));
         mtgaLogParser->parse(readFile("game/GameStateDiff4.txt"));

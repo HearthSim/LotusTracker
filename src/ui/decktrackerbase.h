@@ -45,7 +45,7 @@ protected:
     virtual void mouseMoveEvent(QMouseEvent *event);
     virtual void mouseReleaseEvent(QMouseEvent *event);
     // Draw fields and methods
-    QPen bgPen, cardPen, titlePen;
+    QPen bgPen, cardPen, cardNonePen, titlePen;
     QFont cardFont, titleFont;
     void drawText(QPainter &painter, QFont textFont, QPen textPen, QString text, int textOptions,
                   bool shadow, int textX, int textY, int textHeight, int textWidth);

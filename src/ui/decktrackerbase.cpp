@@ -67,6 +67,7 @@ void DeckTrackerBase::setupDrawTools()
     cardFont.setPointSize(cardFontSize);
     cardFont.setBold(true);
     cardPen = QPen(Qt::black);
+    cardNonePen = QPen(QColor(80, 80, 80));
     // Title
     int titleFontSize = 11;
 #if defined Q_OS_MAC
@@ -190,6 +191,9 @@ void DeckTrackerBase::drawDeckCards(QPainter &painter)
     for (Card* card : deckCards) {
         int cardQtdRemains = deck.cards[card];
         QString cardManaIdentity = card->manaColorIdentityAsString();
+        if (cardManaIdentity.size() > 2) {
+            cardManaIdentity = "m";
+        }
         // Card BG
         int cardBGY = uiPos.y() + uiHeight + cardListHeight;
         QImage cardBGImg;
@@ -199,15 +203,16 @@ void DeckTrackerBase::drawDeckCards(QPainter &painter)
             cardBGImgScaled = Transformations::toGrayscale(cardBGImgScaled);
         }
         painter.drawImage(uiPos.x(), cardBGY, cardBGImgScaled);
+        QPen cardTextPen = cardQtdRemains == 0 ? cardNonePen : cardPen;
         // Card quantity
         QString cardQtd = QString("%1 ").arg(cardQtdRemains);
         int cardQtdWidth = painter.fontMetrics().width(cardQtd);
         int cardQtdX = uiPos.x() + 12;
         int cardQtdY = cardBGY + cardBGImgSize.height()/2 - cardTextHeight/2;
-        drawText(painter, cardFont, cardPen, cardQtd, cardQtdOptions, false,
+        drawText(painter, cardFont, cardTextPen, cardQtd, cardQtdOptions, false,
                  cardQtdX, cardQtdY, cardTextHeight, cardQtdWidth);
         // Card name
-        drawText(painter, cardFont, cardPen, card->name, cardTextOptions, false,
+        drawText(painter, cardFont, cardTextPen, card->name, cardTextOptions, false,
                  cardQtdX + cardQtdWidth, cardQtdY, cardTextHeight, uiWidth);
         // Card mana
         int manaRightMargin = 7;
@@ -227,7 +232,7 @@ void DeckTrackerBase::drawDeckCards(QPainter &painter)
             if (cardBlinkInfo->alpha > 0) {
                 QRect coverRect(uiPos.x(), cardBGY, cardBGImgSize.width(), cardBGImgSize.height());
                 painter.setPen(QPen(QColor(255, 255, 255)));
-                painter.setBrush(QBrush(QColor(255, 255, 255, cardBlinkInfo->alpha)));
+                painter.setBrush(QBrush(QColor(255, 255, 155, cardBlinkInfo->alpha)));
                 painter.drawRoundedRect(coverRect, cornerRadius, cornerRadius);
             } else {
                 cardsBlinkInfo.remove(cardBlinkInfo->card);
