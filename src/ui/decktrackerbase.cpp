@@ -57,7 +57,11 @@ void DeckTrackerBase::setupDrawTools()
 {
     bgPen = QPen(QColor(160, 160, 160));
     bgPen.setWidth(1);
+#if defined Q_OS_MAC
     int belerenID = QFontDatabase::addApplicationFont(":/res/fonts/Beleren-Bold.ttf");
+#else
+    int belerenID = QFontDatabase::addApplicationFont(":/res/fonts/OpenSans-Regular.ttf");
+#endif
     // Card
     int cardFontSize = 7;
 #if defined Q_OS_MAC
@@ -65,7 +69,7 @@ void DeckTrackerBase::setupDrawTools()
 #endif
     cardFont.setFamily(QFontDatabase::applicationFontFamilies(belerenID).at(0));
     cardFont.setPointSize(cardFontSize);
-    cardFont.setBold(true);
+    cardFont.setBold(false);
     cardPen = QPen(Qt::black);
     cardNonePen = QPen(QColor(80, 80, 80));
     // Title
@@ -205,15 +209,19 @@ void DeckTrackerBase::drawDeckCards(QPainter &painter)
         painter.drawImage(uiPos.x(), cardBGY, cardBGImgScaled);
         QPen cardTextPen = cardQtdRemains == 0 ? cardNonePen : cardPen;
         // Card quantity
+        painter.setFont(cardFont);
         QString cardQtd = QString("%1 ").arg(cardQtdRemains);
         int cardQtdWidth = painter.fontMetrics().width(cardQtd);
         int cardQtdX = uiPos.x() + 12;
         int cardQtdY = cardBGY + cardBGImgSize.height()/2 - cardTextHeight/2;
+#if defined Q_OS_WIN
+        cardQtdY -= 1;
+#endif
         drawText(painter, cardFont, cardTextPen, cardQtd, cardQtdOptions, false,
                  cardQtdX, cardQtdY, cardTextHeight, cardQtdWidth);
         // Card name
         drawText(painter, cardFont, cardTextPen, card->name, cardTextOptions, false,
-                 cardQtdX + cardQtdWidth, cardQtdY, cardTextHeight, uiWidth);
+                 cardQtdX + cardQtdWidth, cardQtdY, cardTextHeight, uiWidth - cardQtdWidth);
         // Card mana
         int manaRightMargin = 7;
         int manaMargin = 2;

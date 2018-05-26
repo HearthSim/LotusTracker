@@ -6,14 +6,16 @@
 #include <QFileInfo>
 #include <QStandardPaths>
 
-#define LOG_PATH "AppData" + QDir::separator() + "LocalLow" + QDir::separator() + "Wizards of the Coast" + QDir::separator() + "MTGA"
+#define WATCH_TEST_LOG false
+#define LOG_PATH QString("AppData%1LocalLow%2Wizards of the Coast%3MTGA")\
+    .arg(QDir::separator()).arg(QDir::separator()).arg(QDir::separator())
 #define TEST_LOG_PATH "Documents"
 
 MtgaLogWatcher::MtgaLogWatcher(QObject *parent) : QObject(parent), 
 	timer(new QTimer(this)), lastFilePos(0)
 {
     QString homeDir = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
-    logPath = homeDir + QDir::separator() + TEST_LOG_PATH;
+    logPath = homeDir + QDir::separator() + (WATCH_TEST_LOG ? LOG_PATH : TEST_LOG_PATH);
     if (QFileInfo(logPath + QDir::separator() + "output_log.txt").exists()) {
     	setLogPath(logPath);
     } else {

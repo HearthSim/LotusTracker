@@ -60,6 +60,7 @@
 		<file>res/covers/u.jpg</file>
 		<file>res/covers/w.jpg</file>
         <file>res/fonts/Beleren-Bold.ttf</file>
+        <file>res/fonts/OpenSans-Regular.ttf</file>
         <file>res/icons/icon_black.png</file>
         <file>res/icons/icon_black@2x.png</file>
         <file>res/icons/icon.png</file>

@@ -47,6 +47,7 @@ void ArenaTracker::setupApp()
 #elif defined Q_OS_WIN
   QIcon icon(":/res/icon.ico");
 #endif
+  setAttribute(Qt::AA_Use96Dpi);
   setApplicationName("Arena Tracker");
   setOrganizationName("ArenaMeta");
   setOrganizationDomain("arenameta.com");
