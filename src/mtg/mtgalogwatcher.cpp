@@ -15,7 +15,7 @@ MtgaLogWatcher::MtgaLogWatcher(QObject *parent) : QObject(parent),
 	timer(new QTimer(this)), lastFilePos(0)
 {
     QString homeDir = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
-    logPath = homeDir + QDir::separator() + (WATCH_TEST_LOG ? LOG_PATH : TEST_LOG_PATH);
+    logPath = homeDir + QDir::separator() + (WATCH_TEST_LOG ? TEST_LOG_PATH : LOG_PATH);
     if (QFileInfo(logPath + QDir::separator() + "output_log.txt").exists()) {
     	setLogPath(logPath);
     } else {
@@ -54,12 +54,12 @@ void MtgaLogWatcher::startWatching(){
             return;
         }
 	}
-    if (!logFile->open(QIODevice::ReadOnly)) {
+    if (!logFile->open(QIODevice::ReadOnly | QIODevice::Text)) {
         LOGW("Error oppening log file");
         return;
     }
     LOGD("Starting watch log");
-	timer->start(100);
+    timer->start(200);
 }
 
 void MtgaLogWatcher::stopWatching(){

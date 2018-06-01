@@ -94,12 +94,33 @@ void DeckTrackerPlayer::loadDeck(Deck deck)
     LOGD(QString("Loading deck %1").arg(deck.name));
 }
 
-void DeckTrackerPlayer::onPlayerUndrawCard(Card* card)
+void DeckTrackerPlayer::onPlayerPutInLibraryCard(Card* card)
 {
     deck.insertCard(card);
 }
 
 void DeckTrackerPlayer::onPlayerDrawCard(Card* card)
+{
+    if (deck.drawCard(card)) {
+        blinkCard(card);
+    }
+}
+
+void DeckTrackerPlayer::onPlayerDiscardCard(Card* card)
+{
+    if (deck.drawCard(card)) {
+        blinkCard(card);
+    }
+}
+
+void DeckTrackerPlayer::onPlayerDiscardFromLibraryCard(Card* card)
+{
+    if (deck.drawCard(card)) {
+        blinkCard(card);
+    }
+}
+
+void DeckTrackerPlayer::onPlayerPutOnBattlefieldCard(Card* card)
 {
     if (deck.drawCard(card)) {
         blinkCard(card);

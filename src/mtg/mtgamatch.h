@@ -16,9 +16,11 @@ typedef enum {
     TRANSFER_COUNTERED,
     TRANSFER_DESTROY,
     TRANSFER_DISCARD,
+    TRANSFER_DISCARD_FROM_LIBRARY,
     TRANSFER_DRAW,
     TRANSFER_EXILE,
     TRANSFER_PLAY,
+    TRANSFER_PUT_ON_BATTLEFIELD,
     TRANSFER_PUT_ON_TOP,
     TRANSFER_RESOLVE,
     TRANSFER_RETURN,
@@ -53,17 +55,24 @@ private:
 public:
     explicit MtgaMatch(QObject *parent = nullptr, MtgCards *mtgCards = nullptr);
     void startNewMatch(MatchInfo matchInfo);
+    void endCurrentMatch(int winningTeamId);
 
 signals:
-    void sgnPlayerUndrawCard(Card* card);
+    void sgnPlayerPutInLibraryCard(Card* card);
     void sgnPlayerDrawCard(Card* card);
-    void sgnOpponentDrawCard();
     void sgnPlayerPlayCard(Card* card);
+    void sgnPlayerDiscardCard(Card* card);
+    void sgnPlayerDiscardFromLibraryCard(Card* card);
+    void sgnPlayerPutOnBattlefieldCard(Card* card);
+    void sgnOpponentPutInLibraryCard(Card* card);
+    void sgnOpponentDrawCard();
     void sgnOpponentPlayCard(Card* card);
+    void sgnOpponentDiscardCard(Card* card);
+    void sgnOpponentDiscardFromLibraryCard(Card* card);
+    void sgnOpponentPutOnBattlefieldCard(Card* card);
 
 public slots:
     void onMatchInfoSeats(QList<MatchPlayer> players);
-    void onMatchInfoResultMatch(int winningTeamId);
     void onSeatIdThatGoFirst(int seatId);
     void onPlayerTakesMulligan();
     void onOpponentTakesMulligan(int opponentSeatId);

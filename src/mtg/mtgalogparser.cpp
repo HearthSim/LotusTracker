@@ -14,7 +14,10 @@
 MtgaLogParser::MtgaLogParser(QObject *parent, MtgCards *mtgCards)
     : QObject(parent), mtgCards(mtgCards)
 {
-
+    reRawMsg = QRegularExpression(REGEXP_RAW_MSG);
+    reMsgNumber = QRegularExpression(REGEXP_MSG_RESPONSE_NUMBER);
+    reMsgId = QRegularExpression(REGEXP_MSG_ID);
+    reMsgJson = QRegularExpression(REGEXP_MSG_JSON);
 }
 
 MtgaLogParser::~MtgaLogParser()
@@ -41,16 +44,12 @@ Deck MtgaLogParser::jsonObject2Deck(QJsonObject jsonDeck)
 void MtgaLogParser::parse(QString logNewContent)
 {
     // Extract raw msgs
-    QRegularExpression reRawMsg(REGEXP_RAW_MSG);
     QRegularExpressionMatchIterator iterator = reRawMsg.globalMatch(logNewContent);
     QList<QString> rawMsgs;
     while (iterator.hasNext()) {
         rawMsgs << iterator.next().captured(0);
     }
     // Extract msg id and json
-    QRegularExpression reMsgNumber(REGEXP_MSG_RESPONSE_NUMBER);
-    QRegularExpression reMsgId(REGEXP_MSG_ID);
-    QRegularExpression reMsgJson(REGEXP_MSG_JSON);
     // List of msgs in format (msgId, msgJson)
     QList<QPair<QString, QString>> msgs;
     for (QString msg: rawMsgs) {
@@ -191,7 +190,7 @@ void MtgaLogParser::parseMatchCreated(QString json)
     QString opponentRankClass = jsonMatchCreated["opponentRankingClass"].toString();
     int opponentRankTier = jsonMatchCreated["opponentRankingTier"].toInt();
     MatchInfo match(opponentName, opponentRankClass, opponentRankTier);
-    LOGD(QString("MatchCreated: Opponent %1, rank: %2 - %3").arg(opponentName)
+    LOGD(QString("MatchCreated: Opponent %1, rank: %2(%3)").arg(opponentName)
          .arg(opponentRankClass).arg(opponentRankTier));
     emit sgnMatchCreated(match);
 }
