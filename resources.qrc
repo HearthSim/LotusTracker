@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
+        <file>res/logo.png</file>
         <file>res/cards/mtg/a.png</file>
         <file>res/cards/mtg/bg.png</file>
         <file>res/cards/mtg/c.png</file>

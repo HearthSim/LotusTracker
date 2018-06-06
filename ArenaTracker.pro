@@ -48,6 +48,7 @@ HEADERS += \
     src/ui/decktrackerplayer.h \
     src/ui/decktrackeropponent.h \
     src/ui/preferencesscreen.h \
+    src/ui/startscreen.h \
     src/ui/trayicon.h \
     src/utils/appsettings.h \
     src/utils/logger.h
@@ -65,13 +66,15 @@ SOURCES += \
     src/ui/decktrackerplayer.cpp \
     src/ui/decktrackeropponent.cpp \
     src/ui/preferencesscreen.cpp \
+    src/ui/startscreen.cpp \
     src/ui/trayicon.cpp \
     src/utils/appsettings.cpp \
     src/utils/logger.cpp
 
 FORMS += \
     src/ui/preferences.ui \
-    src/ui/decktrackerbase.ui
+    src/ui/decktrackerbase.ui \
+    src/ui/start.ui
 
 RESOURCES += resources.qrc
 

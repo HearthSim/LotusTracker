@@ -8,6 +8,7 @@
 #include "ui/decktrackerplayer.h"
 #include "ui/decktrackeropponent.h"
 #include "ui/preferencesscreen.h"
+#include "ui/startscreen.h"
 #include "ui/trayicon.h"
 #include "utils/appsettings.h"
 #include "utils/logger.h"
@@ -25,8 +26,10 @@ private:
     DeckTrackerOpponent *deckTrackerOpponent;
     TrayIcon *trayIcon;
     PreferencesScreen *preferencesScreen;
+    StartScreen *startScreen;
     void setupApp();
     void setupPreferencesScreen();
+    void setupStartScreen();
     void setupMtgaMatch();
 
 public:

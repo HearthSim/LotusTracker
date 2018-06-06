@@ -15,6 +15,7 @@ ArenaTracker::ArenaTracker(int& argc, char **argv): QApplication(argc, argv),
     trayIcon = new TrayIcon(this, mtgCards);
     setupMtgaMatch();
     setupPreferencesScreen();
+    setupStartScreen();
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchCreated,
             this, &ArenaTracker::onNewMatchStart);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckSubmited,
@@ -69,7 +70,13 @@ void ArenaTracker::setupPreferencesScreen()
             this, &ArenaTracker::onDeckTrackerOpponentEnabledChange);
     connect(preferencesScreen, &PreferencesScreen::sgnTrackerCardLayout,
             deckTrackerOpponent, &DeckTrackerPlayer::changeCardLayout);
+}
 
+void ArenaTracker::setupStartScreen()
+{
+    startScreen = new StartScreen();
+    startScreen->show();
+    startScreen->raise();
 }
 
 void ArenaTracker::setupMtgaMatch()
