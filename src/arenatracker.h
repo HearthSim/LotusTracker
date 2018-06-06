@@ -46,7 +46,8 @@ signals:
 
 private slots:
     void onDeckSubmited(Deck deck);
-    void onNewMatchStart(MatchInfo match);
+    void onMatchStart(MatchInfo match);
+    void onMatchEnd(int winningTeamId);
     void onDeckTrackerPlayerEnabledChange(bool enabled);
     void onDeckTrackerOpponentEnabledChange(bool enabled);
 };

@@ -19,6 +19,7 @@ class MtgaLogParser : public QObject
     Q_OBJECT
 
 private:
+    QRegularExpression reRawMsg, reMsgNumber, reMsgId, reMsgJson;
     MtgCards *mtgCards;
     QList<int> msgResponseNumbers;
     Deck jsonObject2Deck(QJsonObject jsonDeck);

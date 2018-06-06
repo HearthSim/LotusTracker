@@ -29,8 +29,11 @@ public:
 signals:
 
 public slots:
-    void onPlayerUndrawCard(Card* card);
+    void onPlayerPutInLibraryCard(Card* card);
     void onPlayerDrawCard(Card* card);
+    void onPlayerDiscardCard(Card* card);
+    void onPlayerDiscardFromLibraryCard(Card* card);
+    void onPlayerPutOnBattlefieldCard(Card* card);
     void onStatisticsEnabled(bool enabled);
 };
 

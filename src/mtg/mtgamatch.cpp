@@ -20,6 +20,12 @@ void MtgaMatch::startNewMatch(MatchInfo matchInfo)
     LOGI("New match started")
 }
 
+void MtgaMatch::endCurrentMatch(int winningTeamId)
+{
+    resultPlayerWins = player.teamId() == winningTeamId;
+    LOGI(QString("%1 win").arg(resultPlayerWins ? "Player" : "Opponent"))
+}
+
 void MtgaMatch::onMatchInfoSeats(QList<MatchPlayer> players)
 {
     for (MatchPlayer matchPlayer : players) {
@@ -29,12 +35,6 @@ void MtgaMatch::onMatchInfoSeats(QList<MatchPlayer> players)
             player = MatchPlayer(matchPlayer.name(), matchPlayer.seatId(), matchPlayer.teamId());
         }
     }
-}
-
-void MtgaMatch::onMatchInfoResultMatch(int winningTeamId)
-{
-    resultPlayerWins = player.teamId() == winningTeamId;
-    LOGI(QString("%1 win").arg(resultPlayerWins ? "Player" : "Opponent"))
 }
 
 void MtgaMatch::onSeatIdThatGoFirst(int seatId)
@@ -58,7 +58,7 @@ void MtgaMatch::onPlayerTakesMulligan()
             for (int objectId : handObjectIds.keys()) {
                 zone.objectIds[objectId] = 0;
                 Card* card = mtgCards->findCard(handObjectIds[objectId]);
-                emit sgnPlayerUndrawCard(card);
+                emit sgnPlayerPutInLibraryCard(card);
             }
             zones[zoneId] = zone;
             break;
@@ -156,6 +156,20 @@ void MtgaMatch::notifyCardZoneChange(int objectId, int oldObjectId, MatchZone zo
         }
         case TRANSFER_DISCARD: {
             LOGD(QString("%1 discarded").arg(cardName));
+            if (isTransferFromPlayer) {
+                emit sgnPlayerDiscardCard(card);
+            } else {
+                emit sgnOpponentDiscardCard(card);
+            }
+            break;
+        }
+        case TRANSFER_DISCARD_FROM_LIBRARY: {
+            LOGD(QString("%1 discarded from library").arg(cardName));
+            if (isTransferFromPlayer) {
+                emit sgnPlayerDiscardFromLibraryCard(card);
+            } else {
+                emit sgnOpponentDiscardFromLibraryCard(card);
+            }
             break;
         }
         case TRANSFER_EXILE: {
@@ -168,6 +182,15 @@ void MtgaMatch::notifyCardZoneChange(int objectId, int oldObjectId, MatchZone zo
         }
         case TRANSFER_RESOLVE: {
             LOGD(QString("%1 resolved").arg(cardName));
+            break;
+        }
+        case TRANSFER_PUT_ON_BATTLEFIELD: {
+            LOGD(QString("%1 put %2 on battlefield").arg(ownerIdenfitier).arg(cardName));
+            if (isTransferFromPlayer) {
+                emit sgnPlayerPutOnBattlefieldCard(card);
+            } else {
+                emit sgnOpponentPutOnBattlefieldCard(card);
+            }
             break;
         }
         case TRANSFER_PUT_ON_TOP: {
@@ -266,6 +289,9 @@ ZoneTransferType MtgaMatch::getZoneTransferType(int objectId, MatchZone zoneSrc,
     if (zoneSrc.type() == ZoneType_LIBRARY && zoneDst.type() == ZoneType_HAND) {
         return TRANSFER_DRAW;
     }
+    if (zoneSrc.type() == ZoneType_LIBRARY && zoneDst.type() == ZoneType_BATTLEFIELD) {
+        return TRANSFER_PUT_ON_BATTLEFIELD;
+    }
     if (zoneSrc.type() == ZoneType_LIBRARY && zoneDst.type() == ZoneType_LIBRARY) {
         return TRANSFER_PUT_ON_TOP;
     }
@@ -280,6 +306,9 @@ ZoneTransferType MtgaMatch::getZoneTransferType(int objectId, MatchZone zoneSrc,
     }
     if (zoneSrc.type() == ZoneType_HAND && zoneDst.type() == ZoneType_GRAVEYARD) {
         return TRANSFER_DISCARD;
+    }
+    if (zoneSrc.type() == ZoneType_LIBRARY && zoneDst.type() == ZoneType_GRAVEYARD) {
+        return TRANSFER_DISCARD_FROM_LIBRARY;
     }
     if (zoneSrc.type() == ZoneType_BATTLEFIELD && zoneDst.type() == ZoneType_HAND) {
         return TRANSFER_RETURN;

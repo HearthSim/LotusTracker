@@ -22,7 +22,11 @@ public:
 signals:
 
 public slots:
+    void onOpponentPutInLibraryCard(Card* card);
     void onOpponentPlayCard(Card* card);
+    void onOpponentDiscardCard(Card* card);
+    void onOpponentDiscardFromLibraryCard(Card* card);
+    void onOpponentPutOnBattlefieldCard(Card* card);
 };
 
 #endif // DECKTRACKEROPPONENT_H

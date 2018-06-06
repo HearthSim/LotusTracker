@@ -17,7 +17,9 @@ ArenaTracker::ArenaTracker(int& argc, char **argv): QApplication(argc, argv),
     setupPreferencesScreen();
     setupStartScreen();
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchCreated,
-            this, &ArenaTracker::onNewMatchStart);
+            this, &ArenaTracker::onMatchStart);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchInfoResultMatch,
+            this, &ArenaTracker::onMatchEnd);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckSubmited,
             this, &ArenaTracker::onDeckSubmited);
     LOGI("Arena Tracker started");
@@ -82,16 +84,31 @@ void ArenaTracker::setupStartScreen()
 void ArenaTracker::setupMtgaMatch()
 {
     mtgaMatch = new MtgaMatch(this, mtgCards);
-    connect(mtgaMatch, &MtgaMatch::sgnPlayerUndrawCard,
-            deckTrackerPlayer, &DeckTrackerPlayer::onPlayerUndrawCard);
+    // Player
+    connect(mtgaMatch, &MtgaMatch::sgnPlayerPutInLibraryCard,
+            deckTrackerPlayer, &DeckTrackerPlayer::onPlayerPutInLibraryCard);
     connect(mtgaMatch, &MtgaMatch::sgnPlayerDrawCard,
             deckTrackerPlayer, &DeckTrackerPlayer::onPlayerDrawCard);
+    connect(mtgaMatch, &MtgaMatch::sgnPlayerDiscardCard,
+            deckTrackerPlayer, &DeckTrackerPlayer::onPlayerDiscardCard);
+    connect(mtgaMatch, &MtgaMatch::sgnPlayerDiscardFromLibraryCard,
+            deckTrackerPlayer, &DeckTrackerPlayer::onPlayerDiscardFromLibraryCard);
+    connect(mtgaMatch, &MtgaMatch::sgnPlayerPutOnBattlefieldCard,
+            deckTrackerPlayer, &DeckTrackerPlayer::onPlayerPutOnBattlefieldCard);
+    // Opponent
+    connect(mtgaMatch, &MtgaMatch::sgnOpponentPutInLibraryCard,
+            deckTrackerOpponent, &DeckTrackerOpponent::onOpponentPutInLibraryCard);
     connect(mtgaMatch, &MtgaMatch::sgnOpponentPlayCard,
             deckTrackerOpponent, &DeckTrackerOpponent::onOpponentPlayCard);
+    connect(mtgaMatch, &MtgaMatch::sgnOpponentDiscardCard,
+            deckTrackerOpponent, &DeckTrackerOpponent::onOpponentDiscardCard);
+    connect(mtgaMatch, &MtgaMatch::sgnOpponentDiscardFromLibraryCard,
+            deckTrackerOpponent, &DeckTrackerOpponent::onOpponentDiscardFromLibraryCard);
+    connect(mtgaMatch, &MtgaMatch::sgnOpponentPutOnBattlefieldCard,
+            deckTrackerOpponent, &DeckTrackerOpponent::onOpponentPutOnBattlefieldCard);
+    // Match
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchInfoSeats,
             mtgaMatch, &MtgaMatch::onMatchInfoSeats);
-    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchInfoResultMatch,
-            mtgaMatch, &MtgaMatch::onMatchInfoResultMatch);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnSeatIdThatGoFirst,
             mtgaMatch, &MtgaMatch::onSeatIdThatGoFirst);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchStartZones,
@@ -123,10 +140,18 @@ void ArenaTracker::onDeckSubmited(Deck deck)
     }
 }
 
-void ArenaTracker::onNewMatchStart(MatchInfo matchInfo)
+void ArenaTracker::onMatchStart(MatchInfo matchInfo)
 {
     isMatchRunning = true;
     mtgaMatch->startNewMatch(matchInfo);
+}
+
+void ArenaTracker::onMatchEnd(int winningTeamId)
+{
+    isMatchRunning = false;
+    deckTrackerPlayer->hide();
+    deckTrackerOpponent->hide();
+    mtgaMatch->endCurrentMatch(winningTeamId);
 }
 
 void ArenaTracker::onDeckTrackerPlayerEnabledChange(bool enabled)
