@@ -28,6 +28,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 HEADERS += \
     src/arenatracker.h \
+    src/apikeys.h \
     src/macros.h \
     src/transformations.h \
     src/entity/card.h \
@@ -38,6 +39,7 @@ HEADERS += \
     src/entity/matchstatediff.h \
     src/entity/matchzone.h \
     src/entity/matchzonetransfer.h \
+    src/firebase/auth.h \
     src/mtg/mtgarena.h \
     src/mtg/mtgalogparser.h \
     src/mtg/mtgalogwatcher.h \
@@ -55,6 +57,7 @@ HEADERS += \
 
 SOURCES += \
     src/arenatracker.cpp \
+    src/firebase/auth.cpp \
     src/main.cpp \
     src/transformations.cpp \
     src/mtg/mtgarena.cpp \

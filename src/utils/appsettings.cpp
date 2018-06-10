@@ -17,6 +17,11 @@
 #define KEY_TRACKER_OPPONENT_Y "Tracker/opponentPrefs/y"
 #define KEY_TRACKER_OPPONENT_SCALE "Tracker/opponentPrefs/scale"
 
+#define KEY_TRACKER_USER_ID "Tracker/user/id"
+#define KEY_TRACKER_USER_TOKEN "Tracker/user/token"
+#define KEY_TRACKER_USER_REFRESH_TOKEN "Tracker/user/refreshToken"
+#define KEY_TRACKER_USER_EXPIRES_EPOCH "Tracker/user/tokenExpiresEpoch"
+
 AppSettings::AppSettings(QObject *parent) : QObject(parent)
 {
     LOGD(QString("Settings saved in %1").arg(settings.fileName()));
@@ -122,4 +127,21 @@ qreal AppSettings::getDeckTrackerOpponentScale()
 void AppSettings::setDeckTrackerOpponentScale(qreal scale)
 {
     settings.setValue(KEY_TRACKER_OPPONENT_SCALE, scale);
+}
+
+void AppSettings::setUserSettings(QString userId, QString userToken,
+                                  QString refreshToken, qlonglong expiresTimeEpoch)
+{
+    settings.setValue(KEY_TRACKER_USER_ID, userId);
+    settings.setValue(KEY_TRACKER_USER_TOKEN, userToken);
+    settings.setValue(KEY_TRACKER_USER_REFRESH_TOKEN, refreshToken);
+    settings.setValue(KEY_TRACKER_USER_EXPIRES_EPOCH, expiresTimeEpoch);
+}
+
+UserSettings AppSettings::getUserSettings()
+{
+    return UserSettings(settings.value(KEY_TRACKER_USER_ID, "").toString(),
+                        settings.value(KEY_TRACKER_USER_TOKEN, "").toString(),
+                        settings.value(KEY_TRACKER_USER_REFRESH_TOKEN, "").toString(),
+                        settings.value(KEY_TRACKER_USER_EXPIRES_EPOCH, 0).toLongLong());
 }

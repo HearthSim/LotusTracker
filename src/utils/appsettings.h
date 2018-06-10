@@ -1,6 +1,8 @@
 #ifndef APPSETTINGS_H
 #define APPSETTINGS_H
 
+#include "../entity/user.h"
+
 #include <QSettings>
 
 class AppSettings : public QObject
@@ -34,6 +36,9 @@ public:
     qreal getDeckTrackerOpponentScale();
     void setDeckTrackerOpponentScale(qreal scale);
 
+    void setUserSettings(QString userId, QString userToken,
+                         QString refreshToken, qlonglong expiresTimeEpoch);
+    UserSettings getUserSettings();
 };
 
 #endif // APPSETTINGS_H

@@ -129,6 +129,11 @@ void ArenaTracker::showPreferencesScreen()
     preferencesScreen->raise();
 }
 
+void ArenaTracker::showMessage(QString msg, QString title)
+{
+    trayIcon->showMessage(title, msg);
+}
+
 void ArenaTracker::onDeckSubmited(Deck deck)
 {
     deckTrackerPlayer->loadDeck(deck);

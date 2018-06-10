@@ -21,6 +21,7 @@ private:
 public:
     explicit TrayIcon(QObject *parent = nullptr, MtgCards *mtgCards = nullptr);
     ~TrayIcon();
+    void showMessage(QString title, QString msg);
 
 signals:
 

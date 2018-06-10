@@ -5,7 +5,7 @@
 #include <QFontDatabase>
 
 StartScreen::StartScreen(QWidget *parent) : QMainWindow(parent),
-  ui(new Ui::Start())
+  ui(new Ui::Start()), auth(new Auth(this))
 {
   ui->setupUi(this);
   setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
@@ -28,11 +28,14 @@ StartScreen::StartScreen(QWidget *parent) : QMainWindow(parent),
   connect(ui->lbClose, &QPushButton::clicked, qApp, &QCoreApplication::quit);
   connect(ui->btLogin, &QPushButton::clicked, this, &StartScreen::onLoginClick);
   connect(ui->btNew, &QPushButton::clicked, this, &StartScreen::onNewUserClick);
+  connect(ui->btEnter, &QPushButton::clicked, this, &StartScreen::onEnterClick);
+  connect(ui->btRegister, &QPushButton::clicked, this, &StartScreen::onRegisterClick);
 }
 
 StartScreen::~StartScreen()
 {
-    delete ui;
+    DEL(ui);
+    DEL(auth);
 }
 
 void StartScreen::onLoginClick()
@@ -47,4 +50,21 @@ void StartScreen::onNewUserClick()
     ui->frameNew->setVisible(true);
     ui->btLogin->setVisible(false);
     ui->btNew->setVisible(false);
+}
+
+void StartScreen::onEnterClick()
+{
+
+}
+
+void StartScreen::onRegisterClick()
+{
+    QString email = ui->edNewEmail->text();
+    QString pass = ui->edNewPassword->text();
+    QString confirm = ui->edNewConfirm->text();
+    if (pass == confirm) {
+        auth->registerUser(email, pass);
+    } else {
+        ARENA_TRACKER->showMessage("", tr("Password and Confirm must be equals."));
+    }
 }

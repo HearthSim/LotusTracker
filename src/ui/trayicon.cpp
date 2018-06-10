@@ -63,6 +63,11 @@ void TrayIcon::TrayIconActivated(QSystemTrayIcon::ActivationReason reason) {
 #endif
 }
 
+void TrayIcon::showMessage(QString title, QString msg)
+{
+    trayIcon->showMessage(title, msg);
+}
+
 void TrayIcon::openPreferences()
 {
     ArenaTracker *arenaTracker = (ArenaTracker*) qApp->instance();
@@ -73,7 +78,7 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
 {
     // Load Deck
     QAction *loadDeckAction = new QAction(tr("Load Deck"), this);
-    connect(loadDeckAction, &QAction::triggered, this, [this](){
+    connect(loadDeckAction, &QAction::triggered, this, [](){
         MtgaLogParser *mtgaLogParser = ARENA_TRACKER->mtgArena->getLogParser();
         emit mtgaLogParser->sgnMatchCreated(MatchInfo("Opponent", "Beginner", 0));
         // Player Select Deck

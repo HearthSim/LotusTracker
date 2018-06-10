@@ -18,4 +18,21 @@ public:
 
 };
 
+#include <QString>
+
+class UserSettings
+{
+public:
+    const QString userId;
+    const QString userToken;
+    const QString refreshToken;
+    const qlonglong expiresTokenEpoch;
+
+    UserSettings() : userId(""), userToken(""), refreshToken(""), expiresTokenEpoch(0){}
+
+    UserSettings(QString userId, QString userToken, QString refreshToken, qlonglong expiresTokenEpoch)
+        : userId(userId), userToken(userToken), refreshToken(refreshToken), expiresTokenEpoch(expiresTokenEpoch){}
+
+};
+
 #endif // USER_H

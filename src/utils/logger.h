@@ -2,7 +2,6 @@
 #define LOGGER_H
 
 #include <QFile>
-#include <QString>
 #include <QObject>
 
 typedef enum {DEBUG, INFO, WARNING} LogType;

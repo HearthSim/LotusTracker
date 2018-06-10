@@ -41,6 +41,7 @@ public:
     MtgaMatch *mtgaMatch;
     int run();
     void showPreferencesScreen();
+    void showMessage(QString msg, QString title = tr("Arena Tracker"));
 
 signals:
 
