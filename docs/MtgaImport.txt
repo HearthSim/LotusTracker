@@ -1,3 +1,504 @@
+--- KLD ---
+1 Acrobatic Maneuver (KLD) 1
+2 Aerial Responder (KLD) 2
+3 Aetherstorm Roc (KLD) 3
+4 Angel of Invention (KLD) 4
+5 Authority of the Consuls (KLD) 5
+6 Aviary Mechanic (KLD) 6
+7 Built to Last (KLD) 7
+8 Captured by the Consulate (KLD) 8
+9 Cataclysmic Gearhulk (KLD) 9
+10 Consulate Surveillance (KLD) 10
+11 Consul's Shieldguard (KLD) 11
+12 Eddytrail Hawk (KLD) 12
+13 Fairgrounds Warden (KLD) 13
+14 Fragmentize (KLD) 14
+15 Fumigate (KLD) 15
+16 Gearshift Ace (KLD) 16
+17 Glint-Sleeve Artisan (KLD) 17
+18 Herald of the Fair (KLD) 18
+19 Impeccable Timing (KLD) 19
+20 Inspired Charge (KLD) 20
+1 Master Trinketeer (KLD) 21
+2 Ninth Bridge Patrol (KLD) 22
+3 Pressure Point (KLD) 23
+4 Propeller Pioneer (KLD) 24
+5 Refurbish (KLD) 25
+6 Revoke Privileges (KLD) 26
+7 Servo Exhibition (KLD) 27
+8 Skyswirl Harrier (KLD) 28
+9 Skywhaler's Shot (KLD) 29
+10 Tasseled Dromedary (KLD) 30
+11 Thriving Ibex (KLD) 31
+12 Toolcraft Exemplar (KLD) 32
+13 Trusty Companion (KLD) 33
+14 Visionary Augmenter (KLD) 34
+15 Wispweaver Angel (KLD) 35
+16 Aether Meltdown (KLD) 36
+17 Aether Theorist (KLD) 37
+18 Aether Tradewinds (KLD) 38
+19 Aethersquall Ancient (KLD) 39
+20 Ceremonious Rejection (KLD) 40
+1 Confiscation Coup (KLD) 41
+2 Curio Vendor (KLD) 42
+3 Disappearing Act (KLD) 43
+4 Dramatic Reversal (KLD) 44
+5 Era of Innovation (KLD) 45
+6 Experimental Aviator (KLD) 46
+7 Failed Inspection (KLD) 47
+8 Gearseeker Serpent (KLD) 48
+9 Glimmer of Genius (KLD) 49
+10 Glint-Nest Crane (KLD) 50
+11 Hightide Hermit (KLD) 51
+12 Insidious Will (KLD) 52
+13 Janjeet Sentry (KLD) 53
+14 Long-Finned Skywhale (KLD) 54
+15 Malfunction (KLD) 55
+16 Metallurgic Summonings (KLD) 56
+17 Minister of Inquiries (KLD) 57
+18 Nimble Innovator (KLD) 58
+19 Padeem, Consul of Innovation (KLD) 59
+20 Paradoxical Outcome (KLD) 60
+1 Revolutionary Rebuff (KLD) 61
+2 Saheeli's Artistry (KLD) 62
+3 Select for Inspection (KLD) 63
+4 Shrewd Negotiation (KLD) 64
+5 Tezzeret's Ambition (KLD) 65
+6 Thriving Turtle (KLD) 66
+7 Torrential Gearhulk (KLD) 67
+8 Vedalken Blademaster (KLD) 68
+9 Weldfast Wingsmith (KLD) 69
+10 Wind Drake (KLD) 70
+11 Aetherborn Marauder (KLD) 71
+12 Ambitious Aetherborn (KLD) 72
+13 Demon of Dark Schemes (KLD) 73
+14 Dhund Operative (KLD) 74
+15 Diabolic Tutor (KLD) 75
+16 Die Young (KLD) 76
+17 Dukhara Scavenger (KLD) 77
+18 Eliminate the Competition (KLD) 78
+19 Embraal Bruiser (KLD) 79
+20 Essence Extraction (KLD) 80
+1 Fortuitous Find (KLD) 81
+2 Foundry Screecher (KLD) 82
+3 Fretwork Colony (KLD) 83
+4 Gonti, Lord of Luxury (KLD) 84
+5 Harsh Scrutiny (KLD) 85
+6 Lawless Broker (KLD) 86
+7 Live Fast (KLD) 87
+8 Lost Legacy (KLD) 88
+9 Make Obsolete (KLD) 89
+10 Marionette Master (KLD) 90
+11 Maulfist Squad (KLD) 91
+12 Midnight Oil (KLD) 92
+13 Mind Rot (KLD) 93
+14 Morbid Curiosity (KLD) 94
+15 Night Market Lookout (KLD) 95
+16 Noxious Gearhulk (KLD) 96
+17 Ovalchase Daredevil (KLD) 97
+18 Prakhata Club Security (KLD) 98
+19 Rush of Vitality (KLD) 99
+20 Subtle Strike (KLD) 100
+1 Syndicate Trafficker (KLD) 101
+2 Thriving Rats (KLD) 102
+3 Tidy Conclusion (KLD) 103
+4 Underhanded Designs (KLD) 104
+5 Weaponcraft Enthusiast (KLD) 105
+6 Aethertorch Renegade (KLD) 106
+7 Brazen Scourge (KLD) 107
+8 Built to Smash (KLD) 108
+9 Cathartic Reunion (KLD) 109
+10 Chandra, Torch of Defiance (KLD) 110
+11 Chandra's Pyrohelix (KLD) 111
+12 Combustible Gearhulk (KLD) 112
+13 Demolish (KLD) 113
+14 Fateful Showdown (KLD) 114
+15 Furious Reprisal (KLD) 115
+16 Giant Spectacle (KLD) 116
+17 Harnessed Lightning (KLD) 117
+18 Hijack (KLD) 118
+19 Incendiary Sabotage (KLD) 119
+20 Inventor's Apprentice (KLD) 120
+1 Lathnu Hellion (KLD) 121
+2 Madcap Experiment (KLD) 122
+3 Maulfist Doorbuster (KLD) 123
+4 Pia Nalaar (KLD) 124
+5 Quicksmith Genius (KLD) 125
+6 Reckless Fireweaver (KLD) 126
+7 Renegade Tactics (KLD) 127
+8 Ruinous Gremlin (KLD) 128
+9 Salivating Gremlins (KLD) 129
+10 Skyship Stalker (KLD) 130
+11 Spark of Creativity (KLD) 131
+12 Speedway Fanatic (KLD) 132
+13 Spireside Infiltrator (KLD) 133
+14 Spontaneous Artist (KLD) 134
+15 Start Your Engines (KLD) 135
+16 Territorial Gorger (KLD) 136
+17 Terror of the Fairgrounds (KLD) 137
+18 Thriving Grubs (KLD) 138
+19 Wayward Giant (KLD) 139
+20 Welding Sparks (KLD) 140
+1 Appetite for the Unnatural (KLD) 141
+2 Arborback Stomper (KLD) 142
+3 Architect of the Untamed (KLD) 143
+4 Armorcraft Judge (KLD) 144
+5 Attune with Aether (KLD) 145
+6 Blossoming Defense (KLD) 146
+7 Bristling Hydra (KLD) 147
+8 Commencement of Festivities (KLD) 148
+9 Cowl Prowler (KLD) 149
+10 Creeping Mold (KLD) 150
+11 Cultivator of Blades (KLD) 151
+12 Dubious Challenge (KLD) 152
+13 Durable Handicraft (KLD) 153
+14 Elegant Edgecrafters (KLD) 154
+15 Fairgrounds Trumpeter (KLD) 155
+16 Ghirapur Guide (KLD) 156
+17 Highspire Artisan (KLD) 157
+18 Hunt the Weak (KLD) 158
+19 Kujar Seedsculptor (KLD) 159
+20 Larger Than Life (KLD) 160
+1 Longtusk Cub (KLD) 161
+2 Nature's Way (KLD) 162
+3 Nissa, Vital Force (KLD) 163
+4 Ornamental Courage (KLD) 164
+5 Oviya Pashiri, Sage Lifecrafter (KLD) 165
+6 Peema Outrider (KLD) 166
+7 Riparian Tiger (KLD) 167
+8 Sage of Shaila's Claim (KLD) 168
+9 Servant of the Conduit (KLD) 169
+10 Take Down (KLD) 170
+11 Thriving Rhino (KLD) 171
+12 Verdurous Gearhulk (KLD) 172
+13 Wild Wanderer (KLD) 173
+14 Wildest Dreams (KLD) 174
+15 Wily Bandar (KLD) 175
+16 Cloudblazer (KLD) 176
+17 Contraband Kingpin (KLD) 177
+18 Depala, Pilot Exemplar (KLD) 178
+19 Dovin Baan (KLD) 179
+20 Empyreal Voyager (KLD) 180
+1 Engineered Might (KLD) 181
+2 Hazardous Conditions (KLD) 182
+3 Kambal, Consul of Allocation (KLD) 183
+4 Rashmi, Eternities Crafter (KLD) 184
+5 Restoration Gearsmith (KLD) 185
+6 Saheeli Rai (KLD) 186
+7 Unlicensed Disintegration (KLD) 187
+8 Veteran Motorist (KLD) 188
+9 Voltaic Brawler (KLD) 189
+10 Whirler Virtuoso (KLD) 190
+11 Accomplished Automaton (KLD) 191
+12 Aetherflux Reservoir (KLD) 192
+13 Aetherworks Marvel (KLD) 193
+14 Animation Module (KLD) 194
+15 Aradara Express (KLD) 195
+16 Ballista Charger (KLD) 196
+17 Bastion Mastodon (KLD) 197
+18 Bomat Bazaar Barge (KLD) 198
+19 Bomat Courier (KLD) 199
+20 Chief of the Foundry (KLD) 200
+1 Cogworker's Puzzleknot (KLD) 201
+2 Consulate Skygate (KLD) 202
+3 Cultivator's Caravan (KLD) 203
+4 Deadlock Trap (KLD) 204
+5 Decoction Module (KLD) 205
+6 Demolition Stomper (KLD) 206
+7 Dukhara Peafowl (KLD) 207
+8 Dynavolt Tower (KLD) 208
+9 Eager Construct (KLD) 209
+10 Electrostatic Pummeler (KLD) 210
+11 Fabrication Module (KLD) 211
+12 Filigree Familiar (KLD) 212
+13 Fireforger's Puzzleknot (KLD) 213
+14 Fleetwheel Cruiser (KLD) 214
+15 Foundry Inspector (KLD) 215
+16 Ghirapur Orrery (KLD) 216
+17 Glassblower's Puzzleknot (KLD) 217
+18 Inventor's Goggles (KLD) 218
+19 Iron League Steed (KLD) 219
+20 Key to the City (KLD) 220
+1 Metalspinner's Puzzleknot (KLD) 221
+2 Metalwork Colossus (KLD) 222
+3 Multiform Wonder (KLD) 223
+4 Narnam Cobra (KLD) 224
+5 Ovalchase Dragster (KLD) 225
+6 Panharmonicon (KLD) 226
+7 Perpetual Timepiece (KLD) 227
+8 Prakhata Pillar-Bug (KLD) 228
+9 Prophetic Prism (KLD) 229
+10 Renegade Freighter (KLD) 230
+11 Scrapheap Scrounger (KLD) 231
+12 Self-Assembler (KLD) 232
+13 Sky Skiff (KLD) 233
+14 Skysovereign, Consul Flagship (KLD) 234
+15 Smuggler's Copter (KLD) 235
+16 Snare Thopter (KLD) 236
+17 Torch Gauntlet (KLD) 237
+18 Weldfast Monitor (KLD) 238
+19 Whirlermaker (KLD) 239
+20 Woodweaver's Puzzleknot (KLD) 240
+1 Workshop Assistant (KLD) 241
+2 Aether Hub (KLD) 242
+3 Blooming Marsh (KLD) 243
+4 Botanical Sanctum (KLD) 244
+5 Concealed Courtyard (KLD) 245
+6 Inspiring Vantage (KLD) 246
+7 Inventors' Fair (KLD) 247
+8 Sequestered Stash (KLD) 248
+9 Spirebluff Canal (KLD) 249
+10 Plains (KLD) 250
+11 Plains (KLD) 251
+12 Plains (KLD) 252
+13 Island (KLD) 253
+14 Island (KLD) 254
+15 Island (KLD) 255
+16 Swamp (KLD) 256
+17 Swamp (KLD) 257
+18 Swamp (KLD) 258
+19 Mountain (KLD) 259
+20 Mountain (KLD) 260
+1 Mountain (KLD) 261
+2 Forest (KLD) 262
+3 Forest (KLD) 263
+4 Forest (KLD) 264
+5 Chandra, Pyrogenius (KLD) 265
+6 Flame Lash (KLD) 266
+7 Liberating Combustion (KLD) 267
+8 Renegade Firebrand (KLD) 268
+9 Stone Quarry (KLD) 269
+10 Nissa, Nature's Artisan (KLD) 270
+11 Guardian of the Great Conduit (KLD) 271
+12 Terrain Elemental (KLD) 272
+13 Verdant Crescendo (KLD) 273
+14 Woodland Stream (KLD) 274
+--- AER ---
+1 Aerial Modification (AER) 1
+2 Aeronaut Admiral (AER) 2
+3 Aether Inspector (AER) 3
+4 Aethergeode Miner (AER) 4
+5 Airdrop Aeronauts (AER) 5
+6 Alley Evasion (AER) 6
+7 Audacious Infiltrator (AER) 7
+8 Bastion Enforcer (AER) 8
+9 Call for Unity (AER) 9
+10 Caught in the Brights (AER) 10
+11 Consulate Crackdown (AER) 11
+12 Conviction (AER) 12
+13 Countless Gears Renegade (AER) 13
+14 Dawnfeather Eagle (AER) 14
+15 Deadeye Harpooner (AER) 15
+16 Decommission (AER) 16
+17 Deft Dismissal (AER) 17
+18 Exquisite Archangel (AER) 18
+19 Felidar Guardian (AER) 19
+20 Ghirapur Osprey (AER) 20
+1 Restoration Specialist (AER) 21
+2 Solemn Recruit (AER) 22
+3 Sram, Senior Edificer (AER) 23
+4 Sram's Expertise (AER) 24
+5 Thopter Arrest (AER) 25
+6 Aether Swooper (AER) 26
+7 Aethertide Whale (AER) 27
+8 Baral, Chief of Compliance (AER) 28
+9 Baral's Expertise (AER) 29
+10 Bastion Inventor (AER) 30
+11 Disallow (AER) 31
+12 Dispersal Technician (AER) 32
+13 Efficient Construction (AER) 33
+14 Hinterland Drake (AER) 34
+15 Ice Over (AER) 35
+16 Illusionist's Stratagem (AER) 36
+17 Leave in the Dust (AER) 37
+18 Mechanized Production (AER) 38
+19 Metallic Rebuke (AER) 39
+20 Negate (AER) 40
+1 Quicksmith Spy (AER) 41
+2 Reverse Engineer (AER) 42
+3 Salvage Scuttler (AER) 43
+4 Shielded Aether Thief (AER) 44
+5 Shipwreck Moray (AER) 45
+6 Skyship Plunderer (AER) 46
+7 Take into Custody (AER) 47
+8 Trophy Mage (AER) 48
+9 Whir of Invention (AER) 49
+10 Wind-Kin Raiders (AER) 50
+11 Aether Poisoner (AER) 51
+12 Alley Strangler (AER) 52
+13 Battle at the Bridge (AER) 53
+14 Cruel Finality (AER) 54
+15 Daring Demolition (AER) 55
+16 Defiant Salvager (AER) 56
+17 Fatal Push (AER) 57
+18 Fen Hauler (AER) 58
+19 Foundry Hornet (AER) 59
+20 Fourth Bridge Prowler (AER) 60
+1 Gifted Aetherborn (AER) 61
+2 Glint-Sleeve Siphoner (AER) 62
+3 Gonti's Machinations (AER) 63
+4 Herald of Anguish (AER) 64
+5 Ironclad Revolutionary (AER) 65
+6 Midnight Entourage (AER) 66
+7 Night Market Aeronaut (AER) 67
+8 Perilous Predicament (AER) 68
+9 Renegade's Getaway (AER) 69
+10 Resourceful Return (AER) 70
+11 Secret Salvage (AER) 71
+12 Sly Requisitioner (AER) 72
+13 Vengeful Rebel (AER) 73
+14 Yahenni, Undying Partisan (AER) 74
+15 Yahenni's Expertise (AER) 75
+16 Aether Chaser (AER) 76
+17 Chandra's Revolution (AER) 77
+18 Destructive Tampering (AER) 78
+19 Embraal Gear-Smasher (AER) 79
+20 Enraged Giant (AER) 80
+1 Freejam Regent (AER) 81
+2 Frontline Rebel (AER) 82
+3 Gremlin Infestation (AER) 83
+4 Hungry Flames (AER) 84
+5 Indomitable Creativity (AER) 85
+6 Invigorated Rampage (AER) 86
+7 Kari Zev, Skyship Raider (AER) 87
+8 Kari Zev's Expertise (AER) 88
+9 Lathnu Sailback (AER) 89
+10 Lightning Runner (AER) 90
+11 Pia's Revolution (AER) 91
+12 Precise Strike (AER) 92
+13 Quicksmith Rebel (AER) 93
+14 Ravenous Intruder (AER) 94
+15 Reckless Racer (AER) 95
+16 Release the Gremlins (AER) 96
+17 Scrapper Champion (AER) 97
+18 Shock (AER) 98
+19 Siege Modification (AER) 99
+20 Sweatworks Brawler (AER) 100
+1 Wrangle (AER) 101
+2 Aether Herder (AER) 102
+3 Aetherstream Leopard (AER) 103
+4 Aetherwind Basker (AER) 104
+5 Aid from the Cowl (AER) 105
+6 Druid of the Cowl (AER) 106
+7 Greenbelt Rampager (AER) 107
+8 Greenwheel Liberator (AER) 108
+9 Heroic Intervention (AER) 109
+10 Hidden Herbalists (AER) 110
+11 Highspire Infusion (AER) 111
+12 Lifecraft Awakening (AER) 112
+13 Lifecraft Cavalry (AER) 113
+14 Lifecrafter's Gift (AER) 114
+15 Maulfist Revolutionary (AER) 115
+16 Monstrous Onslaught (AER) 116
+17 Narnam Renegade (AER) 117
+18 Natural Obsolescence (AER) 118
+19 Peema Aether-Seer (AER) 119
+20 Prey Upon (AER) 120
+1 Ridgescale Tusker (AER) 121
+2 Rishkar, Peema Renegade (AER) 122
+3 Rishkar's Expertise (AER) 123
+4 Scrounging Bandar (AER) 124
+5 Silkweaver Elite (AER) 125
+6 Unbridled Growth (AER) 126
+7 Ajani Unyielding (AER) 127
+8 Dark Intimations (AER) 128
+9 Hidden Stockpile (AER) 129
+10 Maverick Thopterist (AER) 130
+11 Oath of Ajani (AER) 131
+12 Outland Boar (AER) 132
+13 Renegade Rallier (AER) 133
+14 Renegade Wheelsmith (AER) 134
+15 Rogue Refiner (AER) 135
+16 Spire Patrol (AER) 136
+17 Tezzeret the Schemer (AER) 137
+18 Tezzeret's Touch (AER) 138
+19 Weldfast Engineer (AER) 139
+20 Winding Constrictor (AER) 140
+1 Aegis Automaton (AER) 141
+2 Aethersphere Harvester (AER) 142
+3 Augmenting Automaton (AER) 143
+4 Barricade Breaker (AER) 144
+5 Cogwork Assembler (AER) 145
+6 Consulate Dreadnought (AER) 146
+7 Consulate Turret (AER) 147
+8 Crackdown Construct (AER) 148
+9 Daredevil Dragster (AER) 149
+10 Filigree Crawler (AER) 150
+11 Foundry Assembler (AER) 151
+12 Gonti's Aether Heart (AER) 152
+13 Heart of Kiran (AER) 153
+14 Hope of Ghirapur (AER) 154
+15 Implement of Combustion (AER) 155
+16 Implement of Examination (AER) 156
+17 Implement of Ferocity (AER) 157
+18 Implement of Improvement (AER) 158
+19 Implement of Malice (AER) 159
+20 Inspiring Statuary (AER) 160
+1 Irontread Crusher (AER) 161
+2 Lifecrafter's Bestiary (AER) 162
+3 Merchant's Dockhand (AER) 163
+4 Metallic Mimic (AER) 164
+5 Mobile Garrison (AER) 165
+6 Night Market Guard (AER) 166
+7 Ornithopter (AER) 167
+8 Pacification Array (AER) 168
+9 Paradox Engine (AER) 169
+10 Peacewalker Colossus (AER) 170
+11 Planar Bridge (AER) 171
+12 Prizefighter Construct (AER) 172
+13 Renegade Map (AER) 173
+14 Reservoir Walker (AER) 174
+15 Scrap Trawler (AER) 175
+16 Servo Schematic (AER) 176
+17 Treasure Keeper (AER) 177
+18 Universal Solvent (AER) 178
+19 Untethered Express (AER) 179
+20 Verdant Automaton (AER) 180
+1 Walking Ballista (AER) 181
+2 Watchful Automaton (AER) 182
+3 Welder Automaton (AER) 183
+4 Spire of Industry (AER) 184
+5 Ajani, Valiant Protector (AER) 185
+6 Inspiring Roar (AER) 186
+7 Ajani's Comrade (AER) 187
+8 Ajani's Aid (AER) 188
+9 Tranquil Expanse (AER) 189
+10 Tezzeret, Master of Metal (AER) 190
+11 Tezzeret's Betrayal (AER) 191
+12 Pendulum of Patterns (AER) 192
+13 Tezzeret's Simulacrum (AER) 193
+14 Submerged Boneyard (AER) 194
+--- W17 ---
+1 Divine Verdict (W17) 1
+2 Glory Seeker (W17) 2
+3 Serra Angel (W17) 3
+4 Standing Troops (W17) 4
+5 Stormfront Pegasus (W17) 5
+6 Victory's Herald (W17) 6
+7 Air Elemental (W17) 7
+8 Coral Merfolk (W17) 8
+9 Drag Under (W17) 9
+10 Inspiration (W17) 10
+11 Sleep Paralysis (W17) 11
+12 Sphinx of Magosi (W17) 12
+13 Stealer of Secrets (W17) 13
+14 Tricks of the Trade (W17) 14
+15 Bloodhunter Bat (W17) 15
+16 Certain Death (W17) 16
+17 Nightmare (W17) 17
+18 Raise Dead (W17) 18
+19 Sengir Vampire (W17) 19
+20 Untamed Hunger (W17) 20
+1 Falkenrath Reaver (W17) 21
+2 Shivan Dragon (W17) 22
+3 Thundering Giant (W17) 23
+4 Garruk's Horde (W17) 24
+5 Oakenform (W17) 25
+6 Rabid Bite (W17) 26
+7 Rootwalla (W17) 27
+8 Stalking Tiger (W17) 28
+9 Stampeding Rhino (W17) 29
+10 Wing Snare (W17) 30
 --- AKH ---
 1 Angel of Sanctions (AKH) 1
 2 Anointed Procession (AKH) 2
