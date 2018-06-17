@@ -12,10 +12,27 @@
 #include <QUrlQuery>
 
 #define REGISTER_URL "https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser"
+#define SIGNIN_URL "https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword"
 
 Auth::Auth(QObject *parent) : QObject(parent)
 {
 
+}
+
+void Auth::signInUser(QString email, QString password)
+{
+    QJsonObject jsonObj;
+    jsonObj.insert("email", QJsonValue(email));
+    jsonObj.insert("password", QJsonValue(password));
+    jsonObj.insert("returnSecureToken", QJsonValue(true));
+    QByteArray body = QJsonDocument(jsonObj).toJson();
+
+    QUrl url(SIGNIN_URL);
+    url.setQuery(QUrlQuery(QString("key=%1").arg(ApiKeys::FIREBASE())));
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    QNetworkReply *reply = networkManager.post(request, body);
+    connect(reply, &QNetworkReply::finished, this, &Auth::signOnFinish);
 }
 
 void Auth::registerUser(QString email, QString password)
@@ -31,10 +48,10 @@ void Auth::registerUser(QString email, QString password)
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     QNetworkReply *reply = networkManager.post(request, body);
-    connect(reply, &QNetworkReply::finished, this, &Auth::registerOnFinish);
+    connect(reply, &QNetworkReply::finished, this, &Auth::signOnFinish);
 }
 
-void Auth::registerOnFinish()
+void Auth::signOnFinish()
 {
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
     QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());
@@ -49,9 +66,13 @@ void Auth::registerOnFinish()
         if (message == "EMAIL_EXISTS") {
             ARENA_TRACKER->showMessage(tr("Email already in use. Try do login."));
         }
+        if (message == "INVALID_PASSWORD") {
+            ARENA_TRACKER->showMessage(tr("Invalid password."));
+        }
         return;
     }
 
+    ARENA_TRACKER->showMessage(tr("Signin Success."));
     QString userId = jsonRsp["localId"].toString();
     QString userToken = jsonRsp["idToken"].toString();
     QString refreshToken = jsonRsp["refreshToken"].toString();
@@ -65,6 +86,7 @@ void Auth::registerOnFinish()
     LOGD(QString("Expires: %1").arg(expires.time_since_epoch().count()));
 
     qlonglong expiresEpoch = expires.time_since_epoch().count();
-    APP_SETTINGS->setUserSettings(userId, userToken, refreshToken, expiresEpoch);
-    emit sgnUserCreated();
+    UserSettings userSettings = UserSettings(userId, userToken, refreshToken, expiresEpoch);
+    APP_SETTINGS->setUserSettings(userSettings);
+    emit sgnUserLogged(userSettings);
 }

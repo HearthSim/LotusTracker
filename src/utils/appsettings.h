@@ -36,8 +36,7 @@ public:
     qreal getDeckTrackerOpponentScale();
     void setDeckTrackerOpponentScale(qreal scale);
 
-    void setUserSettings(QString userId, QString userToken,
-                         QString refreshToken, qlonglong expiresTimeEpoch);
+    void setUserSettings(UserSettings userSettings);
     UserSettings getUserSettings();
 };
 

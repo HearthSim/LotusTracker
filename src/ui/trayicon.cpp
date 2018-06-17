@@ -39,6 +39,9 @@ void TrayIcon::setupTrayIcon()
 #endif
     trayIcon->setIcon(icon);
 
+    signAction = new QAction(tr("Sign In"), this);
+    connect(signAction, &QAction::triggered, this, &TrayIcon::openSignIn);
+    trayMenu->addAction(signAction);
     QAction *settingsAction = new QAction(tr("Preferences"), this);
     connect(settingsAction, &QAction::triggered, this, &TrayIcon::openPreferences);
     trayMenu->addAction(settingsAction);
@@ -66,6 +69,17 @@ void TrayIcon::TrayIconActivated(QSystemTrayIcon::ActivationReason reason) {
 void TrayIcon::showMessage(QString title, QString msg)
 {
     trayIcon->showMessage(title, msg);
+}
+
+void TrayIcon::updateUserSettings(UserSettings userSettings)
+{
+    signAction->setText(userSettings.isValid() ? userSettings.userId : tr("Sign In"));
+}
+
+void TrayIcon::openSignIn()
+{
+    ArenaTracker *arenaTracker = (ArenaTracker*) qApp->instance();
+    arenaTracker->showStartScreen();
 }
 
 void TrayIcon::openPreferences()

@@ -13,6 +13,8 @@ ArenaTracker::ArenaTracker(int& argc, char **argv): QApplication(argc, argv),
     deckTrackerPlayer = new DeckTrackerPlayer();
     deckTrackerOpponent = new DeckTrackerOpponent();
     trayIcon = new TrayIcon(this, mtgCards);
+    auth = new Auth(this);
+    connect(auth, &Auth::sgnUserLogged, this, &ArenaTracker::onUserCreated);
     setupMtgaMatch();
     setupPreferencesScreen();
     setupStartScreen();
@@ -34,6 +36,7 @@ ArenaTracker::~ArenaTracker()
     DEL(trayIcon)
     DEL(mtgArena)
     DEL(mtgaMatch)
+    DEL(auth)
 }
 
 int ArenaTracker::run()
@@ -76,9 +79,14 @@ void ArenaTracker::setupPreferencesScreen()
 
 void ArenaTracker::setupStartScreen()
 {
-    startScreen = new StartScreen();
-    startScreen->show();
-    startScreen->raise();
+    startScreen = new StartScreen(nullptr, auth);
+    UserSettings userSettings = appSettings->getUserSettings();
+    if (userSettings.isValid()) {
+        emit auth->sgnUserLogged(userSettings);
+    } else {
+        startScreen->show();
+        startScreen->raise();
+    }
 }
 
 void ArenaTracker::setupMtgaMatch()
@@ -121,6 +129,12 @@ void ArenaTracker::setupMtgaMatch()
             mtgaMatch, &MtgaMatch::onPlayerTakesMulligan);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnOpponentTakesMulligan,
             mtgaMatch, &MtgaMatch::onOpponentTakesMulligan);
+}
+
+void ArenaTracker::showStartScreen()
+{
+    startScreen->show();
+    startScreen->raise();
 }
 
 void ArenaTracker::showPreferencesScreen()
@@ -177,4 +191,10 @@ void ArenaTracker::onDeckTrackerOpponentEnabledChange(bool enabled)
     if (!enabled && isMatchRunning) {
         deckTrackerOpponent->hide();
     }
+}
+
+void ArenaTracker::onUserCreated(UserSettings userSettings)
+{
+    startScreen->hide();
+    trayIcon->updateUserSettings(userSettings);
 }

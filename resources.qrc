@@ -106,6 +106,7 @@
 		<file>res/mana/x.png</file>
 		<file>res/mana/y.png</file>
 		<file>res/mana/z.png</file>
+		<file>res/back.png</file>
 		<file>res/zoom_minus.png</file>
 		<file>res/zoom_plus.png</file>
     </qresource>

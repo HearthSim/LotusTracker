@@ -99,7 +99,7 @@ border-radius: 10px;</string>
     <widget class="QPushButton" name="btLogin">
      <property name="geometry">
       <rect>
-       <x>280</x>
+       <x>270</x>
        <y>400</y>
        <width>113</width>
        <height>32</height>
@@ -153,7 +153,7 @@ border-radius: 10px;</string>
      <property name="geometry">
       <rect>
        <x>270</x>
-       <y>300</y>
+       <y>280</y>
        <width>271</width>
        <height>151</height>
       </rect>
@@ -192,7 +192,7 @@ border-radius: 10px;</string>
        <string>ENTER</string>
       </property>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>96</x>
@@ -236,7 +236,7 @@ padding-left: 5px;</string>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>18</x>
@@ -403,10 +403,41 @@ padding-left: 5px;</string>
       </layout>
      </widget>
     </widget>
+    <widget class="QPushButton" name="btBack">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>230</x>
+       <y>280</y>
+       <width>31</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color : rgb(255, 255, 255); 
+border: 0px solid gray; </string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../../resources.qrc">
+       <normaloff>:/res/back.png</normaloff>:/res/back.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>24</width>
+       <height>24</height>
+      </size>
+     </property>
+    </widget>
     <zorder>frameNew</zorder>
     <zorder>frameLogin</zorder>
     <zorder>btLogin</zorder>
     <zorder>btNew</zorder>
+    <zorder>btBack</zorder>
    </widget>
    <zorder>frame</zorder>
    <zorder>lbLogo</zorder>
@@ -414,6 +445,8 @@ padding-left: 5px;</string>
    <zorder>lbClose</zorder>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

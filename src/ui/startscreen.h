@@ -4,6 +4,7 @@
 #include "../firebase/auth.h"
 
 #include <QMainWindow>
+#include <QRegularExpression>
 
 namespace Ui { class Start; }
 
@@ -13,14 +14,17 @@ class StartScreen : public QMainWindow
 private:
     Ui::Start *ui;
     Auth *auth;
+    QRegularExpression reRawEmail;
+    void onBackClick();
     void onLoginClick();
     void onNewUserClick();
     void onEnterClick();
     void onRegisterClick();
 
 public:
-    explicit StartScreen(QWidget *parent = nullptr);
+    explicit StartScreen(QWidget *parent = nullptr, Auth *auth = nullptr);
     ~StartScreen();
+    void closeEvent(QCloseEvent *event);
 
 signals:
 

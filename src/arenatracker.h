@@ -12,6 +12,7 @@
 #include "ui/trayicon.h"
 #include "utils/appsettings.h"
 #include "utils/logger.h"
+#include "firebase/auth.h"
 
 #include <QApplication>
 
@@ -27,6 +28,7 @@ private:
     TrayIcon *trayIcon;
     PreferencesScreen *preferencesScreen;
     StartScreen *startScreen;
+    Auth *auth;
     void setupApp();
     void setupPreferencesScreen();
     void setupStartScreen();
@@ -40,6 +42,7 @@ public:
     MtgArena *mtgArena;
     MtgaMatch *mtgaMatch;
     int run();
+    void showStartScreen();
     void showPreferencesScreen();
     void showMessage(QString msg, QString title = tr("Arena Tracker"));
 
@@ -51,6 +54,7 @@ private slots:
     void onMatchEnd(int winningTeamId);
     void onDeckTrackerPlayerEnabledChange(bool enabled);
     void onDeckTrackerOpponentEnabledChange(bool enabled);
+    void onUserCreated(UserSettings userSettings);
 };
 
 #endif // ARENATRACKER_H

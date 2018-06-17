@@ -18,6 +18,8 @@ public:
 
 };
 
+#include <ctime>
+#include <chrono>
 #include <QString>
 
 class UserSettings
@@ -32,6 +34,19 @@ public:
 
     UserSettings(QString userId, QString userToken, QString refreshToken, qlonglong expiresTokenEpoch)
         : userId(userId), userToken(userToken), refreshToken(refreshToken), expiresTokenEpoch(expiresTokenEpoch){}
+
+    bool isValid()
+    {
+        if (expiresTokenEpoch == 0) {
+            return false;
+        }
+        using namespace std::chrono;
+        time_point<system_clock> now = system_clock::now();
+        if (now.time_since_epoch().count() > expiresTokenEpoch) {
+            return false;
+        }
+        return true;
+    }
 
 };
 

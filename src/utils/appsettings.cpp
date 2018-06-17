@@ -129,13 +129,12 @@ void AppSettings::setDeckTrackerOpponentScale(qreal scale)
     settings.setValue(KEY_TRACKER_OPPONENT_SCALE, scale);
 }
 
-void AppSettings::setUserSettings(QString userId, QString userToken,
-                                  QString refreshToken, qlonglong expiresTimeEpoch)
+void AppSettings::setUserSettings(UserSettings userSettings)
 {
-    settings.setValue(KEY_TRACKER_USER_ID, userId);
-    settings.setValue(KEY_TRACKER_USER_TOKEN, userToken);
-    settings.setValue(KEY_TRACKER_USER_REFRESH_TOKEN, refreshToken);
-    settings.setValue(KEY_TRACKER_USER_EXPIRES_EPOCH, expiresTimeEpoch);
+    settings.setValue(KEY_TRACKER_USER_ID, userSettings.userId);
+    settings.setValue(KEY_TRACKER_USER_TOKEN, userSettings.userToken);
+    settings.setValue(KEY_TRACKER_USER_REFRESH_TOKEN, userSettings.refreshToken);
+    settings.setValue(KEY_TRACKER_USER_EXPIRES_EPOCH, userSettings.expiresTokenEpoch);
 }
 
 UserSettings AppSettings::getUserSettings()
