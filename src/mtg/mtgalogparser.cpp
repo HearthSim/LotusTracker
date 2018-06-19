@@ -6,8 +6,8 @@
 #include <QList>
 #include <QRegularExpression>
 
-#define REGEXP_RAW_MSG "\\s(Response|Incoming|Match\\sto|to\\sMatch).+(\\s|\\n)(\\{|\\[)(\\n\\s+.*)+\\n(\\}|\\])"
-#define REGEXP_MSG_RESPONSE_NUMBER "(?<=\\s)\\d+(?=\\:\\s)"
+#define REGEXP_RAW_MSG "\\s(<==|Incoming|Match\\sto|to\\sMatch).+(\\s|\\n)(\\{|\\[)(\\n\\s+.*)+\\n(\\}|\\])"
+#define REGEXP_MSG_RESPONSE_NUMBER "((?<=\\s)\\d+(?=\\:\\s)|(?<=\\()\\d+(?=\\)))"
 #define REGEXP_MSG_ID "\\S+(?=(\\s|\\n)(\\{|\\[))"
 #define REGEXP_MSG_JSON "(\\{|\\[)(\\n\\s+.*)+\\n(\\}||\\])"
 
@@ -71,6 +71,9 @@ void MtgaLogParser::parse(QString logNewContent)
         QRegularExpressionMatch idMatch = reMsgId.match(msg);
         if (idMatch.hasMatch()) {
             msgId = idMatch.captured(0);
+            if (msgId.contains("(")) {
+                msgId = msgId.left(msgId.indexOf("("));
+            }
         }
         QString msgJson = "";
         QRegularExpressionMatch jsonMatch = reMsgJson.match(msg);
@@ -240,15 +243,10 @@ void MtgaLogParser::parsePlayerRankInfo(QString json)
     if (jsonPlayerRankInfo.empty()) {
         return;
     }
-    QJsonObject jsonConstructed = jsonPlayerRankInfo["constructed"].toObject();
-    QString rankClass = jsonConstructed["class"].toString();
-    int rankTier = jsonConstructed["tier"].toInt();
-    int wins = jsonConstructed["wins"].toInt();
-    int losses = jsonConstructed["losses"].toInt();
-    LOGD(QString("PlayerRankInfo: %1 - %2, Status Wins: %3 Losses: %4")
-         .arg(rankClass).arg(rankTier).arg(wins).arg(losses));
+    QString rankClass = jsonPlayerRankInfo["constructedClass"].toString();
+    int rankTier = jsonPlayerRankInfo["constructedTier"].toInt();
+    LOGD(QString("PlayerRankInfo: %1 - %2").arg(rankClass).arg(rankTier));
     emit sgnPlayerRankInfo(qMakePair(rankClass, rankTier));
-    emit sgnPlayerRankStatus(qMakePair(wins, losses));
 }
 
 void MtgaLogParser::parsePlayerRankUpdated(QString json)

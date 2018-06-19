@@ -42,7 +42,7 @@ private slots:
         QCOMPARE(spy.count(), 1);
         QList<QVariant> args = spy.takeFirst();
         PlayerInventory playerInventory = args.first().value<PlayerInventory>();
-        QCOMPARE(playerInventory.wcMythic, 6);
+        QCOMPARE(playerInventory.wcMythic, 2);
     }
 
     void testParsePlayerInventoryUpdate()
@@ -69,8 +69,8 @@ private slots:
         QCOMPARE(spy.count(), 1);
         QList<QVariant> args = spy.takeFirst();
         QMap<int, int> playerCollection = args.first().value<QMap<int, int>>();
-        QCOMPARE(playerCollection.size(), 421);
-        QCOMPARE(playerCollection[66041], 3);
+        QCOMPARE(playerCollection.size(), 1001);
+        QCOMPARE(playerCollection[66781], 3);
     }
 
     void testParsePlayerDecks()
@@ -84,9 +84,9 @@ private slots:
         QCOMPARE(spy.count(), 1);
         QList<QVariant> args = spy.takeFirst();
         QList<Deck> playerDecks = args.first().value<QList<Deck>>();
-        QCOMPARE(playerDecks.size(), 3);
+        QCOMPARE(playerDecks.size(), 12);
         Card* vraskasContemptCard = mtgCards->findCard(66223);
-        QCOMPARE(playerDecks.first().cards[vraskasContemptCard], 3);
+        QCOMPARE(playerDecks.first().cards[vraskasContemptCard], 2);
     }
 
     void testParseMatchCreated()
@@ -139,21 +139,14 @@ private slots:
         QString log;
         READ_LOG("PlayerRankInfo.txt", log);
         QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnPlayerRankInfo);
-        QSignalSpy spy2(mtgaLogParser, &MtgaLogParser::sgnPlayerRankStatus);
         mtgaLogParser->parse(log);
 
         // Rank
         QCOMPARE(spy.count(), 1);
         QList<QVariant> args = spy.takeFirst();
         QPair<QString, int> playerRankInfo = args.first().value<QPair<QString, int>>();
-        QCOMPARE(playerRankInfo.first, "Bronze");
-        QCOMPARE(playerRankInfo.second, 2);
-        // Status
-        QCOMPARE(spy2.count(), 1);
-        QList<QVariant> args2 = spy2.takeFirst();
-        QPair<QString, int> playerRankStatus = args2.first().value<QPair<QString, int>>();
-        QCOMPARE(playerRankStatus.first, 43);
-        QCOMPARE(playerRankStatus.second, 36);
+        QCOMPARE(playerRankInfo.first, "Beginner");
+        QCOMPARE(playerRankInfo.second, 1);
     }
 
     void testParsePlayerRankUpdated()

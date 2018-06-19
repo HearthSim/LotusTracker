@@ -43,7 +43,7 @@ public:
         connect(mtgaLogParser, &MtgaLogParser::sgnMatchInfoSeats,
                 mtgaMatch, &MtgaMatch::onMatchInfoSeats);
         connect(mtgaLogParser, &MtgaLogParser::sgnMatchInfoResultMatch,
-                mtgaMatch, &MtgaMatch::onMatchInfoResultMatch);
+                mtgaMatch, &MtgaMatch::endCurrentMatch);
         connect(mtgaLogParser, &MtgaLogParser::sgnSeatIdThatGoFirst,
                 mtgaMatch, &MtgaMatch::onSeatIdThatGoFirst);
         connect(mtgaLogParser, &MtgaLogParser::sgnMatchStartZones,

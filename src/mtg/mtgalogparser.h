@@ -57,7 +57,6 @@ signals:
     void sgnMatchInfoSeats(QList<MatchPlayer>);
     void sgnMatchInfoResultMatch(int winningTeamId);
     void sgnPlayerRankInfo(QPair<QString, int> playerRankInfo);
-    void sgnPlayerRankStatus(QPair<QString, int> playerRankStatus);
     void sgnPlayerRankUpdated(QPair<QString, int> playerNewRank);
     void sgnPlayerDeckSubmited(Deck deck);
     void sgnPlayerAcceptsHand();

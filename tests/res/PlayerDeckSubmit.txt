@@ -1,9 +1,12 @@
 
-5/20/2018 12:12:10 AM Response 24: Event.DeckSubmit {
-  "Id": "2f369015-73c3-49f8-95be-e79153357ba5",
+[UnityCrossThreadLogger]6/13/2018 7:36:56 PM
+<== Event.DeckSubmit(157)
+{
+  "Id": "fedfb616-08de-4064-bea5-dcab92a95435",
   "InternalEventName": "ConstructedRanked1",
   "PlayerId": "A3461766D418FFE6",
   "ModuleInstanceData": {
+    "SubmittedDeckWeight": 1485.8178156289998,
     "DeckSelected": true
   },
   "CurrentEventState": "ReadyToMatch",
