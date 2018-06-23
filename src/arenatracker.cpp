@@ -14,16 +14,18 @@ ArenaTracker::ArenaTracker(int& argc, char **argv): QApplication(argc, argv),
     deckTrackerOpponent = new DeckTrackerOpponent();
     trayIcon = new TrayIcon(this, mtgCards);
     auth = new Auth(this);
-    connect(auth, &Auth::sgnUserLogged, this, &ArenaTracker::onUserCreated);
+    connect(auth, &Auth::sgnUserLogged, this, &ArenaTracker::onUserSigned);
+    connect(auth, &Auth::sgnTokenRefreshed, this, &ArenaTracker::onUserTokenRefreshed);
+    startScreen = new StartScreen(nullptr, auth);
     setupMtgaMatch();
     setupPreferencesScreen();
-    setupStartScreen();
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchCreated,
             this, &ArenaTracker::onMatchStart);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchInfoResultMatch,
             this, &ArenaTracker::onMatchEnd);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckSubmited,
             this, &ArenaTracker::onDeckSubmited);
+    checkForAutoLogin();
     LOGI("Arena Tracker started");
 }
 
@@ -77,18 +79,6 @@ void ArenaTracker::setupPreferencesScreen()
             deckTrackerOpponent, &DeckTrackerPlayer::changeCardLayout);
 }
 
-void ArenaTracker::setupStartScreen()
-{
-    startScreen = new StartScreen(nullptr, auth);
-    UserSettings userSettings = appSettings->getUserSettings();
-    if (userSettings.isValid()) {
-        emit auth->sgnUserLogged(userSettings);
-    } else {
-        startScreen->show();
-        startScreen->raise();
-    }
-}
-
 void ArenaTracker::setupMtgaMatch()
 {
     mtgaMatch = new MtgaMatch(this, mtgCards);
@@ -129,6 +119,12 @@ void ArenaTracker::setupMtgaMatch()
             mtgaMatch, &MtgaMatch::onPlayerTakesMulligan);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnOpponentTakesMulligan,
             mtgaMatch, &MtgaMatch::onOpponentTakesMulligan);
+}
+
+void ArenaTracker::avoidAppClose()
+{
+    preferencesScreen->show();
+    preferencesScreen->hide();
 }
 
 void ArenaTracker::showStartScreen()
@@ -193,8 +189,35 @@ void ArenaTracker::onDeckTrackerOpponentEnabledChange(bool enabled)
     }
 }
 
-void ArenaTracker::onUserCreated(UserSettings userSettings)
+void ArenaTracker::checkForAutoLogin()
+{
+    UserSettings userSettings = appSettings->getUserSettings();
+    switch (userSettings.getAuthStatus()) {
+        case AUTH_VALID: {
+            emit auth->sgnUserLogged(false);
+            break;
+        }
+        case AUTH_EXPIRED: {
+            auth->refreshToken(userSettings.refreshToken);
+            break;
+        }
+        case AUTH_INVALID: {
+            startScreen->show();
+            startScreen->raise();
+            break;
+        }
+    }
+}
+
+void ArenaTracker::onUserSigned(bool fromSignUp)
+{
+    UNUSED(fromSignUp);
+    startScreen->hide();
+    trayIcon->updateUserSettings();
+}
+
+void ArenaTracker::onUserTokenRefreshed()
 {
     startScreen->hide();
-    trayIcon->updateUserSettings(userSettings);
+    trayIcon->updateUserSettings();
 }

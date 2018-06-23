@@ -13,6 +13,7 @@
 
 #define REGISTER_URL "https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser"
 #define SIGNIN_URL "https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword"
+#define REFRESH_TOKEN_URL "https://securetoken.googleapis.com/v1/token"
 
 Auth::Auth(QObject *parent) : QObject(parent)
 {
@@ -29,10 +30,11 @@ void Auth::signInUser(QString email, QString password)
 
     QUrl url(SIGNIN_URL);
     url.setQuery(QUrlQuery(QString("key=%1").arg(ApiKeys::FIREBASE())));
+    LOGD(QString("Request: %1").arg(url.toString()));
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     QNetworkReply *reply = networkManager.post(request, body);
-    connect(reply, &QNetworkReply::finished, this, &Auth::signOnFinish);
+    connect(reply, &QNetworkReply::finished, this, &Auth::authRequestOnFinish);
 }
 
 void Auth::registerUser(QString email, QString password)
@@ -45,13 +47,30 @@ void Auth::registerUser(QString email, QString password)
 
     QUrl url(REGISTER_URL);
     url.setQuery(QUrlQuery(QString("key=%1").arg(ApiKeys::FIREBASE())));
+    LOGD(QString("Request: %1").arg(url.toString()));
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     QNetworkReply *reply = networkManager.post(request, body);
-    connect(reply, &QNetworkReply::finished, this, &Auth::signOnFinish);
+    connect(reply, &QNetworkReply::finished, this, &Auth::authRequestOnFinish);
 }
 
-void Auth::signOnFinish()
+void Auth::refreshToken(QString refreshToken)
+{
+    QJsonObject jsonObj;
+    jsonObj.insert("grant_type", "refresh_token");
+    jsonObj.insert("refresh_token", QJsonValue(refreshToken));
+    QByteArray body = QJsonDocument(jsonObj).toJson();
+
+    QUrl url(REFRESH_TOKEN_URL);
+    url.setQuery(QUrlQuery(QString("key=%1").arg(ApiKeys::FIREBASE())));
+    LOGD(QString("Request: %1").arg(url.toString()));
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    QNetworkReply *reply = networkManager.post(request, body);
+    connect(reply, &QNetworkReply::finished, this, &Auth::authRequestOnFinish);
+}
+
+void Auth::authRequestOnFinish()
 {
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
     QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());
@@ -72,21 +91,44 @@ void Auth::signOnFinish()
         return;
     }
 
-    ARENA_TRACKER->showMessage(tr("Signin Success."));
+    bool signRequest = jsonRsp.contains("kind");
+    bool fromSignUp = jsonRsp["kind"].toString() == "identitytoolkit#SignupNewUserResponse";
+    if (fromSignUp) {
+        ARENA_TRACKER->showMessage(tr("Signin Success."));
+    };
+    LOGD(QString("%1").arg(!signRequest ? "Token refreshed" :
+                                          fromSignUp ? "User created" : "User signed"));
+
+    APP_SETTINGS->setUserSettings(signRequest ? createUserSettingsFromSign(jsonRsp)
+                                              : createUserSettingsFromRefreshedToken(jsonRsp));
+    emit (signRequest ? sgnUserLogged(fromSignUp) : sgnTokenRefreshed());
+}
+
+UserSettings Auth::createUserSettingsFromSign(QJsonObject jsonRsp)
+{
     QString userId = jsonRsp["localId"].toString();
     QString userToken = jsonRsp["idToken"].toString();
     QString refreshToken = jsonRsp["refreshToken"].toString();
     QString expiresIn = jsonRsp["expiresIn"].toString();
+    return UserSettings(userId, userToken, refreshToken, getExpiresEpoch(expiresIn));
+}
 
+UserSettings Auth::createUserSettingsFromRefreshedToken(QJsonObject jsonRsp)
+{
+    QString userId = jsonRsp["user_id"].toString();
+    QString userToken = jsonRsp["id_token"].toString();
+    QString refreshToken = jsonRsp["refresh_token"].toString();
+    QString expiresIn = jsonRsp["expires_in"].toString();
+    return UserSettings(userId, userToken, refreshToken, getExpiresEpoch(expiresIn));
+}
+
+qlonglong Auth::getExpiresEpoch(QString expiresIn)
+{
     using namespace std::chrono;
     seconds expiresSeconds = seconds(expiresIn.toInt());
     time_point<system_clock> now = system_clock::now();
     time_point<system_clock> expires = now + expiresSeconds;
     LOGD(QString("Now: %1").arg(now.time_since_epoch().count()));
     LOGD(QString("Expires: %1").arg(expires.time_since_epoch().count()));
-
-    qlonglong expiresEpoch = expires.time_since_epoch().count();
-    UserSettings userSettings = UserSettings(userId, userToken, refreshToken, expiresEpoch);
-    APP_SETTINGS->setUserSettings(userSettings);
-    emit sgnUserLogged(userSettings);
+    return expires.time_since_epoch().count();
 }

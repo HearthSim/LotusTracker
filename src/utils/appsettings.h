@@ -38,6 +38,7 @@ public:
 
     void setUserSettings(UserSettings userSettings);
     UserSettings getUserSettings();
+    void clearUserSettings();
 };
 
 #endif // APPSETTINGS_H

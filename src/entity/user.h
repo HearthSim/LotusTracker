@@ -18,6 +18,12 @@ public:
 
 };
 
+typedef enum {
+    AUTH_VALID,
+    AUTH_EXPIRED,
+    AUTH_INVALID
+} AuthState;
+
 #include <ctime>
 #include <chrono>
 #include <QString>
@@ -35,17 +41,22 @@ public:
     UserSettings(QString userId, QString userToken, QString refreshToken, qlonglong expiresTokenEpoch)
         : userId(userId), userToken(userToken), refreshToken(refreshToken), expiresTokenEpoch(expiresTokenEpoch){}
 
-    bool isValid()
+    AuthState getAuthStatus()
     {
         if (expiresTokenEpoch == 0) {
-            return false;
+            return AUTH_INVALID;
         }
         using namespace std::chrono;
         time_point<system_clock> now = system_clock::now();
         if (now.time_since_epoch().count() > expiresTokenEpoch) {
-            return false;
+            return AUTH_EXPIRED;
         }
-        return true;
+        return AUTH_VALID;
+    }
+
+    bool isAuthValid()
+    {
+        return getAuthStatus() == AUTH_VALID;
     }
 
 };

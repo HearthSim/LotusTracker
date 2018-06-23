@@ -31,8 +31,8 @@ private:
     Auth *auth;
     void setupApp();
     void setupPreferencesScreen();
-    void setupStartScreen();
     void setupMtgaMatch();
+    void checkForAutoLogin();
 
 public:
     ArenaTracker(int& argc, char **argv);
@@ -42,6 +42,7 @@ public:
     MtgArena *mtgArena;
     MtgaMatch *mtgaMatch;
     int run();
+    void avoidAppClose();
     void showStartScreen();
     void showPreferencesScreen();
     void showMessage(QString msg, QString title = tr("Arena Tracker"));
@@ -54,7 +55,8 @@ private slots:
     void onMatchEnd(int winningTeamId);
     void onDeckTrackerPlayerEnabledChange(bool enabled);
     void onDeckTrackerOpponentEnabledChange(bool enabled);
-    void onUserCreated(UserSettings userSettings);
+    void onUserSigned(bool fromSignUp);
+    void onUserTokenRefreshed();
 };
 
 #endif // ARENATRACKER_H

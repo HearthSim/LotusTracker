@@ -144,3 +144,8 @@ UserSettings AppSettings::getUserSettings()
                         settings.value(KEY_TRACKER_USER_REFRESH_TOKEN, "").toString(),
                         settings.value(KEY_TRACKER_USER_EXPIRES_EPOCH, 0).toLongLong());
 }
+
+void AppSettings::clearUserSettings()
+{
+    setUserSettings(UserSettings());
+}

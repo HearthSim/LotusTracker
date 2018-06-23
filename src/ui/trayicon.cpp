@@ -8,6 +8,7 @@
 #include <QApplication>
 #include <QDir>
 #include <QMenu>
+#include <QMessageBox>
 
 TrayIcon::TrayIcon(QObject *parent, MtgCards *mtgCards)
     : QObject(parent), mtgCards(mtgCards)
@@ -40,7 +41,7 @@ void TrayIcon::setupTrayIcon()
     trayIcon->setIcon(icon);
 
     signAction = new QAction(tr("Sign In"), this);
-    connect(signAction, &QAction::triggered, this, &TrayIcon::openSignIn);
+    connect(signAction, &QAction::triggered, this, &TrayIcon::openSignInOrSignOut);
     trayMenu->addAction(signAction);
     QAction *settingsAction = new QAction(tr("Preferences"), this);
     connect(settingsAction, &QAction::triggered, this, &TrayIcon::openPreferences);
@@ -71,15 +72,32 @@ void TrayIcon::showMessage(QString title, QString msg)
     trayIcon->showMessage(title, msg);
 }
 
-void TrayIcon::updateUserSettings(UserSettings userSettings)
+void TrayIcon::updateUserSettings()
 {
-    signAction->setText(userSettings.isValid() ? userSettings.userId : tr("Sign In"));
+    UserSettings userSettings = ARENA_TRACKER->appSettings->getUserSettings();
+    bool isAuthValid = userSettings.getAuthStatus() == AUTH_VALID;
+    QString userText = QString("%1 (Logout)").arg(userSettings.userId);
+    signAction->setText(isAuthValid ? userText : tr("Sign In"));
 }
 
-void TrayIcon::openSignIn()
+void TrayIcon::openSignInOrSignOut()
 {
-    ArenaTracker *arenaTracker = (ArenaTracker*) qApp->instance();
-    arenaTracker->showStartScreen();
+    UserSettings userSettings = ARENA_TRACKER->appSettings->getUserSettings();
+    bool isAuthValid = userSettings.getAuthStatus() == AUTH_VALID;
+    if (isAuthValid) {
+        QMessageBox msgBox(QMessageBox::Warning, tr("Logout user"), tr("Are you sure?"),
+                           QMessageBox::Yes | QMessageBox::Cancel);
+        msgBox.setDefaultButton(QMessageBox::Cancel);
+        msgBox.deleteLater();
+        if (msgBox.exec() == QMessageBox::Yes) {
+            ARENA_TRACKER->appSettings->clearUserSettings();
+            ARENA_TRACKER->showStartScreen();
+            updateUserSettings();
+        }
+        ARENA_TRACKER->avoidAppClose();
+    } else {
+        ARENA_TRACKER->showStartScreen();
+    }
 }
 
 void TrayIcon::openPreferences()

@@ -23,12 +23,12 @@ public:
     explicit TrayIcon(QObject *parent = nullptr, MtgCards *mtgCards = nullptr);
     ~TrayIcon();
     void showMessage(QString title, QString msg);
-    void updateUserSettings(UserSettings userSettings);
+    void updateUserSettings();
 
 signals:
 
 private slots:
-    void openSignIn();
+    void openSignInOrSignOut();
     void openPreferences();
 
 public slots:

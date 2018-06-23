@@ -11,17 +11,22 @@ class Auth : public QObject
     Q_OBJECT
 private:
     QNetworkAccessManager networkManager;
+    qlonglong getExpiresEpoch(QString expiresIn);
+    UserSettings createUserSettingsFromSign(QJsonObject jsonRsp);
+    UserSettings createUserSettingsFromRefreshedToken(QJsonObject jsonRsp);
 
 public:
     explicit Auth(QObject *parent = nullptr);
     void signInUser(QString email, QString password);
     void registerUser(QString email, QString password);
+    void refreshToken(QString refreshToken);
 
 signals:
-    void sgnUserLogged(UserSettings userSettings);
+    void sgnUserLogged(bool fromSignUp);
+    void sgnTokenRefreshed();
 
 private slots:
-    void signOnFinish();
+    void authRequestOnFinish();
 
 public slots:
 };
