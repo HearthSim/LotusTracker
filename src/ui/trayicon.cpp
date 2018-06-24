@@ -76,7 +76,7 @@ void TrayIcon::updateUserSettings()
 {
     UserSettings userSettings = ARENA_TRACKER->appSettings->getUserSettings();
     bool isAuthValid = userSettings.getAuthStatus() == AUTH_VALID;
-    QString userText = QString("%1 (Logout)").arg(userSettings.userId);
+    QString userText = QString("%1 (Logout)").arg(userSettings.getUserName());
     signAction->setText(isAuthValid ? userText : tr("Sign In"));
 }
 

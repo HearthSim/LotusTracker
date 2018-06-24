@@ -233,7 +233,7 @@ void DeckTrackerBase::drawDeckCards(QPainter &painter)
             drawMana(painter, manaSymbol, manaSize, cardQtdRemains == 0, manaX, manaY);
             manaX += manaSize + manaMargin;
         }
-        cardListHeight += cardBGImgSize.height();
+        cardListHeight += cardBGImgSize.height() - 1;
         // Blink
         if (cardsBlinkInfo.keys().contains(card)) {
             CardBlinkInfo *cardBlinkInfo = cardsBlinkInfo[card];

@@ -30,16 +30,29 @@ typedef enum {
 
 class UserSettings
 {
+private:
+    QString userName;
+
 public:
     const QString userId;
     const QString userToken;
     const QString refreshToken;
     const qlonglong expiresTokenEpoch;
 
-    UserSettings() : userId(""), userToken(""), refreshToken(""), expiresTokenEpoch(0){}
+    UserSettings() : userId(""), userToken(""), refreshToken(""), expiresTokenEpoch(0){
+        userName = "";
+    }
 
     UserSettings(QString userId, QString userToken, QString refreshToken, qlonglong expiresTokenEpoch)
         : userId(userId), userToken(userToken), refreshToken(refreshToken), expiresTokenEpoch(expiresTokenEpoch){}
+
+    void setUserName(QString userName) {
+        this->userName = userName;
+    }
+
+    QString getUserName() {
+        return userName;
+    }
 
     AuthState getAuthStatus()
     {

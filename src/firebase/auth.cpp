@@ -99,9 +99,16 @@ void Auth::authRequestOnFinish()
     LOGD(QString("%1").arg(!signRequest ? "Token refreshed" :
                                           fromSignUp ? "User created" : "User signed"));
 
-    APP_SETTINGS->setUserSettings(signRequest ? createUserSettingsFromSign(jsonRsp)
-                                              : createUserSettingsFromRefreshedToken(jsonRsp));
-    emit (signRequest ? sgnUserLogged(fromSignUp) : sgnTokenRefreshed());
+    UserSettings userSettings = signRequest ? createUserSettingsFromSign(jsonRsp)
+                                            : createUserSettingsFromRefreshedToken(jsonRsp);
+    QString email = jsonRsp["email"].toString();
+    QString userName = email.left(email.indexOf("@"));
+    APP_SETTINGS->setUserSettings(userSettings, userName);
+    if (signRequest) {
+        emit sgnUserLogged(fromSignUp);
+    } else {
+        emit sgnTokenRefreshed();
+    }
 }
 
 UserSettings Auth::createUserSettingsFromSign(QJsonObject jsonRsp)
