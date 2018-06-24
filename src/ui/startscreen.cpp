@@ -17,6 +17,7 @@ StartScreen::StartScreen(QWidget *parent, Auth *auth) : QMainWindow(parent),
     QFont trackerFont = ui->lbTracker->font();
     trackerFont.setFamily(QFontDatabase::applicationFontFamilies(belerenID).at(0));
     ui->lbTracker->setFont(trackerFont);
+    ui->lbLoading->setVisible(false);
     ui->btBack->setVisible(false);
     ui->frameLogin->setVisible(false);
     ui->frameNew->setVisible(false);
@@ -34,6 +35,11 @@ StartScreen::StartScreen(QWidget *parent, Auth *auth) : QMainWindow(parent),
     connect(ui->btNew, &QPushButton::clicked, this, &StartScreen::onNewUserClick);
     connect(ui->btEnter, &QPushButton::clicked, this, &StartScreen::onEnterClick);
     connect(ui->btRegister, &QPushButton::clicked, this, &StartScreen::onRegisterClick);
+    connect(auth, &Auth::sgnRequestFinished, this, [this](){
+        ui->lbLoading->setVisible(false);
+        ui->btEnter->setVisible(ui->frameLogin->isVisible());
+        ui->btRegister->setVisible(ui->frameNew->isVisible());
+    });
 }
 
 StartScreen::~StartScreen()
@@ -82,6 +88,8 @@ void StartScreen::onEnterClick()
         return;
     }
     QString pass = ui->edLoginPassword->text();
+    ui->btEnter->setVisible(false);
+    ui->lbLoading->setVisible(true);
     auth->signInUser(email, pass);
 }
 
@@ -96,6 +104,8 @@ void StartScreen::onRegisterClick()
     QString pass = ui->edNewPassword->text();
     QString confirm = ui->edNewConfirm->text();
     if (pass == confirm) {
+        ui->btRegister->setVisible(false);
+        ui->lbLoading->setVisible(true);
         auth->registerUser(email, pass);
     } else {
         ARENA_TRACKER->showMessage("", tr("Password and Confirm must be equals."));

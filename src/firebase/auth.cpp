@@ -75,6 +75,7 @@ void Auth::authRequestOnFinish()
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
     QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());
     LOGD(QString(QJsonDocument(jsonRsp).toJson()));
+    emit sgnRequestFinished();
 
     int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     if (statusCode < 200 || statusCode > 299) {

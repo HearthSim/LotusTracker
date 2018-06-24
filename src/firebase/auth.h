@@ -24,6 +24,7 @@ public:
 signals:
     void sgnUserLogged(bool fromSignUp);
     void sgnTokenRefreshed();
+    void sgnRequestFinished();
 
 private slots:
     void authRequestOnFinish();

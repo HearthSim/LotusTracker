@@ -433,11 +433,28 @@ border: 0px solid gray; </string>
       </size>
      </property>
     </widget>
+    <widget class="QLabel" name="lbLoading">
+     <property name="geometry">
+      <rect>
+       <x>370</x>
+       <y>390</y>
+       <width>71</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border: 0px solid gray; </string>
+     </property>
+     <property name="text">
+      <string>Loading...</string>
+     </property>
+    </widget>
     <zorder>frameNew</zorder>
     <zorder>frameLogin</zorder>
     <zorder>btLogin</zorder>
     <zorder>btNew</zorder>
     <zorder>btBack</zorder>
+    <zorder>lbLoading</zorder>
    </widget>
    <zorder>frame</zorder>
    <zorder>lbLogo</zorder>
