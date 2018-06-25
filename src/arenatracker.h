@@ -15,12 +15,14 @@
 #include "firebase/auth.h"
 
 #include <QApplication>
+#include <QLocalServer>
 
 class ArenaTracker : public QApplication
 {
     Q_OBJECT
 
 private:
+    QLocalServer *localServer;
     bool isMatchRunning;
     MtgCards *mtgCards;
     DeckTrackerPlayer *deckTrackerPlayer;
@@ -29,6 +31,7 @@ private:
     PreferencesScreen *preferencesScreen;
     StartScreen *startScreen;
     Auth *auth;
+    bool isAlreadyRunning();
     void setupApp();
     void setupPreferencesScreen();
     void setupMtgaMatch();

@@ -2,6 +2,9 @@
 #include "macros.h"
 #include "mtg/mtgalogparser.h"
 
+#include <QLocalSocket>
+#include <QMessageBox>
+
 ArenaTracker::ArenaTracker(int& argc, char **argv): QApplication(argc, argv),
     isMatchRunning(false)
 {
@@ -43,7 +46,7 @@ ArenaTracker::~ArenaTracker()
 
 int ArenaTracker::run()
 {
-    return exec();
+    return isAlreadyRunning() ? 1 : exec();
 }
 
 void ArenaTracker::setupApp()
@@ -60,6 +63,23 @@ void ArenaTracker::setupApp()
   setOrganizationName("ArenaMeta");
   setOrganizationDomain("arenameta.com");
   setWindowIcon(icon);
+}
+
+bool ArenaTracker::isAlreadyRunning() {
+    QString serverName = "ArenaTracker";
+    QLocalSocket socket;
+    socket.connectToServer(serverName);
+    if (socket.waitForConnected(500)) {
+        QMessageBox::information(preferencesScreen, "Arena Tracker",
+                                 "Arena Tracker already running.", QMessageBox::Ok);
+        return true;
+    }
+    QLocalServer::removeServer(serverName);
+    localServer = new QLocalServer(NULL);
+    if (!localServer->listen(serverName)) {
+        return true;
+    }
+    return false;
 }
 
 void ArenaTracker::setupPreferencesScreen()
