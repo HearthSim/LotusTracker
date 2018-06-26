@@ -18,6 +18,7 @@ protected:
 public:
     explicit DeckTrackerOpponent(QWidget *parent = nullptr);
     ~DeckTrackerOpponent();
+    void reset();
 
 signals:
 

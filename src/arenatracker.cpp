@@ -185,6 +185,7 @@ void ArenaTracker::onMatchEnd(int winningTeamId)
 {
     isMatchRunning = false;
     deckTrackerPlayer->hide();
+    deckTrackerOpponent->reset();
     deckTrackerOpponent->hide();
     mtgaMatch->endCurrentMatch(winningTeamId);
 }

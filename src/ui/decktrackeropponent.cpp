@@ -30,6 +30,11 @@ void DeckTrackerOpponent::afterPaintEvent(QPainter &painter)
     UNUSED(painter);
 }
 
+void DeckTrackerOpponent::reset()
+{
+    deck.cards.clear();
+}
+
 void DeckTrackerOpponent::onOpponentPutInLibraryCard(Card* card)
 {
     deck.drawCard(card); //remove a card from opponent current deck on screen
