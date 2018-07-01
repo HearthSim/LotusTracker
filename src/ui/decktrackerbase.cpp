@@ -14,11 +14,12 @@ DeckTrackerBase::DeckTrackerBase(QWidget *parent) : QMainWindow(parent),
     ui(new Ui::DeckTracker()), cardBGSkin(APP_SETTINGS->getCardLayout()),
     zoomMinusButton(QRect(0, 0, 0, 0)), zoomPlusButton(QRect(0, 0, 0, 0)),
     mousePressed(false), mouseRelativePosition(QPoint()), cornerRadius(10),
-    uiPos(10, 10), uiScale(1.0), uiHeight(0), uiWidth(160), deck(Deck())
+    uiPos(10, 10), uiAlpha(1.0), uiScale(1.0), uiHeight(0), uiWidth(160), deck(Deck())
 {
     ui->setupUi(this);
     setupWindow();
     setupDrawTools();
+    uiAlpha = APP_SETTINGS->getDeckTrackerAlpha();
 }
 
 DeckTrackerBase::~DeckTrackerBase()
@@ -83,6 +84,12 @@ void DeckTrackerBase::setupDrawTools()
     titlePen = QPen(Qt::white);
 }
 
+void DeckTrackerBase::changeAlpha(int alpha)
+{
+    uiAlpha = 0.3 + (alpha / 10.0);
+    update();
+}
+
 void DeckTrackerBase::changeCardLayout(QString cardLayout)
 {
     cardBGSkin = cardLayout;
@@ -101,6 +108,7 @@ void DeckTrackerBase::blinkCard(Card* card)
 void DeckTrackerBase::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
+    painter.setOpacity(uiAlpha);
     painter.setRenderHints(QPainter::HighQualityAntialiasing | QPainter::TextAntialiasing |
                            QPainter::SmoothPixmapTransform);
     painter.save();

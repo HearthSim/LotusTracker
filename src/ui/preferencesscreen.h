@@ -14,6 +14,7 @@ private:
     void closeEvent(QCloseEvent *event);
     void onStartAtLoginChanged();
     void onCardLayoutChanged();
+    void onTrackerAlphaChanged();
     void onPTEnabledChanged();
     void onPTStatisticsChanged();
     void onOTEnabledChanged();
@@ -24,6 +25,7 @@ public:
     ~PreferencesScreen();
 
 signals:
+    void sgnTrackerAlpha(qreal alpha);
     void sgnTrackerCardLayout(QString cardLayout);
     void sgnPlayerTrackerEnabled(bool enabled);
     void sgnPlayerTrackerStatistics(bool enabled);

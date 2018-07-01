@@ -6,7 +6,7 @@
 DeckTrackerPlayer::DeckTrackerPlayer(QWidget *parent) : DeckTrackerBase(parent)
 {
     isStatisticsEnabled = APP_SETTINGS->isDeckTrackerPlayerStatisticsEnabled();
-    uiPos = APP_SETTINGS->getDeckTrackerPlayerPos();
+    uiPos = APP_SETTINGS->getDeckTrackerPlayerPos(uiWidth);
     uiScale = APP_SETTINGS->getDeckTrackerPlayerScale();
     // Statistics
     int statisticsFontSize = 8;

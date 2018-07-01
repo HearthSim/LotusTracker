@@ -18,12 +18,14 @@ PreferencesScreen::PreferencesScreen(QWidget *parent) : QMainWindow(parent),
     } else {
         ui->rbMTGA->setChecked(true);
     }
+    ui->hsAlpha->setValue(APP_SETTINGS->getDeckTrackerAlpha());
     ui->cbPTEnabled->setChecked(APP_SETTINGS->isDeckTrackerPlayerEnabled());
     ui->cbPTStatistics->setChecked(APP_SETTINGS->isDeckTrackerPlayerStatisticsEnabled());
     ui->cbOTEnabled->setChecked(APP_SETTINGS->isDeckTrackerOpponentEnabled());
     connect(ui->cbStartAtLogin, &QCheckBox::clicked, this, &PreferencesScreen::onStartAtLoginChanged);
     connect(ui->rbMTG, &QRadioButton::clicked, this, &PreferencesScreen::onCardLayoutChanged);
     connect(ui->rbMTGA, &QRadioButton::clicked, this, &PreferencesScreen::onCardLayoutChanged);
+    connect(ui->hsAlpha, &QSlider::valueChanged, this, &PreferencesScreen::onTrackerAlphaChanged);
     connect(ui->cbPTEnabled, &QCheckBox::clicked, this, &PreferencesScreen::onPTEnabledChanged);
     connect(ui->cbPTStatistics, &QCheckBox::clicked, this, &PreferencesScreen::onPTStatisticsChanged);
     connect(ui->cbOTEnabled, &QCheckBox::clicked, this, &PreferencesScreen::onOTEnabledChanged);
@@ -50,6 +52,12 @@ void PreferencesScreen::onStartAtLoginChanged()
 #endif
     LOGD(QString("StartAtLogin: %1").arg(enabled ? "true" : "false"));
     APP_SETTINGS->enableAutoStart(enabled);
+}
+
+void PreferencesScreen::onTrackerAlphaChanged()
+{
+    int alpha = ui->hsAlpha->value();
+    emit sgnTrackerAlpha(alpha);
 }
 
 void PreferencesScreen::onCardLayoutChanged()

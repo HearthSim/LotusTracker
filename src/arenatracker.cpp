@@ -88,6 +88,8 @@ void ArenaTracker::setupPreferencesScreen()
     // Deck tracker player
     connect(preferencesScreen, &PreferencesScreen::sgnPlayerTrackerEnabled,
             this, &ArenaTracker::onDeckTrackerPlayerEnabledChange);
+    connect(preferencesScreen, &PreferencesScreen::sgnTrackerAlpha,
+            deckTrackerPlayer, &DeckTrackerPlayer::changeAlpha);
     connect(preferencesScreen, &PreferencesScreen::sgnTrackerCardLayout,
             deckTrackerPlayer, &DeckTrackerPlayer::changeCardLayout);
     connect(preferencesScreen, &PreferencesScreen::sgnPlayerTrackerStatistics,

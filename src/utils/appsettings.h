@@ -17,6 +17,8 @@ public:
 
     bool isAutoStartEnabled();
     void enableAutoStart(bool enabled);
+    int getDeckTrackerAlpha();
+    void setDeckTrackerAlpha(int alpha);
     QString getCardLayout();
     void setCardLayout(QString cardLayout);
     // Deck tracker player
@@ -24,14 +26,14 @@ public:
     void enableDeckTrackerPlayer(bool enabled);
     bool isDeckTrackerPlayerStatisticsEnabled();
     void enableDeckTrackerPlayerStatistics(bool enabled);
-    QPoint getDeckTrackerPlayerPos();
+    QPoint getDeckTrackerPlayerPos(int uiWidth);
     void setDeckTrackerPlayerPos(QPoint pos);
     qreal getDeckTrackerPlayerScale();
     void setDeckTrackerPlayerScale(qreal scale);
     // Deck tracker opponent
     bool isDeckTrackerOpponentEnabled();
     void enableDeckTrackerOpponent(bool enabled);
-    QPoint getDeckTrackerOpponentPos(int uiWidth);
+    QPoint getDeckTrackerOpponentPos();
     void setDeckTrackerOpponentPos(QPoint pos);
     qreal getDeckTrackerOpponentScale();
     void setDeckTrackerOpponentScale(qreal scale);

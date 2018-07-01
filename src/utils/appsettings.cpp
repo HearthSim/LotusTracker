@@ -4,6 +4,7 @@
 #include <QDesktopWidget>
 
 #define KEY_AUTOSTART "autoStart"
+#define KEY_TRACKER_ALPHA "Tracker/alpha"
 #define KEY_TRACKER_LAYOUT "Tracker/layout"
 
 #define KEY_TRACKER_PLAYER_ENABLED "Tracker/playerPrefs/enabled"
@@ -38,6 +39,16 @@ void AppSettings::enableAutoStart(bool enabled)
     settings.setValue(KEY_AUTOSTART, enabled);
 }
 
+int AppSettings::getDeckTrackerAlpha()
+{
+    return settings.value(KEY_TRACKER_ALPHA, 7).toInt();
+}
+
+void AppSettings::setDeckTrackerAlpha(int alpha)
+{
+    settings.setValue(KEY_TRACKER_ALPHA, alpha);
+}
+
 QString AppSettings::getCardLayout()
 {
     return settings.value(KEY_TRACKER_LAYOUT, "mtga").toString();
@@ -70,9 +81,11 @@ void AppSettings::enableDeckTrackerPlayerStatistics(bool enabled)
     settings.setValue(KEY_TRACKER_PLAYER_STATISTICS, enabled);
 }
 
-QPoint AppSettings::getDeckTrackerPlayerPos()
+QPoint AppSettings::getDeckTrackerPlayerPos(int uiWidth)
 {
-    int x = settings.value(KEY_TRACKER_PLAYER_X, 10).toInt();
+    QRect screen = QApplication::desktop()->screenGeometry();
+    int defaultX = screen.width() - uiWidth - 10;
+    int x = settings.value(KEY_TRACKER_PLAYER_X, defaultX).toInt();
     int y = settings.value(KEY_TRACKER_PLAYER_Y, 10).toInt();
     return QPoint(x, y);
 }
@@ -105,11 +118,9 @@ void AppSettings::enableDeckTrackerOpponent(bool enabled)
     settings.setValue(KEY_TRACKER_OPPONENT_ENABLED, enabled);
 }
 
-QPoint AppSettings::getDeckTrackerOpponentPos(int uiWidth)
+QPoint AppSettings::getDeckTrackerOpponentPos()
 {
-    QRect screen = QApplication::desktop()->screenGeometry();
-    int defaultX = screen.width() - uiWidth - 10;
-    int x = settings.value(KEY_TRACKER_OPPONENT_X, defaultX).toInt();
+    int x = settings.value(KEY_TRACKER_OPPONENT_X, 10).toInt();
     int y = settings.value(KEY_TRACKER_OPPONENT_Y, 10).toInt();
     return QPoint(x, y);
 }

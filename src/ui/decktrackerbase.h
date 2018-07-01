@@ -33,7 +33,7 @@ private:
 protected:
     const int cornerRadius;
     QPoint uiPos;
-    qreal uiScale;
+    qreal uiAlpha, uiScale;
     int uiHeight, uiWidth;
     Deck deck;
     void blinkCard(Card* card);
@@ -59,6 +59,7 @@ public:
 signals:
 
 public slots:
+    void changeAlpha(int alpha);
     void changeCardLayout(QString cardLayout);
 };
 
