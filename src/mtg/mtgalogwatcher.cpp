@@ -6,25 +6,29 @@
 #include <QFileInfo>
 #include <QStandardPaths>
 
-#define WATCH_TEST_LOG false
+#define WATCH_TEST_LOG true
 #define LOG_PATH QString("AppData%1LocalLow%2Wizards of the Coast%3MTGA")\
     .arg(QDir::separator()).arg(QDir::separator()).arg(QDir::separator())
-#define TEST_LOG_PATH "Documents"
+#define LOG_PATH_TEST "Documents"
 
 MtgaLogWatcher::MtgaLogWatcher(QObject *parent) : QObject(parent), 
 	timer(new QTimer(this)), lastFilePos(0)
 {
     QString homeDir = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
-    logPath = homeDir + QDir::separator() + (WATCH_TEST_LOG ? TEST_LOG_PATH : LOG_PATH);
+    logPath = homeDir + QDir::separator() + (WATCH_TEST_LOG ? LOG_PATH_TEST : LOG_PATH);
     if (QFileInfo(logPath + QDir::separator() + "output_log.txt").exists()) {
     	setLogPath(logPath);
     } else {
         LOGW(QString("Game log file not found: %1").arg(logPath));
     }
-    connect(timer, &QTimer::timeout, this, &MtgaLogWatcher::checkForNewLogs);
     MtgArena* mtgArena = (MtgArena*) parent;
-    connect(mtgArena, &MtgArena::sgnGameStarted, this, &MtgaLogWatcher::startWatching);
-    connect(mtgArena, &MtgArena::sgnGameStopped, this, &MtgaLogWatcher::stopWatching);
+    if (WATCH_TEST_LOG) {
+        startWatching();
+    } else {
+        connect(mtgArena, &MtgArena::sgnGameStarted, this, &MtgaLogWatcher::startWatching);
+        connect(mtgArena, &MtgArena::sgnGameStopped, this, &MtgaLogWatcher::stopWatching);
+    }
+    connect(timer, &QTimer::timeout, this, &MtgaLogWatcher::checkForNewLogs);
 }
 
 MtgaLogWatcher::~MtgaLogWatcher()
@@ -75,12 +79,12 @@ void MtgaLogWatcher::checkForNewLogs()
         return;
     }
     if (logSize < lastFilePos) {
-		LOGW( "Log file reseted.");
+        LOGW("Log file reseted.");
 		lastFilePos = 0;
 	} else {
 		logFile->seek(lastFilePos);
 		QByteArray logNewContent = logFile->readAll();
-		emit sgnNewLogContent(QString::fromUtf8(logNewContent.trimmed()));
-		lastFilePos = logFile->pos();
+        emit sgnNewLogContent(QString::fromUtf8(logNewContent.trimmed()));
+        lastFilePos = logFile->pos();
 	}
 }

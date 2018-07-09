@@ -14,6 +14,9 @@ VERSION = 0.1
 
 CONFIG+=debug c++11
 
+# asmCrashReport - https://github.com/asmaloney/asmCrashReport
+include(asmCrashReport.pri)
+
 DESTDIR = build
 OBJECTS_DIR = tmp
 MOC_DIR = tmp
