@@ -20,6 +20,9 @@ private:
     void downloadSetOnFinish();
     void loadSet(QString setCode, int firstCardId, QMap<QString, int> unorderedCardsId);
     void loadSetFromFile(QString setFileName);
+    QMap<QString, int> getKLDUnorderedCardsId();
+    QMap<QString, int> getAERUnorderedCardsId();
+    QMap<QString, int> getW17UnorderedCardsId();
     QMap<QString, int> getAKHUnorderedCardsId();
     QMap<QString, int> getHOUUnorderedCardsId();
     QMap<QString, int> getXLNUnorderedCardsId();

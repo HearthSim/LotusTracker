@@ -24,12 +24,16 @@ MtgaIDs::MtgaIDs(QObject *parent) : QObject(parent)
 
 void MtgaIDs::process()
 {
+    loadSet("KLD", 63641, getKLDUnorderedCardsId());
+    loadSet("AER", 64213, getAERUnorderedCardsId());
+    loadSet("W17", 68414, getW17UnorderedCardsId());
     loadSet("OGW", 62165, {});
     loadSet("AKH", 64801, getAKHUnorderedCardsId());
     loadSet("HOU", 65479, getHOUUnorderedCardsId());
     loadSet("XLN", 65961, getXLNUnorderedCardsId());
     loadSet("RIX", 66619, {});
     loadSet("DOM", 67106, getDOMUnorderedCardsId());
+    loadSet("M19", 67682, {});
 }
 
 void MtgaIDs::loadSet(QString setCode, int firstCardId, QMap<QString, int> unorderedCardsId)
@@ -141,6 +145,269 @@ void MtgaIDs::loadSetFromFile(QString setFileName) {
     }
     QString msgIds = msg.left(msg.length()-2);
     LOG(QString("%1: {%2}").arg(setCode).arg(msgIds));
+}
+
+QMap<QString, int> MtgaIDs::getKLDUnorderedCardsId()
+{
+    QMap<QString, int> kldUnorderedCardsId;
+    kldUnorderedCardsId["233"] = 64169; //Thriving Rhino was 64105
+    kldUnorderedCardsId["235"] = 64171; //Wild Wanderer was 64109
+    kldUnorderedCardsId["251"] = 64139; //Plain was 64141
+    kldUnorderedCardsId["252"] = 64139; //Plain was 64143
+    kldUnorderedCardsId["254"] = 64145; //Island was 64147
+    kldUnorderedCardsId["255"] = 64145; //Island was 64149
+    kldUnorderedCardsId["257"] = 64151; //Swamp was 64153
+    kldUnorderedCardsId["258"] = 64151; //Swamp was 64155
+    kldUnorderedCardsId["260"] = 64157; //Mountain was 64159
+    kldUnorderedCardsId["261"] = 64157; //Mountain was 64161
+    kldUnorderedCardsId["263"] = 64163; //Forest was 64165
+    kldUnorderedCardsId["264"] = 64163; //Forest was 64167
+    kldUnorderedCardsId["265"] = 65407; //Chandra, Pyrogenius was 64169
+    kldUnorderedCardsId["266"] = 65409; //Flame Lash was 64171
+    kldUnorderedCardsId["267"] = 65411; //Liberating Combustion was 64173
+    kldUnorderedCardsId["268"] = 65413; //Renegade Firebrand was 64175
+    kldUnorderedCardsId["269"] = 65415; //Stone Quarry was 64177
+    kldUnorderedCardsId["270"] = 65417; //Nissa, Nature's Artisan was 64179
+    kldUnorderedCardsId["271"] = 65419; //Guardian of the Great Conduit was 64181
+    kldUnorderedCardsId["272"] = 65421; //Terrain Elemental was 64183
+    kldUnorderedCardsId["273"] = 65423; //Verdant Crescendo was 64185
+    kldUnorderedCardsId["274"] = 65425; //Woodland Stream was 64187
+    return kldUnorderedCardsId;
+}
+
+QMap<QString, int> MtgaIDs::getAERUnorderedCardsId()
+{
+    QMap<QString, int> aerUnorderedCardsId;
+    aerUnorderedCardsId["1"] = 64213; //Aerial Modification
+    aerUnorderedCardsId["2"] = 64207; //Aeronaut Admiral
+    aerUnorderedCardsId["3"] = 64541; //Aether Inspector
+    aerUnorderedCardsId["4"] = 64543; //Aethergeode Miner
+    aerUnorderedCardsId["5"] = 64211; //Airdrop Aeronauts
+    aerUnorderedCardsId["6"] = 64545; //Alley Evasion
+    aerUnorderedCardsId["7"] = 64547; //Audacious Infiltrator
+    aerUnorderedCardsId["8"] = 64187; //Bastion Enforcer
+    aerUnorderedCardsId["9"] = 64219; //Call for Unity
+    aerUnorderedCardsId["10"] = 64197; //Caught in the Brights
+    aerUnorderedCardsId["11"] = 64549; //Consulate Crackdown
+    aerUnorderedCardsId["12"] = 64181; //Conviction
+    aerUnorderedCardsId["13"] = 64183; //Countless Gears Renegade
+    aerUnorderedCardsId["14"] = 64193; //Dawnfeather Eagle
+    aerUnorderedCardsId["15"] = 64203; //Deadeye Harpooner
+    aerUnorderedCardsId["16"] = 64189; //Decommission
+    aerUnorderedCardsId["17"] = 64209; //Deft Dismissal
+    aerUnorderedCardsId["18"] = 64551; //Exquisite Archangel
+    aerUnorderedCardsId["19"] = 64205; //Felidar Guardian
+    aerUnorderedCardsId["20"] = 64185; //Ghirapur Osprey
+    aerUnorderedCardsId["21"] = 64199; //Restoration Specialist
+    aerUnorderedCardsId["22"] = 64217; //Solemn Recruit
+    aerUnorderedCardsId["23"] = 64215; //Sram, Senior Edificer
+    aerUnorderedCardsId["24"] = 64553; //Sram's Expertise
+    aerUnorderedCardsId["25"] = 64201; //Thopter Arrest
+    aerUnorderedCardsId["26"] = 64555; //Aether Swooper
+    aerUnorderedCardsId["27"] = 64271; //Aethertide Whale
+    aerUnorderedCardsId["28"] = 64273; //Baral, Chief of Compliance
+    aerUnorderedCardsId["29"] = 64557; //Baral's Expertise
+    aerUnorderedCardsId["30"] = 64559; //Bastion Inventor
+    aerUnorderedCardsId["31"] = 64679; //Disallow
+    aerUnorderedCardsId["32"] = 64237; //Dispersal Technician
+    aerUnorderedCardsId["33"] = 64561; //Efficient Construction
+    aerUnorderedCardsId["34"] = 64233; //Hinterland Drake
+    aerUnorderedCardsId["35"] = 64231; //Ice Over
+    aerUnorderedCardsId["36"] = 64563; //Illusionist's Stratagem
+    aerUnorderedCardsId["37"] = 64245; //Leave in the Dust
+    aerUnorderedCardsId["38"] = 64265; //Mechanized Production
+    aerUnorderedCardsId["39"] = 64239; //Metallic Rebuke
+    aerUnorderedCardsId["40"] = 64235; //Negate
+    aerUnorderedCardsId["41"] = 64267; //Quicksmith Spy
+    aerUnorderedCardsId["42"] = 64261; //Reverse Engineer
+    aerUnorderedCardsId["43"] = 64565; //Salvage Scuttler
+    aerUnorderedCardsId["44"] = 64567; //Shielded Aether Thief
+    aerUnorderedCardsId["45"] = 64681; //Shipwreck Moray
+    aerUnorderedCardsId["46"] = 64249; //Skyship Plunderer
+    aerUnorderedCardsId["47"] = 64569; //Take into Custody
+    aerUnorderedCardsId["48"] = 64571; //Trophy Mage
+    aerUnorderedCardsId["49"] = 64275; //Whir of Invention
+    aerUnorderedCardsId["50"] = 64573; //Wind-Kin Raiders
+    aerUnorderedCardsId["51"] = 64575; //Aether Poisoner
+    aerUnorderedCardsId["52"] = 64281; //Alley Strangler
+    aerUnorderedCardsId["53"] = 64319; //Battle at the Bridge
+    aerUnorderedCardsId["54"] = 64577; //Cruel Finality
+    aerUnorderedCardsId["55"] = 64579; //Daring Demolition
+    aerUnorderedCardsId["56"] = 64285; //Defiant Salvager
+    aerUnorderedCardsId["57"] = 64311; //Fatal Push
+    aerUnorderedCardsId["58"] = 64293; //Fen Hauler
+    aerUnorderedCardsId["59"] = 64299; //Foundry Hornet
+    aerUnorderedCardsId["60"] = 64297; //Fourth Bridge Prowler
+    aerUnorderedCardsId["61"] = 64581; //Gifted Aetherborn
+    aerUnorderedCardsId["62"] = 64325; //Glint-Sleeve Siphoner
+    aerUnorderedCardsId["63"] = 64583; //Gonti's Machinations
+    aerUnorderedCardsId["64"] = 64585; //Herald of Anguish
+    aerUnorderedCardsId["65"] = 64317; //Ironclad Revolutionary
+    aerUnorderedCardsId["66"] = 64323; //Midnight Entourage
+    aerUnorderedCardsId["67"] = 64289; //Night Market Aeronaut
+    aerUnorderedCardsId["68"] = 64301; //Perilous Predicament
+    aerUnorderedCardsId["69"] = 64587; //Renegade's Getaway
+    aerUnorderedCardsId["70"] = 64683; //Resourceful Return
+    aerUnorderedCardsId["71"] = 64589; //Secret Salvage
+    aerUnorderedCardsId["72"] = 64591; //Sly Requisitioner
+    aerUnorderedCardsId["73"] = 64303; //Vengeful Rebel
+    aerUnorderedCardsId["74"] = 64315; //Yahenni, Undying Partisan
+    aerUnorderedCardsId["75"] = 64593; //Yahenni's Expertise
+    aerUnorderedCardsId["76"] = 64595; //Aether Chaser
+    aerUnorderedCardsId["77"] = 64597; //Chandra's Revolution
+    aerUnorderedCardsId["78"] = 64335; //Destructive Tampering
+    aerUnorderedCardsId["79"] = 64601; //Embraal Gear-Smasher
+    aerUnorderedCardsId["80"] = 64361; //Enraged Giant
+    aerUnorderedCardsId["81"] = 64367; //Freejam Regent
+    aerUnorderedCardsId["82"] = 64603; //Frontline Rebel
+    aerUnorderedCardsId["83"] = 64357; //Gremlin Infestation
+    aerUnorderedCardsId["84"] = 64347; //Hungry Flames
+    aerUnorderedCardsId["85"] = 64605; //Indomitable Creativity
+    aerUnorderedCardsId["86"] = 64351; //Invigorated Rampage
+    aerUnorderedCardsId["87"] = 64607; //Kari Zev, Skyship Raider
+    aerUnorderedCardsId["88"] = 64609; //Kari Zev's Expertise
+    aerUnorderedCardsId["89"] = 64343; //Lathnu Sailback
+    aerUnorderedCardsId["90"] = 64375; //Lightning Runner
+    aerUnorderedCardsId["91"] = 64611; //Pia's Revolution
+    aerUnorderedCardsId["92"] = 64333; //Precise Strike
+    aerUnorderedCardsId["93"] = 64613; //Quicksmith Rebel
+    aerUnorderedCardsId["94"] = 64685; //Ravenous Intruder
+    aerUnorderedCardsId["95"] = 64615; //Reckless Racer
+    aerUnorderedCardsId["96"] = 64373; //Release the Gremlins
+    aerUnorderedCardsId["97"] = 64617; //Scrapper Champion
+    aerUnorderedCardsId["98"] = 64173; //Shock
+    aerUnorderedCardsId["99"] = 64355; //Siege Modification
+    aerUnorderedCardsId["100"] = 64339; //Sweatworks Brawler
+    aerUnorderedCardsId["101"] = 64345; //Wrangle
+    aerUnorderedCardsId["102"] = 64619; //Aether Herder
+    aerUnorderedCardsId["103"] = 64621; //Aetherstream Leopard
+    aerUnorderedCardsId["104"] = 64687; //Aetherwind Basker
+    aerUnorderedCardsId["105"] = 64427; //Aid from the Cowl
+    aerUnorderedCardsId["106"] = 64381; //Druid of the Cowl
+    aerUnorderedCardsId["107"] = 64623; //Greenbelt Rampager
+    aerUnorderedCardsId["108"] = 64421; //Greenwheel Liberator
+    aerUnorderedCardsId["109"] = 64415; //Heroic Intervention
+    aerUnorderedCardsId["110"] = 64625; //Hidden Herbalists
+    aerUnorderedCardsId["111"] = 64379; //Highspire Infusion
+    aerUnorderedCardsId["112"] = 64413; //Lifecraft Awakening
+    aerUnorderedCardsId["113"] = 64391; //Lifecraft Cavalry
+    aerUnorderedCardsId["114"] = 64627; //Lifecrafter's Gift
+    aerUnorderedCardsId["115"] = 64399; //Maulfist Revolutionary
+    aerUnorderedCardsId["116"] = 64405; //Monstrous Onslaught
+    aerUnorderedCardsId["117"] = 64629; //Narnam Renegade
+    aerUnorderedCardsId["118"] = 64383; //Natural Obsolescence
+    aerUnorderedCardsId["119"] = 64401; //Peema Aether-Seer
+    aerUnorderedCardsId["120"] = 64631; //Prey Upon
+    aerUnorderedCardsId["121"] = 64633; //Ridgescale Tusker
+    aerUnorderedCardsId["122"] = 64417; //Rishkar, Peema Renegade
+    aerUnorderedCardsId["123"] = 64635; //Rishkar's Expertise
+    aerUnorderedCardsId["124"] = 64637; //Scrounging Bandar
+    aerUnorderedCardsId["125"] = 64403; //Silkweaver Elite
+    aerUnorderedCardsId["126"] = 64387; //Unbridled Growth
+    aerUnorderedCardsId["127"] = 64455; //Ajani Unyielding
+    aerUnorderedCardsId["128"] = 64639; //Dark Intimations
+    aerUnorderedCardsId["129"] = 64443; //Hidden Stockpile
+    aerUnorderedCardsId["130"] = 64641; //Maverick Thopterist
+    aerUnorderedCardsId["131"] = 64449; //Oath of Ajani
+    aerUnorderedCardsId["132"] = 64437; //Outland Boar
+    aerUnorderedCardsId["133"] = 64435; //Renegade Rallier
+    aerUnorderedCardsId["134"] = 64643; //Renegade Wheelsmith
+    aerUnorderedCardsId["135"] = 64645; //Rogue Refiner
+    aerUnorderedCardsId["136"] = 64445; //Spire Patrol
+    aerUnorderedCardsId["137"] = 64647; //Tezzeret the Schemer
+    aerUnorderedCardsId["138"] = 64649; //Tezzeret's Touch
+    aerUnorderedCardsId["139"] = 64431; //Weldfast Engineer
+    aerUnorderedCardsId["140"] = 64651; //Winding Constrictor
+    aerUnorderedCardsId["141"] = 64467; //Aegis Automaton
+    aerUnorderedCardsId["142"] = 64689; //Aethersphere Harvester
+    aerUnorderedCardsId["143"] = 64481; //Augmenting Automaton
+    aerUnorderedCardsId["144"] = 64515; //Barricade Breaker
+    aerUnorderedCardsId["145"] = 64509; //Cogwork Assembler
+    aerUnorderedCardsId["146"] = 64501; //Consulate Dreadnought
+    aerUnorderedCardsId["147"] = 64507; //Consulate Turret
+    aerUnorderedCardsId["148"] = 64655; //Crackdown Construct
+    aerUnorderedCardsId["149"] = 64523; //Daredevil Dragster
+    aerUnorderedCardsId["150"] = 64657; //Filigree Crawler
+    aerUnorderedCardsId["151"] = 64495; //Foundry Assembler
+    aerUnorderedCardsId["152"] = 64659; //Gonti's Aether Heart
+    aerUnorderedCardsId["153"] = 64535; //Heart of Kiran
+    aerUnorderedCardsId["154"] = 64661; //Hope of Ghirapur
+    aerUnorderedCardsId["155"] = 64461; //Implement of Combustion
+    aerUnorderedCardsId["156"] = 64479; //Implement of Examination
+    aerUnorderedCardsId["157"] = 64469; //Implement of Ferocity
+    aerUnorderedCardsId["158"] = 64691; //Implement of Improvement
+    aerUnorderedCardsId["159"] = 64475; //Implement of Malice
+    aerUnorderedCardsId["160"] = 64663; //Inspiring Statuary
+    aerUnorderedCardsId["161"] = 64485; //Irontread Crusher
+    aerUnorderedCardsId["162"] = 64665; //Lifecrafter's Bestiary
+    aerUnorderedCardsId["163"] = 64667; //Merchant's Dockhand
+    aerUnorderedCardsId["164"] = 64669; //Metallic Mimic
+    aerUnorderedCardsId["165"] = 64473; //Mobile Garrison
+    aerUnorderedCardsId["166"] = 64477; //Night Market Guard
+    aerUnorderedCardsId["167"] = 64497; //Ornithopter
+    aerUnorderedCardsId["168"] = 64503; //Pacification Array
+    aerUnorderedCardsId["169"] = 64533; //Paradox Engine
+    aerUnorderedCardsId["170"] = 64527; //Peacewalker Colossus
+    aerUnorderedCardsId["171"] = 64539; //Planar Bridge
+    aerUnorderedCardsId["172"] = 64671; //Prizefighter Construct
+    aerUnorderedCardsId["173"] = 64459; //Renegade Map
+    aerUnorderedCardsId["174"] = 64491; //Reservoir Walker
+    aerUnorderedCardsId["175"] = 64521; //Scrap Trawler
+    aerUnorderedCardsId["176"] = 64673; //Servo Schematic
+    aerUnorderedCardsId["177"] = 64513; //Treasure Keeper
+    aerUnorderedCardsId["178"] = 64463; //Universal Solvent
+    aerUnorderedCardsId["179"] = 64505; //Untethered Express
+    aerUnorderedCardsId["180"] = 64487; //Verdant Automaton
+    aerUnorderedCardsId["181"] = 64675; //Walking Ballista
+    aerUnorderedCardsId["182"] = 64483; //Watchful Automaton
+    aerUnorderedCardsId["183"] = 64677; //Welder Automaton
+    aerUnorderedCardsId["184"] = 64531; //Spire of Industry
+    aerUnorderedCardsId["185"] = 65917; //Ajani, Valiant Protector
+    aerUnorderedCardsId["186"] = 65919; //Inspiring Roar
+    aerUnorderedCardsId["187"] = 65921; //Ajani's Comrade
+    aerUnorderedCardsId["188"] = 65923; //Ajani's Aid
+    aerUnorderedCardsId["189"] = 65925; //Tranquil Expanse
+    aerUnorderedCardsId["190"] = 65927; //Tezzeret, Master of Metal
+    aerUnorderedCardsId["191"] = 65929; //Tezzeret's Betrayal
+    aerUnorderedCardsId["192"] = 65931; //Pendulum of Patterns
+    aerUnorderedCardsId["193"] = 65933; //Tezzeret's Simulacrum
+    aerUnorderedCardsId["194"] = 65935; //Submerged Boneyard
+    return aerUnorderedCardsId;
+}
+
+QMap<QString, int> MtgaIDs::getW17UnorderedCardsId()
+{
+    QMap<QString, int> w17UnorderedCardsId;
+    w17UnorderedCardsId["2"] = 68415; //Glory Seeker was 68416
+    w17UnorderedCardsId["3"] = 68416; //Serra Angel was 68418
+    w17UnorderedCardsId["4"] = 68417; //Standing Troops was 68420
+    w17UnorderedCardsId["5"] = 68418; //Stormfront Pegasus was 68422
+    w17UnorderedCardsId["6"] = 68419; //Victory's Herald was 68424
+    w17UnorderedCardsId["7"] = 68420; //Air Elemental was 68426
+    w17UnorderedCardsId["8"] = 68421; //Coral Merfolk was 68428
+    w17UnorderedCardsId["9"] = 68422; //Drag Under was 68430
+    w17UnorderedCardsId["10"] = 68423; //Inspiration was 68432
+    w17UnorderedCardsId["11"] = 68424; //Sleep Paralysis was 68434
+    w17UnorderedCardsId["12"] = 68425; //Sphinx of Magosi was 68436
+    w17UnorderedCardsId["13"] = 68426; //Stealer of Secrets was 68438
+    w17UnorderedCardsId["14"] = 68427; //Tricks of the Trade was 68440
+    w17UnorderedCardsId["15"] = 68428; //Bloodhunter Bat was 68442
+    w17UnorderedCardsId["16"] = 68429; //Certain Death was 68444
+    w17UnorderedCardsId["17"] = 68430; //Nightmare was 68446
+    w17UnorderedCardsId["18"] = 68431; //Raise Dead was 68448
+    w17UnorderedCardsId["19"] = 68432; //Sengir Vampire was 68450
+    w17UnorderedCardsId["20"] = 68433; //Untamed Hunger was 68452
+    w17UnorderedCardsId["21"] = 68434; //Falkenrath Reaver was 68454
+    w17UnorderedCardsId["22"] = 68435; //Shivan Dragon was 68456
+    w17UnorderedCardsId["23"] = 68436; //Thundering Giant was 68458
+    w17UnorderedCardsId["24"] = 68437; //Garruk's Horde was 68460
+    w17UnorderedCardsId["25"] = 68438; //Oakenform was 68462
+    w17UnorderedCardsId["26"] = 68439; //Rabid Bite was 68464
+    w17UnorderedCardsId["27"] = 68440; //Rootwalla was 68466
+    w17UnorderedCardsId["28"] = 68441; //Stalking Tiger was 68468
+    w17UnorderedCardsId["29"] = 68442; //Stampeding Rhino was 68470
+    w17UnorderedCardsId["30"] = 68443; //Wing Snare was 68472
+    return w17UnorderedCardsId;
 }
 
 QMap<QString, int> MtgaIDs::getAKHUnorderedCardsId()
