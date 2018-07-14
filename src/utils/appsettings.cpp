@@ -6,6 +6,7 @@
 #define KEY_AUTOSTART "autoStart"
 #define KEY_TRACKER_ALPHA "Tracker/alpha"
 #define KEY_TRACKER_LAYOUT "Tracker/layout"
+#define KEY_TRACKER_UNHIDDEN_DELAY "Tracker/unhiddenDelay"
 #define KEY_TRACKER_SHOW_ONLY_REMAINING_CARDS "Tracker/showOnlyRemainingCards"
 
 #define KEY_TRACKER_PLAYER_ENABLED "Tracker/playerPrefs/enabled"
@@ -58,6 +59,16 @@ QString AppSettings::getCardLayout()
 void AppSettings::setCardLayout(QString cardLayout)
 {
     settings.setValue(KEY_TRACKER_LAYOUT, cardLayout);
+}
+
+int AppSettings::getUnhiddenDelay()
+{
+    return settings.value(KEY_TRACKER_UNHIDDEN_DELAY, 5).toInt();
+}
+
+void AppSettings::setUnhiddenDelay(int unhiddenDelay)
+{
+    settings.setValue(KEY_TRACKER_UNHIDDEN_DELAY, unhiddenDelay);
 }
 
 bool AppSettings::isShowOnlyRemainingCardsEnabled()

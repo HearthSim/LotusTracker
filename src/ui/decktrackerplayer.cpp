@@ -45,7 +45,7 @@ void DeckTrackerPlayer::afterPaintEvent(QPainter &painter)
     preferencesButton = QRect(settingsPlusX*uiScale, preferencesButtonY*uiScale,
                            preferencesButtonSize*uiScale, preferencesButtonSize*uiScale);
     // Statistics
-    if (isStatisticsEnabled) {
+    if (!hidden && isStatisticsEnabled) {
         drawStatistics(painter);
     }
 }
@@ -156,9 +156,21 @@ void DeckTrackerPlayer::onStatisticsEnabled(bool enabled)
     update();
 }
 
-void DeckTrackerPlayer::mouseReleaseEvent(QMouseEvent *event)
+
+void DeckTrackerPlayer::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() != Qt::LeftButton) {
+        return;
+    }
+    if (preferencesButton.contains(event->pos())) {
+        return;
+    }
+    DeckTrackerBase::mousePressEvent(event);
+}
+
+void DeckTrackerPlayer::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (event->button() != Qt::LeftButton && event->button() != Qt::RightButton) {
         return;
     }
     if (preferencesButton.contains(event->pos())) {

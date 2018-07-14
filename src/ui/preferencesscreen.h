@@ -17,6 +17,7 @@ private:
     void onCardLayoutChanged();
     void onShowOnlyRemainingCardsChanged();
     void onTrackerAlphaChanged();
+    void onUnhideDelayChanged();
     void onPTEnabledChanged();
     void onPTStatisticsChanged();
     void onOTEnabledChanged();
@@ -30,6 +31,7 @@ public:
 signals:
     void sgnRestoreDefaults();
     void sgnTrackerAlpha(qreal alpha);
+    void sgnUnhideDelay(int delay);
     void sgnTrackerCardLayout(QString cardLayout);
     void sgnShowOnlyRemainingCardsEnabled(bool enabled);
     void sgnPlayerTrackerEnabled(bool enabled);

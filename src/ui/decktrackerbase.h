@@ -18,13 +18,19 @@ class DeckTrackerBase : public QMainWindow
 private:
     Ui::DeckTracker *ui;
     QString cardBGSkin;
-    QRect zoomMinusButton, zoomPlusButton;
+    QRect expandBar, zoomMinusButton, zoomPlusButton;
+    int unhiddenTimeout;
+    QTimer* unhiddenTimer;
     bool mousePressed;
     QPoint mouseRelativePosition;
     void setupWindow();
     // Draw fields and methods
     QMap<Card*, CardBlinkInfo*> cardsBlinkInfo;
     void setupDrawTools();
+    void onRightClick();
+    void onExpandBarClick();
+    void onZoomMinusClick();
+    void onZoomPlusClick();
 
 protected:
     const int cornerRadius;
@@ -32,12 +38,14 @@ protected:
     qreal uiAlpha, uiScale;
     int uiHeight, uiWidth;
     Deck deck;
+    bool hidden;
     void blinkCard(Card* card);
     void paintEvent(QPaintEvent *event);
     void drawCover(QPainter &painter);
     void drawCoverButtons(QPainter &painter);
     void drawDeckInfo(QPainter &painter);
     void drawDeckCards(QPainter &painter);
+    void drawExpandBar(QPainter &painter);
     virtual void onPositionChanged() = 0;
     virtual void onScaleChanged() = 0;
     virtual void afterPaintEvent(QPainter &painter) = 0;
@@ -61,6 +69,7 @@ signals:
 public slots:
     void changeAlpha(int alpha);
     void changeCardLayout(QString cardLayout);
+    void changeUnhiddenTimeout(int unhiddenTimeout);
 };
 
 #endif // DECKTRACKERUI_H

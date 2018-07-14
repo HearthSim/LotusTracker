@@ -14,17 +14,26 @@ DeckTrackerBase::DeckTrackerBase(QWidget *parent) : QMainWindow(parent),
     ui(new Ui::DeckTracker()), cardBGSkin(APP_SETTINGS->getCardLayout()),
     zoomMinusButton(QRect(0, 0, 0, 0)), zoomPlusButton(QRect(0, 0, 0, 0)),
     mousePressed(false), mouseRelativePosition(QPoint()), cornerRadius(10),
-    uiPos(10, 10), uiAlpha(1.0), uiScale(1.0), uiHeight(0), uiWidth(160), deck(Deck())
+    uiPos(10, 10), uiAlpha(1.0), uiScale(1.0), uiHeight(0), uiWidth(160),
+    deck(Deck()), hidden(false)
 {
     ui->setupUi(this);
     setupWindow();
     setupDrawTools();
     uiAlpha = APP_SETTINGS->getDeckTrackerAlpha();
+    unhiddenTimeout = APP_SETTINGS->getUnhiddenDelay();
+
+    unhiddenTimer = new QTimer();
+    connect(unhiddenTimer, &QTimer::timeout, this, [this]{
+        hidden = false;
+        update();
+    });
 }
 
 DeckTrackerBase::~DeckTrackerBase()
 {
     delete ui;
+    DEL(unhiddenTimer)
     for (CardBlinkInfo *cardBlinkInfo : cardsBlinkInfo.values()){
         delete cardBlinkInfo;
     }
@@ -96,6 +105,12 @@ void DeckTrackerBase::changeCardLayout(QString cardLayout)
     update();
 }
 
+void DeckTrackerBase::changeUnhiddenTimeout(int timeout)
+{
+    unhiddenTimeout = timeout;
+    update();
+}
+
 void DeckTrackerBase::blinkCard(Card* card)
 {
     QTimer *blinkTimer = new QTimer();
@@ -116,7 +131,11 @@ void DeckTrackerBase::paintEvent(QPaintEvent*)
     drawCover(painter);
     drawCoverButtons(painter);
     drawDeckInfo(painter);
-    drawDeckCards(painter);
+    if (hidden) {
+        drawExpandBar(painter);
+    } else {
+        drawDeckCards(painter);
+    }
     afterPaintEvent(painter);
     painter.restore();
 }
@@ -259,6 +278,26 @@ void DeckTrackerBase::drawDeckCards(QPainter &painter)
     uiHeight += cardListHeight;
 }
 
+void DeckTrackerBase::drawExpandBar(QPainter &painter)
+{
+    // Expand BG
+    int expandCornerRadius = 4;
+    QRect expandRect(uiPos.x(), uiPos.y() + uiHeight, uiWidth, 12);
+    painter.setPen(bgPen);
+    painter.setBrush(QBrush(QColor(70, 70, 70, 175)));
+    painter.drawRoundedRect(expandRect, expandCornerRadius, expandCornerRadius);
+
+    int expandButtonSize = 14;
+    int expandButtonY = uiPos.y() + uiHeight;
+    // Plus button
+    QImage expandPlus(":res/expand.png");
+    QImage expandPlusScaled = expandPlus.scaled(expandButtonSize, expandButtonSize,
+                                            Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    int expandPlusX = uiPos.x() + uiWidth/2 - expandButtonSize/2;
+    painter.drawImage(expandPlusX, expandButtonY, expandPlusScaled);
+    expandBar = expandRect;
+}
+
 void DeckTrackerBase::drawText(QPainter &painter, QFont textFont, QPen textPen, QString text, int textOptions,
                              bool shadow, int textX, int textY, int textHeight, int textWidth)
 {
@@ -307,25 +346,23 @@ void DeckTrackerBase::mouseMoveEvent(QMouseEvent *event)
 
 void DeckTrackerBase::mouseReleaseEvent(QMouseEvent *event)
 {
-    if (event->button() != Qt::LeftButton) {
+    if (event->button() != Qt::LeftButton && event->button() != Qt::RightButton) {
+        return;
+    }
+    if (event->button() == Qt::RightButton) {
+        onRightClick();
         return;
     }
     if (zoomMinusButton.contains(event->pos())) {
-        if (uiScale > 0.9) {
-            uiScale -= 0.05;
-            uiPos += QPoint(uiPos.x()*0.05, 0);
-            update();
-            onScaleChanged();
-        }
+        onZoomMinusClick();
         return;
     }
     if (zoomPlusButton.contains(event->pos())) {
-        if (uiScale < 1.1) {
-            uiScale += 0.05;
-            uiPos -= QPoint(uiPos.x()*0.05, 0);
-            update();
-            onScaleChanged();
-        }
+        onZoomPlusClick();
+        return;
+    }
+    if (hidden && expandBar.contains(event->pos())) {
+        onExpandBarClick();
         return;
     }
     if (mousePressed) {
@@ -335,3 +372,40 @@ void DeckTrackerBase::mouseReleaseEvent(QMouseEvent *event)
     }
 }
 
+void DeckTrackerBase::onRightClick()
+{
+    hidden = !hidden;
+    if (hidden && unhiddenTimeout > 0) {
+        unhiddenTimer->start(unhiddenTimeout * 1000);
+    } else {
+        unhiddenTimer->stop();
+    }
+    update();
+}
+
+void DeckTrackerBase::onExpandBarClick()
+{
+    hidden = false;
+    unhiddenTimer->stop();
+    update();
+}
+
+void DeckTrackerBase::onZoomMinusClick()
+{
+    if (uiScale > 0.9) {
+        uiScale -= 0.05;
+        uiPos += QPoint(uiPos.x()*0.05, 0);
+        update();
+        onScaleChanged();
+    }
+}
+
+void DeckTrackerBase::onZoomPlusClick()
+{
+    if (uiScale < 1.1) {
+        uiScale += 0.05;
+        uiPos -= QPoint(uiPos.x()*0.05, 0);
+        update();
+        onScaleChanged();
+    }
+}

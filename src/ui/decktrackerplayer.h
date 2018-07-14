@@ -21,6 +21,7 @@ protected:
     void onPositionChanged();
     void onScaleChanged();
     void afterPaintEvent(QPainter &painter);
+    virtual void mousePressEvent(QMouseEvent *event);
     virtual void mouseReleaseEvent(QMouseEvent *event);
 
 public:

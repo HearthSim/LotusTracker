@@ -8,6 +8,8 @@
 #include "../utils/winautostart.h"
 #endif
 
+#include <QToolTip>
+
 PreferencesScreen::PreferencesScreen(QWidget *parent) : QMainWindow(parent),
     ui(new Ui::Preferences())
 {
@@ -24,6 +26,8 @@ PreferencesScreen::PreferencesScreen(QWidget *parent) : QMainWindow(parent),
             this, &PreferencesScreen::onShowOnlyRemainingCardsChanged);
     connect(ui->hsAlpha, &QSlider::valueChanged,
             this, &PreferencesScreen::onTrackerAlphaChanged);
+    connect(ui->hsUnhideDelay, &QSlider::valueChanged,
+            this, &PreferencesScreen::onUnhideDelayChanged);
     connect(ui->cbPTEnabled, &QCheckBox::clicked,
             this, &PreferencesScreen::onPTEnabledChanged);
     connect(ui->cbPTStatistics, &QCheckBox::clicked,
@@ -54,6 +58,7 @@ void PreferencesScreen::applyCurrentSettings()
         ui->rbMTGA->setChecked(true);
     }
     ui->hsAlpha->setValue(APP_SETTINGS->getDeckTrackerAlpha());
+    ui->hsUnhideDelay->setValue(APP_SETTINGS->getUnhiddenDelay());
     ui->cbPTEnabled->setChecked(APP_SETTINGS->isDeckTrackerPlayerEnabled());
     ui->cbPTStatistics->setChecked(APP_SETTINGS->isDeckTrackerPlayerStatisticsEnabled());
     ui->cbOTEnabled->setChecked(APP_SETTINGS->isDeckTrackerOpponentEnabled());
@@ -77,6 +82,17 @@ void PreferencesScreen::onTrackerAlphaChanged()
     emit sgnTrackerAlpha(alpha);
     LOGD(QString("Alpha: %1").arg(alpha));
     APP_SETTINGS->setDeckTrackerAlpha(alpha);
+}
+
+void PreferencesScreen::onUnhideDelayChanged()
+{
+    int delay = ui->hsUnhideDelay->value();
+    QString unhideText = delay == 0 ? tr("(disabled)")
+                                    : QString(tr("(%1 seconds)")).arg(delay);
+    ui->lbUnhideDelay->setText(unhideText);
+    emit sgnUnhideDelay(delay);
+    LOGD(QString("UnhideDelay: %1").arg(delay));
+    APP_SETTINGS->setUnhiddenDelay(delay);
 }
 
 void PreferencesScreen::onCardLayoutChanged()

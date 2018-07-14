@@ -21,6 +21,8 @@ public:
     void setDeckTrackerAlpha(int alpha);
     QString getCardLayout();
     void setCardLayout(QString cardLayout);
+    int getUnhiddenDelay();
+    void setUnhiddenDelay(int unhiddenTimeout);
     bool isShowOnlyRemainingCardsEnabled();
     void enableShowOnlyRemainingCards(bool enabled);
     // Deck tracker player

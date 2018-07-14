@@ -90,6 +90,8 @@ void ArenaTracker::setupPreferencesScreen()
             this, &ArenaTracker::onDeckTrackerPlayerEnabledChange);
     connect(preferencesScreen, &PreferencesScreen::sgnTrackerAlpha,
             deckTrackerPlayer, &DeckTrackerPlayer::changeAlpha);
+    connect(preferencesScreen, &PreferencesScreen::sgnUnhideDelay,
+            deckTrackerPlayer, &DeckTrackerPlayer::changeUnhiddenTimeout);
     connect(preferencesScreen, &PreferencesScreen::sgnTrackerCardLayout,
             deckTrackerPlayer, &DeckTrackerPlayer::changeCardLayout);
     connect(preferencesScreen, &PreferencesScreen::sgnShowOnlyRemainingCardsEnabled,
@@ -101,6 +103,10 @@ void ArenaTracker::setupPreferencesScreen()
     // Deck tracker opponent
     connect(preferencesScreen, &PreferencesScreen::sgnOpponentTrackerEnabled,
             this, &ArenaTracker::onDeckTrackerOpponentEnabledChange);
+    connect(preferencesScreen, &PreferencesScreen::sgnTrackerAlpha,
+            deckTrackerOpponent, &DeckTrackerOpponent::changeAlpha);
+    connect(preferencesScreen, &PreferencesScreen::sgnUnhideDelay,
+            deckTrackerOpponent, &DeckTrackerOpponent::changeUnhiddenTimeout);
     connect(preferencesScreen, &PreferencesScreen::sgnTrackerCardLayout,
             deckTrackerOpponent, &DeckTrackerOpponent::changeCardLayout);
     connect(preferencesScreen, &PreferencesScreen::sgnRestoreDefaults,
