@@ -38,7 +38,7 @@ public:
     qreal getDeckTrackerOpponentScale();
     void setDeckTrackerOpponentScale(qreal scale);
 
-    void setUserSettings(UserSettings userSettings, QString userName);
+    void setUserSettings(UserSettings userSettings, QString userName = "");
     UserSettings getUserSettings();
     void clearUserSettings();
     void restoreDefaults();

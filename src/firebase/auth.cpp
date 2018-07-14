@@ -54,22 +54,6 @@ void Auth::registerUser(QString email, QString password)
     connect(reply, &QNetworkReply::finished, this, &Auth::authRequestOnFinish);
 }
 
-void Auth::refreshToken(QString refreshToken)
-{
-    QJsonObject jsonObj;
-    jsonObj.insert("grant_type", "refresh_token");
-    jsonObj.insert("refresh_token", QJsonValue(refreshToken));
-    QByteArray body = QJsonDocument(jsonObj).toJson();
-
-    QUrl url(REFRESH_TOKEN_URL);
-    url.setQuery(QUrlQuery(QString("key=%1").arg(ApiKeys::FIREBASE())));
-    LOGD(QString("Request: %1").arg(url.toString()));
-    QNetworkRequest request(url);
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    QNetworkReply *reply = networkManager.post(request, body);
-    connect(reply, &QNetworkReply::finished, this, &Auth::authRequestOnFinish);
-}
-
 void Auth::authRequestOnFinish()
 {
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
@@ -92,24 +76,17 @@ void Auth::authRequestOnFinish()
         return;
     }
 
-    bool signRequest = jsonRsp.contains("kind");
     bool fromSignUp = jsonRsp["kind"].toString() == "identitytoolkit#SignupNewUserResponse";
     if (fromSignUp) {
         ARENA_TRACKER->showMessage(tr("Signin Success."));
     };
-    LOGD(QString("%1").arg(!signRequest ? "Token refreshed" :
-                                          fromSignUp ? "User created" : "User signed"));
+    LOGD(QString("%1").arg(fromSignUp ? "User created" : "User signed"));
 
-    UserSettings userSettings = signRequest ? createUserSettingsFromSign(jsonRsp)
-                                            : createUserSettingsFromRefreshedToken(jsonRsp);
+    UserSettings userSettings = createUserSettingsFromSign(jsonRsp);
     QString email = jsonRsp["email"].toString();
     QString userName = email.left(email.indexOf("@"));
     APP_SETTINGS->setUserSettings(userSettings, userName);
-    if (signRequest) {
-        emit sgnUserLogged(fromSignUp);
-    } else {
-        emit sgnTokenRefreshed();
-    }
+    emit sgnUserLogged(fromSignUp);
 }
 
 UserSettings Auth::createUserSettingsFromSign(QJsonObject jsonRsp)
@@ -139,4 +116,40 @@ qlonglong Auth::getExpiresEpoch(QString expiresIn)
     LOGD(QString("Now: %1").arg(now.time_since_epoch().count()));
     LOGD(QString("Expires: %1").arg(expires.time_since_epoch().count()));
     return expires.time_since_epoch().count();
+}
+
+void Auth::refreshToken(QString refreshToken)
+{
+    QJsonObject jsonObj;
+    jsonObj.insert("grant_type", "refresh_token");
+    jsonObj.insert("refresh_token", QJsonValue(refreshToken));
+    QByteArray body = QJsonDocument(jsonObj).toJson();
+
+    QUrl url(REFRESH_TOKEN_URL);
+    url.setQuery(QUrlQuery(QString("key=%1").arg(ApiKeys::FIREBASE())));
+    LOGD(QString("Request: %1").arg(url.toString()));
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    QNetworkReply *reply = networkManager.post(request, body);
+    connect(reply, &QNetworkReply::finished, this, &Auth::tokenRefreshRequestOnFinish);
+}
+
+void Auth::tokenRefreshRequestOnFinish()
+{
+    QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
+    QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());
+    LOGD(QString(QJsonDocument(jsonRsp).toJson()));
+    emit sgnRequestFinished();
+
+    int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    if (statusCode < 200 || statusCode > 299) {
+        QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
+        LOGW(QString("Error: %1").arg(reason));
+        return;
+    }
+    LOGD(QString("%1").arg("Token refreshed"));
+
+    UserSettings userSettings = createUserSettingsFromRefreshedToken(jsonRsp);
+    APP_SETTINGS->setUserSettings(userSettings);
+    emit sgnTokenRefreshed();
 }

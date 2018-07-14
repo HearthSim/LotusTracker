@@ -28,6 +28,7 @@ signals:
 
 private slots:
     void authRequestOnFinish();
+    void tokenRefreshRequestOnFinish();
 
 public slots:
 };

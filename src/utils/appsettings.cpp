@@ -147,7 +147,9 @@ void AppSettings::setUserSettings(UserSettings userSettings, QString userName)
     settings.setValue(KEY_TRACKER_USER_TOKEN, userSettings.userToken);
     settings.setValue(KEY_TRACKER_USER_REFRESH_TOKEN, userSettings.refreshToken);
     settings.setValue(KEY_TRACKER_USER_EXPIRES_EPOCH, userSettings.expiresTokenEpoch);
-    settings.setValue(KEY_TRACKER_USER_NAME, userName);
+    if (!userName.isEmpty()) {
+        settings.setValue(KEY_TRACKER_USER_NAME, userName);
+    }
 }
 
 UserSettings AppSettings::getUserSettings()
