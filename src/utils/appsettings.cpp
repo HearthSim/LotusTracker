@@ -164,3 +164,19 @@ void AppSettings::clearUserSettings()
 {
     setUserSettings(UserSettings(), "");
 }
+
+void AppSettings::restoreDefaults()
+{
+    settings.remove(KEY_AUTOSTART);
+    settings.remove(KEY_TRACKER_ALPHA);
+    settings.remove(KEY_TRACKER_LAYOUT);
+    settings.remove(KEY_TRACKER_PLAYER_ENABLED);
+    settings.remove(KEY_TRACKER_PLAYER_STATISTICS);
+    settings.remove(KEY_TRACKER_PLAYER_X);
+    settings.remove(KEY_TRACKER_PLAYER_Y);
+    settings.remove(KEY_TRACKER_PLAYER_SCALE);
+    settings.remove(KEY_TRACKER_OPPONENT_ENABLED);
+    settings.remove(KEY_TRACKER_OPPONENT_X);
+    settings.remove(KEY_TRACKER_OPPONENT_Y);
+    settings.remove(KEY_TRACKER_OPPONENT_SCALE);
+}

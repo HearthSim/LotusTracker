@@ -41,6 +41,8 @@ public:
     void setUserSettings(UserSettings userSettings, QString userName);
     UserSettings getUserSettings();
     void clearUserSettings();
+    void restoreDefaults();
+
 };
 
 #endif // APPSETTINGS_H

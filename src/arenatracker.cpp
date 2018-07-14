@@ -94,11 +94,15 @@ void ArenaTracker::setupPreferencesScreen()
             deckTrackerPlayer, &DeckTrackerPlayer::changeCardLayout);
     connect(preferencesScreen, &PreferencesScreen::sgnPlayerTrackerStatistics,
             deckTrackerPlayer, &DeckTrackerPlayer::onStatisticsEnabled);
+    connect(preferencesScreen, &PreferencesScreen::sgnRestoreDefaults,
+            deckTrackerPlayer, &DeckTrackerPlayer::applyCurrentSettings);
     // Deck tracker opponent
     connect(preferencesScreen, &PreferencesScreen::sgnOpponentTrackerEnabled,
             this, &ArenaTracker::onDeckTrackerOpponentEnabledChange);
     connect(preferencesScreen, &PreferencesScreen::sgnTrackerCardLayout,
-            deckTrackerOpponent, &DeckTrackerPlayer::changeCardLayout);
+            deckTrackerOpponent, &DeckTrackerOpponent::changeCardLayout);
+    connect(preferencesScreen, &PreferencesScreen::sgnRestoreDefaults,
+            deckTrackerOpponent, &DeckTrackerOpponent::applyCurrentSettings);
 }
 
 void ArenaTracker::setupMtgaMatch()

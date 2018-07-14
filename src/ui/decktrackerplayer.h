@@ -24,6 +24,7 @@ protected:
 public:
     explicit DeckTrackerPlayer(QWidget *parent = nullptr);
     ~DeckTrackerPlayer();
+    void applyCurrentSettings();
     void loadDeck(Deck deck);
 
 signals:

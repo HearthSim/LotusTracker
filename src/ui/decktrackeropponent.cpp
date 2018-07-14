@@ -6,13 +6,18 @@
 
 DeckTrackerOpponent::DeckTrackerOpponent(QWidget *parent) : DeckTrackerBase(parent)
 {
-    uiPos = APP_SETTINGS->getDeckTrackerOpponentPos();
-    uiScale = APP_SETTINGS->getDeckTrackerOpponentScale();
+    applyCurrentSettings();
 }
 
 DeckTrackerOpponent::~DeckTrackerOpponent()
 {
 
+}
+
+void DeckTrackerOpponent::applyCurrentSettings()
+{
+    uiPos = APP_SETTINGS->getDeckTrackerOpponentPos();
+    uiScale = APP_SETTINGS->getDeckTrackerOpponentScale();
 }
 
 void DeckTrackerOpponent::onPositionChanged()

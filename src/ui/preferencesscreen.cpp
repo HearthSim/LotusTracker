@@ -12,16 +12,8 @@ PreferencesScreen::PreferencesScreen(QWidget *parent) : QMainWindow(parent),
     ui(new Ui::Preferences())
 {
     ui->setupUi(this);
-    ui->cbStartAtLogin->setChecked(APP_SETTINGS->isAutoStartEnabled());
-    if (APP_SETTINGS->getCardLayout() == "mtg") {
-        ui->rbMTG->setChecked(true);
-    } else {
-        ui->rbMTGA->setChecked(true);
-    }
-    ui->hsAlpha->setValue(APP_SETTINGS->getDeckTrackerAlpha());
-    ui->cbPTEnabled->setChecked(APP_SETTINGS->isDeckTrackerPlayerEnabled());
-    ui->cbPTStatistics->setChecked(APP_SETTINGS->isDeckTrackerPlayerStatisticsEnabled());
-    ui->cbOTEnabled->setChecked(APP_SETTINGS->isDeckTrackerOpponentEnabled());
+    setWindowFlags(Qt::Window | Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint);
+    applyCurrentSettings();
     connect(ui->cbStartAtLogin, &QCheckBox::clicked, this, &PreferencesScreen::onStartAtLoginChanged);
     connect(ui->rbMTG, &QRadioButton::clicked, this, &PreferencesScreen::onCardLayoutChanged);
     connect(ui->rbMTGA, &QRadioButton::clicked, this, &PreferencesScreen::onCardLayoutChanged);
@@ -29,6 +21,7 @@ PreferencesScreen::PreferencesScreen(QWidget *parent) : QMainWindow(parent),
     connect(ui->cbPTEnabled, &QCheckBox::clicked, this, &PreferencesScreen::onPTEnabledChanged);
     connect(ui->cbPTStatistics, &QCheckBox::clicked, this, &PreferencesScreen::onPTStatisticsChanged);
     connect(ui->cbOTEnabled, &QCheckBox::clicked, this, &PreferencesScreen::onOTEnabledChanged);
+    connect(ui->btReset, &QPushButton::clicked, this, &PreferencesScreen::onRestoreDefaultsSettingsClicked);
 }
 
 PreferencesScreen::~PreferencesScreen()
@@ -40,6 +33,20 @@ void PreferencesScreen::closeEvent(QCloseEvent *event)
 {
     hide();
     event->ignore();
+}
+
+void PreferencesScreen::applyCurrentSettings()
+{
+    ui->cbStartAtLogin->setChecked(APP_SETTINGS->isAutoStartEnabled());
+    if (APP_SETTINGS->getCardLayout() == "mtg") {
+        ui->rbMTG->setChecked(true);
+    } else {
+        ui->rbMTGA->setChecked(true);
+    }
+    ui->hsAlpha->setValue(APP_SETTINGS->getDeckTrackerAlpha());
+    ui->cbPTEnabled->setChecked(APP_SETTINGS->isDeckTrackerPlayerEnabled());
+    ui->cbPTStatistics->setChecked(APP_SETTINGS->isDeckTrackerPlayerStatisticsEnabled());
+    ui->cbOTEnabled->setChecked(APP_SETTINGS->isDeckTrackerOpponentEnabled());
 }
 
 void PreferencesScreen::onStartAtLoginChanged()
@@ -93,4 +100,18 @@ void PreferencesScreen::onOTEnabledChanged()
     emit sgnOpponentTrackerEnabled(enabled);
     LOGD(QString("DeckTrackerOpponent(: %1").arg(enabled ? "true" : "false"));
     APP_SETTINGS->enableDeckTrackerOpponent(enabled);
+}
+
+void PreferencesScreen::onRestoreDefaultsSettingsClicked()
+{
+    APP_SETTINGS->restoreDefaults();
+    applyCurrentSettings();
+    onStartAtLoginChanged();
+    onCardLayoutChanged();
+    onTrackerAlphaChanged();
+    onPTEnabledChanged();
+    onPTStatisticsChanged();
+    onPTEnabledChanged();
+    onOTEnabledChanged();
+    emit sgnRestoreDefaults();
 }

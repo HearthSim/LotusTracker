@@ -5,9 +5,7 @@
 
 DeckTrackerPlayer::DeckTrackerPlayer(QWidget *parent) : DeckTrackerBase(parent)
 {
-    isStatisticsEnabled = APP_SETTINGS->isDeckTrackerPlayerStatisticsEnabled();
-    uiPos = APP_SETTINGS->getDeckTrackerPlayerPos(uiWidth);
-    uiScale = APP_SETTINGS->getDeckTrackerPlayerScale();
+    applyCurrentSettings();
     // Statistics
     int statisticsFontSize = 8;
 #if defined Q_OS_MAC
@@ -39,6 +37,13 @@ void DeckTrackerPlayer::afterPaintEvent(QPainter &painter)
     if (isStatisticsEnabled) {
         drawStatistics(painter);
     }
+}
+
+void DeckTrackerPlayer::applyCurrentSettings()
+{
+    isStatisticsEnabled = APP_SETTINGS->isDeckTrackerPlayerStatisticsEnabled();
+    uiPos = APP_SETTINGS->getDeckTrackerPlayerPos(uiWidth);
+    uiScale = APP_SETTINGS->getDeckTrackerPlayerScale();
 }
 
 void DeckTrackerPlayer::drawStatistics(QPainter &painter)
