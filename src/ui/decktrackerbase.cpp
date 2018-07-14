@@ -114,7 +114,7 @@ void DeckTrackerBase::paintEvent(QPaintEvent*)
     painter.save();
     painter.scale(uiScale, uiScale);
     drawCover(painter);
-    drawZoomButtons(painter);
+    drawCoverButtons(painter);
     drawDeckInfo(painter);
     drawDeckCards(painter);
     afterPaintEvent(painter);
@@ -142,11 +142,11 @@ void DeckTrackerBase::drawCover(QPainter &painter)
     uiHeight = coverRect.height();
 }
 
-void DeckTrackerBase::drawZoomButtons(QPainter &painter)
+void DeckTrackerBase::drawCoverButtons(QPainter &painter)
 {
     int zoomButtonSize = 12;
-    int zoomButtonMargin = 6;
-    int zoomButtonY = uiPos.y() + zoomButtonMargin;
+    int zoomButtonMargin = 4;
+    int zoomButtonY = uiPos.y() + uiHeight - zoomButtonSize - zoomButtonMargin;
     // Plus button
     QImage zoomPlus(":res/zoom_plus.png");
     QImage zoomPlusScaled = zoomPlus.scaled(zoomButtonSize, zoomButtonSize,

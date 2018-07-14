@@ -12,7 +12,7 @@ PreferencesScreen::PreferencesScreen(QWidget *parent) : QMainWindow(parent),
     ui(new Ui::Preferences())
 {
     ui->setupUi(this);
-    setWindowFlags(Qt::Window | Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint);
+    setWindowFlags(Qt::Dialog | Qt::WindowCloseButtonHint);
     applyCurrentSettings();
     connect(ui->cbStartAtLogin, &QCheckBox::clicked, this, &PreferencesScreen::onStartAtLoginChanged);
     connect(ui->rbMTG, &QRadioButton::clicked, this, &PreferencesScreen::onCardLayoutChanged);
@@ -65,6 +65,8 @@ void PreferencesScreen::onTrackerAlphaChanged()
 {
     int alpha = ui->hsAlpha->value();
     emit sgnTrackerAlpha(alpha);
+    LOGD(QString("Alpha: %1").arg(alpha));
+    APP_SETTINGS->setDeckTrackerAlpha(alpha);
 }
 
 void PreferencesScreen::onCardLayoutChanged()

@@ -25,10 +25,6 @@ private:
     // Draw fields and methods
     QMap<Card*, CardBlinkInfo*> cardsBlinkInfo;
     void setupDrawTools();
-    void drawCover(QPainter &painter);
-    void drawZoomButtons(QPainter &painter);
-    void drawDeckInfo(QPainter &painter);
-    void drawDeckCards(QPainter &painter);
 
 protected:
     const int cornerRadius;
@@ -38,6 +34,10 @@ protected:
     Deck deck;
     void blinkCard(Card* card);
     void paintEvent(QPaintEvent *event);
+    void drawCover(QPainter &painter);
+    void drawCoverButtons(QPainter &painter);
+    void drawDeckInfo(QPainter &painter);
+    void drawDeckCards(QPainter &painter);
     virtual void onPositionChanged() = 0;
     virtual void onScaleChanged() = 0;
     virtual void afterPaintEvent(QPainter &painter) = 0;

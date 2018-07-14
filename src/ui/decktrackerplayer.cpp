@@ -34,6 +34,17 @@ void DeckTrackerPlayer::onScaleChanged()
 
 void DeckTrackerPlayer::afterPaintEvent(QPainter &painter)
 {
+    int preferencesButtonSize = 16;
+    int preferencesButtonMargin = 3;
+    int preferencesButtonY = uiPos.y() + preferencesButtonMargin;
+    QImage settingsPlus(":res/preferences.png");
+    QImage settingsPlusScaled = settingsPlus.scaled(preferencesButtonSize, preferencesButtonSize,
+                                            Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    int settingsPlusX = uiPos.x() + uiWidth - preferencesButtonSize - preferencesButtonMargin;
+    painter.drawImage(settingsPlusX, preferencesButtonY, settingsPlusScaled);
+    preferencesButton = QRect(settingsPlusX*uiScale, preferencesButtonY*uiScale,
+                           preferencesButtonSize*uiScale, preferencesButtonSize*uiScale);
+    // Statistics
     if (isStatisticsEnabled) {
         drawStatistics(painter);
     }
@@ -136,4 +147,16 @@ void DeckTrackerPlayer::onStatisticsEnabled(bool enabled)
 {
     isStatisticsEnabled = enabled;
     update();
+}
+
+void DeckTrackerPlayer::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (event->button() != Qt::LeftButton) {
+        return;
+    }
+    if (preferencesButton.contains(event->pos())) {
+        ARENA_TRACKER->showPreferencesScreen();
+        return;
+    }
+    DeckTrackerBase::mouseReleaseEvent(event);
 }

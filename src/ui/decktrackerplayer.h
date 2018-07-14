@@ -14,12 +14,14 @@ private:
     bool isStatisticsEnabled;
     QPen bgPen, statisticsPen;
     QFont statisticsFont;
+    QRect preferencesButton;
     void drawStatistics(QPainter &painter);
 
 protected:
     void onPositionChanged();
     void onScaleChanged();
     void afterPaintEvent(QPainter &painter);
+    virtual void mouseReleaseEvent(QMouseEvent *event);
 
 public:
     explicit DeckTrackerPlayer(QWidget *parent = nullptr);
