@@ -37,6 +37,7 @@ public slots:
     void onPlayerDiscardCard(Card* card);
     void onPlayerDiscardFromLibraryCard(Card* card);
     void onPlayerPutOnBattlefieldCard(Card* card);
+    void onShowOnlyRemainingCardsEnabled(bool enabled);
     void onStatisticsEnabled(bool enabled);
 };
 

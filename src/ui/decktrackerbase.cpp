@@ -195,13 +195,13 @@ void DeckTrackerBase::drawDeckCards(QPainter &painter)
     int cardTextHeight = cardMetrics.ascent() - cardMetrics.descent();
     int cardTextOptions = Qt::AlignLeft | Qt::AlignVCenter | Qt::TextDontClip;
     int cardQtdOptions = Qt::AlignCenter | Qt::AlignVCenter | Qt::TextDontClip;
-    QList<Card*> deckCards(deck.cards.keys());
+    QList<Card*> deckCards(deck.cards().keys());
     std::sort(std::begin(deckCards), std::end(deckCards), [](Card*& lhs, Card*& rhs) {
         return std::make_tuple(lhs->isLand, lhs->manaCostValue(), lhs->name) <
                 std::make_tuple(rhs->isLand, rhs->manaCostValue(), rhs->name);
     });
     for (Card* card : deckCards) {
-        int cardQtdRemains = deck.cards[card];
+        int cardQtdRemains = deck.cards()[card];
         QString cardManaIdentity = card->manaColorIdentityAsString();
         if (cardManaIdentity.size() > 2) {
             cardManaIdentity = "m";

@@ -14,14 +14,24 @@ PreferencesScreen::PreferencesScreen(QWidget *parent) : QMainWindow(parent),
     ui->setupUi(this);
     setWindowFlags(Qt::Dialog | Qt::WindowCloseButtonHint);
     applyCurrentSettings();
-    connect(ui->cbStartAtLogin, &QCheckBox::clicked, this, &PreferencesScreen::onStartAtLoginChanged);
-    connect(ui->rbMTG, &QRadioButton::clicked, this, &PreferencesScreen::onCardLayoutChanged);
-    connect(ui->rbMTGA, &QRadioButton::clicked, this, &PreferencesScreen::onCardLayoutChanged);
-    connect(ui->hsAlpha, &QSlider::valueChanged, this, &PreferencesScreen::onTrackerAlphaChanged);
-    connect(ui->cbPTEnabled, &QCheckBox::clicked, this, &PreferencesScreen::onPTEnabledChanged);
-    connect(ui->cbPTStatistics, &QCheckBox::clicked, this, &PreferencesScreen::onPTStatisticsChanged);
-    connect(ui->cbOTEnabled, &QCheckBox::clicked, this, &PreferencesScreen::onOTEnabledChanged);
-    connect(ui->btReset, &QPushButton::clicked, this, &PreferencesScreen::onRestoreDefaultsSettingsClicked);
+    connect(ui->cbStartAtLogin, &QCheckBox::clicked,
+            this, &PreferencesScreen::onStartAtLoginChanged);
+    connect(ui->rbMTG, &QRadioButton::clicked,
+            this, &PreferencesScreen::onCardLayoutChanged);
+    connect(ui->rbMTGA, &QRadioButton::clicked,
+            this, &PreferencesScreen::onCardLayoutChanged);
+    connect(ui->cbShowOnlyRemainingCard, &QCheckBox::clicked,
+            this, &PreferencesScreen::onShowOnlyRemainingCardsChanged);
+    connect(ui->hsAlpha, &QSlider::valueChanged,
+            this, &PreferencesScreen::onTrackerAlphaChanged);
+    connect(ui->cbPTEnabled, &QCheckBox::clicked,
+            this, &PreferencesScreen::onPTEnabledChanged);
+    connect(ui->cbPTStatistics, &QCheckBox::clicked,
+            this, &PreferencesScreen::onPTStatisticsChanged);
+    connect(ui->cbOTEnabled, &QCheckBox::clicked,
+            this, &PreferencesScreen::onOTEnabledChanged);
+    connect(ui->btReset, &QPushButton::clicked,
+            this, &PreferencesScreen::onRestoreDefaultsSettingsClicked);
 }
 
 PreferencesScreen::~PreferencesScreen()
@@ -78,6 +88,14 @@ void PreferencesScreen::onCardLayoutChanged()
     emit sgnTrackerCardLayout(cardLayout);
     LOGD(QString("CardLayout: %1").arg(cardLayout));
     APP_SETTINGS->setCardLayout(cardLayout);
+}
+
+void PreferencesScreen::onShowOnlyRemainingCardsChanged()
+{
+    bool enabled = ui->cbShowOnlyRemainingCard->isChecked();
+    emit sgnShowOnlyRemainingCardsEnabled(enabled);
+    LOGD(QString("ShowOnlyRemainingCardsEnabled: %1").arg(enabled ? "true" : "false"));
+    APP_SETTINGS->enableShowOnlyRemainingCards(enabled);
 }
 
 void PreferencesScreen::onPTEnabledChanged()

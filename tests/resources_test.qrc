@@ -3,9 +3,12 @@
         <file>res/sets/AKH.json</file>
         <file>res/sets/DOM.json</file>
         <file>res/sets/HOU.json</file>
+        <file>res/sets/KLD.json</file>
+        <file>res/sets/M19.json</file>
         <file>res/sets/OGW.json</file>
         <file>res/sets/RIX.json</file>
         <file>res/sets/XLN.json</file>
+        <file>res/sets/W17.json</file>
         <file>res/DieRollResultsResp.txt</file>
         <file>res/DieRollResultsResp2.txt</file>
         <file>res/game/GameStateDiff1.txt</file>

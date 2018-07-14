@@ -15,6 +15,7 @@ private:
     void applyCurrentSettings();
     void onStartAtLoginChanged();
     void onCardLayoutChanged();
+    void onShowOnlyRemainingCardsChanged();
     void onTrackerAlphaChanged();
     void onPTEnabledChanged();
     void onPTStatisticsChanged();
@@ -30,6 +31,7 @@ signals:
     void sgnRestoreDefaults();
     void sgnTrackerAlpha(qreal alpha);
     void sgnTrackerCardLayout(QString cardLayout);
+    void sgnShowOnlyRemainingCardsEnabled(bool enabled);
     void sgnPlayerTrackerEnabled(bool enabled);
     void sgnPlayerTrackerStatistics(bool enabled);
     void sgnOpponentTrackerEnabled(bool enabled);

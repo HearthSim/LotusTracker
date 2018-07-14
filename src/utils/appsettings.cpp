@@ -6,6 +6,7 @@
 #define KEY_AUTOSTART "autoStart"
 #define KEY_TRACKER_ALPHA "Tracker/alpha"
 #define KEY_TRACKER_LAYOUT "Tracker/layout"
+#define KEY_TRACKER_SHOW_ONLY_REMAINING_CARDS "Tracker/showOnlyRemainingCards"
 
 #define KEY_TRACKER_PLAYER_ENABLED "Tracker/playerPrefs/enabled"
 #define KEY_TRACKER_PLAYER_STATISTICS "Tracker/playerPrefs/statistics"
@@ -57,6 +58,16 @@ QString AppSettings::getCardLayout()
 void AppSettings::setCardLayout(QString cardLayout)
 {
     settings.setValue(KEY_TRACKER_LAYOUT, cardLayout);
+}
+
+bool AppSettings::isShowOnlyRemainingCardsEnabled()
+{
+    return settings.value(KEY_TRACKER_SHOW_ONLY_REMAINING_CARDS, true).toBool();
+}
+
+void AppSettings::enableShowOnlyRemainingCards(bool enabled)
+{
+    settings.setValue(KEY_TRACKER_SHOW_ONLY_REMAINING_CARDS, enabled);
 }
 
 // Deck tracker player
@@ -173,6 +184,7 @@ void AppSettings::restoreDefaults()
     settings.remove(KEY_TRACKER_ALPHA);
     settings.remove(KEY_TRACKER_LAYOUT);
     settings.remove(KEY_TRACKER_PLAYER_ENABLED);
+    settings.remove(KEY_TRACKER_SHOW_ONLY_REMAINING_CARDS);
     settings.remove(KEY_TRACKER_PLAYER_STATISTICS);
     settings.remove(KEY_TRACKER_PLAYER_X);
     settings.remove(KEY_TRACKER_PLAYER_Y);

@@ -86,7 +86,7 @@ private slots:
         QList<Deck> playerDecks = args.first().value<QList<Deck>>();
         QCOMPARE(playerDecks.size(), 12);
         Card* vraskasContemptCard = mtgCards->findCard(66223);
-        QCOMPARE(playerDecks.first().cards[vraskasContemptCard], 2);
+        QCOMPARE(playerDecks.first().cardsCurrent[vraskasContemptCard], 2);
     }
 
     void testParseMatchCreated()
@@ -176,7 +176,7 @@ private slots:
         QList<QVariant> args = spy.takeFirst();
         Deck playerDeckSubmited = args.first().value<Deck>();
         Card* duress = mtgCards->findCard(66175);
-        QCOMPARE(playerDeckSubmited.cards[duress], 2);
+        QCOMPARE(playerDeckSubmited.cardsCurrent[duress], 2);
     }
 
     void testParsePlayerAcceptsHand()

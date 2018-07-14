@@ -21,6 +21,8 @@ public:
     void setDeckTrackerAlpha(int alpha);
     QString getCardLayout();
     void setCardLayout(QString cardLayout);
+    bool isShowOnlyRemainingCardsEnabled();
+    void enableShowOnlyRemainingCards(bool enabled);
     // Deck tracker player
     bool isDeckTrackerPlayerEnabled();
     void enableDeckTrackerPlayer(bool enabled);

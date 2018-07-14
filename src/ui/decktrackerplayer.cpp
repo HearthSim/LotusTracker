@@ -52,14 +52,14 @@ void DeckTrackerPlayer::afterPaintEvent(QPainter &painter)
 
 void DeckTrackerPlayer::applyCurrentSettings()
 {
-    isStatisticsEnabled = APP_SETTINGS->isDeckTrackerPlayerStatisticsEnabled();
     uiPos = APP_SETTINGS->getDeckTrackerPlayerPos(uiWidth);
     uiScale = APP_SETTINGS->getDeckTrackerPlayerScale();
+    isStatisticsEnabled = APP_SETTINGS->isDeckTrackerPlayerStatisticsEnabled();
 }
 
 void DeckTrackerPlayer::drawStatistics(QPainter &painter)
 {
-    if (deck.cards.size() == 0) {
+    if (deck.cards().size() == 0) {
         return;
     }
     // Statistics BG
@@ -107,6 +107,7 @@ void DeckTrackerPlayer::drawStatistics(QPainter &painter)
 void DeckTrackerPlayer::loadDeck(Deck deck)
 {
     this->deck = deck;
+    this->deck.showOnlyRemainingCards = APP_SETTINGS->isShowOnlyRemainingCardsEnabled();
     LOGD(QString("Loading deck %1").arg(deck.name));
 }
 
@@ -141,6 +142,12 @@ void DeckTrackerPlayer::onPlayerPutOnBattlefieldCard(Card* card)
     if (deck.drawCard(card)) {
         blinkCard(card);
     }
+}
+
+void DeckTrackerPlayer::onShowOnlyRemainingCardsEnabled(bool enabled)
+{
+    deck.showOnlyRemainingCards = enabled;
+    update();
 }
 
 void DeckTrackerPlayer::onStatisticsEnabled(bool enabled)

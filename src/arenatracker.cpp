@@ -92,6 +92,8 @@ void ArenaTracker::setupPreferencesScreen()
             deckTrackerPlayer, &DeckTrackerPlayer::changeAlpha);
     connect(preferencesScreen, &PreferencesScreen::sgnTrackerCardLayout,
             deckTrackerPlayer, &DeckTrackerPlayer::changeCardLayout);
+    connect(preferencesScreen, &PreferencesScreen::sgnShowOnlyRemainingCardsEnabled,
+            deckTrackerPlayer, &DeckTrackerPlayer::onShowOnlyRemainingCardsEnabled);
     connect(preferencesScreen, &PreferencesScreen::sgnPlayerTrackerStatistics,
             deckTrackerPlayer, &DeckTrackerPlayer::onStatisticsEnabled);
     connect(preferencesScreen, &PreferencesScreen::sgnRestoreDefaults,

@@ -12,11 +12,12 @@ class Deck
 private:
     QString _colorIdentity;
     QMap<Card*, int> cardsInitial;
+    QMap<Card*, int> cardsCurrent;
 
     QString calcColorIdentity()
     {
         QList<QChar> distinctManaSymbols;
-        for (Card *card : cards.keys()) {
+        for (Card *card : cardsCurrent.keys()) {
             if (card->isLand) {
                 continue;
             }
@@ -38,13 +39,29 @@ private:
 
 public:
     QString name;
-    QMap<Card*, int> cards;
+    bool showOnlyRemainingCards;
 
-    Deck(QString name = "", QMap<Card*, int> cards = {}): name(name), cards(cards){
+    Deck(QString name = "", QMap<Card*, int> cards = {})
+        : cardsCurrent(cards), name(name), showOnlyRemainingCards(false){
         for (Card *card : cards.keys()) {
             cardsInitial[card] = cards[card];
         }
         _colorIdentity = calcColorIdentity();
+    }
+
+    QMap<Card*, int> cards()
+    {
+        if (showOnlyRemainingCards) {
+            QMap<Card*, int> onlyRemainingCards;
+            for (Card* card : cardsCurrent.keys()) {
+                int qtd = cardsCurrent[card];
+                if (qtd > 0) {
+                    onlyRemainingCards[card] = qtd;
+                }
+            }
+            return onlyRemainingCards;
+        }
+        return cardsCurrent;
     }
 
     QString colorIdentity()
@@ -54,8 +71,8 @@ public:
 
     bool drawCard(Card *card)
     {
-        if (cards[card] > 0) {
-            cards[card] -= 1;
+        if (cardsCurrent[card] > 0) {
+            cardsCurrent[card] -= 1;
             return true;
         } else {
             return false;
@@ -64,18 +81,18 @@ public:
 
     void insertCard(Card *card)
     {
-        if (cards.keys().contains(card)) {
-            cards[card] += 1;
+        if (cardsCurrent.keys().contains(card)) {
+            cardsCurrent[card] += 1;
         } else {
-            cards[card] = 1;
+            cardsCurrent[card] = 1;
         }
     }
 
     int totalCards()
     {
         int totalCards = 0;
-        for (Card *card : cards.keys()) {
-            totalCards += cards[card];
+        for (Card *card : cardsCurrent.keys()) {
+            totalCards += cardsCurrent[card];
         }
         return totalCards;
     }
@@ -83,9 +100,9 @@ public:
     int totalCardsLand()
     {
         int totalLandCards = 0;
-        for (Card *card : cards.keys()) {
+        for (Card *card : cardsCurrent.keys()) {
             if (card->isLand) {
-                totalLandCards += cards[card];
+                totalLandCards += cardsCurrent[card];
             }
         }
         return totalLandCards;
@@ -94,8 +111,8 @@ public:
     int totalCardsOfQtd(int qtd)
     {
         int totalXCards = 0;
-        for (Card *card : cards.keys()) {
-            if (cards[card] == qtd && !card->isLand) {
+        for (Card *card : cardsCurrent.keys()) {
+            if (cardsCurrent[card] == qtd && !card->isLand) {
                 totalXCards += qtd;
             }
         }
