@@ -123,6 +123,7 @@ void MtgCards::loadSetFromFile(QString setFileName) {
 
 Card* MtgCards::jsonObject2Card(QJsonObject jsonCard, QString setCode)
 {
+    int multiverseId = jsonCard["multiverseid"].toInt();
     QString number = jsonCard["number"].toString();
     QString name = jsonCard["name"].toString();
     QString type = jsonCard["type"].toString();
@@ -157,7 +158,8 @@ Card* MtgCards::jsonObject2Card(QJsonObject jsonCard, QString setCode)
     } else {
         manaColorIdentity = manaCost2ManaColorIdentity(manaCost);
     }
-    return new Card(mtgaId, setCode, number, name, type, manaCost, manaColorIdentity, isLand);
+    return new Card(mtgaId, multiverseId, setCode, number, name,
+                    type, manaCost, manaColorIdentity, isLand);
 }
 
 QList<QChar> MtgCards::manaCost2ManaColorIdentity(QString manaCost)

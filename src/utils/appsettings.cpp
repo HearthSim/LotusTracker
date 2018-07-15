@@ -7,6 +7,7 @@
 #define KEY_TRACKER_ALPHA "Tracker/alpha"
 #define KEY_TRACKER_LAYOUT "Tracker/layout"
 #define KEY_TRACKER_UNHIDDEN_DELAY "Tracker/unhiddenDelay"
+#define KEY_TRACKER_SHOW_CARD_ON_HOVER "Tracker/showCardOnHover"
 #define KEY_TRACKER_SHOW_ONLY_REMAINING_CARDS "Tracker/showOnlyRemainingCards"
 
 #define KEY_TRACKER_PLAYER_ENABLED "Tracker/playerPrefs/enabled"
@@ -69,6 +70,16 @@ int AppSettings::getUnhiddenDelay()
 void AppSettings::setUnhiddenDelay(int unhiddenDelay)
 {
     settings.setValue(KEY_TRACKER_UNHIDDEN_DELAY, unhiddenDelay);
+}
+
+bool AppSettings::isShowCardOnHoverEnabled()
+{
+    return settings.value(KEY_TRACKER_SHOW_CARD_ON_HOVER, true).toBool();
+}
+
+void AppSettings::enableShowCardOnHover(bool enabled)
+{
+    settings.setValue(KEY_TRACKER_SHOW_CARD_ON_HOVER, enabled);
 }
 
 bool AppSettings::isShowOnlyRemainingCardsEnabled()

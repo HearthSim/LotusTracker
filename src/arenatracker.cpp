@@ -89,11 +89,13 @@ void ArenaTracker::setupPreferencesScreen()
     connect(preferencesScreen, &PreferencesScreen::sgnPlayerTrackerEnabled,
             this, &ArenaTracker::onDeckTrackerPlayerEnabledChange);
     connect(preferencesScreen, &PreferencesScreen::sgnTrackerAlpha,
-            deckTrackerPlayer, &DeckTrackerPlayer::changeAlpha);
+            deckTrackerPlayer, &DeckTrackerBase::changeAlpha);
     connect(preferencesScreen, &PreferencesScreen::sgnUnhideDelay,
-            deckTrackerPlayer, &DeckTrackerPlayer::changeUnhiddenTimeout);
+            deckTrackerPlayer, &DeckTrackerBase::changeUnhiddenTimeout);
     connect(preferencesScreen, &PreferencesScreen::sgnTrackerCardLayout,
-            deckTrackerPlayer, &DeckTrackerPlayer::changeCardLayout);
+            deckTrackerPlayer, &DeckTrackerBase::changeCardLayout);
+    connect(preferencesScreen, &PreferencesScreen::sgnShowCardOnHoverEnabled,
+            deckTrackerPlayer, &DeckTrackerBase::onShowCardOnHoverEnabled);
     connect(preferencesScreen, &PreferencesScreen::sgnShowOnlyRemainingCardsEnabled,
             deckTrackerPlayer, &DeckTrackerPlayer::onShowOnlyRemainingCardsEnabled);
     connect(preferencesScreen, &PreferencesScreen::sgnPlayerTrackerStatistics,
@@ -104,11 +106,13 @@ void ArenaTracker::setupPreferencesScreen()
     connect(preferencesScreen, &PreferencesScreen::sgnOpponentTrackerEnabled,
             this, &ArenaTracker::onDeckTrackerOpponentEnabledChange);
     connect(preferencesScreen, &PreferencesScreen::sgnTrackerAlpha,
-            deckTrackerOpponent, &DeckTrackerOpponent::changeAlpha);
+            deckTrackerOpponent, &DeckTrackerBase::changeAlpha);
     connect(preferencesScreen, &PreferencesScreen::sgnUnhideDelay,
-            deckTrackerOpponent, &DeckTrackerOpponent::changeUnhiddenTimeout);
+            deckTrackerOpponent, &DeckTrackerBase::changeUnhiddenTimeout);
     connect(preferencesScreen, &PreferencesScreen::sgnTrackerCardLayout,
-            deckTrackerOpponent, &DeckTrackerOpponent::changeCardLayout);
+            deckTrackerOpponent, &DeckTrackerBase::changeCardLayout);
+    connect(preferencesScreen, &PreferencesScreen::sgnShowCardOnHoverEnabled,
+            deckTrackerOpponent, &DeckTrackerBase::onShowCardOnHoverEnabled);
     connect(preferencesScreen, &PreferencesScreen::sgnRestoreDefaults,
             deckTrackerOpponent, &DeckTrackerOpponent::applyCurrentSettings);
 }

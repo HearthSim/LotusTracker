@@ -23,6 +23,8 @@ public:
     void setCardLayout(QString cardLayout);
     int getUnhiddenDelay();
     void setUnhiddenDelay(int unhiddenTimeout);
+    bool isShowCardOnHoverEnabled();
+    void enableShowCardOnHover(bool enabled);
     bool isShowOnlyRemainingCardsEnabled();
     void enableShowOnlyRemainingCards(bool enabled);
     // Deck tracker player

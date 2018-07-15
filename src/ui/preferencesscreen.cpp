@@ -22,6 +22,8 @@ PreferencesScreen::PreferencesScreen(QWidget *parent) : QMainWindow(parent),
             this, &PreferencesScreen::onCardLayoutChanged);
     connect(ui->rbMTGA, &QRadioButton::clicked,
             this, &PreferencesScreen::onCardLayoutChanged);
+    connect(ui->cbShowCardOnHover, &QCheckBox::clicked,
+            this, &PreferencesScreen::onShowCardOnHoverChanged);
     connect(ui->cbShowOnlyRemainingCard, &QCheckBox::clicked,
             this, &PreferencesScreen::onShowOnlyRemainingCardsChanged);
     connect(ui->hsAlpha, &QSlider::valueChanged,
@@ -59,6 +61,8 @@ void PreferencesScreen::applyCurrentSettings()
     }
     ui->hsAlpha->setValue(APP_SETTINGS->getDeckTrackerAlpha());
     ui->hsUnhideDelay->setValue(APP_SETTINGS->getUnhiddenDelay());
+    ui->cbShowCardOnHover->setChecked(APP_SETTINGS->isShowCardOnHoverEnabled());
+    ui->cbShowOnlyRemainingCard->setChecked(APP_SETTINGS->isShowOnlyRemainingCardsEnabled());
     ui->cbPTEnabled->setChecked(APP_SETTINGS->isDeckTrackerPlayerEnabled());
     ui->cbPTStatistics->setChecked(APP_SETTINGS->isDeckTrackerPlayerStatisticsEnabled());
     ui->cbOTEnabled->setChecked(APP_SETTINGS->isDeckTrackerOpponentEnabled());
@@ -104,6 +108,14 @@ void PreferencesScreen::onCardLayoutChanged()
     emit sgnTrackerCardLayout(cardLayout);
     LOGD(QString("CardLayout: %1").arg(cardLayout));
     APP_SETTINGS->setCardLayout(cardLayout);
+}
+
+void PreferencesScreen::onShowCardOnHoverChanged()
+{
+    bool enabled = ui->cbShowCardOnHover->isChecked();
+    emit sgnShowCardOnHoverEnabled(enabled);
+    LOGD(QString("ShowCardOnHoverEnabled: %1").arg(enabled ? "true" : "false"));
+    APP_SETTINGS->enableShowCardOnHover(enabled);
 }
 
 void PreferencesScreen::onShowOnlyRemainingCardsChanged()

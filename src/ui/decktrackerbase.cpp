@@ -3,25 +3,41 @@
 #include "../macros.h"
 
 #include <QDesktopWidget>
+#include <QDir>
+#include <QFile>
 #include <QFontDatabase>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QStandardPaths>
+#include <QUrlQuery>
 #include <tuple>
 
 #ifdef Q_OS_MAC
 #include <objc/objc-runtime.h>
 #endif
 
+#define GATHERER_IMAGE_URL "http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=%1&type=card"
+
 DeckTrackerBase::DeckTrackerBase(QWidget *parent) : QMainWindow(parent),
     ui(new Ui::DeckTracker()), cardBGSkin(APP_SETTINGS->getCardLayout()),
     zoomMinusButton(QRect(0, 0, 0, 0)), zoomPlusButton(QRect(0, 0, 0, 0)),
-    mousePressed(false), mouseRelativePosition(QPoint()), cornerRadius(10),
-    uiPos(10, 10), uiAlpha(1.0), uiScale(1.0), uiHeight(0), uiWidth(160),
-    deck(Deck()), hidden(false)
+    currentHoverPosition(0), hoverCardMultiverseId(0), mousePressed(false),
+    mouseRelativePosition(QPoint()), cornerRadius(10), uiPos(10, 10),
+    uiAlpha(1.0), uiScale(1.0), cardHoverWidth(200), uiHeight(0),
+    uiWidth(160), deck(Deck()), hidden(false)
 {
     ui->setupUi(this);
     setupWindow();
     setupDrawTools();
+    QString dataDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+    cachesDir = dataDir + QDir::separator() + "caches";
+    if (!QFile::exists(cachesDir)) {
+        QDir dir;
+        dir.mkpath(cachesDir);
+    }
     uiAlpha = APP_SETTINGS->getDeckTrackerAlpha();
     unhiddenTimeout = APP_SETTINGS->getUnhiddenDelay();
+    showCardOnHover = APP_SETTINGS->isShowCardOnHoverEnabled();
 
     unhiddenTimer = new QTimer();
     connect(unhiddenTimer, &QTimer::timeout, this, [this]{
@@ -34,7 +50,7 @@ DeckTrackerBase::~DeckTrackerBase()
 {
     delete ui;
     DEL(unhiddenTimer)
-    for (CardBlinkInfo *cardBlinkInfo : cardsBlinkInfo.values()){
+            for (CardBlinkInfo *cardBlinkInfo : cardsBlinkInfo.values()){
         delete cardBlinkInfo;
     }
 }
@@ -44,6 +60,7 @@ void DeckTrackerBase::setupWindow()
     setWindowFlags(Qt::NoDropShadowWindowHint | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
     setAttribute(Qt::WA_TranslucentBackground);
     setAttribute(Qt::WA_ShowWithoutActivating);
+    setAttribute(Qt::WA_Hover, true);
 #ifdef Q_OS_MAC
     setWindowFlags(windowFlags() | Qt::Window);
     WId windowObject = this->winId();
@@ -93,6 +110,22 @@ void DeckTrackerBase::setupDrawTools()
     titlePen = QPen(Qt::white);
 }
 
+int DeckTrackerBase::getCardHeight()
+{
+    int stackCardsPixels = 1;
+    return (uiWidth/7) - stackCardsPixels;
+}
+
+QList<Card*> DeckTrackerBase::getDeckCardsSorted()
+{
+    QList<Card*> sortedDeckCards(deck.cards().keys());
+    std::sort(std::begin(sortedDeckCards), std::end(sortedDeckCards), [](Card*& lhs, Card*& rhs) {
+        return std::make_tuple(lhs->isLand, lhs->manaCostValue(), lhs->name) <
+                std::make_tuple(rhs->isLand, rhs->manaCostValue(), rhs->name);
+    });
+    return sortedDeckCards;
+}
+
 void DeckTrackerBase::changeAlpha(int alpha)
 {
     uiAlpha = 0.3 + (alpha / 10.0);
@@ -102,6 +135,12 @@ void DeckTrackerBase::changeAlpha(int alpha)
 void DeckTrackerBase::changeCardLayout(QString cardLayout)
 {
     cardBGSkin = cardLayout;
+    update();
+}
+
+void DeckTrackerBase::onShowCardOnHoverEnabled(bool enabled)
+{
+    showCardOnHover = enabled;
     update();
 }
 
@@ -137,6 +176,7 @@ void DeckTrackerBase::paintEvent(QPaintEvent*)
         drawDeckCards(painter);
     }
     afterPaintEvent(painter);
+    drawHoverCard(painter);
     painter.restore();
 }
 
@@ -214,12 +254,7 @@ void DeckTrackerBase::drawDeckCards(QPainter &painter)
     int cardTextHeight = cardMetrics.ascent() - cardMetrics.descent();
     int cardTextOptions = Qt::AlignLeft | Qt::AlignVCenter | Qt::TextDontClip;
     int cardQtdOptions = Qt::AlignCenter | Qt::AlignVCenter | Qt::TextDontClip;
-    QList<Card*> deckCards(deck.cards().keys());
-    std::sort(std::begin(deckCards), std::end(deckCards), [](Card*& lhs, Card*& rhs) {
-        return std::make_tuple(lhs->isLand, lhs->manaCostValue(), lhs->name) <
-                std::make_tuple(rhs->isLand, rhs->manaCostValue(), rhs->name);
-    });
-    for (Card* card : deckCards) {
+    for (Card* card : getDeckCardsSorted()) {
         int cardQtdRemains = deck.cards()[card];
         QString cardManaIdentity = card->manaColorIdentityAsString();
         if (cardManaIdentity.size() > 2) {
@@ -260,7 +295,7 @@ void DeckTrackerBase::drawDeckCards(QPainter &painter)
             drawMana(painter, manaSymbol, manaSize, cardQtdRemains == 0, manaX, manaY);
             manaX += manaSize + manaMargin;
         }
-        cardListHeight += cardBGImgSize.height() - 1;
+        cardListHeight += getCardHeight();
         // Blink
         if (cardsBlinkInfo.keys().contains(card)) {
             CardBlinkInfo *cardBlinkInfo = cardsBlinkInfo[card];
@@ -275,6 +310,7 @@ void DeckTrackerBase::drawDeckCards(QPainter &painter)
             }
         }
     }
+    cardsRect = QRect(uiPos.x(), uiHeight, uiWidth, uiHeight + cardListHeight);
     uiHeight += cardListHeight;
 }
 
@@ -292,14 +328,61 @@ void DeckTrackerBase::drawExpandBar(QPainter &painter)
     // Plus button
     QImage expandPlus(":res/expand.png");
     QImage expandPlusScaled = expandPlus.scaled(expandButtonSize, expandButtonSize,
-                                            Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+                                                Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     int expandPlusX = uiPos.x() + uiWidth/2 - expandButtonSize/2;
     painter.drawImage(expandPlusX, expandButtonY, expandPlusScaled);
     expandBar = expandRect;
 }
 
+void DeckTrackerBase::drawHoverCard(QPainter &painter)
+{
+    if (!showCardOnHover || hoverCardMultiverseId == 0) {
+        return;
+    }
+    int bottomMargin = 10;
+    int cardHoverHeight = cardHoverWidth / 0.7;
+    int cardHoverMargin = 10;
+    QSize cardHoverSize(cardHoverWidth, cardHoverHeight);
+    QImage cardImg(":res/cardback.jpg");
+    QString imageFile = QString("%1%2%3.png").arg(cachesDir)
+            .arg(QDir::separator()).arg(hoverCardMultiverseId);
+    if (QFile::exists(imageFile)) {
+        cardImg.load(imageFile);
+    } else {
+        QUrl url(QString(GATHERER_IMAGE_URL).arg(hoverCardMultiverseId));
+        QNetworkRequest request(url);
+        QNetworkReply *reply = networkManager.get(request);
+        connect(reply, &QNetworkReply::finished,
+                this, &DeckTrackerBase::onCardImageDownloaded);
+    }
+    QRect screen = QApplication::desktop()->screenGeometry();
+    int cardX = uiPos.x() - cardHoverWidth - cardHoverMargin;
+    if (cardX < cardHoverMargin) {
+        cardX = uiPos.x() + uiWidth + cardHoverMargin;
+    }
+    int cardY = uiPos.y() + (currentHoverPosition * getCardHeight());
+    if (cardY > screen.height() - cardHoverHeight - bottomMargin) {
+        cardY = screen.height() - cardHoverHeight - bottomMargin;
+    }
+    QImage cardImgScaled = cardImg.scaled(cardHoverSize,
+                                          Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+    painter.drawImage(cardX, cardY, cardImgScaled);
+}
+
+void DeckTrackerBase::onCardImageDownloaded()
+{
+    QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
+    QImage cardImg;
+    cardImg.loadFromData(reply->readAll());
+    QString query = reply->request().url().query();
+    QString multiverseId = QUrlQuery(query).queryItemValue("multiverseid");
+    cardImg.save(QString("%1%2%3.png").arg(cachesDir)
+                 .arg(QDir::separator()).arg(multiverseId));
+    update();
+}
+
 void DeckTrackerBase::drawText(QPainter &painter, QFont textFont, QPen textPen, QString text, int textOptions,
-                             bool shadow, int textX, int textY, int textHeight, int textWidth)
+                               bool shadow, int textX, int textY, int textHeight, int textWidth)
 {
     painter.setFont(textFont);
     if (shadow) {
@@ -311,7 +394,7 @@ void DeckTrackerBase::drawText(QPainter &painter, QFont textFont, QPen textPen, 
 }
 
 void DeckTrackerBase::drawMana(QPainter &painter, QChar manaSymbol, int manaSize,
-                             bool grayscale, int manaX, int manaY)
+                               bool grayscale, int manaX, int manaY)
 {
     QImage manaImg;
     manaImg.load(QString(":/res/mana/%1.png").arg(manaSymbol));
@@ -321,6 +404,69 @@ void DeckTrackerBase::drawMana(QPainter &painter, QChar manaSymbol, int manaSize
     } else {
         painter.drawImage(manaX, manaY, manaImgScaled);
     }
+}
+
+bool DeckTrackerBase::event(QEvent *event)
+{
+    switch(event->type()){
+    case QEvent::HoverEnter:
+        onHoverEnter(static_cast<QHoverEvent*>(event));
+        return true;
+        break;
+    case QEvent::HoverMove:
+        onHoverMove(static_cast<QHoverEvent*>(event));
+        return true;
+        break;
+    case QEvent::HoverLeave:
+        onHoverLeave(static_cast<QHoverEvent*>(event));
+        return true;
+        break;
+    default:
+        break;
+    }
+    return QWidget::event(event);
+}
+
+void DeckTrackerBase::onHoverEnter(QHoverEvent *event)
+{
+    updateCardHoverUrl(getCardsHoverPosition(event));
+}
+
+void DeckTrackerBase::onHoverMove(QHoverEvent *event)
+{
+    int hoverPosition = getCardsHoverPosition(event);
+    if (hoverPosition != currentHoverPosition) {
+        updateCardHoverUrl(hoverPosition);
+    }
+}
+
+void DeckTrackerBase::onHoverLeave(QHoverEvent *event)
+{
+    UNUSED(event);
+    hoverCardMultiverseId = 0;
+    update();
+}
+
+int DeckTrackerBase::getCardsHoverPosition(QHoverEvent *event)
+{
+    int cardsHoverY = event->pos().y() - cardsRect.y() - uiPos.y();
+    if (cardsHoverY < 0) {
+        return -1;
+    } else {
+        return cardsHoverY / getCardHeight();
+    }
+}
+
+void DeckTrackerBase::updateCardHoverUrl(int hoverPosition)
+{
+    if (hoverPosition < 0 || hoverPosition >= deck.cards().size()){
+        return;
+    }
+    currentHoverPosition = hoverPosition;
+    Card* cardHovered = getDeckCardsSorted()[currentHoverPosition];
+    hoverCardMultiverseId = cardHovered->multiverseId;
+    LOGD(QString("%1 - %2").arg(currentHoverPosition).arg(cardHovered->name));
+    update();
 }
 
 void DeckTrackerBase::mousePressEvent(QMouseEvent *event)

@@ -9,6 +9,7 @@
 #include <QPainter>
 #include <QPoint>
 #include <QMouseEvent>
+#include <QNetworkAccessManager>
 
 namespace Ui { class DeckTracker; }
 
@@ -17,26 +18,35 @@ class DeckTrackerBase : public QMainWindow
     Q_OBJECT
 private:
     Ui::DeckTracker *ui;
-    QString cardBGSkin;
-    QRect expandBar, zoomMinusButton, zoomPlusButton;
-    int unhiddenTimeout;
+    QString cardBGSkin, cachesDir;
+    QRect cardsRect, expandBar, zoomMinusButton, zoomPlusButton;
+    int currentHoverPosition, hoverCardMultiverseId, unhiddenTimeout;
     QTimer* unhiddenTimer;
-    bool mousePressed;
+    QNetworkAccessManager networkManager;
+    bool mousePressed, showCardOnHover;
     QPoint mouseRelativePosition;
     void setupWindow();
     // Draw fields and methods
     QMap<Card*, CardBlinkInfo*> cardsBlinkInfo;
     void setupDrawTools();
+    int getCardHeight();
+    QList<Card*> getDeckCardsSorted();
+    void onHoverEnter(QHoverEvent *event);
+    void onHoverMove(QHoverEvent *event);
+    void onHoverLeave(QHoverEvent *event);
+    int getCardsHoverPosition(QHoverEvent *event);
+    void updateCardHoverUrl(int hoverPosition);
     void onRightClick();
     void onExpandBarClick();
     void onZoomMinusClick();
     void onZoomPlusClick();
+    void onCardImageDownloaded();
 
 protected:
     const int cornerRadius;
     QPoint uiPos;
     qreal uiAlpha, uiScale;
-    int uiHeight, uiWidth;
+    int cardHoverWidth, uiHeight, uiWidth;
     Deck deck;
     bool hidden;
     void blinkCard(Card* card);
@@ -46,9 +56,11 @@ protected:
     void drawDeckInfo(QPainter &painter);
     void drawDeckCards(QPainter &painter);
     void drawExpandBar(QPainter &painter);
+    void drawHoverCard(QPainter &painter);
     virtual void onPositionChanged() = 0;
     virtual void onScaleChanged() = 0;
     virtual void afterPaintEvent(QPainter &painter) = 0;
+    virtual bool event(QEvent *event);
     virtual void mousePressEvent(QMouseEvent *event);
     virtual void mouseMoveEvent(QMouseEvent *event);
     virtual void mouseReleaseEvent(QMouseEvent *event);
@@ -69,6 +81,7 @@ signals:
 public slots:
     void changeAlpha(int alpha);
     void changeCardLayout(QString cardLayout);
+    void onShowCardOnHoverEnabled(bool enabled);
     void changeUnhiddenTimeout(int unhiddenTimeout);
 };
 

@@ -15,6 +15,7 @@ private:
     void applyCurrentSettings();
     void onStartAtLoginChanged();
     void onCardLayoutChanged();
+    void onShowCardOnHoverChanged();
     void onShowOnlyRemainingCardsChanged();
     void onTrackerAlphaChanged();
     void onUnhideDelayChanged();
@@ -33,6 +34,7 @@ signals:
     void sgnTrackerAlpha(qreal alpha);
     void sgnUnhideDelay(int delay);
     void sgnTrackerCardLayout(QString cardLayout);
+    void sgnShowCardOnHoverEnabled(bool enabled);
     void sgnShowOnlyRemainingCardsEnabled(bool enabled);
     void sgnPlayerTrackerEnabled(bool enabled);
     void sgnPlayerTrackerStatistics(bool enabled);
