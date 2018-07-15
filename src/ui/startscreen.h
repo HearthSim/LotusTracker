@@ -20,6 +20,8 @@ private:
     void onNewUserClick();
     void onEnterClick();
     void onRegisterClick();
+    void onForgotPasswordClick();
+    void onRecoverPasswordClick();
 
 public:
     explicit StartScreen(QWidget *parent = nullptr, Auth *auth = nullptr);

@@ -20,15 +20,19 @@ public:
     void signInUser(QString email, QString password);
     void registerUser(QString email, QString password);
     void refreshToken(QString refreshToken);
+    void recoverPassword(QString email);
 
 signals:
     void sgnUserLogged(bool fromSignUp);
     void sgnTokenRefreshed();
+    void sgnTokenRefreshError();
     void sgnRequestFinished();
+    void sgnPasswordRecovered();
 
 private slots:
     void authRequestOnFinish();
     void tokenRefreshRequestOnFinish();
+    void recoverPasswordRequestOnFinish();
 
 public slots:
 };

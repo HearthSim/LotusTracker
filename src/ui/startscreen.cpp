@@ -21,6 +21,7 @@ StartScreen::StartScreen(QWidget *parent, Auth *auth) : QMainWindow(parent),
     ui->btBack->setVisible(false);
     ui->frameLogin->setVisible(false);
     ui->frameNew->setVisible(false);
+    ui->frameRecoverPassword->setVisible(false);
 
     ui->edLoginPassword->setEchoMode(QLineEdit::Password);
     ui->edLoginPassword->setInputMethodHints(Qt::ImhHiddenText| Qt::ImhNoPredictiveText|Qt::ImhNoAutoUppercase);
@@ -30,15 +31,28 @@ StartScreen::StartScreen(QWidget *parent, Auth *auth) : QMainWindow(parent),
     ui->edNewConfirm->setInputMethodHints(Qt::ImhHiddenText| Qt::ImhNoPredictiveText|Qt::ImhNoAutoUppercase);
 
     connect(ui->lbClose, &QPushButton::clicked, this, &StartScreen::close);
+    connect(ui->lbForgorPassword, &QPushButton::clicked, this, &StartScreen::onForgotPasswordClick);
     connect(ui->btBack, &QPushButton::clicked, this, &StartScreen::onBackClick);
     connect(ui->btLogin, &QPushButton::clicked, this, &StartScreen::onLoginClick);
     connect(ui->btNew, &QPushButton::clicked, this, &StartScreen::onNewUserClick);
     connect(ui->btEnter, &QPushButton::clicked, this, &StartScreen::onEnterClick);
     connect(ui->btRegister, &QPushButton::clicked, this, &StartScreen::onRegisterClick);
+    connect(ui->btRecoverPassword, &QPushButton::clicked, this, &StartScreen::onRecoverPasswordClick);
+
+    connect(ui->edLoginPassword, SIGNAL(returnPressed()),ui->btEnter,SIGNAL(clicked()));
+    connect(ui->edNewConfirm, SIGNAL(returnPressed()),ui->btRegister,SIGNAL(clicked()));
+    connect(ui->edRecoverPasswordEmail, SIGNAL(returnPressed()),ui->btRecoverPassword,SIGNAL(clicked()));
+    // Reset loading
     connect(auth, &Auth::sgnRequestFinished, this, [this](){
         ui->lbLoading->setVisible(false);
-        ui->btEnter->setVisible(ui->frameLogin->isVisible());
-        ui->btRegister->setVisible(ui->frameNew->isVisible());
+        ui->btEnter->setVisible(true);
+        ui->btRegister->setVisible(true);
+        ui->btRecoverPassword->setVisible(true);
+    });
+    connect(auth, &Auth::sgnUserLogged, this, [this](){ onBackClick(); });
+    connect(auth, &Auth::sgnPasswordRecovered, this, [this](){
+        onBackClick();
+        ARENA_TRACKER->showMessage("", tr("Email was sent with Password Recover instructions"));
     });
 }
 
@@ -56,16 +70,29 @@ void StartScreen::closeEvent(QCloseEvent *event)
 
 void StartScreen::onBackClick()
 {
+    if (ui->frameRecoverPassword->isVisible()) {
+        ui->frameRecoverPassword->setVisible(false);
+        ui->frameLogin->setVisible(true);
+    } else {
+        ui->frameLogin->setVisible(false);
+        ui->frameNew->setVisible(false);
+        ui->btBack->setVisible(false);
+        ui->btLogin->setVisible(true);
+        ui->btNew->setVisible(true);
+    }
+}
+
+void StartScreen::onForgotPasswordClick()
+{
     ui->frameLogin->setVisible(false);
-    ui->frameNew->setVisible(false);
-    ui->btBack->setVisible(false);
-    ui->btLogin->setVisible(true);
-    ui->btNew->setVisible(true);
+    ui->frameRecoverPassword->setVisible(true);
 }
 
 void StartScreen::onLoginClick()
 {
     ui->frameLogin->setVisible(true);
+    ui->frameNew->setVisible(false);
+    ui->frameRecoverPassword->setVisible(false);
     ui->btLogin->setVisible(false);
     ui->btNew->setVisible(false);
     ui->btBack->setVisible(true);
@@ -73,7 +100,9 @@ void StartScreen::onLoginClick()
 
 void StartScreen::onNewUserClick()
 {
+    ui->frameLogin->setVisible(false);
     ui->frameNew->setVisible(true);
+    ui->frameRecoverPassword->setVisible(false);
     ui->btLogin->setVisible(false);
     ui->btNew->setVisible(false);
     ui->btBack->setVisible(true);
@@ -110,4 +139,17 @@ void StartScreen::onRegisterClick()
     } else {
         ARENA_TRACKER->showMessage("", tr("Password and Confirm must be equals."));
     }
+}
+
+void StartScreen::onRecoverPasswordClick()
+{
+    QString email = ui->edRecoverPasswordEmail->text();
+    QRegularExpressionMatch emailMatch = reRawEmail.match(email);
+    if (!emailMatch.hasMatch()) {
+        ARENA_TRACKER->showMessage("", tr("Invalid email"));
+        return;
+    }
+    ui->btRecoverPassword->setVisible(false);
+    ui->lbLoading->setVisible(true);
+    auth->recoverPassword(email);
 }

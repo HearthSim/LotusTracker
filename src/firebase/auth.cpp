@@ -13,6 +13,7 @@
 
 #define REGISTER_URL "https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser"
 #define SIGNIN_URL "https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword"
+#define RECOVER_PASSWORD_URL "https://www.googleapis.com/identitytoolkit/v3/relyingparty/getOobConfirmationCode"
 #define REFRESH_TOKEN_URL "https://securetoken.googleapis.com/v1/token"
 
 Auth::Auth(QObject *parent) : QObject(parent)
@@ -145,6 +146,7 @@ void Auth::tokenRefreshRequestOnFinish()
     if (statusCode < 200 || statusCode > 299) {
         QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
         LOGW(QString("Error: %1").arg(reason));
+        emit sgnTokenRefreshError();
         return;
     }
     LOGD(QString("%1").arg("Token refreshed"));
@@ -152,4 +154,42 @@ void Auth::tokenRefreshRequestOnFinish()
     UserSettings userSettings = createUserSettingsFromRefreshedToken(jsonRsp);
     APP_SETTINGS->setUserSettings(userSettings);
     emit sgnTokenRefreshed();
+}
+
+void Auth::recoverPassword(QString email)
+{
+    QJsonObject jsonObj;
+    jsonObj.insert("email", QJsonValue(email));
+    jsonObj.insert("requestType", "PASSWORD_RESET");
+    QByteArray body = QJsonDocument(jsonObj).toJson();
+
+    QUrl url(RECOVER_PASSWORD_URL);
+    url.setQuery(QUrlQuery(QString("key=%1").arg(ApiKeys::FIREBASE())));
+    LOGD(QString("Request: %1").arg(url.toString()));
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    QNetworkReply *reply = networkManager.post(request, body);
+    connect(reply, &QNetworkReply::finished, this, &Auth::recoverPasswordRequestOnFinish);
+}
+
+void Auth::recoverPasswordRequestOnFinish()
+{
+    QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
+    QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());
+    LOGD(QString(QJsonDocument(jsonRsp).toJson()));
+    emit sgnRequestFinished();
+
+    int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    if (statusCode < 200 || statusCode > 299) {
+        QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
+        LOGW(QString("Error: %1").arg(reason));
+        QJsonArray errors = jsonRsp["error"].toObject()["errors"].toArray();
+        QString message = errors.first()["message"].toString();
+        if (message == "EMAIL_NOT_FOUND") {
+            ARENA_TRACKER->showMessage(tr("Email not found."));
+        }
+        return;
+    }
+    LOGD(QString("%1").arg("Password recovered"));
+    emit sgnPasswordRecovered();
 }

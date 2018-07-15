@@ -19,6 +19,7 @@ ArenaTracker::ArenaTracker(int& argc, char **argv): QApplication(argc, argv),
     auth = new Auth(this);
     connect(auth, &Auth::sgnUserLogged, this, &ArenaTracker::onUserSigned);
     connect(auth, &Auth::sgnTokenRefreshed, this, &ArenaTracker::onUserTokenRefreshed);
+    connect(auth, &Auth::sgnTokenRefreshError, this, &ArenaTracker::onUserTokenRefreshError);
     startScreen = new StartScreen(nullptr, auth);
     setupMtgaMatch();
     setupPreferencesScreen();
@@ -258,5 +259,11 @@ void ArenaTracker::onUserSigned(bool fromSignUp)
 void ArenaTracker::onUserTokenRefreshed()
 {
     startScreen->hide();
+    trayIcon->updateUserSettings();
+}
+
+void ArenaTracker::onUserTokenRefreshError()
+{
+    startScreen->show();
     trayIcon->updateUserSettings();
 }

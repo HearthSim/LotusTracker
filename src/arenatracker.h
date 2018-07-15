@@ -60,6 +60,7 @@ private slots:
     void onDeckTrackerOpponentEnabledChange(bool enabled);
     void onUserSigned(bool fromSignUp);
     void onUserTokenRefreshed();
+    void onUserTokenRefreshError();
 };
 
 #endif // ARENATRACKER_H

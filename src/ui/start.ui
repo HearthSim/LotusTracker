@@ -56,7 +56,7 @@ border: 0px solid white;</string>
    <widget class="QLabel" name="lbTracker">
     <property name="geometry">
      <rect>
-      <x>590</x>
+      <x>550</x>
       <y>240</y>
       <width>211</width>
       <height>71</height>
@@ -171,7 +171,7 @@ border-radius: 10px;</string>
       <property name="geometry">
        <rect>
         <x>80</x>
-        <y>90</y>
+        <y>100</y>
         <width>113</width>
         <height>32</height>
        </rect>
@@ -261,6 +261,19 @@ padding-left: 5px;</string>
         </widget>
        </item>
       </layout>
+     </widget>
+     <widget class="QPushButton" name="lbForgorPassword">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>60</y>
+        <width>91</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Forgot password</string>
+      </property>
      </widget>
     </widget>
     <widget class="QFrame" name="frameNew">
@@ -449,6 +462,101 @@ border: 0px solid gray; </string>
       <string>Loading...</string>
      </property>
     </widget>
+    <widget class="QFrame" name="frameRecoverPassword">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>270</x>
+       <y>280</y>
+       <width>281</width>
+       <height>161</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border: 0px solid gray; </string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <widget class="QPushButton" name="btRecoverPassword">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>100</y>
+        <width>131</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 255, 255);
+background-color : rgb(24, 185, 63);
+border: 1px solid black;
+border-radius: 10px;</string>
+      </property>
+      <property name="text">
+       <string>RECOVER PASSWORD</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="layoutWidget_3">
+      <property name="geometry">
+       <rect>
+        <x>96</x>
+        <y>10</y>
+        <width>151</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <widget class="QLineEdit" name="edRecoverPasswordEmail">
+         <property name="styleSheet">
+          <string notr="true">background-color : rgb(255, 255, 255); 
+border: 1px solid gray; 
+border-radius: 10px;
+padding-left: 5px;</string>
+         </property>
+         <property name="inputMethodHints">
+          <set>Qt::ImhEmailCharactersOnly</set>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="layoutWidget_4">
+      <property name="geometry">
+       <rect>
+        <x>18</x>
+        <y>10</y>
+        <width>62</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_6">
+       <item>
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Email</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <zorder>frameRecoverPassword</zorder>
     <zorder>frameNew</zorder>
     <zorder>frameLogin</zorder>
     <zorder>btLogin</zorder>
