@@ -3,6 +3,8 @@
 #include <ApplicationServices/ApplicationServices.h>
 #include <QtMac>
 
+// All credits to Track o'bot - https://github.com/stevschmid/track-o-bot
+
 MacWindowFinder::MacWindowFinder()
 {
 }

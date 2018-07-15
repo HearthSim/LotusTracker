@@ -56,7 +56,8 @@ HEADERS += \
     src/ui/startscreen.h \
     src/ui/trayicon.h \
     src/utils/appsettings.h \
-    src/utils/logger.h
+    src/utils/logger.h \
+    src/updater/sparkleupdater.h
 
 SOURCES += \
     src/arenatracker.cpp \
@@ -82,6 +83,8 @@ FORMS += \
     src/ui/decktrackerbase.ui \
     src/ui/start.ui
 
+DEFINES += VERSION=\\\"$$VERSION\\\"
+
 RESOURCES += resources.qrc
 
 mac {
@@ -93,13 +96,20 @@ mac {
   QMAKE_INFO_PLIST = Info.plist.app
 
   INCLUDEPATH += "\ -F/Library/Frameworks"
-  LIBS += -framework ApplicationServices -F/Library/Frameworks -framework AppKit
+  LIBS += -framework ApplicationServices -F/Library/Frameworks \
+      -framework AppKit -framework Sparkle
+
+  HEADERS += src/utils/macautostart.h \
+      src/utils/cocoainitializer.h \
+      src/utils/macwindowfinder.h \
+      src/updater/macsparkleupdater.h
 
   SOURCES += src/utils/macautostart.cpp \
       src/utils/macwindowfinder.cpp
 
-  HEADERS += src/utils/macautostart.h \
-      src/utils/macwindowfinder.h
+  OBJECTIVE_SOURCES += \
+    src/utils/cocoainitializer.mm \
+    src/updater/macsparkleupdater.mm
 
 }
 
@@ -112,12 +122,18 @@ win32 {
   DEFINES += PLATFORM=\\\"win32\\\"
   DEFINES += _CRT_SECURE_NO_WARNINGS
 
-  LIBS += -luser32 -lpsapi
+  INCLUDEPATH += . \
+                 ../WinSparkle/include
 
-  SOURCES += src/utils/winautostart.cpp \
-      src/utils/winwindowfinder.cpp
+  LIBS += -luser32 -lpsapi
+  LIBS += -L../WinSparkle/Release -lWinSparkle
 
   HEADERS += src/utils/winautostart.h \
-      src/utils/winwindowfinder.h
+      src/utils/winwindowfinder.h \
+      src/updater/winsparkleupdater.h
+
+  SOURCES += src/utils/winautostart.cpp \
+      src/utils/winwindowfinder.cpp \
+      src/updater/winsparkleupdater.cpp
 
 }

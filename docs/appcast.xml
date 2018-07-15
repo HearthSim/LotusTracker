@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
+    <channel>
+        <title>Arena Tracker's changelog</title>
+        <description>Most recent updates changes.</description>
+        <language>en</language>
+        <item>
+            <title>Arena Tracker 0.1</title>
+            <description>
+              <![CDATA[
+              <style type="text/css">* { font-family: Arial, Helvetica, sans-serif; }</style>
+              <ul> 
+                <li>Initial version</li>
+              </ul>
+              ]]>
+            </description>
+            <pubDate>Wed, 01 Aug 2018</pubDate>
+            <enclosure url="https://github.com/edipo2s/AT/archive/Arena_Tracker_v0.1.zip" sparkle:version="0.1" length="8818393" type="application/x-msdownload"/>
+        </item>
+    </channel>
+</rss>

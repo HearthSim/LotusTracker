@@ -6,6 +6,8 @@
 #include <QSettings>
 #include <QFileInfo>
 
+// All credits to Track o'bot - https://github.com/stevschmid/track-o-bot
+
 bool MacAutoStart::isEnabled()
 {
     LSSharedFileListRef loginItems = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);

@@ -13,6 +13,7 @@
 #include "utils/appsettings.h"
 #include "utils/logger.h"
 #include "firebase/auth.h"
+#include "updater/sparkleupdater.h"
 
 #include <QApplication>
 #include <QLocalServer>
@@ -33,6 +34,7 @@ private:
     Auth *auth;
     bool isAlreadyRunning();
     void setupApp();
+    void setupUpdater();
     void setupPreferencesScreen();
     void setupMtgaMatch();
     void checkForAutoLogin();
@@ -44,6 +46,7 @@ public:
     Logger *logger;
     MtgArena *mtgArena;
     MtgaMatch *mtgaMatch;
+    SparkleUpdater *sparkleUpdater;
     int run();
     void avoidAppClose();
     void showStartScreen();

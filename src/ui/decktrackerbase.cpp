@@ -55,6 +55,7 @@ DeckTrackerBase::~DeckTrackerBase()
     }
 }
 
+// Credits to Track o'bot - https://github.com/stevschmid/track-o-bot
 void DeckTrackerBase::setupWindow()
 {
     setWindowFlags(Qt::NoDropShadowWindowHint | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
@@ -343,7 +344,7 @@ void DeckTrackerBase::drawHoverCard(QPainter &painter)
     int cardHoverHeight = cardHoverWidth / 0.7;
     int cardHoverMargin = 10;
     QSize cardHoverSize(cardHoverWidth, cardHoverHeight);
-    QImage cardImg(":res/cardback.jpg");
+    QImage cardImg(":res/cardback.png");
     QString imageFile = QString("%1%2%3.png").arg(cachesDir)
             .arg(QDir::separator()).arg(hoverCardMultiverseId);
     if (QFile::exists(imageFile)) {

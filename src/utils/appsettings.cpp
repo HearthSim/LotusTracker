@@ -4,6 +4,7 @@
 #include <QDesktopWidget>
 
 #define KEY_AUTOSTART "autoStart"
+#define KEY_AUTOUPDATE "autoUpdate"
 #define KEY_TRACKER_ALPHA "Tracker/alpha"
 #define KEY_TRACKER_LAYOUT "Tracker/layout"
 #define KEY_TRACKER_UNHIDDEN_DELAY "Tracker/unhiddenDelay"
@@ -34,12 +35,22 @@ AppSettings::AppSettings(QObject *parent) : QObject(parent)
 
 bool AppSettings::isAutoStartEnabled()
 {
-    return settings.value(KEY_AUTOSTART, false).toBool();
+    return settings.value(KEY_AUTOSTART, true).toBool();
 }
 
 void AppSettings::enableAutoStart(bool enabled)
 {
     settings.setValue(KEY_AUTOSTART, enabled);
+}
+
+bool AppSettings::isAutoUpdateEnabled()
+{
+    return settings.value(KEY_AUTOUPDATE, true).toBool();
+}
+
+void AppSettings::enableAutoUpdate(bool enabled)
+{
+    settings.setValue(KEY_AUTOUPDATE, enabled);
 }
 
 int AppSettings::getDeckTrackerAlpha()

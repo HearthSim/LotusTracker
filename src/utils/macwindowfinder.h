@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+// All credits to Track o'bot - https://github.com/stevschmid/track-o-bot
+
 class MacWindowFinder : public QObject
 {
     Q_OBJECT

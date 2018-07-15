@@ -8,6 +8,8 @@
 
 #define REGISTER_RUN_PATH "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"
 
+// All credits to Track o'bot - https://github.com/stevschmid/track-o-bot
+
 bool WinAutoStart::isEnabled()
 {
     QString applicationName = QCoreApplication::applicationName();

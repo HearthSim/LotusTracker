@@ -16,8 +16,13 @@ PreferencesScreen::PreferencesScreen(QWidget *parent) : QMainWindow(parent),
     ui->setupUi(this);
     setWindowFlags(Qt::Dialog | Qt::WindowCloseButtonHint);
     applyCurrentSettings();
+    connect(ui->btCheckUpdate, &QPushButton::clicked, this, [] {
+        ARENA_TRACKER->sparkleUpdater->CheckForUpdatesNow();
+    });
     connect(ui->cbStartAtLogin, &QCheckBox::clicked,
             this, &PreferencesScreen::onStartAtLoginChanged);
+    connect(ui->cbAutoUpdate, &QCheckBox::clicked,
+            this, &PreferencesScreen::onAutoUpdateChanged);
     connect(ui->rbMTG, &QRadioButton::clicked,
             this, &PreferencesScreen::onCardLayoutChanged);
     connect(ui->rbMTGA, &QRadioButton::clicked,
@@ -54,6 +59,7 @@ void PreferencesScreen::closeEvent(QCloseEvent *event)
 void PreferencesScreen::applyCurrentSettings()
 {
     ui->cbStartAtLogin->setChecked(APP_SETTINGS->isAutoStartEnabled());
+    ui->btCheckUpdate->setChecked(ARENA_TRACKER->sparkleUpdater->AutomaticallyChecksForUpdates());
     if (APP_SETTINGS->getCardLayout() == "mtg") {
         ui->rbMTG->setChecked(true);
     } else {
@@ -78,6 +84,14 @@ void PreferencesScreen::onStartAtLoginChanged()
 #endif
     LOGD(QString("StartAtLogin: %1").arg(enabled ? "true" : "false"));
     APP_SETTINGS->enableAutoStart(enabled);
+}
+
+void PreferencesScreen::onAutoUpdateChanged()
+{
+    bool enabled = ui->cbAutoUpdate->isChecked();
+    ARENA_TRACKER->sparkleUpdater->SetAutomaticallyChecksForUpdates(enabled);
+    LOGD(QString("AutoUpdate: %1").arg(enabled ? "true" : "false"));
+    APP_SETTINGS->enableAutoUpdate(enabled);
 }
 
 void PreferencesScreen::onTrackerAlphaChanged()

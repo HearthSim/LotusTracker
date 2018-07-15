@@ -1,6 +1,13 @@
 #include "arenatracker.h"
 #include "macros.h"
 #include "mtg/mtgalogparser.h"
+#include "utils/cocoainitializer.h"
+
+#if defined Q_OS_MAC
+#include "updater/macsparkleupdater.h"
+#elif defined Q_OS_WIN
+#include "updater/winsparkleupdater.h"
+#endif
 
 #include <QLocalSocket>
 #include <QMessageBox>
@@ -9,6 +16,7 @@ ArenaTracker::ArenaTracker(int& argc, char **argv): QApplication(argc, argv),
     isMatchRunning(false)
 {
     setupApp();
+    setupUpdater();
     logger = new Logger(this);
     appSettings = new AppSettings(this);
     mtgCards = new MtgCards(this);
@@ -64,6 +72,16 @@ void ArenaTracker::setupApp()
   setOrganizationName("ArenaMeta");
   setOrganizationDomain("arenameta.com");
   setWindowIcon(icon);
+}
+
+void ArenaTracker::setupUpdater()
+{
+#if defined Q_OS_MAC
+  CocoaInitializer cocoaInitializer;
+  sparkleUpdater = new MacSparkleUpdater("https://uc8f198890f22917ff34d66e34ac.dl.dropboxusercontent.com/cd/0/get/ALc1ZFHRTaa-SohnuBN37QPilBjKcPn_TY2LSmLZKgPwxmgCRKjFRIfLz9spKqIbd5RYDwUhCWpd5-9TxWyhRPGI6M23le8aEZxoSy0DPsrHgTTUq-sM4AihqT1yMPttrbruYV36ZjUM1b5bZItqeeJXN8qOZLaj-OEUcs3VGTKxtVJzwnXOw6skc-kJVZq_9O0/file?dl=1");
+#elif defined Q_OS_WIN
+  sparkleUpdater = new WinSparkleUpdater("https://uc8f198890f22917ff34d66e34ac.dl.dropboxusercontent.com/cd/0/get/ALc1ZFHRTaa-SohnuBN37QPilBjKcPn_TY2LSmLZKgPwxmgCRKjFRIfLz9spKqIbd5RYDwUhCWpd5-9TxWyhRPGI6M23le8aEZxoSy0DPsrHgTTUq-sM4AihqT1yMPttrbruYV36ZjUM1b5bZItqeeJXN8qOZLaj-OEUcs3VGTKxtVJzwnXOw6skc-kJVZq_9O0/file?dl=1");
+#endif
 }
 
 bool ArenaTracker::isAlreadyRunning() {

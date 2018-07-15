@@ -14,6 +14,7 @@ private:
     void closeEvent(QCloseEvent *event);
     void applyCurrentSettings();
     void onStartAtLoginChanged();
+    void onAutoUpdateChanged();
     void onCardLayoutChanged();
     void onShowCardOnHoverChanged();
     void onShowOnlyRemainingCardsChanged();

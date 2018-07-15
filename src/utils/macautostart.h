@@ -4,6 +4,8 @@
 #include <CoreFoundation/CoreFoundation.h>
 #include <CoreServices/CoreServices.h>
 
+// All credits to Track o'bot - https://github.com/stevschmid/track-o-bot
+
 class MacAutoStart
 {
 private:

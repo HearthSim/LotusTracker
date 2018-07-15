@@ -6,6 +6,8 @@
 #include <QObject>
 #include <windows.h>
 
+// All credits to Track o'bot - https://github.com/stevschmid/track-o-bot
+
 class WinWindowFinder : public QObject
 {
     Q_OBJECT

@@ -3,6 +3,8 @@
 #include <QtWinExtras/qwinfunctions.h>
 #include "psapi.h"
 
+// All credits to Track o'bot - https://github.com/stevschmid/track-o-bot
+
 WinWindowFinder::WinWindowFinder()
 {
 }
