@@ -13,6 +13,7 @@
 #include "utils/appsettings.h"
 #include "utils/logger.h"
 #include "firebase/auth.h"
+#include "firebase/database.h"
 #include "updater/sparkleupdater.h"
 
 #include <QApplication>
@@ -31,11 +32,13 @@ private:
     TrayIcon *trayIcon;
     PreferencesScreen *preferencesScreen;
     StartScreen *startScreen;
-    Auth *auth;
+    FirebaseAuth *firebaseAuth;
+    FirebaseDatabase *firebaseDatabase;
     bool isAlreadyRunning();
     void setupApp();
     void setupUpdater();
     void setupPreferencesScreen();
+    void setupLogParserConnections();
     void setupMtgaMatch();
     void checkForAutoLogin();
 

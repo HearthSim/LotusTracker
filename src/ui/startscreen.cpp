@@ -6,8 +6,8 @@
 
 #define REGEXP_RAW_EMAIL "^[0-9a-zA-Z]+([0-9a-zA-Z]*[-._+])*[0-9a-zA-Z]+@[0-9a-zA-Z]+([-.][0-9a-zA-Z]+)*([0-9a-zA-Z]*[.])[a-zA-Z]{2,6}$"
 
-StartScreen::StartScreen(QWidget *parent, Auth *auth) : QMainWindow(parent),
-    ui(new Ui::Start()), auth(auth), reRawEmail(QRegularExpression(REGEXP_RAW_EMAIL))
+StartScreen::StartScreen(QWidget *parent, FirebaseAuth *auth) : QMainWindow(parent),
+    ui(new Ui::Start()), firebaseAuth(auth), reRawEmail(QRegularExpression(REGEXP_RAW_EMAIL))
 {
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
@@ -43,14 +43,14 @@ StartScreen::StartScreen(QWidget *parent, Auth *auth) : QMainWindow(parent),
     connect(ui->edNewConfirm, SIGNAL(returnPressed()),ui->btRegister,SIGNAL(clicked()));
     connect(ui->edRecoverPasswordEmail, SIGNAL(returnPressed()),ui->btRecoverPassword,SIGNAL(clicked()));
     // Reset loading
-    connect(auth, &Auth::sgnRequestFinished, this, [this](){
+    connect(auth, &FirebaseAuth::sgnRequestFinished, this, [this](){
         ui->lbLoading->setVisible(false);
         ui->btEnter->setVisible(true);
         ui->btRegister->setVisible(true);
         ui->btRecoverPassword->setVisible(true);
     });
-    connect(auth, &Auth::sgnUserLogged, this, [this](){ onBackClick(); });
-    connect(auth, &Auth::sgnPasswordRecovered, this, [this](){
+    connect(auth, &FirebaseAuth::sgnUserLogged, this, [this](){ onBackClick(); });
+    connect(auth, &FirebaseAuth::sgnPasswordRecovered, this, [this](){
         onBackClick();
         ARENA_TRACKER->showMessage("", tr("Email was sent with Password Recover instructions"));
     });
@@ -59,7 +59,7 @@ StartScreen::StartScreen(QWidget *parent, Auth *auth) : QMainWindow(parent),
 StartScreen::~StartScreen()
 {
     DEL(ui)
-    DEL(auth)
+    DEL(firebaseAuth)
 }
 
 void StartScreen::closeEvent(QCloseEvent *event)
@@ -119,7 +119,7 @@ void StartScreen::onEnterClick()
     QString pass = ui->edLoginPassword->text();
     ui->btEnter->setVisible(false);
     ui->lbLoading->setVisible(true);
-    auth->signInUser(email, pass);
+    firebaseAuth->signInUser(email, pass);
 }
 
 void StartScreen::onRegisterClick()
@@ -135,7 +135,7 @@ void StartScreen::onRegisterClick()
     if (pass == confirm) {
         ui->btRegister->setVisible(false);
         ui->lbLoading->setVisible(true);
-        auth->registerUser(email, pass);
+        firebaseAuth->registerUser(email, pass);
     } else {
         ARENA_TRACKER->showMessage("", tr("Password and Confirm must be equals."));
     }
@@ -151,5 +151,5 @@ void StartScreen::onRecoverPasswordClick()
     }
     ui->btRecoverPassword->setVisible(false);
     ui->lbLoading->setVisible(true);
-    auth->recoverPassword(email);
+    firebaseAuth->recoverPassword(email);
 }

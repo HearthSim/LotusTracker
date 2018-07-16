@@ -6,7 +6,7 @@
 
 #include "../entity/user.h"
 
-class Auth : public QObject
+class FirebaseAuth : public QObject
 {
     Q_OBJECT
 private:
@@ -16,7 +16,7 @@ private:
     UserSettings createUserSettingsFromRefreshedToken(QJsonObject jsonRsp);
 
 public:
-    explicit Auth(QObject *parent = nullptr);
+    explicit FirebaseAuth(QObject *parent = nullptr);
     void signInUser(QString email, QString password);
     void registerUser(QString email, QString password);
     void refreshToken(QString refreshToken);

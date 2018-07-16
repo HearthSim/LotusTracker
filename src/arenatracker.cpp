@@ -24,19 +24,15 @@ ArenaTracker::ArenaTracker(int& argc, char **argv): QApplication(argc, argv),
     deckTrackerPlayer = new DeckTrackerPlayer();
     deckTrackerOpponent = new DeckTrackerOpponent();
     trayIcon = new TrayIcon(this, mtgCards);
-    auth = new Auth(this);
-    connect(auth, &Auth::sgnUserLogged, this, &ArenaTracker::onUserSigned);
-    connect(auth, &Auth::sgnTokenRefreshed, this, &ArenaTracker::onUserTokenRefreshed);
-    connect(auth, &Auth::sgnTokenRefreshError, this, &ArenaTracker::onUserTokenRefreshError);
-    startScreen = new StartScreen(nullptr, auth);
+    firebaseAuth = new FirebaseAuth(this);
+    firebaseDatabase = new FirebaseDatabase(this);
+    startScreen = new StartScreen(nullptr, firebaseAuth);
+    connect(firebaseAuth, &FirebaseAuth::sgnUserLogged, this, &ArenaTracker::onUserSigned);
+    connect(firebaseAuth, &FirebaseAuth::sgnTokenRefreshed, this, &ArenaTracker::onUserTokenRefreshed);
+    connect(firebaseAuth, &FirebaseAuth::sgnTokenRefreshError, this, &ArenaTracker::onUserTokenRefreshError);
     setupMtgaMatch();
     setupPreferencesScreen();
-    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchCreated,
-            this, &ArenaTracker::onMatchStart);
-    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchInfoResultMatch,
-            this, &ArenaTracker::onMatchEnd);
-    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckSubmited,
-            this, &ArenaTracker::onDeckSubmited);
+    setupLogParserConnections();
     checkForAutoLogin();
     LOGI("Arena Tracker started");
 }
@@ -50,7 +46,7 @@ ArenaTracker::~ArenaTracker()
     DEL(trayIcon)
     DEL(mtgArena)
     DEL(mtgaMatch)
-    DEL(auth)
+    DEL(firebaseAuth)
 }
 
 int ArenaTracker::run()
@@ -134,6 +130,18 @@ void ArenaTracker::setupPreferencesScreen()
             deckTrackerOpponent, &DeckTrackerBase::onShowCardOnHoverEnabled);
     connect(preferencesScreen, &PreferencesScreen::sgnRestoreDefaults,
             deckTrackerOpponent, &DeckTrackerOpponent::applyCurrentSettings);
+}
+
+void ArenaTracker::setupLogParserConnections()
+{
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerInventory,
+            firebaseDatabase, &FirebaseDatabase::updateUserInventory);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchCreated,
+            this, &ArenaTracker::onMatchStart);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchInfoResultMatch,
+            this, &ArenaTracker::onMatchEnd);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckSubmited,
+            this, &ArenaTracker::onDeckSubmited);
 }
 
 void ArenaTracker::setupMtgaMatch()
@@ -252,11 +260,11 @@ void ArenaTracker::checkForAutoLogin()
     UserSettings userSettings = appSettings->getUserSettings();
     switch (userSettings.getAuthStatus()) {
         case AUTH_VALID: {
-            emit auth->sgnUserLogged(false);
+            emit firebaseAuth->sgnUserLogged(false);
             break;
         }
         case AUTH_EXPIRED: {
-            auth->refreshToken(userSettings.refreshToken);
+            firebaseAuth->refreshToken(userSettings.refreshToken);
             break;
         }
         case AUTH_INVALID: {

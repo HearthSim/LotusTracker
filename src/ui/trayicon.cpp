@@ -143,4 +143,12 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
         emit ARENA_TRACKER->mtgaMatch->sgnOpponentPlayCard(card);
     });
     testMenu->addAction(opponentPlayAction);
+    // Update user inventory
+    QAction *updateUserInventoryAction = new QAction(tr("parse UserInventory"), this);
+    connect(updateUserInventoryAction, &QAction::triggered, this, [this](){
+        PlayerInventory playerInventory(rand() % 10, rand() % 10, rand() % 10,
+                                        rand() % 10, (rand() % 100) / 100.0);
+        emit ARENA_TRACKER->mtgArena->getLogParser()->sgnPlayerInventory(playerInventory);
+    });
+    testMenu->addAction(updateUserInventoryAction);
 }

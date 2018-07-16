@@ -16,12 +16,12 @@
 #define RECOVER_PASSWORD_URL "https://www.googleapis.com/identitytoolkit/v3/relyingparty/getOobConfirmationCode"
 #define REFRESH_TOKEN_URL "https://securetoken.googleapis.com/v1/token"
 
-Auth::Auth(QObject *parent) : QObject(parent)
+FirebaseAuth::FirebaseAuth(QObject *parent) : QObject(parent)
 {
 
 }
 
-void Auth::signInUser(QString email, QString password)
+void FirebaseAuth::signInUser(QString email, QString password)
 {
     QJsonObject jsonObj;
     jsonObj.insert("email", QJsonValue(email));
@@ -35,10 +35,10 @@ void Auth::signInUser(QString email, QString password)
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     QNetworkReply *reply = networkManager.post(request, body);
-    connect(reply, &QNetworkReply::finished, this, &Auth::authRequestOnFinish);
+    connect(reply, &QNetworkReply::finished, this, &FirebaseAuth::authRequestOnFinish);
 }
 
-void Auth::registerUser(QString email, QString password)
+void FirebaseAuth::registerUser(QString email, QString password)
 {
     QJsonObject jsonObj;
     jsonObj.insert("email", QJsonValue(email));
@@ -52,10 +52,10 @@ void Auth::registerUser(QString email, QString password)
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     QNetworkReply *reply = networkManager.post(request, body);
-    connect(reply, &QNetworkReply::finished, this, &Auth::authRequestOnFinish);
+    connect(reply, &QNetworkReply::finished, this, &FirebaseAuth::authRequestOnFinish);
 }
 
-void Auth::authRequestOnFinish()
+void FirebaseAuth::authRequestOnFinish()
 {
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
     QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());
@@ -90,7 +90,7 @@ void Auth::authRequestOnFinish()
     emit sgnUserLogged(fromSignUp);
 }
 
-UserSettings Auth::createUserSettingsFromSign(QJsonObject jsonRsp)
+UserSettings FirebaseAuth::createUserSettingsFromSign(QJsonObject jsonRsp)
 {
     QString userId = jsonRsp["localId"].toString();
     QString userToken = jsonRsp["idToken"].toString();
@@ -99,7 +99,7 @@ UserSettings Auth::createUserSettingsFromSign(QJsonObject jsonRsp)
     return UserSettings(userId, userToken, refreshToken, getExpiresEpoch(expiresIn));
 }
 
-UserSettings Auth::createUserSettingsFromRefreshedToken(QJsonObject jsonRsp)
+UserSettings FirebaseAuth::createUserSettingsFromRefreshedToken(QJsonObject jsonRsp)
 {
     QString userId = jsonRsp["user_id"].toString();
     QString userToken = jsonRsp["id_token"].toString();
@@ -108,7 +108,7 @@ UserSettings Auth::createUserSettingsFromRefreshedToken(QJsonObject jsonRsp)
     return UserSettings(userId, userToken, refreshToken, getExpiresEpoch(expiresIn));
 }
 
-qlonglong Auth::getExpiresEpoch(QString expiresIn)
+qlonglong FirebaseAuth::getExpiresEpoch(QString expiresIn)
 {
     using namespace std::chrono;
     seconds expiresSeconds = seconds(expiresIn.toInt());
@@ -119,7 +119,7 @@ qlonglong Auth::getExpiresEpoch(QString expiresIn)
     return expires.time_since_epoch().count();
 }
 
-void Auth::refreshToken(QString refreshToken)
+void FirebaseAuth::refreshToken(QString refreshToken)
 {
     QJsonObject jsonObj;
     jsonObj.insert("grant_type", "refresh_token");
@@ -132,10 +132,10 @@ void Auth::refreshToken(QString refreshToken)
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     QNetworkReply *reply = networkManager.post(request, body);
-    connect(reply, &QNetworkReply::finished, this, &Auth::tokenRefreshRequestOnFinish);
+    connect(reply, &QNetworkReply::finished, this, &FirebaseAuth::tokenRefreshRequestOnFinish);
 }
 
-void Auth::tokenRefreshRequestOnFinish()
+void FirebaseAuth::tokenRefreshRequestOnFinish()
 {
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
     QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());
@@ -156,7 +156,7 @@ void Auth::tokenRefreshRequestOnFinish()
     emit sgnTokenRefreshed();
 }
 
-void Auth::recoverPassword(QString email)
+void FirebaseAuth::recoverPassword(QString email)
 {
     QJsonObject jsonObj;
     jsonObj.insert("email", QJsonValue(email));
@@ -169,10 +169,10 @@ void Auth::recoverPassword(QString email)
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     QNetworkReply *reply = networkManager.post(request, body);
-    connect(reply, &QNetworkReply::finished, this, &Auth::recoverPasswordRequestOnFinish);
+    connect(reply, &QNetworkReply::finished, this, &FirebaseAuth::recoverPasswordRequestOnFinish);
 }
 
-void Auth::recoverPasswordRequestOnFinish()
+void FirebaseAuth::recoverPasswordRequestOnFinish()
 {
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
     QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());

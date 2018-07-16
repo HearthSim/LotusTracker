@@ -13,7 +13,7 @@ class StartScreen : public QMainWindow
     Q_OBJECT
 private:
     Ui::Start *ui;
-    Auth *auth;
+    FirebaseAuth *firebaseAuth;
     QRegularExpression reRawEmail;
     void onBackClick();
     void onLoginClick();
@@ -24,7 +24,7 @@ private:
     void onRecoverPasswordClick();
 
 public:
-    explicit StartScreen(QWidget *parent = nullptr, Auth *auth = nullptr);
+    explicit StartScreen(QWidget *parent = nullptr, FirebaseAuth *firebaseAuth = nullptr);
     ~StartScreen();
     void closeEvent(QCloseEvent *event);
 

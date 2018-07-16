@@ -43,6 +43,7 @@ HEADERS += \
     src/entity/matchzone.h \
     src/entity/matchzonetransfer.h \
     src/firebase/auth.h \
+    src/firebase/database.h \
     src/mtg/mtgarena.h \
     src/mtg/mtgalogparser.h \
     src/mtg/mtgalogwatcher.h \
@@ -62,6 +63,7 @@ HEADERS += \
 SOURCES += \
     src/arenatracker.cpp \
     src/firebase/auth.cpp \
+    src/firebase/database.cpp \
     src/main.cpp \
     src/transformations.cpp \
     src/mtg/mtgarena.cpp \
@@ -122,8 +124,7 @@ win32 {
   DEFINES += PLATFORM=\\\"win32\\\"
   DEFINES += _CRT_SECURE_NO_WARNINGS
 
-  INCLUDEPATH += . \
-                 ../WinSparkle/include
+  INCLUDEPATH += ../WinSparkle/include
 
   LIBS += -luser32 -lpsapi
   LIBS += -L../WinSparkle/Release -lWinSparkle
