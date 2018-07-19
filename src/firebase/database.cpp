@@ -1,6 +1,7 @@
 #include "database.h"
 #include "macros.h"
 
+#include <QBuffer>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QNetworkRequest>
@@ -8,7 +9,7 @@
 #include <QUrl>
 #include <QUrlQuery>
 
-#define ARENA_META_DB_URL "https://arenameta-3b1a7.firebaseio.com"
+#define ARENA_META_DB_URL "https://firestore.googleapis.com/v1beta1/projects/arenameta-3b1a7/databases/(default)/documents"
 
 FirebaseDatabase::FirebaseDatabase(QObject *parent)
 {
@@ -27,20 +28,40 @@ void FirebaseDatabase::updateUserInventory(PlayerInventory playerInventory)
         return;
     }
 
-    QJsonObject jsonObj;
-    jsonObj.insert("wcCommon", playerInventory.wcCommon);
-    jsonObj.insert("wcUncommon", playerInventory.wcUncommon);
-    jsonObj.insert("wcRare", playerInventory.wcRare);
-    jsonObj.insert("wcMythic", playerInventory.wcMythic);
-    jsonObj.insert("vaultProgress", playerInventory.vaultProgress);
+    QJsonObject jsonObj{
+        {"fields", QJsonObject{
+                {"inventory", QJsonObject{
+                        {"mapValue", QJsonObject{
+                                {"fields", QJsonObject{
+                                        { "wcCommon", QJsonObject{
+                                                { "integerValue", QString::number(playerInventory.wcCommon) }}},
+                                        { "wcUncommon", QJsonObject{
+                                                { "integerValue", QString::number(playerInventory.wcUncommon) }}},
+                                        { "wcRare", QJsonObject{
+                                                { "integerValue", QString::number(playerInventory.wcRare) }}},
+                                        { "wcMythic", QJsonObject{
+                                                { "integerValue", QString::number(playerInventory.wcMythic) }}},
+                                        { "vaultProgress", QJsonObject{
+                                                { "doubleValue", QString::number(playerInventory.vaultProgress) }}}
+                                    }}
+                            }}
+                    }}
+            }}
+    };
     QByteArray body = QJsonDocument(jsonObj).toJson();
 
-    QUrl url(QString("%1/users/%2/inventory.json").arg(ARENA_META_DB_URL).arg(userSettings.userId));
-    url.setQuery(QUrlQuery(QString("auth=%1").arg(userSettings.userToken)));
+    QUrl url(QString("%1/users/%2?updateMask.fieldPaths=inventory")
+             .arg(ARENA_META_DB_URL).arg(userSettings.userId));
     LOGD(QString("Request: %1").arg(url.toString()));
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    QNetworkReply *reply = networkManager.put(request, body);
+    request.setRawHeader(QString("Authorization").toUtf8(),
+                         QString("Bearer %1").arg(userSettings.userToken).toUtf8());
+    QBuffer *buffer = new QBuffer();
+    buffer->open((QBuffer::ReadWrite));
+    buffer->write(body);
+    buffer->seek(0);
+    QNetworkReply *reply = networkManager.sendCustomRequest(request, "PATCH", buffer);
     connect(reply, &QNetworkReply::finished, this, &FirebaseDatabase::requestOnFinish);
 }
 
@@ -61,5 +82,5 @@ void FirebaseDatabase::requestOnFinish()
         return;
     }
 
-    ARENA_TRACKER->showMessage("Inventory updated");
+    LOGD("Inventory updated");
 }
