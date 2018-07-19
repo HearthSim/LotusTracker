@@ -134,6 +134,8 @@ void ArenaTracker::setupPreferencesScreen()
 
 void ArenaTracker::setupLogParserConnections()
 {
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerCollection,
+            firebaseDatabase, &FirebaseDatabase::updatePlayerCollection);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerInventory,
             firebaseDatabase, &FirebaseDatabase::updateUserInventory);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchCreated,

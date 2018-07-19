@@ -21,13 +21,37 @@ FirebaseDatabase::~FirebaseDatabase()
 
 }
 
+void FirebaseDatabase::updatePlayerCollection(QMap<int, int> ownedCards)
+{
+    UserSettings userSettings = APP_SETTINGS->getUserSettings();
+    if (userSettings.userToken.isEmpty()) {
+        return;
+    }
+    QJsonObject jsonCollection;
+    for (int key : ownedCards.keys()) {
+        jsonCollection.insert(QString::number(key),
+                              QJsonObject{{ "integerValue", QString::number(ownedCards[key]) }});
+    }
+    QJsonObject jsonObj{
+        {"fields", QJsonObject{
+                {"collection", QJsonObject{
+                        {"mapValue", QJsonObject{
+                                {"fields", jsonCollection}
+                            }}
+                    }}
+            }}
+    };
+    QUrl url(QString("%1/users/%2?updateMask.fieldPaths=collection")
+             .arg(ARENA_META_DB_URL).arg(userSettings.userId));
+    createPatchRequest(url, QJsonDocument(jsonObj), userSettings.userToken);
+}
+
 void FirebaseDatabase::updateUserInventory(PlayerInventory playerInventory)
 {
     UserSettings userSettings = APP_SETTINGS->getUserSettings();
     if (userSettings.userToken.isEmpty()) {
         return;
     }
-
     QJsonObject jsonObj{
         {"fields", QJsonObject{
                 {"inventory", QJsonObject{
@@ -48,18 +72,21 @@ void FirebaseDatabase::updateUserInventory(PlayerInventory playerInventory)
                     }}
             }}
     };
-    QByteArray body = QJsonDocument(jsonObj).toJson();
-
     QUrl url(QString("%1/users/%2?updateMask.fieldPaths=inventory")
              .arg(ARENA_META_DB_URL).arg(userSettings.userId));
+    createPatchRequest(url, QJsonDocument(jsonObj), userSettings.userToken);
+}
+
+void FirebaseDatabase::createPatchRequest(QUrl url, QJsonDocument body, QString userToken)
+{
     LOGD(QString("Request: %1").arg(url.toString()));
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader(QString("Authorization").toUtf8(),
-                         QString("Bearer %1").arg(userSettings.userToken).toUtf8());
+                         QString("Bearer %1").arg(userToken).toUtf8());
     QBuffer *buffer = new QBuffer();
     buffer->open((QBuffer::ReadWrite));
-    buffer->write(body);
+    buffer->write(body.toJson());
     buffer->seek(0);
     QNetworkReply *reply = networkManager.sendCustomRequest(request, "PATCH", buffer);
     connect(reply, &QNetworkReply::finished, this, &FirebaseDatabase::requestOnFinish);
@@ -82,5 +109,5 @@ void FirebaseDatabase::requestOnFinish()
         return;
     }
 
-    LOGD("Inventory updated");
+    LOGD(QString("Database updated: &1").arg(reply->request().url().url()));
 }

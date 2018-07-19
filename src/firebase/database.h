@@ -11,11 +11,13 @@ class FirebaseDatabase : public QObject
     Q_OBJECT
 private:
     QNetworkAccessManager networkManager;
+    void createPatchRequest(QUrl url, QJsonDocument body, QString userToken);
     void requestOnFinish();
 
 public:
     explicit FirebaseDatabase(QObject *parent = nullptr);
     ~FirebaseDatabase();
+    void updatePlayerCollection(QMap<int, int> ownedCards);
     void updateUserInventory(PlayerInventory playerInventory);
 
 signals:
