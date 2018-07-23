@@ -38,11 +38,12 @@ private:
     }
 
 public:
+    QString id;
     QString name;
     bool showOnlyRemainingCards;
 
-    Deck(QString name = "", QMap<Card*, int> cards = {})
-        : cardsCurrent(cards), name(name), showOnlyRemainingCards(false){
+    Deck(QString id = "", QString name = "", QMap<Card*, int> cards = {})
+        : cardsCurrent(cards), id(id), name(name), showOnlyRemainingCards(false){
         for (Card *card : cards.keys()) {
             cardsInitial[card] = cards[card];
         }
@@ -50,6 +51,11 @@ public:
     }
 
     QMap<Card*, int> cards()
+    {
+        return cardsInitial;
+    }
+
+    QMap<Card*, int> currentCards()
     {
         if (showOnlyRemainingCards) {
             QMap<Card*, int> onlyRemainingCards;
@@ -64,8 +70,16 @@ public:
         return cardsCurrent;
     }
 
-    QString colorIdentity()
+    void reset()
     {
+        cardsCurrent.clear();
+    }
+
+    QString colorIdentity(bool useStartCalc = true)
+    {
+        if (!useStartCalc) {
+            return calcColorIdentity();
+        }
         return _colorIdentity;
     }
 

@@ -27,6 +27,7 @@ MtgaLogParser::~MtgaLogParser()
 
 Deck MtgaLogParser::jsonObject2Deck(QJsonObject jsonDeck)
 {
+    QString id = jsonDeck["id"].toString();
     QString name = jsonDeck["name"].toString();
     QJsonArray jsonCards = jsonDeck["mainDeck"].toArray();
     QMap<Card*, int> cards;
@@ -38,7 +39,7 @@ Deck MtgaLogParser::jsonObject2Deck(QJsonObject jsonDeck)
             cards[card] = jsonCard["quantity"].toInt();
         }
     }
-    return Deck(name, cards);
+    return Deck(id, name, cards);
 }
 
 void MtgaLogParser::parse(QString logNewContent)
@@ -93,6 +94,7 @@ void MtgaLogParser::parse(QString logNewContent)
 
 void MtgaLogParser::parseMsg(QPair<QString, QString> msg)
 {
+    LOGD(msg.first);
     if (msg.first == "PlayerInventory.GetPlayerInventory") {
         parsePlayerInventory(msg.second);
     } else if (msg.first == "Inventory.Updated"){
@@ -128,10 +130,9 @@ void MtgaLogParser::parsePlayerInventory(QString json)
     int wcUncommon = jsonPlayerIventory["wcUncommon"].toInt();
     int wcRare = jsonPlayerIventory["wcRare"].toInt();
     int wcMythic = jsonPlayerIventory["wcMythic"].toInt();
-    float vaultProgress = jsonPlayerIventory["vaultProgress"].toDouble();
-    PlayerInventory playerInventory(wcCommon, wcUncommon, wcRare, wcMythic, vaultProgress);
-    LOGD(QString("PlayerInventory: %1 wcC, %2 wcI, %3 wcR, %4 wcM, %5% vault")
-         .arg(wcCommon).arg(wcUncommon).arg(wcRare).arg(wcMythic).arg(vaultProgress));
+    PlayerInventory playerInventory(wcCommon, wcUncommon, wcRare, wcMythic);
+    LOGD(QString("PlayerInventory: %1 wcC, %2 wcI, %3 wcR, %4 wcM")
+         .arg(wcCommon).arg(wcUncommon).arg(wcRare).arg(wcMythic));
     emit sgnPlayerInventory(playerInventory);
 }
 
@@ -192,10 +193,10 @@ void MtgaLogParser::parseMatchCreated(QString json)
     QString opponentName = jsonMatchCreated["opponentScreenName"].toString();
     QString opponentRankClass = jsonMatchCreated["opponentRankingClass"].toString();
     int opponentRankTier = jsonMatchCreated["opponentRankingTier"].toInt();
-    MatchInfo match(opponentName, opponentRankClass, opponentRankTier);
+    OpponentInfo opponentInfo(opponentName, opponentRankClass, opponentRankTier);
     LOGD(QString("MatchCreated: Opponent %1, rank: %2(%3)").arg(opponentName)
          .arg(opponentRankClass).arg(opponentRankTier));
-    emit sgnMatchCreated(match);
+    emit sgnMatchCreated(opponentInfo);
 }
 
 void MtgaLogParser::parseMatchInfo(QString json)

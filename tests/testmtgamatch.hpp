@@ -37,8 +37,8 @@ public:
         mtgaMatch = new MtgaMatch(this, mtgCards);
         mtgaLogParser = new MtgaLogParser(this, mtgCards);
         connect(mtgaLogParser, &MtgaLogParser::sgnMatchCreated,
-                this, [this](MatchInfo matchInfo){
-                    mtgaMatch->startNewMatch(matchInfo);
+                this, [this](OpponentInfo opponentInfo){
+                    mtgaMatch->startNewMatch(opponentInfo);
                 });
         connect(mtgaLogParser, &MtgaLogParser::sgnMatchInfoSeats,
                 mtgaMatch, &MtgaMatch::onMatchInfoSeats);

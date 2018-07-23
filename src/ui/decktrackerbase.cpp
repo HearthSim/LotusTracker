@@ -35,7 +35,7 @@ DeckTrackerBase::DeckTrackerBase(QWidget *parent) : QMainWindow(parent),
         QDir dir;
         dir.mkpath(cachesDir);
     }
-    uiAlpha = APP_SETTINGS->getDeckTrackerAlpha();
+    changeAlpha(APP_SETTINGS->getDeckTrackerAlpha());
     unhiddenTimeout = APP_SETTINGS->getUnhiddenDelay();
     showCardOnHover = APP_SETTINGS->isShowCardOnHoverEnabled();
 
@@ -53,6 +53,11 @@ DeckTrackerBase::~DeckTrackerBase()
             for (CardBlinkInfo *cardBlinkInfo : cardsBlinkInfo.values()){
         delete cardBlinkInfo;
     }
+}
+
+Deck DeckTrackerBase::getDeck()
+{
+    return deck;
 }
 
 // Credits to Track o'bot - https://github.com/stevschmid/track-o-bot
@@ -119,7 +124,7 @@ int DeckTrackerBase::getCardHeight()
 
 QList<Card*> DeckTrackerBase::getDeckCardsSorted()
 {
-    QList<Card*> sortedDeckCards(deck.cards().keys());
+    QList<Card*> sortedDeckCards(deck.currentCards().keys());
     std::sort(std::begin(sortedDeckCards), std::end(sortedDeckCards), [](Card*& lhs, Card*& rhs) {
         return std::make_tuple(lhs->isLand, lhs->manaCostValue(), lhs->name) <
                 std::make_tuple(rhs->isLand, rhs->manaCostValue(), rhs->name);
@@ -256,10 +261,13 @@ void DeckTrackerBase::drawDeckCards(QPainter &painter)
     int cardTextOptions = Qt::AlignLeft | Qt::AlignVCenter | Qt::TextDontClip;
     int cardQtdOptions = Qt::AlignCenter | Qt::AlignVCenter | Qt::TextDontClip;
     for (Card* card : getDeckCardsSorted()) {
-        int cardQtdRemains = deck.cards()[card];
+        int cardQtdRemains = deck.currentCards()[card];
         QString cardManaIdentity = card->manaColorIdentityAsString();
         if (cardManaIdentity.size() > 2) {
             cardManaIdentity = "m";
+        }
+        if (cardManaIdentity.isEmpty() && card->isArtifact) {
+            cardManaIdentity = "a";
         }
         // Card BG
         int cardBGY = uiPos.y() + uiHeight + cardListHeight;
@@ -460,7 +468,7 @@ int DeckTrackerBase::getCardsHoverPosition(QHoverEvent *event)
 
 void DeckTrackerBase::updateCardHoverUrl(int hoverPosition)
 {
-    if (hoverPosition < 0 || hoverPosition >= deck.cards().size()){
+    if (hoverPosition < 0 || hoverPosition >= deck.currentCards().size()){
         return;
     }
     currentHoverPosition = hoverPosition;

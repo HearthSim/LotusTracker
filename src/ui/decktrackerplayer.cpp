@@ -59,7 +59,7 @@ void DeckTrackerPlayer::applyCurrentSettings()
 
 void DeckTrackerPlayer::drawStatistics(QPainter &painter)
 {
-    if (deck.cards().size() == 0) {
+    if (deck.currentCards().size() == 0) {
         return;
     }
     // Statistics BG
@@ -175,6 +175,7 @@ void DeckTrackerPlayer::mouseReleaseEvent(QMouseEvent *event)
     }
     if (preferencesButton.contains(event->pos())) {
         ARENA_TRACKER->showPreferencesScreen();
+        showCardOnHover = false;
         return;
     }
     DeckTrackerBase::mouseReleaseEvent(event);

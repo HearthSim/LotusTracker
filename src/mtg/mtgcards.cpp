@@ -128,11 +128,14 @@ Card* MtgCards::jsonObject2Card(QJsonObject jsonCard, QString setCode)
     QString name = jsonCard["name"].toString();
     QString type = jsonCard["type"].toString();
     QJsonArray jsonTypes = jsonCard["types"].toArray();
+    bool isArtifact = false;
     bool isLand = false;
     for (QJsonValueRef typeRef : jsonTypes) {
+        if (typeRef.toString() == "Artifact") {
+            isArtifact = true;
+        }
         if (typeRef.toString() == "Land") {
             isLand = true;
-            break;
         }
     }
     int mtgaId = mtgaIds[setCode][number];
@@ -159,7 +162,7 @@ Card* MtgCards::jsonObject2Card(QJsonObject jsonCard, QString setCode)
         manaColorIdentity = manaCost2ManaColorIdentity(manaCost);
     }
     return new Card(mtgaId, multiverseId, setCode, number, name,
-                    type, manaCost, manaColorIdentity, isLand);
+                    type, manaCost, manaColorIdentity, isLand, isArtifact);
 }
 
 QList<QChar> MtgCards::manaCost2ManaColorIdentity(QString manaCost)

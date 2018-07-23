@@ -35,13 +35,13 @@ private:
     MatchInfo matchInfo;
     MatchPlayer player;
     MatchPlayer opponent;
+    QPair<QString, int> playerRankInfo;
     QMap<int, MatchZone> zones;
     // objectId, ownerId
     QMap<int, int> stackOwnerTrack;
     // objectId, zoneType
     QMap<int, ZoneType> stackZoneSrcTrack;
     int currentTurn;
-    bool playerGoFirst, resultPlayerWins;
     void updateZones(MatchStateDiff matchStateDiff);
     void updateIdsChanged(MatchStateDiff matchStateDiff);
     void notifyHandCardsDraw(MatchStateDiff matchStateDiff);
@@ -54,8 +54,11 @@ private:
 
 public:
     explicit MtgaMatch(QObject *parent = nullptr, MtgCards *mtgCards = nullptr);
-    void startNewMatch(MatchInfo matchInfo);
+    void startNewMatch(OpponentInfo matchInfo);
     void endCurrentMatch(int winningTeamId);
+    MatchInfo getInfo();
+    QPair<QString, int> getPlayerRankInfo();
+    bool isRunning;
 
 signals:
     void sgnPlayerPutInLibraryCard(Card* card);
@@ -72,6 +75,7 @@ signals:
     void sgnOpponentPutOnBattlefieldCard(Card* card);
 
 public slots:
+    void onPlayerRankInfo(QPair<QString, int> playerRankInfo);
     void onMatchInfoSeats(QList<MatchPlayer> players);
     void onSeatIdThatGoFirst(int seatId);
     void onPlayerTakesMulligan();

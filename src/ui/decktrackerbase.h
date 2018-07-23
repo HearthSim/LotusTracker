@@ -23,7 +23,7 @@ private:
     int currentHoverPosition, hoverCardMultiverseId, unhiddenTimeout;
     QTimer* unhiddenTimer;
     QNetworkAccessManager networkManager;
-    bool mousePressed, showCardOnHover;
+    bool mousePressed;
     QPoint mouseRelativePosition;
     void setupWindow();
     // Draw fields and methods
@@ -48,7 +48,7 @@ protected:
     qreal uiAlpha, uiScale;
     int cardHoverWidth, uiHeight, uiWidth;
     Deck deck;
-    bool hidden;
+    bool hidden, showCardOnHover;
     void blinkCard(Card* card);
     void paintEvent(QPaintEvent *event);
     void drawCover(QPainter &painter);
@@ -75,6 +75,7 @@ protected:
 public:
     explicit DeckTrackerBase(QWidget *parent = nullptr);
     ~DeckTrackerBase();
+    Deck getDeck();
 
 signals:
 

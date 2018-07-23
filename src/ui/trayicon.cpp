@@ -112,7 +112,7 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
     QAction *loadDeckAction = new QAction(tr("Load Deck"), this);
     connect(loadDeckAction, &QAction::triggered, this, [](){
         MtgaLogParser *mtgaLogParser = ARENA_TRACKER->mtgArena->getLogParser();
-        emit mtgaLogParser->sgnMatchCreated(MatchInfo("Opponent", "Beginner", 0));
+        emit mtgaLogParser->sgnMatchCreated(OpponentInfo("Opponent", "Beginner", 0));
         // Player Select Deck
         QString currentDir = QDir::currentPath();
 #ifdef Q_OS_MAC
@@ -146,8 +146,7 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
     // Update user inventory
     QAction *updateUserInventoryAction = new QAction(tr("parse UserInventory"), this);
     connect(updateUserInventoryAction, &QAction::triggered, this, [this](){
-        PlayerInventory playerInventory(rand() % 10, rand() % 10, rand() % 10,
-                                        rand() % 10, (rand() % 100) / 100.0);
+        PlayerInventory playerInventory(rand() % 10, rand() % 10, rand() % 10, rand() % 10);
         emit ARENA_TRACKER->mtgArena->getLogParser()->sgnPlayerInventory(playerInventory);
     });
     testMenu->addAction(updateUserInventoryAction);

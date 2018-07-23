@@ -42,6 +42,7 @@ HEADERS += \
     src/entity/matchstatediff.h \
     src/entity/matchzone.h \
     src/entity/matchzonetransfer.h \
+    src/entity/opponentinfo.h \
     src/firebase/auth.h \
     src/firebase/database.h \
     src/mtg/mtgarena.h \

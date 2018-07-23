@@ -3,18 +3,21 @@
 
 class PlayerInventory
 {
+private:
+    int wcCommon;
+    int wcUncommon;
+    int wcRare;
+    int wcMythic;
+
 public:
-    const int wcCommon;
-    const int wcUncommon;
-    const int wcRare;
-    const int wcMythic;
-    const float vaultProgress;
 
-    PlayerInventory() : wcCommon(0), wcUncommon(0), wcRare(0), wcMythic(0), vaultProgress(0.0){}
+    PlayerInventory(int wcCommon = 0, int wcUncommon = 0, int wcRare = 0, int wcMythic = 0)
+        : wcCommon(wcCommon), wcUncommon(wcUncommon), wcRare(wcRare), wcMythic(wcMythic){}
 
-    PlayerInventory(int wcCommon, int wcUncommon, int wcRare, int wcMythic, float vaultProgress)
-        : wcCommon(wcCommon), wcUncommon(wcUncommon), wcRare(wcRare), wcMythic(wcMythic),
-          vaultProgress(vaultProgress){}
+    int getWcCommon(){ return wcCommon; }
+    int getWcUncommon(){ return wcUncommon; }
+    int getWcRare(){ return wcRare; }
+    int getWcMythic(){ return wcMythic; }
 
 };
 

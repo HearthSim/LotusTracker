@@ -1,23 +1,25 @@
 #ifndef MATCHINFO_H
 #define MATCHINFO_H
 
+#include "opponentinfo.h"
+
 #include <QString>
+#include <QPair>
 
 class MatchInfo
 {
-private:
-    QString _opponentName;
-    QString _opponentRankClass;
-    int _opponentRankTier;
 public:
+    OpponentInfo opponentInfo;
+    bool playerGoFirst, playerTakesMulligan, opponentTakesMulligan, playerWins;
 
-    MatchInfo(QString opponentName = "", QString opponentRankClass = "", int opponentRankTier = 0)
-        : _opponentName(opponentName), _opponentRankClass(opponentRankClass),
-          _opponentRankTier(opponentRankTier) {}
-
-    QString opponentName(){ return _opponentName; }
-    QString opponentRankClass(){ return _opponentRankClass; }
-    int opponentRankTier(){ return _opponentRankTier; }
+    void clear()
+    {
+        opponentInfo = OpponentInfo();
+        playerGoFirst = false;
+        playerTakesMulligan = false;
+        opponentTakesMulligan = false;
+        playerWins = false;
+    }
 
 };
 

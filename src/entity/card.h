@@ -18,13 +18,15 @@ public:
     const QString manaCost;
     const QList<QChar> manaColorIdentity;
     bool isLand;
+    bool isArtifact;
 
     Card(int mtgaId = 0, int multiverseId = 0, QString setCode = "",
          QString number = "", QString name = "", QString type = "",
-         QString manaCost = "", QList<QChar> manaColorIdentity = {}, bool isLand = false)
+         QString manaCost = "", QList<QChar> manaColorIdentity = {},
+         bool isLand = false, bool isArtifact = false)
         : mtgaId(mtgaId), multiverseId(multiverseId), setCode(setCode),
           number(number), name(name), type(type), manaCost(manaCost),
-          manaColorIdentity(manaColorIdentity), isLand(isLand){}
+          manaColorIdentity(manaColorIdentity), isLand(isLand), isArtifact(isArtifact){}
 
     int manaCostValue()
     {

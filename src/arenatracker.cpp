@@ -12,8 +12,7 @@
 #include <QLocalSocket>
 #include <QMessageBox>
 
-ArenaTracker::ArenaTracker(int& argc, char **argv): QApplication(argc, argv),
-    isMatchRunning(false)
+ArenaTracker::ArenaTracker(int& argc, char **argv): QApplication(argc, argv)
 {
     setupApp();
     setupUpdater();
@@ -25,7 +24,7 @@ ArenaTracker::ArenaTracker(int& argc, char **argv): QApplication(argc, argv),
     deckTrackerOpponent = new DeckTrackerOpponent();
     trayIcon = new TrayIcon(this, mtgCards);
     firebaseAuth = new FirebaseAuth(this);
-    firebaseDatabase = new FirebaseDatabase(this);
+    firebaseDatabase = new FirebaseDatabase(this, firebaseAuth);
     startScreen = new StartScreen(nullptr, firebaseAuth);
     connect(firebaseAuth, &FirebaseAuth::sgnUserLogged, this, &ArenaTracker::onUserSigned);
     connect(firebaseAuth, &FirebaseAuth::sgnTokenRefreshed, this, &ArenaTracker::onUserTokenRefreshed);
@@ -47,6 +46,7 @@ ArenaTracker::~ArenaTracker()
     DEL(mtgArena)
     DEL(mtgaMatch)
     DEL(firebaseAuth)
+    DEL(firebaseDatabase)
 }
 
 int ArenaTracker::run()
@@ -138,12 +138,14 @@ void ArenaTracker::setupLogParserConnections()
             firebaseDatabase, &FirebaseDatabase::updatePlayerCollection);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerInventory,
             firebaseDatabase, &FirebaseDatabase::updateUserInventory);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerRankInfo,
+            mtgaMatch, &MtgaMatch::onPlayerRankInfo);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckSubmited,
+            this, &ArenaTracker::onDeckSubmited);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchCreated,
             this, &ArenaTracker::onMatchStart);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchInfoResultMatch,
             this, &ArenaTracker::onMatchEnd);
-    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckSubmited,
-            this, &ArenaTracker::onDeckSubmited);
 }
 
 void ArenaTracker::setupMtgaMatch()
@@ -220,39 +222,44 @@ void ArenaTracker::onDeckSubmited(Deck deck)
     if (APP_SETTINGS->isDeckTrackerOpponentEnabled()) {
         deckTrackerOpponent->show();
     }
+    firebaseDatabase->updatePlayerDeck(deck);
 }
 
-void ArenaTracker::onMatchStart(MatchInfo matchInfo)
+void ArenaTracker::onMatchStart(OpponentInfo opponentInfo)
 {
-    isMatchRunning = true;
-    mtgaMatch->startNewMatch(matchInfo);
+    mtgaMatch->isRunning = true;
+    mtgaMatch->startNewMatch(opponentInfo);
 }
 
 void ArenaTracker::onMatchEnd(int winningTeamId)
 {
-    isMatchRunning = false;
+    mtgaMatch->isRunning = false;
     deckTrackerPlayer->hide();
-    deckTrackerOpponent->reset();
     deckTrackerOpponent->hide();
     mtgaMatch->endCurrentMatch(winningTeamId);
+    firebaseDatabase->uploadMatch(mtgaMatch->getInfo(),
+                                  mtgaMatch->getPlayerRankInfo().first,
+                                  deckTrackerPlayer->getDeck(),
+                                  deckTrackerOpponent->getDeck());
+    deckTrackerOpponent->reset();
 }
 
 void ArenaTracker::onDeckTrackerPlayerEnabledChange(bool enabled)
 {
-    if (enabled && isMatchRunning) {
+    if (enabled && mtgaMatch->isRunning) {
         deckTrackerPlayer->show();
     }
-    if (!enabled && isMatchRunning) {
+    if (!enabled && mtgaMatch->isRunning) {
         deckTrackerPlayer->hide();
     }
 }
 
 void ArenaTracker::onDeckTrackerOpponentEnabledChange(bool enabled)
 {
-    if (enabled && isMatchRunning) {
+    if (enabled && mtgaMatch->isRunning) {
         deckTrackerOpponent->show();
     }
-    if (!enabled && isMatchRunning) {
+    if (!enabled && mtgaMatch->isRunning) {
         deckTrackerOpponent->hide();
     }
 }

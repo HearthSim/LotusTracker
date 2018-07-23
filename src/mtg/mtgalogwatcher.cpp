@@ -6,7 +6,7 @@
 #include <QFileInfo>
 #include <QStandardPaths>
 
-#define WATCH_TEST_LOG true
+#define WATCH_TEST_LOG false
 #define LOG_PATH QString("AppData%1LocalLow%2Wizards of the Coast%3MTGA")\
     .arg(QDir::separator()).arg(QDir::separator()).arg(QDir::separator())
 #define LOG_PATH_TEST "Documents"

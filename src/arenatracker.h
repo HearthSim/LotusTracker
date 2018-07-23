@@ -2,6 +2,7 @@
 #define ARENATRACKER_H
 
 #include "entity/matchinfo.h"
+#include "entity/opponentinfo.h"
 #include "mtg/mtgarena.h"
 #include "mtg/mtgcards.h"
 #include "mtg/mtgamatch.h"
@@ -25,7 +26,6 @@ class ArenaTracker : public QApplication
 
 private:
     QLocalServer *localServer;
-    bool isMatchRunning;
     MtgCards *mtgCards;
     DeckTrackerPlayer *deckTrackerPlayer;
     DeckTrackerOpponent *deckTrackerOpponent;
@@ -60,7 +60,7 @@ signals:
 
 private slots:
     void onDeckSubmited(Deck deck);
-    void onMatchStart(MatchInfo match);
+    void onMatchStart(OpponentInfo match);
     void onMatchEnd(int winningTeamId);
     void onDeckTrackerPlayerEnabledChange(bool enabled);
     void onDeckTrackerOpponentEnabledChange(bool enabled);

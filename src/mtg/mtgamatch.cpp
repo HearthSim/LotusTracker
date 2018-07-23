@@ -2,34 +2,49 @@
 #include "../macros.h"
 
 MtgaMatch::MtgaMatch(QObject *parent, MtgCards *mtgCards)
-    : QObject(parent), mtgCards(mtgCards)
+    : QObject(parent), mtgCards(mtgCards), playerRankInfo(qMakePair(QString(""), 0))
 {
 
 }
 
-void MtgaMatch::startNewMatch(MatchInfo matchInfo)
+void MtgaMatch::startNewMatch(OpponentInfo opponentInfo)
 {
-    this->matchInfo = matchInfo;
+    matchInfo.clear();
+    matchInfo.opponentInfo = opponentInfo;
     player = MatchPlayer();
     opponent = MatchPlayer();
     zones.clear();
     stackZoneSrcTrack.clear();
     currentTurn = 1;
-    playerGoFirst = false;
-    resultPlayerWins = false;
+    isRunning = false;
     LOGI("New match started")
 }
 
 void MtgaMatch::endCurrentMatch(int winningTeamId)
 {
-    resultPlayerWins = player.teamId() == winningTeamId;
-    LOGI(QString("%1 win").arg(resultPlayerWins ? "Player" : "Opponent"))
+    matchInfo.playerWins = player.teamId() == winningTeamId;
+    LOGI(QString("%1 win").arg(matchInfo.playerWins ? "Player" : "Opponent"))
+}
+
+MatchInfo MtgaMatch::getInfo()
+{
+    return matchInfo;
+}
+
+QPair<QString, int> MtgaMatch::getPlayerRankInfo()
+{
+    return playerRankInfo;
+}
+
+void MtgaMatch::onPlayerRankInfo(QPair<QString, int> playerRankInfo)
+{
+    this->playerRankInfo = playerRankInfo;
 }
 
 void MtgaMatch::onMatchInfoSeats(QList<MatchPlayer> players)
 {
     for (MatchPlayer matchPlayer : players) {
-        if (matchPlayer.name() == matchInfo.opponentName()) {
+        if (matchPlayer.name() == matchInfo.opponentInfo.opponentName()) {
             opponent = MatchPlayer(matchPlayer.name(), matchPlayer.seatId(), matchPlayer.teamId());
         } else {
             player = MatchPlayer(matchPlayer.name(), matchPlayer.seatId(), matchPlayer.teamId());
@@ -39,12 +54,14 @@ void MtgaMatch::onMatchInfoSeats(QList<MatchPlayer> players)
 
 void MtgaMatch::onSeatIdThatGoFirst(int seatId)
 {
-    playerGoFirst = player.seatId() == seatId;
+    bool playerGoFirst = player.seatId() == seatId;
+    matchInfo.playerGoFirst = playerGoFirst;
     LOGI(QString("%1 go first").arg(playerGoFirst ? "Player" : "Opponent"))
 }
 
 void MtgaMatch::onPlayerTakesMulligan()
 {
+    matchInfo.playerTakesMulligan = true;
     QMap<int, int> handObjectIds;
     for (MatchZone zone : zones.values()) {
         if (zone.type() == ZoneType_HAND && zone.ownerSeatId() == player.seatId()) {
@@ -68,7 +85,7 @@ void MtgaMatch::onPlayerTakesMulligan()
 
 void MtgaMatch::onOpponentTakesMulligan(int opponentSeatId)
 {
-
+    matchInfo.opponentTakesMulligan = true;
 }
 
 void MtgaMatch::onMatchStartZones(QList<MatchZone> matchZones)

@@ -10,7 +10,7 @@
 #include <QtTest/QtTest>
 
 Q_DECLARE_METATYPE(Deck)
-Q_DECLARE_METATYPE(MatchInfo)
+Q_DECLARE_METATYPE(OpponentInfo)
 Q_DECLARE_METATYPE(MatchPlayer)
 Q_DECLARE_METATYPE(MatchStateDiff)
 Q_DECLARE_METATYPE(MatchZone)
@@ -86,12 +86,12 @@ private slots:
         QList<Deck> playerDecks = args.first().value<QList<Deck>>();
         QCOMPARE(playerDecks.size(), 12);
         Card* vraskasContemptCard = mtgCards->findCard(66223);
-        QCOMPARE(playerDecks.first().cardsCurrent[vraskasContemptCard], 2);
+        QCOMPARE(playerDecks.first().currentCards()[vraskasContemptCard], 2);
     }
 
     void testParseMatchCreated()
     {
-        qRegisterMetaType<MatchInfo>();
+        qRegisterMetaType<OpponentInfo>();
         QString log;
         READ_LOG("MatchCreated.txt", log);
         QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnMatchCreated);
@@ -99,7 +99,7 @@ private slots:
 
         QCOMPARE(spy.count(), 1);
         QList<QVariant> args = spy.takeFirst();
-        MatchInfo match = args.first().value<MatchInfo>();
+        OpponentInfo match = args.first().value<OpponentInfo>();
         QCOMPARE(match.opponentRankClass(), "Bronze");
         QCOMPARE(match.opponentRankTier(), 4);
     }
@@ -176,7 +176,7 @@ private slots:
         QList<QVariant> args = spy.takeFirst();
         Deck playerDeckSubmited = args.first().value<Deck>();
         Card* duress = mtgCards->findCard(66175);
-        QCOMPARE(playerDeckSubmited.cardsCurrent[duress], 2);
+        QCOMPARE(playerDeckSubmited.currentCards()[duress], 2);
     }
 
     void testParsePlayerAcceptsHand()

@@ -4,7 +4,7 @@
 #include "mtgcards.h"
 #include "../entity/deck.h"
 #include "../entity/user.h"
-#include "../entity/matchinfo.h"
+#include "../entity/opponentinfo.h"
 #include "../entity/matchstatediff.h"
 #include "../entity/matchplayer.h"
 #include "../entity/matchzone.h"
@@ -53,7 +53,7 @@ signals:
     void sgnPlayerInventoryUpdate(QList<int> newCards);
     void sgnPlayerCollection(QMap<int, int> ownedCards);
     void sgnPlayerDecks(QList<Deck> playerDecks);
-    void sgnMatchCreated(MatchInfo match);
+    void sgnMatchCreated(OpponentInfo opponentInfo);
     void sgnMatchInfoSeats(QList<MatchPlayer>);
     void sgnMatchInfoResultMatch(int winningTeamId);
     void sgnPlayerRankInfo(QPair<QString, int> playerRankInfo);
