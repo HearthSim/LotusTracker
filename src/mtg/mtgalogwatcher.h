@@ -22,6 +22,7 @@ public:
     MtgaLogWatcher(QObject *parent);
     ~MtgaLogWatcher();
     void setLogPath(QString filePath);
+    void onGameFocusChanged(bool hasFocus);
     void startWatching();
     void stopWatching();
 

@@ -12,19 +12,15 @@
 #define LOG_PATH_TEST "Documents"
 
 MtgaLogWatcher::MtgaLogWatcher(QObject *parent) : QObject(parent), 
-	timer(new QTimer(this)), lastFilePos(0)
+    logFile(nullptr), timer(new QTimer(this)), lastFilePos(0)
 {
     QString homeDir = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
     logPath = homeDir + QDir::separator() + (WATCH_TEST_LOG ? LOG_PATH_TEST : LOG_PATH);
-    if (QFileInfo(logPath + QDir::separator() + "output_log.txt").exists()) {
-    	setLogPath(logPath);
-    } else {
-        LOGW(QString("Game log file not found: %1").arg(logPath));
-    }
     MtgArena* mtgArena = (MtgArena*) parent;
     if (WATCH_TEST_LOG) {
         startWatching();
     } else {
+        connect(mtgArena, &MtgArena::sgnGameFocusChanged, this, &MtgaLogWatcher::onGameFocusChanged);
         connect(mtgArena, &MtgArena::sgnGameStarted, this, &MtgaLogWatcher::startWatching);
         connect(mtgArena, &MtgArena::sgnGameStopped, this, &MtgaLogWatcher::stopWatching);
     }
@@ -43,6 +39,19 @@ void MtgaLogWatcher::setLogPath(QString logPath){
 		logFilePath = logPath;
         LOGD(QString("Log file: %1").arg(logFilePath));
 	    lastFilePos = logFile->size();	
+    } else {
+        LOGW(QString("Game log file not found: %1").arg(logPath));
+    }
+}
+
+void MtgaLogWatcher::onGameFocusChanged(bool hasFocus)
+{
+    if (!hasFocus || timer->isActive()) {
+        return;
+    }
+    if (QFileInfo(logPath + QDir::separator() + "output_log.txt").exists()) {
+        setLogPath(logPath);
+        startWatching();
     } else {
         LOGW(QString("Game log file not found: %1").arg(logPath));
     }
@@ -86,5 +95,5 @@ void MtgaLogWatcher::checkForNewLogs()
 		QByteArray logNewContent = logFile->readAll();
         emit sgnNewLogContent(QString::fromUtf8(logNewContent.trimmed()));
         lastFilePos = logFile->pos();
-	}
+    }
 }
