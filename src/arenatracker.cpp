@@ -216,17 +216,17 @@ void ArenaTracker::showMessage(QString msg, QString title)
 void ArenaTracker::onDeckSubmited(Deck deck)
 {
     deckTrackerPlayer->loadDeck(deck);
+    firebaseDatabase->updatePlayerDeck(deck);
+}
+
+void ArenaTracker::onMatchStart(OpponentInfo opponentInfo)
+{
     if (APP_SETTINGS->isDeckTrackerPlayerEnabled()) {
         deckTrackerPlayer->show();
     }
     if (APP_SETTINGS->isDeckTrackerOpponentEnabled()) {
         deckTrackerOpponent->show();
     }
-    firebaseDatabase->updatePlayerDeck(deck);
-}
-
-void ArenaTracker::onMatchStart(OpponentInfo opponentInfo)
-{
     mtgaMatch->isRunning = true;
     mtgaMatch->startNewMatch(opponentInfo);
 }
