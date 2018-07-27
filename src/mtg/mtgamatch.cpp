@@ -13,7 +13,9 @@ void MtgaMatch::startNewMatch(OpponentInfo opponentInfo)
     matchInfo.opponentInfo = opponentInfo;
     player = MatchPlayer();
     opponent = MatchPlayer();
+    playerRankInfo = qMakePair(QString(""), 0);
     zones.clear();
+    stackOwnerTrack.clear();
     stackZoneSrcTrack.clear();
     currentTurn = 1;
     isRunning = false;
