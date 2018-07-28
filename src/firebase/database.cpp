@@ -212,6 +212,9 @@ void FirebaseDatabase::uploadMatch(MatchInfo matchInfo, QString playerRankClass,
     QString winner = matchInfo.playerWins ? "player1" : "player2";
     QJsonObject jsonObj{
         {"fields", QJsonObject{
+                {"event", QJsonObject{
+                        {"stringValue", matchInfo.eventId}
+                    }},
                 {"first", QJsonObject{
                         {"stringValue", first}
                     }},

@@ -33,12 +33,12 @@ private:
     void parsePlayerRankInfo(QString json);
     void parsePlayerRankUpdated(QString json);
     void parsePlayerDeckSubmited(QString json);
-    void parseClientToGreMessages(QString json);
     void parseGreToClientMessages(QString json);
     void parseDieRollResult(QJsonObject jsonMessage);
     void parseGameStateFull(QJsonObject jsonMessage);
     void parseGameStateDiff(int gameStateId, QJsonObject jsonMessage);
-    void checkOpponentMulligan(QList<MatchZone> zones);
+    void checkOpponentMulligan(QList<MatchZone> zones, int turnNumber,
+                               QJsonArray jsonDiffDeletedInstanceIds);
     QList<MatchZone> getMatchZones(QJsonObject jsonGameStateMessage);
     QMap<int, int> getIdsChanged(QJsonArray jsonGSMAnnotations);
     QMap<int, MatchZoneTransfer> getIdsZoneChanged(QJsonArray jsonGSMAnnotations);
@@ -59,7 +59,6 @@ signals:
     void sgnPlayerRankInfo(QPair<QString, int> playerRankInfo);
     void sgnPlayerRankUpdated(QPair<QString, int> playerNewRank);
     void sgnPlayerDeckSubmited(Deck deck);
-    void sgnPlayerAcceptsHand();
     void sgnPlayerCardHoverStarts();
     void sgnPlayerCardHoverEnds();
     void sgnPlayerTakesMulligan();

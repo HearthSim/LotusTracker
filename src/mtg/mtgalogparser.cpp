@@ -6,7 +6,7 @@
 #include <QList>
 #include <QRegularExpression>
 
-#define REGEXP_RAW_MSG "\\s(<==|Incoming|Match\\sto|to\\sMatch).+(\\s|\\n)(\\{|\\[)(\\n\\s+.*)+\\n(\\}|\\])"
+#define REGEXP_RAW_MSG "\\s(<==|Incoming|Match\\sto).+(\\s|\\n)(\\{|\\[)(\\n\\s+.*)+\\n(\\}|\\])"
 #define REGEXP_MSG_RESPONSE_NUMBER "((?<=\\s)\\d+(?=\\:\\s)|(?<=\\()\\d+(?=\\)))"
 #define REGEXP_MSG_ID "\\S+(?=(\\s|\\n)(\\{|\\[))"
 #define REGEXP_MSG_JSON "(\\{|\\[)(\\n\\s+.*)+\\n(\\}||\\])"
@@ -113,8 +113,6 @@ void MtgaLogParser::parseMsg(QPair<QString, QString> msg)
         parsePlayerRankUpdated(msg.second);
     } else if (msg.first == "Event.DeckSubmit"){
         parsePlayerDeckSubmited(msg.second);
-    } else if (msg.first == "ClientToGreMessage"){
-        parseClientToGreMessages(msg.second);
     } else if (msg.first == "GreToClientEvent"){
         parseGreToClientMessages(msg.second);
     }
@@ -278,35 +276,6 @@ void MtgaLogParser::parsePlayerDeckSubmited(QString json)
     emit sgnPlayerDeckSubmited(deckSubmited);
 }
 
-void MtgaLogParser::parseClientToGreMessages(QString json)
-{
-    QJsonObject jsonPlayerToClientMsg = Transformations::stringToJsonObject(json);
-    if (jsonPlayerToClientMsg.empty()) {
-        return;
-    }
-    QJsonObject jsonClientToGreMsg = jsonPlayerToClientMsg["clientToGreMessage"].toObject();
-    if (jsonClientToGreMsg.contains("uiMessage")) {
-        QJsonObject jsonUiMessage = jsonClientToGreMsg["uiMessage"].toObject();
-        QJsonObject jsonOnHover = jsonUiMessage["onHover"].toObject();
-        if (jsonOnHover.contains("objectId")) {
-            emit sgnPlayerCardHoverStarts();
-        } else  {
-            emit sgnPlayerCardHoverEnds();
-        }
-    }
-    if (jsonClientToGreMsg.contains("mulliganResp")) {
-        QJsonObject jsonMulliganResp = jsonClientToGreMsg["mulliganResp"].toObject();
-        QString action = jsonMulliganResp["decision"].toString();
-        if (action == "MulliganOption_AcceptHand") {
-            LOGD("Player accept hand");
-            emit sgnPlayerAcceptsHand();
-        } else if (action == "MulliganOption_Mulligan") {
-            LOGD("Player mulligan");
-            emit sgnPlayerTakesMulligan();
-        }
-    }
-}
-
 void MtgaLogParser::parseGreToClientMessages(QString json)
 {
     QJsonObject jsonPlayerToClientMsg = Transformations::stringToJsonObject(json);
@@ -363,7 +332,6 @@ void MtgaLogParser::parseGameStateFull(QJsonObject jsonMessage)
 void MtgaLogParser::parseGameStateDiff(int gameStateId, QJsonObject jsonMessage)
 {
     QList<MatchZone> zones = getMatchZones(jsonMessage);
-    checkOpponentMulligan(zones);
     QJsonArray jsonGameObjects = jsonMessage["gameObjects"].toArray();
     for (QJsonValueRef jsonGameObjectRef : jsonGameObjects) {
         QJsonObject jsonGameObject = jsonGameObjectRef.toObject();
@@ -377,6 +345,7 @@ void MtgaLogParser::parseGameStateDiff(int gameStateId, QJsonObject jsonMessage)
             }
         }
     }
+    int turnNumber = 0;
     QJsonArray jsonGSMAnnotations = jsonMessage["annotations"].toArray();
     for (QJsonValueRef jsonAnnotationRef : jsonGSMAnnotations) {
         QJsonObject jsonAnnotation = jsonAnnotationRef.toObject();
@@ -384,12 +353,14 @@ void MtgaLogParser::parseGameStateDiff(int gameStateId, QJsonObject jsonMessage)
         if (type == "AnnotationType_NewTurnStarted") {
             QJsonObject jsonTurnInfo = jsonMessage["turnInfo"].toObject();
             if (jsonTurnInfo.contains("turnNumber")) {
-                int turnNumber = jsonTurnInfo["turnNumber"].toInt();
+                turnNumber = jsonTurnInfo["turnNumber"].toInt();
                 LOGD(QString("NewTurn: %1").arg(turnNumber));
                 emit sgnNewTurnStarted(turnNumber);
             }
         }
     }
+    QJsonArray jsonDiffDeletedInstanceIds = jsonMessage["diffDeletedInstanceIds"].toArray();
+    checkOpponentMulligan(zones, turnNumber, jsonDiffDeletedInstanceIds);
     QMap<int, int> idsChanged = getIdsChanged(jsonGSMAnnotations);
     QMap<int, MatchZoneTransfer> idsZoneChanged = getIdsZoneChanged(jsonGSMAnnotations);
     MatchStateDiff matchStateDiff(gameStateId, zones, idsChanged, idsZoneChanged);
@@ -419,9 +390,47 @@ QList<MatchZone> MtgaLogParser::getMatchZones(QJsonObject jsonGameStateMessage)
     return zones;
 }
 
+void MtgaLogParser::checkOpponentMulligan(QList<MatchZone> zones, int turnNumber,
+                                          QJsonArray jsonDiffDeletedInstanceIds)
+{
+    if (turnNumber > 1) {
+        return;
+    }
+    QList<int> diffDeletedInstanceIds;
+    for (QJsonValueRef jsonDiffDeletedInstanceIdsRef : jsonDiffDeletedInstanceIds) {
+        diffDeletedInstanceIds << jsonDiffDeletedInstanceIdsRef.toInt();
+    }
+    if (diffDeletedInstanceIds.size() < 60) {
+        return;
+    }
+    MatchZone opponentHandZone;
+    for (MatchZone zone : zones) {
+        if (zone.type() == ZoneType_HAND && !zone.hasKnownObjectIds()) {
+            opponentHandZone = zone;
+            break;
+        }
+    }
+    if (opponentHandZone.id() == 0 || opponentHandZone.objectIds.size() == 7) {
+        return;
+    }
+    MatchZone opponentLibraryZone;
+    for (MatchZone zone : zones) {
+        if (zone.type() == ZoneType_LIBRARY && zone.ownerSeatId() == opponentHandZone.ownerSeatId()) {
+            opponentLibraryZone = zone;
+            break;
+        }
+    }
+    if (opponentHandZone.objectIds.size() + opponentLibraryZone.objectIds.size() < 60) {
+        return;
+    }
+    LOGD("OpponentTakesMulligan");
+    int opponentSeatId = zones[0].ownerSeatId();
+    emit sgnOpponentTakesMulligan(opponentSeatId);
+    ARENA_TRACKER->showMessage("Opponent Takes Mulligan");
+}
+
 QMap<int, int> MtgaLogParser::getIdsChanged(QJsonArray jsonGSMAnnotations)
 {
-
     QMap<int, int> idsChanged;
     for (QJsonValueRef jsonAnnotationRef : jsonGSMAnnotations) {
         QJsonObject jsonAnnotation = jsonAnnotationRef.toObject();
@@ -472,24 +481,4 @@ QMap<int, MatchZoneTransfer> MtgaLogParser::getIdsZoneChanged(QJsonArray jsonGSM
         }
     }
     return idsZoneChanged;
-}
-
-void MtgaLogParser::checkOpponentMulligan(QList<MatchZone> zones)
-{
-    int libraryFullOwnerId = 0;
-    for (MatchZone zone : zones) {
-        if (zone.type() == ZoneType_LIBRARY && zone.objectIds.size() == 60) {
-            libraryFullOwnerId = zone.ownerSeatId();
-        }
-    }
-    if (libraryFullOwnerId == 0) {
-        return;
-    }
-    for (MatchZone zone : zones) {
-        if (zone.type() == ZoneType_HAND && zone.ownerSeatId() == libraryFullOwnerId
-                && zone.objectIds.isEmpty()) {
-            LOGD("OpponentTakesMulligan");
-            emit sgnOpponentTakesMulligan(zone.ownerSeatId());
-        }
-    }
 }

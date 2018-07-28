@@ -39,6 +39,16 @@ public:
     int ownerSeatId(){ return _ownerSeatId; }
     ZoneType type(){ return _type; }
 
+    bool hasKnownObjectIds()
+    {
+        for (int objectId : objectIds) {
+            if (objectId > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     static ZoneType zoneTypeFromName(QString zoneTypeName)
     {
         QMap<QString, ZoneType> zoneTypeNames = {
