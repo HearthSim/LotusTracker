@@ -111,6 +111,12 @@ void DeckTrackerPlayer::loadDeck(Deck deck)
     LOGD(QString("Loading deck %1").arg(deck.name));
 }
 
+void DeckTrackerPlayer::resetDeck()
+{
+    deck.reset();
+    update();
+}
+
 void DeckTrackerPlayer::onPlayerPutInLibraryCard(Card* card)
 {
     deck.insertCard(card);

@@ -70,9 +70,16 @@ public:
         return cardsCurrent;
     }
 
-    void reset()
+    void clear()
     {
         cardsCurrent.clear();
+    }
+
+    void reset()
+    {
+        for (Card *card : cardsInitial.keys()) {
+            cardsCurrent[card] = cardsInitial[card];
+        }
     }
 
     QString colorIdentity(bool useStartCalc = true)

@@ -29,6 +29,7 @@ public:
     ~DeckTrackerPlayer();
     void applyCurrentSettings();
     void loadDeck(Deck deck);
+    void resetDeck();
 
 signals:
 

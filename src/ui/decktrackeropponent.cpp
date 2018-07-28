@@ -35,9 +35,10 @@ void DeckTrackerOpponent::afterPaintEvent(QPainter &painter)
     UNUSED(painter);
 }
 
-void DeckTrackerOpponent::reset()
+void DeckTrackerOpponent::clearDeck()
 {
-    deck.reset();
+    deck.clear();
+    update();
 }
 
 void DeckTrackerOpponent::onOpponentPutInLibraryCard(Card* card)
