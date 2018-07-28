@@ -60,8 +60,9 @@ signals:
 
 private slots:
     void onDeckSubmited(Deck deck);
-    void onMatchStart(OpponentInfo match);
+    void onMatchStart(QString eventId, OpponentInfo match);
     void onMatchEnd(int winningTeamId);
+    void onPlayerTakesMulligan();
     void onDeckTrackerPlayerEnabledChange(bool enabled);
     void onDeckTrackerOpponentEnabledChange(bool enabled);
     void onUserSigned(bool fromSignUp);

@@ -193,10 +193,11 @@ void MtgaLogParser::parseMatchCreated(QString json)
     QString opponentName = jsonMatchCreated["opponentScreenName"].toString();
     QString opponentRankClass = jsonMatchCreated["opponentRankingClass"].toString();
     int opponentRankTier = jsonMatchCreated["opponentRankingTier"].toInt();
+    QString eventId = jsonMatchCreated["eventId"].toString();
     OpponentInfo opponentInfo(opponentName, opponentRankClass, opponentRankTier);
     LOGD(QString("MatchCreated: Opponent %1, rank: %2(%3)").arg(opponentName)
          .arg(opponentRankClass).arg(opponentRankTier));
-    emit sgnMatchCreated(opponentInfo);
+    emit sgnMatchCreated(eventId, opponentInfo);
 }
 
 void MtgaLogParser::parseMatchInfo(QString json)
@@ -234,7 +235,7 @@ void MtgaLogParser::parseMatchInfo(QString json)
             }
         }
         LOGD("MatchInfoResult");
-        emit sgnMatchInfoResultMatch(matchWinningTeamId);
+        emit sgnMatchInfoResult(matchWinningTeamId);
     }
 }
 

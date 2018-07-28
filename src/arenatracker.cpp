@@ -29,9 +29,10 @@ ArenaTracker::ArenaTracker(int& argc, char **argv): QApplication(argc, argv)
     connect(firebaseAuth, &FirebaseAuth::sgnUserLogged, this, &ArenaTracker::onUserSigned);
     connect(firebaseAuth, &FirebaseAuth::sgnTokenRefreshed, this, &ArenaTracker::onUserTokenRefreshed);
     connect(firebaseAuth, &FirebaseAuth::sgnTokenRefreshError, this, &ArenaTracker::onUserTokenRefreshError);
+    //setupMatch should be called before setupLogParser because sgnMatchInfoResult order
     setupMtgaMatch();
-    setupPreferencesScreen();
     setupLogParserConnections();
+    setupPreferencesScreen();
     checkForAutoLogin();
     LOGI("Arena Tracker started");
 }
@@ -144,8 +145,10 @@ void ArenaTracker::setupLogParserConnections()
             this, &ArenaTracker::onDeckSubmited);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchCreated,
             this, &ArenaTracker::onMatchStart);
-    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchInfoResultMatch,
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchInfoResult,
             this, &ArenaTracker::onMatchEnd);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerTakesMulligan,
+            this, &ArenaTracker::onPlayerTakesMulligan);
 }
 
 void ArenaTracker::setupMtgaMatch()
@@ -174,6 +177,10 @@ void ArenaTracker::setupMtgaMatch()
     connect(mtgaMatch, &MtgaMatch::sgnOpponentPutOnBattlefieldCard,
             deckTrackerOpponent, &DeckTrackerOpponent::onOpponentPutOnBattlefieldCard);
     // Match
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchCreated,
+            mtgaMatch, &MtgaMatch::onStartNewMatch);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchInfoResult,
+            mtgaMatch, &MtgaMatch::onEndCurrentMatch);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchInfoSeats,
             mtgaMatch, &MtgaMatch::onMatchInfoSeats);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnSeatIdThatGoFirst,
@@ -219,7 +226,7 @@ void ArenaTracker::onDeckSubmited(Deck deck)
     firebaseDatabase->updatePlayerDeck(deck);
 }
 
-void ArenaTracker::onMatchStart(OpponentInfo opponentInfo)
+void ArenaTracker::onMatchStart(QString eventId, OpponentInfo opponentInfo)
 {
     if (APP_SETTINGS->isDeckTrackerPlayerEnabled()) {
         deckTrackerPlayer->show();
@@ -227,21 +234,23 @@ void ArenaTracker::onMatchStart(OpponentInfo opponentInfo)
     if (APP_SETTINGS->isDeckTrackerOpponentEnabled()) {
         deckTrackerOpponent->show();
     }
-    mtgaMatch->isRunning = true;
-    mtgaMatch->startNewMatch(opponentInfo);
 }
 
 void ArenaTracker::onMatchEnd(int winningTeamId)
 {
-    mtgaMatch->isRunning = false;
-    deckTrackerPlayer->hide();
-    deckTrackerOpponent->hide();
-    mtgaMatch->endCurrentMatch(winningTeamId);
     firebaseDatabase->uploadMatch(mtgaMatch->getInfo(),
                                   mtgaMatch->getPlayerRankInfo().first,
                                   deckTrackerPlayer->getDeck(),
                                   deckTrackerOpponent->getDeck());
-    deckTrackerOpponent->reset();
+    deckTrackerPlayer->hide();
+    deckTrackerPlayer->resetDeck();
+    deckTrackerOpponent->hide();
+    deckTrackerOpponent->clearDeck();
+}
+
+void ArenaTracker::onPlayerTakesMulligan()
+{
+    deckTrackerPlayer->resetDeck();
 }
 
 void ArenaTracker::onDeckTrackerPlayerEnabledChange(bool enabled)

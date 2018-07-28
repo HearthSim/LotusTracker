@@ -7,27 +7,6 @@ MtgaMatch::MtgaMatch(QObject *parent, MtgCards *mtgCards)
 
 }
 
-void MtgaMatch::startNewMatch(OpponentInfo opponentInfo)
-{
-    matchInfo.clear();
-    matchInfo.opponentInfo = opponentInfo;
-    player = MatchPlayer();
-    opponent = MatchPlayer();
-    playerRankInfo = qMakePair(QString(""), 0);
-    zones.clear();
-    stackOwnerTrack.clear();
-    stackZoneSrcTrack.clear();
-    currentTurn = 1;
-    isRunning = false;
-    LOGI("New match started")
-}
-
-void MtgaMatch::endCurrentMatch(int winningTeamId)
-{
-    matchInfo.playerWins = player.teamId() == winningTeamId;
-    LOGI(QString("%1 win").arg(matchInfo.playerWins ? "Player" : "Opponent"))
-}
-
 MatchInfo MtgaMatch::getInfo()
 {
     return matchInfo;
@@ -36,6 +15,29 @@ MatchInfo MtgaMatch::getInfo()
 QPair<QString, int> MtgaMatch::getPlayerRankInfo()
 {
     return playerRankInfo;
+}
+
+void MtgaMatch::onStartNewMatch(QString eventId, OpponentInfo opponentInfo)
+{
+    matchInfo.clear();
+    matchInfo.eventId = eventId;
+    matchInfo.opponentInfo = opponentInfo;
+    player = MatchPlayer();
+    opponent = MatchPlayer();
+    playerRankInfo = qMakePair(QString(""), 0);
+    zones.clear();
+    stackOwnerTrack.clear();
+    stackZoneSrcTrack.clear();
+    currentTurn = 1;
+    isRunning = true;
+    LOGI("New match started")
+}
+
+void MtgaMatch::onEndCurrentMatch(int winningTeamId)
+{
+    isRunning = false;
+    matchInfo.playerWins = player.teamId() == winningTeamId;
+    LOGI(QString("%1 win").arg(matchInfo.playerWins ? "Player" : "Opponent"))
 }
 
 void MtgaMatch::onPlayerRankInfo(QPair<QString, int> playerRankInfo)

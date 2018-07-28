@@ -112,7 +112,8 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
     QAction *loadDeckAction = new QAction(tr("Load Deck"), this);
     connect(loadDeckAction, &QAction::triggered, this, [](){
         MtgaLogParser *mtgaLogParser = ARENA_TRACKER->mtgArena->getLogParser();
-        emit mtgaLogParser->sgnMatchCreated(OpponentInfo("Opponent", "Beginner", 0));
+        emit mtgaLogParser->sgnMatchCreated(QString("ConstructedRanked1"),
+                                            OpponentInfo("Opponent", "Beginner", 0));
         // Player Select Deck
         QString currentDir = QDir::currentPath();
 #ifdef Q_OS_MAC

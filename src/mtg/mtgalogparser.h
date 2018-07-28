@@ -53,9 +53,9 @@ signals:
     void sgnPlayerInventoryUpdate(QList<int> newCards);
     void sgnPlayerCollection(QMap<int, int> ownedCards);
     void sgnPlayerDecks(QList<Deck> playerDecks);
-    void sgnMatchCreated(OpponentInfo opponentInfo);
+    void sgnMatchCreated(QString eventId, OpponentInfo opponentInfo);
     void sgnMatchInfoSeats(QList<MatchPlayer>);
-    void sgnMatchInfoResultMatch(int winningTeamId);
+    void sgnMatchInfoResult(int winningTeamId);
     void sgnPlayerRankInfo(QPair<QString, int> playerRankInfo);
     void sgnPlayerRankUpdated(QPair<QString, int> playerNewRank);
     void sgnPlayerDeckSubmited(Deck deck);

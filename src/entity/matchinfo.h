@@ -10,6 +10,7 @@ class MatchInfo
 {
 public:
     OpponentInfo opponentInfo;
+    QString eventId;
     bool playerGoFirst, playerTakesMulligan, opponentTakesMulligan, playerWins;
 
     void clear()

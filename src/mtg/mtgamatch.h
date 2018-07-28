@@ -54,8 +54,6 @@ private:
 
 public:
     explicit MtgaMatch(QObject *parent = nullptr, MtgCards *mtgCards = nullptr);
-    void startNewMatch(OpponentInfo matchInfo);
-    void endCurrentMatch(int winningTeamId);
     MatchInfo getInfo();
     QPair<QString, int> getPlayerRankInfo();
     bool isRunning;
@@ -75,6 +73,8 @@ signals:
     void sgnOpponentPutOnBattlefieldCard(Card* card);
 
 public slots:
+    void onStartNewMatch(QString eventId, OpponentInfo matchInfo);
+    void onEndCurrentMatch(int winningTeamId);
     void onPlayerRankInfo(QPair<QString, int> playerRankInfo);
     void onMatchInfoSeats(QList<MatchPlayer> players);
     void onSeatIdThatGoFirst(int seatId);
