@@ -37,7 +37,7 @@ void MtgaMatch::onEndCurrentMatch(int winningTeamId)
 {
     isRunning = false;
     matchInfo.playerWins = player.teamId() == winningTeamId;
-    LOGI(QString("%1 win").arg(matchInfo.playerWins ? "Player" : "Opponent"))
+    LOGI(QString("%1 wins").arg(matchInfo.playerWins ? "Player" : "Opponent"))
 }
 
 void MtgaMatch::onPlayerRankInfo(QPair<QString, int> playerRankInfo)
@@ -89,6 +89,7 @@ void MtgaMatch::onPlayerTakesMulligan()
 
 void MtgaMatch::onOpponentTakesMulligan(int opponentSeatId)
 {
+    UNUSED(opponentSeatId);
     matchInfo.opponentTakesMulligan = true;
 }
 
@@ -104,7 +105,7 @@ void MtgaMatch::onMatchStateDiff(MatchStateDiff matchStateDiff)
     // Initial player hand draws
     for (MatchZone zone : zones) {
         if (zone.type() == ZoneType_LIBRARY && zone.ownerSeatId() == player.seatId()) {
-            if (zone.objectIds.size() == 60) {
+            if (zone.objectIds.size() >= 60) {
                 notifyHandCardsDraw(matchStateDiff);
             }
             break;

@@ -36,7 +36,8 @@ private:
     void parseGreToClientMessages(QString json);
     void parseDieRollResult(QJsonObject jsonMessage);
     void parseGameStateFull(QJsonObject jsonMessage);
-    void parseGameStateDiff(int gameStateId, QJsonObject jsonMessage);
+    void parseGameStateDiff(int gameStateId, QJsonObject jsonMessage, bool hasMulliganReq);
+    void checkPlayerMulligan(QList<MatchZone> zones, bool hasMulliganReq);
     void checkOpponentMulligan(QList<MatchZone> zones, int turnNumber,
                                QJsonArray jsonDiffDeletedInstanceIds);
     QList<MatchZone> getMatchZones(QJsonObject jsonGameStateMessage);
