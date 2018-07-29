@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
         status |= QTest::qExec(obj, argc, argv);
     };
 
-    runTest(new TestMtgaLogParser);
     runTest(new TestMtgaMatch);
+    runTest(new TestMtgaLogParser);
     return status;
 }

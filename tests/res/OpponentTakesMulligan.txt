@@ -1,8 +1,8 @@
-// Player 2 empty hand after request mulligan
 
-
-4/15/2018 1:09:08 PM: Match to A3461766D418FFE6: GreToClientEvent
+[UnityCrossThreadLogger]7/28/2018 4:08:12 PM: Match to A3461766D418FFE6: GreToClientEvent
 {
+  "transactionId": "fa7a33c4-a17b-4fc7-b3fe-b7a155caee06",
+  "timestamp": "636684016897194828",
   "greToClientEvent": {
     "greToClientMessages": [
       {
@@ -10,21 +10,25 @@
         "systemSeatIds": [
           1
         ],
-        "msgId": 12,
-        "gameStateId": 3,
+        "msgId": 13,
+        "gameStateId": 4,
         "gameStateMessage": {
           "type": "GameStateType_Diff",
-          "gameStateId": 3,
-          "turnInfo": {
-            "activePlayer": 2,
-            "decisionPlayer": 1
-          },
+          "gameStateId": 4,
           "zones": [
             {
               "zoneId": 35,
               "type": "ZoneType_Hand",
               "visibility": "Visibility_Private",
               "ownerSeatId": 2,
+              "objectInstanceIds": [
+                284,
+                283,
+                282,
+                281,
+                280,
+                279
+              ],
               "viewers": [
                 2
               ]
@@ -35,8 +39,6 @@
               "visibility": "Visibility_Hidden",
               "ownerSeatId": 2,
               "objectInstanceIds": [
-                283,
-                284,
                 285,
                 286,
                 287,
@@ -90,15 +92,15 @@
                 335,
                 336,
                 337,
-                338,
-                339,
-                340,
-                341,
-                342
+                338
               ]
             }
           ],
           "diffDeletedInstanceIds": [
+            219,
+            220,
+            221,
+            222,
             223,
             224,
             225,
@@ -214,48 +216,29 @@
             335,
             336,
             337,
-            338,
-            339,
-            340,
-            341,
-            342
+            338
           ],
-          "pendingMessageCount": 2,
-          "prevGameStateId": 2,
+          "pendingMessageCount": 1,
+          "prevGameStateId": 3,
           "timers": [
-            {
-              "timerId": 1,
-              "type": "TimerType_Prologue",
-              "durationSec": 120,
-              "running": true,
-              "behavior": "TimerBehavior_TakeControl",
-              "warningThresholdSec": 90,
-              "elapsedMs": 1
-            },
-            {
-              "timerId": 5,
-              "type": "TimerType_Inactivity",
-              "durationSec": 150,
-              "running": true,
-              "behavior": "TimerBehavior_Timeout",
-              "warningThresholdSec": 130,
-              "elapsedMs": 1
-            },
             {
               "timerId": 6,
               "type": "TimerType_Prologue",
               "durationSec": 120,
-              "elapsedSec": 32,
+              "elapsedSec": 5,
+              "running": true,
               "behavior": "TimerBehavior_TakeControl",
               "warningThresholdSec": 90,
-              "elapsedMs": 32625
+              "elapsedMs": 5844
             },
             {
               "timerId": 10,
               "type": "TimerType_Inactivity",
               "durationSec": 150,
+              "running": true,
               "behavior": "TimerBehavior_Timeout",
-              "warningThresholdSec": 130
+              "warningThresholdSec": 130,
+              "elapsedMs": 6
             }
           ],
           "update": "GameStateUpdate_SendAndRecord",
@@ -264,92 +247,107 @@
               "seatId": 1,
               "action": {
                 "actionType": "ActionType_Cast",
-                "instanceId": 107
+                "instanceId": 104,
+                "manaCost": [
+                  {
+                    "color": [
+                      "ManaColor_Generic"
+                    ],
+                    "count": 2,
+                    "costId": 12164
+                  }
+                ]
               }
             },
             {
               "seatId": 1,
               "action": {
                 "actionType": "ActionType_Cast",
-                "instanceId": 106
+                "instanceId": 101,
+                "manaCost": [
+                  {
+                    "color": [
+                      "ManaColor_Generic"
+                    ],
+                    "count": 3,
+                    "costId": 12168
+                  },
+                  {
+                    "color": [
+                      "ManaColor_Blue"
+                    ],
+                    "count": 1,
+                    "costId": 12169
+                  },
+                  {
+                    "color": [
+                      "ManaColor_Black"
+                    ],
+                    "count": 1,
+                    "costId": 12170
+                  }
+                ]
               }
             },
             {
               "seatId": 1,
               "action": {
                 "actionType": "ActionType_Cast",
-                "instanceId": 104
+                "instanceId": 105,
+                "manaCost": [
+                  {
+                    "color": [
+                      "ManaColor_Red"
+                    ],
+                    "count": 3,
+                    "costId": 12172
+                  }
+                ]
               }
             },
             {
               "seatId": 1,
               "action": {
                 "actionType": "ActionType_Cast",
-                "instanceId": 105
-              }
-            },
-            {
-              "seatId": 1,
-              "action": {
-                "actionType": "ActionType_Cast",
-                "instanceId": 109
+                "instanceId": 103,
+                "manaCost": [
+                  {
+                    "color": [
+                      "ManaColor_Generic"
+                    ],
+                    "count": 3,
+                    "costId": 12175
+                  },
+                  {
+                    "color": [
+                      "ManaColor_Red"
+                    ],
+                    "count": 2,
+                    "costId": 12176
+                  }
+                ]
               }
             },
             {
               "seatId": 1,
               "action": {
                 "actionType": "ActionType_Play",
-                "instanceId": 103
+                "instanceId": 99
               }
             },
             {
               "seatId": 1,
               "action": {
                 "actionType": "ActionType_Play",
-                "instanceId": 108
+                "instanceId": 100
               }
             },
             {
               "seatId": 1,
               "action": {
-                "actionType": "ActionType_Activate",
-                "abilityGrpId": 8676,
-                "sourceId": 107
+                "actionType": "ActionType_Play",
+                "instanceId": 102
               }
-            }
-          ]
-        },
-        "prompt": {
-          "promptId": 1,
-          "parameters": [
-            {
-              "parameterName": "TurnNumber",
-              "type": "ParameterType_Number"
-            },
-            {
-              "parameterName": "Phase",
-              "type": "ParameterType_Number"
-            },
-            {
-              "parameterName": "Step",
-              "type": "ParameterType_Number"
-            }
-          ]
-        },
-        "nonDecisionPlayerPrompt": {
-          "promptId": 1,
-          "parameters": [
-            {
-              "parameterName": "TurnNumber",
-              "type": "ParameterType_Number"
-            },
-            {
-              "parameterName": "Phase",
-              "type": "ParameterType_Number"
-            },
-            {
-              "parameterName": "Step",
-              "type": "ParameterType_Number"
             }
           ]
         }
@@ -360,8 +358,8 @@
           1,
           2
         ],
-        "msgId": 13,
-        "gameStateId": 3,
+        "msgId": 14,
+        "gameStateId": 4,
         "prompt": {
           "promptId": 36,
           "parameters": [
@@ -371,52 +369,6 @@
               "reference": {
                 "type": "ReferenceType_PlayerSeatId",
                 "id": 2
-              }
-            },
-            {
-              "parameterName": "NumberOfCards",
-              "type": "ParameterType_Number",
-              "numberValue": 6
-            }
-          ]
-        }
-      },
-      {
-        "type": "GREMessageType_MulliganReq",
-        "systemSeatIds": [
-          1
-        ],
-        "msgId": 14,
-        "gameStateId": 3,
-        "prompt": {
-          "promptId": 34,
-          "parameters": [
-            {
-              "parameterName": "NumberOfCards",
-              "type": "ParameterType_Number",
-              "numberValue": 6
-            }
-          ],
-          "choices": [
-            {
-              "choiceId": 38,
-              "responseValue": 1
-            },
-            {
-              "choiceId": 39,
-              "responseValue": 2
-            }
-          ]
-        },
-        "nonDecisionPlayerPrompt": {
-          "promptId": 35,
-          "parameters": [
-            {
-              "parameterName": "PlayerId",
-              "type": "ParameterType_Reference",
-              "reference": {
-                "type": "ReferenceType_PlayerSeatId",
-                "id": 1
               }
             },
             {

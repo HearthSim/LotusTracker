@@ -42,7 +42,7 @@ private slots:
         QCOMPARE(spy.count(), 1);
         QList<QVariant> args = spy.takeFirst();
         PlayerInventory playerInventory = args.first().value<PlayerInventory>();
-        QCOMPARE(playerInventory.wcMythic, 2);
+        QCOMPARE(playerInventory.getWcMythic(), 2);
     }
 
     void testParsePlayerInventoryUpdate()
@@ -99,7 +99,7 @@ private slots:
 
         QCOMPARE(spy.count(), 1);
         QList<QVariant> args = spy.takeFirst();
-        OpponentInfo match = args.first().value<OpponentInfo>();
+        OpponentInfo match = args[1].value<OpponentInfo>();
         QCOMPARE(match.opponentRankClass(), "Bronze");
         QCOMPARE(match.opponentRankTier(), 4);
     }
@@ -124,7 +124,7 @@ private slots:
     {
         QString log;
         READ_LOG("MatchInfoResult.txt", log);
-        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnMatchInfoResultMatch);
+        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnMatchInfoResult);
         mtgaLogParser->parse(log);
 
         QCOMPARE(spy.count(), 1);
@@ -179,41 +179,11 @@ private slots:
         QCOMPARE(playerDeckSubmited.currentCards()[duress], 2);
     }
 
-    void testParsePlayerAcceptsHand()
-    {
-        QString log;
-        READ_LOG("PlayerAcceptHand.txt", log);
-        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnPlayerAcceptsHand);
-        mtgaLogParser->parse(log);
-
-        QCOMPARE(spy.count(), 1);
-    }
-
     void testParsePlayerTakesMulligan()
     {
         QString log;
         READ_LOG("PlayerTakesMulligan.txt", log);
         QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnPlayerTakesMulligan);
-        mtgaLogParser->parse(log);
-
-        QCOMPARE(spy.count(), 1);
-    }
-
-    void testParsePlayerCardHoverStarts()
-    {
-        QString log;
-        READ_LOG("PlayerCardHoverStarts.txt", log);
-        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnPlayerCardHoverStarts);
-        mtgaLogParser->parse(log);
-
-        QCOMPARE(spy.count(), 1);
-    }
-
-    void testParsePlayerCardHoverEnds()
-    {
-        QString log;
-        READ_LOG("PlayerCardHoverEnds.txt", log);
-        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnPlayerCardHoverEnds);
         mtgaLogParser->parse(log);
 
         QCOMPARE(spy.count(), 1);

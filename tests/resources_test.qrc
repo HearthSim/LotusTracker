@@ -68,9 +68,6 @@
         <file>res/MatchCreated.txt</file>
         <file>res/MatchInfoResult.txt</file>
         <file>res/MatchInfoSeats.txt</file>
-        <file>res/PlayerAcceptHand.txt</file>
-        <file>res/PlayerCardHoverStarts.txt</file>
-        <file>res/PlayerCardHoverEnds.txt</file>
         <file>res/PlayerCollection.txt</file>
         <file>res/PlayerDecks.txt</file>
         <file>res/PlayerDeckSubmit.txt</file>

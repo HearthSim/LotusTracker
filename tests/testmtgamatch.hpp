@@ -37,13 +37,11 @@ public:
         mtgaMatch = new MtgaMatch(this, mtgCards);
         mtgaLogParser = new MtgaLogParser(this, mtgCards);
         connect(mtgaLogParser, &MtgaLogParser::sgnMatchCreated,
-                this, [this](OpponentInfo opponentInfo){
-                    mtgaMatch->startNewMatch(opponentInfo);
-                });
+                mtgaMatch, &MtgaMatch::onStartNewMatch);
         connect(mtgaLogParser, &MtgaLogParser::sgnMatchInfoSeats,
                 mtgaMatch, &MtgaMatch::onMatchInfoSeats);
-        connect(mtgaLogParser, &MtgaLogParser::sgnMatchInfoResultMatch,
-                mtgaMatch, &MtgaMatch::endCurrentMatch);
+        connect(mtgaLogParser, &MtgaLogParser::sgnMatchInfoResult,
+                mtgaMatch, &MtgaMatch::onEndCurrentMatch);
         connect(mtgaLogParser, &MtgaLogParser::sgnSeatIdThatGoFirst,
                 mtgaMatch, &MtgaMatch::onSeatIdThatGoFirst);
         connect(mtgaLogParser, &MtgaLogParser::sgnMatchStartZones,
@@ -62,7 +60,6 @@ private slots:
         mtgaLogParser->parse(readFile("MatchInfoSeats.txt"));
         mtgaLogParser->parse(readFile("GameStateFull.txt"));
         mtgaLogParser->parse(readFile("game/GameStateDiff1.txt"));
-        mtgaLogParser->parse(readFile("PlayerAcceptHand.txt"));
         mtgaLogParser->parse(readFile("game/GameStateDiff2.txt"));
         mtgaLogParser->parse(readFile("game/GameStateDiff3.txt"));
         mtgaLogParser->parse(readFile("game/GameStateDiff4.txt"));
