@@ -18,9 +18,10 @@ private:
     void drawStatistics(QPainter &painter);
 
 protected:
-    void onPositionChanged();
-    void onScaleChanged();
-    void afterPaintEvent(QPainter &painter);
+    QString onGetDeckColorIdentity();
+    virtual void onPositionChanged();
+    virtual void onScaleChanged();
+    virtual void afterPaintEvent(QPainter &painter);
     virtual void mousePressEvent(QMouseEvent *event);
     virtual void mouseReleaseEvent(QMouseEvent *event);
 

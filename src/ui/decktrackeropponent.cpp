@@ -20,6 +20,11 @@ void DeckTrackerOpponent::applyCurrentSettings()
     uiScale = APP_SETTINGS->getDeckTrackerOpponentScale();
 }
 
+QString DeckTrackerOpponent::onGetDeckColorIdentity()
+{
+    return deck.colorIdentity(false);
+}
+
 void DeckTrackerOpponent::onPositionChanged()
 {
     APP_SETTINGS->setDeckTrackerOpponentPos(uiPos);
@@ -48,23 +53,25 @@ void DeckTrackerOpponent::onOpponentPutInLibraryCard(Card* card)
 
 void DeckTrackerOpponent::onOpponentPlayCard(Card* card)
 {
-    deck.insertCard(card);
-    blinkCard(card);
+    insertCard(card);
 }
 
 void DeckTrackerOpponent::onOpponentDiscardCard(Card* card)
 {
-    deck.insertCard(card);
-    blinkCard(card);
+    insertCard(card);
 }
 
 void DeckTrackerOpponent::onOpponentDiscardFromLibraryCard(Card* card)
 {
-    deck.insertCard(card);
-    blinkCard(card);
+    insertCard(card);
 }
 
 void DeckTrackerOpponent::onOpponentPutOnBattlefieldCard(Card* card)
+{
+    insertCard(card);
+}
+
+void DeckTrackerOpponent::insertCard(Card* card)
 {
     deck.insertCard(card);
     blinkCard(card);

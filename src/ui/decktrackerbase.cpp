@@ -195,7 +195,7 @@ void DeckTrackerBase::drawCover(QPainter &painter)
     // Cover image
     bool coverImgLoaded = false;
     QImage coverImg;
-    QString deckColorIdentity = deck.colorIdentity();
+    QString deckColorIdentity = onGetDeckColorIdentity();
     coverImgLoaded = coverImg.load(QString(":/res/covers/%1.jpg").arg(deckColorIdentity));
     if (!coverImgLoaded) {
         coverImg.load(":/res/covers/default.jpg");
@@ -242,7 +242,7 @@ void DeckTrackerBase::drawDeckInfo(QPainter &painter)
     int manaSize = 12;
     int manaX = uiPos.x() + 8;
     int manaY = uiPos.y() + uiHeight - manaSize - 5;
-    QString deckColorIdentity = deck.colorIdentity();
+    QString deckColorIdentity = onGetDeckColorIdentity();
     if (deckColorIdentity != "m"){
         for (int i=0; i<deckColorIdentity.length(); i++) {
             QChar manaSymbol = deckColorIdentity.at(i);

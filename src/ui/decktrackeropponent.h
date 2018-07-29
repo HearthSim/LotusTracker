@@ -11,9 +11,11 @@ class DeckTrackerOpponent : public DeckTrackerBase
     Q_OBJECT
 
 protected:
-    void onPositionChanged();
-    void onScaleChanged();
-    void afterPaintEvent(QPainter &painter);
+    virtual QString onGetDeckColorIdentity();
+    virtual void onPositionChanged();
+    virtual void onScaleChanged();
+    virtual void afterPaintEvent(QPainter &painter);
+    void insertCard(Card* card);
 
 public:
     explicit DeckTrackerOpponent(QWidget *parent = nullptr);

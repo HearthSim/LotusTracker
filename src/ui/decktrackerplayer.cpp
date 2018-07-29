@@ -104,6 +104,11 @@ void DeckTrackerPlayer::drawStatistics(QPainter &painter)
     uiHeight += coverRect.height();
 }
 
+QString DeckTrackerPlayer::onGetDeckColorIdentity()
+{
+    return deck.colorIdentity();
+}
+
 void DeckTrackerPlayer::loadDeck(Deck deck)
 {
     this->deck = deck;
