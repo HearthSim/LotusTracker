@@ -41,7 +41,11 @@ MtgCards::MtgCards(QObject *parent) : QObject(parent)
 
 Card* MtgCards::findCard(int mtgaId)
 {
-    return cards[mtgaId];
+    if (cards.keys().contains(mtgaId)) {
+        return cards[mtgaId];
+    } else {
+        return new Card(mtgaId, 0, "", "", QString("UNKNOWN %1").arg(mtgaId));
+    }
 }
 
 void MtgCards::loadSet(QString setCode)

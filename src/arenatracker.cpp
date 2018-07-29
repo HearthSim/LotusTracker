@@ -228,6 +228,8 @@ void ArenaTracker::onDeckSubmited(Deck deck)
 
 void ArenaTracker::onMatchStart(QString eventId, OpponentInfo opponentInfo)
 {
+    UNUSED(eventId);
+    UNUSED(opponentInfo);
     if (APP_SETTINGS->isDeckTrackerPlayerEnabled()) {
         deckTrackerPlayer->show();
     }
@@ -238,6 +240,7 @@ void ArenaTracker::onMatchStart(QString eventId, OpponentInfo opponentInfo)
 
 void ArenaTracker::onMatchEnd(int winningTeamId)
 {
+    UNUSED(winningTeamId);
     firebaseDatabase->uploadMatch(mtgaMatch->getInfo(),
                                   mtgaMatch->getPlayerRankInfo().first,
                                   deckTrackerPlayer->getDeck(),
