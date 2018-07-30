@@ -197,9 +197,6 @@ void FirebaseDatabase::uploadMatch(MatchInfo matchInfo, QString playerRankClass,
                 {"opponentName", QJsonObject{
                         {"stringValue", matchInfo.opponentInfo.opponentName()}
                     }},
-                {"opponentRank", QJsonObject{
-                        {"stringValue", matchInfo.opponentInfo.opponentRankClass()}
-                    }},
                 {"opponentDeckColors", QJsonObject{
                         {"stringValue", opponentDeck.colorIdentity(false)}
                     }},

@@ -127,10 +127,9 @@ void AppSettings::enableDeckTrackerPlayerStatistics(bool enabled)
 
 QPoint AppSettings::getDeckTrackerPlayerPos(int uiWidth)
 {
-    QRect screen = QApplication::desktop()->screenGeometry();
-    int defaultX = screen.width() - uiWidth - 10;
-    int x = settings.value(KEY_TRACKER_PLAYER_X, defaultX).toInt();
-    int y = settings.value(KEY_TRACKER_PLAYER_Y, 10).toInt();
+    UNUSED(uiWidth);
+    int x = settings.value(KEY_TRACKER_PLAYER_X, 5).toInt();
+    int y = settings.value(KEY_TRACKER_PLAYER_Y, 50).toInt();
     return QPoint(x, y);
 }
 
@@ -162,10 +161,12 @@ void AppSettings::enableDeckTrackerOpponent(bool enabled)
     settings.setValue(KEY_TRACKER_OPPONENT_ENABLED, enabled);
 }
 
-QPoint AppSettings::getDeckTrackerOpponentPos()
+QPoint AppSettings::getDeckTrackerOpponentPos(int uiWidth)
 {
-    int x = settings.value(KEY_TRACKER_OPPONENT_X, 10).toInt();
-    int y = settings.value(KEY_TRACKER_OPPONENT_Y, 10).toInt();
+    QRect screen = QApplication::desktop()->screenGeometry();
+    int defaultX = screen.width() - uiWidth - 5;
+    int x = settings.value(KEY_TRACKER_OPPONENT_X, defaultX).toInt();
+    int y = settings.value(KEY_TRACKER_OPPONENT_Y, 50).toInt();
     return QPoint(x, y);
 }
 

@@ -16,7 +16,7 @@ DeckTrackerOpponent::~DeckTrackerOpponent()
 
 void DeckTrackerOpponent::applyCurrentSettings()
 {
-    uiPos = APP_SETTINGS->getDeckTrackerOpponentPos();
+    uiPos = APP_SETTINGS->getDeckTrackerOpponentPos(uiWidth);
     uiScale = APP_SETTINGS->getDeckTrackerOpponentScale();
 }
 

@@ -41,7 +41,7 @@ public:
     // Deck tracker opponent
     bool isDeckTrackerOpponentEnabled();
     void enableDeckTrackerOpponent(bool enabled);
-    QPoint getDeckTrackerOpponentPos();
+    QPoint getDeckTrackerOpponentPos(int uiWidth);
     void setDeckTrackerOpponentPos(QPoint pos);
     qreal getDeckTrackerOpponentScale();
     void setDeckTrackerOpponentScale(qreal scale);
