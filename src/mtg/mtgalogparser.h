@@ -60,8 +60,6 @@ signals:
     void sgnPlayerRankInfo(QPair<QString, int> playerRankInfo);
     void sgnPlayerRankUpdated(QPair<QString, int> playerNewRank);
     void sgnPlayerDeckSubmited(Deck deck);
-    void sgnPlayerCardHoverStarts();
-    void sgnPlayerCardHoverEnds();
     void sgnPlayerTakesMulligan();
     void sgnSeatIdThatGoFirst(int seatId);
     void sgnMatchStartZones(QList<MatchZone> zones);

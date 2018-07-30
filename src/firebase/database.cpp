@@ -231,12 +231,13 @@ void FirebaseDatabase::uploadMatch(MatchInfo matchInfo, QString playerRankClass,
             }}
     };
 
-    QUrl url(QString("%1/matches").arg(ARENA_META_DB_URL));
+
+    QDate date = QDate::currentDate();
+    QUrl url(QString("%1/matches/%2/%3").arg(ARENA_META_DB_URL)
+             .arg(date.year()).arg(date.month()));
     LOGD(QString("Request: %1").arg(url.toString()));
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-//    request.setRawHeader(QString("Authorization").toUtf8(),
-//                         QString("Bearer %1").arg(userSettings.userToken).toUtf8());
     QJsonDocument body = QJsonDocument(jsonObj);
     LOGD(QString("Body: %1").arg(QString(body.toJson())));
 
@@ -318,8 +319,9 @@ void FirebaseDatabase::registerPlayerMatch(QString matchID)
         return;
     }
 
-    QUrl url(QString("%1/users/%2/matches/%3").arg(ARENA_META_DB_URL)
-             .arg(userSettings.userId).arg(matchID));
+    QDate date = QDate::currentDate();
+    QUrl url(QString("%1/users/%2/matches/%3/%4/%5").arg(ARENA_META_DB_URL)
+             .arg(userSettings.userId).arg(date.year()).arg(date.month()).arg(matchID));
     LOGD(QString("Body: %1").arg(QString(QJsonDocument(jsonPlayerMatchObj).toJson())));
 
     createPatchRequest(url, QJsonDocument(jsonPlayerMatchObj), userSettings.userToken);

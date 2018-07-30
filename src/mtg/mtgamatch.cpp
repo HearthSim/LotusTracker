@@ -24,7 +24,7 @@ void MtgaMatch::onStartNewMatch(QString eventId, OpponentInfo opponentInfo)
     matchInfo.opponentInfo = opponentInfo;
     player = MatchPlayer();
     opponent = MatchPlayer();
-    playerRankInfo = qMakePair(QString(""), 0);
+    //don't clear playerRankInfo because it is set before startNewMatch
     zones.clear();
     stackOwnerTrack.clear();
     stackZoneSrcTrack.clear();
