@@ -56,6 +56,10 @@ HEADERS += \
     src/ui/decktrackeropponent.h \
     src/ui/preferencesscreen.h \
     src/ui/startscreen.h \
+    src/ui/tababout.h \
+    src/ui/tabgeneral.h \
+    src/ui/tablogs.h \
+    src/ui/taboverlay.h \
     src/ui/trayicon.h \
     src/utils/appsettings.h \
     src/utils/logger.h \
@@ -77,14 +81,22 @@ SOURCES += \
     src/ui/decktrackeropponent.cpp \
     src/ui/preferencesscreen.cpp \
     src/ui/startscreen.cpp \
+    src/ui/tababout.cpp \
+    src/ui/tabgeneral.cpp \
+    src/ui/tablogs.cpp \
+    src/ui/taboverlay.cpp \
     src/ui/trayicon.cpp \
     src/utils/appsettings.cpp \
     src/utils/logger.cpp
 
 FORMS += \
-    src/ui/preferences.ui \
     src/ui/decktrackerbase.ui \
-    src/ui/start.ui
+    src/ui/preferences.ui \
+    src/ui/start.ui \
+    src/ui/tababout.ui \
+    src/ui/tabgeneral.ui \
+    src/ui/tablogs.ui \
+    src/ui/taboverlay.ui
 
 DEFINES += VERSION=\\\"$$VERSION\\\"
 

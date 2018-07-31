@@ -101,35 +101,37 @@ bool ArenaTracker::isAlreadyRunning() {
 void ArenaTracker::setupPreferencesScreen()
 {
     preferencesScreen = new PreferencesScreen();
+    connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnRestoreDefaults,
+            preferencesScreen->getTabOverlay(), &TabOverlay::onRestoreDefaultsSettings);
     // Deck tracker player
-    connect(preferencesScreen, &PreferencesScreen::sgnPlayerTrackerEnabled,
+    connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnPlayerTrackerEnabled,
             this, &ArenaTracker::onDeckTrackerPlayerEnabledChange);
-    connect(preferencesScreen, &PreferencesScreen::sgnTrackerAlpha,
+    connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnTrackerAlpha,
             deckTrackerPlayer, &DeckTrackerBase::changeAlpha);
-    connect(preferencesScreen, &PreferencesScreen::sgnUnhideDelay,
+    connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnUnhideDelay,
             deckTrackerPlayer, &DeckTrackerBase::changeUnhiddenTimeout);
-    connect(preferencesScreen, &PreferencesScreen::sgnTrackerCardLayout,
+    connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnTrackerCardLayout,
             deckTrackerPlayer, &DeckTrackerBase::changeCardLayout);
-    connect(preferencesScreen, &PreferencesScreen::sgnShowCardOnHoverEnabled,
+    connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnShowCardOnHoverEnabled,
             deckTrackerPlayer, &DeckTrackerBase::onShowCardOnHoverEnabled);
-    connect(preferencesScreen, &PreferencesScreen::sgnShowOnlyRemainingCardsEnabled,
+    connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnShowOnlyRemainingCardsEnabled,
             deckTrackerPlayer, &DeckTrackerPlayer::onShowOnlyRemainingCardsEnabled);
-    connect(preferencesScreen, &PreferencesScreen::sgnPlayerTrackerStatistics,
+    connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnPlayerTrackerStatistics,
             deckTrackerPlayer, &DeckTrackerPlayer::onStatisticsEnabled);
-    connect(preferencesScreen, &PreferencesScreen::sgnRestoreDefaults,
+    connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnRestoreDefaults,
             deckTrackerPlayer, &DeckTrackerPlayer::applyCurrentSettings);
     // Deck tracker opponent
-    connect(preferencesScreen, &PreferencesScreen::sgnOpponentTrackerEnabled,
+    connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnOpponentTrackerEnabled,
             this, &ArenaTracker::onDeckTrackerOpponentEnabledChange);
-    connect(preferencesScreen, &PreferencesScreen::sgnTrackerAlpha,
+    connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnTrackerAlpha,
             deckTrackerOpponent, &DeckTrackerBase::changeAlpha);
-    connect(preferencesScreen, &PreferencesScreen::sgnUnhideDelay,
+    connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnUnhideDelay,
             deckTrackerOpponent, &DeckTrackerBase::changeUnhiddenTimeout);
-    connect(preferencesScreen, &PreferencesScreen::sgnTrackerCardLayout,
+    connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnTrackerCardLayout,
             deckTrackerOpponent, &DeckTrackerBase::changeCardLayout);
-    connect(preferencesScreen, &PreferencesScreen::sgnShowCardOnHoverEnabled,
+    connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnShowCardOnHoverEnabled,
             deckTrackerOpponent, &DeckTrackerBase::onShowCardOnHoverEnabled);
-    connect(preferencesScreen, &PreferencesScreen::sgnRestoreDefaults,
+    connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnRestoreDefaults,
             deckTrackerOpponent, &DeckTrackerOpponent::applyCurrentSettings);
 }
 

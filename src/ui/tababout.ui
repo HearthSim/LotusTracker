@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TabAbout</class>
+ <widget class="QWidget" name="TabAbout">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>274</width>
+    <height>210</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">#title {
+	font-size: 24px;
+ 	font-weight: bold;
+}
+#slogan, #version {
+	color: #898989;
+}
+#version {
+	font-size: 11px;
+}</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

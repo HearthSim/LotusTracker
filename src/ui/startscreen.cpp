@@ -1,6 +1,6 @@
 #include "startscreen.h"
-#include "../macros.h"
 #include "ui_start.h"
+#include "../macros.h"
 
 #include <QFontDatabase>
 

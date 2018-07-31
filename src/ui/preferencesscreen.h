@@ -1,8 +1,14 @@
 #ifndef PREFERENCESSCREEN_H
 #define PREFERENCESSCREEN_H
 
-#include <QCloseEvent>
+#include "tabgeneral.h"
+#include "taboverlay.h"
+#include "tablogs.h"
+#include "tababout.h"
+
 #include <QMainWindow>
+
+#define NUM_TABS 4
 
 namespace Ui { class Preferences; }
 
@@ -12,34 +18,23 @@ class PreferencesScreen : public QMainWindow
 
 private:
     void closeEvent(QCloseEvent *event);
-    void applyCurrentSettings();
-    void onStartAtLoginChanged();
-    void onAutoUpdateChanged();
-    void onCardLayoutChanged();
-    void onShowCardOnHoverChanged();
-    void onShowOnlyRemainingCardsChanged();
-    void onTrackerAlphaChanged();
-    void onUnhideDelayChanged();
-    void onPTEnabledChanged();
-    void onPTStatisticsChanged();
-    void onOTEnabledChanged();
-    void onRestoreDefaultsSettingsClicked();
     Ui::Preferences *ui;
+    TabGeneral *tabGeneral;
+    TabOverlay *tabOverlay;
+    TabLogs *tabLogs;
+    TabAbout *tabAbout;
+    QWidget *tabs[NUM_TABS];
 
 public:
-    explicit PreferencesScreen(QWidget *parent = 0);
+    explicit PreferencesScreen(QWidget *parent = nullptr);
     ~PreferencesScreen();
+    TabGeneral* getTabGeneral();
+    TabOverlay* getTabOverlay();
+    TabLogs* getTabLogs();
+    TabAbout* getTabAbout();
 
-signals:
-    void sgnRestoreDefaults();
-    void sgnTrackerAlpha(qreal alpha);
-    void sgnUnhideDelay(int delay);
-    void sgnTrackerCardLayout(QString cardLayout);
-    void sgnShowCardOnHoverEnabled(bool enabled);
-    void sgnShowOnlyRemainingCardsEnabled(bool enabled);
-    void sgnPlayerTrackerEnabled(bool enabled);
-    void sgnPlayerTrackerStatistics(bool enabled);
-    void sgnOpponentTrackerEnabled(bool enabled);
+private slots:
+    void tabClick(QAction *action);
 
 };
 

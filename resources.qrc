@@ -4,6 +4,10 @@
         <file>res/expand.png</file>
         <file>res/logo.png</file>
         <file>res/preferences.png</file>
+        <file>res/preferences_general.png</file>
+        <file>res/preferences_overlay.png</file>
+        <file>res/preferences_logs.png</file>
+        <file>res/preferences_about.png</file>
         <file>res/cards/mtg/a.png</file>
         <file>res/cards/mtg/bg.png</file>
         <file>res/cards/mtg/c.png</file>
