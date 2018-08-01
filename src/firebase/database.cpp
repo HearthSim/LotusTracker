@@ -148,8 +148,10 @@ void FirebaseDatabase::updatePlayerDeck(Deck deck)
 
 void FirebaseDatabase::createPatchRequest(QUrl url, QJsonDocument body, QString userToken)
 {
+#ifdef QT_DEBUG
     LOGD(QString("Request: %1").arg(url.toString()));
     LOGD(QString("Body: %1").arg(QString(body.toJson())));
+#endif
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader(QString("Authorization").toUtf8(),
@@ -167,7 +169,9 @@ void FirebaseDatabase::requestOnFinish()
 {
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
     QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());
+#ifdef QT_DEBUG
     LOGD(QString(QJsonDocument(jsonRsp).toJson()));
+#endif
     emit sgnRequestFinished();
 
     int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
@@ -180,7 +184,9 @@ void FirebaseDatabase::requestOnFinish()
         return;
     }
 
+#ifdef QT_DEBUG
     LOGD(QString("Database updated: %1").arg(reply->request().url().url()));
+#endif
 }
 
 void FirebaseDatabase::uploadMatch(MatchInfo matchInfo, QString playerRankClass,
@@ -232,11 +238,14 @@ void FirebaseDatabase::uploadMatch(MatchInfo matchInfo, QString playerRankClass,
     QDate date = QDate::currentDate();
     QUrl url(QString("%1/matches/%2/%3").arg(ARENA_META_DB_URL)
              .arg(date.year()).arg(date.month()));
-    LOGD(QString("Request: %1").arg(url.toString()));
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     QJsonDocument body = QJsonDocument(jsonObj);
+
+#ifdef QT_DEBUG
+    LOGD(QString("Request: %1").arg(url.toString()));
     LOGD(QString("Body: %1").arg(QString(body.toJson())));
+#endif
 
     QNetworkReply *reply = networkManager.post(request, body.toJson());
     connect(reply, &QNetworkReply::finished,
@@ -283,7 +292,9 @@ void FirebaseDatabase::uploadMatchRequestOnFinish()
 {
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
     QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());
+#ifdef QT_DEBUG
     LOGD(QString(QJsonDocument(jsonRsp).toJson()));
+#endif
     emit sgnRequestFinished();
 
     int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
@@ -319,7 +330,9 @@ void FirebaseDatabase::registerPlayerMatch(QString matchID)
     QDate date = QDate::currentDate();
     QUrl url(QString("%1/users/%2/matches/%3/%4/%5").arg(ARENA_META_DB_URL)
              .arg(userSettings.userId).arg(date.year()).arg(date.month()).arg(matchID));
+#ifdef QT_DEBUG
     LOGD(QString("Body: %1").arg(QString(QJsonDocument(jsonPlayerMatchObj).toJson())));
+#endif
 
     createPatchRequest(url, QJsonDocument(jsonPlayerMatchObj), userSettings.userToken);
     jsonPlayerMatchObj = QJsonObject();
