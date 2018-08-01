@@ -453,6 +453,7 @@ void DeckTrackerBase::onHoverLeave(QHoverEvent *event)
 {
     UNUSED(event);
     hoverCardMultiverseId = 0;
+    currentHoverPosition = -1;
     update();
 }
 

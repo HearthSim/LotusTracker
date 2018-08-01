@@ -247,10 +247,10 @@ void ArenaTracker::onMatchEnd(int winningTeamId)
                                   mtgaMatch->getPlayerRankInfo().first,
                                   deckTrackerPlayer->getDeck(),
                                   deckTrackerOpponent->getDeck());
-    deckTrackerPlayer->hide();
     deckTrackerPlayer->resetDeck();
-    deckTrackerOpponent->hide();
+    deckTrackerPlayer->hide();
     deckTrackerOpponent->clearDeck();
+    deckTrackerOpponent->hide();
 }
 
 void ArenaTracker::onPlayerTakesMulligan()
