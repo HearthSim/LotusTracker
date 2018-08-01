@@ -1,6 +1,8 @@
 #ifndef TABLOGS_H
 #define TABLOGS_H
 
+#include "../utils/logger.h"
+
 #include <QWidget>
 
 namespace Ui { class TabLogs; }
@@ -19,6 +21,8 @@ public:
 signals:
 
 public slots:
+    void onNewLog(LogType type, const QString &log);
+
 };
 
 #endif // TABLOGS_H

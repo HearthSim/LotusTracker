@@ -132,7 +132,7 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
     // Player Draw card
     QAction *playerDrawAction = new QAction(tr("Player Draw"), this);
     connect(playerDrawAction, &QAction::triggered, this, [this](){
-        Card* card = mtgCards->findCard(65669);
+        Card* card = mtgCards->findCard(68186);
         emit ARENA_TRACKER->mtgaMatch->sgnPlayerDrawCard(card);
     });
     testMenu->addAction(playerDrawAction);
