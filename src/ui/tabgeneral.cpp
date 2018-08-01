@@ -11,7 +11,7 @@
 #include <QToolTip>
 
 TabGeneral::TabGeneral(QWidget *parent)
-    : QWidget(parent), ui( new Ui::TabGeneral )
+    : QWidget(parent), ui(new Ui::TabGeneral)
 {
     ui->setupUi(this);
     applyCurrentSettings();

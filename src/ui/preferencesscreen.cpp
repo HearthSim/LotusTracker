@@ -74,8 +74,12 @@ TabAbout *PreferencesScreen::getTabAbout()
 
 void PreferencesScreen::tabClick(QAction *action) {
     int pageIndex = action->property("pageIndex").toInt();
-    for(int i = 0; i<NUM_TABS; i++) {
+    for (int i = 0; i<NUM_TABS; i++) {
         tabs[i]->hide();
+    }
+    ui->statusBar->hide();
+    if (tabs[pageIndex] == tabGeneral || tabs[pageIndex] == tabOverlay) {
+        ui->statusBar->show();
     }
     tabs[pageIndex]->show();
     resize(0, 0);

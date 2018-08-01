@@ -31,7 +31,7 @@
 	font-size: 11px;
 }</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" columnstretch="0">
+  <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" columnstretch="0">
    <property name="sizeConstraint">
     <enum>QLayout::SetDefaultConstraint</enum>
    </property>
@@ -116,6 +116,9 @@
      </item>
      <item>
       <widget class="QCheckBox" name="cbShowOnlyRemainingCard">
+       <property name="statusTip">
+        <string>When checked cards with 0 copies in deck will be hidden</string>
+       </property>
        <property name="text">
         <string>Only show remaining cards in player's deck</string>
        </property>
@@ -205,6 +208,9 @@
      </item>
      <item>
       <widget class="QRadioButton" name="rbMTGA">
+       <property name="statusTip">
+        <string>Magic Arena card layout theme</string>
+       </property>
        <property name="text">
         <string>Magic Arena</string>
        </property>
@@ -215,6 +221,9 @@
      </item>
      <item>
       <widget class="QRadioButton" name="rbMTG">
+       <property name="statusTip">
+        <string>Magic paper card layout theme</string>
+       </property>
        <property name="text">
         <string>Magic The Gathering</string>
        </property>
@@ -423,6 +432,9 @@
      </item>
      <item>
       <widget class="QCheckBox" name="cbPTStatistics">
+       <property name="statusTip">
+        <string>Show player lands, 1, 2, 3 and 4 copies cards draw chances</string>
+       </property>
        <property name="text">
         <string>Player draw statistics</string>
        </property>

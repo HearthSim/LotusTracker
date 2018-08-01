@@ -3,7 +3,7 @@
 #include "../macros.h"
 
 TabOverlay::TabOverlay(QWidget *parent)
-    : QWidget(parent), ui( new Ui::TabOverlay )
+    : QWidget(parent), ui(new Ui::TabOverlay)
 {
     ui->setupUi(this);
     applyCurrentSettings();
@@ -36,7 +36,11 @@ void TabOverlay::applyCurrentSettings()
         ui->rbMTGA->setChecked(true);
     }
     ui->hsAlpha->setValue(APP_SETTINGS->getDeckTrackerAlpha());
-    ui->hsUnhideDelay->setValue(APP_SETTINGS->getUnhiddenDelay());
+    int delay = APP_SETTINGS->getUnhiddenDelay();
+    ui->hsUnhideDelay->setValue(delay);
+    QString unhideText = delay == 0 ? tr("(disabled)")
+                                    : QString(tr("(%1 seconds)")).arg(delay);
+    ui->lbUnhideDelay->setText(unhideText);
     ui->cbShowCardOnHover->setChecked(APP_SETTINGS->isShowCardOnHoverEnabled());
     ui->cbShowOnlyRemainingCard->setChecked(APP_SETTINGS->isShowOnlyRemainingCardsEnabled());
     ui->cbPTStatistics->setChecked(APP_SETTINGS->isDeckTrackerPlayerStatisticsEnabled());
