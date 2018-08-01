@@ -13,12 +13,16 @@ class TabLogs : public QWidget
 
 private:
     Ui::TabLogs *ui;
+    QList<QPair<LogType, QString>> logs;
 
 public:
     explicit TabLogs(QWidget *parent = nullptr);
     ~TabLogs();
 
 signals:
+
+private slots:
+    void onShowDebugLogsChanged();
 
 public slots:
     void onNewLog(LogType type, const QString &log);

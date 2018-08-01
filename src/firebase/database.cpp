@@ -12,6 +12,8 @@
 #define ARENA_META_DB_URL "https://firestore.googleapis.com/v1beta1/projects/arenameta-3b1a7/databases/(default)/documents"
 
 FirebaseDatabase::FirebaseDatabase(QObject *parent, FirebaseAuth *firebaseAuth)
+    : recallUpdatePlayerCollection(false), recallUpdateUserInventory(false),
+      recallUpdatePlayerDeck(false), recalRegisterPlayerMatch(false)
 {
     UNUSED(parent);
     this->firebaseAuth = firebaseAuth;

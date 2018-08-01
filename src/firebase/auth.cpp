@@ -120,10 +120,6 @@ qlonglong FirebaseAuth::getExpiresEpoch(QString expiresIn)
     seconds expiresSeconds = seconds(expiresIn.toInt());
     time_point<system_clock> now = system_clock::now();
     time_point<system_clock> expires = now + expiresSeconds;
-#ifdef QT_DEBUG
-    LOGD(QString("Now: %1").arg(now.time_since_epoch().count()));
-    LOGD(QString("Expires: %1").arg(expires.time_since_epoch().count()));
-#endif
     return expires.time_since_epoch().count();
 }
 

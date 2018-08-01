@@ -10,6 +10,7 @@
 #define KEY_TRACKER_UNHIDDEN_DELAY "Tracker/unhiddenDelay"
 #define KEY_TRACKER_SHOW_CARD_ON_HOVER "Tracker/showCardOnHover"
 #define KEY_TRACKER_SHOW_ONLY_REMAINING_CARDS "Tracker/showOnlyRemainingCards"
+#define KEY_TRACKER_SHOW_DEBUG_LOGS "Tracker/showDebugLogs"
 
 #define KEY_TRACKER_PLAYER_ENABLED "Tracker/playerPrefs/enabled"
 #define KEY_TRACKER_PLAYER_STATISTICS "Tracker/playerPrefs/statistics"
@@ -101,6 +102,16 @@ bool AppSettings::isShowOnlyRemainingCardsEnabled()
 void AppSettings::enableShowOnlyRemainingCards(bool enabled)
 {
     settings.setValue(KEY_TRACKER_SHOW_ONLY_REMAINING_CARDS, enabled);
+}
+
+bool AppSettings::isShowDebugLogsEnabled()
+{
+    return settings.value(KEY_TRACKER_SHOW_DEBUG_LOGS, false).toBool();
+}
+
+void AppSettings::enableShowDebugLogs(bool enabled)
+{
+    settings.setValue(KEY_TRACKER_SHOW_DEBUG_LOGS, enabled);
 }
 
 // Deck tracker player

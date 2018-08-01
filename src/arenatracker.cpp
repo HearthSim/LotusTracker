@@ -230,7 +230,9 @@ void ArenaTracker::showMessage(QString msg, QString title)
 void ArenaTracker::onDeckSubmited(Deck deck)
 {
     deckTrackerPlayer->loadDeck(deck);
-    firebaseDatabase->updatePlayerDeck(deck);
+    if (!mtgaMatch->getInfo().opponentInfo.opponentName().isEmpty()) {
+        firebaseDatabase->updatePlayerDeck(deck);
+    }
 }
 
 void ArenaTracker::onMatchStart(QString eventId, OpponentInfo opponentInfo)

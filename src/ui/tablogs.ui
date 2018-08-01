@@ -45,6 +45,13 @@
      </property>
     </widget>
    </item>
+   <item>
+    <widget class="QCheckBox" name="cbDebug">
+     <property name="text">
+      <string>Show debug logs</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <resources/>

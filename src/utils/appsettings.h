@@ -29,6 +29,8 @@ public:
     void enableShowCardOnHover(bool enabled);
     bool isShowOnlyRemainingCardsEnabled();
     void enableShowOnlyRemainingCards(bool enabled);
+    bool isShowDebugLogsEnabled();
+    void enableShowDebugLogs(bool enabled);
     // Deck tracker player
     bool isDeckTrackerPlayerEnabled();
     void enableDeckTrackerPlayer(bool enabled);

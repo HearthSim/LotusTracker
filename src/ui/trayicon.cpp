@@ -113,7 +113,7 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
     connect(loadDeckAction, &QAction::triggered, this, [](){
         MtgaLogParser *mtgaLogParser = ARENA_TRACKER->mtgArena->getLogParser();
         emit mtgaLogParser->sgnMatchCreated(QString("ConstructedRanked1"),
-                                            OpponentInfo("Opponent", "Beginner", 0));
+                                            OpponentInfo("", "Beginner", 0));
         // Player Select Deck
         QString currentDir = QDir::currentPath();
 #ifdef Q_OS_MAC
@@ -139,6 +139,7 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
     // Opponent play card
     QAction *opponentPlayAction = new QAction(tr("Opponent Play"), this);
     connect(opponentPlayAction, &QAction::triggered, this, [this](){
+        srand(QTime::currentTime().msec());
         int randomCardNumber = rand() % 200;
         Card* card = mtgCards->findCard(66619 + randomCardNumber * 2);
         emit ARENA_TRACKER->mtgaMatch->sgnOpponentPlayCard(card);
