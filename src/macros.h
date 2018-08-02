@@ -11,6 +11,7 @@
 
 #define LOG_LEVEL DEBUG //DEBUG, INFO, WARNING
 #define LOG_IN_TESTS true
+#define LOG_REQUEST_ENABLED false
 #define RUNNING_TESTS !qApp
 
 #define DEL(__CLASSNAME__) \

@@ -150,10 +150,10 @@ void FirebaseDatabase::updatePlayerDeck(Deck deck)
 
 void FirebaseDatabase::createPatchRequest(QUrl url, QJsonDocument body, QString userToken)
 {
-#ifdef QT_DEBUG
-    LOGD(QString("Request: %1").arg(url.toString()));
-    LOGD(QString("Body: %1").arg(QString(body.toJson())));
-#endif
+    if (LOG_REQUEST_ENABLED) {
+        LOGD(QString("Request: %1").arg(url.toString()));
+        LOGD(QString("Body: %1").arg(QString(body.toJson())));
+    }
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader(QString("Authorization").toUtf8(),
@@ -171,9 +171,9 @@ void FirebaseDatabase::requestOnFinish()
 {
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
     QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());
-#ifdef QT_DEBUG
-    LOGD(QString(QJsonDocument(jsonRsp).toJson()));
-#endif
+    if (LOG_REQUEST_ENABLED) {
+        LOGD(QString(QJsonDocument(jsonRsp).toJson()));
+    }
     emit sgnRequestFinished();
 
     int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
@@ -186,32 +186,32 @@ void FirebaseDatabase::requestOnFinish()
         return;
     }
 
-#ifdef QT_DEBUG
-    LOGD(QString("Database updated: %1").arg(reply->request().url().url()));
-#endif
+    if (LOG_REQUEST_ENABLED) {
+        LOGD(QString("Database updated: %1").arg(reply->request().url().url()));
+    }
 }
 
 void FirebaseDatabase::uploadMatch(MatchInfo matchInfo, QString playerRankClass,
                                    Deck playerDeck, Deck opponentDeck)
 {
     jsonPlayerMatchObj = QJsonObject{
-        {"fields", QJsonObject{
-                {"deck", QJsonObject{
-                        {"stringValue", playerDeck.id}
-                    }},
-                {"event", QJsonObject{
-                        {"stringValue", matchInfo.eventId}
-                    }},
-                {"opponentName", QJsonObject{
-                        {"stringValue", matchInfo.opponentInfo.opponentName()}
-                    }},
-                {"opponentDeckColors", QJsonObject{
-                        {"stringValue", opponentDeck.colorIdentity(false)}
-                    }},
-                {"wins", QJsonObject{
-                        {"booleanValue", matchInfo.playerWins}
-                    }}
-            }}};
+    {"fields", QJsonObject{
+    {"deck", QJsonObject{
+    {"stringValue", playerDeck.id}
+}},
+    {"event", QJsonObject{
+    {"stringValue", matchInfo.eventId}
+}},
+    {"opponentName", QJsonObject{
+    {"stringValue", matchInfo.opponentInfo.opponentName()}
+}},
+    {"opponentDeckColors", QJsonObject{
+    {"stringValue", opponentDeck.colorIdentity(false)}
+}},
+    {"wins", QJsonObject{
+    {"booleanValue", matchInfo.playerWins}
+}}
+}}};
 
     QString first = matchInfo.playerGoFirst ? "player1" : "player2";
     QString winner = matchInfo.playerWins ? "player1" : "player2";
@@ -244,10 +244,10 @@ void FirebaseDatabase::uploadMatch(MatchInfo matchInfo, QString playerRankClass,
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     QJsonDocument body = QJsonDocument(jsonObj);
 
-#ifdef QT_DEBUG
-    LOGD(QString("Request: %1").arg(url.toString()));
-    LOGD(QString("Body: %1").arg(QString(body.toJson())));
-#endif
+    if (LOG_REQUEST_ENABLED) {
+        LOGD(QString("Request: %1").arg(url.toString()));
+        LOGD(QString("Body: %1").arg(QString(body.toJson())));
+    }
 
     QNetworkReply *reply = networkManager.post(request, body.toJson());
     connect(reply, &QNetworkReply::finished,
@@ -294,9 +294,9 @@ void FirebaseDatabase::uploadMatchRequestOnFinish()
 {
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
     QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());
-#ifdef QT_DEBUG
-    LOGD(QString(QJsonDocument(jsonRsp).toJson()));
-#endif
+    if (LOG_REQUEST_ENABLED) {
+        LOGD(QString(QJsonDocument(jsonRsp).toJson()));
+    }
     emit sgnRequestFinished();
 
     int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
@@ -332,9 +332,9 @@ void FirebaseDatabase::registerPlayerMatch(QString matchID)
     QDate date = QDate::currentDate();
     QUrl url(QString("%1/users/%2/matches/%3/%4/%5").arg(ARENA_META_DB_URL)
              .arg(userSettings.userId).arg(date.year()).arg(date.month()).arg(matchID));
-#ifdef QT_DEBUG
-    LOGD(QString("Body: %1").arg(QString(QJsonDocument(jsonPlayerMatchObj).toJson())));
-#endif
+    if (LOG_REQUEST_ENABLED) {
+        LOGD(QString("Body: %1").arg(QString(QJsonDocument(jsonPlayerMatchObj).toJson())));
+    }
 
     createPatchRequest(url, QJsonDocument(jsonPlayerMatchObj), userSettings.userToken);
     jsonPlayerMatchObj = QJsonObject();

@@ -31,9 +31,9 @@ void FirebaseAuth::signInUser(QString email, QString password)
 
     QUrl url(SIGNIN_URL);
     url.setQuery(QUrlQuery(QString("key=%1").arg(ApiKeys::FIREBASE())));
-#ifdef QT_DEBUG
-    LOGD(QString("Request: %1").arg(url.toString()));
-#endif
+    if (LOG_REQUEST_ENABLED) {
+        LOGD(QString("Request: %1").arg(url.toString()));
+    }
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     QNetworkReply *reply = networkManager.post(request, body);
@@ -50,9 +50,9 @@ void FirebaseAuth::registerUser(QString email, QString password)
 
     QUrl url(REGISTER_URL);
     url.setQuery(QUrlQuery(QString("key=%1").arg(ApiKeys::FIREBASE())));
-#ifdef QT_DEBUG
-    LOGD(QString("Request: %1").arg(url.toString()));
-#endif
+    if (LOG_REQUEST_ENABLED) {
+        LOGD(QString("Request: %1").arg(url.toString()));
+    }
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     QNetworkReply *reply = networkManager.post(request, body);
@@ -63,9 +63,9 @@ void FirebaseAuth::authRequestOnFinish()
 {
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
     QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());
-#ifdef QT_DEBUG
-    LOGD(QString(QJsonDocument(jsonRsp).toJson()));
-#endif
+    if (LOG_REQUEST_ENABLED) {
+        LOGD(QString(QJsonDocument(jsonRsp).toJson()));
+    }
     emit sgnRequestFinished();
 
     int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
@@ -132,9 +132,9 @@ void FirebaseAuth::refreshToken(QString refreshToken)
 
     QUrl url(REFRESH_TOKEN_URL);
     url.setQuery(QUrlQuery(QString("key=%1").arg(ApiKeys::FIREBASE())));
-#ifdef QT_DEBUG
-    LOGD(QString("Request: %1").arg(url.toString()));
-#endif
+    if (LOG_REQUEST_ENABLED) {
+        LOGD(QString("Request: %1").arg(url.toString()));
+    }
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     QNetworkReply *reply = networkManager.post(request, body);
@@ -145,9 +145,9 @@ void FirebaseAuth::tokenRefreshRequestOnFinish()
 {
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
     QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());
-#ifdef QT_DEBUG
-    LOGD(QString(QJsonDocument(jsonRsp).toJson()));
-#endif
+    if (LOG_REQUEST_ENABLED) {
+        LOGD(QString(QJsonDocument(jsonRsp).toJson()));
+    }
     emit sgnRequestFinished();
 
     int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
@@ -173,9 +173,9 @@ void FirebaseAuth::recoverPassword(QString email)
 
     QUrl url(RECOVER_PASSWORD_URL);
     url.setQuery(QUrlQuery(QString("key=%1").arg(ApiKeys::FIREBASE())));
-#ifdef QT_DEBUG
-    LOGD(QString("Request: %1").arg(url.toString()));
-#endif
+    if (LOG_REQUEST_ENABLED) {
+        LOGD(QString("Request: %1").arg(url.toString()));
+    }
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     QNetworkReply *reply = networkManager.post(request, body);
@@ -186,9 +186,9 @@ void FirebaseAuth::recoverPasswordRequestOnFinish()
 {
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
     QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());
-#ifdef QT_DEBUG
-    LOGD(QString(QJsonDocument(jsonRsp).toJson()));
-#endif
+    if (LOG_REQUEST_ENABLED) {
+        LOGD(QString(QJsonDocument(jsonRsp).toJson()));
+    }
     emit sgnRequestFinished();
 
     int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();

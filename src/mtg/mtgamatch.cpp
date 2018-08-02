@@ -137,7 +137,7 @@ void MtgaMatch::notifyHandCardsDraw(MatchStateDiff matchStateDiff)
         if (zone.type() == ZoneType_HAND && zone.ownerSeatId() == player.seatId()) {
             for(int mtgaCardId : zone.objectIds.values()) {
                 Card* card = mtgCards->findCard(mtgaCardId);
-                LOGD(QString("Player draw %1").arg(card->name));
+                LOGI(QString("Player draw %1").arg(card->name));
                 emit sgnPlayerDrawCard(card);
             }
         }
@@ -153,7 +153,7 @@ void MtgaMatch::notifyCardZoneChange(int objectId, int oldObjectId, MatchZone zo
     QString cardName = card ? card->name : QString("Object %1").arg(objectId);
     switch (zoneTransferType) {
         case TRANSFER_DRAW: {
-            LOGD(QString("%1 draw %2").arg(ownerIdenfitier).arg(cardName));
+            LOGI(QString("%1 draw %2").arg(ownerIdenfitier).arg(cardName));
             if (isTransferFromPlayer) {
                 emit sgnPlayerDrawCard(card);
             } else {
@@ -164,7 +164,7 @@ void MtgaMatch::notifyCardZoneChange(int objectId, int oldObjectId, MatchZone zo
         case TRANSFER_CAST:
         case TRANSFER_PLAY: {
             QString action = zoneTransferType == TRANSFER_CAST ? "cast" : "play";
-            LOGD(QString("%1 %2 %3").arg(ownerIdenfitier).arg(action).arg(cardName));
+            LOGI(QString("%1 %2 %3").arg(ownerIdenfitier).arg(action).arg(cardName));
             if (isTransferFromPlayer) {
                 emit sgnPlayerPlayCard(card);
             } else {
@@ -173,11 +173,11 @@ void MtgaMatch::notifyCardZoneChange(int objectId, int oldObjectId, MatchZone zo
             break;
         }
         case TRANSFER_DESTROY: {
-            LOGD(QString("%1 destroyed").arg(cardName));
+            LOGI(QString("%1 destroyed").arg(cardName));
             break;
         }
         case TRANSFER_DISCARD: {
-            LOGD(QString("%1 discarded").arg(cardName));
+            LOGI(QString("%1 discarded").arg(cardName));
             if (isTransferFromPlayer) {
                 emit sgnPlayerDiscardCard(card);
             } else {
@@ -186,7 +186,7 @@ void MtgaMatch::notifyCardZoneChange(int objectId, int oldObjectId, MatchZone zo
             break;
         }
         case TRANSFER_DISCARD_FROM_LIBRARY: {
-            LOGD(QString("%1 discarded from library").arg(cardName));
+            LOGI(QString("%1 discarded from library").arg(cardName));
             if (isTransferFromPlayer) {
                 emit sgnPlayerDiscardFromLibraryCard(card);
             } else {
@@ -195,11 +195,11 @@ void MtgaMatch::notifyCardZoneChange(int objectId, int oldObjectId, MatchZone zo
             break;
         }
         case TRANSFER_EXILE: {
-            LOGD(QString("%1 exiled").arg(cardName));
+            LOGI(QString("%1 exiled").arg(cardName));
             break;
         }
         case TRANSFER_COUNTERED: {
-            LOGD(QString("%1 countered").arg(cardName));
+            LOGI(QString("%1 countered").arg(cardName));
             break;
         }
         case TRANSFER_RESOLVE: {
@@ -207,7 +207,7 @@ void MtgaMatch::notifyCardZoneChange(int objectId, int oldObjectId, MatchZone zo
             break;
         }
         case TRANSFER_PUT_ON_BATTLEFIELD: {
-            LOGD(QString("%1 put %2 on battlefield").arg(ownerIdenfitier).arg(cardName));
+            LOGI(QString("%1 put %2 on battlefield").arg(ownerIdenfitier).arg(cardName));
             if (isTransferFromPlayer) {
                 emit sgnPlayerPutOnBattlefieldCard(card);
             } else {
@@ -216,7 +216,7 @@ void MtgaMatch::notifyCardZoneChange(int objectId, int oldObjectId, MatchZone zo
             break;
         }
         case TRANSFER_PUT_ON_TOP: {
-            LOGD(QString("%1 put %2 on top of deck").arg(ownerIdenfitier).arg(cardName));
+            LOGI(QString("%1 put %2 on top of deck").arg(ownerIdenfitier).arg(cardName));
             break;
         }
         case TRANSFER_RETURN: {
@@ -228,9 +228,9 @@ void MtgaMatch::notifyCardZoneChange(int objectId, int oldObjectId, MatchZone zo
                 }
             }
             if (returnedCard) {
-                LOGD(QString("%1 returned to hand").arg(returnedCard->name));
+                LOGI(QString("%1 returned to hand").arg(returnedCard->name));
             } else {
-                LOGD(QString("%1 returned to hand").arg(cardName));
+                LOGI(QString("%1 returned to hand").arg(cardName));
             }
             break;
         }
@@ -244,6 +244,7 @@ void MtgaMatch::notifyCardZoneChange(int objectId, int oldObjectId, MatchZone zo
 void MtgaMatch::onNewTurnStarted(int turnNumber)
 {
     currentTurn = turnNumber;
+    LOGI(QString("Turn %1 started").arg(turnNumber));
 }
 
 void MtgaMatch::updateZones(MatchStateDiff matchStateDiff)
