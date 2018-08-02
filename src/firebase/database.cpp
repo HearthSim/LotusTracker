@@ -1,5 +1,9 @@
 #include "database.h"
 #include "macros.h"
+#include "rqtupdateplayercollection.h"
+#include "rqtupdateplayerdeck.h"
+#include "rqtupdateuserinventory.h"
+#include "rqtuploadmatch.h"
 
 #include <QBuffer>
 #include <QJsonDocument>
@@ -55,23 +59,8 @@ void FirebaseDatabase::updatePlayerCollection(QMap<int, int> ownedCards)
         firebaseAuth->refreshToken(userSettings.refreshToken);
         return;
     }
-    QJsonObject jsonCollection;
-    for (int key : ownedCards.keys()) {
-        jsonCollection.insert(QString::number(key),
-                              QJsonObject{{ "integerValue", QString::number(ownedCards[key]) }});
-    }
-    QJsonObject jsonObj{
-        {"fields", QJsonObject{
-                {"collection", QJsonObject{
-                        {"mapValue", QJsonObject{
-                                {"fields", jsonCollection}
-                            }}
-                    }}
-            }}
-    };
-    QUrl url(QString("%1/users/%2?updateMask.fieldPaths=collection")
-             .arg(ARENA_META_DB_URL).arg(userSettings.userId));
-    createPatchRequest(url, QJsonDocument(jsonObj), userSettings.userToken);
+    RqtUpdatePlayerCollection rqtUpdatePlayerCollection(userSettings.userId, ownedCards);
+    sendPatchRequest(rqtUpdatePlayerCollection, userSettings.userToken);
 }
 
 void FirebaseDatabase::updateUserInventory(PlayerInventory playerInventory)
@@ -87,28 +76,8 @@ void FirebaseDatabase::updateUserInventory(PlayerInventory playerInventory)
         firebaseAuth->refreshToken(userSettings.refreshToken);
         return;
     }
-    QJsonObject jsonInventoryFields{
-        { "wcCommon", QJsonObject{
-                { "integerValue", QString::number(playerInventory.getWcCommon()) }}},
-        { "wcUncommon", QJsonObject{
-                { "integerValue", QString::number(playerInventory.getWcUncommon()) }}},
-        { "wcRare", QJsonObject{
-                { "integerValue", QString::number(playerInventory.getWcRare()) }}},
-        { "wcMythic", QJsonObject{
-                { "integerValue", QString::number(playerInventory.getWcMythic()) }}}
-    };
-    QJsonObject jsonObj{
-        {"fields", QJsonObject{
-                {"inventory", QJsonObject{
-                        {"mapValue", QJsonObject{
-                                {"fields", jsonInventoryFields}
-                            }}
-                    }}
-            }}
-    };
-    QUrl url(QString("%1/users/%2?updateMask.fieldPaths=inventory")
-             .arg(ARENA_META_DB_URL).arg(userSettings.userId));
-    createPatchRequest(url, QJsonDocument(jsonObj), userSettings.userToken);
+    RqtUpdateUserInventory rqtUpdateUserInventory(userSettings.userId, playerInventory);
+    sendPatchRequest(rqtUpdateUserInventory, userSettings.userToken);
 }
 
 void FirebaseDatabase::updatePlayerDeck(Deck deck)
@@ -125,34 +94,17 @@ void FirebaseDatabase::updatePlayerDeck(Deck deck)
         return;
     }
 
-    QJsonObject jsonCards;
-    QMap<Card*, int> cards = deck.cards();
-    for (Card* card : cards.keys()) {
-        jsonCards.insert(QString::number(card->mtgaId),
-                         QJsonObject{{ "integerValue", QString::number(cards[card]) }});
-    }
-    QJsonObject jsonObj{
-        {"fields", QJsonObject{
-                { "cards", QJsonObject{
-                        { "mapValue", QJsonObject{
-                                {"fields", jsonCards}
-                            }}}},
-                { "colors", QJsonObject{
-                        { "stringValue", deck.colorIdentity() }}},
-                { "name", QJsonObject{
-                        { "stringValue", deck.name }}}
-            }}
-    };
-    QUrl url(QString("%1/users/%2/decks/%3").arg(ARENA_META_DB_URL)
-             .arg(userSettings.userId).arg(deck.id));
-    createPatchRequest(url, QJsonDocument(jsonObj), userSettings.userToken);
+    RqtUpdatePlayerDeck rqtUpdatePlayerDeck(userSettings.userId, deck);
+    sendPatchRequest(rqtUpdatePlayerDeck, userSettings.userToken);
 }
 
-void FirebaseDatabase::createPatchRequest(QUrl url, QJsonDocument body, QString userToken)
+void FirebaseDatabase::sendPatchRequest(FirestoreRequest firestoreRequest, QString userToken)
 {
+    QUrl url(QString("%1/%2").arg(ARENA_META_DB_URL).arg(firestoreRequest.path()));
+    QByteArray bodyJson = firestoreRequest.body().toJson();
     if (LOG_REQUEST_ENABLED) {
         LOGD(QString("Request: %1").arg(url.toString()));
-        LOGD(QString("Body: %1").arg(QString(body.toJson())));
+        LOGD(QString("Body: %1").arg(QString(bodyJson)));
     }
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -160,7 +112,7 @@ void FirebaseDatabase::createPatchRequest(QUrl url, QJsonDocument body, QString 
                          QString("Bearer %1").arg(userToken).toUtf8());
     QBuffer *buffer = new QBuffer();
     buffer->open((QBuffer::ReadWrite));
-    buffer->write(body.toJson());
+    buffer->write(bodyJson);
     buffer->seek(0);
     QNetworkReply *reply = networkManager.sendCustomRequest(request, "PATCH", buffer);
     connect(reply, &QNetworkReply::finished,
@@ -194,100 +146,20 @@ void FirebaseDatabase::requestOnFinish()
 void FirebaseDatabase::uploadMatch(MatchInfo matchInfo, QString playerRankClass,
                                    Deck playerDeck, Deck opponentDeck)
 {
-    jsonPlayerMatchObj = QJsonObject{
-    {"fields", QJsonObject{
-    {"deck", QJsonObject{
-    {"stringValue", playerDeck.id}
-}},
-    {"event", QJsonObject{
-    {"stringValue", matchInfo.eventId}
-}},
-    {"opponentName", QJsonObject{
-    {"stringValue", matchInfo.opponentInfo.opponentName()}
-}},
-    {"opponentDeckColors", QJsonObject{
-    {"stringValue", opponentDeck.colorIdentity(false)}
-}},
-    {"wins", QJsonObject{
-    {"booleanValue", matchInfo.playerWins}
-}}
-}}};
+    rqtRegisterPlayerMatch = RqtRegisterPlayerMatch(matchInfo, playerDeck, opponentDeck);
+    RqtUploadMatch rqtUploadMatch(matchInfo, playerRankClass, playerDeck, opponentDeck);
+    QUrl url(QString("%1/%2").arg(ARENA_META_DB_URL).arg(rqtUploadMatch.path()));
+    QByteArray bodyJson = rqtUploadMatch.body().toJson();
 
-    QString first = matchInfo.playerGoFirst ? "player1" : "player2";
-    QString winner = matchInfo.playerWins ? "player1" : "player2";
-    QJsonObject jsonObj{
-        {"fields", QJsonObject{
-                {"event", QJsonObject{
-                        {"stringValue", matchInfo.eventId}
-                    }},
-                {"first", QJsonObject{
-                        {"stringValue", first}
-                    }},
-                {"player1", QJsonObject{
-                        {"mapValue", toJsonFields(playerDeck, matchInfo,
-                                                  true, playerRankClass)}
-                    }},
-                {"player2", QJsonObject{
-                        {"mapValue", toJsonFields(opponentDeck, matchInfo, false) }
-                    }},
-                {"winner", QJsonObject{
-                        {"stringValue", winner}
-                    }}
-            }}
-    };
-
-
-    QDate date = QDate::currentDate();
-    QUrl url(QString("%1/matches/%2/%3").arg(ARENA_META_DB_URL)
-             .arg(date.year()).arg(date.month()));
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    QJsonDocument body = QJsonDocument(jsonObj);
-
     if (LOG_REQUEST_ENABLED) {
         LOGD(QString("Request: %1").arg(url.toString()));
-        LOGD(QString("Body: %1").arg(QString(body.toJson())));
+        LOGD(QString("Body: %1").arg(QString(bodyJson)));
     }
-
-    QNetworkReply *reply = networkManager.post(request, body.toJson());
+    QNetworkReply *reply = networkManager.post(request, bodyJson);
     connect(reply, &QNetworkReply::finished,
             this, &FirebaseDatabase::uploadMatchRequestOnFinish);
-}
-
-QJsonObject FirebaseDatabase::toJsonFields(Deck deck, MatchInfo matchInfo,
-                                           bool player, QString playerRankClass)
-{
-    QJsonObject jsonCards;
-    QMap<Card*, int> cards = player ? deck.cards() : deck.currentCards();
-    for (Card* card : cards.keys()) {
-        jsonCards.insert(QString::number(card->mtgaId),
-                         QJsonObject{{ "integerValue", QString::number(cards[card]) }});
-    }
-    QString color = player ? deck.colorIdentity() : deck.colorIdentity(false);
-    bool mulligan = player ? matchInfo.playerTakesMulligan
-                           : matchInfo.opponentTakesMulligan;
-    QString rank = player ? playerRankClass
-                          : matchInfo.opponentInfo.opponentRankClass();
-    QJsonObject jsonFields{
-        {"fields", QJsonObject{
-                { "cards", QJsonObject{
-                        { "mapValue", QJsonObject{
-                                {"fields", jsonCards}
-                            }}
-                    }},
-                { "colors", QJsonObject{
-                        { "stringValue", color }
-                    }},
-                {"mulligan", QJsonObject{
-                        { "booleanValue", mulligan }}
-                },
-                {"rank", QJsonObject{
-                        { "stringValue", rank }
-                    }}
-            }
-        }
-    };
-    return jsonFields;
 }
 
 void FirebaseDatabase::uploadMatchRequestOnFinish()
@@ -319,7 +191,7 @@ void FirebaseDatabase::registerPlayerMatch(QString matchID)
 {
     recalRegisterPlayerMatch = false;
     UserSettings userSettings = APP_SETTINGS->getUserSettings();
-    if (userSettings.userToken.isEmpty() || jsonPlayerMatchObj.size() == 0) {
+    if (userSettings.userToken.isEmpty() || rqtRegisterPlayerMatch.path().isEmpty()) {
         return;
     }
     if (!userSettings.isAuthValid()) {
@@ -329,13 +201,6 @@ void FirebaseDatabase::registerPlayerMatch(QString matchID)
         return;
     }
 
-    QDate date = QDate::currentDate();
-    QUrl url(QString("%1/users/%2/matches/%3/%4/%5").arg(ARENA_META_DB_URL)
-             .arg(userSettings.userId).arg(date.year()).arg(date.month()).arg(matchID));
-    if (LOG_REQUEST_ENABLED) {
-        LOGD(QString("Body: %1").arg(QString(QJsonDocument(jsonPlayerMatchObj).toJson())));
-    }
-
-    createPatchRequest(url, QJsonDocument(jsonPlayerMatchObj), userSettings.userToken);
-    jsonPlayerMatchObj = QJsonObject();
+    rqtRegisterPlayerMatch.createPath(userSettings.userId, matchID);
+    sendPatchRequest(rqtRegisterPlayerMatch, userSettings.userToken);
 }

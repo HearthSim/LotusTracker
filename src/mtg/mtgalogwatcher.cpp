@@ -37,7 +37,7 @@ void MtgaLogWatcher::setLogPath(QString logPath){
     logFile = new QFile(logPath + QDir::separator() + "output_log.txt");
     if (logFile->exists()) {
 		logFilePath = logPath;
-        LOGD(QString("Log file: %1").arg(logFilePath));
+        LOGI(QString("Log file: %1").arg(logFilePath));
 	    lastFilePos = logFile->size();	
     } else {
         LOGW(QString("Game log file not found: %1").arg(logPath));

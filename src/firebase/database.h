@@ -2,6 +2,8 @@
 #define DATABASE_H
 
 #include "auth.h"
+#include "firestorerequest.h"
+#include "rqtregisterplayermatch.h"
 #include "entity/deck.h"
 #include "entity/user.h"
 #include "mtg/mtgamatch.h"
@@ -14,7 +16,7 @@ class FirebaseDatabase : public QObject
     Q_OBJECT
 private:
     FirebaseAuth *firebaseAuth;
-    QJsonObject jsonPlayerMatchObj;
+    RqtRegisterPlayerMatch rqtRegisterPlayerMatch;
     QNetworkAccessManager networkManager;
     //Params for recall method after refresh token
     bool recallUpdatePlayerCollection, recallUpdateUserInventory;
@@ -24,10 +26,8 @@ private:
     Deck paramDeck;
     QString paramMatchID;
 
-    void createPatchRequest(QUrl url, QJsonDocument body, QString userToken);
+    void sendPatchRequest(FirestoreRequest firestoreRequest, QString userToken);
     void requestOnFinish();
-    QJsonObject toJsonFields(Deck deck, MatchInfo matchInfo, bool player,
-                             QString playerRankClass = QString(""));
     void uploadMatchRequestOnFinish();
     void registerPlayerMatch(QString matchID);
 

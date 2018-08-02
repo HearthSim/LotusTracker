@@ -45,6 +45,12 @@ HEADERS += \
     src/entity/opponentinfo.h \
     src/firebase/auth.h \
     src/firebase/database.h \
+    src/firebase/rqtupdateplayerdeck.h \
+    src/firebase/rqtupdateuserinventory.h \
+    src/firebase/rqtupdateplayercollection.h \
+    src/firebase/rqtuploadmatch.h \
+    src/firebase/rqtregisterplayermatch.h \
+    src/firebase/firestorerequest.h \
     src/mtg/mtgarena.h \
     src/mtg/mtgalogparser.h \
     src/mtg/mtgalogwatcher.h \

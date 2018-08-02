@@ -113,7 +113,7 @@ void DeckTrackerPlayer::loadDeck(Deck deck)
 {
     this->deck = deck;
     this->deck.showOnlyRemainingCards = APP_SETTINGS->isShowOnlyRemainingCardsEnabled();
-    LOGD(QString("Loading deck %1").arg(deck.name));
+    LOGI(QString("Loading deck %1").arg(deck.name));
 }
 
 void DeckTrackerPlayer::resetDeck()
