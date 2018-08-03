@@ -22,7 +22,7 @@ void DeckTrackerOpponent::applyCurrentSettings()
 
 QString DeckTrackerOpponent::onGetDeckColorIdentity()
 {
-    return deck.colorIdentity(false);
+    return deck.colorIdentity(false, true);
 }
 
 void DeckTrackerOpponent::onPositionChanged()

@@ -14,11 +14,11 @@ private:
     QMap<Card*, int> cardsInitial;
     QMap<Card*, int> cardsCurrent;
 
-    QString calcColorIdentity()
+    QString calcColorIdentity(bool includeLands)
     {
         QList<QChar> distinctManaSymbols;
         for (Card *card : cardsCurrent.keys()) {
-            if (card->isLand) {
+            if (card->isLand && !includeLands) {
                 continue;
             }
             for (QChar symbol : card->manaColorIdentity) {
@@ -47,7 +47,7 @@ public:
         for (Card *card : cards.keys()) {
             cardsInitial[card] = cards[card];
         }
-        _colorIdentity = calcColorIdentity();
+        _colorIdentity = calcColorIdentity(false);
     }
 
     QMap<Card*, int> cards()
@@ -82,10 +82,10 @@ public:
         }
     }
 
-    QString colorIdentity(bool useStartCalc = true)
+    QString colorIdentity(bool useStartCalc = true, bool includeLands = false)
     {
         if (!useStartCalc) {
-            return calcColorIdentity();
+            return calcColorIdentity(includeLands);
         }
         return _colorIdentity;
     }
