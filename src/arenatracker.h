@@ -26,7 +26,6 @@ class ArenaTracker : public QApplication
 
 private:
     QLocalServer *localServer;
-    MtgCards *mtgCards;
     DeckTrackerPlayer *deckTrackerPlayer;
     DeckTrackerOpponent *deckTrackerOpponent;
     TrayIcon *trayIcon;
@@ -48,6 +47,7 @@ public:
     AppSettings *appSettings;
     Logger *logger;
     MtgArena *mtgArena;
+    MtgCards *mtgCards;
     MtgaMatch *mtgaMatch;
     SparkleUpdater *sparkleUpdater;
     int run();

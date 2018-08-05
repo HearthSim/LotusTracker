@@ -3,7 +3,6 @@
 
 #include "mtgalogparser.h"
 #include "mtgalogwatcher.h"
-#include "mtgcards.h"
 
 #include <QObject>
 #include <QTimer>
@@ -24,7 +23,7 @@ private:
 	void onNewLogContent(QString logNewContent);
 
 public:
-    explicit MtgArena(QObject *parent = nullptr, MtgCards *mtgCards = nullptr);
+    explicit MtgArena(QObject *parent = nullptr);
     ~MtgArena();
 	bool isFocused;
 	bool isRunning;

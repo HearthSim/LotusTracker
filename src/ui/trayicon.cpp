@@ -10,8 +10,7 @@
 #include <QMenu>
 #include <QMessageBox>
 
-TrayIcon::TrayIcon(QObject *parent, MtgCards *mtgCards)
-    : QObject(parent), mtgCards(mtgCards)
+TrayIcon::TrayIcon(QObject *parent): QObject(parent)
 {
     if (QSystemTrayIcon::isSystemTrayAvailable()) {
         setupTrayIcon();
@@ -132,7 +131,7 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
     // Player Draw card
     QAction *playerDrawAction = new QAction(tr("Player Draw"), this);
     connect(playerDrawAction, &QAction::triggered, this, [this](){
-        Card* card = mtgCards->findCard(68186);
+        Card* card = ARENA_TRACKER->mtgCards->findCard(68186);
         emit ARENA_TRACKER->mtgaMatch->sgnPlayerDrawCard(card);
     });
     testMenu->addAction(playerDrawAction);
@@ -141,7 +140,7 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
     connect(opponentPlayAction, &QAction::triggered, this, [this](){
         srand(QTime::currentTime().msec());
         int randomCardNumber = rand() % 200;
-        Card* card = mtgCards->findCard(66619 + randomCardNumber * 2);
+        Card* card = ARENA_TRACKER->mtgCards->findCard(66619 + randomCardNumber * 2);
         emit ARENA_TRACKER->mtgaMatch->sgnOpponentPlayCard(card);
     });
     testMenu->addAction(opponentPlayAction);

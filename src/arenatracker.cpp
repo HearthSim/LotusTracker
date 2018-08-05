@@ -19,10 +19,10 @@ ArenaTracker::ArenaTracker(int& argc, char **argv): QApplication(argc, argv)
     logger = new Logger(this);
     appSettings = new AppSettings(this);
     mtgCards = new MtgCards(this);
-    mtgArena = new MtgArena(this, mtgCards);
+    mtgArena = new MtgArena(this);
     deckTrackerPlayer = new DeckTrackerPlayer();
     deckTrackerOpponent = new DeckTrackerOpponent();
-    trayIcon = new TrayIcon(this, mtgCards);
+    trayIcon = new TrayIcon(this);
     firebaseAuth = new FirebaseAuth(this);
     firebaseDatabase = new FirebaseDatabase(this, firebaseAuth);
     startScreen = new StartScreen(nullptr, firebaseAuth);
@@ -148,6 +148,10 @@ void ArenaTracker::setupLogParserConnections()
             firebaseDatabase, &FirebaseDatabase::updateUserInventory);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerRankInfo,
             mtgaMatch, &MtgaMatch::onPlayerRankInfo);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckCreated,
+            firebaseDatabase, &FirebaseDatabase::createPlayerDeck);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckUpdated,
+            firebaseDatabase, &FirebaseDatabase::updatePlayerDeck);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckSubmited,
             this, &ArenaTracker::onDeckSubmited);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchCreated,
@@ -160,7 +164,7 @@ void ArenaTracker::setupLogParserConnections()
 
 void ArenaTracker::setupMtgaMatch()
 {
-    mtgaMatch = new MtgaMatch(this, mtgCards);
+    mtgaMatch = new MtgaMatch(this);
     // Player
     connect(mtgaMatch, &MtgaMatch::sgnPlayerPutInLibraryCard,
             deckTrackerPlayer, &DeckTrackerPlayer::onPlayerPutInLibraryCard);

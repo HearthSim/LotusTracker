@@ -1,4 +1,5 @@
 #include "mtgarena.h"
+#include "mtgcards.h"
 #include "../macros.h"
 
 #if defined Q_OS_MAC
@@ -13,7 +14,7 @@
 #define SLOW_FIND_WINDOW_INTERVAL 5000
 #define FAST_FIND_WINDOW_INTERVAL 500
 
-MtgArena::MtgArena(QObject *parent, MtgCards *mtgCards)
+MtgArena::MtgArena(QObject *parent)
     : QObject(parent), isFocused(false), isRunning(false)
 {
     timer = new QTimer(this);
@@ -22,7 +23,7 @@ MtgArena::MtgArena(QObject *parent, MtgCards *mtgCards)
     connect(this, &MtgArena::sgnGameStarted, this, &MtgArena::gameStarted);
     connect(this, &MtgArena::sgnGameStopped, this, &MtgArena::gameStopped);
     connect(this, &MtgArena::sgnGameFocusChanged, this, &MtgArena::gameFocusChanged);
-    logParser = new MtgaLogParser(this, mtgCards);
+    logParser = new MtgaLogParser(this, ARENA_TRACKER->mtgCards);
     logWatcher = new MtgaLogWatcher(this);
     connect(logWatcher, &MtgaLogWatcher::sgnNewLogContent, this, &MtgArena::onNewLogContent);
 }
