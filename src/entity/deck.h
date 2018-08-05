@@ -45,8 +45,9 @@ public:
 
     Deck(QString id = "", QString name = "",
          QMap<Card*, int> cards = {}, QMap<Card*, int> sideboard = {})
-        : id(id), name(name), cardsCurrent(cards),
-          cardsSideboard(sideboard), showOnlyRemainingCards(false){
+        : id(id), name(name), showOnlyRemainingCards(false){
+        cardsCurrent = cards;
+        cardsSideboard = sideboard;
         for (Card *card : cards.keys()) {
             cardsInitial[card] = cards[card];
         }

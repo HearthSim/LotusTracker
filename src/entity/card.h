@@ -16,17 +16,19 @@ public:
     const QString name;
     const QString type;
     const QString manaCost;
+    const QList<QChar> borderColorIdentity;
     const QList<QChar> manaColorIdentity;
     bool isLand;
     bool isArtifact;
 
     Card(int mtgaId = 0, int multiverseId = 0, QString setCode = "",
          QString number = "", QString name = "", QString type = "",
-         QString manaCost = "", QList<QChar> manaColorIdentity = {},
-         bool isLand = false, bool isArtifact = false)
+         QString manaCost = "", QList<QChar> borderColorIdentity = {},
+         QList<QChar> manaColorIdentity = {},bool isLand = false, bool isArtifact = false)
         : mtgaId(mtgaId), multiverseId(multiverseId), setCode(setCode),
           number(number), name(name), type(type), manaCost(manaCost),
-          manaColorIdentity(manaColorIdentity), isLand(isLand), isArtifact(isArtifact){}
+          borderColorIdentity(borderColorIdentity), manaColorIdentity(manaColorIdentity),
+          isLand(isLand), isArtifact(isArtifact){}
 
     int manaCostValue()
     {
@@ -35,6 +37,11 @@ public:
             manaValue += mana.isDigit() ? QString(mana).toInt() : 1;
         }
         return manaValue;
+    }
+
+    QString borderColorIdentityAsString()
+    {
+        return Transformations::colorIdentityListToString(borderColorIdentity);
     }
 
     QString manaColorIdentityAsString()

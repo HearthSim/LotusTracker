@@ -151,22 +151,33 @@ Card* MtgCards::jsonObject2Card(QJsonObject jsonCard, QString setCode)
     while (iterator.hasNext()) {
         manaCost += iterator.next().captured(0).toLower().at(0);
     }
-    // Mana color identity
+    // Color identity
+    QList<QChar> borderColorIdentity = jsonCard2BorderColorIdentity(jsonCard, isArtifact);
+    QList<QChar> manaColorIdentity = manaCost2ManaColorIdentity(manaCost);
+    return new Card(mtgaId, multiverseId, setCode, number, name, type, manaCost,
+                    borderColorIdentity, manaColorIdentity, isLand, isArtifact);
+}
+
+QList<QChar> MtgCards::jsonCard2BorderColorIdentity(QJsonObject jsonCard, bool isArtifact)
+{
+    QList<QChar> borderColorIdentity;
+    QJsonArray jsonColorIdentity = jsonCard["colorIdentity"].toArray();
     QString text = jsonCard["text"].toString();
-    QList<QChar> manaColorIdentity;
-    if (isLand) {
-        QJsonArray jsonColorIdentity = jsonCard["colorIdentity"].toArray();
-        for (QJsonValueRef colorIdentityRef : jsonColorIdentity) {
-            manaColorIdentity << colorIdentityRef.toString().toLower().at(0);
-        }
-        if (manaColorIdentity.isEmpty()) {
-            manaColorIdentity << QChar(text.contains("mana of any color") ? 'm' : 'c');
-        }
-    } else {
-        manaColorIdentity = manaCost2ManaColorIdentity(manaCost);
+    for (QJsonValueRef colorIdentityRef : jsonColorIdentity) {
+        borderColorIdentity << colorIdentityRef.toString().toLower().at(0);
     }
-    return new Card(mtgaId, multiverseId, setCode, number, name,
-                    type, manaCost, manaColorIdentity, isLand, isArtifact);
+    if (borderColorIdentity.size() >= 3) {
+        borderColorIdentity.clear();
+        borderColorIdentity << QChar('m');
+    }
+    if (borderColorIdentity.isEmpty()) {
+        if (isArtifact) {
+            borderColorIdentity << 'a';
+        } else {
+            borderColorIdentity << QChar(text.contains("mana of any color") ? 'm' : 'c');
+        }
+    }
+    return borderColorIdentity;
 }
 
 QList<QChar> MtgCards::manaCost2ManaColorIdentity(QString manaCost)
@@ -181,9 +192,6 @@ QList<QChar> MtgCards::manaCost2ManaColorIdentity(QString manaCost)
     }
     if (manaSymbols.isEmpty()) {
         manaSymbols << 'a';
-    } else if (manaSymbols.size() >= 4) {
-        manaSymbols.clear();
-        manaSymbols << QChar('m');
     }
     return manaSymbols;
 }

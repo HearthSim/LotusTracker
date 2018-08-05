@@ -262,17 +262,11 @@ void DeckTrackerBase::drawDeckCards(QPainter &painter)
     int cardQtdOptions = Qt::AlignCenter | Qt::AlignVCenter | Qt::TextDontClip;
     for (Card* card : getDeckCardsSorted()) {
         int cardQtdRemains = deck.currentCards()[card];
-        QString cardManaIdentity = card->manaColorIdentityAsString();
-        if (cardManaIdentity.size() > 2) {
-            cardManaIdentity = "m";
-        }
-        if (cardManaIdentity.isEmpty() && card->isArtifact) {
-            cardManaIdentity = "a";
-        }
         // Card BG
         int cardBGY = uiPos.y() + uiHeight + cardListHeight;
         QImage cardBGImg;
-        cardBGImg.load(QString(":/res/cards/%1/%2.png").arg(cardBGSkin).arg(cardManaIdentity));
+        QString borderColorIdentity = card->borderColorIdentityAsString();
+        cardBGImg.load(QString(":/res/cards/%1/%2.png").arg(cardBGSkin).arg(borderColorIdentity));
         QImage cardBGImgScaled = cardBGImg.scaled(cardBGImgSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
         if (cardQtdRemains == 0) {
             cardBGImgScaled = Transformations::toGrayscale(cardBGImgScaled);

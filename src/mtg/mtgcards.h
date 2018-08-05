@@ -20,6 +20,7 @@ private:
     void loadSet(QString setCode);
     void loadSetFromFile(QString setFileName);
     Card* jsonObject2Card(QJsonObject jsonCard, QString setCode);
+    QList<QChar> jsonCard2BorderColorIdentity(QJsonObject jsonCard, bool isArtifact);
     QList<QChar> manaCost2ManaColorIdentity(QString manaCost);
 
     QString setsDir;

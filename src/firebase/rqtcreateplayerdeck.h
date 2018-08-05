@@ -7,7 +7,7 @@
 class RqtCreatePlayerDeck : public FirestoreRequest
 {
 private:
-    QJsonObject cardsToJson(QMap<Card*, int> cards)
+    QJsonObject cards2Json(QMap<Card*, int> cards)
     {
         QJsonObject jsonCards;
         for (Card* card : cards.keys()) {
@@ -19,8 +19,8 @@ private:
 
 public:
     RqtCreatePlayerDeck(QString userId, Deck deck) {
-        QJsonObject jsonCards = cardsToJson(deck.cards());
-        QJsonObject jsonSideboard = cardsToJson(deck.sideboard());
+        QJsonObject jsonCards = cards2Json(deck.cards());
+        QJsonObject jsonSideboard = cards2Json(deck.sideboard());
         QJsonObject jsonObj{
             {"fields", QJsonObject{
                     { "cards", QJsonObject{
