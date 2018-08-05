@@ -164,6 +164,36 @@ private slots:
         QCOMPARE(playerRankInfo.second, 4);
     }
 
+    void testParsePlayerDeckCreate()
+    {
+        qRegisterMetaType<Deck>();
+        QString log;
+        READ_LOG("PlayerDeckCreate.txt", log);
+        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnPlayerDeckCreated);
+        mtgaLogParser->parse(log);
+
+        QCOMPARE(spy.count(), 1);
+        QList<QVariant> args = spy.takeFirst();
+        Deck playerDeckCreated = args.first().value<Deck>();
+        Card* theScarabGod = mtgCards->findCard(65769);
+        QCOMPARE(playerDeckCreated.currentCards()[theScarabGod], 3);
+    }
+
+    void testParsePlayerDeckUpdate()
+    {
+        qRegisterMetaType<Deck>();
+        QString log;
+        READ_LOG("PlayerDeckUpdate.txt", log);
+        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnPlayerDeckUpdated);
+        mtgaLogParser->parse(log);
+
+        QCOMPARE(spy.count(), 1);
+        QList<QVariant> args = spy.takeFirst();
+        Deck playerDeckUpdated = args.first().value<Deck>();
+        Card* theScarabGod = mtgCards->findCard(65769);
+        QCOMPARE(playerDeckUpdated.currentCards()[theScarabGod], 3);
+    }
+
     void testParsePlayerDeckSubmit()
     {
         qRegisterMetaType<Deck>();

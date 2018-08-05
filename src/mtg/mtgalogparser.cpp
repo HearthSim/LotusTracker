@@ -103,6 +103,10 @@ void MtgaLogParser::parseMsg(QPair<QString, QString> msg)
         parsePlayerCollection(msg.second);
     } else if (msg.first == "Deck.GetDeckLists"){
         parsePlayerDecks(msg.second);
+    } else if (msg.first == "Deck.CreateDeck"){
+        parsePlayerDeckCreate(msg.second);
+    } else if (msg.first == "Deck.UpdateDeck"){
+        parsePlayerDeckUpdate(msg.second);
     } else if (msg.first == "Event.MatchCreated"){
         parseMatchCreated(msg.second);
     } else if (msg.first == "MatchGameRoomStateChangedEvent"){
@@ -262,6 +266,28 @@ void MtgaLogParser::parsePlayerRankUpdated(QString json)
         LOGD(QString("RankUpdate: new rank %1").arg(rankClass));
         emit sgnPlayerRankUpdated(qMakePair(rankClass, newRankTier));
     }
+}
+
+void MtgaLogParser::parsePlayerDeckCreate(QString json)
+{
+    QJsonObject jsonPlayerCreateDeck = Transformations::stringToJsonObject(json);
+    if (jsonPlayerCreateDeck.empty()) {
+        return;
+    }
+    Deck deck = jsonObject2Deck(jsonPlayerCreateDeck);
+    LOGD(QString("PlayerCreateDeck: %1").arg(deck.name));
+    emit sgnPlayerDeckCreated(deck);
+}
+
+void MtgaLogParser::parsePlayerDeckUpdate(QString json)
+{
+    QJsonObject jsonPlayerUpdateDeck = Transformations::stringToJsonObject(json);
+    if (jsonPlayerUpdateDeck.empty()) {
+        return;
+    }
+    Deck deck = jsonObject2Deck(jsonPlayerUpdateDeck);
+    LOGD(QString("PlayerUpdateDeck: %1").arg(deck.name));
+    emit sgnPlayerDeckUpdated(deck);
 }
 
 void MtgaLogParser::parsePlayerDeckSubmited(QString json)

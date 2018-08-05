@@ -32,6 +32,8 @@ private:
     void parseMatchInfo(QString json);
     void parsePlayerRankInfo(QString json);
     void parsePlayerRankUpdated(QString json);
+    void parsePlayerDeckCreate(QString json);
+    void parsePlayerDeckUpdate(QString json);
     void parsePlayerDeckSubmited(QString json);
     void parseGreToClientMessages(QString json);
     void parseDieRollResult(QJsonObject jsonMessage);
@@ -59,6 +61,8 @@ signals:
     void sgnMatchInfoResult(int winningTeamId);
     void sgnPlayerRankInfo(QPair<QString, int> playerRankInfo);
     void sgnPlayerRankUpdated(QPair<QString, int> playerNewRank);
+    void sgnPlayerDeckCreated(Deck deck);
+    void sgnPlayerDeckUpdated(Deck deck);
     void sgnPlayerDeckSubmited(Deck deck);
     void sgnPlayerTakesMulligan();
     void sgnSeatIdThatGoFirst(int seatId);

@@ -1,0 +1,87 @@
+
+[UnityCrossThreadLogger]8/3/2018 7:36:20 PM
+<== Deck.CreateDeck(29)
+{
+  "id": "b368b2ff-bb2b-4b4a-b27f-9a56ba394778",
+  "name": "Imported Deck",
+  "description": "",
+  "format": "Standard",
+  "resourceId": "00000000-0000-0000-0000-000000000000",
+  "deckTileId": 0,
+  "mainDeck": [
+    {
+      "id": "64325",
+      "quantity": 4
+    },
+    {
+      "id": "65539",
+      "quantity": 4
+    },
+    {
+      "id": "65769",
+      "quantity": 3
+    },
+    {
+      "id": "63773",
+      "quantity": 2
+    },
+    {
+      "id": "64311",
+      "quantity": 3
+    },
+    {
+      "id": "64903",
+      "quantity": 3
+    },
+    {
+      "id": "67266",
+      "quantity": 2
+    },
+    {
+      "id": "65575",
+      "quantity": 2
+    },
+    {
+      "id": "65601",
+      "quantity": 2
+    },
+    {
+      "id": "65231",
+      "quantity": 1
+    },
+    {
+      "id": "65225",
+      "quantity": 1
+    },
+    {
+      "id": "67612",
+      "quantity": 4
+    },
+    {
+      "id": "67620",
+      "quantity": 8
+    },
+    {
+      "id": "66485",
+      "quantity": 4
+    },
+    {
+      "id": "65343",
+      "quantity": 4
+    },
+    {
+      "id": "64123",
+      "quantity": 4
+    },
+    {
+      "id": "66487",
+      "quantity": 2
+    }
+  ],
+  "sideboard": [],
+  "lastUpdated": "2018-08-03T22:36:20.7640321",
+  "lockedForUse": false,
+  "lockedForEdit": false,
+  "isValid": false
+}
+ 

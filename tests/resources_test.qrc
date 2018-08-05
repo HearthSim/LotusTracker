@@ -70,6 +70,8 @@
         <file>res/MatchInfoSeats.txt</file>
         <file>res/PlayerCollection.txt</file>
         <file>res/PlayerDecks.txt</file>
+        <file>res/PlayerDeckCreate.txt</file>
+        <file>res/PlayerDeckUpdate.txt</file>
         <file>res/PlayerDeckSubmit.txt</file>
         <file>res/PlayerInventory.txt</file>
         <file>res/PlayerInventoryUpdate.txt</file>
