@@ -2,32 +2,20 @@
 #define RQTUPDATEPLAYERDECK_H
 
 #include "firestorerequest.h"
+#include "rqtcreateplayerdeck.h"
 #include "../entity/deck.h"
 
-class RqtUpdatePlayerDeck : public FirestoreRequest
+#include <QDate>
+
+class RqtUpdatePlayerDeck : public RqtCreatePlayerDeck
 {
 public:
-    RqtUpdatePlayerDeck(QString userId, Deck deck) {
-        QJsonObject jsonCards;
-        QMap<Card*, int> cards = deck.cards();
-        for (Card* card : cards.keys()) {
-            jsonCards.insert(QString::number(card->mtgaId),
-                             QJsonObject{{ "integerValue", QString::number(cards[card]) }});
-        }
-        QJsonObject jsonObj{
-            {"fields", QJsonObject{
-                    { "cards", QJsonObject{
-                            { "mapValue", QJsonObject{
-                                    {"fields", jsonCards}
-                                }}}},
-                    { "colors", QJsonObject{
-                            { "stringValue", deck.colorIdentity() }}},
-                    { "name", QJsonObject{
-                            { "stringValue", deck.name }}}
-                }}
-        };
-        _body = QJsonDocument(jsonObj);
-        _path = QString("users/%2/decks/%3").arg(userId).arg(deck.id);
+    RqtUpdatePlayerDeck(QString userId, Deck deck)
+        : RqtCreatePlayerDeck(userId, deck) {
+        _path += "?updateMask.fieldPaths=name";
+        _path += "&updateMask.fieldPaths=cards";
+        _path += "&updateMask.fieldPaths=colors";
+        _hasDuplicateQuery = true;
     }
     virtual ~RqtUpdatePlayerDeck() {}
 

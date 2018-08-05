@@ -45,6 +45,8 @@ HEADERS += \
     src/entity/opponentinfo.h \
     src/firebase/auth.h \
     src/firebase/database.h \
+    src/firebase/rqtcreateplayerdeck.h \
+    src/firebase/rqtcreateplayerdeckupdate.h \
     src/firebase/rqtupdateplayerdeck.h \
     src/firebase/rqtupdateuserinventory.h \
     src/firebase/rqtupdateplayercollection.h \

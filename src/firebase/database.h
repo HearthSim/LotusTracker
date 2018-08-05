@@ -19,23 +19,26 @@ private:
     RqtRegisterPlayerMatch rqtRegisterPlayerMatch;
     QNetworkAccessManager networkManager;
     //Params for recall method after refresh token
-    bool recallUpdatePlayerCollection, recallUpdateUserInventory;
-    bool recallUpdatePlayerDeck, recalRegisterPlayerMatch;
+    bool recallUpdatePlayerCollection, recallUpdateUserInventory, recallGetPlayerDeck;
+    bool recallCreatePlayerDeck, recallUpdatePlayerDeck, recalRegisterPlayerMatch;
     QMap<int, int> paramOwnedCards;
     PlayerInventory paramPlayerInventory;
     Deck paramDeck;
-    QString paramMatchID;
+    QString paramDeckID, paramMatchID;
 
+    void getPlayerDeckToUpdate(QString deckID);
+    void registerPlayerMatch(QString matchID);
     void sendPatchRequest(FirestoreRequest firestoreRequest, QString userToken);
     void requestOnFinish();
+    void getPlayerDeckToUpdateRequestOnFinish();
     void uploadMatchRequestOnFinish();
-    void registerPlayerMatch(QString matchID);
 
 public:
     explicit FirebaseDatabase(QObject *parent = nullptr, FirebaseAuth *firebaseAuth = nullptr);
     ~FirebaseDatabase();
     void updatePlayerCollection(QMap<int, int> ownedCards);
     void updateUserInventory(PlayerInventory playerInventory);
+    void createPlayerDeck(Deck deck);
     void updatePlayerDeck(Deck deck);
     void uploadMatch(MatchInfo matchInfo, QString playerRankClass,
                      Deck playerDeck, Deck opponentDeck);
