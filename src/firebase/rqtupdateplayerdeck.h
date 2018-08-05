@@ -14,6 +14,7 @@ public:
         : RqtCreatePlayerDeck(userId, deck) {
         _path += "?updateMask.fieldPaths=name";
         _path += "&updateMask.fieldPaths=cards";
+        _path += "&updateMask.fieldPaths=sideboard";
         _path += "&updateMask.fieldPaths=colors";
         _hasDuplicateQuery = true;
     }

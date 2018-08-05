@@ -176,17 +176,7 @@ void FirebaseDatabase::getPlayerDeckToUpdateRequestOnFinish()
         return;
     }
 
-    QString friebaseName = jsonRsp["name"].toString();
-    QString id = friebaseName.right(friebaseName.size() - friebaseName.lastIndexOf("/") - 1);
-    QString name = jsonRsp["fields"].toObject()["name"].toObject()["stringValue"].toString();
-    QJsonObject cardsFields = jsonRsp["fields"].toObject()["cards"]
-            .toObject()["mapValue"].toObject()["fields"].toObject();
-    QMap<Card*, int> cards;
-    for (QString key : cardsFields.keys()) {
-        Card* card = ARENA_TRACKER->mtgCards->findCard(key.toInt());
-        cards[card] = cardsFields[key].toObject()["integerValue"].toString().toInt();
-    }
-    Deck oldDeck(id, name, cards);
+    Deck oldDeck = firestoreJsonToDeck(jsonRsp);
     UserSettings userSettings = APP_SETTINGS->getUserSettings();
     //Update deck data
     RqtUpdatePlayerDeck rqtUpdatePlayerDeck(userSettings.userId, paramDeck);
@@ -194,6 +184,28 @@ void FirebaseDatabase::getPlayerDeckToUpdateRequestOnFinish()
     //Create deck update
     RqtCreatePlayerDeckUpdate rqtCreatePlayerDeckUpdate(userSettings.userId, paramDeck, oldDeck);
     sendPatchRequest(rqtCreatePlayerDeckUpdate, userSettings.userToken);
+}
+
+Deck FirebaseDatabase::firestoreJsonToDeck(QJsonObject deckJson)
+{
+    QString friebaseName = deckJson["name"].toString();
+    QString id = friebaseName.right(friebaseName.size() - friebaseName.lastIndexOf("/") - 1);
+    QString name = deckJson["fields"].toObject()["name"].toObject()["stringValue"].toString();
+    QJsonObject cardsFields = deckJson["fields"].toObject()["cards"]
+            .toObject()["mapValue"].toObject()["fields"].toObject();
+    QMap<Card*, int> cards;
+    for (QString key : cardsFields.keys()) {
+        Card* card = ARENA_TRACKER->mtgCards->findCard(key.toInt());
+        cards[card] = cardsFields[key].toObject()["integerValue"].toString().toInt();
+    }
+    QJsonObject sideboardCardsFields = deckJson["fields"].toObject()["sideboard"]
+            .toObject()["mapValue"].toObject()["fields"].toObject();
+    QMap<Card*, int> sideboard;
+    for (QString key : sideboardCardsFields.keys()) {
+        Card* card = ARENA_TRACKER->mtgCards->findCard(key.toInt());
+        sideboard[card] = sideboardCardsFields[key].toObject()["integerValue"].toString().toInt();
+    }
+    return Deck(id, name, cards, sideboard);
 }
 
 void FirebaseDatabase::sendPatchRequest(FirestoreRequest firestoreRequest, QString userToken)

@@ -26,6 +26,7 @@ private:
     Deck paramDeck;
     QString paramDeckID, paramMatchID;
 
+    Deck firestoreJsonToDeck(QJsonObject deckJson);
     void getPlayerDeckToUpdate(QString deckID);
     void registerPlayerMatch(QString matchID);
     void sendPatchRequest(FirestoreRequest firestoreRequest, QString userToken);

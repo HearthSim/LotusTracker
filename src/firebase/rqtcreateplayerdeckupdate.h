@@ -8,11 +8,11 @@
 
 class RqtCreatePlayerDeckUpdate : public FirestoreRequest
 {
-public:
-    RqtCreatePlayerDeckUpdate(QString userId, Deck deck, Deck oldDeck){
+private:
+    QJsonObject getDiffCardsJson(QMap<Card*, int> deckCards,
+                                 QMap<Card*, int> oldDeckCards)
+    {
         QMap<Card*, int> diffCards;
-        QMap<Card*, int> deckCards = deck.cards();
-        QMap<Card*, int> oldDeckCards = oldDeck.cards();
         for (Card* deckCard : deckCards.keys()) {
             if (oldDeckCards.contains(deckCard)) {
                 // Add cards with diferent qtd to diffCards
@@ -36,8 +36,26 @@ public:
             jsonDiffCards.insert(QString::number(card->mtgaId),
                          QJsonObject{{ "integerValue", QString("%1").arg(diffCards[card]) }});
         }
+        return jsonDiffCards;
+    }
+
+public:
+    RqtCreatePlayerDeckUpdate(QString userId, Deck deck, Deck oldDeck){
+        QJsonObject jsonDiffCards = getDiffCardsJson(deck.cards(), oldDeck.cards());
+        QJsonObject jsonDiffSideboard = getDiffCardsJson(deck.sideboard(), oldDeck.sideboard());
         _body = QJsonDocument(QJsonObject{
-                                  {"fields", jsonDiffCards}
+                                  {"fields", QJsonObject{
+                                       {"mainDeck", QJsonObject{
+                                            {"mapValue", QJsonObject{
+                                                 {"fields", jsonDiffCards}
+                                             }}
+                                        }},
+                                       {"sideboard", QJsonObject{
+                                            {"mapValue", QJsonObject{
+                                                 {"fields", jsonDiffSideboard}
+                                             }}
+                                        }}
+                                   }}
                               });
         QString date = QDate().currentDate().toString("yyyy-MM-dd");
         QString time = QTime().currentTime().toString("HH-mm");

@@ -13,6 +13,7 @@ private:
     QString _colorIdentity;
     QMap<Card*, int> cardsInitial;
     QMap<Card*, int> cardsCurrent;
+    QMap<Card*, int> cardsSideboard;
 
     QString calcColorIdentity(bool includeLands)
     {
@@ -42,8 +43,10 @@ public:
     QString name;
     bool showOnlyRemainingCards;
 
-    Deck(QString id = "", QString name = "", QMap<Card*, int> cards = {})
-        : cardsCurrent(cards), id(id), name(name), showOnlyRemainingCards(false){
+    Deck(QString id = "", QString name = "",
+         QMap<Card*, int> cards = {}, QMap<Card*, int> sideboard = {})
+        : id(id), name(name), cardsCurrent(cards),
+          cardsSideboard(sideboard), showOnlyRemainingCards(false){
         for (Card *card : cards.keys()) {
             cardsInitial[card] = cards[card];
         }
@@ -53,6 +56,11 @@ public:
     QMap<Card*, int> cards()
     {
         return cardsInitial;
+    }
+
+    QMap<Card*, int> sideboard()
+    {
+        return cardsSideboard;
     }
 
     QMap<Card*, int> currentCards()
