@@ -65,6 +65,7 @@
         <file>res/GameStateDiffNewTurn.txt</file>
         <file>res/GameStateDiffObjectIds.txt</file>
         <file>res/GameStateDiffZoneTransfer.txt</file>
+        <file>res/EventGetPlayerCourse.txt</file>
         <file>res/MatchCreated.txt</file>
         <file>res/MatchInfoResult.txt</file>
         <file>res/MatchInfoSeats.txt</file>

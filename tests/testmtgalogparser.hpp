@@ -209,6 +209,23 @@ private slots:
         QCOMPARE(playerDeckSubmited.currentCards()[duress], 2);
     }
 
+    void testParseEventPlayerCourse()
+    {
+        qRegisterMetaType<Deck>();
+        QString log;
+        READ_LOG("EventGetPlayerCourse.txt", log);
+        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnEventPlayerCourse);
+        mtgaLogParser->parse(log);
+
+        QCOMPARE(spy.count(), 1);
+        QList<QVariant> args = spy.takeFirst();
+        QString eventID = args.first().value<QString>();
+        Deck playerCurrentDeck = args[1].value<Deck>();
+        Card* theScarabGod = mtgCards->findCard(65769);
+        QCOMPARE(eventID, "Quick_constructed_april_26");
+        QCOMPARE(playerCurrentDeck.currentCards()[theScarabGod], 2);
+    }
+
     void testParsePlayerTakesMulligan()
     {
         QString log;
