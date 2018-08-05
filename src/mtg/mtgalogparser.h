@@ -61,6 +61,7 @@ signals:
     void sgnEventPlayerCourse(QString eventId, Deck currentDeck);
     void sgnMatchCreated(QString eventId, OpponentInfo opponentInfo);
     void sgnMatchInfoSeats(QList<MatchPlayer>);
+    void sgnGameCompleted();
     void sgnMatchInfoResult(int winningTeamId, QMap<int, int> teamIdWins);
     void sgnPlayerRankInfo(QPair<QString, int> playerRankInfo);
     void sgnPlayerRankUpdated(QPair<QString, int> playerNewRank);

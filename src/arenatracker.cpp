@@ -158,6 +158,8 @@ void ArenaTracker::setupLogParserConnections()
             this, &ArenaTracker::onEventPlayerCourse);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchCreated,
             this, &ArenaTracker::onMatchStart);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnGameCompleted,
+            this, &ArenaTracker::onGameCompleted);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchInfoResult,
             this, &ArenaTracker::onMatchEnd);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerTakesMulligan,
@@ -263,6 +265,14 @@ void ArenaTracker::onMatchStart(QString eventId, OpponentInfo opponentInfo)
     }
 }
 
+void ArenaTracker::onGameCompleted()
+{
+    deckTrackerPlayer->resetDeck();
+    deckTrackerPlayer->hide();
+    deckTrackerOpponent->clearDeck();
+    deckTrackerOpponent->hide();
+}
+
 void ArenaTracker::onMatchEnd(int winningTeamId, QMap<int, int> teamIdWins)
 {
     UNUSED(winningTeamId);
@@ -271,10 +281,6 @@ void ArenaTracker::onMatchEnd(int winningTeamId, QMap<int, int> teamIdWins)
                                   mtgaMatch->getPlayerRankInfo().first,
                                   deckTrackerPlayer->getDeck(),
                                   deckTrackerOpponent->getDeck());
-    deckTrackerPlayer->resetDeck();
-    deckTrackerPlayer->hide();
-    deckTrackerOpponent->clearDeck();
-    deckTrackerOpponent->hide();
 }
 
 void ArenaTracker::onPlayerTakesMulligan()

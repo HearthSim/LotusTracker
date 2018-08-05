@@ -409,6 +409,10 @@ void MtgaLogParser::parseGameStateFull(QJsonObject jsonMessage)
 
 void MtgaLogParser::parseGameStateDiff(int gameStateId, QJsonObject jsonMessage, bool hasMulliganReq)
 {
+    QJsonObject jsonInfoObject = jsonMessage["gameInfo"].toObject();
+    if (jsonInfoObject["matchState"].toString() == "MatchState_GameComplete") {
+        emit sgnGameCompleted();
+    }
     QList<MatchZone> zones = getMatchZones(jsonMessage);
     checkPlayerMulligan(zones, hasMulliganReq);
     QJsonArray jsonGameObjects = jsonMessage["gameObjects"].toArray();
