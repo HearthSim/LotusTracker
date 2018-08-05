@@ -18,7 +18,7 @@ public:
     OpponentInfo opponentInfo;
     QString eventId;
     MatchMode mode;
-    int playerGameWins, totalGames;
+    int playerGameWins, playerGameLoses;
     bool playerGoFirst, playerTakesMulligan, opponentTakesMulligan, playerWins;
 
     void clear()
@@ -31,7 +31,15 @@ public:
         opponentTakesMulligan = false;
         playerWins = false;
         playerGameWins = 0;
-        totalGames = 0;
+        playerGameLoses = 0;
+    }
+
+    static QString MatchModeToString(MatchMode matchMode)
+    {
+        QMap<MatchMode, QString> matchModeNames = {
+            {MatchMode_SINGLE, "Single"}, {MatchMode_BEST_OF_3, "Best of 3"},
+            {MatchMode_UNKNOWN, "Unknown"} };
+        return matchModeNames[matchMode];
     }
 
 };

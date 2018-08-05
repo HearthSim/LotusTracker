@@ -40,12 +40,13 @@ void MtgaMatch::onEndCurrentMatch(int winningTeamId, QMap<int, int> teamIdWins)
 {
     isRunning = false;
     matchInfo.playerWins = player.teamId() == winningTeamId;
-    matchInfo.totalGames = 0;
+    matchInfo.playerGameLoses = 0;
     for (QPair<int, int> teamWins: teamIdWins) {
         if (teamWins.first == player.teamId()) {
             matchInfo.playerGameWins = teamWins.second;
+        } else {
+            matchInfo.playerGameLoses += teamWins.second;
         }
-        matchInfo.totalGames += teamWins.second;
     }
     LOGI(QString("%1 wins").arg(matchInfo.playerWins ? "Player" : "Opponent"))
 }

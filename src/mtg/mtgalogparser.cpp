@@ -403,7 +403,7 @@ void MtgaLogParser::parseGameStateFull(QJsonObject jsonMessage)
     }
     QList<MatchZone> zones = getMatchZones(jsonMessage);
     LOGD(QString("MatchStart Mode: %1, Zones: %2")
-         .arg(winCondition).arg(zones.size()));
+         .arg(MatchInfo::MatchModeToString(mode)).arg(zones.size()));
     emit sgnMatchStart(mode, zones);
 }
 
