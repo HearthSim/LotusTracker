@@ -31,6 +31,7 @@ class MtgaMatch : public QObject
 {
     Q_OBJECT
 private:
+    MtgCards *mtgCards;
     MatchInfo matchInfo;
     MatchPlayer player;
     MatchPlayer opponent;
@@ -52,7 +53,7 @@ private:
                                          MatchZone zoneDst, ZoneTransferCategory category);
 
 public:
-    explicit MtgaMatch(QObject *parent = nullptr);
+    explicit MtgaMatch(QObject *parent = nullptr, MtgCards *mtgCards = nullptr);
     MatchInfo getInfo();
     QPair<QString, int> getPlayerRankInfo();
     bool isRunning;

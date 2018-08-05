@@ -154,6 +154,8 @@ void ArenaTracker::setupLogParserConnections()
             firebaseDatabase, &FirebaseDatabase::updatePlayerDeck);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckSubmited,
             this, &ArenaTracker::onDeckSubmited);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnEventPlayerCourse,
+            this, &ArenaTracker::onEventPlayerCourse);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchCreated,
             this, &ArenaTracker::onMatchStart);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchInfoResult,
@@ -164,7 +166,7 @@ void ArenaTracker::setupLogParserConnections()
 
 void ArenaTracker::setupMtgaMatch()
 {
-    mtgaMatch = new MtgaMatch(this);
+    mtgaMatch = new MtgaMatch(this, mtgCards);
     // Player
     connect(mtgaMatch, &MtgaMatch::sgnPlayerPutInLibraryCard,
             deckTrackerPlayer, &DeckTrackerPlayer::onPlayerPutInLibraryCard);
@@ -239,6 +241,11 @@ void ArenaTracker::onDeckSubmited(Deck deck)
     }
 }
 
+void ArenaTracker::onEventPlayerCourse(QString eventId, Deck currentDeck)
+{
+    eventPlayerCourse = qMakePair(eventId, currentDeck);
+}
+
 void ArenaTracker::onMatchStart(QString eventId, OpponentInfo opponentInfo)
 {
     UNUSED(eventId);
@@ -248,6 +255,11 @@ void ArenaTracker::onMatchStart(QString eventId, OpponentInfo opponentInfo)
     }
     if (APP_SETTINGS->isDeckTrackerOpponentEnabled()) {
         deckTrackerOpponent->show();
+    }
+    if (!deckTrackerPlayer->isDeckLoadedAndReseted()) {
+        if (eventId == eventPlayerCourse.first) {
+            deckTrackerPlayer->loadDeck(eventPlayerCourse.second);
+        }
     }
 }
 

@@ -1,8 +1,8 @@
 #include "mtgamatch.h"
 #include "../macros.h"
 
-MtgaMatch::MtgaMatch(QObject *parent)
-    : QObject(parent), playerRankInfo(qMakePair(QString(""), 0))
+MtgaMatch::MtgaMatch(QObject *parent, MtgCards *mtgCards): QObject(parent),
+    mtgCards(mtgCards), playerRankInfo(qMakePair(QString(""), 0))
 {
 
 }
@@ -19,6 +19,9 @@ QPair<QString, int> MtgaMatch::getPlayerRankInfo()
 
 void MtgaMatch::onStartNewMatch(QString eventId, OpponentInfo opponentInfo)
 {
+    if (isRunning) {
+        onEndCurrentMatch(0);
+    }
     matchInfo.clear();
     matchInfo.eventId = eventId;
     matchInfo.opponentInfo = opponentInfo;
@@ -78,7 +81,7 @@ void MtgaMatch::onPlayerTakesMulligan()
         if (zone.type() == ZoneType_LIBRARY && zone.ownerSeatId() == player.seatId()) {
             for (int objectId : handObjectIds.keys()) {
                 zone.objectIds[objectId] = 0;
-                Card* card = ARENA_TRACKER->mtgCards->findCard(handObjectIds[objectId]);
+                Card* card = mtgCards->findCard(handObjectIds[objectId]);
                 emit sgnPlayerPutInLibraryCard(card);
             }
             zones[zoneId] = zone;
@@ -136,7 +139,7 @@ void MtgaMatch::notifyHandCardsDraw(MatchStateDiff matchStateDiff)
     for (MatchZone zone : matchStateDiff.zones()) {
         if (zone.type() == ZoneType_HAND && zone.ownerSeatId() == player.seatId()) {
             for(int mtgaCardId : zone.objectIds.values()) {
-                Card* card = ARENA_TRACKER->mtgCards->findCard(mtgaCardId);
+                Card* card = mtgCards->findCard(mtgaCardId);
                 LOGI(QString("Player draw %1").arg(card->name));
                 emit sgnPlayerDrawCard(card);
             }
@@ -283,7 +286,7 @@ Card* MtgaMatch::getCardByObjectId(MatchZone zone, int objectId)
 {
     int cardId = zone.objectIds[objectId];
     if (cardId > 0) {
-        return ARENA_TRACKER->mtgCards->findCard(cardId);
+        return mtgCards->findCard(cardId);
     }
     return nullptr;
 }

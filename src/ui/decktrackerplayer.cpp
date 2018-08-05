@@ -122,6 +122,11 @@ void DeckTrackerPlayer::resetDeck()
     update();
 }
 
+bool DeckTrackerPlayer::isDeckLoadedAndReseted()
+{
+    return deck.cards().size() >= 60 && deck.isReseted();
+}
+
 void DeckTrackerPlayer::onPlayerPutInLibraryCard(Card* card)
 {
     deck.insertCard(card);

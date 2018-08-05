@@ -82,6 +82,16 @@ public:
         }
     }
 
+    bool isReseted()
+    {
+        for (Card *card : cardsInitial.keys()) {
+            if (cardsCurrent[card] != cardsInitial[card]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     QString colorIdentity(bool useStartCalc = true, bool includeLands = false)
     {
         if (!useStartCalc) {

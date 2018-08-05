@@ -31,6 +31,7 @@ public:
     void applyCurrentSettings();
     void loadDeck(Deck deck);
     void resetDeck();
+    bool isDeckLoadedAndReseted();
 
 signals:
 

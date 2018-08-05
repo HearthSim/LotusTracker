@@ -33,6 +33,7 @@ private:
     StartScreen *startScreen;
     FirebaseAuth *firebaseAuth;
     FirebaseDatabase *firebaseDatabase;
+    QPair<QString, Deck> eventPlayerCourse;
     bool isAlreadyRunning();
     void setupApp();
     void setupUpdater();
@@ -60,6 +61,7 @@ signals:
 
 private slots:
     void onDeckSubmited(Deck deck);
+    void onEventPlayerCourse(QString eventId, Deck currentDeck);
     void onMatchStart(QString eventId, OpponentInfo match);
     void onMatchEnd(int winningTeamId);
     void onPlayerTakesMulligan();
