@@ -253,16 +253,25 @@ void MtgaLogParser::parseMatchInfo(QString json)
     if (roomState == "MatchGameRoomStateType_MatchCompleted"){
         QJsonObject jsonFinalMatchResult = jsonRoomInfo["finalMatchResult"].toObject();
         QJsonArray jsonResults = jsonFinalMatchResult["resultList"].toArray();
+        QMap<int, int> teamIdWins;
         int matchWinningTeamId;
         for (QJsonValueRef jsonPlayerRef : jsonResults) {
             QJsonObject jsonResult = jsonPlayerRef.toObject();
             QString resultScope = jsonResult["scope"].toString();
+            int winningTeamId = jsonResult["winningTeamId"].toInt();
+            if (resultScope == "MatchScope_Game") {
+                if (teamIdWins.keys().contains(winningTeamId)) {
+                    teamIdWins[winningTeamId] += 1;
+                } else {
+                    teamIdWins[winningTeamId] = 1;
+                }
+            }
             if (resultScope == "MatchScope_Match") {
-                matchWinningTeamId = jsonResult["winningTeamId"].toInt();
+                matchWinningTeamId = winningTeamId;
             }
         }
         LOGD("MatchInfoResult");
-        emit sgnMatchInfoResult(matchWinningTeamId);
+        emit sgnMatchInfoResult(matchWinningTeamId, teamIdWins);
     }
 }
 
@@ -383,9 +392,19 @@ void MtgaLogParser::parseDieRollResult(QJsonObject jsonMessage)
 
 void MtgaLogParser::parseGameStateFull(QJsonObject jsonMessage)
 {
+    QJsonObject gameInfo = jsonMessage["gameInfo"].toObject();
+    QString winCondition = gameInfo["matchWinCondition"].toString();
+    MatchMode mode = MatchMode_UNKNOWN;
+    if (winCondition == "MatchWinCondition_SingleElimination") {
+        mode = MatchMode_SINGLE;
+    }
+    if (winCondition == "MatchWinCondition_Best2of3") {
+        mode = MatchMode_BEST_OF_3;
+    }
     QList<MatchZone> zones = getMatchZones(jsonMessage);
-    LOGD(QString("MatchStartZones: %1").arg(zones.size()));
-    emit sgnMatchStartZones(zones);
+    LOGD(QString("MatchStart Mode: %1, Zones: %2")
+         .arg(winCondition).arg(zones.size()));
+    emit sgnMatchStart(mode, zones);
 }
 
 void MtgaLogParser::parseGameStateDiff(int gameStateId, QJsonObject jsonMessage, bool hasMulliganReq)

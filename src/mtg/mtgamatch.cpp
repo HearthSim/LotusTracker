@@ -36,10 +36,17 @@ void MtgaMatch::onStartNewMatch(QString eventId, OpponentInfo opponentInfo)
     LOGI("New match started")
 }
 
-void MtgaMatch::onEndCurrentMatch(int winningTeamId)
+void MtgaMatch::onEndCurrentMatch(int winningTeamId, QMap<int, int> teamIdWins)
 {
     isRunning = false;
     matchInfo.playerWins = player.teamId() == winningTeamId;
+    matchInfo.totalGames = 0;
+    for (QPair<int, int> teamWins: teamIdWins) {
+        if (teamWins.first == player.teamId()) {
+            matchInfo.playerGameWins = teamWins.second;
+        }
+        matchInfo.totalGames += teamWins.second;
+    }
     LOGI(QString("%1 wins").arg(matchInfo.playerWins ? "Player" : "Opponent"))
 }
 
@@ -96,8 +103,9 @@ void MtgaMatch::onOpponentTakesMulligan(int opponentSeatId)
     matchInfo.opponentTakesMulligan = true;
 }
 
-void MtgaMatch::onMatchStartZones(QList<MatchZone> matchZones)
+void MtgaMatch::onMatchStart(MatchMode mode, QList<MatchZone> matchZones)
 {
+    matchInfo.mode = mode;
     for (MatchZone zone : matchZones) {
         zones[zone.id()] = zone;
     }

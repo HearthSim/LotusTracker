@@ -63,7 +63,7 @@ private slots:
     void onDeckSubmited(Deck deck);
     void onEventPlayerCourse(QString eventId, Deck currentDeck);
     void onMatchStart(QString eventId, OpponentInfo match);
-    void onMatchEnd(int winningTeamId);
+    void onMatchEnd(int winningTeamId, QMap<int, int> teamIdWins);
     void onPlayerTakesMulligan();
     void onDeckTrackerPlayerEnabledChange(bool enabled);
     void onDeckTrackerOpponentEnabledChange(bool enabled);

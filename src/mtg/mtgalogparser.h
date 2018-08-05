@@ -5,8 +5,9 @@
 #include "../entity/deck.h"
 #include "../entity/user.h"
 #include "../entity/opponentinfo.h"
-#include "../entity/matchstatediff.h"
+#include "../entity/matchinfo.h"
 #include "../entity/matchplayer.h"
+#include "../entity/matchstatediff.h"
 #include "../entity/matchzone.h"
 #include "../entity/matchzonetransfer.h"
 
@@ -60,7 +61,7 @@ signals:
     void sgnEventPlayerCourse(QString eventId, Deck currentDeck);
     void sgnMatchCreated(QString eventId, OpponentInfo opponentInfo);
     void sgnMatchInfoSeats(QList<MatchPlayer>);
-    void sgnMatchInfoResult(int winningTeamId);
+    void sgnMatchInfoResult(int winningTeamId, QMap<int, int> teamIdWins);
     void sgnPlayerRankInfo(QPair<QString, int> playerRankInfo);
     void sgnPlayerRankUpdated(QPair<QString, int> playerNewRank);
     void sgnPlayerDeckCreated(Deck deck);
@@ -68,7 +69,7 @@ signals:
     void sgnPlayerDeckSubmited(Deck deck);
     void sgnPlayerTakesMulligan();
     void sgnSeatIdThatGoFirst(int seatId);
-    void sgnMatchStartZones(QList<MatchZone> zones);
+    void sgnMatchStart(MatchMode mode, QList<MatchZone> zones);
     void sgnMatchStateDiff(MatchStateDiff matchStateDiff);
     void sgnNewTurnStarted(int turnNumber);
     void sgnOpponentTakesMulligan(int opponentSeatId);

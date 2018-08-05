@@ -74,13 +74,13 @@ signals:
 
 public slots:
     void onStartNewMatch(QString eventId, OpponentInfo matchInfo);
-    void onEndCurrentMatch(int winningTeamId);
+    void onEndCurrentMatch(int winningTeamId, QMap<int, int> teamIdWins);
     void onPlayerRankInfo(QPair<QString, int> playerRankInfo);
     void onMatchInfoSeats(QList<MatchPlayer> players);
     void onSeatIdThatGoFirst(int seatId);
     void onPlayerTakesMulligan();
     void onOpponentTakesMulligan(int opponentSeatId);
-    void onMatchStartZones(QList<MatchZone> zones);
+    void onMatchStart(MatchMode mode, QList<MatchZone> zones);
     void onMatchStateDiff(MatchStateDiff matchStateDiff);
     void onNewTurnStarted(int turnNumber);
 };

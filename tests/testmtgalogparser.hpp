@@ -262,17 +262,17 @@ private slots:
         QCOMPARE(seatIdThatGoFirst, 2);
     }
 
-    void testParseMatchStartZones()
+    void testParseMatchStart()
     {
         qRegisterMetaType<QList<MatchZone>>();
         QString log;
         READ_LOG("GameStateFull.txt", log);
-        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnMatchStartZones);
+        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnMatchStart);
         mtgaLogParser->parse(log);
 
         QCOMPARE(spy.count(), 1);
         QList<QVariant> args = spy.takeFirst();
-        QList<MatchZone> zones = args.first().value<QList<MatchZone>>();
+        QList<MatchZone> zones = args[1].value<QList<MatchZone>>();
         QCOMPARE(zones.size(), 10);
         for (MatchZone zone : zones) {
             if (zone.type() == ZoneType_LIBRARY) {

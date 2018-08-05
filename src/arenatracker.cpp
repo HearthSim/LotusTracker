@@ -198,8 +198,8 @@ void ArenaTracker::setupMtgaMatch()
             mtgaMatch, &MtgaMatch::onMatchInfoSeats);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnSeatIdThatGoFirst,
             mtgaMatch, &MtgaMatch::onSeatIdThatGoFirst);
-    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchStartZones,
-            mtgaMatch, &MtgaMatch::onMatchStartZones);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchStart,
+            mtgaMatch, &MtgaMatch::onMatchStart);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchStateDiff,
             mtgaMatch, &MtgaMatch::onMatchStateDiff);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnNewTurnStarted,
@@ -263,9 +263,10 @@ void ArenaTracker::onMatchStart(QString eventId, OpponentInfo opponentInfo)
     }
 }
 
-void ArenaTracker::onMatchEnd(int winningTeamId)
+void ArenaTracker::onMatchEnd(int winningTeamId, QMap<int, int> teamIdWins)
 {
     UNUSED(winningTeamId);
+    UNUSED(teamIdWins);
     firebaseDatabase->uploadMatch(mtgaMatch->getInfo(),
                                   mtgaMatch->getPlayerRankInfo().first,
                                   deckTrackerPlayer->getDeck(),
