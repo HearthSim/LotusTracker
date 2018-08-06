@@ -2,6 +2,7 @@
 #define MTGAMATCH_H
 
 #include "../entity/card.h"
+#include "../entity/deck.h"
 #include "../entity/matchinfo.h"
 #include "../entity/matchstatediff.h"
 #include "../entity/matchplayer.h"
@@ -57,6 +58,7 @@ public:
     MatchInfo getInfo();
     QPair<QString, int> getPlayerRankInfo();
     bool isRunning;
+    Deck opponentDeck;
 
 signals:
     void sgnPlayerPutInLibraryCard(Card* card);
@@ -80,7 +82,7 @@ public slots:
     void onSeatIdThatGoFirst(int seatId);
     void onPlayerTakesMulligan();
     void onOpponentTakesMulligan(int opponentSeatId);
-    void onMatchStart(MatchMode mode, QList<MatchZone> zones);
+    void onGameStart(MatchMode mode, QList<MatchZone> zones);
     void onMatchStateDiff(MatchStateDiff matchStateDiff);
     void onNewTurnStarted(int turnNumber);
 };

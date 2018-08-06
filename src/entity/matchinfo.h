@@ -3,8 +3,9 @@
 
 #include "opponentinfo.h"
 
-#include <QString>
+#include <QMap>
 #include <QPair>
+#include <QString>
 
 typedef enum {
     MatchMode_SINGLE,

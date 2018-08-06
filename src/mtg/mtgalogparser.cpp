@@ -404,7 +404,7 @@ void MtgaLogParser::parseGameStateFull(QJsonObject jsonMessage)
     QList<MatchZone> zones = getMatchZones(jsonMessage);
     LOGD(QString("MatchStart Mode: %1, Zones: %2")
          .arg(MatchInfo::MatchModeToString(mode)).arg(zones.size()));
-    emit sgnMatchStart(mode, zones);
+    emit sgnGameStart(mode, zones);
 }
 
 void MtgaLogParser::parseGameStateDiff(int gameStateId, QJsonObject jsonMessage, bool hasMulliganReq)

@@ -44,8 +44,8 @@ public:
                 mtgaMatch, &MtgaMatch::onEndCurrentMatch);
         connect(mtgaLogParser, &MtgaLogParser::sgnSeatIdThatGoFirst,
                 mtgaMatch, &MtgaMatch::onSeatIdThatGoFirst);
-        connect(mtgaLogParser, &MtgaLogParser::sgnMatchStart,
-                mtgaMatch, &MtgaMatch::onMatchStart);
+        connect(mtgaLogParser, &MtgaLogParser::sgnGameStart,
+                mtgaMatch, &MtgaMatch::onGameStart);
         connect(mtgaLogParser, &MtgaLogParser::sgnMatchStateDiff,
                 mtgaMatch, &MtgaMatch::onMatchStateDiff);
         connect(mtgaLogParser, &MtgaLogParser::sgnNewTurnStarted,

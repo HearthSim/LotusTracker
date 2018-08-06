@@ -14,7 +14,7 @@ public:
                    Deck playerDeck, Deck opponentDeck) {
         QString first = matchInfo.playerGoFirst ? "player1" : "player2";
         QString winner = matchInfo.playerWins ? "player1" : "player2";
-        QString result = QString("%1x%2").arg(matchInfo.playerWins)
+        QString result = QString("%1x%2").arg(matchInfo.playerGameWins)
                 .arg(matchInfo.playerGameLoses);
         QJsonObject jsonObj{
             {"fields", QJsonObject{

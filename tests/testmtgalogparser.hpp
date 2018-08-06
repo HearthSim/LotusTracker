@@ -262,12 +262,12 @@ private slots:
         QCOMPARE(seatIdThatGoFirst, 2);
     }
 
-    void testParseMatchStart()
+    void testParseGameStart()
     {
         qRegisterMetaType<QList<MatchZone>>();
         QString log;
         READ_LOG("GameStateFull.txt", log);
-        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnMatchStart);
+        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnGameStart);
         mtgaLogParser->parse(log);
 
         QCOMPARE(spy.count(), 1);

@@ -158,10 +158,12 @@ void ArenaTracker::setupLogParserConnections()
             this, &ArenaTracker::onEventPlayerCourse);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchCreated,
             this, &ArenaTracker::onMatchStart);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnGameStart,
+            this, &ArenaTracker::onGameStart);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnGameCompleted,
             this, &ArenaTracker::onGameCompleted);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchInfoResult,
-            this, &ArenaTracker::onMatchEnd);
+            this, &ArenaTracker::onMatchEnds);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerTakesMulligan,
             this, &ArenaTracker::onPlayerTakesMulligan);
 }
@@ -200,8 +202,8 @@ void ArenaTracker::setupMtgaMatch()
             mtgaMatch, &MtgaMatch::onMatchInfoSeats);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnSeatIdThatGoFirst,
             mtgaMatch, &MtgaMatch::onSeatIdThatGoFirst);
-    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchStart,
-            mtgaMatch, &MtgaMatch::onMatchStart);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnGameStart,
+            mtgaMatch, &MtgaMatch::onGameStart);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchStateDiff,
             mtgaMatch, &MtgaMatch::onMatchStateDiff);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnNewTurnStarted,
@@ -252,12 +254,6 @@ void ArenaTracker::onMatchStart(QString eventId, OpponentInfo opponentInfo)
 {
     UNUSED(eventId);
     UNUSED(opponentInfo);
-    if (APP_SETTINGS->isDeckTrackerPlayerEnabled()) {
-        deckTrackerPlayer->show();
-    }
-    if (APP_SETTINGS->isDeckTrackerOpponentEnabled()) {
-        deckTrackerOpponent->show();
-    }
     if (!deckTrackerPlayer->isDeckLoadedAndReseted()) {
         if (eventId == eventPlayerCourse.first) {
             deckTrackerPlayer->loadDeck(eventPlayerCourse.second);
@@ -265,22 +261,33 @@ void ArenaTracker::onMatchStart(QString eventId, OpponentInfo opponentInfo)
     }
 }
 
+void ArenaTracker::onGameStart()
+{
+    if (APP_SETTINGS->isDeckTrackerPlayerEnabled()) {
+        deckTrackerPlayer->show();
+    }
+    if (APP_SETTINGS->isDeckTrackerOpponentEnabled()) {
+        deckTrackerOpponent->show();
+    }
+}
+
 void ArenaTracker::onGameCompleted()
 {
     deckTrackerPlayer->resetDeck();
     deckTrackerPlayer->hide();
+    mtgaMatch->opponentDeck = deckTrackerOpponent->getDeck();
     deckTrackerOpponent->clearDeck();
     deckTrackerOpponent->hide();
 }
 
-void ArenaTracker::onMatchEnd(int winningTeamId, QMap<int, int> teamIdWins)
+void ArenaTracker::onMatchEnds(int winningTeamId, QMap<int, int> teamIdWins)
 {
     UNUSED(winningTeamId);
     UNUSED(teamIdWins);
     firebaseDatabase->uploadMatch(mtgaMatch->getInfo(),
                                   mtgaMatch->getPlayerRankInfo().first,
                                   deckTrackerPlayer->getDeck(),
-                                  deckTrackerOpponent->getDeck());
+                                  mtgaMatch->opponentDeck());
 }
 
 void ArenaTracker::onPlayerTakesMulligan()

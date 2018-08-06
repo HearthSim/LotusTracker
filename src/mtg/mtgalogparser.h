@@ -70,7 +70,7 @@ signals:
     void sgnPlayerDeckSubmited(Deck deck);
     void sgnPlayerTakesMulligan();
     void sgnSeatIdThatGoFirst(int seatId);
-    void sgnMatchStart(MatchMode mode, QList<MatchZone> zones);
+    void sgnGameStart(MatchMode mode, QList<MatchZone> zones);
     void sgnMatchStateDiff(MatchStateDiff matchStateDiff);
     void sgnNewTurnStarted(int turnNumber);
     void sgnOpponentTakesMulligan(int opponentSeatId);
