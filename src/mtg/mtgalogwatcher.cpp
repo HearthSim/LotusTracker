@@ -20,11 +20,15 @@ MtgaLogWatcher::MtgaLogWatcher(QObject *parent) : QObject(parent),
     if (WATCH_TEST_LOG) {
         startWatching();
     } else {
-        connect(mtgArena, &MtgArena::sgnGameFocusChanged, this, &MtgaLogWatcher::onGameFocusChanged);
-        connect(mtgArena, &MtgArena::sgnGameStarted, this, &MtgaLogWatcher::startWatching);
-        connect(mtgArena, &MtgArena::sgnGameStopped, this, &MtgaLogWatcher::stopWatching);
+        connect(mtgArena, &MtgArena::sgnGameFocusChanged,
+                this, &MtgaLogWatcher::onGameFocusChanged);
+        connect(mtgArena, &MtgArena::sgnGameStarted,
+                this, &MtgaLogWatcher::startWatching);
+        connect(mtgArena, &MtgArena::sgnGameStopped,
+                this, &MtgaLogWatcher::stopWatching);
     }
-    connect(timer, &QTimer::timeout, this, &MtgaLogWatcher::checkForNewLogs);
+    connect(timer, &QTimer::timeout,
+            this, &MtgaLogWatcher::checkForNewLogs);
 }
 
 MtgaLogWatcher::~MtgaLogWatcher()

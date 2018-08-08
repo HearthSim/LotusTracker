@@ -152,13 +152,40 @@ Card* MtgCards::jsonObject2Card(QJsonObject jsonCard, QString setCode)
         manaCost += iterator.next().captured(0).toLower().at(0);
     }
     // Color identity
-    QList<QChar> borderColorIdentity = jsonCard2BorderColorIdentity(jsonCard, isArtifact);
-    QList<QChar> manaColorIdentity = manaCost2ManaColorIdentity(manaCost);
+    QList<QChar> manaColorIdentity = getBoderColorUsingManaCost(manaCost, isArtifact);
+    QList<QChar> borderColorIdentity = manaColorIdentity;
+    if (isLand) {
+        borderColorIdentity = getBorderColorUsingColorIdentity(jsonCard, isArtifact);;
+    }
     return new Card(mtgaId, multiverseId, setCode, number, name, type, manaCost,
                     borderColorIdentity, manaColorIdentity, isLand, isArtifact);
 }
 
-QList<QChar> MtgCards::jsonCard2BorderColorIdentity(QJsonObject jsonCard, bool isArtifact)
+QList<QChar> MtgCards::getBoderColorUsingManaCost(QString manaCost, bool isArtifact)
+{
+    QList<QChar> manaSymbols;
+    for (QChar manaSymbol : manaCost) {
+        if (manaSymbol.isLetter()){
+            if (!manaSymbols.contains(manaSymbol)){
+                manaSymbols << manaSymbol;
+            }
+        }
+    }
+    if (manaSymbols.size() >= 3) {
+        manaSymbols.clear();
+        manaSymbols << QChar('m');
+    }
+    if (manaSymbols.isEmpty()) {
+        if (isArtifact) {
+            manaSymbols << 'a';
+        } else {
+            manaSymbols << 'c';
+        }
+    }
+    return manaSymbols;
+}
+
+QList<QChar> MtgCards::getBorderColorUsingColorIdentity(QJsonObject jsonCard, bool isArtifact)
 {
     QList<QChar> borderColorIdentity;
     QJsonArray jsonColorIdentity = jsonCard["colorIdentity"].toArray();
@@ -178,20 +205,4 @@ QList<QChar> MtgCards::jsonCard2BorderColorIdentity(QJsonObject jsonCard, bool i
         }
     }
     return borderColorIdentity;
-}
-
-QList<QChar> MtgCards::manaCost2ManaColorIdentity(QString manaCost)
-{
-    QList<QChar> manaSymbols;
-    for (QChar manaSymbol : manaCost) {
-        if (manaSymbol.isLetter()){
-            if (!manaSymbols.contains(manaSymbol)){
-                manaSymbols << manaSymbol;
-            }
-        }
-    }
-    if (manaSymbols.isEmpty()) {
-        manaSymbols << 'a';
-    }
-    return manaSymbols;
 }

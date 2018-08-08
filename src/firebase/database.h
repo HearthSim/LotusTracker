@@ -41,8 +41,8 @@ public:
     void updateUserInventory(PlayerInventory playerInventory);
     void createPlayerDeck(Deck deck);
     void updatePlayerDeck(Deck deck);
-    void uploadMatch(MatchInfo matchInfo, QString playerRankClass,
-                     Deck playerDeck, Deck opponentDeck);
+    void uploadMatch(MatchInfo matchInfo, Deck playerDeck,
+                     QString playerRankClass);
 
 signals:
     void sgnRequestFinished();

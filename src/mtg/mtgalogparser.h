@@ -47,6 +47,7 @@ private:
     QList<MatchZone> getMatchZones(QJsonObject jsonGameStateMessage);
     QMap<int, int> getIdsChanged(QJsonArray jsonGSMAnnotations);
     QMap<int, MatchZoneTransfer> getIdsZoneChanged(QJsonArray jsonGSMAnnotations);
+    QMap<int, int> getGameResults(QJsonArray jsonResults);
 
 public:
     explicit MtgaLogParser(QObject *parent = nullptr, MtgCards *mtgCards = nullptr);
@@ -61,19 +62,19 @@ signals:
     void sgnEventPlayerCourse(QString eventId, Deck currentDeck);
     void sgnMatchCreated(QString eventId, OpponentInfo opponentInfo);
     void sgnMatchInfoSeats(QList<MatchPlayer>);
-    void sgnGameCompleted();
-    void sgnMatchInfoResult(int winningTeamId, QMap<int, int> teamIdWins);
+    void sgnGameStart(MatchMode mode, QList<MatchZone> zones);
+    void sgnGameCompleted(QMap<int, int> teamIdWins);
+    void sgnMatchResult(int winningTeamId);
     void sgnPlayerRankInfo(QPair<QString, int> playerRankInfo);
     void sgnPlayerRankUpdated(QPair<QString, int> playerNewRank);
     void sgnPlayerDeckCreated(Deck deck);
     void sgnPlayerDeckUpdated(Deck deck);
     void sgnPlayerDeckSubmited(Deck deck);
     void sgnPlayerTakesMulligan();
+    void sgnOpponentTakesMulligan(int opponentSeatId);
     void sgnSeatIdThatGoFirst(int seatId);
-    void sgnGameStart(MatchMode mode, QList<MatchZone> zones);
     void sgnMatchStateDiff(MatchStateDiff matchStateDiff);
     void sgnNewTurnStarted(int turnNumber);
-    void sgnOpponentTakesMulligan(int opponentSeatId);
 
 public slots:
 };

@@ -237,11 +237,11 @@ void DeckTrackerBase::drawDeckInfo(QPainter &painter)
     int titleHeight = titleMetrics.ascent() - titleMetrics.descent();
     int titleTextOptions = Qt::AlignLeft | Qt::AlignVCenter | Qt::TextDontClip;
     drawText(painter, titleFont, titlePen, deck.name, titleTextOptions, true,
-             uiPos.x() + 8, uiPos.y() + 8, titleHeight, uiWidth);
+             uiPos.x() + 8, uiPos.y() + 5, titleHeight, uiWidth);
     // Deck identity
     int manaSize = 12;
     int manaX = uiPos.x() + 8;
-    int manaY = uiPos.y() + uiHeight - manaSize - 5;
+    int manaY = uiPos.y() + uiHeight - manaSize - 4;
     QString deckColorIdentity = onGetDeckColorIdentity();
     if (deckColorIdentity != "m"){
         for (int i=0; i<deckColorIdentity.length(); i++) {

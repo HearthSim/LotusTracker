@@ -20,9 +20,12 @@ MtgArena::MtgArena(QObject *parent)
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &MtgArena::findGameWindow);
     timer->start(SLOW_FIND_WINDOW_INTERVAL);
-    connect(this, &MtgArena::sgnGameStarted, this, &MtgArena::gameStarted);
-    connect(this, &MtgArena::sgnGameStopped, this, &MtgArena::gameStopped);
-    connect(this, &MtgArena::sgnGameFocusChanged, this, &MtgArena::gameFocusChanged);
+    connect(this, &MtgArena::sgnGameStarted,
+            this, &MtgArena::gameStarted);
+    connect(this, &MtgArena::sgnGameStopped,
+            this, &MtgArena::gameStopped);
+    connect(this, &MtgArena::sgnGameFocusChanged,
+            this, &MtgArena::gameFocusChanged);
     logParser = new MtgaLogParser(this, ARENA_TRACKER->mtgCards);
     logWatcher = new MtgaLogWatcher(this);
     connect(logWatcher, &MtgaLogWatcher::sgnNewLogContent, this, &MtgArena::onNewLogContent);

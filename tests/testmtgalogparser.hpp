@@ -124,7 +124,7 @@ private slots:
     {
         QString log;
         READ_LOG("MatchInfoResult.txt", log);
-        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnMatchInfoResult);
+        QSignalSpy spy(mtgaLogParser, &MtgaLogParser::sgnMatchResult);
         mtgaLogParser->parse(log);
 
         QCOMPARE(spy.count(), 1);

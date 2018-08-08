@@ -30,7 +30,7 @@ FirebaseDatabase::FirebaseDatabase(QObject *parent, FirebaseAuth *firebaseAuth)
 
 FirebaseDatabase::~FirebaseDatabase()
 {
-    DEL(firebaseAuth)
+
 }
 
 void FirebaseDatabase::onTokenRefreshed()
@@ -254,11 +254,11 @@ void FirebaseDatabase::requestOnFinish()
     }
 }
 
-void FirebaseDatabase::uploadMatch(MatchInfo matchInfo, QString playerRankClass,
-                                   Deck playerDeck, Deck opponentDeck)
+void FirebaseDatabase::uploadMatch(MatchInfo matchInfo, Deck playerDeck,
+                                   QString playerRankClass)
 {
-    rqtRegisterPlayerMatch = RqtRegisterPlayerMatch(matchInfo, playerDeck, opponentDeck);
-    RqtUploadMatch rqtUploadMatch(matchInfo, playerRankClass, playerDeck, opponentDeck);
+    rqtRegisterPlayerMatch = RqtRegisterPlayerMatch(matchInfo, playerDeck);
+    RqtUploadMatch rqtUploadMatch(matchInfo, playerDeck, playerRankClass);
     QUrl url(QString("%1/%2").arg(ARENA_META_DB_URL).arg(rqtUploadMatch.path()));
     QByteArray bodyJson = rqtUploadMatch.body().toJson();
 

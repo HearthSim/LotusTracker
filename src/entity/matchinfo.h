@@ -1,6 +1,7 @@
 #ifndef MATCHINFO_H
 #define MATCHINFO_H
 
+#include "entity/deck.h"
 #include "opponentinfo.h"
 
 #include <QMap>
@@ -13,26 +14,49 @@ typedef enum {
     MatchMode_UNKNOWN
 } MatchMode;
 
+class GameInfo
+{
+public:
+    bool playerGoFirst, playerMulligan, opponentMulligan, playerWins;
+    Deck opponentDeck;
+};
+
 class MatchInfo
 {
 public:
-    OpponentInfo opponentInfo;
     QString eventId;
+    OpponentInfo opponentInfo;
     MatchMode mode;
+    QList<GameInfo> games;
+    bool playerMatchWins;
     int playerGameWins, playerGameLoses;
-    bool playerGoFirst, playerTakesMulligan, opponentTakesMulligan, playerWins;
 
-    void clear()
+    explicit MatchInfo(QString eventId = "", OpponentInfo opponentInfo = OpponentInfo()):
+        eventId(eventId), opponentInfo(opponentInfo), mode(MatchMode_UNKNOWN),
+        playerMatchWins(false), playerGameWins(0), playerGameLoses(0)
     {
-        eventId = "";
-        mode = MatchMode_UNKNOWN;
-        opponentInfo = OpponentInfo();
-        playerGoFirst = false;
-        playerTakesMulligan = false;
-        opponentTakesMulligan = false;
-        playerWins = false;
-        playerGameWins = 0;
-        playerGameLoses = 0;
+        games << GameInfo();
+    }
+
+    GameInfo& currentGame()
+    {
+        return games.last();
+    }
+
+    QString getOpponentDeckColorIdentity()
+    {
+        QMap<Card*, int> opponentMatchCards;
+        for (GameInfo gameInfo : games) {
+            QMap<Card*, int> gameOpponentCards = gameInfo.opponentDeck.cards();
+            for (Card* card : gameOpponentCards.keys()){
+                if (opponentMatchCards.keys().contains(card)) {
+                    opponentMatchCards[card] += gameOpponentCards[card];
+                } else {
+                    opponentMatchCards[card] = gameOpponentCards[card];
+                }
+            }
+        }
+        return Deck::calcColorIdentity(opponentMatchCards, true);
     }
 
     static QString MatchModeToString(MatchMode matchMode)

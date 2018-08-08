@@ -10,10 +10,9 @@
 class RqtUploadMatch: public FirestoreRequest
 {
 public:
-    RqtUploadMatch(MatchInfo matchInfo, QString playerRankClass,
-                   Deck playerDeck, Deck opponentDeck) {
-        QString first = matchInfo.playerGoFirst ? "player1" : "player2";
-        QString winner = matchInfo.playerWins ? "player1" : "player2";
+    RqtUploadMatch(MatchInfo matchInfo, Deck playerDeck, QString playerRankClass) {
+        QJsonObject jsonGamesMapValue = games2JsonMapValue(matchInfo.games);
+        QString winner = matchInfo.playerMatchWins ? "player1" : "player2";
         QString result = QString("%1x%2").arg(matchInfo.playerGameWins)
                 .arg(matchInfo.playerGameLoses);
         QJsonObject jsonObj{
@@ -21,18 +20,19 @@ public:
                     {"event", QJsonObject{
                             {"stringValue", matchInfo.eventId}
                         }},
+                    {"games", QJsonObject{
+                            {"mapValue", QJsonObject{
+                                {"fields", jsonGamesMapValue }
+                            }}
+                        }},
                     {"mode", QJsonObject{
                             {"stringValue", MatchInfo::MatchModeToString(matchInfo.mode)}
                         }},
-                    {"first", QJsonObject{
-                            {"stringValue", first}
-                        }},
                     {"player1", QJsonObject{
-                            {"mapValue", toJsonFields(playerDeck, matchInfo,
-                                                      true, playerRankClass)}
+                            {"mapValue", player1JsonFields(playerDeck, playerRankClass)}
                         }},
                     {"player2", QJsonObject{
-                            {"mapValue", toJsonFields(opponentDeck, matchInfo, false) }
+                            {"mapValue", player2JsonFields(matchInfo) }
                         }},
                     {"result", QJsonObject{
                             {"stringValue", result}
@@ -49,35 +49,78 @@ public:
     }
 
 private:
-    QJsonObject toJsonFields(Deck deck, MatchInfo matchInfo,
-                             bool player, QString playerRankClass = QString(""))
+    QJsonObject cards2JsonMapValue(QMap<Card*, int> cards)
     {
         QJsonObject jsonCards;
-        QMap<Card*, int> cards = player ? deck.cards() : deck.currentCards();
         for (Card* card : cards.keys()) {
             jsonCards.insert(QString::number(card->mtgaId),
                              QJsonObject{{ "integerValue", QString::number(cards[card]) }});
         }
-        QString color = player ? deck.colorIdentity() : deck.colorIdentity(false);
-        bool mulligan = player ? matchInfo.playerTakesMulligan
-                               : matchInfo.opponentTakesMulligan;
-        QString rank = player ? playerRankClass
-                              : matchInfo.opponentInfo.opponentRankClass();
+        return QJsonObject{ {"fields", jsonCards} };
+    }
+
+    QJsonObject games2JsonMapValue(QList<GameInfo> games){
+        QJsonObject jsonGamesFields;
+        int gameNumber = 0;
+        for (GameInfo gameInfo : games) {
+            gameNumber += 1;
+            QString first = gameInfo.playerGoFirst ? "player1" : "player2";
+            QJsonObject jsonOpponentCards = cards2JsonMapValue(gameInfo.opponentDeck.currentCards());
+            QJsonObject jsonGameFields{
+                {"fields", QJsonObject{
+                        {"first", QJsonObject{
+                                {"stringValue", first}
+                            }},
+                        { "opponentCards", QJsonObject{
+                                { "mapValue", jsonOpponentCards}
+                            }},
+                        {"opponentMulligan", QJsonObject{
+                                { "booleanValue", gameInfo.opponentMulligan }}
+                        },
+                        {"playerMulligan", QJsonObject{
+                                { "booleanValue", gameInfo.playerMulligan }}
+                        },
+                        {"playerWins", QJsonObject{
+                                {"booleanValue", gameInfo.playerWins }
+                            }}
+                    }}
+            };
+            jsonGamesFields.insert(QString("game%1").arg(gameNumber), QJsonObject{
+                                       {"mapValue", jsonGameFields}
+                                   });
+        }
+        return jsonGamesFields;
+    }
+
+    QJsonObject player1JsonFields(Deck deck, QString playerRankClass)
+    {
+        QJsonObject jsonCards = cards2JsonMapValue(deck.cards());
         QJsonObject jsonFields{
             {"fields", QJsonObject{
                     { "cards", QJsonObject{
-                            { "mapValue", QJsonObject{
-                                    {"fields", jsonCards}
-                                }}
+                            { "mapValue",  jsonCards }
                         }},
                     { "colors", QJsonObject{
-                            { "stringValue", color }
+                            { "stringValue", deck.colorIdentity() }
                         }},
-                    {"mulligan", QJsonObject{
-                            { "booleanValue", mulligan }}
-                    },
                     {"rank", QJsonObject{
-                            { "stringValue", rank }
+                            { "stringValue", playerRankClass }
+                        }}
+                }
+            }
+        };
+        return jsonFields;
+    }
+
+    QJsonObject player2JsonFields(MatchInfo matchInfo)
+    {
+        QJsonObject jsonFields{
+            {"fields", QJsonObject{
+                    { "colors", QJsonObject{
+                            { "stringValue", matchInfo.getOpponentDeckColorIdentity() }
+                        }},
+                    {"rank", QJsonObject{
+                            { "stringValue", matchInfo.opponentInfo.opponentRankClass() }
                         }}
                 }
             }

@@ -264,8 +264,12 @@ void ArenaTracker::onMatchStart(QString eventId, OpponentInfo opponentInfo)
     }
 }
 
-void ArenaTracker::onGameStart()
+void ArenaTracker::onGameStart(MatchMode mode, QList<MatchZone> zones)
 {
+    mtgaMatch->onGameStart(mode, zones);
+    if (!mtgaMatch->isRunning) {
+        return;
+    }
     if (APP_SETTINGS->isDeckTrackerPlayerEnabled()) {
         deckTrackerPlayer->show();
     }
@@ -297,21 +301,19 @@ void ArenaTracker::onGameFocusChanged(bool hasFocus)
 
 void ArenaTracker::onGameCompleted(QMap<int, int> teamIdWins)
 {
+    mtgaMatch->onGameCompleted(deckTrackerOpponent->getDeck(), teamIdWins);
     deckTrackerPlayer->resetDeck();
     deckTrackerPlayer->hide();
-    mtgaMatch->opponentDeck = deckTrackerOpponent->getDeck();
     deckTrackerOpponent->clearDeck();
     deckTrackerOpponent->hide();
 }
 
-void ArenaTracker::onMatchEnds(int winningTeamId, QMap<int, int> teamIdWins)
+void ArenaTracker::onMatchEnds(int winningTeamId)
 {
     UNUSED(winningTeamId);
-    UNUSED(teamIdWins);
     firebaseDatabase->uploadMatch(mtgaMatch->getInfo(),
-                                  mtgaMatch->getPlayerRankInfo().first,
                                   deckTrackerPlayer->getDeck(),
-                                  mtgaMatch->opponentDeck());
+                                  mtgaMatch->getPlayerRankInfo().first);
 }
 
 void ArenaTracker::onPlayerTakesMulligan()

@@ -15,29 +15,6 @@ private:
     QMap<Card*, int> cardsCurrent;
     QMap<Card*, int> cardsSideboard;
 
-    QString calcColorIdentity(bool includeLands)
-    {
-        QList<QChar> distinctManaSymbols;
-        for (Card *card : cardsCurrent.keys()) {
-            if (card->isLand && !includeLands) {
-                continue;
-            }
-            for (QChar symbol : card->manaColorIdentity) {
-                if (distinctManaSymbols.contains(QChar('m'))) {
-                    return QString("m");
-                }
-                if (symbol != QChar('a') && symbol != QChar('c') && !distinctManaSymbols.contains(symbol)) {
-                    distinctManaSymbols << symbol;
-                }
-            }
-        }
-        if (distinctManaSymbols.size() >= 4) {
-            return QString("m");
-        } else {
-            return Transformations::colorIdentityListToString(distinctManaSymbols);
-        }
-    }
-
 public:
     QString id;
     QString name;
@@ -46,12 +23,12 @@ public:
     Deck(QString id = "", QString name = "",
          QMap<Card*, int> cards = {}, QMap<Card*, int> sideboard = {})
         : id(id), name(name), showOnlyRemainingCards(false){
-        cardsCurrent = cards;
+        cardsInitial = cards;
         cardsSideboard = sideboard;
         for (Card *card : cards.keys()) {
-            cardsInitial[card] = cards[card];
+            cardsCurrent[card] = cards[card];
         }
-        _colorIdentity = calcColorIdentity(false);
+        _colorIdentity = Deck::calcColorIdentity(cards, false);
     }
 
     QMap<Card*, int> cards()
@@ -103,10 +80,10 @@ public:
 
     QString colorIdentity(bool useStartCalc = true, bool includeLands = false)
     {
-        if (!useStartCalc) {
-            return calcColorIdentity(includeLands);
+        if (useStartCalc) {
+            return _colorIdentity;
         }
-        return _colorIdentity;
+        return Deck::calcColorIdentity(cardsCurrent, includeLands);
     }
 
     bool drawCard(Card *card)
@@ -157,6 +134,27 @@ public:
             }
         }
         return totalXCards;
+    }
+
+    static QString calcColorIdentity(QMap<Card*, int> cards, bool includeLands)
+    {
+        QList<QChar> distinctManaSymbols;
+        for (Card *card : cards.keys()) {
+            if (card->isLand && !includeLands) {
+                continue;
+            }
+            for (QChar symbol : card->borderColorIdentity) {
+                if (symbol != QChar('a') && symbol != QChar('c') &&
+                        symbol != QChar('m') && !distinctManaSymbols.contains(symbol)) {
+                    distinctManaSymbols << symbol;
+                }
+            }
+        }
+        if (distinctManaSymbols.size() >= 4) {
+            return QString("m");
+        } else {
+            return Transformations::colorIdentityListToString(distinctManaSymbols);
+        }
     }
 
 };

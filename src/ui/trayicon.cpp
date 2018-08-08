@@ -123,6 +123,7 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
         if(logFile->open(QFile::ReadOnly | QFile::Text)) {
             QString logContent = QTextStream(logFile).readAll();
             mtgaLogParser->parse(logContent);
+            emit mtgaLogParser->sgnGameStart(MatchMode_SINGLE, {{}});
         } else {
             LOGW("PlayerDeckSubmit.txt file not found in current dir");
         }

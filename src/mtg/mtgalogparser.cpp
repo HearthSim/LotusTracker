@@ -253,25 +253,17 @@ void MtgaLogParser::parseMatchInfo(QString json)
     if (roomState == "MatchGameRoomStateType_MatchCompleted"){
         QJsonObject jsonFinalMatchResult = jsonRoomInfo["finalMatchResult"].toObject();
         QJsonArray jsonResults = jsonFinalMatchResult["resultList"].toArray();
-        QMap<int, int> teamIdWins;
         int matchWinningTeamId;
         for (QJsonValueRef jsonPlayerRef : jsonResults) {
             QJsonObject jsonResult = jsonPlayerRef.toObject();
             QString resultScope = jsonResult["scope"].toString();
             int winningTeamId = jsonResult["winningTeamId"].toInt();
-            if (resultScope == "MatchScope_Game") {
-                if (teamIdWins.keys().contains(winningTeamId)) {
-                    teamIdWins[winningTeamId] += 1;
-                } else {
-                    teamIdWins[winningTeamId] = 1;
-                }
-            }
             if (resultScope == "MatchScope_Match") {
                 matchWinningTeamId = winningTeamId;
             }
         }
         LOGD("MatchInfoResult");
-        emit sgnMatchInfoResult(matchWinningTeamId, teamIdWins);
+        emit sgnMatchResult(matchWinningTeamId);
     }
 }
 
@@ -402,7 +394,7 @@ void MtgaLogParser::parseGameStateFull(QJsonObject jsonMessage)
         mode = MatchMode_BEST_OF_3;
     }
     QList<MatchZone> zones = getMatchZones(jsonMessage);
-    LOGD(QString("MatchStart Mode: %1, Zones: %2")
+    LOGD(QString("GameStart Mode: %1, Zones: %2")
          .arg(MatchInfo::MatchModeToString(mode)).arg(zones.size()));
     emit sgnGameStart(mode, zones);
 }
@@ -411,7 +403,8 @@ void MtgaLogParser::parseGameStateDiff(int gameStateId, QJsonObject jsonMessage,
 {
     QJsonObject jsonInfoObject = jsonMessage["gameInfo"].toObject();
     if (jsonInfoObject["matchState"].toString() == "MatchState_GameComplete") {
-        emit sgnGameCompleted();
+        QJsonArray jsonResults = jsonInfoObject["results"].toArray();
+        emit sgnGameCompleted(getGameResults(jsonResults));
     }
     QList<MatchZone> zones = getMatchZones(jsonMessage);
     checkPlayerMulligan(zones, hasMulliganReq);
@@ -448,6 +441,24 @@ void MtgaLogParser::parseGameStateDiff(int gameStateId, QJsonObject jsonMessage,
     QMap<int, MatchZoneTransfer> idsZoneChanged = getIdsZoneChanged(jsonGSMAnnotations);
     MatchStateDiff matchStateDiff(gameStateId, zones, idsChanged, idsZoneChanged);
     emit sgnMatchStateDiff(matchStateDiff);
+}
+
+QMap<int, int> MtgaLogParser::getGameResults(QJsonArray jsonResults)
+{
+    QMap<int, int> teamIdWins;
+    for (QJsonValueRef jsonPlayerRef : jsonResults) {
+        QJsonObject jsonResult = jsonPlayerRef.toObject();
+        QString resultScope = jsonResult["scope"].toString();
+        int winningTeamId = jsonResult["winningTeamId"].toInt();
+        if (resultScope == "MatchScope_Game") {
+            if (teamIdWins.keys().contains(winningTeamId)) {
+                teamIdWins[winningTeamId] += 1;
+            } else {
+                teamIdWins[winningTeamId] = 1;
+            }
+        }
+    }
+    return teamIdWins;
 }
 
 QList<MatchZone> MtgaLogParser::getMatchZones(QJsonObject jsonGameStateMessage)

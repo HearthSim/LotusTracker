@@ -16,7 +16,7 @@ public:
         _path = "";
     }
 
-    RqtRegisterPlayerMatch(MatchInfo matchInfo, Deck playerDeck, Deck opponentDeck) {
+    RqtRegisterPlayerMatch(MatchInfo matchInfo, Deck playerDeck) {
         QJsonObject jsonObj{
             {"fields", QJsonObject{
                 {"deck", QJsonObject{
@@ -29,10 +29,10 @@ public:
                 {"stringValue", matchInfo.opponentInfo.opponentName()}
             }},
             {"opponentDeckColors", QJsonObject{
-                {"stringValue", opponentDeck.colorIdentity(false)}
+                {"stringValue", matchInfo.getOpponentDeckColorIdentity()}
             }},
             {"wins", QJsonObject{
-                {"booleanValue", matchInfo.playerWins}
+                {"booleanValue", matchInfo.playerMatchWins}
             }}
         }}};
 
