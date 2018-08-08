@@ -66,6 +66,7 @@ private slots:
     void onGameStart();
     void onGameCompleted();
     void onMatchEnds(int winningTeamId, QMap<int, int> teamIdWins);
+    void onGameFocusChanged(bool hasFocus);
     void onPlayerTakesMulligan();
     void onDeckTrackerPlayerEnabledChange(bool enabled);
     void onDeckTrackerOpponentEnabledChange(bool enabled);

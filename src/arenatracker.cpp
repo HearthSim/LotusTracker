@@ -26,9 +26,14 @@ ArenaTracker::ArenaTracker(int& argc, char **argv): QApplication(argc, argv)
     firebaseAuth = new FirebaseAuth(this);
     firebaseDatabase = new FirebaseDatabase(this, firebaseAuth);
     startScreen = new StartScreen(nullptr, firebaseAuth);
-    connect(firebaseAuth, &FirebaseAuth::sgnUserLogged, this, &ArenaTracker::onUserSigned);
-    connect(firebaseAuth, &FirebaseAuth::sgnTokenRefreshed, this, &ArenaTracker::onUserTokenRefreshed);
-    connect(firebaseAuth, &FirebaseAuth::sgnTokenRefreshError, this, &ArenaTracker::onUserTokenRefreshError);
+    connect(mtgArena, &MtgArena::sgnGameFocusChanged,
+            this, &ArenaTracker::onGameFocusChanged);
+    connect(firebaseAuth, &FirebaseAuth::sgnUserLogged,
+            this, &ArenaTracker::onUserSigned);
+    connect(firebaseAuth, &FirebaseAuth::sgnTokenRefreshed,
+            this, &ArenaTracker::onUserTokenRefreshed);
+    connect(firebaseAuth, &FirebaseAuth::sgnTokenRefreshError,
+            this, &ArenaTracker::onUserTokenRefreshError);
     //setupMatch should be called before setupLogParser because sgnMatchInfoResult order
     setupMtgaMatch();
     setupLogParserConnections();
@@ -162,7 +167,7 @@ void ArenaTracker::setupLogParserConnections()
             this, &ArenaTracker::onGameStart);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnGameCompleted,
             this, &ArenaTracker::onGameCompleted);
-    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchInfoResult,
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchResult,
             this, &ArenaTracker::onMatchEnds);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerTakesMulligan,
             this, &ArenaTracker::onPlayerTakesMulligan);
@@ -196,14 +201,12 @@ void ArenaTracker::setupMtgaMatch()
     // Match
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchCreated,
             mtgaMatch, &MtgaMatch::onStartNewMatch);
-    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchInfoResult,
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchResult,
             mtgaMatch, &MtgaMatch::onEndCurrentMatch);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchInfoSeats,
             mtgaMatch, &MtgaMatch::onMatchInfoSeats);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnSeatIdThatGoFirst,
             mtgaMatch, &MtgaMatch::onSeatIdThatGoFirst);
-    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnGameStart,
-            mtgaMatch, &MtgaMatch::onGameStart);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchStateDiff,
             mtgaMatch, &MtgaMatch::onMatchStateDiff);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnNewTurnStarted,
@@ -271,7 +274,28 @@ void ArenaTracker::onGameStart()
     }
 }
 
-void ArenaTracker::onGameCompleted()
+void ArenaTracker::onGameFocusChanged(bool hasFocus)
+{
+    if (!mtgaMatch->isRunning) {
+        return;
+    }
+    if (APP_SETTINGS->isDeckTrackerPlayerEnabled()) {
+        if (hasFocus) {
+            deckTrackerPlayer->show();
+        } else {
+            deckTrackerPlayer->hide();
+        }
+    }
+    if (APP_SETTINGS->isDeckTrackerOpponentEnabled()) {
+        if (hasFocus) {
+            deckTrackerOpponent->show();
+        } else {
+            deckTrackerOpponent->hide();
+        }
+    }
+}
+
+void ArenaTracker::onGameCompleted(QMap<int, int> teamIdWins)
 {
     deckTrackerPlayer->resetDeck();
     deckTrackerPlayer->hide();
