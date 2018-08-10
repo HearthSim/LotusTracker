@@ -17,8 +17,13 @@ typedef enum {
 class GameInfo
 {
 public:
-    bool playerGoFirst, playerMulligan, opponentMulligan, playerWins;
+    bool playerGoFirst, playerMulligan, opponentMulligan, isCompleted, playerWins;
     Deck opponentDeck;
+
+    GameInfo(): playerGoFirst(false), playerMulligan(false), opponentMulligan(false),
+        isCompleted(false), playerWins(false), opponentDeck(Deck()){
+
+    }
 };
 
 class MatchInfo
@@ -35,6 +40,11 @@ public:
         eventId(eventId), opponentInfo(opponentInfo), mode(MatchMode_UNKNOWN),
         playerMatchWins(false), playerGameWins(0), playerGameLoses(0)
     {
+
+    }
+
+    void createNewGame()
+    {
         games << GameInfo();
     }
 
@@ -47,7 +57,7 @@ public:
     {
         QMap<Card*, int> opponentMatchCards;
         for (GameInfo gameInfo : games) {
-            QMap<Card*, int> gameOpponentCards = gameInfo.opponentDeck.cards();
+            QMap<Card*, int> gameOpponentCards = gameInfo.opponentDeck.currentCards();
             for (Card* card : gameOpponentCards.keys()){
                 if (opponentMatchCards.keys().contains(card)) {
                     opponentMatchCards[card] += gameOpponentCards[card];

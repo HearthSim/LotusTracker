@@ -159,6 +159,8 @@ void ArenaTracker::setupLogParserConnections()
             firebaseDatabase, &FirebaseDatabase::updatePlayerDeck);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckSubmited,
             this, &ArenaTracker::onDeckSubmited);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckWithSideboardSubmited,
+            this, &ArenaTracker::onPlayerDeckWithSideboardSubmited);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnEventPlayerCourse,
             this, &ArenaTracker::onEventPlayerCourse);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchCreated,
@@ -205,8 +207,6 @@ void ArenaTracker::setupMtgaMatch()
             mtgaMatch, &MtgaMatch::onEndCurrentMatch);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchInfoSeats,
             mtgaMatch, &MtgaMatch::onMatchInfoSeats);
-    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnSeatIdThatGoFirst,
-            mtgaMatch, &MtgaMatch::onSeatIdThatGoFirst);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchStateDiff,
             mtgaMatch, &MtgaMatch::onMatchStateDiff);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnNewTurnStarted,
@@ -243,9 +243,11 @@ void ArenaTracker::showMessage(QString msg, QString title)
 void ArenaTracker::onDeckSubmited(Deck deck)
 {
     deckTrackerPlayer->loadDeck(deck);
-    if (!mtgaMatch->getInfo().opponentInfo.opponentName().isEmpty()) {
-        firebaseDatabase->updatePlayerDeck(deck);
-    }
+}
+
+void ArenaTracker::onPlayerDeckWithSideboardSubmited(QMap<Card*, int> cards)
+{
+    deckTrackerPlayer->loadDeckWithSideboard(cards);
 }
 
 void ArenaTracker::onEventPlayerCourse(QString eventId, Deck currentDeck)
@@ -264,9 +266,9 @@ void ArenaTracker::onMatchStart(QString eventId, OpponentInfo opponentInfo)
     }
 }
 
-void ArenaTracker::onGameStart(MatchMode mode, QList<MatchZone> zones)
+void ArenaTracker::onGameStart(MatchMode mode, QList<MatchZone> zones, int seatId)
 {
-    mtgaMatch->onGameStart(mode, zones);
+    mtgaMatch->onGameStart(mode, zones, seatId);
     if (!mtgaMatch->isRunning) {
         return;
     }

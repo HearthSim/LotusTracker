@@ -42,8 +42,6 @@ public:
                 mtgaMatch, &MtgaMatch::onMatchInfoSeats);
         connect(mtgaLogParser, &MtgaLogParser::sgnMatchResult,
                 mtgaMatch, &MtgaMatch::onEndCurrentMatch);
-        connect(mtgaLogParser, &MtgaLogParser::sgnSeatIdThatGoFirst,
-                mtgaMatch, &MtgaMatch::onSeatIdThatGoFirst);
         connect(mtgaLogParser, &MtgaLogParser::sgnGameStart,
                 mtgaMatch, &MtgaMatch::onGameStart);
         connect(mtgaLogParser, &MtgaLogParser::sgnMatchStateDiff,

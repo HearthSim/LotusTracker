@@ -34,12 +34,27 @@ void MtgaMatch::onStartNewMatch(QString eventId, OpponentInfo opponentInfo)
     LOGI("New match started")
 }
 
-void MtgaMatch::onGameStart(MatchMode mode, QList<MatchZone> zones)
+void MtgaMatch::onMatchInfoSeats(QList<MatchPlayer> players)
 {
+    for (MatchPlayer matchPlayer : players) {
+        if (matchPlayer.name() == matchInfo.opponentInfo.opponentName()) {
+            opponent = MatchPlayer(matchPlayer.name(), matchPlayer.seatId(), matchPlayer.teamId());
+        } else {
+            player = MatchPlayer(matchPlayer.name(), matchPlayer.seatId(), matchPlayer.teamId());
+        }
+    }
+}
+
+void MtgaMatch::onGameStart(MatchMode mode, QList<MatchZone> zones, int seatId)
+{
+    matchInfo.createNewGame();
     matchInfo.mode = mode;
     for (MatchZone zone : zones) {
         gameZones[zone.id()] = zone;
     }
+    bool playerGoFirst = player.seatId() == seatId;
+    matchInfo.currentGame().playerGoFirst = playerGoFirst;
+    LOGI(QString("%1 go first").arg(playerGoFirst ? "Player" : "Opponent"))
 }
 
 void MtgaMatch::onGameCompleted(Deck opponentDeck, QMap<int, int> teamIdWins)
@@ -56,6 +71,7 @@ void MtgaMatch::onGameCompleted(Deck opponentDeck, QMap<int, int> teamIdWins)
     matchInfo.playerGameLoses = teamIdWins[opponent.teamId()];
     bool playerGameWins = matchInfo.playerGameWins > playerCurrentWins;
     matchInfo.currentGame().playerWins = playerGameWins;
+    matchInfo.currentGame().isCompleted = true;
 }
 
 void MtgaMatch::onEndCurrentMatch(int winningTeamId)
@@ -68,24 +84,6 @@ void MtgaMatch::onEndCurrentMatch(int winningTeamId)
 void MtgaMatch::onPlayerRankInfo(QPair<QString, int> playerRankInfo)
 {
     this->playerRankInfo = playerRankInfo;
-}
-
-void MtgaMatch::onMatchInfoSeats(QList<MatchPlayer> players)
-{
-    for (MatchPlayer matchPlayer : players) {
-        if (matchPlayer.name() == matchInfo.opponentInfo.opponentName()) {
-            opponent = MatchPlayer(matchPlayer.name(), matchPlayer.seatId(), matchPlayer.teamId());
-        } else {
-            player = MatchPlayer(matchPlayer.name(), matchPlayer.seatId(), matchPlayer.teamId());
-        }
-    }
-}
-
-void MtgaMatch::onSeatIdThatGoFirst(int seatId)
-{
-    bool playerGoFirst = player.seatId() == seatId;
-    matchInfo.currentGame().playerGoFirst = playerGoFirst;
-    LOGI(QString("%1 go first").arg(playerGoFirst ? "Player" : "Opponent"))
 }
 
 void MtgaMatch::onPlayerTakesMulligan()

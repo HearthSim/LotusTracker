@@ -116,6 +116,12 @@ void DeckTrackerPlayer::loadDeck(Deck deck)
     LOGI(QString("Loading deck %1").arg(deck.name));
 }
 
+void DeckTrackerPlayer::loadDeckWithSideboard(QMap<Card*, int> cards)
+{
+    this->deck.updateCards(cards);
+    LOGI(QString("Loading deck with sideboard"));
+}
+
 void DeckTrackerPlayer::resetDeck()
 {
     deck.reset();

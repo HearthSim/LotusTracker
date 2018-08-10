@@ -12,6 +12,7 @@ class Deck
 private:
     QString _colorIdentity;
     QMap<Card*, int> cardsInitial;
+    QMap<Card*, int> cardsInitialWithSideboard;
     QMap<Card*, int> cardsCurrent;
     QMap<Card*, int> cardsSideboard;
 
@@ -31,9 +32,13 @@ public:
         _colorIdentity = Deck::calcColorIdentity(cards, false);
     }
 
-    QMap<Card*, int> cards()
+    QMap<Card*, int> cards(bool ignoreCardsWithSideboard = false)
     {
-        return cardsInitial;
+        if (!ignoreCardsWithSideboard && !cardsInitialWithSideboard.isEmpty()) {
+            return cardsInitialWithSideboard;
+        } else {
+            return cardsInitial;
+        }
     }
 
     QMap<Card*, int> sideboard()
@@ -56,6 +61,12 @@ public:
         return cardsCurrent;
     }
 
+    void updateCards(QMap<Card*, int> cards)
+    {
+        cardsInitialWithSideboard = cards;
+        reset();
+    }
+
     void clear()
     {
         cardsCurrent.clear();
@@ -63,8 +74,8 @@ public:
 
     void reset()
     {
-        for (Card *card : cardsInitial.keys()) {
-            cardsCurrent[card] = cardsInitial[card];
+        for (Card *card : cards().keys()) {
+            cardsCurrent[card] = cards()[card];
         }
     }
 

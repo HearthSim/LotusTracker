@@ -37,8 +37,8 @@ private:
     void parsePlayerDeckCreate(QString json);
     void parsePlayerDeckUpdate(QString json);
     void parsePlayerDeckSubmited(QString json);
+    void parseSubmitDeck(QJsonObject jsonMessage);
     void parseGreToClientMessages(QString json);
-    void parseDieRollResult(QJsonObject jsonMessage);
     void parseGameStateFull(QJsonObject jsonMessage);
     void parseGameStateDiff(int gameStateId, QJsonObject jsonMessage, bool hasMulliganReq);
     void checkPlayerMulligan(QList<MatchZone> zones, bool hasMulliganReq);
@@ -62,7 +62,7 @@ signals:
     void sgnEventPlayerCourse(QString eventId, Deck currentDeck);
     void sgnMatchCreated(QString eventId, OpponentInfo opponentInfo);
     void sgnMatchInfoSeats(QList<MatchPlayer>);
-    void sgnGameStart(MatchMode mode, QList<MatchZone> zones);
+    void sgnGameStart(MatchMode mode, QList<MatchZone> zones, int seatId);
     void sgnGameCompleted(QMap<int, int> teamIdWins);
     void sgnMatchResult(int winningTeamId);
     void sgnPlayerRankInfo(QPair<QString, int> playerRankInfo);
@@ -70,9 +70,9 @@ signals:
     void sgnPlayerDeckCreated(Deck deck);
     void sgnPlayerDeckUpdated(Deck deck);
     void sgnPlayerDeckSubmited(Deck deck);
+    void sgnPlayerDeckWithSideboardSubmited(QMap<Card*, int> cards);
     void sgnPlayerTakesMulligan();
     void sgnOpponentTakesMulligan(int opponentSeatId);
-    void sgnSeatIdThatGoFirst(int seatId);
     void sgnMatchStateDiff(MatchStateDiff matchStateDiff);
     void sgnNewTurnStarted(int turnNumber);
 

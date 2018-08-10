@@ -94,7 +94,7 @@ private:
 
     QJsonObject player1JsonFields(Deck deck, QString playerRankClass)
     {
-        QJsonObject jsonCards = cards2JsonMapValue(deck.cards());
+        QJsonObject jsonCards = cards2JsonMapValue(deck.cards(true));
         QJsonObject jsonFields{
             {"fields", QJsonObject{
                     { "cards", QJsonObject{

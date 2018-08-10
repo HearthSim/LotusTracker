@@ -328,6 +328,23 @@ void MtgaLogParser::parsePlayerDeckSubmited(QString json)
     emit sgnPlayerDeckSubmited(deckSubmited);
 }
 
+void MtgaLogParser::parseSubmitDeck(QJsonObject jsonMessage)
+{
+    QJsonObject jsonDeck = jsonMessage["submitDeckReq"].toObject();
+    QJsonArray jsonCards = jsonDeck["deck"].toObject()["deckCards"].toArray();
+    QMap<Card*, int> cards;
+    for(QJsonValueRef jsonCardRef : jsonCards){
+        int cardId = jsonCardRef.toInt();
+        Card* card = mtgCards->findCard(cardId);
+        if (cards.keys().contains(card)) {
+            cards[card] += 1;
+        } else {
+            cards[card] = 1;
+        }
+    }
+    emit sgnPlayerDeckWithSideboardSubmited(cards);
+}
+
 void MtgaLogParser::parseGreToClientMessages(QString json)
 {
     QJsonObject jsonPlayerToClientMsg = Transformations::stringToJsonObject(json);
@@ -347,9 +364,10 @@ void MtgaLogParser::parseGreToClientMessages(QString json)
     for (QJsonValueRef jsonMessageRef : jsonGreToClientMessages) {
         QJsonObject jsonMessage = jsonMessageRef.toObject();
         QString messageType = jsonMessage["type"].toString();
-        if (messageType == "GREMessageType_DieRollResultsResp") {
-            parseDieRollResult(jsonMessage);
-        } else if (messageType == "GREMessageType_GameStateMessage" ||
+        if (messageType == "GREMessageType_SubmitDeckReq") {
+            parseSubmitDeck(jsonMessage);
+        }
+        if (messageType == "GREMessageType_GameStateMessage" ||
                    messageType == "GREMessageType_QueuedGameStateMessage") {
             int gameStateId = jsonMessage["gameStateId"].toInt();
             QJsonObject jsonGameStateMessage = jsonMessage["gameStateMessage"].toObject();
@@ -360,25 +378,6 @@ void MtgaLogParser::parseGreToClientMessages(QString json)
                 parseGameStateDiff(gameStateId, jsonGameStateMessage, hasMulliganReq);
             }
         }
-    }
-}
-
-void MtgaLogParser::parseDieRollResult(QJsonObject jsonMessage)
-{
-    QJsonObject jsonDieRollResultsResp = jsonMessage["dieRollResultsResp"].toObject();
-    QJsonArray jsonPlayerDieRolls = jsonDieRollResultsResp["playerDieRolls"].toArray();
-    QPair<int, int> highRollValueAndSeatId = qMakePair(0, 0);
-    for (QJsonValueRef jsonPlayerDieRollsRef : jsonPlayerDieRolls) {
-        QJsonObject jsonPlayerDieRoll = jsonPlayerDieRollsRef.toObject();
-        int playerDieRollValue = jsonPlayerDieRoll["rollValue"].toInt();
-        if (playerDieRollValue > highRollValueAndSeatId.first) {
-            int playerSeatId = jsonPlayerDieRoll["systemSeatId"].toInt();
-            highRollValueAndSeatId = qMakePair(playerDieRollValue, playerSeatId);
-        }
-    }
-    if (highRollValueAndSeatId.first > 0) {
-        LOGD(QString("SeatIdThatGoFirst: %1").arg(highRollValueAndSeatId.second))
-        emit sgnSeatIdThatGoFirst(highRollValueAndSeatId.second);
     }
 }
 
@@ -394,9 +393,10 @@ void MtgaLogParser::parseGameStateFull(QJsonObject jsonMessage)
         mode = MatchMode_BEST_OF_3;
     }
     QList<MatchZone> zones = getMatchZones(jsonMessage);
-    LOGD(QString("GameStart Mode: %1, Zones: %2")
-         .arg(MatchInfo::MatchModeToString(mode)).arg(zones.size()));
-    emit sgnGameStart(mode, zones);
+    int seatId = jsonMessage["turnInfo"].toObject()["decisionPlayer"].toInt();
+    LOGD(QString("GameStart Mode: %1, Zones: %2, DecisionPlayer: %3")
+         .arg(MatchInfo::MatchModeToString(mode)).arg(zones.size()).arg(seatId));
+    emit sgnGameStart(mode, zones, seatId);
 }
 
 void MtgaLogParser::parseGameStateDiff(int gameStateId, QJsonObject jsonMessage, bool hasMulliganReq)
@@ -495,7 +495,7 @@ void MtgaLogParser::checkPlayerMulligan(QList<MatchZone> zones, bool hasMulligan
             libraryPlusHandSize += zone.objectIds.size();
         }
         if (zone.type() == ZoneType_HAND) {
-            if (zone.objectIds.size() == 7) {
+            if (zone.objectIds.size() == 0 || zone.objectIds.size() == 7) {
                 return;
             }
             libraryPlusHandSize += zone.objectIds.size();

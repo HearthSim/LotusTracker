@@ -76,7 +76,7 @@ void MtgaLogWatcher::startWatching(){
         return;
     }
     LOGD("Starting watch log");
-    timer->start(200);
+    timer->start(100);
 }
 
 void MtgaLogWatcher::stopWatching(){

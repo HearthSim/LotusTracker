@@ -58,7 +58,7 @@ public:
     bool isRunning;
     MatchInfo getInfo();
     QPair<QString, int> getPlayerRankInfo();
-    void onGameStart(MatchMode mode, QList<MatchZone> gameZones);
+    void onGameStart(MatchMode mode, QList<MatchZone> gameZones, int seatId);
     void onGameCompleted(Deck opponentDeck, QMap<int, int> teamIdWins);
 
 signals:
@@ -77,10 +77,9 @@ signals:
 
 public slots:
     void onStartNewMatch(QString eventId, OpponentInfo matchInfo);
+    void onMatchInfoSeats(QList<MatchPlayer> players);
     void onEndCurrentMatch(int winningTeamId);
     void onPlayerRankInfo(QPair<QString, int> playerRankInfo);
-    void onMatchInfoSeats(QList<MatchPlayer> players);
-    void onSeatIdThatGoFirst(int seatId);
     void onPlayerTakesMulligan();
     void onOpponentTakesMulligan(int opponentSeatId);
     void onMatchStateDiff(MatchStateDiff matchStateDiff);

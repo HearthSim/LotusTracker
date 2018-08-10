@@ -30,6 +30,7 @@ public:
     ~DeckTrackerPlayer();
     void applyCurrentSettings();
     void loadDeck(Deck deck);
+    void loadDeckWithSideboard(QMap<Card*, int> cards);
     void resetDeck();
     bool isDeckLoadedAndReseted();
 
