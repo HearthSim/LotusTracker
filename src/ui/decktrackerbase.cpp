@@ -276,17 +276,15 @@ void DeckTrackerBase::drawDeckCards(QPainter &painter)
         // Card quantity
         painter.setFont(cardFont);
         QString cardQtd = QString("%1 ").arg(cardQtdRemains);
+        int cardQtdMargin = 12;
         int cardQtdWidth = painter.fontMetrics().width(cardQtd);
-        int cardQtdX = uiPos.x() + 12;
+        int cardQtdX = uiPos.x() + cardQtdMargin;
         int cardQtdY = cardBGY + cardBGImgSize.height()/2 - cardTextHeight/2;
 #if defined Q_OS_WIN
         cardQtdY -= 1;
 #endif
         drawText(painter, cardFont, cardTextPen, cardQtd, cardQtdOptions, false,
                  cardQtdX, cardQtdY, cardTextHeight, cardQtdWidth);
-        // Card name
-        drawText(painter, cardFont, cardTextPen, card->name, cardTextOptions, false,
-                 cardQtdX + cardQtdWidth, cardQtdY, cardTextHeight, uiWidth - cardQtdWidth);
         // Card mana
         int manaRightMargin = 7;
         int manaMargin = 2;
@@ -298,6 +296,13 @@ void DeckTrackerBase::drawDeckCards(QPainter &painter)
             drawMana(painter, manaSymbol, manaSize, cardQtdRemains == 0, manaX, manaY);
             manaX += manaSize + manaMargin;
         }
+        // Card name
+        int manaWidth = manaCostWidth + manaRightMargin;
+        int cardNameWidth = uiWidth - cardQtdMargin - cardQtdWidth - manaWidth;
+        QFontMetrics metrics(cardFont);
+        QString cardName = metrics.elidedText(card->name, Qt::ElideRight, cardNameWidth);
+        drawText(painter, cardFont, cardTextPen, cardName, cardTextOptions, false,
+                 cardQtdX + cardQtdWidth, cardQtdY, cardTextHeight, cardNameWidth);
         cardListHeight += getCardHeight();
         // Blink
         if (cardsBlinkInfo.keys().contains(card)) {
