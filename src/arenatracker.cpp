@@ -12,6 +12,8 @@
 #include <QLocalSocket>
 #include <QMessageBox>
 
+#define UPDATE_URL "https://blacklotusvalley-ca867.firebaseapp.com/appcast.xml"
+
 ArenaTracker::ArenaTracker(int& argc, char **argv): QApplication(argc, argv)
 {
     setupApp();
@@ -40,6 +42,11 @@ ArenaTracker::ArenaTracker(int& argc, char **argv): QApplication(argc, argv)
     setupPreferencesScreen();
     checkForAutoLogin();
     LOGI("Arena Tracker started");
+    if (APP_SETTINGS->isFirstRun()) {
+        startScreen->show();
+        startScreen->raise();
+        showMessage(tr("Arena Tracker is running in background, you can click on tray icon for preferences."));
+    }
 }
 
 ArenaTracker::~ArenaTracker()
@@ -70,9 +77,9 @@ void ArenaTracker::setupApp()
   QIcon icon(":/res/icon.ico");
 #endif
   setAttribute(Qt::AA_Use96Dpi);
-  setApplicationName("Arena Tracker");
-  setOrganizationName("ArenaMeta");
-  setOrganizationDomain("arenameta.com");
+  setApplicationName("Lotus Tracker");
+  setOrganizationName("Black Lotus Valley");
+  setOrganizationDomain("blacklotusvalley.com");
   setWindowIcon(icon);
 }
 
@@ -80,9 +87,9 @@ void ArenaTracker::setupUpdater()
 {
 #if defined Q_OS_MAC
   CocoaInitializer cocoaInitializer;
-  sparkleUpdater = new MacSparkleUpdater("https://uc8f198890f22917ff34d66e34ac.dl.dropboxusercontent.com/cd/0/get/ALc1ZFHRTaa-SohnuBN37QPilBjKcPn_TY2LSmLZKgPwxmgCRKjFRIfLz9spKqIbd5RYDwUhCWpd5-9TxWyhRPGI6M23le8aEZxoSy0DPsrHgTTUq-sM4AihqT1yMPttrbruYV36ZjUM1b5bZItqeeJXN8qOZLaj-OEUcs3VGTKxtVJzwnXOw6skc-kJVZq_9O0/file?dl=1");
+  sparkleUpdater = new MacSparkleUpdater(UPDATE_URL);
 #elif defined Q_OS_WIN
-  sparkleUpdater = new WinSparkleUpdater("https://uc8f198890f22917ff34d66e34ac.dl.dropboxusercontent.com/cd/0/get/ALc1ZFHRTaa-SohnuBN37QPilBjKcPn_TY2LSmLZKgPwxmgCRKjFRIfLz9spKqIbd5RYDwUhCWpd5-9TxWyhRPGI6M23le8aEZxoSy0DPsrHgTTUq-sM4AihqT1yMPttrbruYV36ZjUM1b5bZItqeeJXN8qOZLaj-OEUcs3VGTKxtVJzwnXOw6skc-kJVZq_9O0/file?dl=1");
+  sparkleUpdater = new WinSparkleUpdater(UPDATE_URL);
 #endif
 }
 
@@ -356,8 +363,6 @@ void ArenaTracker::checkForAutoLogin()
             break;
         }
         case AUTH_INVALID: {
-            startScreen->show();
-            startScreen->raise();
             break;
         }
     }

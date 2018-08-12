@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>781</width>
-    <height>461</height>
+    <height>481</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -82,7 +82,7 @@ border: 0px solid white;</string>
       <x>0</x>
       <y>0</y>
       <width>781</width>
-      <height>461</height>
+      <height>481</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -556,6 +556,19 @@ padding-left: 5px;</string>
       </layout>
      </widget>
     </widget>
+    <widget class="QLabel" name="label_7">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>450</y>
+       <width>601</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Arena Tracker works without login, but only a logged user will be able to see their deck history, statistics and matches later.</string>
+     </property>
+    </widget>
     <zorder>frameRecoverPassword</zorder>
     <zorder>frameNew</zorder>
     <zorder>frameLogin</zorder>
@@ -563,6 +576,7 @@ padding-left: 5px;</string>
     <zorder>btNew</zorder>
     <zorder>btBack</zorder>
     <zorder>lbLoading</zorder>
+    <zorder>label_7</zorder>
    </widget>
    <zorder>frame</zorder>
    <zorder>lbLogo</zorder>

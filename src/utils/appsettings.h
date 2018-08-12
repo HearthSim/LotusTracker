@@ -19,6 +19,7 @@ public:
     void enableAutoStart(bool enabled);
     bool isAutoUpdateEnabled();
     void enableAutoUpdate(bool enabled);
+    bool isFirstRun();
     int getDeckTrackerAlpha();
     void setDeckTrackerAlpha(int alpha);
     QString getCardLayout();

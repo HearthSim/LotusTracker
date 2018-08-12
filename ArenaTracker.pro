@@ -8,11 +8,13 @@ QT += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = ArenaTracker
+TARGET = LotusTracker
 TEMPLATE = app
 VERSION = 0.1
 
-CONFIG+=debug c++11
+CONFIG+=c++11
+
+CONFIG(release, debug|release)
 
 # asmCrashReport - https://github.com/asmaloney/asmCrashReport
 include(asmCrashReport.pri)

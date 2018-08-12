@@ -25,6 +25,7 @@ private:
     PlayerInventory paramPlayerInventory;
     Deck paramDeck;
     QString paramDeckID, paramMatchID;
+    QString firebaseDBUrl;
 
     Deck firestoreJsonToDeck(QJsonObject deckJson);
     void getPlayerDeckToUpdate(QString deckID);

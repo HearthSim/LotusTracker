@@ -30,7 +30,7 @@ void FirebaseAuth::signInUser(QString email, QString password)
     QByteArray body = QJsonDocument(jsonObj).toJson();
 
     QUrl url(SIGNIN_URL);
-    url.setQuery(QUrlQuery(QString("key=%1").arg(ApiKeys::FIREBASE())));
+    url.setQuery(QUrlQuery(QString("key=%1").arg(ApiKeys::FIREBASE_KEY())));
     if (LOG_REQUEST_ENABLED) {
         LOGD(QString("Request: %1").arg(url.toString()));
     }
@@ -49,7 +49,7 @@ void FirebaseAuth::registerUser(QString email, QString password)
     QByteArray body = QJsonDocument(jsonObj).toJson();
 
     QUrl url(REGISTER_URL);
-    url.setQuery(QUrlQuery(QString("key=%1").arg(ApiKeys::FIREBASE())));
+    url.setQuery(QUrlQuery(QString("key=%1").arg(ApiKeys::FIREBASE_KEY())));
     if (LOG_REQUEST_ENABLED) {
         LOGD(QString("Request: %1").arg(url.toString()));
     }
@@ -131,7 +131,7 @@ void FirebaseAuth::refreshToken(QString refreshToken)
     QByteArray body = QJsonDocument(jsonObj).toJson();
 
     QUrl url(REFRESH_TOKEN_URL);
-    url.setQuery(QUrlQuery(QString("key=%1").arg(ApiKeys::FIREBASE())));
+    url.setQuery(QUrlQuery(QString("key=%1").arg(ApiKeys::FIREBASE_KEY())));
     if (LOG_REQUEST_ENABLED) {
         LOGD(QString("Request: %1").arg(url.toString()));
     }
@@ -172,7 +172,7 @@ void FirebaseAuth::recoverPassword(QString email)
     QByteArray body = QJsonDocument(jsonObj).toJson();
 
     QUrl url(RECOVER_PASSWORD_URL);
-    url.setQuery(QUrlQuery(QString("key=%1").arg(ApiKeys::FIREBASE())));
+    url.setQuery(QUrlQuery(QString("key=%1").arg(ApiKeys::FIREBASE_KEY())));
     if (LOG_REQUEST_ENABLED) {
         LOGD(QString("Request: %1").arg(url.toString()));
     }

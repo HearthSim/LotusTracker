@@ -1,5 +1,6 @@
 #include "database.h"
 #include "macros.h"
+#include "../apikeys.h"
 #include "rqtcreateplayerdeck.h"
 #include "rqtcreateplayerdeckupdate.h"
 #include "rqtupdateplayercollection.h"
@@ -15,7 +16,8 @@
 #include <QUrl>
 #include <QUrlQuery>
 
-#define ARENA_META_DB_URL "https://firestore.googleapis.com/v1beta1/projects/arenameta-3b1a7/databases/(default)/documents"
+#define FIREBASE_PREFIX "https://firestore.googleapis.com/v1beta1/projects"
+#define FIREBASE_SUFIX "databases/(default)/documents"
 
 FirebaseDatabase::FirebaseDatabase(QObject *parent, FirebaseAuth *firebaseAuth)
     : recallUpdatePlayerCollection(false), recallUpdateUserInventory(false),
@@ -24,6 +26,8 @@ FirebaseDatabase::FirebaseDatabase(QObject *parent, FirebaseAuth *firebaseAuth)
 {
     UNUSED(parent);
     this->firebaseAuth = firebaseAuth;
+    firebaseDBUrl = QString("%1/%2/%3").arg(FIREBASE_PREFIX)
+            .arg(ApiKeys::FIREBASE_PROJECT()).arg(FIREBASE_SUFIX);
     connect(firebaseAuth, &FirebaseAuth::sgnTokenRefreshed,
             this, &FirebaseDatabase::onTokenRefreshed);
 }
@@ -138,7 +142,7 @@ void FirebaseDatabase::getPlayerDeckToUpdate(QString deckID)
         return;
     }
 
-    QUrl url(QString("%1/users/GI29TOaqwAhyW99JuT4Xh1QCXkS2/decks/%2").arg(ARENA_META_DB_URL)
+    QUrl url(QString("%1/users/GI29TOaqwAhyW99JuT4Xh1QCXkS2/decks/%2").arg(firebaseDBUrl)
              .arg(deckID));
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -210,7 +214,7 @@ Deck FirebaseDatabase::firestoreJsonToDeck(QJsonObject deckJson)
 
 void FirebaseDatabase::sendPatchRequest(FirestoreRequest firestoreRequest, QString userToken)
 {
-    QUrl url(QString("%1/%2").arg(ARENA_META_DB_URL).arg(firestoreRequest.path()),
+    QUrl url(QString("%1/%2").arg(firebaseDBUrl).arg(firestoreRequest.path()),
              firestoreRequest.hasDuplicateQuery() ? QUrl::StrictMode : QUrl::TolerantMode);
     QByteArray bodyJson = firestoreRequest.body().toJson();
     if (LOG_REQUEST_ENABLED) {
@@ -259,7 +263,7 @@ void FirebaseDatabase::uploadMatch(MatchInfo matchInfo, Deck playerDeck,
 {
     rqtRegisterPlayerMatch = RqtRegisterPlayerMatch(matchInfo, playerDeck);
     RqtUploadMatch rqtUploadMatch(matchInfo, playerDeck, playerRankClass);
-    QUrl url(QString("%1/%2").arg(ARENA_META_DB_URL).arg(rqtUploadMatch.path()));
+    QUrl url(QString("%1/%2").arg(firebaseDBUrl).arg(rqtUploadMatch.path()));
     QByteArray bodyJson = rqtUploadMatch.body().toJson();
 
     QNetworkRequest request(url);

@@ -5,6 +5,7 @@
 
 #define KEY_AUTOSTART "autoStart"
 #define KEY_AUTOUPDATE "autoUpdate"
+#define KEY_FIRST_RUN "isFirstRun"
 #define KEY_TRACKER_ALPHA "Tracker/alpha"
 #define KEY_TRACKER_LAYOUT "Tracker/layout"
 #define KEY_TRACKER_UNHIDDEN_DELAY "Tracker/unhiddenDelay"
@@ -52,6 +53,15 @@ bool AppSettings::isAutoUpdateEnabled()
 void AppSettings::enableAutoUpdate(bool enabled)
 {
     settings.setValue(KEY_AUTOUPDATE, enabled);
+}
+
+bool AppSettings::isFirstRun()
+{
+    bool isFirstRun = settings.value(KEY_FIRST_RUN, true).toBool();
+    if (isFirstRun) {
+        settings.setValue(KEY_FIRST_RUN, false);
+    }
+    return isFirstRun;
 }
 
 int AppSettings::getDeckTrackerAlpha()

@@ -82,7 +82,9 @@ void MtgaLogWatcher::startWatching(){
 void MtgaLogWatcher::stopWatching(){
     LOGD("Stopping watch log");
 	timer->stop();
-    logFile->close();
+    if (logFile->isOpen()) {
+        logFile->close();
+    }
 }
 
 void MtgaLogWatcher::checkForNewLogs()
