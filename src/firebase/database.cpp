@@ -142,8 +142,8 @@ void FirebaseDatabase::getPlayerDeckToUpdate(QString deckID)
         return;
     }
 
-    QUrl url(QString("%1/users/GI29TOaqwAhyW99JuT4Xh1QCXkS2/decks/%2").arg(firebaseDBUrl)
-             .arg(deckID));
+    QUrl url(QString("%1/users/%2/decks/%3").arg(firebaseDBUrl)
+             .arg(userSettings.userId).arg(deckID));
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader(QString("Authorization").toUtf8(),
