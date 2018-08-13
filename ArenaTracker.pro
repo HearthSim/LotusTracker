@@ -14,7 +14,7 @@ VERSION = 0.1
 
 CONFIG+=c++11
 
-CONFIG(release, debug|release)
+CONFIG(debug, debug|release)
 
 # asmCrashReport - https://github.com/asmaloney/asmCrashReport
 include(asmCrashReport.pri)

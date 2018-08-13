@@ -8,27 +8,21 @@ class RqtUpdateUserInventory : public FirestoreRequest
 {
 public:
     RqtUpdateUserInventory(QString userId, PlayerInventory playerInventory) {
-        QJsonObject jsonInventoryFields{
-            { "wcCommon", QJsonObject{
-                    { "integerValue", QString::number(playerInventory.getWcCommon()) }}},
-            { "wcUncommon", QJsonObject{
-                    { "integerValue", QString::number(playerInventory.getWcUncommon()) }}},
-            { "wcRare", QJsonObject{
-                    { "integerValue", QString::number(playerInventory.getWcRare()) }}},
-            { "wcMythic", QJsonObject{
-                    { "integerValue", QString::number(playerInventory.getWcMythic()) }}}
-        };
+        QJsonObject jsonInventoryFields;
         QJsonObject jsonObj{
             {"fields", QJsonObject{
-                    {"inventory", QJsonObject{
-                            {"mapValue", QJsonObject{
-                                    {"fields", jsonInventoryFields}
-                                }}
-                        }}
+                    { "wcCommon", QJsonObject{
+                            { "integerValue", QString::number(playerInventory.getWcCommon()) }}},
+                    { "wcUncommon", QJsonObject{
+                            { "integerValue", QString::number(playerInventory.getWcUncommon()) }}},
+                    { "wcRare", QJsonObject{
+                            { "integerValue", QString::number(playerInventory.getWcRare()) }}},
+                    { "wcMythic", QJsonObject{
+                            { "integerValue", QString::number(playerInventory.getWcMythic()) }}}
                 }}
         };
         _body = QJsonDocument(jsonObj);
-        _path = QString("users/%2?updateMask.fieldPaths=inventory").arg(userId);
+        _path = QString("users/%2/inventory/wildcards").arg(userId);
     }
     virtual ~RqtUpdateUserInventory() {}
 };
