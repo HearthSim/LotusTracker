@@ -20,6 +20,8 @@ public:
     bool isAutoUpdateEnabled();
     void enableAutoUpdate(bool enabled);
     bool isFirstRun();
+    bool isHideOnLoseGameFocusEnabled();
+    void enableHideOnLoseGameFocus(bool enabled);
     int getDeckTrackerAlpha();
     void setDeckTrackerAlpha(int alpha);
     QString getCardLayout();

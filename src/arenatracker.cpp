@@ -295,14 +295,14 @@ void ArenaTracker::onGameFocusChanged(bool hasFocus)
     if (APP_SETTINGS->isDeckTrackerPlayerEnabled()) {
         if (hasFocus) {
             deckTrackerPlayer->show();
-        } else {
+        } else if (APP_SETTINGS->isHideOnLoseGameFocusEnabled()) {
             deckTrackerPlayer->hide();
         }
     }
     if (APP_SETTINGS->isDeckTrackerOpponentEnabled()) {
         if (hasFocus) {
             deckTrackerOpponent->show();
-        } else {
+        } else if (APP_SETTINGS->isHideOnLoseGameFocusEnabled()) {
             deckTrackerOpponent->hide();
         }
     }

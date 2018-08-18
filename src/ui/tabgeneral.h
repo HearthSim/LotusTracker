@@ -17,6 +17,7 @@ private:
     void onAutoUpdateChanged();
     void onPTEnabledChanged();
     void onOTEnabledChanged();
+    void onHideOnLoseGameFocusChanged();
     void onRestoreDefaultsSettingsClicked();
 
 public:

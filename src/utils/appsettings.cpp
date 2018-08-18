@@ -6,6 +6,7 @@
 #define KEY_AUTOSTART "autoStart"
 #define KEY_AUTOUPDATE "autoUpdate"
 #define KEY_FIRST_RUN "isFirstRun"
+#define KEY_HIDE_ON_LOSE_GAME_FOCUS "hideOnLoseGameFocus"
 #define KEY_TRACKER_ALPHA "Tracker/alpha"
 #define KEY_TRACKER_LAYOUT "Tracker/layout"
 #define KEY_TRACKER_UNHIDDEN_DELAY "Tracker/unhiddenDelay"
@@ -62,6 +63,16 @@ bool AppSettings::isFirstRun()
         settings.setValue(KEY_FIRST_RUN, false);
     }
     return isFirstRun;
+}
+
+bool AppSettings::isHideOnLoseGameFocusEnabled()
+{
+    return settings.value(KEY_HIDE_ON_LOSE_GAME_FOCUS, true).toBool();
+}
+
+void AppSettings::enableHideOnLoseGameFocus(bool enabled)
+{
+    settings.setValue(KEY_HIDE_ON_LOSE_GAME_FOCUS, enabled);
 }
 
 int AppSettings::getDeckTrackerAlpha()

@@ -26,6 +26,8 @@ TabGeneral::TabGeneral(QWidget *parent)
             this, &TabGeneral::onPTEnabledChanged);
     connect(ui->cbOTEnabled, &QCheckBox::clicked,
             this, &TabGeneral::onOTEnabledChanged);
+    connect(ui->cbHideOnLoseGameFocus, &QCheckBox::clicked,
+            this, &TabGeneral::onHideOnLoseGameFocusChanged);
     connect(ui->btReset, &QPushButton::clicked,
             this, &TabGeneral::onRestoreDefaultsSettingsClicked);
 }
@@ -41,6 +43,7 @@ void TabGeneral::applyCurrentSettings()
     ui->btCheckUpdate->setChecked(ARENA_TRACKER->sparkleUpdater->AutomaticallyChecksForUpdates());
     ui->cbPTEnabled->setChecked(APP_SETTINGS->isDeckTrackerPlayerEnabled());
     ui->cbOTEnabled->setChecked(APP_SETTINGS->isDeckTrackerOpponentEnabled());
+    ui->cbHideOnLoseGameFocus->setChecked(APP_SETTINGS->isHideOnLoseGameFocusEnabled());
 }
 
 void TabGeneral::onStartAtLoginChanged()
@@ -75,8 +78,15 @@ void TabGeneral::onOTEnabledChanged()
 {
     bool enabled = ui->cbOTEnabled->isChecked();
     emit sgnOpponentTrackerEnabled(enabled);
-    LOGD(QString("DeckTrackerOpponent(: %1").arg(enabled ? "true" : "false"));
+    LOGD(QString("DeckTrackerOpponent: %1").arg(enabled ? "true" : "false"));
     APP_SETTINGS->enableDeckTrackerOpponent(enabled);
+}
+
+void TabGeneral::onHideOnLoseGameFocusChanged()
+{
+    bool enabled = ui->cbHideOnLoseGameFocus->isChecked();
+    LOGD(QString("HideOnLoseGameFocus: %1").arg(enabled ? "true" : "false"));
+    APP_SETTINGS->enableHideOnLoseGameFocus(enabled);
 }
 
 void TabGeneral::onRestoreDefaultsSettingsClicked()
