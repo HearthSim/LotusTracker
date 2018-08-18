@@ -135,10 +135,10 @@ Card* MtgCards::jsonObject2Card(QJsonObject jsonCard, QString setCode)
     bool isArtifact = false;
     bool isLand = false;
     for (QJsonValueRef typeRef : jsonTypes) {
-        if (typeRef.toString() == "Artifact") {
+        if (typeRef.toString().contains("Artifact")) {
             isArtifact = true;
         }
-        if (typeRef.toString() == "Land") {
+        if (typeRef.toString().contains("Land")) {
             isLand = true;
         }
     }
@@ -165,7 +165,8 @@ QList<QChar> MtgCards::getBoderColorUsingManaCost(QString manaCost, bool isArtif
 {
     QList<QChar> manaSymbols;
     for (QChar manaSymbol : manaCost) {
-        if (manaSymbol.isLetter()){
+        if (manaSymbol.isLetter() && manaSymbol != 'x'
+                && manaSymbol != 'y' && manaSymbol != 'z'){
             if (!manaSymbols.contains(manaSymbol)){
                 manaSymbols << manaSymbol;
             }

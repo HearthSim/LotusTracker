@@ -45,7 +45,8 @@ public:
 
         _body = QJsonDocument(jsonObj);
         QDate date = QDate::currentDate();
-        _path = QString("matches/%2/%3").arg(date.year()).arg(date.month());
+        _path = QString("matches/%2/%3-%4").arg(date.year())
+                .arg(date.month()).arg(date.day());
     }
 
 private:

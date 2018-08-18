@@ -17,7 +17,7 @@ public:
             {"fields", jsonCollection}
         };
         _body = QJsonDocument(jsonObj);
-        _path = QString("users/%2/inventory/cards").arg(userId);
+        _path = QString("users/%2/inventory/collection").arg(userId);
     }
 };
 

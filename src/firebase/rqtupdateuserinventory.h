@@ -8,7 +8,6 @@ class RqtUpdateUserInventory : public FirestoreRequest
 {
 public:
     RqtUpdateUserInventory(QString userId, PlayerInventory playerInventory) {
-        QJsonObject jsonInventoryFields;
         QJsonObject jsonObj{
             {"fields", QJsonObject{
                     { "wcCommon", QJsonObject{
@@ -22,7 +21,7 @@ public:
                 }}
         };
         _body = QJsonDocument(jsonObj);
-        _path = QString("users/%2/inventory/wildcards").arg(userId);
+        _path = QString("users/%2/inventory/others").arg(userId);
     }
     virtual ~RqtUpdateUserInventory() {}
 };
