@@ -7,7 +7,7 @@ PreferencesScreen::PreferencesScreen(QWidget *parent) : QMainWindow(parent),
 {
     ui->setupUi(this);
     setWindowFlags(Qt::Dialog | Qt::WindowCloseButtonHint | Qt::MSWindowsFixedSizeDialogHint);
-    setWindowTitle( qApp->applicationName() );
+    setWindowTitle(TITLE());
 
     QActionGroup *group = new QActionGroup(this);
     group->setExclusive(true);

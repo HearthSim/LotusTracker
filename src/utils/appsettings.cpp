@@ -149,7 +149,7 @@ void AppSettings::enableDeckTrackerPlayer(bool enabled)
 
 bool AppSettings::isDeckTrackerPlayerStatisticsEnabled()
 {
-    return settings.value(KEY_TRACKER_PLAYER_STATISTICS, true).toBool();
+    return settings.value(KEY_TRACKER_PLAYER_STATISTICS, false).toBool();
 }
 
 void AppSettings::enableDeckTrackerPlayerStatistics(bool enabled)

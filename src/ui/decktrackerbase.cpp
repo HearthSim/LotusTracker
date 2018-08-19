@@ -19,7 +19,7 @@
 #define GATHERER_IMAGE_URL "http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=%1&type=card"
 
 DeckTrackerBase::DeckTrackerBase(QWidget *parent) : QMainWindow(parent),
-    ui(new Ui::DeckTracker()), cardBGSkin(APP_SETTINGS->getCardLayout()),
+    ui(new Ui::TrackerOverlay()), cardBGSkin(APP_SETTINGS->getCardLayout()),
     zoomMinusButton(QRect(0, 0, 0, 0)), zoomPlusButton(QRect(0, 0, 0, 0)),
     currentHoverPosition(0), hoverCardMultiverseId(0), mousePressed(false),
     mouseRelativePosition(QPoint()), cornerRadius(10), uiPos(10, 10),
@@ -64,6 +64,7 @@ Deck DeckTrackerBase::getDeck()
 void DeckTrackerBase::setupWindow()
 {
     setWindowFlags(Qt::NoDropShadowWindowHint | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+    setWindowTitle(TITLE());
     setAttribute(Qt::WA_TranslucentBackground);
     setAttribute(Qt::WA_ShowWithoutActivating);
     setAttribute(Qt::WA_Hover, true);

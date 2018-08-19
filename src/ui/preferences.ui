@@ -13,11 +13,11 @@
   <property name="minimumSize">
    <size>
     <width>400</width>
-    <height>150</height>
+    <height>200</height>
    </size>
   </property>
   <property name="windowTitle">
-   <string>Arena Tracker</string>
+   <string>Preferences</string>
   </property>
   <property name="toolButtonStyle">
    <enum>Qt::ToolButtonTextUnderIcon</enum>
@@ -132,10 +132,10 @@
      <normaloff>:/res/preferences_overlay.png</normaloff>:/res/preferences_overlay.png</iconset>
    </property>
    <property name="text">
-    <string>Account</string>
+    <string>Overlay</string>
    </property>
    <property name="toolTip">
-    <string>Account</string>
+    <string>Overlay</string>
    </property>
   </action>
  </widget>

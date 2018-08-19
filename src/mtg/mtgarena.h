@@ -17,6 +17,7 @@ private:
 	MtgaLogWatcher *logWatcher;
 
     void findGameWindow();
+    void onCurrentFocusChanged(bool hasFocus);
     void gameStarted();
     void gameStopped();
 	void gameFocusChanged(bool hasFocus);

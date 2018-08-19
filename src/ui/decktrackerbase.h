@@ -11,13 +11,13 @@
 #include <QMouseEvent>
 #include <QNetworkAccessManager>
 
-namespace Ui { class DeckTracker; }
+namespace Ui { class TrackerOverlay; }
 
 class DeckTrackerBase : public QMainWindow
 {
     Q_OBJECT
 private:
-    Ui::DeckTracker *ui;
+    Ui::TrackerOverlay *ui;
     QString cardBGSkin, cachesDir;
     QRect cardsRect, expandBar, zoomMinusButton, zoomPlusButton;
     int currentHoverPosition, hoverCardMultiverseId, unhiddenTimeout;
@@ -77,6 +77,8 @@ public:
     explicit DeckTrackerBase(QWidget *parent = nullptr);
     ~DeckTrackerBase();
     Deck getDeck();
+
+    static const QString TITLE(){ return "TrackerOverlay"; }
 
 signals:
 

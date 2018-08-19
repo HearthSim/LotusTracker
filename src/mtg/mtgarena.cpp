@@ -58,11 +58,30 @@ void MtgArena::findGameWindow()
 		emit sgnGameStarted();
     }
     if (isFocused != hasFocus){
-        emit sgnGameFocusChanged(hasFocus);
+        onCurrentFocusChanged(hasFocus);
     }
     if (isRunning && !hasFind) {
         emit sgnGameStopped();
     }
+}
+
+void MtgArena::onCurrentFocusChanged(bool hasFocus)
+{
+#if defined Q_OS_MAC
+    int wndId = MacWindowFinder::findWindowId("LotusTracker", DeckTrackerBase::TITLE());
+    bool hasTrackerOverlayFocus = MacWindowFinder::isWindowFocused(wndId);
+    wndId = MacWindowFinder::findWindowId("LotusTracker", PreferencesScreen::TITLE());
+    bool hasLotusTrackerFocus = MacWindowFinder::isWindowFocused(wndId);
+#elif defined Q_OS_WIN
+    HWND wnd = WinWindowFinder::findWindow(DeckTrackerBase::TITLE());
+    bool hasTrackerOverlayFocus = WinWindowFinder::isWindowFocused(wnd);
+    wnd = WinWindowFinder::findWindow(PreferencesScreen::TITLE());
+    bool hasLotusTrackerFocus = WinWindowFinder::isWindowFocused(wnd);
+#endif
+    if (!hasFocus && (hasTrackerOverlayFocus || hasLotusTrackerFocus)) {
+        return;
+    }
+    emit sgnGameFocusChanged(hasFocus);
 }
 
 void MtgArena::gameStarted()

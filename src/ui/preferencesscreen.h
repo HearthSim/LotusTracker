@@ -33,6 +33,8 @@ public:
     TabLogs* getTabLogs();
     TabAbout* getTabAbout();
 
+    static const QString TITLE(){ return "Preferences"; }
+
 private slots:
     void tabClick(QAction *action);
 
