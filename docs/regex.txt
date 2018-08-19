@@ -1,4 +1,4 @@
-GetInfos	-> \s(Response|Incoming|Match\sto|to\sMatch).+(\s|\n)(\{|\[)(\n\s+.*)+\n(\}|\])
+GetInfos	-> \s(<==|Incoming|Match\sto).+(\s|\n)(\{|\[)(\n\s+.*)+\n(\}|\])
 GetNumber	-> (?<=\s)\d+(?=\:\s)
 GetInfos	-> \s(AM|PM).+(\s|\n)(\{|\[)(\n\s+.*)+\n(\}|\])
 GetCMD		-> \S+(?=(\s|\n)(\{|\[))

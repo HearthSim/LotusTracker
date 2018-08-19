@@ -14,11 +14,7 @@ MtgaID+ = Virtual card
 64171
 64111
 ..
-64139	- Plain
-64145	- Island
-64151	- Swamp
-64157	- Mountain
-64163	- Forest
+64167	- Forest
 65407	- Chandra
 ..
 65425
@@ -358,12 +354,7 @@ MtgaID+ = Virtual card
 65959 - (65855, Crypt of the Eternals),
 65857*- (65857, Desert of the Fervent),
 ...
-65887 - (65887, Plains),
-65889, Island),
-65891, Swamp),
-65893, Mountain),
-65895, Forest),
---- repeat same land id
+65915, (Forest)
 65937 - (65917, Nissa, Genesis Mage),
 ...
 65955 - (65935, Cinder Barrens)
@@ -372,12 +363,7 @@ MtgaID+ = Virtual card
 
 65961*- (65961, Adanto Vanguard),
 ...
-66499*- (66499, Plains),
-66507 - (66507, Island),
-66515 - (66515, Swamp),
-66523 - (66523, Mountain),
-66531 - (66531, Forest),
---- repeat same land id
+66537 - Forest
 66541- (66539, Jace, Ingenious Mind-Mage),
 ...
 66559 - (66557, Stone Quarry)
@@ -391,14 +377,6 @@ MtgaID+ = Virtual card
 --------------------------------- DOM ----------------------------------
 
 67106*- (67106, Karn, Scion of Urza),
-...
-67602*- (67602, Zhalfirin Void),
-67604*- (67604, Plains),
-67612, Island),
-67620, Swamp),
-67628, Mountain),
-67636, Forest),
-67644*- (67644, Teferi, Timebender)
 ...
 67662*- (67662, Timber Gorge)
 68369 - (68364, Firesong and Sunspeaker)
