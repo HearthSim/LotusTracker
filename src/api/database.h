@@ -2,12 +2,13 @@
 #define DATABASE_H
 
 #include "auth.h"
-#include "firestorerequest.h"
+#include "requestdata.h"
 #include "rqtregisterplayermatch.h"
 #include "entity/deck.h"
 #include "entity/user.h"
 #include "mtg/mtgamatch.h"
 
+#include <QBuffer>
 #include <QObject>
 #include <QNetworkAccessManager>
 
@@ -27,12 +28,15 @@ private:
     QString paramDeckID, paramMatchID;
     QString firebaseDBUrl;
 
-    Deck firestoreJsonToDeck(QJsonObject deckJson);
     void getPlayerDeckToUpdate(QString deckID);
-    void registerPlayerMatch(QString matchID);
-    void sendPatchRequest(FirestoreRequest firestoreRequest, QString userToken);
-    void requestOnFinish();
     void getPlayerDeckToUpdateRequestOnFinish();
+    Deck jsonToDeck(QJsonObject deckJson);
+    QNetworkRequest prepareRequest(RequestData firestoreRequest);
+    QBuffer* prepareBody(RequestData firestoreRequest);
+    void sendPatch(RequestData requestData);
+    void sendPost(RequestData requestData);
+    void requestOnFinish();
+    void registerPlayerMatch(QString matchID);
     void uploadMatchRequestOnFinish();
 
 public:

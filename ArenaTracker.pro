@@ -33,6 +33,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 HEADERS += \
     src/arenatracker.h \
+    src/api/auth.h \
+    src/api/database.h \
+    src/api/requestdata.h \
+    src/api/rqtplayerdeck.h \
+    src/api/rqtplayerdeckupdate.h \
+    src/api/rqtupdateplayerinventory.h \
+    src/api/rqtupdateplayercollection.h \
+    src/api/rqtuploadmatch.h \
+    src/api/rqtuploadplayermatch.h \
     src/apikeys.h \
     src/macros.h \
     src/transformations.h \
@@ -45,16 +54,6 @@ HEADERS += \
     src/entity/matchzone.h \
     src/entity/matchzonetransfer.h \
     src/entity/opponentinfo.h \
-    src/firebase/auth.h \
-    src/firebase/database.h \
-    src/firebase/rqtcreateplayerdeck.h \
-    src/firebase/rqtcreateplayerdeckupdate.h \
-    src/firebase/rqtupdateplayerdeck.h \
-    src/firebase/rqtupdateuserinventory.h \
-    src/firebase/rqtupdateplayercollection.h \
-    src/firebase/rqtuploadmatch.h \
-    src/firebase/rqtregisterplayermatch.h \
-    src/firebase/firestorerequest.h \
     src/mtg/mtgarena.h \
     src/mtg/mtgalogparser.h \
     src/mtg/mtgalogwatcher.h \
@@ -77,8 +76,8 @@ HEADERS += \
 
 SOURCES += \
     src/arenatracker.cpp \
-    src/firebase/auth.cpp \
-    src/firebase/database.cpp \
+    src/api/auth.cpp \
+    src/api/database.cpp \
     src/main.cpp \
     src/transformations.cpp \
     src/mtg/mtgarena.cpp \

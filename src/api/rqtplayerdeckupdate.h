@@ -1,12 +1,12 @@
-#ifndef RQTCREATEPLAYERDECKUPDATE_H
-#define RQTCREATEPLAYERDECKUPDATE_H
+#ifndef RQTPLAYERDECKUPDATE_H
+#define RQTPLAYERDECKUPDATE_H
 
-#include "firestorerequest.h"
+#include "requestdata.h"
 #include "../entity/deck.h"
 
 #include <QDate>
 
-class RqtCreatePlayerDeckUpdate : public FirestoreRequest
+class RqtPlayerDeckUpdate : public RequestData
 {
 private:
     QJsonObject getDiffCardsJson(QMap<Card*, int> deckCards,
@@ -33,38 +33,27 @@ private:
 
         QJsonObject jsonDiffCards;
         for (Card* card : diffCards.keys()) {
-            jsonDiffCards.insert(QString::number(card->mtgaId),
-                         QJsonObject{{ "integerValue", QString("%1").arg(diffCards[card]) }});
+            jsonDiffCards.insert(QString::number(card->mtgaId), diffCards[card]);
         }
         return jsonDiffCards;
     }
 
 public:
-    RqtCreatePlayerDeckUpdate(QString userId, Deck deck, Deck oldDeck){
+    RqtPlayerDeckUpdate(QString userId, Deck deck, Deck oldDeck){
         QJsonObject jsonDiffCards = getDiffCardsJson(deck.cards(), oldDeck.cards());
         QJsonObject jsonDiffSideboard = getDiffCardsJson(deck.sideboard(), oldDeck.sideboard());
         _body = QJsonDocument(QJsonObject{
-                                  {"fields", QJsonObject{
-                                       {"mainDeck", QJsonObject{
-                                            {"mapValue", QJsonObject{
-                                                 {"fields", jsonDiffCards}
-                                             }}
-                                        }},
-                                       {"sideboard", QJsonObject{
-                                            {"mapValue", QJsonObject{
-                                                 {"fields", jsonDiffSideboard}
-                                             }}
-                                        }}
-                                   }}
+                                  {"mainDeck", jsonDiffCards},
+                                  {"sideboard", jsonDiffSideboard}
                               });
         QString date = QDate().currentDate().toString("yyyy-MM-dd");
         QString time = QTime().currentTime().toString("HH-mm");
         QString updateName = QString("%1 %2").arg(date).arg(time);
-        _path = QString("users/%2/decks/%3/updates/%4")
+        _path = QString("users/decks/updates?userId=%1&deckId=%2")
                 .arg(userId).arg(deck.id).arg(updateName);
     }
-    virtual ~RqtCreatePlayerDeckUpdate() {}
+    virtual ~RqtPlayerDeckUpdate() {}
 
 };
 
-#endif // RQTCREATEPLAYERDECKUPDATE_H
+#endif // RQTPLAYERDECKUPDATE_H

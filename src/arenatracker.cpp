@@ -99,7 +99,7 @@ bool ArenaTracker::isAlreadyRunning() {
     socket.connectToServer(serverName);
     if (socket.waitForConnected(500)) {
         QMessageBox::information(preferencesScreen, "Arena Tracker",
-                                 "Arena Tracker already running.", QMessageBox::Ok);
+                                 "Arena Tracker already running in background.", QMessageBox::Ok);
         return true;
     }
     QLocalServer::removeServer(serverName);

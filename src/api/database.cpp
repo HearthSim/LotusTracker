@@ -1,14 +1,12 @@
 #include "database.h"
 #include "macros.h"
 #include "../apikeys.h"
-#include "rqtcreateplayerdeck.h"
-#include "rqtcreateplayerdeckupdate.h"
+#include "rqtplayerdeck.h"
+#include "rqtplayerdeckupdate.h"
 #include "rqtupdateplayercollection.h"
-#include "rqtupdateplayerdeck.h"
-#include "rqtupdateuserinventory.h"
+#include "rqtupdateplayerinventory.h"
 #include "rqtuploadmatch.h"
 
-#include <QBuffer>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QNetworkRequest>
@@ -27,7 +25,7 @@ FirebaseDatabase::FirebaseDatabase(QObject *parent, FirebaseAuth *firebaseAuth)
     UNUSED(parent);
     this->firebaseAuth = firebaseAuth;
     firebaseDBUrl = QString("%1/%2/%3").arg(FIREBASE_PREFIX)
-            .arg(ApiKeys::FIREBASE_PROJECT()).arg(FIREBASE_SUFIX);
+            .arg(ApiKeys::API_BASE_URL()).arg(FIREBASE_SUFIX);
     connect(firebaseAuth, &FirebaseAuth::sgnTokenRefreshed,
             this, &FirebaseDatabase::onTokenRefreshed);
 }
@@ -72,8 +70,7 @@ void FirebaseDatabase::updatePlayerCollection(QMap<int, int> ownedCards)
         firebaseAuth->refreshToken(userSettings.refreshToken);
         return;
     }
-    RqtUpdatePlayerCollection rqtUpdatePlayerCollection(userSettings.userId, ownedCards);
-    sendPatchRequest(rqtUpdatePlayerCollection, userSettings.userToken);
+    sendPost(RqtUpdatePlayerCollection(userSettings.userId, ownedCards));
 }
 
 void FirebaseDatabase::updateUserInventory(PlayerInventory playerInventory)
@@ -89,8 +86,7 @@ void FirebaseDatabase::updateUserInventory(PlayerInventory playerInventory)
         firebaseAuth->refreshToken(userSettings.refreshToken);
         return;
     }
-    RqtUpdateUserInventory rqtUpdateUserInventory(userSettings.userId, playerInventory);
-    sendPatchRequest(rqtUpdateUserInventory, userSettings.userToken);
+    sendPatch(RqtUpdatePlayerInventory(userSettings.userId, playerInventory));
 }
 
 void FirebaseDatabase::createPlayerDeck(Deck deck)
@@ -106,9 +102,7 @@ void FirebaseDatabase::createPlayerDeck(Deck deck)
         firebaseAuth->refreshToken(userSettings.refreshToken);
         return;
     }
-
-    RqtCreatePlayerDeck rqtCreatePlayerDeck(userSettings.userId, deck);
-    sendPatchRequest(rqtCreatePlayerDeck, userSettings.userToken);
+    sendPost(RqtPlayerDeck(userSettings.userId, deck));
 }
 
 void FirebaseDatabase::updatePlayerDeck(Deck deck)
@@ -142,7 +136,7 @@ void FirebaseDatabase::getPlayerDeckToUpdate(QString deckID)
         return;
     }
 
-    QUrl url(QString("%1/users/%2/decks/%3").arg(firebaseDBUrl)
+    QUrl url(QString("%1/users/decks?userId=%2&deckId=%3").arg(ApiKeys::API_BASE_URL())
              .arg(userSettings.userId).arg(deckID));
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -169,67 +163,83 @@ void FirebaseDatabase::getPlayerDeckToUpdateRequestOnFinish()
     if (statusCode < 200 || statusCode > 299) {
         QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
         LOGW(QString("Error: %1").arg(reason));
-        QJsonObject error = jsonRsp["error"].toObject();
-        QString status = error["status"].toString();
-        if (status == "NOT_FOUND") {
+        if (statusCode == 404) {
             createPlayerDeck(paramDeck);
             return;
         }
-        QString message = error["message"].toString();
+        QString message = jsonRsp["error"].toString();
         ARENA_TRACKER->showMessage(message);
         return;
     }
 
-    Deck oldDeck = firestoreJsonToDeck(jsonRsp);
+    Deck oldDeck = jsonToDeck(jsonRsp);
     UserSettings userSettings = APP_SETTINGS->getUserSettings();
     //Update deck data
-    RqtUpdatePlayerDeck rqtUpdatePlayerDeck(userSettings.userId, paramDeck);
-    sendPatchRequest(rqtUpdatePlayerDeck, userSettings.userToken);
+    sendPatch(RqtPlayerDeck(userSettings.userId, paramDeck));
     //Create deck update
-    RqtCreatePlayerDeckUpdate rqtCreatePlayerDeckUpdate(userSettings.userId, paramDeck, oldDeck);
-    sendPatchRequest(rqtCreatePlayerDeckUpdate, userSettings.userToken);
+    sendPost(RqtPlayerDeckUpdate(userSettings.userId, paramDeck, oldDeck));
 }
 
-Deck FirebaseDatabase::firestoreJsonToDeck(QJsonObject deckJson)
+Deck FirebaseDatabase::jsonToDeck(QJsonObject deckJson)
 {
-    QString friebaseName = deckJson["name"].toString();
-    QString id = friebaseName.right(friebaseName.size() - friebaseName.lastIndexOf("/") - 1);
-    QString name = deckJson["fields"].toObject()["name"].toObject()["stringValue"].toString();
-    QJsonObject cardsFields = deckJson["fields"].toObject()["cards"]
-            .toObject()["mapValue"].toObject()["fields"].toObject();
+    QString id = deckJson["id"].toString();
+    QString name = deckJson["name"].toString();
+    QJsonObject cardsFields = deckJson["cards"].toObject();
     QMap<Card*, int> cards;
     for (QString key : cardsFields.keys()) {
         Card* card = ARENA_TRACKER->mtgCards->findCard(key.toInt());
-        cards[card] = cardsFields[key].toObject()["integerValue"].toString().toInt();
+        cards[card] = cardsFields[key].toInt();
     }
-    QJsonObject sideboardCardsFields = deckJson["fields"].toObject()["sideboard"]
-            .toObject()["mapValue"].toObject()["fields"].toObject();
+    QJsonObject sideboardCardsFields = deckJson["sideboard"].toObject();
     QMap<Card*, int> sideboard;
     for (QString key : sideboardCardsFields.keys()) {
         Card* card = ARENA_TRACKER->mtgCards->findCard(key.toInt());
-        sideboard[card] = sideboardCardsFields[key].toObject()["integerValue"].toString().toInt();
+        sideboard[card] = sideboardCardsFields[key].toInt();
     }
     return Deck(id, name, cards, sideboard);
 }
 
-void FirebaseDatabase::sendPatchRequest(FirestoreRequest firestoreRequest, QString userToken)
+QNetworkRequest FirebaseDatabase::prepareRequest(RequestData firestoreRequest)
 {
-    QUrl url(QString("%1/%2").arg(firebaseDBUrl).arg(firestoreRequest.path()),
-             firestoreRequest.hasDuplicateQuery() ? QUrl::StrictMode : QUrl::TolerantMode);
-    QByteArray bodyJson = firestoreRequest.body().toJson();
+    QUrl url(QString("%1/%2").arg(ApiKeys::API_BASE_URL()).arg(firestoreRequest.path()));
     if (LOG_REQUEST_ENABLED) {
-        LOGD(QString("Patch Request: %1").arg(url.toString()));
-        LOGD(QString("Patch Body: %1").arg(QString(bodyJson)));
+        LOGD(QString("Request: %1").arg(url.toString()));
     }
+    QString userToken = APP_SETTINGS->getUserSettings().userToken;
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader(QString("Authorization").toUtf8(),
                          QString("Bearer %1").arg(userToken).toUtf8());
-    QBuffer *buffer = new QBuffer();
+    return request;
+}
+
+QBuffer* FirebaseDatabase::prepareBody(RequestData firestoreRequest)
+{
+    QByteArray bodyJson = firestoreRequest.body().toJson();
+    if (LOG_REQUEST_ENABLED) {
+        LOGD(QString("Body: %1").arg(QString(bodyJson)));
+    }
+    QBuffer* buffer = new QBuffer();
     buffer->open((QBuffer::ReadWrite));
     buffer->write(bodyJson);
     buffer->seek(0);
+    return buffer;
+}
+
+void FirebaseDatabase::sendPatch(RequestData requestData)
+{
+    QNetworkRequest request = prepareRequest(requestData);
+    QBuffer* buffer = prepareBody(requestData);
     QNetworkReply *reply = networkManager.sendCustomRequest(request, "PATCH", buffer);
+    connect(reply, &QNetworkReply::finished,
+            this, &FirebaseDatabase::requestOnFinish);
+}
+
+void FirebaseDatabase::sendPost(RequestData requestData)
+{
+    QNetworkRequest request = prepareRequest(requestData);
+    QBuffer* buffer = prepareBody(requestData);
+    QNetworkReply *reply = networkManager.post(request, buffer);
     connect(reply, &QNetworkReply::finished,
             this, &FirebaseDatabase::requestOnFinish);
 }
@@ -239,6 +249,7 @@ void FirebaseDatabase::requestOnFinish()
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
     QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());
     if (LOG_REQUEST_ENABLED) {
+        LOGD(QString("Request response: %1").arg(reply->request().url().url()));
         LOGD(QString(QJsonDocument(jsonRsp).toJson()));
     }
     emit sgnRequestFinished();
@@ -247,14 +258,13 @@ void FirebaseDatabase::requestOnFinish()
     if (statusCode < 200 || statusCode > 299) {
         QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
         LOGW(QString("Error: %1").arg(reason));
-        QJsonObject error = jsonRsp["error"].toObject();
-        QString message = error["message"].toString();
-        ARENA_TRACKER->showMessage(message);
+        QString error = jsonRsp["error"].toString();
+        ARENA_TRACKER->showMessage(error);
         return;
     }
 
     if (LOG_REQUEST_ENABLED) {
-        LOGD(QString("Database updated: %1").arg(reply->request().url().url()));
+        LOGD(QString("Database updated"));
     }
 }
 
@@ -263,16 +273,9 @@ void FirebaseDatabase::uploadMatch(MatchInfo matchInfo, Deck playerDeck,
 {
     rqtRegisterPlayerMatch = RqtRegisterPlayerMatch(matchInfo, playerDeck);
     RqtUploadMatch rqtUploadMatch(matchInfo, playerDeck, playerRankClass);
-    QUrl url(QString("%1/%2").arg(firebaseDBUrl).arg(rqtUploadMatch.path()));
-    QByteArray bodyJson = rqtUploadMatch.body().toJson();
-
-    QNetworkRequest request(url);
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    if (LOG_REQUEST_ENABLED) {
-        LOGD(QString("Post Request: %1").arg(url.toString()));
-        LOGD(QString("Post Body: %1").arg(QString(bodyJson)));
-    }
-    QNetworkReply *reply = networkManager.post(request, bodyJson);
+    QNetworkRequest request = prepareRequest(rqtUploadMatch);
+    QBuffer* buffer = prepareBody(rqtUploadMatch);
+    QNetworkReply *reply = networkManager.post(request, buffer);
     connect(reply, &QNetworkReply::finished,
             this, &FirebaseDatabase::uploadMatchRequestOnFinish);
 }
@@ -282,6 +285,7 @@ void FirebaseDatabase::uploadMatchRequestOnFinish()
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
     QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());
     if (LOG_REQUEST_ENABLED) {
+        LOGD(QString("Request response: %1").arg(reply->request().url().url()));
         LOGD(QString(QJsonDocument(jsonRsp).toJson()));
     }
     emit sgnRequestFinished();
@@ -290,15 +294,13 @@ void FirebaseDatabase::uploadMatchRequestOnFinish()
     if (statusCode < 200 || statusCode > 299) {
         QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
         LOGW(QString("Error: %1").arg(reason));
-        QJsonObject error = jsonRsp["error"].toObject();
-        QString message = error["message"].toString();
-        ARENA_TRACKER->showMessage(message);
+        QString error = jsonRsp["error"].toString();
+        ARENA_TRACKER->showMessage(error);
         return;
     }
 
     LOGD(QString("Match uploaded anonymously"));
-    QString name = jsonRsp["name"].toString();
-    QString matchID = name.right(name.size() - name.lastIndexOf("/") - 1);
+    QString matchID = jsonRsp["id"].toString();
     registerPlayerMatch(matchID);
 }
 
@@ -306,7 +308,7 @@ void FirebaseDatabase::registerPlayerMatch(QString matchID)
 {
     recalRegisterPlayerMatch = false;
     UserSettings userSettings = APP_SETTINGS->getUserSettings();
-    if (userSettings.userToken.isEmpty() || rqtRegisterPlayerMatch.path().isEmpty()) {
+    if (userSettings.userToken.isEmpty()) {
         return;
     }
     if (!userSettings.isAuthValid()) {
@@ -317,5 +319,5 @@ void FirebaseDatabase::registerPlayerMatch(QString matchID)
     }
 
     rqtRegisterPlayerMatch.createPath(userSettings.userId, matchID);
-    sendPatchRequest(rqtRegisterPlayerMatch, userSettings.userToken);
+    sendPost(rqtRegisterPlayerMatch);
 }

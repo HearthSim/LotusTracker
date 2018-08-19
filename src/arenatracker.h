@@ -13,8 +13,8 @@
 #include "ui/trayicon.h"
 #include "utils/appsettings.h"
 #include "utils/logger.h"
-#include "firebase/auth.h"
-#include "firebase/database.h"
+#include "api/auth.h"
+#include "api/database.h"
 #include "updater/sparkleupdater.h"
 
 #include <QApplication>

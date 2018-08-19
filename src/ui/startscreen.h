@@ -1,7 +1,7 @@
 #ifndef STARTSCREEN_H
 #define STARTSCREEN_H
 
-#include "../firebase/auth.h"
+#include "../api/auth.h"
 
 #include <QMainWindow>
 #include <QRegularExpression>
