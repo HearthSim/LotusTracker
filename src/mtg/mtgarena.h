@@ -18,9 +18,9 @@ private:
 
     void findGameWindow();
     void onCurrentFocusChanged(bool hasFocus);
-    void gameStarted();
-    void gameStopped();
-	void gameFocusChanged(bool hasFocus);
+    void onMtgaStarted();
+    void onMtgaStopped();
+	void onMtgaFocusChanged(bool hasFocus);
 	void onNewLogContent(QString logNewContent);
 
 public:
@@ -31,9 +31,9 @@ public:
     MtgaLogParser* getLogParser();
 
 signals:
-	void sgnGameFocusChanged(bool hasFocus);
-	void sgnGameStarted();
-	void sgnGameStopped();
+	void sgnMTGAFocusChanged(bool hasFocus);
+	void sgnMTGAStarted();
+	void sgnMTGAStopped();
 
 public slots:
 };

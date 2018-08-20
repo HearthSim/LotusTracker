@@ -1,4 +1,5 @@
 #include "mtgcards.h"
+#include "../apikeys.h"
 #include "../transformations.h"
 #include "../macros.h"
 
@@ -35,7 +36,55 @@ MtgCards::MtgCards(QObject *parent) : QObject(parent)
     mtgaIds["M19"] = {{"1", 67682}, {"2", 67684}, {"3", 67686}, {"4", 67688}, {"5", 67690}, {"6", 67692}, {"7", 67694}, {"8", 67696}, {"9", 67698}, {"10", 67700}, {"11", 67702}, {"12", 67704}, {"13", 67706}, {"14", 67708}, {"15", 67710}, {"16", 67712}, {"17", 67714}, {"18", 67716}, {"19", 67718}, {"20", 67720}, {"21", 67722}, {"22", 67724}, {"23", 67726}, {"24", 67728}, {"25", 67730}, {"26", 67732}, {"27", 67734}, {"28", 67736}, {"29", 67738}, {"30", 67740}, {"31", 67742}, {"32", 67744}, {"33", 67746}, {"34", 67748}, {"35", 67750}, {"36", 67752}, {"37", 67754}, {"38", 67756}, {"39", 67758}, {"40", 67760}, {"41", 67762}, {"42", 67764}, {"43", 67766}, {"44", 67768}, {"45", 67770}, {"46", 67772}, {"47", 67774}, {"48", 67776}, {"49", 67778}, {"50", 67780}, {"51", 67782}, {"52", 67784}, {"53", 67786}, {"54", 67788}, {"55", 67790}, {"56", 67792}, {"57", 67794}, {"58", 67796}, {"59", 67798}, {"60", 67800}, {"61", 67802}, {"62", 67804}, {"63", 67806}, {"64", 67808}, {"65", 67810}, {"66", 67812}, {"67", 67814}, {"68", 67816}, {"69", 67818}, {"70", 67820}, {"71", 67822}, {"72", 67824}, {"73", 67826}, {"74", 67828}, {"75", 67830}, {"76", 67832}, {"77", 67834}, {"78", 67836}, {"79", 67838}, {"80", 67840}, {"81", 67842}, {"82", 67844}, {"83", 67846}, {"84", 67848}, {"85", 67850}, {"86", 67852}, {"87", 67854}, {"88", 67856}, {"89", 67858}, {"90", 67860}, {"91", 67862}, {"92", 67864}, {"93", 67866}, {"94", 67868}, {"95", 67870}, {"96", 67872}, {"97", 67874}, {"98", 67876}, {"99", 67878}, {"100", 67880}, {"101", 67882}, {"102", 67884}, {"103", 67886}, {"104", 67888}, {"105", 67890}, {"106", 67892}, {"107", 67894}, {"108", 67896}, {"109", 67898}, {"110", 67900}, {"111", 67902}, {"112", 67904}, {"113", 67906}, {"114", 67908}, {"115", 67910}, {"116", 67912}, {"117", 67914}, {"118", 67916}, {"119", 67918}, {"120", 67920}, {"121", 67922}, {"122", 67924}, {"123", 67926}, {"124", 67928}, {"125", 67930}, {"126", 67932}, {"127", 67934}, {"128", 67936}, {"129", 67938}, {"130", 67940}, {"131", 67942}, {"132", 67944}, {"133", 67946}, {"134", 67948}, {"135", 67950}, {"136", 67952}, {"137", 67954}, {"138", 67956}, {"139", 67958}, {"140", 67960}, {"141", 67962}, {"142", 67964}, {"143", 67966}, {"144", 67968}, {"145", 67970}, {"146", 67972}, {"147", 67974}, {"148", 67976}, {"149", 67978}, {"150", 67980}, {"151", 67982}, {"152", 67984}, {"153", 67986}, {"154", 67988}, {"155", 67990}, {"156", 67992}, {"157", 67994}, {"158", 67996}, {"159", 67998}, {"160", 68000}, {"161", 68002}, {"162", 68004}, {"163", 68006}, {"164", 68008}, {"165", 68010}, {"166", 68012}, {"167", 68014}, {"168", 68016}, {"169", 68018}, {"170", 68020}, {"171", 68022}, {"172", 68024}, {"173", 68026}, {"174", 68028}, {"175", 68030}, {"176", 68032}, {"177", 68034}, {"178", 68036}, {"179", 68038}, {"180", 68040}, {"181", 68042}, {"182", 68044}, {"183", 68046}, {"184", 68048}, {"185", 68050}, {"186", 68052}, {"187", 68054}, {"188", 68056}, {"189", 68058}, {"190", 68060}, {"191", 68062}, {"192", 68064}, {"193", 68066}, {"194", 68068}, {"195", 68070}, {"196", 68072}, {"197", 68074}, {"198", 68076}, {"199", 68078}, {"200", 68080}, {"201", 68082}, {"202", 68084}, {"203", 68086}, {"204", 68088}, {"205", 68090}, {"206", 68092}, {"207", 68094}, {"208", 68096}, {"209", 68098}, {"210", 68100}, {"211", 68102}, {"212", 68104}, {"213", 68106}, {"214", 68108}, {"215", 68110}, {"216", 68112}, {"217", 68114}, {"218a", 68116}, {"218b", 68118}, {"219", 68120}, {"220", 68122}, {"221", 68124}, {"222", 68126}, {"223", 68128}, {"224", 68130}, {"225", 68132}, {"226", 68134}, {"227", 68136}, {"228", 68138}, {"229", 68140}, {"230", 68142}, {"231", 68144}, {"232", 68146}, {"233", 68148}, {"234", 68150}, {"235", 68152}, {"236", 68154}, {"237", 68156}, {"238", 68158}, {"239", 68160}, {"240", 68162}, {"241", 68164}, {"242", 68166}, {"243", 68168}, {"244", 68170}, {"245", 68172}, {"246", 68174}, {"247", 68176}, {"248", 68178}, {"249", 68180}, {"250", 68182}, {"251", 68184}, {"252", 68186}, {"253", 68188}, {"254", 68190}, {"255", 68192}, {"256", 68194}, {"257", 68196}, {"258", 68198}, {"259", 68200}, {"260", 68202}, {"261", 68204}, {"262", 68206}, {"263", 68208}, {"264", 68210}, {"265", 68212}, {"266", 68214}, {"267", 68216}, {"268", 68218}, {"269", 68220}, {"270", 68222}, {"271", 68224}, {"272", 68226}, {"273", 68228}, {"274", 68230}, {"275", 68232}, {"276", 68234}, {"277", 68236}, {"278", 68238}, {"279", 68240}, {"280", 68242}, {"281", 68244}, {"282", 68246}, {"283", 68248}, {"284", 68250}, {"285", 68252}, {"286", 68254}, {"287", 68256}, {"288", 68258}, {"289", 68260}, {"290", 68262}, {"291", 68264}, {"292", 68266}, {"293", 68268}, {"294", 68270}, {"295", 68272}, {"296", 68274}, {"297", 68276}, {"298", 68278}, {"299", 68280}, {"300", 68282}, {"301", 68284}, {"302", 68286}, {"303", 68288}, {"304", 68290}, {"305", 68292}, {"306", 68294}, {"307", 68296}, {"308", 68298}, {"309", 68300}, {"310", 68302}, {"311", 68304}, {"312", 68306}, {"313", 68308}, {"314", 68310}};
 
     for (QString setCode : mtgaIds.keys()){
-        loadSet(setCode);	
+        loadSet(setCode);
+    }
+}
+
+void MtgCards::updateMtgaIdsFromAPI(){
+    LOGD(QString("Updating mtga cards id"));
+    QUrl url(QString("%1/cards").arg(ApiKeys::API_BASE_URL()));
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    if (LOG_REQUEST_ENABLED) {
+        LOGD(QString("Get Request: %1").arg(url.toString()));
+    }
+    QNetworkReply *reply = networkManager.get(request);
+    connect(reply, &QNetworkReply::finished,
+            this, &MtgCards::updateMtgaIdsFromAPIRequestOnFinish);
+}
+
+void MtgCards::updateMtgaIdsFromAPIRequestOnFinish()
+{
+    QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
+    QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());
+    if (LOG_REQUEST_ENABLED) {
+        LOGD(QString(QJsonDocument(jsonRsp).toJson()));
+    }
+
+    int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    if (statusCode < 200 || statusCode > 299) {
+        QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
+        LOGW(QString("Error: %1 - %2").arg(reply->errorString()).arg(reason));
+        QString message = jsonRsp["error"].toString();
+        ARENA_TRACKER->showMessage(message);
+        return;
+    }
+
+    QStringList sets = jsonRsp.keys();
+    for(QString set : sets) {
+        QMap<QString, int> setCards;
+        QJsonObject jsonSetCards = jsonRsp[set].toObject();
+        QStringList setCardsNumber = jsonSetCards.keys();
+        for(QString cardNumber : setCardsNumber) {
+            int cardMtgaId = jsonSetCards[cardNumber].toInt();
+            setCards[cardNumber] = cardMtgaId;
+        }
+        mtgaIds[set] = setCards;
+    }
+    LOGD(QString("MtgaIds downloaded. %1 sets.").arg(mtgaIds.size()));
+
+    for (QString setCode : mtgaIds.keys()){
+        loadSet(setCode);
     }
 }
 
@@ -52,9 +101,9 @@ void MtgCards::loadSet(QString setCode)
 {
     QFile setFile(setsDir + QDir::separator() + setCode + ".json");
     if (QFileInfo(setFile).exists()) {
-          loadSetFromFile(setCode + ".json");
+        loadSetFromFile(setCode + ".json");
     } else {
-          downloadSet(setCode);
+        downloadSet(setCode);
     }
 }
 
@@ -63,20 +112,21 @@ void MtgCards::downloadSet(QString setCode)
     QString setUrl = QString("https://mtgjson.com/json/%1.json").arg(setCode);
     QNetworkRequest request(setUrl);
     QNetworkReply *reply = networkManager.get(request);
-    connect(reply, &QNetworkReply::finished, this, &MtgCards::downloadSetOnFinish);
+    connect(reply, &QNetworkReply::finished,
+            this, &MtgCards::downloadSetOnFinish);
     LOGD(QString("Downloading %1 cards from %2").arg(setCode).arg(setUrl));
 }
 
 void MtgCards::downloadSetOnFinish()
 {
-  	QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
-  	QByteArray jsonData = reply->readAll();
+    QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
+    QByteArray jsonData = reply->readAll();
 
     if (reply->error() == QNetworkReply::ContentNotFoundError) {
         QString setUrl = reply->url().toString();
         LOGW(QString("Error while downloading mtg card json: %1").arg(setUrl));
         return;
-  	}
+    }
 
     QJsonObject jsonSet = Transformations::stringToJsonObject(jsonData);
     if (jsonSet.empty()) {
@@ -99,7 +149,7 @@ void MtgCards::loadSetFromFile(QString setFileName) {
     QFile setFile(setsDir + QDir::separator() + setFileName);
     if (!QFileInfo(setFile).exists()) {
         LOGW(QString("%1 not found.").arg(setFileName));
-		return;
+        return;
     }
 
     bool opened = setFile.open(QIODevice::ReadOnly | QIODevice::Text);
@@ -117,7 +167,7 @@ void MtgCards::loadSetFromFile(QString setFileName) {
     QJsonArray jsonCards = jsonSet["cards"].toArray();
 
     for (QJsonValueRef jsonCardRef: jsonCards) {
-		QJsonObject jsonCard = jsonCardRef.toObject();
+        QJsonObject jsonCard = jsonCardRef.toObject();
         Card* card = jsonObject2Card(jsonCard, setCode);
         cards[card->mtgaId] = card;
     }

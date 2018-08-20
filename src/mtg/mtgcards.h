@@ -15,6 +15,7 @@ class MtgCards : public QObject
     Q_OBJECT
 
 private:
+    void updateMtgaIdsFromAPIRequestOnFinish();
     void downloadSet(QString setCode);
     void downloadSetOnFinish();
     void loadSet(QString setCode);
@@ -31,6 +32,7 @@ private:
 public:
     MtgCards(QObject *parent = nullptr);
     Card* findCard(int mtgaId);
+    void updateMtgaIdsFromAPI();
 
 signals:
 

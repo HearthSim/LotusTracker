@@ -162,7 +162,7 @@ void FirebaseDatabase::getPlayerDeckToUpdateRequestOnFinish()
     int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     if (statusCode < 200 || statusCode > 299) {
         QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
-        LOGW(QString("Error: %1").arg(reason));
+        LOGW(QString("Error: %1 - %2").arg(reply->errorString()).arg(reason));
         if (statusCode == 404) {
             createPlayerDeck(paramDeck);
             return;
@@ -257,7 +257,7 @@ void FirebaseDatabase::requestOnFinish()
     int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     if (statusCode < 200 || statusCode > 299) {
         QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
-        LOGW(QString("Error: %1").arg(reason));
+        LOGW(QString("Error: %1 - %2").arg(reply->errorString()).arg(reason));
         QString error = jsonRsp["error"].toString();
         ARENA_TRACKER->showMessage(error);
         return;
@@ -293,7 +293,7 @@ void FirebaseDatabase::uploadMatchRequestOnFinish()
     int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     if (statusCode < 200 || statusCode > 299) {
         QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
-        LOGW(QString("Error: %1").arg(reason));
+        LOGW(QString("Error: %1 - %2").arg(reply->errorString()).arg(reason));
         QString error = jsonRsp["error"].toString();
         ARENA_TRACKER->showMessage(error);
         return;

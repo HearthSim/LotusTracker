@@ -37,7 +37,8 @@ void FirebaseAuth::signInUser(QString email, QString password)
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     QNetworkReply *reply = networkManager.post(request, body);
-    connect(reply, &QNetworkReply::finished, this, &FirebaseAuth::authRequestOnFinish);
+    connect(reply, &QNetworkReply::finished,
+            this, &FirebaseAuth::authRequestOnFinish);
 }
 
 void FirebaseAuth::registerUser(QString email, QString password)
@@ -56,7 +57,8 @@ void FirebaseAuth::registerUser(QString email, QString password)
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     QNetworkReply *reply = networkManager.post(request, body);
-    connect(reply, &QNetworkReply::finished, this, &FirebaseAuth::authRequestOnFinish);
+    connect(reply, &QNetworkReply::finished,
+            this, &FirebaseAuth::authRequestOnFinish);
 }
 
 void FirebaseAuth::authRequestOnFinish()
@@ -71,7 +73,7 @@ void FirebaseAuth::authRequestOnFinish()
     int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     if (statusCode < 200 || statusCode > 299) {
         QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
-        LOGW(QString("Error: %1").arg(reason));
+        LOGW(QString("Error: %1 - %2").arg(reply->errorString()).arg(reason));
         QJsonArray errors = jsonRsp["error"].toObject()["errors"].toArray();
         QString message = errors.first()["message"].toString();
         if (message == "EMAIL_EXISTS") {
@@ -138,7 +140,8 @@ void FirebaseAuth::refreshToken(QString refreshToken)
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     QNetworkReply *reply = networkManager.post(request, body);
-    connect(reply, &QNetworkReply::finished, this, &FirebaseAuth::tokenRefreshRequestOnFinish);
+    connect(reply, &QNetworkReply::finished,
+            this, &FirebaseAuth::tokenRefreshRequestOnFinish);
 }
 
 void FirebaseAuth::tokenRefreshRequestOnFinish()
@@ -153,7 +156,7 @@ void FirebaseAuth::tokenRefreshRequestOnFinish()
     int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     if (statusCode < 200 || statusCode > 299) {
         QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
-        LOGW(QString("Error: %1").arg(reason));
+        LOGW(QString("Error: %1 - %2").arg(reply->errorString()).arg(reason));
         emit sgnTokenRefreshError();
         return;
     }
@@ -179,7 +182,8 @@ void FirebaseAuth::recoverPassword(QString email)
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     QNetworkReply *reply = networkManager.post(request, body);
-    connect(reply, &QNetworkReply::finished, this, &FirebaseAuth::recoverPasswordRequestOnFinish);
+    connect(reply, &QNetworkReply::finished,
+            this, &FirebaseAuth::recoverPasswordRequestOnFinish);
 }
 
 void FirebaseAuth::recoverPasswordRequestOnFinish()
@@ -194,7 +198,7 @@ void FirebaseAuth::recoverPasswordRequestOnFinish()
     int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     if (statusCode < 200 || statusCode > 299) {
         QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
-        LOGW(QString("Error: %1").arg(reason));
+        LOGW(QString("Error: %1 - %2").arg(reply->errorString()).arg(reason));
         QJsonArray errors = jsonRsp["error"].toObject()["errors"].toArray();
         QString message = errors.first()["message"].toString();
         if (message == "EMAIL_NOT_FOUND") {

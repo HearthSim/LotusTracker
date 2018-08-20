@@ -40,7 +40,7 @@ public:
         eventId(eventId), opponentInfo(opponentInfo), mode(MatchMode_UNKNOWN),
         playerMatchWins(false), playerGameWins(0), playerGameLoses(0)
     {
-
+        games.clear();
     }
 
     void createNewGame()

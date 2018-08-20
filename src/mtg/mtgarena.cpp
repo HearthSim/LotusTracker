@@ -20,12 +20,12 @@ MtgArena::MtgArena(QObject *parent)
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &MtgArena::findGameWindow);
     timer->start(SLOW_FIND_WINDOW_INTERVAL);
-    connect(this, &MtgArena::sgnGameStarted,
-            this, &MtgArena::gameStarted);
-    connect(this, &MtgArena::sgnGameStopped,
-            this, &MtgArena::gameStopped);
-    connect(this, &MtgArena::sgnGameFocusChanged,
-            this, &MtgArena::gameFocusChanged);
+    connect(this, &MtgArena::sgnMTGAStarted,
+            this, &MtgArena::onMtgaStarted);
+    connect(this, &MtgArena::sgnMTGAStopped,
+            this, &MtgArena::onMtgaStopped);
+    connect(this, &MtgArena::sgnMTGAFocusChanged,
+            this, &MtgArena::onMtgaFocusChanged);
     logParser = new MtgaLogParser(this, ARENA_TRACKER->mtgCards);
     logWatcher = new MtgaLogWatcher(this);
     connect(logWatcher, &MtgaLogWatcher::sgnNewLogContent, this, &MtgArena::onNewLogContent);
@@ -55,13 +55,13 @@ void MtgArena::findGameWindow()
     bool hasFocus = WinWindowFinder::isWindowFocused(wnd);
 #endif
     if (!isRunning && hasFind) {
-		emit sgnGameStarted();
+        emit sgnMTGAStarted();
     }
     if (isFocused != hasFocus){
         onCurrentFocusChanged(hasFocus);
     }
     if (isRunning && !hasFind) {
-        emit sgnGameStopped();
+        emit sgnMTGAStopped();
     }
 }
 
@@ -81,24 +81,25 @@ void MtgArena::onCurrentFocusChanged(bool hasFocus)
     if (!hasFocus && (hasTrackerOverlayFocus || hasLotusTrackerFocus)) {
         return;
     }
-    emit sgnGameFocusChanged(hasFocus);
+    emit sgnMTGAFocusChanged(hasFocus);
 }
 
-void MtgArena::gameStarted()
+void MtgArena::onMtgaStarted()
 {
 	LOGI("Game started");
 	isRunning = true;
 	timer->setInterval(FAST_FIND_WINDOW_INTERVAL);
+    ARENA_TRACKER->mtgCards->updateMtgaIdsFromAPI();
 }
 
-void MtgArena::gameStopped()
+void MtgArena::onMtgaStopped()
 {
 	LOGI("Game stopped");
 	isRunning = false;
 	timer->setInterval(SLOW_FIND_WINDOW_INTERVAL);
 }
 
-void MtgArena::gameFocusChanged(bool hasFocus)
+void MtgArena::onMtgaFocusChanged(bool hasFocus)
 {
 	LOGD(hasFocus ? "Game gains focus" : "Game loses focus");
 	isFocused = hasFocus;

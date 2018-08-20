@@ -47,14 +47,14 @@ private:
             gameNumber += 1;
             QString first = gameInfo.playerGoFirst ? "player1" : "player2";
             QJsonObject jsonOpponentCards = cards2JsonMapValue(gameInfo.opponentDeck.currentCards());
-            QJsonObject jsonGameFields{
+            QJsonObject jsonGame{
                 {"first", first},
                 {"opponentCards", jsonOpponentCards},
                 {"opponentMulligan", gameInfo.opponentMulligan },
                 {"playerMulligan", gameInfo.playerMulligan },
                 {"playerWins", gameInfo.playerWins }
             };
-            jsonGames.insert(QString("game%1").arg(gameNumber), jsonGameFields);
+            jsonGames.insert(QString("game%1").arg(gameNumber), jsonGame);
         }
         return jsonGames;
     }

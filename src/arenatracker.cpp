@@ -28,7 +28,7 @@ ArenaTracker::ArenaTracker(int& argc, char **argv): QApplication(argc, argv)
     firebaseAuth = new FirebaseAuth(this);
     firebaseDatabase = new FirebaseDatabase(this, firebaseAuth);
     startScreen = new StartScreen(nullptr, firebaseAuth);
-    connect(mtgArena, &MtgArena::sgnGameFocusChanged,
+    connect(mtgArena, &MtgArena::sgnMTGAFocusChanged,
             this, &ArenaTracker::onGameFocusChanged);
     connect(firebaseAuth, &FirebaseAuth::sgnUserLogged,
             this, &ArenaTracker::onUserSigned);
