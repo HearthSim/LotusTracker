@@ -9,6 +9,8 @@
 class RqtPlayerDeckUpdate : public RequestData
 {
 private:
+    bool _isValid;
+
     QJsonObject getDiffCardsJson(QMap<Card*, int> deckCards,
                                  QMap<Card*, int> oldDeckCards)
     {
@@ -42,17 +44,19 @@ public:
     RqtPlayerDeckUpdate(QString userId, Deck deck, Deck oldDeck){
         QJsonObject jsonDiffCards = getDiffCardsJson(deck.cards(), oldDeck.cards());
         QJsonObject jsonDiffSideboard = getDiffCardsJson(deck.sideboard(), oldDeck.sideboard());
+        _isValid = jsonDiffCards.size() > 0 || jsonDiffSideboard.size() > 0;
         _body = QJsonDocument(QJsonObject{
                                   {"mainDeck", jsonDiffCards},
                                   {"sideboard", jsonDiffSideboard}
                               });
-        QString date = QDate().currentDate().toString("yyyy-MM-dd");
-        QString time = QTime().currentTime().toString("HH-mm");
-        QString updateName = QString("%1 %2").arg(date).arg(time);
         _path = QString("users/decks/updates?userId=%1&deckId=%2")
-                .arg(userId).arg(deck.id).arg(updateName);
+                .arg(userId).arg(deck.id);
     }
     virtual ~RqtPlayerDeckUpdate() {}
+
+    bool isValid() {
+        return _isValid;
+    }
 
 };
 

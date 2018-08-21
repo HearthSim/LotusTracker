@@ -184,7 +184,10 @@ void LotusTrackerAPI::getPlayerDeckToUpdateRequestOnFinish()
     //Update deck data
     sendPatch(RqtPlayerDeck(userSettings.userId, paramDeck));
     //Create deck update
-    sendPost(RqtPlayerDeckUpdate(userSettings.userId, paramDeck, oldDeck));
+    RqtPlayerDeckUpdate rqtPlayerDeckUpdate(userSettings.userId, paramDeck, oldDeck);
+    if (rqtPlayerDeckUpdate.isValid()) {
+        sendPost(rqtPlayerDeckUpdate);
+    }
 }
 
 Deck LotusTrackerAPI::jsonToDeck(QJsonObject deckJson)
