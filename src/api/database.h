@@ -11,6 +11,7 @@
 #include <QBuffer>
 #include <QObject>
 #include <QNetworkAccessManager>
+#include <QMap>
 
 class LotusTrackerAPI : public QObject
 {
@@ -20,19 +21,16 @@ private:
     RqtRegisterPlayerMatch rqtRegisterPlayerMatch;
     QNetworkAccessManager networkManager;
     QDateTime lastUpdatePlayerCollectionDate, lastUpdatePlayerInventoryDate;
-    //Params for recall method after refresh token
-    bool recallUpdatePlayerCollection, recallUpdateUserInventory, recallGetPlayerDeck;
-    bool recallCreatePlayerDeck, recallUpdatePlayerDeck, recalRegisterPlayerMatch;
-    QMap<int, int> paramOwnedCards;
-    PlayerInventory paramPlayerInventory;
+    //Params for recall after refresh token
+    QMap<QString, QPair<QString, RequestData>> requestsToRecall;  //url, <method, request>
     Deck paramDeck;
-    QString paramDeckID, paramMatchID;
 
     void getPlayerDeckToUpdate(QString deckID);
     void getPlayerDeckToUpdateRequestOnFinish();
     Deck jsonToDeck(QJsonObject deckJson);
-    QNetworkRequest prepareRequest(RequestData firestoreRequest);
-    QBuffer* prepareBody(RequestData firestoreRequest);
+    QNetworkRequest prepareRequest(RequestData requestData,
+                                   bool checkUserAuth, QString method = "");
+    QBuffer* prepareBody(RequestData requestData);
     void sendPatch(RequestData requestData);
     void sendPost(RequestData requestData);
     void requestOnFinish();

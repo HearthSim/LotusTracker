@@ -14,10 +14,10 @@
 #include <QUrl>
 #include <QUrlQuery>
 
+#define HEADER_AUTHORIZATION "Authorization"
+#define UPDATE_DELAY 30 //minutes between each player inventory and collection update
+
 LotusTrackerAPI::LotusTrackerAPI(QObject *parent, FirebaseAuth *firebaseAuth)
-    : recallUpdatePlayerCollection(false), recallUpdateUserInventory(false),
-      recallGetPlayerDeck(false), recallCreatePlayerDeck(false),
-      recallUpdatePlayerDeck(false), recalRegisterPlayerMatch(false)
 {
     UNUSED(parent);
     this->firebaseAuth = firebaseAuth;
@@ -32,23 +32,15 @@ LotusTrackerAPI::~LotusTrackerAPI()
 
 void LotusTrackerAPI::onTokenRefreshed()
 {
-    if (recallUpdatePlayerCollection) {
-        updatePlayerCollection(paramOwnedCards);
-    }
-    if (recallUpdateUserInventory) {
-        updatePlayerInventory(paramPlayerInventory);
-    }
-    if (recallGetPlayerDeck) {
-        getPlayerDeckToUpdate(paramDeckID);
-    }
-    if (recallCreatePlayerDeck) {
-        createPlayerDeck(paramDeck);
-    }
-    if (recallUpdatePlayerDeck) {
-        updatePlayerDeck(paramDeck);
-    }
-    if (recalRegisterPlayerMatch) {
-        registerPlayerMatch(paramMatchID);
+    for(QString requestUrl : requestsToRecall.keys()) {
+        QPair<QString, RequestData> methodRequest = requestsToRecall[requestUrl];
+        LOGD(QString("Recalling request"));
+        if (methodRequest.first == "POST") {
+            sendPost(methodRequest.second);
+        }
+        if (methodRequest.first == "PATCH") {
+            sendPatch(methodRequest.second);
+        }
     }
 }
 
@@ -56,19 +48,12 @@ void LotusTrackerAPI::updatePlayerCollection(QMap<int, int> ownedCards)
 {
     QDateTime now = QDateTime::currentDateTime();
     if (!lastUpdatePlayerCollectionDate.isNull() &&
-            lastUpdatePlayerCollectionDate.secsTo(now) <= 30*60) {
+            lastUpdatePlayerCollectionDate.secsTo(now) <= UPDATE_DELAY*60) {
         return;
     }
     lastUpdatePlayerCollectionDate = now;
-    recallUpdatePlayerCollection = false;
     UserSettings userSettings = APP_SETTINGS->getUserSettings();
     if (userSettings.userToken.isEmpty()) {
-        return;
-    }
-    if (!userSettings.isAuthValid()) {
-        paramOwnedCards = ownedCards;
-        recallUpdatePlayerCollection = true;
-        firebaseAuth->refreshToken(userSettings.refreshToken);
         return;
     }
     sendPost(RqtUpdatePlayerCollection(userSettings.userId, ownedCards));
@@ -78,19 +63,12 @@ void LotusTrackerAPI::updatePlayerInventory(PlayerInventory playerInventory)
 {
     QDateTime now = QDateTime::currentDateTime();
     if (!lastUpdatePlayerInventoryDate.isNull() &&
-            lastUpdatePlayerInventoryDate.secsTo(now) <= 30*60) {
+            lastUpdatePlayerInventoryDate.secsTo(now) <= UPDATE_DELAY*60) {
         return;
     }
     lastUpdatePlayerInventoryDate = now;
-    recallUpdateUserInventory = false;
     UserSettings userSettings = APP_SETTINGS->getUserSettings();
     if (userSettings.userToken.isEmpty()) {
-        return;
-    }
-    if (!userSettings.isAuthValid()) {
-        paramPlayerInventory = playerInventory;
-        recallUpdateUserInventory = true;
-        firebaseAuth->refreshToken(userSettings.refreshToken);
         return;
     }
     sendPatch(RqtUpdatePlayerInventory(userSettings.userId, playerInventory));
@@ -98,15 +76,8 @@ void LotusTrackerAPI::updatePlayerInventory(PlayerInventory playerInventory)
 
 void LotusTrackerAPI::createPlayerDeck(Deck deck)
 {
-    recallCreatePlayerDeck = false;
     UserSettings userSettings = APP_SETTINGS->getUserSettings();
     if (userSettings.userToken.isEmpty()) {
-        return;
-    }
-    if (!userSettings.isAuthValid()) {
-        paramDeck = deck;
-        recallCreatePlayerDeck = true;
-        firebaseAuth->refreshToken(userSettings.refreshToken);
         return;
     }
     sendPost(RqtPlayerDeck(userSettings.userId, deck));
@@ -114,15 +85,8 @@ void LotusTrackerAPI::createPlayerDeck(Deck deck)
 
 void LotusTrackerAPI::updatePlayerDeck(Deck deck)
 {
-    recallUpdatePlayerDeck = false;
     UserSettings userSettings = APP_SETTINGS->getUserSettings();
     if (userSettings.userToken.isEmpty()) {
-        return;
-    }
-    if (!userSettings.isAuthValid()) {
-        paramDeck = deck;
-        recallUpdatePlayerDeck = true;
-        firebaseAuth->refreshToken(userSettings.refreshToken);
         return;
     }
     paramDeck = deck;
@@ -131,15 +95,8 @@ void LotusTrackerAPI::updatePlayerDeck(Deck deck)
 
 void LotusTrackerAPI::getPlayerDeckToUpdate(QString deckID)
 {
-    recallGetPlayerDeck = false;
     UserSettings userSettings = APP_SETTINGS->getUserSettings();
     if (userSettings.userToken.isEmpty()) {
-        return;
-    }
-    if (!userSettings.isAuthValid()) {
-        paramDeckID = deckID;
-        recallGetPlayerDeck = true;
-        firebaseAuth->refreshToken(userSettings.refreshToken);
         return;
     }
 
@@ -147,7 +104,7 @@ void LotusTrackerAPI::getPlayerDeckToUpdate(QString deckID)
              .arg(userSettings.userId).arg(deckID));
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    request.setRawHeader(QString("Authorization").toUtf8(),
+    request.setRawHeader(QString(HEADER_AUTHORIZATION).toUtf8(),
                          QString("Bearer %1").arg(userSettings.userToken).toUtf8());
     if (LOG_REQUEST_ENABLED) {
         LOGD(QString("Get Request: %1").arg(url.toString()));
@@ -170,7 +127,7 @@ void LotusTrackerAPI::getPlayerDeckToUpdateRequestOnFinish()
     if (statusCode < 200 || statusCode > 299) {
         QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
         LOGW(QString("Error: %1 - %2").arg(reply->errorString()).arg(reason));
-        if (statusCode == 404) {
+        if (statusCode == 404) {    //Not found
             createPlayerDeck(paramDeck);
             return;
         }
@@ -209,23 +166,33 @@ Deck LotusTrackerAPI::jsonToDeck(QJsonObject deckJson)
     return Deck(id, name, cards, sideboard);
 }
 
-QNetworkRequest LotusTrackerAPI::prepareRequest(RequestData firestoreRequest)
+QNetworkRequest LotusTrackerAPI::prepareRequest(RequestData requestData,
+                                                bool checkUserAuth, QString method)
 {
-    QUrl url(QString("%1/%2").arg(ApiKeys::API_BASE_URL()).arg(firestoreRequest.path()));
+    QUrl url(QString("%1/%2").arg(ApiKeys::API_BASE_URL()).arg(requestData.path()));
+    QNetworkRequest request(url);
+
+    requestsToRecall[url.toString()] = qMakePair(method, requestData);
+    UserSettings userSettings = APP_SETTINGS->getUserSettings();
+    if (checkUserAuth && !userSettings.isAuthValid()) {
+        LOGD(QString("User token expired.").arg(url.toString()));
+        firebaseAuth->refreshToken(userSettings.refreshToken);
+        return request;
+    }
+
     if (LOG_REQUEST_ENABLED) {
         LOGD(QString("Request: %1").arg(url.toString()));
     }
     QString userToken = APP_SETTINGS->getUserSettings().userToken;
-    QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    request.setRawHeader(QString("Authorization").toUtf8(),
+    request.setRawHeader(QString(HEADER_AUTHORIZATION).toUtf8(),
                          QString("Bearer %1").arg(userToken).toUtf8());
     return request;
 }
 
-QBuffer* LotusTrackerAPI::prepareBody(RequestData firestoreRequest)
+QBuffer* LotusTrackerAPI::prepareBody(RequestData requestData)
 {
-    QByteArray bodyJson = firestoreRequest.body().toJson();
+    QByteArray bodyJson = requestData.body().toJson();
     if (LOG_REQUEST_ENABLED) {
         LOGD(QString("Body: %1").arg(QString(bodyJson)));
     }
@@ -238,7 +205,10 @@ QBuffer* LotusTrackerAPI::prepareBody(RequestData firestoreRequest)
 
 void LotusTrackerAPI::sendPatch(RequestData requestData)
 {
-    QNetworkRequest request = prepareRequest(requestData);
+    QNetworkRequest request = prepareRequest(requestData, true, "PATCH");
+    if (!request.hasRawHeader(QString(HEADER_AUTHORIZATION).toUtf8())) {
+        return;
+    }
     QBuffer* buffer = prepareBody(requestData);
     QNetworkReply *reply = networkManager.sendCustomRequest(request, "PATCH", buffer);
     connect(reply, &QNetworkReply::finished,
@@ -247,7 +217,10 @@ void LotusTrackerAPI::sendPatch(RequestData requestData)
 
 void LotusTrackerAPI::sendPost(RequestData requestData)
 {
-    QNetworkRequest request = prepareRequest(requestData);
+    QNetworkRequest request = prepareRequest(requestData, true, "POST");
+    if (!request.hasRawHeader(QString(HEADER_AUTHORIZATION).toUtf8())) {
+        return;
+    }
     QBuffer* buffer = prepareBody(requestData);
     QNetworkReply *reply = networkManager.post(request, buffer);
     connect(reply, &QNetworkReply::finished,
@@ -257,9 +230,10 @@ void LotusTrackerAPI::sendPost(RequestData requestData)
 void LotusTrackerAPI::requestOnFinish()
 {
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
+    QString requestUrl = reply->request().url().toString();
     QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());
     if (LOG_REQUEST_ENABLED) {
-        LOGD(QString("Request response: %1").arg(reply->request().url().url()));
+        LOGD(QString("Request response: %1").arg(requestUrl));
         LOGD(QString(QJsonDocument(jsonRsp).toJson()));
     }
     emit sgnRequestFinished();
@@ -268,11 +242,17 @@ void LotusTrackerAPI::requestOnFinish()
     if (statusCode < 200 || statusCode > 299) {
         QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
         LOGW(QString("Error: %1 - %2").arg(reply->errorString()).arg(reason));
+        if (statusCode == 401) {    //Token expired
+            UserSettings userSettings = APP_SETTINGS->getUserSettings();
+            firebaseAuth->refreshToken(userSettings.refreshToken);
+            return;
+        }
         QString error = jsonRsp["error"].toString();
         ARENA_TRACKER->showMessage(error);
         return;
     }
 
+    requestsToRecall.remove(requestUrl);
     if (LOG_REQUEST_ENABLED) {
         LOGD(QString("Database updated"));
     }
@@ -283,7 +263,7 @@ void LotusTrackerAPI::uploadMatch(MatchInfo matchInfo, Deck playerDeck,
 {
     rqtRegisterPlayerMatch = RqtRegisterPlayerMatch(matchInfo, playerDeck);
     RqtUploadMatch rqtUploadMatch(matchInfo, playerDeck, playerRankClass);
-    QNetworkRequest request = prepareRequest(rqtUploadMatch);
+    QNetworkRequest request = prepareRequest(rqtUploadMatch, false);
     QBuffer* buffer = prepareBody(rqtUploadMatch);
     QNetworkReply *reply = networkManager.post(request, buffer);
     connect(reply, &QNetworkReply::finished,
@@ -316,15 +296,8 @@ void LotusTrackerAPI::uploadMatchRequestOnFinish()
 
 void LotusTrackerAPI::registerPlayerMatch(QString matchID)
 {
-    recalRegisterPlayerMatch = false;
     UserSettings userSettings = APP_SETTINGS->getUserSettings();
     if (userSettings.userToken.isEmpty()) {
-        return;
-    }
-    if (!userSettings.isAuthValid()) {
-        paramMatchID = matchID;
-        recalRegisterPlayerMatch = true;
-        firebaseAuth->refreshToken(userSettings.refreshToken);
         return;
     }
 

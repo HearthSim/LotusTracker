@@ -7,14 +7,12 @@
 class RequestData
 {
 protected:
+    QString _path;
     QJsonDocument _body;
-    bool _hasDuplicateQuery = false;
 
 public:
-    QString _path;
     QString path() { return _path; }
     QJsonDocument body() { return _body; }
-    bool hasDuplicateQuery(){ return _hasDuplicateQuery; }
 
 };
 

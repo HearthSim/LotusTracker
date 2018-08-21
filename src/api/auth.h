@@ -10,6 +10,7 @@ class FirebaseAuth : public QObject
 {
     Q_OBJECT
 private:
+    bool isRefreshTokenInProgress;
     QNetworkAccessManager networkManager;
     qlonglong getExpiresEpoch(QString expiresIn);
     UserSettings createUserSettingsFromSign(QJsonObject jsonRsp);

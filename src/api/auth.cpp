@@ -18,7 +18,7 @@
 
 FirebaseAuth::FirebaseAuth(QObject *parent) : QObject(parent)
 {
-
+    isRefreshTokenInProgress = false;
 }
 
 void FirebaseAuth::signInUser(QString email, QString password)
@@ -127,6 +127,10 @@ qlonglong FirebaseAuth::getExpiresEpoch(QString expiresIn)
 
 void FirebaseAuth::refreshToken(QString refreshToken)
 {
+    if (isRefreshTokenInProgress) {
+        return;
+    }
+    isRefreshTokenInProgress = true;
     QJsonObject jsonObj;
     jsonObj.insert("grant_type", "refresh_token");
     jsonObj.insert("refresh_token", QJsonValue(refreshToken));
@@ -146,6 +150,7 @@ void FirebaseAuth::refreshToken(QString refreshToken)
 
 void FirebaseAuth::tokenRefreshRequestOnFinish()
 {
+    isRefreshTokenInProgress = false;
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
     QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());
     if (LOG_REQUEST_ENABLED) {
