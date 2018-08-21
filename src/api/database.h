@@ -12,13 +12,14 @@
 #include <QObject>
 #include <QNetworkAccessManager>
 
-class FirebaseDatabase : public QObject
+class LotusTrackerAPI : public QObject
 {
     Q_OBJECT
 private:
     FirebaseAuth *firebaseAuth;
     RqtRegisterPlayerMatch rqtRegisterPlayerMatch;
     QNetworkAccessManager networkManager;
+    QDateTime lastUpdatePlayerCollectionDate, lastUpdatePlayerInventoryDate;
     //Params for recall method after refresh token
     bool recallUpdatePlayerCollection, recallUpdateUserInventory, recallGetPlayerDeck;
     bool recallCreatePlayerDeck, recallUpdatePlayerDeck, recalRegisterPlayerMatch;
@@ -26,7 +27,6 @@ private:
     PlayerInventory paramPlayerInventory;
     Deck paramDeck;
     QString paramDeckID, paramMatchID;
-    QString firebaseDBUrl;
 
     void getPlayerDeckToUpdate(QString deckID);
     void getPlayerDeckToUpdateRequestOnFinish();
@@ -40,10 +40,10 @@ private:
     void uploadMatchRequestOnFinish();
 
 public:
-    explicit FirebaseDatabase(QObject *parent = nullptr, FirebaseAuth *firebaseAuth = nullptr);
-    ~FirebaseDatabase();
+    explicit LotusTrackerAPI(QObject *parent = nullptr, FirebaseAuth *firebaseAuth = nullptr);
+    ~LotusTrackerAPI();
     void updatePlayerCollection(QMap<int, int> ownedCards);
-    void updateUserInventory(PlayerInventory playerInventory);
+    void updatePlayerInventory(PlayerInventory playerInventory);
     void createPlayerDeck(Deck deck);
     void updatePlayerDeck(Deck deck);
     void uploadMatch(MatchInfo matchInfo, Deck playerDeck,

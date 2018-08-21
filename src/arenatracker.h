@@ -32,7 +32,7 @@ private:
     PreferencesScreen *preferencesScreen;
     StartScreen *startScreen;
     FirebaseAuth *firebaseAuth;
-    FirebaseDatabase *firebaseDatabase;
+    LotusTrackerAPI *api;
     QPair<QString, Deck> eventPlayerCourse;
     bool isAlreadyRunning();
     void setupApp();

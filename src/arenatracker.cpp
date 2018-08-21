@@ -26,7 +26,7 @@ ArenaTracker::ArenaTracker(int& argc, char **argv): QApplication(argc, argv)
     deckTrackerOpponent = new DeckTrackerOpponent();
     trayIcon = new TrayIcon(this);
     firebaseAuth = new FirebaseAuth(this);
-    firebaseDatabase = new FirebaseDatabase(this, firebaseAuth);
+    api = new LotusTrackerAPI(this, firebaseAuth);
     startScreen = new StartScreen(nullptr, firebaseAuth);
     connect(mtgArena, &MtgArena::sgnMTGAFocusChanged,
             this, &ArenaTracker::onGameFocusChanged);
@@ -59,7 +59,7 @@ ArenaTracker::~ArenaTracker()
     DEL(mtgArena)
     DEL(mtgaMatch)
     DEL(firebaseAuth)
-    DEL(firebaseDatabase)
+    DEL(api)
 }
 
 int ArenaTracker::run()
@@ -155,15 +155,15 @@ void ArenaTracker::setupPreferencesScreen()
 void ArenaTracker::setupLogParserConnections()
 {
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerCollection,
-            firebaseDatabase, &FirebaseDatabase::updatePlayerCollection);
+            api, &LotusTrackerAPI::updatePlayerCollection);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerInventory,
-            firebaseDatabase, &FirebaseDatabase::updateUserInventory);
+            api, &LotusTrackerAPI::updatePlayerInventory);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerRankInfo,
             mtgaMatch, &MtgaMatch::onPlayerRankInfo);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckCreated,
-            firebaseDatabase, &FirebaseDatabase::createPlayerDeck);
+            api, &LotusTrackerAPI::createPlayerDeck);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckUpdated,
-            firebaseDatabase, &FirebaseDatabase::updatePlayerDeck);
+            api, &LotusTrackerAPI::updatePlayerDeck);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckSubmited,
             this, &ArenaTracker::onDeckSubmited);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckWithSideboardSubmited,
@@ -250,6 +250,7 @@ void ArenaTracker::showMessage(QString msg, QString title)
 void ArenaTracker::onDeckSubmited(Deck deck)
 {
     deckTrackerPlayer->loadDeck(deck);
+    api->updatePlayerDeck(deck);
 }
 
 void ArenaTracker::onPlayerDeckWithSideboardSubmited(QMap<Card*, int> cards)
@@ -320,7 +321,7 @@ void ArenaTracker::onGameCompleted(QMap<int, int> teamIdWins)
 void ArenaTracker::onMatchEnds(int winningTeamId)
 {
     UNUSED(winningTeamId);
-    firebaseDatabase->uploadMatch(mtgaMatch->getInfo(),
+    api->uploadMatch(mtgaMatch->getInfo(),
                                   deckTrackerPlayer->getDeck(),
                                   mtgaMatch->getPlayerRankInfo().first);
 }

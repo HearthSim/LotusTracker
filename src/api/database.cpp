@@ -14,34 +14,29 @@
 #include <QUrl>
 #include <QUrlQuery>
 
-#define FIREBASE_PREFIX "https://firestore.googleapis.com/v1beta1/projects"
-#define FIREBASE_SUFIX "databases/(default)/documents"
-
-FirebaseDatabase::FirebaseDatabase(QObject *parent, FirebaseAuth *firebaseAuth)
+LotusTrackerAPI::LotusTrackerAPI(QObject *parent, FirebaseAuth *firebaseAuth)
     : recallUpdatePlayerCollection(false), recallUpdateUserInventory(false),
       recallGetPlayerDeck(false), recallCreatePlayerDeck(false),
       recallUpdatePlayerDeck(false), recalRegisterPlayerMatch(false)
 {
     UNUSED(parent);
     this->firebaseAuth = firebaseAuth;
-    firebaseDBUrl = QString("%1/%2/%3").arg(FIREBASE_PREFIX)
-            .arg(ApiKeys::API_BASE_URL()).arg(FIREBASE_SUFIX);
     connect(firebaseAuth, &FirebaseAuth::sgnTokenRefreshed,
-            this, &FirebaseDatabase::onTokenRefreshed);
+            this, &LotusTrackerAPI::onTokenRefreshed);
 }
 
-FirebaseDatabase::~FirebaseDatabase()
+LotusTrackerAPI::~LotusTrackerAPI()
 {
 
 }
 
-void FirebaseDatabase::onTokenRefreshed()
+void LotusTrackerAPI::onTokenRefreshed()
 {
     if (recallUpdatePlayerCollection) {
         updatePlayerCollection(paramOwnedCards);
     }
     if (recallUpdateUserInventory) {
-        updateUserInventory(paramPlayerInventory);
+        updatePlayerInventory(paramPlayerInventory);
     }
     if (recallGetPlayerDeck) {
         getPlayerDeckToUpdate(paramDeckID);
@@ -57,8 +52,14 @@ void FirebaseDatabase::onTokenRefreshed()
     }
 }
 
-void FirebaseDatabase::updatePlayerCollection(QMap<int, int> ownedCards)
+void LotusTrackerAPI::updatePlayerCollection(QMap<int, int> ownedCards)
 {
+    QDateTime now = QDateTime::currentDateTime();
+    if (!lastUpdatePlayerCollectionDate.isNull() &&
+            lastUpdatePlayerCollectionDate.secsTo(now) <= 30*60) {
+        return;
+    }
+    lastUpdatePlayerCollectionDate = now;
     recallUpdatePlayerCollection = false;
     UserSettings userSettings = APP_SETTINGS->getUserSettings();
     if (userSettings.userToken.isEmpty()) {
@@ -73,8 +74,14 @@ void FirebaseDatabase::updatePlayerCollection(QMap<int, int> ownedCards)
     sendPost(RqtUpdatePlayerCollection(userSettings.userId, ownedCards));
 }
 
-void FirebaseDatabase::updateUserInventory(PlayerInventory playerInventory)
+void LotusTrackerAPI::updatePlayerInventory(PlayerInventory playerInventory)
 {
+    QDateTime now = QDateTime::currentDateTime();
+    if (!lastUpdatePlayerInventoryDate.isNull() &&
+            lastUpdatePlayerInventoryDate.secsTo(now) <= 30*60) {
+        return;
+    }
+    lastUpdatePlayerInventoryDate = now;
     recallUpdateUserInventory = false;
     UserSettings userSettings = APP_SETTINGS->getUserSettings();
     if (userSettings.userToken.isEmpty()) {
@@ -89,7 +96,7 @@ void FirebaseDatabase::updateUserInventory(PlayerInventory playerInventory)
     sendPatch(RqtUpdatePlayerInventory(userSettings.userId, playerInventory));
 }
 
-void FirebaseDatabase::createPlayerDeck(Deck deck)
+void LotusTrackerAPI::createPlayerDeck(Deck deck)
 {
     recallCreatePlayerDeck = false;
     UserSettings userSettings = APP_SETTINGS->getUserSettings();
@@ -105,7 +112,7 @@ void FirebaseDatabase::createPlayerDeck(Deck deck)
     sendPost(RqtPlayerDeck(userSettings.userId, deck));
 }
 
-void FirebaseDatabase::updatePlayerDeck(Deck deck)
+void LotusTrackerAPI::updatePlayerDeck(Deck deck)
 {
     recallUpdatePlayerDeck = false;
     UserSettings userSettings = APP_SETTINGS->getUserSettings();
@@ -122,7 +129,7 @@ void FirebaseDatabase::updatePlayerDeck(Deck deck)
     getPlayerDeckToUpdate(deck.id);
 }
 
-void FirebaseDatabase::getPlayerDeckToUpdate(QString deckID)
+void LotusTrackerAPI::getPlayerDeckToUpdate(QString deckID)
 {
     recallGetPlayerDeck = false;
     UserSettings userSettings = APP_SETTINGS->getUserSettings();
@@ -147,10 +154,10 @@ void FirebaseDatabase::getPlayerDeckToUpdate(QString deckID)
     }
     QNetworkReply *reply = networkManager.get(request);
     connect(reply, &QNetworkReply::finished,
-            this, &FirebaseDatabase::getPlayerDeckToUpdateRequestOnFinish);
+            this, &LotusTrackerAPI::getPlayerDeckToUpdateRequestOnFinish);
 }
 
-void FirebaseDatabase::getPlayerDeckToUpdateRequestOnFinish()
+void LotusTrackerAPI::getPlayerDeckToUpdateRequestOnFinish()
 {
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
     QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());
@@ -180,7 +187,7 @@ void FirebaseDatabase::getPlayerDeckToUpdateRequestOnFinish()
     sendPost(RqtPlayerDeckUpdate(userSettings.userId, paramDeck, oldDeck));
 }
 
-Deck FirebaseDatabase::jsonToDeck(QJsonObject deckJson)
+Deck LotusTrackerAPI::jsonToDeck(QJsonObject deckJson)
 {
     QString id = deckJson["id"].toString();
     QString name = deckJson["name"].toString();
@@ -199,7 +206,7 @@ Deck FirebaseDatabase::jsonToDeck(QJsonObject deckJson)
     return Deck(id, name, cards, sideboard);
 }
 
-QNetworkRequest FirebaseDatabase::prepareRequest(RequestData firestoreRequest)
+QNetworkRequest LotusTrackerAPI::prepareRequest(RequestData firestoreRequest)
 {
     QUrl url(QString("%1/%2").arg(ApiKeys::API_BASE_URL()).arg(firestoreRequest.path()));
     if (LOG_REQUEST_ENABLED) {
@@ -213,7 +220,7 @@ QNetworkRequest FirebaseDatabase::prepareRequest(RequestData firestoreRequest)
     return request;
 }
 
-QBuffer* FirebaseDatabase::prepareBody(RequestData firestoreRequest)
+QBuffer* LotusTrackerAPI::prepareBody(RequestData firestoreRequest)
 {
     QByteArray bodyJson = firestoreRequest.body().toJson();
     if (LOG_REQUEST_ENABLED) {
@@ -226,25 +233,25 @@ QBuffer* FirebaseDatabase::prepareBody(RequestData firestoreRequest)
     return buffer;
 }
 
-void FirebaseDatabase::sendPatch(RequestData requestData)
+void LotusTrackerAPI::sendPatch(RequestData requestData)
 {
     QNetworkRequest request = prepareRequest(requestData);
     QBuffer* buffer = prepareBody(requestData);
     QNetworkReply *reply = networkManager.sendCustomRequest(request, "PATCH", buffer);
     connect(reply, &QNetworkReply::finished,
-            this, &FirebaseDatabase::requestOnFinish);
+            this, &LotusTrackerAPI::requestOnFinish);
 }
 
-void FirebaseDatabase::sendPost(RequestData requestData)
+void LotusTrackerAPI::sendPost(RequestData requestData)
 {
     QNetworkRequest request = prepareRequest(requestData);
     QBuffer* buffer = prepareBody(requestData);
     QNetworkReply *reply = networkManager.post(request, buffer);
     connect(reply, &QNetworkReply::finished,
-            this, &FirebaseDatabase::requestOnFinish);
+            this, &LotusTrackerAPI::requestOnFinish);
 }
 
-void FirebaseDatabase::requestOnFinish()
+void LotusTrackerAPI::requestOnFinish()
 {
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
     QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());
@@ -268,7 +275,7 @@ void FirebaseDatabase::requestOnFinish()
     }
 }
 
-void FirebaseDatabase::uploadMatch(MatchInfo matchInfo, Deck playerDeck,
+void LotusTrackerAPI::uploadMatch(MatchInfo matchInfo, Deck playerDeck,
                                    QString playerRankClass)
 {
     rqtRegisterPlayerMatch = RqtRegisterPlayerMatch(matchInfo, playerDeck);
@@ -277,10 +284,10 @@ void FirebaseDatabase::uploadMatch(MatchInfo matchInfo, Deck playerDeck,
     QBuffer* buffer = prepareBody(rqtUploadMatch);
     QNetworkReply *reply = networkManager.post(request, buffer);
     connect(reply, &QNetworkReply::finished,
-            this, &FirebaseDatabase::uploadMatchRequestOnFinish);
+            this, &LotusTrackerAPI::uploadMatchRequestOnFinish);
 }
 
-void FirebaseDatabase::uploadMatchRequestOnFinish()
+void LotusTrackerAPI::uploadMatchRequestOnFinish()
 {
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
     QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());
@@ -304,7 +311,7 @@ void FirebaseDatabase::uploadMatchRequestOnFinish()
     registerPlayerMatch(matchID);
 }
 
-void FirebaseDatabase::registerPlayerMatch(QString matchID)
+void LotusTrackerAPI::registerPlayerMatch(QString matchID)
 {
     recalRegisterPlayerMatch = false;
     UserSettings userSettings = APP_SETTINGS->getUserSettings();
