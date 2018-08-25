@@ -12,13 +12,16 @@ class DeckTrackerPlayer : public DeckTrackerBase
     Q_OBJECT
 private:
     bool isStatisticsEnabled;
-    QPen bgPen, statisticsPen;
-    QFont statisticsFont;
+    int deckWins, deckLosses;
+    double deckWinRate;
+    QPen bgPen, statisticsPen, winRatePen;
+    QFont statisticsFont, winRateFont;
     QRect preferencesButton;
     void drawStatistics(QPainter &painter);
 
 protected:
-    QString onGetDeckColorIdentity();
+    virtual int onGetZoomPlusButtonX();
+    virtual QString onGetDeckColorIdentity();
     virtual void onPositionChanged();
     virtual void onScaleChanged();
     virtual void afterPaintEvent(QPainter &painter);
@@ -39,6 +42,7 @@ signals:
 public slots:
     void onPlayerPutInLibraryCard(Card* card);
     void onPlayerDrawCard(Card* card);
+    void onPlayerDeckStatus(int wins, int losses, double winRate);
     void onPlayerDiscardCard(Card* card);
     void onPlayerDiscardFromLibraryCard(Card* card);
     void onPlayerPutOnBattlefieldCard(Card* card);

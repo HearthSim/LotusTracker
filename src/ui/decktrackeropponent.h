@@ -11,7 +11,8 @@ class DeckTrackerOpponent : public DeckTrackerBase
     Q_OBJECT
 
 protected:
-    virtual QString onGetDeckColorIdentity();
+    int onGetZoomPlusButtonX();
+    QString onGetDeckColorIdentity();
     virtual void onPositionChanged();
     virtual void onScaleChanged();
     virtual void afterPaintEvent(QPainter &painter);

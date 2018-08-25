@@ -69,7 +69,7 @@ signals:
     void sgnPlayerRankUpdated(QPair<QString, int> playerNewRank);
     void sgnPlayerDeckCreated(Deck deck);
     void sgnPlayerDeckUpdated(Deck deck);
-    void sgnPlayerDeckSubmited(Deck deck);
+    void sgnPlayerDeckSubmited(QString eventId, Deck deck);
     void sgnPlayerDeckWithSideboardSubmited(QMap<Card*, int> cards);
     void sgnPlayerTakesMulligan();
     void sgnOpponentTakesMulligan(int opponentSeatId);

@@ -27,6 +27,7 @@ private:
 
     void getPlayerDeckToUpdate(QString deckID);
     void getPlayerDeckToUpdateRequestOnFinish();
+    void getPlayerDeckWinRateRequestOnFinish();
     Deck jsonToDeck(QJsonObject deckJson);
     QNetworkRequest prepareRequest(RequestData requestData,
                                    bool checkUserAuth, QString method = "");
@@ -44,11 +45,13 @@ public:
     void updatePlayerInventory(PlayerInventory playerInventory);
     void createPlayerDeck(Deck deck);
     void updatePlayerDeck(Deck deck);
+    void getPlayerDeckWinRate(QString deckId, QString eventId);
     void uploadMatch(MatchInfo matchInfo, Deck playerDeck,
                      QString playerRankClass);
 
 signals:
     void sgnRequestFinished();
+    void sgnDeckWinRate(int wins, int losses, double winRate);
 
 private slots:
     void onTokenRefreshed();

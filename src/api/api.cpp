@@ -1,4 +1,4 @@
-#include "database.h"
+#include "api.h"
 #include "macros.h"
 #include "../apikeys.h"
 #include "rqtplayerdeck.h"
@@ -91,6 +91,53 @@ void LotusTrackerAPI::updatePlayerDeck(Deck deck)
     }
     paramDeck = deck;
     getPlayerDeckToUpdate(deck.id);
+}
+
+void LotusTrackerAPI::getPlayerDeckWinRate(QString deckId, QString eventId)
+{
+    UserSettings userSettings = APP_SETTINGS->getUserSettings();
+    if (userSettings.userToken.isEmpty()) {
+        return;
+    }
+    QUrl url(QString("%1/users/decks/winrate?userId=%2&deckId=%3&eventId=%4")
+             .arg(ApiKeys::API_BASE_URL()).arg(userSettings.userId).arg(deckId).arg(eventId));
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader(QString(HEADER_AUTHORIZATION).toUtf8(),
+                         QString("Bearer %1").arg(userSettings.userToken).toUtf8());
+    if (LOG_REQUEST_ENABLED) {
+        LOGD(QString("Get Request: %1").arg(url.toString()));
+    }
+    QNetworkReply *reply = networkManager.get(request);
+    connect(reply, &QNetworkReply::finished,
+            this, &LotusTrackerAPI::getPlayerDeckWinRateRequestOnFinish);
+}
+
+void LotusTrackerAPI::getPlayerDeckWinRateRequestOnFinish()
+{
+    QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
+    QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());
+    if (LOG_REQUEST_ENABLED) {
+        LOGD(QString(QJsonDocument(jsonRsp).toJson()));
+    }
+    emit sgnRequestFinished();
+
+    int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    if (statusCode < 200 || statusCode > 299) {
+        QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
+        LOGW(QString("Error: %1 - %2").arg(reply->errorString()).arg(reason));
+        if (statusCode == 404) {    //Not found
+            return;
+        }
+        QString message = jsonRsp["error"].toString();
+        ARENA_TRACKER->showMessage(message);
+        return;
+    }
+
+    int wins = jsonRsp["wins"].toInt();
+    int losses = jsonRsp["losses"].toInt();
+    double winRate = jsonRsp["winrate"].toDouble();
+    emit sgnDeckWinRate(wins, losses, winRate);
 }
 
 void LotusTrackerAPI::getPlayerDeckToUpdate(QString deckID)

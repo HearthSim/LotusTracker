@@ -8,13 +8,18 @@ DeckTrackerPlayer::DeckTrackerPlayer(QWidget *parent) : DeckTrackerBase(parent)
     applyCurrentSettings();
     // Statistics
     int statisticsFontSize = 8;
+    int winrateFontSize = 10;
 #if defined Q_OS_MAC
     statisticsFontSize += 2;
+    winrateFontSize += 2;
 #endif
     int belerenID = QFontDatabase::addApplicationFont(":/res/fonts/Beleren-Bold.ttf");
     statisticsFont.setFamily(QFontDatabase::applicationFontFamilies(belerenID).at(0));
     statisticsFont.setPointSize(statisticsFontSize);
     statisticsPen = QPen(Qt::white);
+    winRateFont.setFamily(QFontDatabase::applicationFontFamilies(belerenID).at(0));
+    winRateFont.setPointSize(winrateFontSize);
+    winRatePen = QPen(Qt::white);
 }
 
 DeckTrackerPlayer::~DeckTrackerPlayer()
@@ -34,6 +39,7 @@ void DeckTrackerPlayer::onScaleChanged()
 
 void DeckTrackerPlayer::afterPaintEvent(QPainter &painter)
 {
+    // Preferences button
     int preferencesButtonSize = 16;
     int preferencesButtonMargin = 3;
     int preferencesButtonY = uiPos.y() + preferencesButtonMargin;
@@ -44,6 +50,20 @@ void DeckTrackerPlayer::afterPaintEvent(QPainter &painter)
     painter.drawImage(settingsPlusX, preferencesButtonY, settingsPlusScaled);
     preferencesButton = QRect(settingsPlusX*uiScale, preferencesButtonY*uiScale,
                            preferencesButtonSize*uiScale, preferencesButtonSize*uiScale);
+    // WinRate
+    if (deckWins > 0 || deckLosses > 0) {
+        QString winRate = QString("%1-%2 (%3%)").arg(deckWins).arg(deckLosses)
+                .arg(deckWinRate);
+        int winRateOptions = Qt::AlignLeft | Qt::AlignVCenter | Qt::TextDontClip;
+        QFontMetrics winrateMetrics(statisticsFont);
+        int winrateMargin = 8;
+        int winrateTextHeight = winrateMetrics.ascent() - winrateMetrics.descent();
+        int winrateTextWidth = winrateMetrics.width(winRate);
+        int winRateX = uiPos.x() + uiWidth - winrateTextWidth - winrateMargin - 3;
+        int winRateY = uiPos.y() + preferencesButtonSize + preferencesButtonMargin + winrateMargin;
+        drawText(painter, winRateFont, winRatePen, winRate, winRateOptions, true,
+                 winRateX, winRateY, winrateTextHeight, winrateTextWidth);
+    }
     // Statistics
     if (!hidden && isStatisticsEnabled) {
         drawStatistics(painter);
@@ -63,10 +83,10 @@ void DeckTrackerPlayer::drawStatistics(QPainter &painter)
         return;
     }
     // Statistics BG
-    QRect coverRect(uiPos.x(), uiPos.y() + uiHeight, uiWidth, uiWidth/4);
+    QRect statisticsRect(uiPos.x(), uiPos.y() + uiHeight, uiWidth, uiWidth/4);
     painter.setPen(bgPen);
     painter.setBrush(QBrush(QColor(70, 70, 70, 175)));
-    painter.drawRoundedRect(coverRect, cornerRadius, cornerRadius);
+    painter.drawRoundedRect(statisticsRect, cornerRadius, cornerRadius);
     // Statistics info
     QFontMetrics statisticsMetrics(statisticsFont);
     int statisticsTextHeight = statisticsMetrics.ascent() - statisticsMetrics.descent();
@@ -101,7 +121,12 @@ void DeckTrackerPlayer::drawStatistics(QPainter &painter)
             .arg(drawChanceLandCards, 0, 'g', 2);
     drawText(painter, statisticsFont, statisticsPen, statisticsText2, statisticsTextOptions, false,
              statisticsTextX, statisticsText2Y, statisticsTextHeight, uiWidth - statisticsBorderMargin);
-    uiHeight += coverRect.height();
+    uiHeight += statisticsRect.height();
+}
+
+int DeckTrackerPlayer::onGetZoomPlusButtonX()
+{
+    return uiPos.x() + uiWidth - preferencesButton.width() - 3;
 }
 
 QString DeckTrackerPlayer::onGetDeckColorIdentity()
@@ -112,6 +137,9 @@ QString DeckTrackerPlayer::onGetDeckColorIdentity()
 void DeckTrackerPlayer::loadDeck(Deck deck)
 {
     this->deck = deck;
+    this->deckWins = 0;
+    this->deckLosses = 0;
+    this->deckWinRate = 0;
     this->deck.showOnlyRemainingCards = APP_SETTINGS->isShowOnlyRemainingCardsEnabled();
     LOGI(QString("Loading deck %1").arg(deck.name));
 }
@@ -143,6 +171,14 @@ void DeckTrackerPlayer::onPlayerDrawCard(Card* card)
     if (deck.drawCard(card)) {
         blinkCard(card);
     }
+}
+
+void DeckTrackerPlayer::onPlayerDeckStatus(int wins, int losses, double winRate)
+{
+    deckWins = wins;
+    deckLosses = losses;
+    deckWinRate = winRate;
+    update();
 }
 
 void DeckTrackerPlayer::onPlayerDiscardCard(Card* card)

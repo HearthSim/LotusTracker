@@ -14,13 +14,13 @@
 #include "utils/appsettings.h"
 #include "utils/logger.h"
 #include "api/auth.h"
-#include "api/database.h"
+#include "api/api.h"
 #include "updater/sparkleupdater.h"
 
 #include <QApplication>
 #include <QLocalServer>
 
-class ArenaTracker : public QApplication
+class LotusTracker : public QApplication
 {
     Q_OBJECT
 
@@ -43,8 +43,8 @@ private:
     void checkForAutoLogin();
 
 public:
-    ArenaTracker(int& argc, char **argv);
-    ~ArenaTracker();
+    LotusTracker(int& argc, char **argv);
+    ~LotusTracker();
     AppSettings *appSettings;
     Logger *logger;
     MtgArena *mtgArena;
@@ -60,7 +60,7 @@ public:
 signals:
 
 private slots:
-    void onDeckSubmited(Deck deck);
+    void onDeckSubmited(QString eventId, Deck deck);
     void onPlayerDeckWithSideboardSubmited(QMap<Card*, int> cards);
     void onEventPlayerCourse(QString eventId, Deck currentDeck);
     void onMatchStart(QString eventId, OpponentInfo match);

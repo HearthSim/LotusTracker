@@ -20,6 +20,11 @@ void DeckTrackerOpponent::applyCurrentSettings()
     uiScale = APP_SETTINGS->getDeckTrackerOpponentScale();
 }
 
+int DeckTrackerOpponent::onGetZoomPlusButtonX()
+{
+    return uiPos.x() + uiWidth;
+}
+
 QString DeckTrackerOpponent::onGetDeckColorIdentity()
 {
     return deck.colorIdentity(false, true);

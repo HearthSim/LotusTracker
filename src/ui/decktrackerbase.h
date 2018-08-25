@@ -57,6 +57,7 @@ protected:
     void drawDeckCards(QPainter &painter);
     void drawExpandBar(QPainter &painter);
     void drawHoverCard(QPainter &painter);
+    virtual int onGetZoomPlusButtonX() = 0;
     virtual QString onGetDeckColorIdentity() = 0;
     virtual void onPositionChanged() = 0;
     virtual void onScaleChanged() = 0;

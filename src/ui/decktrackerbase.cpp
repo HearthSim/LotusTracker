@@ -205,19 +205,23 @@ void DeckTrackerBase::drawCover(QPainter &painter)
     QImage coverImgScaled = coverImg.scaled(coverImgSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     QImage coverImgWithRoundedCorders = Transformations::applyRoundedCorners2Image(coverImgScaled, cornerRadius);
     painter.drawImage(uiPos.x() + 1, uiPos.y() + 1, coverImgWithRoundedCorders);
-    uiHeight = coverRect.height();
+    // Img Opacity
+    QRect coverImgRect(uiPos.x() + 1, uiPos.y() + 1, uiWidth, uiWidth/4);
+    painter.setBrush(QBrush(QColor(70, 70, 70, 50)));
+    painter.drawRoundedRect(coverImgRect, cornerRadius, cornerRadius);
+    uiHeight = coverImgRect.height();
 }
 
 void DeckTrackerBase::drawCoverButtons(QPainter &painter)
 {
     int zoomButtonSize = 12;
-    int zoomButtonMargin = 4;
-    int zoomButtonY = uiPos.y() + uiHeight - zoomButtonSize - zoomButtonMargin;
+    int zoomButtonMargin = 5;
+    int zoomButtonY = uiPos.y() + zoomButtonMargin;
     // Plus button
     QImage zoomPlus(":res/zoom_plus.png");
     QImage zoomPlusScaled = zoomPlus.scaled(zoomButtonSize, zoomButtonSize,
                                             Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    int zoomPlusX = uiPos.x() + uiWidth - zoomButtonSize - zoomButtonMargin;
+    int zoomPlusX = onGetZoomPlusButtonX() - zoomButtonSize - zoomButtonMargin;
     painter.drawImage(zoomPlusX, zoomButtonY, zoomPlusScaled);
     zoomPlusButton = QRect(zoomPlusX*uiScale, zoomButtonY*uiScale,
                            zoomButtonSize*uiScale, zoomButtonSize*uiScale);
@@ -237,7 +241,9 @@ void DeckTrackerBase::drawDeckInfo(QPainter &painter)
     QFontMetrics titleMetrics(titleFont);
     int titleHeight = titleMetrics.ascent() - titleMetrics.descent();
     int titleTextOptions = Qt::AlignLeft | Qt::AlignVCenter | Qt::TextDontClip;
-    drawText(painter, titleFont, titlePen, deck.name, titleTextOptions, true,
+    int deckNameWidth = zoomMinusButton.x() - uiPos.x();
+    QString deckName = titleMetrics.elidedText(deck.name, Qt::ElideRight, deckNameWidth);
+    drawText(painter, titleFont, titlePen, deckName, titleTextOptions, true,
              uiPos.x() + 8, uiPos.y() + 5, titleHeight, uiWidth);
     // Deck identity
     int manaSize = 12;

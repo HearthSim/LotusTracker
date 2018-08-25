@@ -1,5 +1,5 @@
 #include "mtgalogparser.h"
-#include "../arenatracker.h"
+#include "../lotustracker.h"
 #include "../transformations.h"
 #include "../macros.h"
 
@@ -104,7 +104,9 @@ void MtgaLogParser::parse(QString logNewContent)
 
 void MtgaLogParser::parseMsg(QPair<QString, QString> msg)
 {
+#ifdef QT_DEBUG
     LOGD(msg.first);
+#endif
     if (msg.first == "PlayerInventory.GetPlayerInventory") {
         parsePlayerInventory(msg.second);
     } else if (msg.first == "Inventory.Updated"){
@@ -322,10 +324,11 @@ void MtgaLogParser::parsePlayerDeckSubmited(QString json)
     if (jsonPlayerDeckSubmited.empty()) {
         return;
     }
+    QString eventId = jsonPlayerDeckSubmited["InternalEventName"].toString();
     QJsonObject jsonDeck = jsonPlayerDeckSubmited["CourseDeck"].toObject();
     Deck deckSubmited = jsonObject2Deck(jsonDeck);
     LOGD(QString("Deck submited: %1").arg(deckSubmited.name));
-    emit sgnPlayerDeckSubmited(deckSubmited);
+    emit sgnPlayerDeckSubmited(eventId, deckSubmited);
 }
 
 void MtgaLogParser::parseSubmitDeck(QJsonObject jsonMessage)
