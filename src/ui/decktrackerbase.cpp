@@ -246,7 +246,7 @@ void DeckTrackerBase::drawDeckInfo(QPainter &painter)
     drawText(painter, titleFont, titlePen, deckName, titleTextOptions, true,
              uiPos.x() + 8, uiPos.y() + 5, titleHeight, uiWidth);
     // Deck identity
-    int manaMargen = 5;
+    int manaMargen = 3;
     int manaSize = 12;
     int manaX = uiPos.x() + 8;
     int manaY = uiPos.y() + uiHeight - manaSize - 4;

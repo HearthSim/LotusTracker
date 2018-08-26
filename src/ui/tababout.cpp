@@ -13,6 +13,7 @@ TabAbout::TabAbout(QWidget *parent)
     QFont trackerFont = ui->lbTracker->font();
     trackerFont.setFamily(QFontDatabase::applicationFontFamilies(belerenID).at(0));
     ui->lbTracker->setFont(trackerFont);
+    ui->lbVersion->setText(qApp->applicationVersion());
 }
 
 TabAbout::~TabAbout()

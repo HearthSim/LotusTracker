@@ -56,14 +56,14 @@
      <widget class="QLabel" name="lbTracker">
       <property name="geometry">
        <rect>
-        <x>210</x>
+        <x>240</x>
         <y>110</y>
-        <width>181</width>
-        <height>41</height>
+        <width>151</width>
+        <height>31</height>
        </rect>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:22pt;&quot;&gt;Lotus Tracker&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;Lotus Tracker&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QWidget" name="layoutWidget">
@@ -112,14 +112,14 @@
        <item>
         <widget class="QLabel" name="label_5">
          <property name="text">
-          <string>Édipo da Silva Souza</string>
+          <string>Édipo da Silva Souza (edipo2s)</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QLabel" name="label_6">
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://twitter.com/Edipo2s&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://twitter.com/Edipo2s&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://twitter.com/Edipo2s&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://twitter.com/BLotusValley&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
@@ -136,13 +136,26 @@
       <property name="geometry">
        <rect>
         <x>330</x>
-        <y>150</y>
+        <y>160</y>
         <width>71</width>
         <height>61</height>
        </rect>
       </property>
       <property name="text">
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/res/icons/icon.png&quot;  height=&quot;64&quot; width=&quot;64&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="lbVersion">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>135</y>
+        <width>47</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>1.0-rc1</string>
       </property>
      </widget>
     </widget>

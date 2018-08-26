@@ -80,6 +80,7 @@ void LotusTracker::setupApp()
 #endif
   setAttribute(Qt::AA_Use96Dpi);
   setApplicationName("Lotus Tracker");
+  setApplicationVersion(VERSION);
   setOrganizationName("Black Lotus Valley");
   setOrganizationDomain("blacklotusvalley.com");
   setWindowIcon(icon);

@@ -25,6 +25,8 @@ TrayIcon::~TrayIcon()
 void TrayIcon::setupTrayIcon()
 {
     trayIcon = new QSystemTrayIcon();
+    trayIcon->setToolTip(QString("%1 - %2").arg(qApp->applicationName())
+                         .arg(qApp->applicationVersion()));
     connect(trayIcon, &QSystemTrayIcon::activated, this, &TrayIcon::TrayIconActivated);
     QMenu *trayMenu = new QMenu();
     trayIcon->setContextMenu(trayMenu);
