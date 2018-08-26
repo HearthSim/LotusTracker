@@ -49,7 +49,12 @@ StartScreen::StartScreen(QWidget *parent, FirebaseAuth *auth) : QMainWindow(pare
         ui->btRegister->setVisible(true);
         ui->btRecoverPassword->setVisible(true);
     });
-    connect(auth, &FirebaseAuth::sgnUserLogged, this, [this](){ onBackClick(); });
+    connect(auth, &FirebaseAuth::sgnUserLogged, this, [this](){
+        onBackClick();
+        if (!isHidden()) {
+            ARENA_TRACKER->showMessage("", tr("User Logged!"));
+        }
+    });
     connect(auth, &FirebaseAuth::sgnPasswordRecovered, this, [this](){
         onBackClick();
         ARENA_TRACKER->showMessage("", tr("Email was sent with Password Recover instructions"));

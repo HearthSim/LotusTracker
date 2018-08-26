@@ -20,7 +20,7 @@ void DeckTrackerOpponent::applyCurrentSettings()
     uiScale = APP_SETTINGS->getDeckTrackerOpponentScale();
 }
 
-int DeckTrackerOpponent::onGetZoomPlusButtonX()
+int DeckTrackerOpponent::onGetDeckTitleXMax()
 {
     return uiPos.x() + uiWidth;
 }

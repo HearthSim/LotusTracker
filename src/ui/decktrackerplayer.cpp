@@ -8,7 +8,7 @@ DeckTrackerPlayer::DeckTrackerPlayer(QWidget *parent) : DeckTrackerBase(parent)
     applyCurrentSettings();
     // Statistics
     int statisticsFontSize = 8;
-    int winrateFontSize = 10;
+    int winrateFontSize = 9;
 #if defined Q_OS_MAC
     statisticsFontSize += 2;
     winrateFontSize += 2;
@@ -54,15 +54,14 @@ void DeckTrackerPlayer::afterPaintEvent(QPainter &painter)
     if (deckWins > 0 || deckLosses > 0) {
         QString winRate = QString("%1-%2 (%3%)").arg(deckWins).arg(deckLosses)
                 .arg(deckWinRate);
-        int winRateOptions = Qt::AlignLeft | Qt::AlignVCenter | Qt::TextDontClip;
+        int winRateOptions = Qt::AlignCenter | Qt::AlignVCenter | Qt::TextDontClip;
         QFontMetrics winrateMetrics(statisticsFont);
         int winrateMargin = 8;
         int winrateTextHeight = winrateMetrics.ascent() - winrateMetrics.descent();
-        int winrateTextWidth = winrateMetrics.width(winRate);
-        int winRateX = uiPos.x() + uiWidth - winrateTextWidth - winrateMargin - 3;
+        int winrateTextWidth = uiWidth - deckManaColorsEnd - zoomMinusButton.width() - 15;
         int winRateY = uiPos.y() + preferencesButtonSize + preferencesButtonMargin + winrateMargin;
         drawText(painter, winRateFont, winRatePen, winRate, winRateOptions, true,
-                 winRateX, winRateY, winrateTextHeight, winrateTextWidth);
+                 deckManaColorsEnd, winRateY, winrateTextHeight, winrateTextWidth);
     }
     // Statistics
     if (!hidden && isStatisticsEnabled) {
@@ -124,7 +123,7 @@ void DeckTrackerPlayer::drawStatistics(QPainter &painter)
     uiHeight += statisticsRect.height();
 }
 
-int DeckTrackerPlayer::onGetZoomPlusButtonX()
+int DeckTrackerPlayer::onGetDeckTitleXMax()
 {
     return uiPos.x() + uiWidth - preferencesButton.width() - 3;
 }

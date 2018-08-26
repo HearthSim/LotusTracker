@@ -24,7 +24,7 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>10</y>
+      <y>-10</y>
       <width>761</width>
       <height>281</height>
      </rect>
@@ -56,9 +56,9 @@ border: 0px solid white;</string>
    <widget class="QLabel" name="lbTracker">
     <property name="geometry">
      <rect>
-      <x>550</x>
-      <y>240</y>
-      <width>211</width>
+      <x>450</x>
+      <y>220</y>
+      <width>321</width>
       <height>71</height>
      </rect>
     </property>
@@ -73,7 +73,7 @@ border: 0px solid white;</string>
      <string notr="true">color: rgb(49, 49, 50)</string>
     </property>
     <property name="text">
-     <string>TRACKER</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:28pt;&quot;&gt;LOTUS TRACKER&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QFrame" name="frame">

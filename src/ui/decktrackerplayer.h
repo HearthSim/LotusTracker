@@ -20,7 +20,7 @@ private:
     void drawStatistics(QPainter &painter);
 
 protected:
-    virtual int onGetZoomPlusButtonX();
+    virtual int onGetDeckTitleXMax();
     virtual QString onGetDeckColorIdentity();
     virtual void onPositionChanged();
     virtual void onScaleChanged();

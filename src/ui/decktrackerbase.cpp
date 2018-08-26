@@ -20,9 +20,9 @@
 
 DeckTrackerBase::DeckTrackerBase(QWidget *parent) : QMainWindow(parent),
     ui(new Ui::TrackerOverlay()), cardBGSkin(APP_SETTINGS->getCardLayout()),
-    zoomMinusButton(QRect(0, 0, 0, 0)), zoomPlusButton(QRect(0, 0, 0, 0)),
     currentHoverPosition(0), hoverCardMultiverseId(0), mousePressed(false),
     mouseRelativePosition(QPoint()), cornerRadius(10), uiPos(10, 10),
+    zoomMinusButton(QRect(0, 0, 0, 0)), zoomPlusButton(QRect(0, 0, 0, 0)),
     uiAlpha(1.0), uiScale(1.0), cardHoverWidth(200), uiHeight(0),
     uiWidth(160), deck(Deck()), hidden(false)
 {
@@ -215,13 +215,13 @@ void DeckTrackerBase::drawCover(QPainter &painter)
 void DeckTrackerBase::drawCoverButtons(QPainter &painter)
 {
     int zoomButtonSize = 12;
-    int zoomButtonMargin = 5;
-    int zoomButtonY = uiPos.y() + zoomButtonMargin;
+    int zoomButtonMargin = 4;
+    int zoomButtonY = uiPos.y() + uiHeight - zoomButtonSize - zoomButtonMargin;
     // Plus button
     QImage zoomPlus(":res/zoom_plus.png");
     QImage zoomPlusScaled = zoomPlus.scaled(zoomButtonSize, zoomButtonSize,
                                             Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    int zoomPlusX = onGetZoomPlusButtonX() - zoomButtonSize - zoomButtonMargin;
+    int zoomPlusX = uiPos.x() + uiWidth - zoomButtonSize - zoomButtonMargin;
     painter.drawImage(zoomPlusX, zoomButtonY, zoomPlusScaled);
     zoomPlusButton = QRect(zoomPlusX*uiScale, zoomButtonY*uiScale,
                            zoomButtonSize*uiScale, zoomButtonSize*uiScale);
@@ -241,11 +241,12 @@ void DeckTrackerBase::drawDeckInfo(QPainter &painter)
     QFontMetrics titleMetrics(titleFont);
     int titleHeight = titleMetrics.ascent() - titleMetrics.descent();
     int titleTextOptions = Qt::AlignLeft | Qt::AlignVCenter | Qt::TextDontClip;
-    int deckNameWidth = zoomMinusButton.x() - uiPos.x();
+    int deckNameWidth = onGetDeckTitleXMax() - uiPos.x();
     QString deckName = titleMetrics.elidedText(deck.name, Qt::ElideRight, deckNameWidth);
     drawText(painter, titleFont, titlePen, deckName, titleTextOptions, true,
              uiPos.x() + 8, uiPos.y() + 5, titleHeight, uiWidth);
     // Deck identity
+    int manaMargen = 5;
     int manaSize = 12;
     int manaX = uiPos.x() + 8;
     int manaY = uiPos.y() + uiHeight - manaSize - 4;
@@ -254,9 +255,10 @@ void DeckTrackerBase::drawDeckInfo(QPainter &painter)
         for (int i=0; i<deckColorIdentity.length(); i++) {
             QChar manaSymbol = deckColorIdentity.at(i);
             drawMana(painter, manaSymbol, manaSize, false, manaX, manaY);
-            manaX += manaSize + 5;
+            manaX += manaSize + manaMargen;
         }
     }
+    deckManaColorsEnd = manaX;
 }
 
 void DeckTrackerBase::drawDeckCards(QPainter &painter)

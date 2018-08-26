@@ -19,7 +19,7 @@ class DeckTrackerBase : public QMainWindow
 private:
     Ui::TrackerOverlay *ui;
     QString cardBGSkin, cachesDir;
-    QRect cardsRect, expandBar, zoomMinusButton, zoomPlusButton;
+    QRect cardsRect, expandBar;
     int currentHoverPosition, hoverCardMultiverseId, unhiddenTimeout;
     QTimer* unhiddenTimer;
     QNetworkAccessManager networkManager;
@@ -45,8 +45,9 @@ private:
 protected:
     const int cornerRadius;
     QPoint uiPos;
+    QRect zoomMinusButton, zoomPlusButton;
     qreal uiAlpha, uiScale;
-    int cardHoverWidth, uiHeight, uiWidth;
+    int cardHoverWidth, uiHeight, uiWidth, deckManaColorsEnd;
     Deck deck;
     bool hidden, showCardOnHover;
     void blinkCard(Card* card);
@@ -57,7 +58,7 @@ protected:
     void drawDeckCards(QPainter &painter);
     void drawExpandBar(QPainter &painter);
     void drawHoverCard(QPainter &painter);
-    virtual int onGetZoomPlusButtonX() = 0;
+    virtual int onGetDeckTitleXMax() = 0;
     virtual QString onGetDeckColorIdentity() = 0;
     virtual void onPositionChanged() = 0;
     virtual void onScaleChanged() = 0;
