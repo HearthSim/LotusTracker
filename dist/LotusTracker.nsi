@@ -7,8 +7,8 @@
 ;General
 
   ;Name and file
-  Name "Lotus Tracker"
-  OutFile "Lotus Tracker.exe"
+  Name "Lotus Tracker 1.0rc1"
+  OutFile "Lotus Tracker 1.0rc1.exe"
 
   ;Default installation folder
   InstallDir "$PROGRAMFILES\Lotus Tracker"
@@ -27,15 +27,15 @@
 ;--------------------------------
 ;Interface Configuration
 
-  !define MUI_ICON "logo.ico"
+  !define MUI_ICON "files\logo.ico"
   !define MUI_HEADERIMAGE
-  !define MUI_HEADERIMAGE_BITMAP "logo.bmp" ; optional
+  !define MUI_HEADERIMAGE_BITMAP "files\logo.bmp" ; optional
   !define MUI_ABORTWARNING
 
 ;--------------------------------
 ;Pages
 
-  !insertmacro MUI_PAGE_LICENSE "${NSISDIR}\Docs\Modern UI\License.txt"
+  !insertmacro MUI_PAGE_LICENSE "files\copyright.txt"
   !insertmacro MUI_PAGE_DIRECTORY
 
   ;Start Menu Folder Page Configuration
@@ -66,9 +66,10 @@
 
 Section "Lotus Tracker" SecLotusTracker
 
+  ExecWait `taskkill /f /im LotusTracker.exe`
+
   SetOutPath "$INSTDIR"
   
-  File files\LotusTracker.exe
   File files\libeay32.dll
   File files\libgcc_s_dw2-1.dll
   File files\libstdc++-6.dll
@@ -79,6 +80,7 @@ Section "Lotus Tracker" SecLotusTracker
   File files\Qt5Widgets.dll
   File files\ssleay32.dll
   File files\WinSparkle.dll
+  File files\LotusTracker.exe
 
   SetOutPath "$INSTDIR\imageformats"
   
