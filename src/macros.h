@@ -2,7 +2,7 @@
 
 #define UNUSED(x) (void)(x)
 
-#include "arenatracker.h"
+#include "lotustracker.h"
 #include "utils/appsettings.h"
 #include "utils/logger.h"
 
@@ -22,7 +22,7 @@ if(__CLASSNAME__){ \
     __CLASSNAME__ = NULL; \
 } \
 
-#define ARENA_TRACKER ((ArenaTracker*) qApp->instance())
+#define ARENA_TRACKER ((LotusTracker*) qApp->instance())
 
 #define APP_SETTINGS ARENA_TRACKER->appSettings
 

@@ -1,5 +1,5 @@
 #include "trayicon.h"
-#include "../arenatracker.h"
+#include "../lotustracker.h"
 #include "../macros.h"
 #include "../mtg/mtgalogparser.h"
 #include "../mtg/mtgcards.h"
@@ -101,7 +101,7 @@ void TrayIcon::openSignInOrSignOut()
 
 void TrayIcon::openPreferences()
 {
-    ArenaTracker *arenaTracker = (ArenaTracker*) qApp->instance();
+    LotusTracker *arenaTracker = (LotusTracker*) qApp->instance();
     arenaTracker->showPreferencesScreen();
 }
 

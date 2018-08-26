@@ -32,9 +32,8 @@ UI_DIR = tmp
 DEFINES += QT_DEPRECATED_WARNINGS
 
 HEADERS += \
-    src/arenatracker.h \
+    src/api/api.h \
     src/api/auth.h \
-    src/api/database.h \
     src/api/requestdata.h \
     src/api/rqtplayerdeck.h \
     src/api/rqtplayerdeckupdate.h \
@@ -43,6 +42,7 @@ HEADERS += \
     src/api/rqtuploadmatch.h \
     src/api/rqtuploadplayermatch.h \
     src/apikeys.h \
+    src/lotustracker.h \
     src/macros.h \
     src/transformations.h \
     src/entity/card.h \
@@ -75,10 +75,10 @@ HEADERS += \
     src/updater/sparkleupdater.h
 
 SOURCES += \
-    src/arenatracker.cpp \
+    src/api/api.cpp \
     src/api/auth.cpp \
-    src/api/database.cpp \
     src/main.cpp \
+    src/lotustracker.cpp \
     src/transformations.cpp \
     src/mtg/mtgarena.cpp \
     src/mtg/mtgalogparser.cpp \
@@ -140,7 +140,7 @@ mac {
 win32 {
 
   QT += winextras
-  RC_FILE += arenatracker.rc
+  RC_FILE += lotustracker.rc
 
   CONFIG += embed_manifest_exe
   DEFINES += PLATFORM=\\\"win32\\\"
