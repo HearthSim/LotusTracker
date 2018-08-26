@@ -1,0 +1,135 @@
+
+5/20/2018 12:12:59 AM: Match to A3461766D418FFE6: GreToClientEvent
+{
+  "greToClientEvent": {
+    "greToClientMessages": [
+      {
+        "type": "GREMessageType_GameStateMessage",
+        "systemSeatIds": [
+          1
+        ],
+        "msgId": 12,
+        "gameStateId": 3,
+        "gameStateMessage": {
+          "type": "GameStateType_Diff",
+          "gameStateId": 3,
+          "turnInfo": {
+            "activePlayer": 1,
+            "decisionPlayer": 2
+          },
+          "pendingMessageCount": 1,
+          "prevGameStateId": 2,
+          "timers": [
+            {
+              "timerId": 1,
+              "type": "TimerType_Prologue",
+              "durationSec": 120,
+              "elapsedSec": 27,
+              "behavior": "TimerBehavior_TakeControl",
+              "warningThresholdSec": 90,
+              "elapsedMs": 27926
+            },
+            {
+              "timerId": 5,
+              "type": "TimerType_Inactivity",
+              "durationSec": 150,
+              "behavior": "TimerBehavior_Timeout",
+              "warningThresholdSec": 130
+            },
+            {
+              "timerId": 6,
+              "type": "TimerType_Prologue",
+              "durationSec": 120,
+              "running": true,
+              "behavior": "TimerBehavior_TakeControl",
+              "warningThresholdSec": 90
+            },
+            {
+              "timerId": 10,
+              "type": "TimerType_Inactivity",
+              "durationSec": 150,
+              "running": true,
+              "behavior": "TimerBehavior_Timeout",
+              "warningThresholdSec": 130
+            }
+          ],
+          "update": "GameStateUpdate_SendAndRecord",
+          "actions": [
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 101
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 102
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 103
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 104
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Play",
+                "instanceId": 100
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Play",
+                "instanceId": 105
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Play",
+                "instanceId": 99
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "GREMessageType_PromptReq",
+        "systemSeatIds": [
+          1,
+          2
+        ],
+        "msgId": 13,
+        "gameStateId": 3,
+        "prompt": {
+          "promptId": 37,
+          "parameters": [
+            {
+              "parameterName": "PlayerId",
+              "type": "ParameterType_Reference",
+              "reference": {
+                "type": "ReferenceType_PlayerSeatId",
+                "id": 1
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
+ 

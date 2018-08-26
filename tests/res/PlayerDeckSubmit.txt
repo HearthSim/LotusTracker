@@ -1,0 +1,155 @@
+
+[UnityCrossThreadLogger]6/13/2018 7:36:56 PM
+<== Event.DeckSubmit(157)
+{
+  "Id": "fedfb616-08de-4064-bea5-dcab92a95435",
+  "InternalEventName": "ConstructedRanked1",
+  "PlayerId": "A3461766D418FFE6",
+  "ModuleInstanceData": {
+    "SubmittedDeckWeight": 1485.8178156289998,
+    "DeckSelected": true
+  },
+  "CurrentEventState": "ReadyToMatch",
+  "CurrentModule": "TransitionToMatches",
+  "CardPool": null,
+  "CourseDeck": {
+    "id": "88c28528-82b5-42a1-ac6f-e77fa71b20e8",
+    "name": "Grixis",
+    "description": null,
+    "format": "Standard",
+    "resourceId": "00000000-0000-0000-0000-000000000000",
+    "deckTileId": 65539,
+    "mainDeck": [
+      {
+        "id": "65539",
+        "quantity": 2
+      },
+      {
+        "id": "67017",
+        "quantity": 5
+      },
+      {
+        "id": "67001",
+        "quantity": 1
+      },
+      {
+        "id": "66477",
+        "quantity": 1
+      },
+      {
+        "id": "65601",
+        "quantity": 1
+      },
+      {
+        "id": "67019",
+        "quantity": 6
+      },
+      {
+        "id": "66175",
+        "quantity": 2
+      },
+      {
+        "id": "65669",
+        "quantity": 1
+      },
+      {
+        "id": "67021",
+        "quantity": 3
+      },
+      {
+        "id": "64887",
+        "quantity": 2
+      },
+      {
+        "id": "64903",
+        "quantity": 2
+      },
+      {
+        "id": "64891",
+        "quantity": 1
+      },
+      {
+        "id": "65575",
+        "quantity": 2
+      },
+      {
+        "id": "66707",
+        "quantity": 1
+      },
+      {
+        "id": "66109",
+        "quantity": 1
+      },
+      {
+        "id": "65769",
+        "quantity": 1
+      },
+      {
+        "id": "67003",
+        "quantity": 2
+      },
+      {
+        "id": "65463",
+        "quantity": 2
+      },
+      {
+        "id": "66483",
+        "quantity": 1
+      },
+      {
+        "id": "67009",
+        "quantity": 2
+      },
+      {
+        "id": "65471",
+        "quantity": 2
+      },
+      {
+        "id": "65643",
+        "quantity": 2
+      },
+      {
+        "id": "64913",
+        "quantity": 1
+      },
+      {
+        "id": "66789",
+        "quantity": 1
+      },
+      {
+        "id": "66781",
+        "quantity": 2
+      },
+      {
+        "id": "65081",
+        "quantity": 2
+      },
+      {
+        "id": "66763",
+        "quantity": 2
+      },
+      {
+        "id": "66223",
+        "quantity": 2
+      },
+      {
+        "id": "66757",
+        "quantity": 4
+      },
+      {
+        "id": "65541",
+        "quantity": 2
+      },
+      {
+        "id": "65759",
+        "quantity": 1
+      }
+    ],
+    "sideboard": [],
+    "lastUpdated": "2018-04-04T00:55:50",
+    "lockedForUse": false,
+    "lockedForEdit": false,
+    "isValid": true
+  }
+}
+ 

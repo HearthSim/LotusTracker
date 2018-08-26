@@ -1,0 +1,56 @@
+3/18/2018 5:01:34 PM Incoming Inventory.Updated {
+  "delta": {
+    "aetherDelta": 0,
+    "boosterDelta": [
+      {
+        "collationId": 100005,
+        "count": -1
+      }
+    ],
+    "cardsAdded": [
+      65963
+    ],
+    "draftTokensDelta": 0,
+    "gemsDelta": 0,
+    "goldDelta": 0,
+    "sealedTokensDelta": 0,
+    "vaultProgressDelta": 0.048,
+    "wcCommonDelta": 0,
+    "wcMythicDelta": 0,
+    "wcRareDelta": 0,
+    "wcUncommonDelta": 1
+  },
+  "aetherizedCards": [
+    {
+      "grpId": 66303,
+      "addedToInventory": false,
+      "vaultProgress": 1.0
+    },
+    {
+      "grpId": 66359,
+      "addedToInventory": false,
+      "vaultProgress": 1.0
+    },
+    {
+      "grpId": 65995,
+      "addedToInventory": false,
+      "vaultProgress": 1.0
+    },
+    {
+      "grpId": 66365,
+      "addedToInventory": false,
+      "vaultProgress": 1.0
+    },
+    {
+      "grpId": 66169,
+      "addedToInventory": false,
+      "vaultProgress": 1.0
+    },
+    {
+      "grpId": 66409,
+      "addedToInventory": false,
+      "vaultProgress": 3.0
+    }
+  ],
+  "context": "Booster.Open"
+}

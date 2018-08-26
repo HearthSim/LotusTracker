@@ -1,0 +1,511 @@
+
+5/20/2018 12:13:08 AM: Match to A3461766D418FFE6: GreToClientEvent
+{
+  "greToClientEvent": {
+    "greToClientMessages": [
+      {
+        "type": "GREMessageType_GameStateMessage",
+        "systemSeatIds": [
+          1
+        ],
+        "msgId": 15,
+        "gameStateId": 4,
+        "gameStateMessage": {
+          "type": "GameStateType_Diff",
+          "gameStateId": 4,
+          "players": [
+            {
+              "lifeTotal": 20,
+              "systemSeatNumber": 1,
+              "maxHandSize": 7,
+              "turnNumber": 1,
+              "teamId": 1,
+              "timerIds": [
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "controllerSeatId": 1,
+              "controllerType": "ControllerType_Player"
+            }
+          ],
+          "turnInfo": {
+            "phase": "Phase_Beginning",
+            "step": "Step_Upkeep",
+            "turnNumber": 1,
+            "activePlayer": 1,
+            "priorityPlayer": 1,
+            "decisionPlayer": 2
+          },
+          "annotations": [
+            {
+              "id": 2021,
+              "affectedIds": [
+                1
+              ],
+              "type": [
+                "AnnotationType_PhaseOrStepModified"
+              ],
+              "details": [
+                {
+                  "key": "phase",
+                  "type": "KeyValuePairValueType_int32",
+                  "valueInt32": [
+                    1
+                  ]
+                },
+                {
+                  "key": "step",
+                  "type": "KeyValuePairValueType_int32",
+                  "valueInt32": [
+                    1
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 2022,
+              "affectedIds": [
+                1
+              ],
+              "type": [
+                "AnnotationType_PhaseOrStepModified"
+              ],
+              "details": [
+                {
+                  "key": "phase",
+                  "type": "KeyValuePairValueType_int32",
+                  "valueInt32": [
+                    1
+                  ]
+                },
+                {
+                  "key": "step",
+                  "type": "KeyValuePairValueType_int32",
+                  "valueInt32": [
+                    2
+                  ]
+                }
+              ]
+            }
+          ],
+          "prevGameStateId": 3,
+          "timers": [
+            {
+              "timerId": 1,
+              "type": "TimerType_Prologue",
+              "durationSec": 120,
+              "behavior": "TimerBehavior_TakeControl",
+              "warningThresholdSec": 90
+            },
+            {
+              "timerId": 6,
+              "type": "TimerType_Prologue",
+              "durationSec": 120,
+              "behavior": "TimerBehavior_TakeControl",
+              "warningThresholdSec": 90
+            },
+            {
+              "timerId": 10,
+              "type": "TimerType_Inactivity",
+              "durationSec": 150,
+              "behavior": "TimerBehavior_Timeout",
+              "warningThresholdSec": 130
+            }
+          ],
+          "update": "GameStateUpdate_SendHiFi",
+          "actions": [
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 101
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 102
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 103
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 104
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Play",
+                "instanceId": 100
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Play",
+                "instanceId": 105
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Play",
+                "instanceId": 99
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "GREMessageType_GameStateMessage",
+        "systemSeatIds": [
+          1
+        ],
+        "msgId": 16,
+        "gameStateId": 5,
+        "gameStateMessage": {
+          "type": "GameStateType_Diff",
+          "gameStateId": 5,
+          "turnInfo": {
+            "phase": "Phase_Beginning",
+            "step": "Step_Upkeep",
+            "turnNumber": 1,
+            "activePlayer": 1,
+            "priorityPlayer": 2,
+            "decisionPlayer": 2
+          },
+          "prevGameStateId": 4,
+          "update": "GameStateUpdate_SendHiFi",
+          "actions": [
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 101
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 102
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 103
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 104
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Play",
+                "instanceId": 100
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Play",
+                "instanceId": 105
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Play",
+                "instanceId": 99
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "GREMessageType_GameStateMessage",
+        "systemSeatIds": [
+          1
+        ],
+        "msgId": 17,
+        "gameStateId": 6,
+        "gameStateMessage": {
+          "type": "GameStateType_Diff",
+          "gameStateId": 6,
+          "turnInfo": {
+            "phase": "Phase_Main1",
+            "turnNumber": 1,
+            "activePlayer": 1,
+            "priorityPlayer": 1,
+            "decisionPlayer": 1
+          },
+          "annotations": [
+            {
+              "id": 2023,
+              "affectedIds": [
+                1
+              ],
+              "type": [
+                "AnnotationType_PhaseOrStepModified"
+              ],
+              "details": [
+                {
+                  "key": "phase",
+                  "type": "KeyValuePairValueType_int32",
+                  "valueInt32": [
+                    2
+                  ]
+                },
+                {
+                  "key": "step",
+                  "type": "KeyValuePairValueType_int32",
+                  "valueInt32": [
+                    0
+                  ]
+                }
+              ]
+            }
+          ],
+          "pendingMessageCount": 2,
+          "prevGameStateId": 5,
+          "timers": [
+            {
+              "timerId": 3,
+              "type": "TimerType_ActivePlayer",
+              "durationSec": 120,
+              "running": true,
+              "behavior": "TimerBehavior_TakeControl",
+              "warningThresholdSec": 75
+            },
+            {
+              "timerId": 5,
+              "type": "TimerType_Inactivity",
+              "durationSec": 150,
+              "running": true,
+              "behavior": "TimerBehavior_Timeout",
+              "warningThresholdSec": 130
+            }
+          ],
+          "update": "GameStateUpdate_SendAndRecord",
+          "actions": [
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 101
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 102
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 103
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 104
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Play",
+                "instanceId": 100
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Play",
+                "instanceId": 105
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Play",
+                "instanceId": 99
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "GREMessageType_PromptReq",
+        "systemSeatIds": [
+          1,
+          2
+        ],
+        "msgId": 18,
+        "gameStateId": 6,
+        "prompt": {
+          "promptId": 37,
+          "parameters": [
+            {
+              "parameterName": "PlayerId",
+              "type": "ParameterType_Reference",
+              "reference": {
+                "type": "ReferenceType_PlayerSeatId",
+                "id": 2
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "GREMessageType_ActionsAvailableReq",
+        "systemSeatIds": [
+          1
+        ],
+        "msgId": 19,
+        "gameStateId": 6,
+        "prompt": {
+          "promptId": 2,
+          "parameters": [
+            {
+              "parameterName": "MayCast",
+              "type": "ParameterType_Number",
+              "numberValue": 1
+            },
+            {
+              "parameterName": "MayPlay",
+              "type": "ParameterType_Number",
+              "numberValue": 1
+            }
+          ]
+        },
+        "actionsAvailableReq": {
+          "actions": [
+            {
+              "actionType": "ActionType_Cast",
+              "grpId": 65601,
+              "instanceId": 101,
+              "grouping": "Grouping_Single",
+              "manaCost": [
+                {
+                  "color": [
+                    "ManaColor_Generic"
+                  ],
+                  "count": 2,
+                  "costId": 12105
+                },
+                {
+                  "color": [
+                    "ManaColor_Black"
+                  ],
+                  "count": 1,
+                  "costId": 12106
+                }
+              ],
+              "shouldStop": true
+            },
+            {
+              "actionType": "ActionType_Play",
+              "grpId": 67021,
+              "instanceId": 99,
+              "grouping": "Grouping_Single",
+              "shouldStop": true
+            },
+            {
+              "actionType": "ActionType_Play",
+              "grpId": 67017,
+              "instanceId": 100,
+              "grouping": "Grouping_Single",
+              "shouldStop": true
+            },
+            {
+              "actionType": "ActionType_Play",
+              "grpId": 67019,
+              "instanceId": 105,
+              "grouping": "Grouping_Single",
+              "shouldStop": true
+            },
+            {
+              "actionType": "ActionType_Pass",
+              "grouping": "Grouping_Single"
+            }
+          ],
+          "inactiveActions": [
+            {
+              "actionType": "ActionType_Mode",
+              "grpId": 65643,
+              "instanceId": 104,
+              "grouping": "Grouping_Single",
+              "abilityGrpId": 88831
+            },
+            {
+              "actionType": "ActionType_Mode",
+              "grpId": 65643,
+              "instanceId": 104,
+              "grouping": "Grouping_Single",
+              "abilityGrpId": 22564
+            },
+            {
+              "actionType": "ActionType_Cast",
+              "grpId": 64887,
+              "instanceId": 102,
+              "grouping": "Grouping_Single"
+            },
+            {
+              "actionType": "ActionType_Cast",
+              "grpId": 64903,
+              "instanceId": 103,
+              "grouping": "Grouping_Single"
+            }
+          ]
+        },
+        "nonDecisionPlayerPrompt": {
+          "promptId": 15,
+          "parameters": [
+            {
+              "parameterName": "PlayerId",
+              "type": "ParameterType_Number",
+              "numberValue": 1
+            },
+            {
+              "parameterName": "MayCast",
+              "type": "ParameterType_Number",
+              "numberValue": 1
+            },
+            {
+              "parameterName": "MayPlay",
+              "type": "ParameterType_Number",
+              "numberValue": 1
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
+ 

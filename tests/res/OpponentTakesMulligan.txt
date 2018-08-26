@@ -1,0 +1,385 @@
+
+[UnityCrossThreadLogger]7/28/2018 4:08:12 PM: Match to A3461766D418FFE6: GreToClientEvent
+{
+  "transactionId": "fa7a33c4-a17b-4fc7-b3fe-b7a155caee06",
+  "timestamp": "636684016897194828",
+  "greToClientEvent": {
+    "greToClientMessages": [
+      {
+        "type": "GREMessageType_GameStateMessage",
+        "systemSeatIds": [
+          1
+        ],
+        "msgId": 13,
+        "gameStateId": 4,
+        "gameStateMessage": {
+          "type": "GameStateType_Diff",
+          "gameStateId": 4,
+          "zones": [
+            {
+              "zoneId": 35,
+              "type": "ZoneType_Hand",
+              "visibility": "Visibility_Private",
+              "ownerSeatId": 2,
+              "objectInstanceIds": [
+                284,
+                283,
+                282,
+                281,
+                280,
+                279
+              ],
+              "viewers": [
+                2
+              ]
+            },
+            {
+              "zoneId": 36,
+              "type": "ZoneType_Library",
+              "visibility": "Visibility_Hidden",
+              "ownerSeatId": 2,
+              "objectInstanceIds": [
+                285,
+                286,
+                287,
+                288,
+                289,
+                290,
+                291,
+                292,
+                293,
+                294,
+                295,
+                296,
+                297,
+                298,
+                299,
+                300,
+                301,
+                302,
+                303,
+                304,
+                305,
+                306,
+                307,
+                308,
+                309,
+                310,
+                311,
+                312,
+                313,
+                314,
+                315,
+                316,
+                317,
+                318,
+                319,
+                320,
+                321,
+                322,
+                323,
+                324,
+                325,
+                326,
+                327,
+                328,
+                329,
+                330,
+                331,
+                332,
+                333,
+                334,
+                335,
+                336,
+                337,
+                338
+              ]
+            }
+          ],
+          "diffDeletedInstanceIds": [
+            219,
+            220,
+            221,
+            222,
+            223,
+            224,
+            225,
+            226,
+            227,
+            228,
+            229,
+            230,
+            231,
+            232,
+            233,
+            234,
+            235,
+            236,
+            237,
+            238,
+            239,
+            240,
+            241,
+            242,
+            243,
+            244,
+            245,
+            246,
+            247,
+            248,
+            249,
+            250,
+            251,
+            252,
+            253,
+            254,
+            255,
+            256,
+            257,
+            258,
+            259,
+            260,
+            261,
+            262,
+            263,
+            264,
+            265,
+            266,
+            267,
+            268,
+            269,
+            270,
+            271,
+            272,
+            273,
+            274,
+            275,
+            276,
+            277,
+            278,
+            279,
+            280,
+            281,
+            282,
+            283,
+            284,
+            285,
+            286,
+            287,
+            288,
+            289,
+            290,
+            291,
+            292,
+            293,
+            294,
+            295,
+            296,
+            297,
+            298,
+            299,
+            300,
+            301,
+            302,
+            303,
+            304,
+            305,
+            306,
+            307,
+            308,
+            309,
+            310,
+            311,
+            312,
+            313,
+            314,
+            315,
+            316,
+            317,
+            318,
+            319,
+            320,
+            321,
+            322,
+            323,
+            324,
+            325,
+            326,
+            327,
+            328,
+            329,
+            330,
+            331,
+            332,
+            333,
+            334,
+            335,
+            336,
+            337,
+            338
+          ],
+          "pendingMessageCount": 1,
+          "prevGameStateId": 3,
+          "timers": [
+            {
+              "timerId": 6,
+              "type": "TimerType_Prologue",
+              "durationSec": 120,
+              "elapsedSec": 5,
+              "running": true,
+              "behavior": "TimerBehavior_TakeControl",
+              "warningThresholdSec": 90,
+              "elapsedMs": 5844
+            },
+            {
+              "timerId": 10,
+              "type": "TimerType_Inactivity",
+              "durationSec": 150,
+              "running": true,
+              "behavior": "TimerBehavior_Timeout",
+              "warningThresholdSec": 130,
+              "elapsedMs": 6
+            }
+          ],
+          "update": "GameStateUpdate_SendAndRecord",
+          "actions": [
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 104,
+                "manaCost": [
+                  {
+                    "color": [
+                      "ManaColor_Generic"
+                    ],
+                    "count": 2,
+                    "costId": 12164
+                  }
+                ]
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 101,
+                "manaCost": [
+                  {
+                    "color": [
+                      "ManaColor_Generic"
+                    ],
+                    "count": 3,
+                    "costId": 12168
+                  },
+                  {
+                    "color": [
+                      "ManaColor_Blue"
+                    ],
+                    "count": 1,
+                    "costId": 12169
+                  },
+                  {
+                    "color": [
+                      "ManaColor_Black"
+                    ],
+                    "count": 1,
+                    "costId": 12170
+                  }
+                ]
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 105,
+                "manaCost": [
+                  {
+                    "color": [
+                      "ManaColor_Red"
+                    ],
+                    "count": 3,
+                    "costId": 12172
+                  }
+                ]
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 103,
+                "manaCost": [
+                  {
+                    "color": [
+                      "ManaColor_Generic"
+                    ],
+                    "count": 3,
+                    "costId": 12175
+                  },
+                  {
+                    "color": [
+                      "ManaColor_Red"
+                    ],
+                    "count": 2,
+                    "costId": 12176
+                  }
+                ]
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Play",
+                "instanceId": 99
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Play",
+                "instanceId": 100
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Play",
+                "instanceId": 102
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "GREMessageType_PromptReq",
+        "systemSeatIds": [
+          1,
+          2
+        ],
+        "msgId": 14,
+        "gameStateId": 4,
+        "prompt": {
+          "promptId": 36,
+          "parameters": [
+            {
+              "parameterName": "PlayerId",
+              "type": "ParameterType_Reference",
+              "reference": {
+                "type": "ReferenceType_PlayerSeatId",
+                "id": 2
+              }
+            },
+            {
+              "parameterName": "NumberOfCards",
+              "type": "ParameterType_Number",
+              "numberValue": 6
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
+ 

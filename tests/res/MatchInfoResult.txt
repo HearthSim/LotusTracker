@@ -1,0 +1,63 @@
+
+5/20/2018 12:25:39 AM: Match to A3461766D418FFE6: MatchGameRoomStateChangedEvent
+{
+  "matchGameRoomStateChangedEvent": {
+    "gameRoomInfo": {
+      "gameRoomConfig": {
+        "eventId": "ConstructedRanked1",
+        "reservedPlayers": [
+          {
+            "userId": "A3461766D418FFE6",
+            "playerName": "Edipo2s",
+            "systemSeatId": 1,
+            "teamId": 1,
+            "connectionInfo": {
+              "connectionState": "ConnectionState_Open"
+            },
+            "courseId": "00000000-0000-0000-0000-000000000000"
+          },
+          {
+            "userId": "64241855F4C3FC49",
+            "playerName": "Temple Scrybottom",
+            "systemSeatId": 2,
+            "teamId": 2,
+            "connectionInfo": {
+              "connectionState": "ConnectionState_Open"
+            },
+            "courseId": "00000000-0000-0000-0000-000000000000"
+          }
+        ],
+        "matchId": "fc8c88ed-8ed9-4121-ad45-e89fe27243ea",
+        "matchConfig": {},
+        "greConfig": {
+          "gameStateRedactorConfiguration": {
+            "enableRedaction": true,
+            "enableForceDiff": true
+          },
+          "clipsConfiguration": {}
+        },
+        "greHostLoggerLevel": "Info",
+        "joinRoomTimeoutSecs": 30,
+        "playerDisconnectTimeoutSecs": 30
+      },
+      "stateType": "MatchGameRoomStateType_MatchCompleted",
+      "finalMatchResult": {
+        "matchId": "fc8c88ed-8ed9-4121-ad45-e89fe27243ea",
+        "matchCompletedReason": "MatchCompletedReasonType_Success",
+        "resultList": [
+          {
+            "scope": "MatchScope_Game",
+            "result": "ResultType_WinLoss",
+            "winningTeamId": 2
+          },
+          {
+            "scope": "MatchScope_Match",
+            "result": "ResultType_WinLoss",
+            "winningTeamId": 2
+          }
+        ]
+      }
+    }
+  }
+}
+ 

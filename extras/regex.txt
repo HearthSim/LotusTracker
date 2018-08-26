@@ -1,0 +1,6 @@
+GetInfos	-> \s(<==|Incoming|Match\sto).+(\s|\n)(\{|\[)(\n\s+.*)+\n(\}|\])
+GetNumber	-> (?<=\s)\d+(?=\:\s)
+GetInfos	-> \s(AM|PM).+(\s|\n)(\{|\[)(\n\s+.*)+\n(\}|\])
+GetCMD		-> \S+(?=(\s|\n)(\{|\[))
+GetJson		-> (\{|\[)(\n\s+.*)+\n(\}|\])
+manaSymbol	-> (?<=\{)\D(?=\})

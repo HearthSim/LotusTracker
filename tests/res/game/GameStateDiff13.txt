@@ -1,0 +1,394 @@
+
+5/20/2018 12:14:39 AM: Match to A3461766D418FFE6: GreToClientEvent
+{
+  "greToClientEvent": {
+    "greToClientMessages": [
+      {
+        "type": "GREMessageType_GameStateMessage",
+        "systemSeatIds": [
+          1
+        ],
+        "msgId": 93,
+        "gameStateId": 64,
+        "gameStateMessage": {
+          "type": "GameStateType_Diff",
+          "gameStateId": 64,
+          "turnInfo": {
+            "phase": "Phase_Main1",
+            "turnNumber": 4,
+            "activePlayer": 2,
+            "priorityPlayer": 1,
+            "decisionPlayer": 1,
+            "stormCount": 1
+          },
+          "annotations": [
+            {
+              "id": 2003,
+              "affectorId": 27,
+              "affectedIds": [
+                288
+              ],
+              "type": [
+                "AnnotationType_EnteredZoneThisTurn"
+              ]
+            },
+            {
+              "id": 2004,
+              "affectorId": 28,
+              "affectedIds": [
+                287
+              ],
+              "type": [
+                "AnnotationType_EnteredZoneThisTurn"
+              ]
+            },
+            {
+              "id": 2014,
+              "affectorId": 35,
+              "affectedIds": [
+                290,
+                286
+              ],
+              "type": [
+                "AnnotationType_EnteredZoneThisTurn"
+              ]
+            },
+            {
+              "id": 2016,
+              "affectorId": 37,
+              "affectedIds": [
+                291
+              ],
+              "type": [
+                "AnnotationType_EnteredZoneThisTurn"
+              ]
+            }
+          ],
+          "pendingMessageCount": 1,
+          "prevGameStateId": 63,
+          "timers": [
+            {
+              "timerId": 4,
+              "type": "TimerType_NonActivePlayer",
+              "durationSec": 45,
+              "elapsedSec": 13,
+              "running": true,
+              "behavior": "TimerBehavior_TakeControl",
+              "warningThresholdSec": 15,
+              "elapsedMs": 13109
+            },
+            {
+              "timerId": 5,
+              "type": "TimerType_Inactivity",
+              "durationSec": 150,
+              "running": true,
+              "behavior": "TimerBehavior_Timeout",
+              "warningThresholdSec": 130,
+              "elapsedMs": 1
+            },
+            {
+              "timerId": 8,
+              "type": "TimerType_ActivePlayer",
+              "durationSec": 120,
+              "elapsedSec": 18,
+              "behavior": "TimerBehavior_TakeControl",
+              "warningThresholdSec": 75,
+              "elapsedMs": 18576
+            },
+            {
+              "timerId": 10,
+              "type": "TimerType_Inactivity",
+              "durationSec": 150,
+              "behavior": "TimerBehavior_Timeout",
+              "warningThresholdSec": 130
+            }
+          ],
+          "update": "GameStateUpdate_SendAndRecord",
+          "actions": [
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 101
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 102
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 103
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 104
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 284
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Play",
+                "instanceId": 105
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Activate",
+                "abilityGrpId": 1002,
+                "sourceId": 279
+              }
+            },
+            {
+              "seatId": 2,
+              "action": {
+                "actionType": "ActionType_Activate",
+                "abilityGrpId": 1004,
+                "sourceId": 281
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Activate",
+                "abilityGrpId": 1004,
+                "sourceId": 285
+              }
+            },
+            {
+              "seatId": 2,
+              "action": {
+                "actionType": "ActionType_Activate",
+                "abilityGrpId": 1039,
+                "sourceId": 287
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "GREMessageType_ActionsAvailableReq",
+        "systemSeatIds": [
+          1
+        ],
+        "msgId": 94,
+        "gameStateId": 64,
+        "prompt": {
+          "promptId": 2,
+          "parameters": [
+            {
+              "parameterName": "MayCast",
+              "type": "ParameterType_Number"
+            },
+            {
+              "parameterName": "MayPlay",
+              "type": "ParameterType_Number",
+              "numberValue": 1
+            }
+          ]
+        },
+        "actionsAvailableReq": {
+          "actions": [
+            {
+              "actionType": "ActionType_Cast",
+              "grpId": 65643,
+              "instanceId": 104,
+              "grouping": "Grouping_Single",
+              "autoTapActions": [
+                {
+                  "instanceId": 279,
+                  "abilityGrpId": 1002,
+                  "manaPaymentOption": {
+                    "payments": [
+                      {
+                        "color": "ManaColor_Blue",
+                        "count": 1
+                      }
+                    ]
+                  },
+                  "costCategory": "CostCategory_Executable"
+                },
+                {
+                  "instanceId": 285,
+                  "abilityGrpId": 1004,
+                  "manaPaymentOption": {
+                    "payments": [
+                      {
+                        "color": "ManaColor_Red",
+                        "count": 1
+                      }
+                    ]
+                  },
+                  "costCategory": "CostCategory_Executable"
+                }
+              ],
+              "manaCost": [
+                {
+                  "color": [
+                    "ManaColor_Generic"
+                  ],
+                  "count": 1,
+                  "costId": 12200
+                },
+                {
+                  "color": [
+                    "ManaColor_Red"
+                  ],
+                  "count": 1,
+                  "costId": 12201
+                }
+              ],
+              "shouldStop": true
+            },
+            {
+              "actionType": "ActionType_Cast",
+              "grpId": 66223,
+              "instanceId": 284,
+              "grouping": "Grouping_Single",
+              "manaCost": [
+                {
+                  "color": [
+                    "ManaColor_Generic"
+                  ],
+                  "count": 2,
+                  "costId": 12202
+                },
+                {
+                  "color": [
+                    "ManaColor_Black"
+                  ],
+                  "count": 2,
+                  "costId": 12203
+                }
+              ],
+              "shouldStop": true
+            },
+            {
+              "actionType": "ActionType_Activate_Mana",
+              "grpId": 67017,
+              "instanceId": 279,
+              "grouping": "Grouping_Batchable",
+              "abilityGrpId": 1002,
+              "manaPaymentOptions": [
+                {
+                  "mana": [
+                    {
+                      "manaId": 11027,
+                      "color": "ManaColor_Blue",
+                      "srcInstanceId": 279,
+                      "specs": [
+                        {
+                          "type": "ManaSpecType_Predictive"
+                        }
+                      ],
+                      "abilityGrpId": 1002
+                    }
+                  ],
+                  "maxActivations": 1
+                }
+              ]
+            },
+            {
+              "actionType": "ActionType_Activate_Mana",
+              "grpId": 67021,
+              "instanceId": 285,
+              "grouping": "Grouping_Batchable",
+              "abilityGrpId": 1004,
+              "manaPaymentOptions": [
+                {
+                  "mana": [
+                    {
+                      "manaId": 11028,
+                      "color": "ManaColor_Red",
+                      "srcInstanceId": 285,
+                      "specs": [
+                        {
+                          "type": "ManaSpecType_Predictive"
+                        }
+                      ],
+                      "abilityGrpId": 1004
+                    }
+                  ],
+                  "maxActivations": 1
+                }
+              ]
+            },
+            {
+              "actionType": "ActionType_Pass",
+              "grouping": "Grouping_Single"
+            }
+          ],
+          "inactiveActions": [
+            {
+              "actionType": "ActionType_Play",
+              "grpId": 67019,
+              "instanceId": 105,
+              "grouping": "Grouping_Single"
+            },
+            {
+              "actionType": "ActionType_Cast",
+              "grpId": 65601,
+              "instanceId": 101,
+              "grouping": "Grouping_Single"
+            },
+            {
+              "actionType": "ActionType_Mode",
+              "grpId": 65643,
+              "instanceId": 104,
+              "grouping": "Grouping_Single",
+              "abilityGrpId": 22564
+            },
+            {
+              "actionType": "ActionType_Cast",
+              "grpId": 64887,
+              "instanceId": 102,
+              "grouping": "Grouping_Single"
+            },
+            {
+              "actionType": "ActionType_Cast",
+              "grpId": 64903,
+              "instanceId": 103,
+              "grouping": "Grouping_Single"
+            }
+          ]
+        },
+        "nonDecisionPlayerPrompt": {
+          "promptId": 15,
+          "parameters": [
+            {
+              "parameterName": "PlayerId",
+              "type": "ParameterType_Number",
+              "numberValue": 1
+            },
+            {
+              "parameterName": "MayCast",
+              "type": "ParameterType_Number"
+            },
+            {
+              "parameterName": "MayPlay",
+              "type": "ParameterType_Number",
+              "numberValue": 1
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
+ 

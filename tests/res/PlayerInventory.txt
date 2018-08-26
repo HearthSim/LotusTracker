@@ -1,0 +1,51 @@
+
+[UnityCrossThreadLogger]6/13/2018 7:54:28 PM
+<== PlayerInventory.GetPlayerInventory(197)
+{
+  "playerId": "A3461766D4******",
+  "wcCommon": 19,
+  "wcUncommon": 14,
+  "wcRare": 4,
+  "wcMythic": 2,
+  "gold": 1600,
+  "gems": 0,
+  "draftTokens": 0,
+  "sealedTokens": 0,
+  "vaultProgress": 11.8,
+  "boosters": [
+    {
+      "collationId": 100006,
+      "count": 0
+    },
+    {
+      "collationId": 100005,
+      "count": 0
+    },
+    {
+      "collationId": 100004,
+      "count": 0
+    },
+    {
+      "collationId": 100003,
+      "count": 0
+    },
+    {
+      "collationId": 100007,
+      "count": 0
+    },
+    {
+      "collationId": 62242,
+      "count": 0
+    },
+    {
+      "collationId": 62979,
+      "count": 0
+    }
+  ],
+  "vanityItems": {
+    "pets": [],
+    "avatars": [],
+    "cardBacks": []
+  }
+}
+ 

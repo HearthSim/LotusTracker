@@ -1,0 +1,252 @@
+
+5/20/2018 12:13:18 AM: Match to A3461766D418FFE6: GreToClientEvent
+{
+  "greToClientEvent": {
+    "greToClientMessages": [
+      {
+        "type": "GREMessageType_GameStateMessage",
+        "systemSeatIds": [
+          1
+        ],
+        "msgId": 40,
+        "gameStateId": 24,
+        "gameStateMessage": {
+          "type": "GameStateType_Diff",
+          "gameStateId": 24,
+          "zones": [
+            {
+              "zoneId": 28,
+              "type": "ZoneType_Battlefield",
+              "visibility": "Visibility_Public",
+              "objectInstanceIds": [
+                281,
+                279
+              ]
+            },
+            {
+              "zoneId": 30,
+              "type": "ZoneType_Limbo",
+              "visibility": "Visibility_Hidden",
+              "objectInstanceIds": [
+                225,
+                226,
+                100
+              ]
+            },
+            {
+              "zoneId": 35,
+              "type": "ZoneType_Hand",
+              "visibility": "Visibility_Private",
+              "ownerSeatId": 2,
+              "objectInstanceIds": [
+                280,
+                224,
+                223,
+                222,
+                221,
+                220,
+                219
+              ],
+              "viewers": [
+                2
+              ]
+            }
+          ],
+          "gameObjects": [
+            {
+              "instanceId": 281,
+              "grpId": 67021,
+              "type": "GameObjectType_Card",
+              "zoneId": 28,
+              "visibility": "Visibility_Public",
+              "ownerSeatId": 2,
+              "controllerSeatId": 2,
+              "superTypes": [
+                "SuperType_Basic"
+              ],
+              "cardTypes": [
+                "CardType_Land"
+              ],
+              "subtypes": [
+                "SubType_Mountain"
+              ],
+              "name": 1250,
+              "abilities": [
+                1004
+              ],
+              "overlayGrpId": 67021
+            }
+          ],
+          "annotations": [
+            {
+              "id": 2040,
+              "affectorId": 2,
+              "affectedIds": [
+                225
+              ],
+              "type": [
+                "AnnotationType_ObjectIdChanged"
+              ],
+              "details": [
+                {
+                  "key": "orig_id",
+                  "type": "KeyValuePairValueType_int32",
+                  "valueInt32": [
+                    225
+                  ]
+                },
+                {
+                  "key": "new_id",
+                  "type": "KeyValuePairValueType_int32",
+                  "valueInt32": [
+                    281
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 2041,
+              "affectorId": 2,
+              "affectedIds": [
+                281
+              ],
+              "type": [
+                "AnnotationType_ZoneTransfer"
+              ],
+              "details": [
+                {
+                  "key": "zone_src",
+                  "type": "KeyValuePairValueType_int32",
+                  "valueInt32": [
+                    35
+                  ]
+                },
+                {
+                  "key": "zone_dest",
+                  "type": "KeyValuePairValueType_int32",
+                  "valueInt32": [
+                    28
+                  ]
+                },
+                {
+                  "key": "category",
+                  "type": "KeyValuePairValueType_string",
+                  "valueString": [
+                    "PlayLand"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 2004,
+              "affectorId": 28,
+              "affectedIds": [
+                281
+              ],
+              "type": [
+                "AnnotationType_EnteredZoneThisTurn"
+              ]
+            },
+            {
+              "id": 2014,
+              "affectorId": 35,
+              "affectedIds": [
+                280
+              ],
+              "type": [
+                "AnnotationType_EnteredZoneThisTurn"
+              ]
+            }
+          ],
+          "diffDeletedInstanceIds": [
+            225
+          ],
+          "prevGameStateId": 23,
+          "timers": [
+            {
+              "timerId": 8,
+              "type": "TimerType_ActivePlayer",
+              "durationSec": 120,
+              "elapsedSec": 4,
+              "running": true,
+              "behavior": "TimerBehavior_TakeControl",
+              "warningThresholdSec": 75,
+              "elapsedMs": 4132
+            },
+            {
+              "timerId": 10,
+              "type": "TimerType_Inactivity",
+              "durationSec": 150,
+              "running": true,
+              "behavior": "TimerBehavior_Timeout",
+              "warningThresholdSec": 130,
+              "elapsedMs": 1
+            }
+          ],
+          "update": "GameStateUpdate_SendAndRecord",
+          "actions": [
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 101
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 102
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 103
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 104
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Play",
+                "instanceId": 105
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Play",
+                "instanceId": 99
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Activate",
+                "abilityGrpId": 1002,
+                "sourceId": 279
+              }
+            },
+            {
+              "seatId": 2,
+              "action": {
+                "actionType": "ActionType_Activate",
+                "abilityGrpId": 1004,
+                "sourceId": 281
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
+ 

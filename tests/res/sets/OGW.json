@@ -1,0 +1,4997 @@
+{
+  "name": "Oath of the Gatewatch",
+  "code": "OGW",
+  "magicCardsInfoCode": "ogw",
+  "releaseDate": "2016-01-22",
+  "border": "black",
+  "type": "expansion",
+  "block": "Battle for Zendikar",
+  "booster": [
+    [
+      "rare",
+      "mythic rare"
+    ],
+    "uncommon",
+    "uncommon",
+    "uncommon",
+    "common",
+    "common",
+    "common",
+    "common",
+    "common",
+    "common",
+    "common",
+    "common",
+    "common",
+    "common",
+    "land",
+    "marketing"
+  ],
+  "translations": {
+    "pt": "Juramento das Sentinelas",
+    "es": "El juramento de los Guardianes",
+    "ru": "Клятва Стражей",
+    "ko": "관문수호대의 맹세",
+    "jp": "『ゲートウォッチの誓い』",
+    "it": "Giuramento dei Guardiani",
+    "de": "Eid der Wächter",
+    "fr": "Le serment des Sentinelles",
+    "zh-hant": "守護者誓約",
+    "zh-hans": "守护者誓约"
+  },
+  "cards": [
+    {
+      "artist": "Viktor Titov",
+      "cmc": 7,
+      "id": "4f803ca297853251e10ec17cf897ebc453b73f0a",
+      "imageName": "deceiver of form",
+      "layout": "normal",
+      "manaCost": "{6}{C}",
+      "mciNumber": "1",
+      "multiverseid": 407511,
+      "name": "Deceiver of Form",
+      "number": "1",
+      "power": "8",
+      "rarity": "Rare",
+      "subtypes": [
+        "Eldrazi"
+      ],
+      "text": "({C} represents colorless mana.)\nAt the beginning of combat on your turn, reveal the top card of your library. If a creature card is revealed this way, you may have creatures you control other than Deceiver of Form become copies of that card until end of turn. You may put that card on the bottom of your library.",
+      "toughness": "8",
+      "type": "Creature — Eldrazi",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Craig J Spearing",
+      "cmc": 2,
+      "flavor": "It is consistently inconsistent.",
+      "id": "ec513c223176406448c6ef77c8c1294b9948960f",
+      "imageName": "eldrazi mimic",
+      "layout": "normal",
+      "manaCost": "{2}",
+      "mciNumber": "2",
+      "multiverseid": 407512,
+      "name": "Eldrazi Mimic",
+      "number": "2",
+      "power": "2",
+      "rarity": "Rare",
+      "subtypes": [
+        "Eldrazi"
+      ],
+      "text": "Whenever another colorless creature enters the battlefield under your control, you may change Eldrazi Mimic's base power and toughness to that creature's power and toughness until end of turn.",
+      "toughness": "1",
+      "type": "Creature — Eldrazi",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Vincent Proce",
+      "cmc": 6,
+      "id": "0945336e9bd30c755b1a87f16b74556f16f5564e",
+      "imageName": "endbringer",
+      "layout": "normal",
+      "manaCost": "{5}{C}",
+      "mciNumber": "3",
+      "multiverseid": 407513,
+      "name": "Endbringer",
+      "number": "3",
+      "power": "5",
+      "rarity": "Rare",
+      "subtypes": [
+        "Eldrazi"
+      ],
+      "text": "Untap Endbringer during each other player's untap step.\n{T}: Endbringer deals 1 damage to any target.\n{C}, {T}: Target creature can't attack or block this turn.\n{C}{C}, {T}: Draw a card.",
+      "toughness": "5",
+      "type": "Creature — Eldrazi",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Aleksi Briclot",
+      "cmc": 10,
+      "flavor": "A void as cryptic as reality itself.",
+      "id": "ab4de28fe8c2cd9ba2477b4a35f95c414ac01c86",
+      "imageName": "kozilek, the great distortion",
+      "layout": "normal",
+      "manaCost": "{8}{C}{C}",
+      "mciNumber": "4",
+      "multiverseid": 407514,
+      "name": "Kozilek, the Great Distortion",
+      "number": "4",
+      "power": "12",
+      "rarity": "Mythic Rare",
+      "subtypes": [
+        "Eldrazi"
+      ],
+      "supertypes": [
+        "Legendary"
+      ],
+      "text": "When you cast this spell, if you have fewer than seven cards in hand, draw cards equal to the difference.\nMenace\nDiscard a card with converted mana cost X: Counter target spell with converted mana cost X.",
+      "toughness": "12",
+      "type": "Legendary Creature — Eldrazi",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "James Zapata",
+      "cmc": 6,
+      "flavor": "\"We didn't know where it came from or where it was going. All we knew was that we did not matter.\"\n—Akiri, kor line-slinger",
+      "id": "6f0edc2ff86fb6b9e66a7dbc0ee48fec850eef9a",
+      "imageName": "kozilek's pathfinder",
+      "layout": "normal",
+      "manaCost": "{6}",
+      "mciNumber": "5",
+      "multiverseid": 407515,
+      "name": "Kozilek's Pathfinder",
+      "number": "5",
+      "power": "5",
+      "rarity": "Common",
+      "subtypes": [
+        "Eldrazi"
+      ],
+      "text": "{C}: Target creature can't block Kozilek's Pathfinder this turn. ({C} represents colorless mana.)",
+      "toughness": "5",
+      "type": "Creature — Eldrazi",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Chris Rahn",
+      "cmc": 3,
+      "id": "1aea6330157fe83955bce7cbc839020ef72c7bb8",
+      "imageName": "matter reshaper",
+      "layout": "normal",
+      "manaCost": "{2}{C}",
+      "mciNumber": "6",
+      "multiverseid": 407516,
+      "name": "Matter Reshaper",
+      "number": "6",
+      "power": "3",
+      "rarity": "Rare",
+      "subtypes": [
+        "Eldrazi"
+      ],
+      "text": "({C} represents colorless mana.)\nWhen Matter Reshaper dies, reveal the top card of your library. You may put that card onto the battlefield if it's a permanent card with converted mana cost 3 or less. Otherwise, put that card into your hand.",
+      "toughness": "2",
+      "type": "Creature — Eldrazi",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Jason Rainville",
+      "cmc": 5,
+      "flavor": "As easy to stop as it is to comprehend.",
+      "id": "95c49669893a66d8298e6320cddc3f67b096f98e",
+      "imageName": "reality smasher",
+      "layout": "normal",
+      "manaCost": "{4}{C}",
+      "mciNumber": "7",
+      "multiverseid": 407517,
+      "name": "Reality Smasher",
+      "number": "7",
+      "power": "5",
+      "rarity": "Rare",
+      "subtypes": [
+        "Eldrazi"
+      ],
+      "text": "({C} represents colorless mana.)\nTrample, haste\nWhenever Reality Smasher becomes the target of a spell an opponent controls, counter that spell unless its controller discards a card.",
+      "toughness": "5",
+      "type": "Creature — Eldrazi",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Daarken",
+      "cmc": 2,
+      "flavor": "\"For those without the Planeswalker spark, the merest touch of the Blind Eternities can kill.\"\n—Ugin",
+      "id": "9077916b245444435d9a9c06f31f5681e0a66020",
+      "imageName": "spatial contortion",
+      "layout": "normal",
+      "manaCost": "{1}{C}",
+      "mciNumber": "8",
+      "multiverseid": 407518,
+      "name": "Spatial Contortion",
+      "number": "8",
+      "rarity": "Uncommon",
+      "text": "({C} represents colorless mana.)\nTarget creature gets +3/-3 until end of turn.",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "Svetlin Velinov",
+      "cmc": 4,
+      "id": "43cfeb9d9fbd9235787eb21d7ff7e4c4613d037f",
+      "imageName": "thought-knot seer",
+      "layout": "normal",
+      "manaCost": "{3}{C}",
+      "mciNumber": "9",
+      "multiverseid": 407519,
+      "name": "Thought-Knot Seer",
+      "number": "9",
+      "power": "4",
+      "rarity": "Rare",
+      "subtypes": [
+        "Eldrazi"
+      ],
+      "text": "({C} represents colorless mana.)\nWhen Thought-Knot Seer enters the battlefield, target opponent reveals their hand. You choose a nonland card from it and exile that card.\nWhen Thought-Knot Seer leaves the battlefield, target opponent draws a card.",
+      "toughness": "4",
+      "type": "Creature — Eldrazi",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Joseph Meehan",
+      "cmc": 5,
+      "flavor": "In the absence of life, something yet grows.",
+      "id": "845a25ef5f7e533e721b41cd6f9d6e1930db5922",
+      "imageName": "walker of the wastes",
+      "layout": "normal",
+      "manaCost": "{4}{C}",
+      "mciNumber": "10",
+      "multiverseid": 407520,
+      "name": "Walker of the Wastes",
+      "number": "10",
+      "power": "4",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Eldrazi"
+      ],
+      "text": "({C} represents colorless mana.)\nTrample\nWalker of the Wastes gets +1/+1 for each land you control named Wastes.",
+      "toughness": "4",
+      "type": "Creature — Eldrazi",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Jason Felix",
+      "cmc": 4,
+      "flavor": "The wastelands disorient even the most experienced scouts, making them easy prey for Kozilek's drones.",
+      "id": "292de8eec99e6008598101546821554143029a1b",
+      "imageName": "warden of geometries",
+      "layout": "normal",
+      "manaCost": "{4}",
+      "mciNumber": "11",
+      "multiverseid": 407521,
+      "name": "Warden of Geometries",
+      "number": "11",
+      "power": "2",
+      "rarity": "Common",
+      "subtypes": [
+        "Eldrazi",
+        "Drone"
+      ],
+      "text": "Vigilance\n{T}: Add {C}. ({C} represents colorless mana.)",
+      "toughness": "3",
+      "type": "Creature — Eldrazi Drone",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Jason Felix",
+      "cmc": 2,
+      "id": "4118d7da783fb8b38714412eb7f86783c85ce3b6",
+      "imageName": "warping wail",
+      "layout": "normal",
+      "manaCost": "{1}{C}",
+      "mciNumber": "12",
+      "multiverseid": 407522,
+      "name": "Warping Wail",
+      "number": "12",
+      "rarity": "Uncommon",
+      "text": "({C} represents colorless mana.)\nChoose one —\n• Exile target creature with power or toughness 1 or less.\n• Counter target sorcery spell.\n• Create a 1/1 colorless Eldrazi Scion creature token. It has \"Sacrifice this creature: Add {C}.\"",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "Daarken",
+      "cmc": 3,
+      "colorIdentity": [
+        "W"
+      ],
+      "id": "b1e0c3fedfdd2a03f63a974f695eafbe2e296e89",
+      "imageName": "eldrazi displacer",
+      "layout": "normal",
+      "manaCost": "{2}{W}",
+      "mciNumber": "13",
+      "multiverseid": 407523,
+      "name": "Eldrazi Displacer",
+      "number": "13",
+      "power": "3",
+      "rarity": "Rare",
+      "subtypes": [
+        "Eldrazi"
+      ],
+      "text": "Devoid (This card has no color.)\n{2}{C}: Exile another target creature, then return it to the battlefield tapped under its owner's control. ({C} represents colorless mana.)",
+      "toughness": "3",
+      "type": "Creature — Eldrazi",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Izzy",
+      "cmc": 3,
+      "colorIdentity": [
+        "W"
+      ],
+      "colors": [
+        "White"
+      ],
+      "flavor": "\"Through all the terrors we face, I hold on to the memory of the world before the Eldrazi came. I'd like to see that world again.\"",
+      "id": "7e11d77d946a51fe06c853c853fa0e6fdd0b20cd",
+      "imageName": "affa protector",
+      "layout": "normal",
+      "manaCost": "{2}{W}",
+      "mciNumber": "14",
+      "multiverseid": 407524,
+      "name": "Affa Protector",
+      "number": "14",
+      "power": "1",
+      "rarity": "Common",
+      "subtypes": [
+        "Human",
+        "Soldier",
+        "Ally"
+      ],
+      "text": "Vigilance",
+      "toughness": "4",
+      "type": "Creature — Human Soldier Ally",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Matt Stewart",
+      "cmc": 4,
+      "colorIdentity": [
+        "W"
+      ],
+      "colors": [
+        "White"
+      ],
+      "flavor": "\"Our formation was scattered after Sea Gate fell. If you're fighting the Eldrazi, consider us your newest recruits.\"",
+      "id": "29f8b7fdd1f4d52333e10c837c1f92c7bb11ac5f",
+      "imageName": "allied reinforcements",
+      "layout": "normal",
+      "manaCost": "{3}{W}",
+      "mciNumber": "15",
+      "multiverseid": 407525,
+      "name": "Allied Reinforcements",
+      "number": "15",
+      "rarity": "Uncommon",
+      "text": "Create two 2/2 white Knight Ally creature tokens.",
+      "type": "Sorcery",
+      "types": [
+        "Sorcery"
+      ]
+    },
+    {
+      "artist": "Yefim Kligerman",
+      "cmc": 3,
+      "colorIdentity": [
+        "W"
+      ],
+      "colors": [
+        "White"
+      ],
+      "flavor": "\"I've heard it said that a Planeswalker is someone who can always run from danger. But Gideon's right: we're also the ones who can choose to stay.\"\n—Jace Beleren",
+      "id": "b963b771dc1632dd14672cf0a6369f5e229e43ab",
+      "imageName": "call the gatewatch",
+      "layout": "normal",
+      "manaCost": "{2}{W}",
+      "mciNumber": "16",
+      "multiverseid": 407526,
+      "name": "Call the Gatewatch",
+      "number": "16",
+      "rarity": "Rare",
+      "text": "Search your library for a planeswalker card, reveal it, and put it into your hand. Then shuffle your library.",
+      "type": "Sorcery",
+      "types": [
+        "Sorcery"
+      ]
+    },
+    {
+      "artist": "David Palumbo",
+      "cmc": 2,
+      "colorIdentity": [
+        "W"
+      ],
+      "colors": [
+        "White"
+      ],
+      "flavor": "\"The light of a felidar's horns can give even an Eldrazi pause.\"\n—Zarra, lullmage",
+      "id": "cbdc89b8c37db95b1e3ceb978fa02eab39f46bc5",
+      "imageName": "dazzling reflection",
+      "layout": "normal",
+      "manaCost": "{1}{W}",
+      "mciNumber": "17",
+      "multiverseid": 407527,
+      "name": "Dazzling Reflection",
+      "number": "17",
+      "rarity": "Common",
+      "text": "You gain life equal to target creature's power. The next time that creature would deal damage this turn, prevent that damage.",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "Johann Bodin",
+      "cmc": 5,
+      "colorIdentity": [
+        "W"
+      ],
+      "colors": [
+        "White"
+      ],
+      "id": "cc3ee94a7c09ed328d5f3a484359435506bd3081",
+      "imageName": "expedition raptor",
+      "layout": "normal",
+      "manaCost": "{3}{W}{W}",
+      "mciNumber": "18",
+      "multiverseid": 407528,
+      "name": "Expedition Raptor",
+      "number": "18",
+      "power": "2",
+      "rarity": "Common",
+      "subtypes": [
+        "Bird"
+      ],
+      "text": "Flying\nWhen Expedition Raptor enters the battlefield, support 2. (Put a +1/+1 counter on each of up to two other target creatures.)",
+      "toughness": "2",
+      "type": "Creature — Bird",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Chris Rahn",
+      "cmc": 5,
+      "colorIdentity": [
+        "W",
+        "U",
+        "B",
+        "R",
+        "G"
+      ],
+      "colors": [
+        "White"
+      ],
+      "id": "af1b2aeaa86ca619ec174321aa338c940c27e096",
+      "imageName": "general tazri",
+      "layout": "normal",
+      "manaCost": "{4}{W}",
+      "mciNumber": "19",
+      "multiverseid": 407529,
+      "name": "General Tazri",
+      "number": "19",
+      "power": "3",
+      "rarity": "Mythic Rare",
+      "subtypes": [
+        "Human",
+        "Ally"
+      ],
+      "supertypes": [
+        "Legendary"
+      ],
+      "text": "When General Tazri enters the battlefield, you may search your library for an Ally creature card, reveal it, put it into your hand, then shuffle your library.\n{W}{U}{B}{R}{G}: Ally creatures you control get +X/+X until end of turn, where X is the number of colors among those creatures.",
+      "toughness": "4",
+      "type": "Legendary Creature — Human Ally",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Daarken",
+      "cmc": 2,
+      "colorIdentity": [
+        "W"
+      ],
+      "colors": [
+        "White"
+      ],
+      "flavor": "\"The sun can warm your skin or blister it, nurture your crops or wither them, light your path or blind you. She is a fickle friend, but a far worse enemy.\"\n—Nazra of the Stone Havens",
+      "id": "74e16146302ec2ea2f4c58c58284231e4236bb3a",
+      "imageName": "immolating glare",
+      "layout": "normal",
+      "manaCost": "{1}{W}",
+      "mciNumber": "20",
+      "multiverseid": 407530,
+      "name": "Immolating Glare",
+      "number": "20",
+      "rarity": "Uncommon",
+      "text": "Destroy target attacking creature.",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "David Gaillet",
+      "cmc": 4,
+      "colorIdentity": [
+        "W"
+      ],
+      "colors": [
+        "White"
+      ],
+      "flavor": "\"Walk now in my light. When the rest of the world closes its eyes, you will still see.\"\n—Iona",
+      "id": "dc22ca490289d7b94081b0561dd07ab4907e1a72",
+      "imageName": "iona's blessing",
+      "layout": "normal",
+      "manaCost": "{3}{W}",
+      "mciNumber": "21",
+      "multiverseid": 407531,
+      "name": "Iona's Blessing",
+      "number": "21",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Aura"
+      ],
+      "text": "Enchant creature\nEnchanted creature gets +2/+2, has vigilance, and can block an additional creature each combat.",
+      "type": "Enchantment — Aura",
+      "types": [
+        "Enchantment"
+      ]
+    },
+    {
+      "artist": "Chris Rallis",
+      "cmc": 4,
+      "colorIdentity": [
+        "W"
+      ],
+      "colors": [
+        "White"
+      ],
+      "flavor": "When properly aligned, hedrons become powerful tools of binding.",
+      "id": "d0cce061c21425dbbd94cd04eb8ac31167d1e90d",
+      "imageName": "isolation zone",
+      "layout": "normal",
+      "manaCost": "{2}{W}{W}",
+      "mciNumber": "22",
+      "multiverseid": 407532,
+      "name": "Isolation Zone",
+      "number": "22",
+      "rarity": "Common",
+      "text": "When Isolation Zone enters the battlefield, exile target creature or enchantment an opponent controls until Isolation Zone leaves the battlefield. (That permanent returns under its owner's control.)",
+      "type": "Enchantment",
+      "types": [
+        "Enchantment"
+      ]
+    },
+    {
+      "artist": "Ryan Pancoast",
+      "cmc": 3,
+      "colorIdentity": [
+        "W"
+      ],
+      "colors": [
+        "White"
+      ],
+      "flavor": "The kor of Zendikar are known for quiet determination in the face of overwhelming odds.",
+      "id": "edda736277acf568ca8984673cf8fb28b2c35062",
+      "imageName": "kor scythemaster",
+      "layout": "normal",
+      "manaCost": "{2}{W}",
+      "mciNumber": "23",
+      "multiverseid": 407533,
+      "name": "Kor Scythemaster",
+      "number": "23",
+      "power": "3",
+      "rarity": "Common",
+      "subtypes": [
+        "Kor",
+        "Soldier",
+        "Ally"
+      ],
+      "text": "Kor Scythemaster has first strike as long as it's attacking.",
+      "toughness": "1",
+      "type": "Creature — Kor Soldier Ally",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Victor Adame Minguez",
+      "cmc": 3,
+      "colorIdentity": [
+        "W"
+      ],
+      "colors": [
+        "White"
+      ],
+      "flavor": "\"With rope, I can fly as far as the rope can reach. But with light, the sky is the limit.\"",
+      "id": "461d1187093adc4187ab567b8181ce2478c513cc",
+      "imageName": "kor sky climber",
+      "layout": "normal",
+      "manaCost": "{2}{W}",
+      "mciNumber": "24",
+      "multiverseid": 407534,
+      "name": "Kor Sky Climber",
+      "number": "24",
+      "power": "3",
+      "rarity": "Common",
+      "subtypes": [
+        "Kor",
+        "Soldier",
+        "Ally"
+      ],
+      "text": "{1}{W}: Kor Sky Climber gains flying until end of turn.",
+      "toughness": "2",
+      "type": "Creature — Kor Soldier Ally",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Magali Villeneuve",
+      "cmc": 6,
+      "colorIdentity": [
+        "W"
+      ],
+      "colors": [
+        "White"
+      ],
+      "id": "f46496d569ae1399396126d992cb0319f59455f1",
+      "imageName": "linvala, the preserver",
+      "layout": "normal",
+      "manaCost": "{4}{W}{W}",
+      "mciNumber": "25",
+      "multiverseid": 407535,
+      "name": "Linvala, the Preserver",
+      "number": "25",
+      "power": "5",
+      "rarity": "Mythic Rare",
+      "subtypes": [
+        "Angel"
+      ],
+      "supertypes": [
+        "Legendary"
+      ],
+      "text": "Flying\nWhen Linvala, the Preserver enters the battlefield, if an opponent has more life than you, you gain 5 life.\nWhen Linvala enters the battlefield, if an opponent controls more creatures than you, create a 3/3 white Angel creature token with flying.",
+      "toughness": "5",
+      "type": "Legendary Creature — Angel",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Magali Villeneuve",
+      "cmc": 3,
+      "colorIdentity": [
+        "W"
+      ],
+      "colors": [
+        "White"
+      ],
+      "flavor": "For a moment they stood tall, all fear forgotten.",
+      "id": "02f1e7dd469f944297fd084d005d404fd6dc58ca",
+      "imageName": "make a stand",
+      "layout": "normal",
+      "manaCost": "{2}{W}",
+      "mciNumber": "26",
+      "multiverseid": 407536,
+      "name": "Make a Stand",
+      "number": "26",
+      "rarity": "Uncommon",
+      "text": "Creatures you control get +1/+0 and gain indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy them.)",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "Matt Stewart",
+      "cmc": 2,
+      "colorIdentity": [
+        "W"
+      ],
+      "colors": [
+        "White"
+      ],
+      "flavor": "\"The Eldrazi have surprised us before. It's my job to make sure that never happens again.\"",
+      "id": "e3be8e802a34830edea9a35e0050805c3a8dd968",
+      "imageName": "makindi aeronaut",
+      "layout": "normal",
+      "manaCost": "{1}{W}",
+      "mciNumber": "27",
+      "multiverseid": 407537,
+      "name": "Makindi Aeronaut",
+      "number": "27",
+      "power": "1",
+      "rarity": "Common",
+      "subtypes": [
+        "Kor",
+        "Scout",
+        "Ally"
+      ],
+      "text": "Flying",
+      "toughness": "3",
+      "type": "Creature — Kor Scout Ally",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Winona Nelson",
+      "cmc": 2,
+      "colorIdentity": [
+        "W"
+      ],
+      "colors": [
+        "White"
+      ],
+      "flavor": "\"We may have lost faith in our gods, but we are far from losing faith in ourselves.\"\n—Munda, ambush leader",
+      "id": "8ba2cc847ec55721eb2a6e7f6a565116507aad60",
+      "imageName": "mighty leap",
+      "layout": "normal",
+      "manaCost": "{1}{W}",
+      "mciNumber": "28",
+      "multiverseid": 407538,
+      "name": "Mighty Leap",
+      "number": "28",
+      "rarity": "Common",
+      "text": "Target creature gets +2/+2 and gains flying until end of turn.",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "Steve Prescott",
+      "cmc": 5,
+      "colorIdentity": [
+        "W"
+      ],
+      "colors": [
+        "White"
+      ],
+      "flavor": "\"Do not let yourselves fall now. Zendikar is depending on us—on you!\"",
+      "id": "957436fc8dfba28a31dd53fd749d7500fc01b7c2",
+      "imageName": "munda's vanguard",
+      "layout": "normal",
+      "manaCost": "{4}{W}",
+      "mciNumber": "29",
+      "multiverseid": 407539,
+      "name": "Munda's Vanguard",
+      "number": "29",
+      "power": "3",
+      "rarity": "Rare",
+      "subtypes": [
+        "Kor",
+        "Knight",
+        "Ally"
+      ],
+      "text": "Cohort — {T}, Tap an untapped Ally you control: Put a +1/+1 counter on each creature you control.",
+      "toughness": "3",
+      "type": "Creature — Kor Knight Ally",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Wesley Burt",
+      "cmc": 3,
+      "colorIdentity": [
+        "W"
+      ],
+      "colors": [
+        "White"
+      ],
+      "flavor": "\"For justice and peace, I will keep watch.\"",
+      "id": "c7d9052baaf221f74a6abdbb36ff2425668df5bc",
+      "imageName": "oath of gideon",
+      "layout": "normal",
+      "manaCost": "{2}{W}",
+      "mciNumber": "30",
+      "multiverseid": 407540,
+      "name": "Oath of Gideon",
+      "number": "30",
+      "rarity": "Rare",
+      "supertypes": [
+        "Legendary"
+      ],
+      "text": "When Oath of Gideon enters the battlefield, create two 1/1 white Kor Ally creature tokens.\nEach planeswalker you control enters the battlefield with an additional loyalty counter on it.",
+      "type": "Legendary Enchantment",
+      "types": [
+        "Enchantment"
+      ]
+    },
+    {
+      "artist": "Ben Maier",
+      "cmc": 2,
+      "colorIdentity": [
+        "W"
+      ],
+      "colors": [
+        "White"
+      ],
+      "flavor": "\"I will follow the light of Iona into battle, and I will know no fear.\"",
+      "id": "7d87c876d89af4a6a1eb3d662f4dc521c254f724",
+      "imageName": "ondu war cleric",
+      "layout": "normal",
+      "manaCost": "{1}{W}",
+      "mciNumber": "31",
+      "multiverseid": 407541,
+      "name": "Ondu War Cleric",
+      "number": "31",
+      "power": "2",
+      "rarity": "Common",
+      "subtypes": [
+        "Human",
+        "Cleric",
+        "Ally"
+      ],
+      "text": "Cohort — {T}, Tap an untapped Ally you control: You gain 2 life.",
+      "toughness": "2",
+      "type": "Creature — Human Cleric Ally",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Anastasia Ovchinnikova",
+      "cmc": 4,
+      "colorIdentity": [
+        "W"
+      ],
+      "colors": [
+        "White"
+      ],
+      "flavor": "Sometimes gestures of support are small. Sometimes not.",
+      "id": "1c4028f611a627729f472caa0e89ddc1aaae0356",
+      "imageName": "relief captain",
+      "layout": "normal",
+      "manaCost": "{2}{W}{W}",
+      "mciNumber": "32",
+      "multiverseid": 407542,
+      "name": "Relief Captain",
+      "number": "32",
+      "power": "3",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Kor",
+        "Knight",
+        "Ally"
+      ],
+      "text": "When Relief Captain enters the battlefield, support 3. (Put a +1/+1 counter on each of up to three other target creatures.)",
+      "toughness": "2",
+      "type": "Creature — Kor Knight Ally",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Marco Nelor",
+      "cmc": 1,
+      "colorIdentity": [
+        "W"
+      ],
+      "colors": [
+        "White"
+      ],
+      "flavor": "\"Light can lay bare our fears. It can also make them go away.\"\n—Nazra of the Stone Havens",
+      "id": "0c40d9d88543f9aa44965613926be48c9ad7df23",
+      "imageName": "searing light",
+      "layout": "normal",
+      "manaCost": "{W}",
+      "mciNumber": "33",
+      "multiverseid": 407543,
+      "name": "Searing Light",
+      "number": "33",
+      "rarity": "Common",
+      "text": "Destroy target attacking or blocking creature with power 2 or less.",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "Chris Rallis",
+      "cmc": 3,
+      "colorIdentity": [
+        "W"
+      ],
+      "colors": [
+        "White"
+      ],
+      "flavor": "\"Sea Gate may have fallen, but we still stand. We still fight.\"\n—Gideon Jura",
+      "id": "96726715e9234ba320001b829445cc478211ad58",
+      "imageName": "shoulder to shoulder",
+      "layout": "normal",
+      "manaCost": "{2}{W}",
+      "mciNumber": "34",
+      "multiverseid": 407544,
+      "name": "Shoulder to Shoulder",
+      "number": "34",
+      "rarity": "Common",
+      "text": "Support 2. (Put a +1/+1 counter on each of up to two target creatures.)\nDraw a card.",
+      "type": "Sorcery",
+      "types": [
+        "Sorcery"
+      ]
+    },
+    {
+      "artist": "Dan Scott",
+      "cmc": 4,
+      "colorIdentity": [
+        "W"
+      ],
+      "colors": [
+        "White"
+      ],
+      "flavor": "\"Follow me. Step lightly. And resist the urge to kick them.\"",
+      "id": "21da4020571d954c5a038ee740f81baf5d6038e4",
+      "imageName": "spawnbinder mage",
+      "layout": "normal",
+      "manaCost": "{3}{W}",
+      "mciNumber": "35",
+      "multiverseid": 407545,
+      "name": "Spawnbinder Mage",
+      "number": "35",
+      "power": "2",
+      "rarity": "Common",
+      "subtypes": [
+        "Human",
+        "Wizard",
+        "Ally"
+      ],
+      "text": "Cohort — {T}, Tap an untapped Ally you control: Tap target creature.",
+      "toughness": "4",
+      "type": "Creature — Human Wizard Ally",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "John Severin Brassell",
+      "cmc": 5,
+      "colorIdentity": [
+        "W"
+      ],
+      "colors": [
+        "White"
+      ],
+      "flavor": "It glides over the landscape. It also happens to be one.",
+      "id": "569b421611e12dd9bb3407e2530133b463251723",
+      "imageName": "steppe glider",
+      "layout": "normal",
+      "manaCost": "{4}{W}",
+      "mciNumber": "36",
+      "multiverseid": 407546,
+      "name": "Steppe Glider",
+      "number": "36",
+      "power": "2",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Elemental"
+      ],
+      "text": "Flying, vigilance\n{1}{W}: Target creature with a +1/+1 counter on it gains flying and vigilance until end of turn.",
+      "toughness": "4",
+      "type": "Creature — Elemental",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Jason Rainville",
+      "cmc": 2,
+      "colorIdentity": [
+        "W"
+      ],
+      "colors": [
+        "White"
+      ],
+      "flavor": "The makers and menders are the first called to battle and the last to leave.",
+      "id": "40d66126af2cfbe6dbe68e8e71eda62a4f2f2f62",
+      "imageName": "stone haven outfitter",
+      "layout": "normal",
+      "manaCost": "{1}{W}",
+      "mciNumber": "37",
+      "multiverseid": 407547,
+      "name": "Stone Haven Outfitter",
+      "number": "37",
+      "power": "2",
+      "rarity": "Rare",
+      "subtypes": [
+        "Kor",
+        "Artificer",
+        "Ally"
+      ],
+      "text": "Equipped creatures you control get +1/+1.\nWhenever an equipped creature you control dies, draw a card.",
+      "toughness": "2",
+      "type": "Creature — Kor Artificer Ally",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Chris Rallis",
+      "cmc": 1,
+      "colorIdentity": [
+        "W"
+      ],
+      "colors": [
+        "White"
+      ],
+      "flavor": "\"The stone speaks. We are merely interpreters.\"",
+      "id": "33532e5458c85dc55a5c2053ca18e8d726974a12",
+      "imageName": "stoneforge acolyte",
+      "layout": "normal",
+      "manaCost": "{W}",
+      "mciNumber": "38",
+      "multiverseid": 407548,
+      "name": "Stoneforge Acolyte",
+      "number": "38",
+      "power": "1",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Kor",
+        "Artificer",
+        "Ally"
+      ],
+      "text": "Cohort — {T}, Tap an untapped Ally you control: Look at the top four cards of your library. You may reveal an Equipment card from among them and put it into your hand. Put the rest on the bottom of your library in any order.",
+      "toughness": "2",
+      "type": "Creature — Kor Artificer Ally",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Daniel Ljunggren",
+      "cmc": 3,
+      "colorIdentity": [
+        "W"
+      ],
+      "colors": [
+        "White"
+      ],
+      "id": "ded6ed6ead32791ddc202feef38cb779a7cbc52a",
+      "imageName": "wall of resurgence",
+      "layout": "normal",
+      "manaCost": "{2}{W}",
+      "mciNumber": "39",
+      "multiverseid": 407549,
+      "name": "Wall of Resurgence",
+      "number": "39",
+      "power": "0",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Wall"
+      ],
+      "text": "Defender\nWhen Wall of Resurgence enters the battlefield, you may put three +1/+1 counters on target land you control. If you do, that land becomes a 0/0 Elemental creature with haste that's still a land.",
+      "toughness": "6",
+      "type": "Creature — Wall",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Igor Kieryluk",
+      "cmc": 3,
+      "colorIdentity": [
+        "U"
+      ],
+      "id": "a380739ffa7cd491dcba927744b2d5b0e8c67482",
+      "imageName": "abstruse interference",
+      "layout": "normal",
+      "manaCost": "{2}{U}",
+      "mciNumber": "40",
+      "multiverseid": 407550,
+      "name": "Abstruse Interference",
+      "number": "40",
+      "rarity": "Common",
+      "text": "Devoid (This card has no color.)\nCounter target spell unless its controller pays {1}. You create a 1/1 colorless Eldrazi Scion creature token. It has \"Sacrifice this creature: Add {C}.\" ({C} represents colorless mana.)",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "Lake Hurwitz",
+      "cmc": 2,
+      "colorIdentity": [
+        "U"
+      ],
+      "flavor": "\"Zendikar's true gods have risen. Whether in reverence or agony, all the world will kneel.\"\n—Ayli, high priest of the Eternal Pilgrims",
+      "id": "fae99a388ded25767ebc04729c1c0f47bb5d15ae",
+      "imageName": "blinding drone",
+      "layout": "normal",
+      "manaCost": "{1}{U}",
+      "mciNumber": "41",
+      "multiverseid": 407551,
+      "name": "Blinding Drone",
+      "number": "41",
+      "power": "1",
+      "rarity": "Common",
+      "subtypes": [
+        "Eldrazi",
+        "Drone"
+      ],
+      "text": "Devoid (This card has no color.)\n{C}, {T}: Tap target creature. ({C} represents colorless mana.)",
+      "toughness": "3",
+      "type": "Creature — Eldrazi Drone",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Slawomir Maniak",
+      "cmc": 3,
+      "colorIdentity": [
+        "U"
+      ],
+      "id": "6b3fa6d6ccd82cb771e9ebb39ed259c5a7bb14be",
+      "imageName": "cultivator drone",
+      "layout": "normal",
+      "manaCost": "{2}{U}",
+      "mciNumber": "42",
+      "multiverseid": 407552,
+      "name": "Cultivator Drone",
+      "number": "42",
+      "power": "2",
+      "rarity": "Common",
+      "subtypes": [
+        "Eldrazi",
+        "Drone"
+      ],
+      "text": "Devoid (This card has no color.)\n{T}: Add {C}. Spend this mana only to cast a colorless spell, activate an ability of a colorless permanent, or pay a cost that contains {C}. ({C} represents colorless mana.)",
+      "toughness": "3",
+      "type": "Creature — Eldrazi Drone",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Joseph Meehan",
+      "cmc": 6,
+      "colorIdentity": [
+        "U"
+      ],
+      "id": "98a093d41efbf6b4e12bccf29c40bf9d863995df",
+      "imageName": "deepfathom skulker",
+      "layout": "normal",
+      "manaCost": "{5}{U}",
+      "mciNumber": "43",
+      "multiverseid": 407553,
+      "name": "Deepfathom Skulker",
+      "number": "43",
+      "power": "4",
+      "rarity": "Rare",
+      "subtypes": [
+        "Eldrazi"
+      ],
+      "text": "Devoid (This card has no color.)\nWhenever a creature you control deals combat damage to a player, you may draw a card.\n{3}{C}: Target creature can't be blocked this turn. ({C} represents colorless mana.)",
+      "toughness": "4",
+      "type": "Creature — Eldrazi",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Chase Stone",
+      "cmc": 2,
+      "colorIdentity": [
+        "U"
+      ],
+      "id": "27aa4a9854066ef25103e890f5a01a6bffa8bae9",
+      "imageName": "dimensional infiltrator",
+      "layout": "normal",
+      "manaCost": "{1}{U}",
+      "mciNumber": "44",
+      "multiverseid": 407554,
+      "name": "Dimensional Infiltrator",
+      "number": "44",
+      "power": "2",
+      "rarity": "Rare",
+      "subtypes": [
+        "Eldrazi"
+      ],
+      "text": "Devoid (This card has no color.)\nFlash\nFlying\n{1}{C}: Target opponent exiles the top card of their library. If it's a land card, you may return Dimensional Infiltrator to its owner's hand. ({C} represents colorless mana.)",
+      "toughness": "1",
+      "type": "Creature — Eldrazi",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Chase Stone",
+      "cmc": 4,
+      "colorIdentity": [
+        "U"
+      ],
+      "id": "1781e8ad71d7ce542818c9fc8b0554950f236019",
+      "imageName": "gravity negator",
+      "layout": "normal",
+      "manaCost": "{3}{U}",
+      "mciNumber": "45",
+      "multiverseid": 407555,
+      "name": "Gravity Negator",
+      "number": "45",
+      "power": "2",
+      "rarity": "Common",
+      "subtypes": [
+        "Eldrazi",
+        "Drone"
+      ],
+      "text": "Devoid (This card has no color.)\nFlying\nWhenever Gravity Negator attacks, you may pay {C}. If you do, another target creature gains flying until end of turn. ({C} represents colorless mana.)",
+      "toughness": "3",
+      "type": "Creature — Eldrazi Drone",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Lius Lasahido",
+      "cmc": 1,
+      "colorIdentity": [
+        "U"
+      ],
+      "flavor": "It doesn't twist words. It twists worlds.",
+      "id": "1f9205376bbc468db1f2bacb12436a61caf1a777",
+      "imageName": "prophet of distortion",
+      "layout": "normal",
+      "manaCost": "{U}",
+      "mciNumber": "46",
+      "multiverseid": 407556,
+      "name": "Prophet of Distortion",
+      "number": "46",
+      "power": "1",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Eldrazi",
+        "Drone"
+      ],
+      "text": "Devoid (This card has no color.)\n{3}{C}: Draw a card. ({C} represents colorless mana.)",
+      "toughness": "2",
+      "type": "Creature — Eldrazi Drone",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Raymond Swanland",
+      "cmc": 1,
+      "colorIdentity": [
+        "U"
+      ],
+      "flavor": "The Eldrazi twisted in a direction that had no name, and a frontal assault became a panicked rout.",
+      "id": "51248357802f2e6670cb66707fc166448e47e371",
+      "imageName": "slip through space",
+      "layout": "normal",
+      "manaCost": "{U}",
+      "mciNumber": "47",
+      "multiverseid": 407557,
+      "name": "Slip Through Space",
+      "number": "47",
+      "rarity": "Common",
+      "text": "Devoid (This card has no color.)\nTarget creature can't be blocked this turn.\nDraw a card.",
+      "type": "Sorcery",
+      "types": [
+        "Sorcery"
+      ]
+    },
+    {
+      "artist": "Winona Nelson",
+      "cmc": 4,
+      "colorIdentity": [
+        "U"
+      ],
+      "flavor": "\"I never thought I'd miss the gomazoa.\"\n—Trinda, Hada spy patrol",
+      "id": "3f981566205860e5acc0ef02802aa20aba08c632",
+      "imageName": "thought harvester",
+      "layout": "normal",
+      "manaCost": "{3}{U}",
+      "mciNumber": "48",
+      "multiverseid": 407558,
+      "name": "Thought Harvester",
+      "number": "48",
+      "power": "2",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Eldrazi",
+        "Drone"
+      ],
+      "text": "Devoid (This card has no color.)\nFlying\nWhenever you cast a colorless spell, target opponent exiles the top card of their library.",
+      "toughness": "4",
+      "type": "Creature — Eldrazi Drone",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Jason Felix",
+      "cmc": 3,
+      "colorIdentity": [
+        "U"
+      ],
+      "flavor": "Eldrazi break concentration like glass.",
+      "id": "fdc6e261a116376abbada8d8b7f92ffd9988a70f",
+      "imageName": "void shatter",
+      "layout": "normal",
+      "manaCost": "{1}{U}{U}",
+      "mciNumber": "49",
+      "multiverseid": 407559,
+      "name": "Void Shatter",
+      "number": "49",
+      "rarity": "Uncommon",
+      "text": "Devoid (This card has no color.)\nCounter target spell. If that spell is countered this way, exile it instead of putting it into its owner's graveyard.",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "Steve Prescott",
+      "cmc": 3,
+      "colorIdentity": [
+        "U"
+      ],
+      "colors": [
+        "Blue"
+      ],
+      "flavor": "After the fall of Sea Gate and the draining of the Halimar basin, the crab set off to find a new home.",
+      "id": "dd78a1c9ed323830bd16fbe64e67c072cb288278",
+      "imageName": "ancient crab",
+      "layout": "normal",
+      "manaCost": "{1}{U}{U}",
+      "mciNumber": "50",
+      "multiverseid": 407560,
+      "name": "Ancient Crab",
+      "number": "50",
+      "power": "1",
+      "rarity": "Common",
+      "subtypes": [
+        "Crab"
+      ],
+      "toughness": "5",
+      "type": "Creature — Crab",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Willian Murai",
+      "cmc": 4,
+      "colorIdentity": [
+        "U"
+      ],
+      "colors": [
+        "Blue"
+      ],
+      "flavor": "\"Our time grows short. If we wish to vanquish the Eldrazi, we must unlock the hedrons' secrets.\"\n—Jace Beleren",
+      "id": "4792789cb1973db7b1252ab33bfe93f31d9ba2b7",
+      "imageName": "comparative analysis",
+      "layout": "normal",
+      "manaCost": "{3}{U}",
+      "mciNumber": "51",
+      "multiverseid": 407561,
+      "name": "Comparative Analysis",
+      "number": "51",
+      "rarity": "Common",
+      "text": "Surge {2}{U} (You may cast this spell for its surge cost if you or a teammate has cast another spell this turn.)\nTarget player draws two cards.",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "Daarken",
+      "cmc": 3,
+      "colorIdentity": [
+        "U"
+      ],
+      "colors": [
+        "Blue"
+      ],
+      "id": "48994c6f6da34d57ce59a63d88fd86aa952f5967",
+      "imageName": "containment membrane",
+      "layout": "normal",
+      "manaCost": "{2}{U}",
+      "mciNumber": "52",
+      "multiverseid": 407562,
+      "name": "Containment Membrane",
+      "number": "52",
+      "rarity": "Common",
+      "subtypes": [
+        "Aura"
+      ],
+      "text": "Surge {U} (You may cast this spell for its surge cost if you or a teammate has cast another spell this turn.)\nEnchant creature\nEnchanted creature doesn't untap during its controller's untap step.",
+      "type": "Enchantment — Aura",
+      "types": [
+        "Enchantment"
+      ]
+    },
+    {
+      "artist": "Jama Jurabaev",
+      "cmc": 6,
+      "colorIdentity": [
+        "U"
+      ],
+      "colors": [
+        "Blue"
+      ],
+      "id": "70ce525e6e3c7ea95c1aca35634c2fdaf685b14a",
+      "imageName": "crush of tentacles",
+      "layout": "normal",
+      "manaCost": "{4}{U}{U}",
+      "mciNumber": "53",
+      "multiverseid": 407563,
+      "name": "Crush of Tentacles",
+      "number": "53",
+      "rarity": "Mythic Rare",
+      "text": "Surge {3}{U}{U} (You may cast this spell for its surge cost if you or a teammate has cast another spell this turn.)\nReturn all nonland permanents to their owners' hands. If Crush of Tentacles's surge cost was paid, create an 8/8 blue Octopus creature token.",
+      "type": "Sorcery",
+      "types": [
+        "Sorcery"
+      ]
+    },
+    {
+      "artist": "Igor Kieryluk",
+      "cmc": 5,
+      "colorIdentity": [
+        "U"
+      ],
+      "colors": [
+        "Blue"
+      ],
+      "flavor": "The rampaging Roil creates life out of the most volatile elements.",
+      "id": "956029547aa7d03299abfa5a33751e905dc05e82",
+      "imageName": "cyclone sire",
+      "layout": "normal",
+      "manaCost": "{4}{U}",
+      "mciNumber": "54",
+      "multiverseid": 407564,
+      "name": "Cyclone Sire",
+      "number": "54",
+      "power": "3",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Elemental"
+      ],
+      "text": "Flying\nWhen Cyclone Sire dies, you may put three +1/+1 counters on target land you control. If you do, that land becomes a 0/0 Elemental creature with haste that's still a land.",
+      "toughness": "4",
+      "type": "Creature — Elemental",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Kev Walker",
+      "cmc": 1,
+      "colorIdentity": [
+        "U"
+      ],
+      "colors": [
+        "Blue"
+      ],
+      "flavor": "It's an experience you'll never forget.",
+      "id": "2d9751396357f421dddbdd1482a1c3c52b4223af",
+      "imageName": "gift of tusks",
+      "layout": "normal",
+      "manaCost": "{U}",
+      "mciNumber": "55",
+      "multiverseid": 407565,
+      "name": "Gift of Tusks",
+      "number": "55",
+      "rarity": "Uncommon",
+      "text": "Until end of turn, target creature loses all abilities and becomes a green Elephant with base power and toughness 3/3.",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "Volkan Baga",
+      "cmc": 3,
+      "colorIdentity": [
+        "U"
+      ],
+      "colors": [
+        "Blue"
+      ],
+      "id": "58d1798814866c179b57cf65fff0527d7dbc9399",
+      "imageName": "grip of the roil",
+      "layout": "normal",
+      "manaCost": "{2}{U}",
+      "mciNumber": "56",
+      "multiverseid": 407566,
+      "name": "Grip of the Roil",
+      "number": "56",
+      "rarity": "Uncommon",
+      "text": "Surge {1}{U} (You may cast this spell for its surge cost if you or a teammate has cast another spell this turn.)\nTap target creature. It doesn't untap during its controller's next untap step.\nDraw a card.",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "Craig J Spearing",
+      "cmc": 3,
+      "colorIdentity": [
+        "U"
+      ],
+      "colors": [
+        "Blue"
+      ],
+      "id": "9db98c08bfe86b4b33b7958b46a9681a329e3c7a",
+      "imageName": "hedron alignment",
+      "layout": "normal",
+      "manaCost": "{2}{U}",
+      "mciNumber": "57",
+      "multiverseid": 407567,
+      "name": "Hedron Alignment",
+      "number": "57",
+      "rarity": "Rare",
+      "text": "Hexproof\nAt the beginning of your upkeep, you may reveal your hand. If you do, you win the game if you own a card named Hedron Alignment in exile, in your hand, in your graveyard, and on the battlefield.\n{1}{U}: Scry 1.",
+      "type": "Enchantment",
+      "types": [
+        "Enchantment"
+      ]
+    },
+    {
+      "artist": "Ryan Pancoast",
+      "cmc": 5,
+      "colorIdentity": [
+        "U"
+      ],
+      "colors": [
+        "Blue"
+      ],
+      "flavor": "Though solitary by nature, the sphinxes did not hesitate to join in the fight against the Eldrazi.",
+      "id": "deced18f06faefe401bbabccf5d84c14c929f98c",
+      "imageName": "jwar isle avenger",
+      "layout": "normal",
+      "manaCost": "{4}{U}",
+      "mciNumber": "58",
+      "multiverseid": 407568,
+      "name": "Jwar Isle Avenger",
+      "number": "58",
+      "power": "3",
+      "rarity": "Common",
+      "subtypes": [
+        "Sphinx"
+      ],
+      "text": "Surge {2}{U} (You may cast this spell for its surge cost if you or a teammate has cast another spell this turn.)\nFlying",
+      "toughness": "3",
+      "type": "Creature — Sphinx",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Ryan Pancoast",
+      "cmc": 2,
+      "colorIdentity": [
+        "U"
+      ],
+      "colors": [
+        "Blue"
+      ],
+      "flavor": "\"Eventually, everything returns to silence.\"\n—Zarra, lullmage",
+      "id": "c7dded6ccd1940cdf24f1707d82d981de888ff99",
+      "imageName": "negate",
+      "layout": "normal",
+      "manaCost": "{1}{U}",
+      "mciNumber": "59",
+      "multiverseid": 407569,
+      "name": "Negate",
+      "number": "59",
+      "rarity": "Common",
+      "text": "Counter target noncreature spell.",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "Wesley Burt",
+      "cmc": 3,
+      "colorIdentity": [
+        "U"
+      ],
+      "colors": [
+        "Blue"
+      ],
+      "flavor": "\"For the sake of the Multiverse, I will keep watch.\"",
+      "id": "30fc97fe0225b031678cf4b8bbe0d81850a55e3e",
+      "imageName": "oath of jace",
+      "layout": "normal",
+      "manaCost": "{2}{U}",
+      "mciNumber": "60",
+      "multiverseid": 407570,
+      "name": "Oath of Jace",
+      "number": "60",
+      "rarity": "Rare",
+      "supertypes": [
+        "Legendary"
+      ],
+      "text": "When Oath of Jace enters the battlefield, draw three cards, then discard two cards.\nAt the beginning of your upkeep, scry X, where X is the number of planeswalkers you control.",
+      "type": "Legendary Enchantment",
+      "types": [
+        "Enchantment"
+      ]
+    },
+    {
+      "artist": "Jama Jurabaev",
+      "cmc": 4,
+      "colorIdentity": [
+        "U"
+      ],
+      "colors": [
+        "Blue"
+      ],
+      "id": "522051f462d520d15ff21d193847f178974d00a1",
+      "imageName": "overwhelming denial",
+      "layout": "normal",
+      "manaCost": "{2}{U}{U}",
+      "mciNumber": "61",
+      "multiverseid": 407571,
+      "name": "Overwhelming Denial",
+      "number": "61",
+      "rarity": "Rare",
+      "text": "Surge {U}{U} (You may cast this spell for its surge cost if you or a teammate has cast another spell this turn.)\nThis spell can't be countered.\nCounter target spell.",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "David Gaillet",
+      "cmc": 7,
+      "colorIdentity": [
+        "U"
+      ],
+      "colors": [
+        "Blue"
+      ],
+      "flavor": "\"The Roil may be unpredictable, but it is not uncontrollable.\"\n—Noyan Dar, Tazeem roilmage",
+      "id": "4c31d1e04d572c26d1f1bfe0cd3e6b3be7802eac",
+      "imageName": "roiling waters",
+      "layout": "normal",
+      "manaCost": "{5}{U}{U}",
+      "mciNumber": "62",
+      "multiverseid": 407572,
+      "name": "Roiling Waters",
+      "number": "62",
+      "rarity": "Uncommon",
+      "text": "Return up to two target creatures your opponents control to their owners' hands. Target player draws two cards.",
+      "type": "Sorcery",
+      "types": [
+        "Sorcery"
+      ]
+    },
+    {
+      "artist": "Lius Lasahido",
+      "cmc": 7,
+      "colorIdentity": [
+        "U"
+      ],
+      "colors": [
+        "Blue"
+      ],
+      "flavor": "He answers questions as readily as he asks them, but his answer is always \"no.\"",
+      "id": "fdd9900ba690bc5434fe8ebcc8868d86807d4792",
+      "imageName": "sphinx of the final word",
+      "layout": "normal",
+      "manaCost": "{5}{U}{U}",
+      "mciNumber": "63",
+      "multiverseid": 407573,
+      "name": "Sphinx of the Final Word",
+      "number": "63",
+      "power": "5",
+      "rarity": "Mythic Rare",
+      "subtypes": [
+        "Sphinx"
+      ],
+      "text": "This spell can't be countered.\nFlying, hexproof\nInstant and sorcery spells you control can't be countered.",
+      "toughness": "5",
+      "type": "Creature — Sphinx",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Winona Nelson",
+      "cmc": 3,
+      "colorIdentity": [
+        "U"
+      ],
+      "colors": [
+        "Blue"
+      ],
+      "flavor": "The Roil takes many forms. It also takes many victims.",
+      "id": "33f15dd3165067ed5cb8caba0ff4a9906d74ccc7",
+      "imageName": "sweep away",
+      "layout": "normal",
+      "manaCost": "{2}{U}",
+      "mciNumber": "64",
+      "multiverseid": 407574,
+      "name": "Sweep Away",
+      "number": "64",
+      "rarity": "Common",
+      "text": "Return target creature to its owner's hand. If that creature is attacking, you may put it on top of its owner's library instead.",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "James Ryman",
+      "cmc": 2,
+      "colorIdentity": [
+        "U"
+      ],
+      "colors": [
+        "Blue"
+      ],
+      "flavor": "\"Sea Gate is gone, the Halimar basin empty. But rebuild the seawall and give these waters time, and they will fill the basin anew.\"",
+      "id": "580b5c2bebcb7df395bfca998f444b3c72bcdffd",
+      "imageName": "umara entangler",
+      "layout": "normal",
+      "manaCost": "{1}{U}",
+      "mciNumber": "65",
+      "multiverseid": 407575,
+      "name": "Umara Entangler",
+      "number": "65",
+      "power": "2",
+      "rarity": "Common",
+      "subtypes": [
+        "Merfolk",
+        "Rogue",
+        "Ally"
+      ],
+      "text": "Prowess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)",
+      "toughness": "1",
+      "type": "Creature — Merfolk Rogue Ally",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Jason Felix",
+      "cmc": 4,
+      "colorIdentity": [
+        "U"
+      ],
+      "colors": [
+        "Blue"
+      ],
+      "flavor": "Faced with the novel problem of inspiring an army, Jace asked himself: \"What would Gideon say?\"",
+      "id": "6e2f1b806c08d788213f50f867dec39fd28a492b",
+      "imageName": "unity of purpose",
+      "layout": "normal",
+      "manaCost": "{3}{U}",
+      "mciNumber": "66",
+      "multiverseid": 407576,
+      "name": "Unity of Purpose",
+      "number": "66",
+      "rarity": "Uncommon",
+      "text": "Support 2. (Put a +1/+1 counter on each of up to two target creatures.)\nUntap each creature you control with a +1/+1 counter on it.",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "Tyler Jacobson",
+      "cmc": 2,
+      "colorIdentity": [
+        "B"
+      ],
+      "id": "31350e672ab3375b1ab1644d9674884f3efcf7de",
+      "imageName": "bearer of silence",
+      "layout": "normal",
+      "manaCost": "{1}{B}",
+      "mciNumber": "67",
+      "multiverseid": 407577,
+      "name": "Bearer of Silence",
+      "number": "67",
+      "power": "2",
+      "rarity": "Rare",
+      "subtypes": [
+        "Eldrazi"
+      ],
+      "text": "Devoid (This card has no color.)\nWhen you cast this spell, you may pay {1}{C}. If you do, target opponent sacrifices a creature. ({C} represents colorless mana.)\nFlying\nBearer of Silence can't block.",
+      "toughness": "1",
+      "type": "Creature — Eldrazi",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Slawomir Maniak",
+      "cmc": 7,
+      "colorIdentity": [
+        "B"
+      ],
+      "flavor": "It left behind an echoing emptiness more horrible than the grave.",
+      "id": "a88f13c4e80c4051a859c9c26d2ccb4658a612ba",
+      "imageName": "dread defiler",
+      "layout": "normal",
+      "manaCost": "{6}{B}",
+      "mciNumber": "68",
+      "multiverseid": 407578,
+      "name": "Dread Defiler",
+      "number": "68",
+      "power": "6",
+      "rarity": "Rare",
+      "subtypes": [
+        "Eldrazi"
+      ],
+      "text": "Devoid (This card has no color.)\n{3}{C}, Exile a creature card from your graveyard: Target opponent loses life equal to the exiled card's power. ({C} represents colorless mana.)",
+      "toughness": "8",
+      "type": "Creature — Eldrazi",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Chase Stone",
+      "cmc": 3,
+      "colorIdentity": [
+        "B"
+      ],
+      "flavor": "When Kozilek emerged at Sea Gate, his brood lineage swarmed to the surface.",
+      "id": "99002c154608e58f7ccdef7f21a5de5dd7a5ee4f",
+      "imageName": "essence depleter",
+      "layout": "normal",
+      "manaCost": "{2}{B}",
+      "mciNumber": "69",
+      "multiverseid": 407579,
+      "name": "Essence Depleter",
+      "number": "69",
+      "power": "2",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Eldrazi",
+        "Drone"
+      ],
+      "text": "Devoid (This card has no color.)\n{1}{C}: Target opponent loses 1 life and you gain 1 life. ({C} represents colorless mana.)",
+      "toughness": "3",
+      "type": "Creature — Eldrazi Drone",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Slawomir Maniak",
+      "cmc": 3,
+      "colorIdentity": [
+        "B"
+      ],
+      "flavor": "Only one Eldrazi stood against them, yet the defenders were outnumbered.",
+      "id": "724f8d5add6ecf72999360b81cf90bb2db85ad69",
+      "imageName": "flaying tendrils",
+      "layout": "normal",
+      "manaCost": "{1}{B}{B}",
+      "mciNumber": "70",
+      "multiverseid": 407580,
+      "name": "Flaying Tendrils",
+      "number": "70",
+      "rarity": "Uncommon",
+      "text": "Devoid (This card has no color.)\nAll creatures get -2/-2 until end of turn. If a creature would die this turn, exile it instead.",
+      "type": "Sorcery",
+      "types": [
+        "Sorcery"
+      ]
+    },
+    {
+      "artist": "Svetlin Velinov",
+      "cmc": 4,
+      "colorIdentity": [
+        "B"
+      ],
+      "flavor": "It grew with a terrible swiftness.",
+      "id": "d3e5169da9a36771bb6eaaa820324c838f531166",
+      "imageName": "havoc sower",
+      "layout": "normal",
+      "manaCost": "{3}{B}",
+      "mciNumber": "71",
+      "multiverseid": 407581,
+      "name": "Havoc Sower",
+      "number": "71",
+      "power": "3",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Eldrazi",
+        "Drone"
+      ],
+      "text": "Devoid (This card has no color.)\n{1}{C}: Havoc Sower gets +2/+1 until end of turn. ({C} represents colorless mana.)",
+      "toughness": "3",
+      "type": "Creature — Eldrazi Drone",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Chase Stone",
+      "cmc": 4,
+      "colorIdentity": [
+        "B"
+      ],
+      "flavor": "In its shadow, everything changed.",
+      "id": "ec171177f64a1717bb9f31d479e7a7c622d0e838",
+      "imageName": "inverter of truth",
+      "layout": "normal",
+      "manaCost": "{2}{B}{B}",
+      "mciNumber": "72",
+      "multiverseid": 407582,
+      "name": "Inverter of Truth",
+      "number": "72",
+      "power": "6",
+      "rarity": "Mythic Rare",
+      "subtypes": [
+        "Eldrazi"
+      ],
+      "text": "Devoid (This card has no color.)\nFlying\nWhen Inverter of Truth enters the battlefield, exile all cards from your library face down, then shuffle all cards from your graveyard into your library.",
+      "toughness": "6",
+      "type": "Creature — Eldrazi",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Jason Felix",
+      "cmc": 3,
+      "colorIdentity": [
+        "B"
+      ],
+      "flavor": "Listen to the sound of defeat.",
+      "id": "32ef7ced9eb3395b94893fd789497a52a48ef8d5",
+      "imageName": "kozilek's shrieker",
+      "layout": "normal",
+      "manaCost": "{2}{B}",
+      "mciNumber": "73",
+      "multiverseid": 407583,
+      "name": "Kozilek's Shrieker",
+      "number": "73",
+      "power": "3",
+      "rarity": "Common",
+      "subtypes": [
+        "Eldrazi",
+        "Drone"
+      ],
+      "text": "Devoid (This card has no color.)\n{C}: Kozilek's Shrieker gets +1/+0 and gains menace until end of turn. (It can't be blocked except by two or more creatures. {C} represents colorless mana.)",
+      "toughness": "2",
+      "type": "Creature — Eldrazi Drone",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Izzy",
+      "cmc": 5,
+      "colorIdentity": [
+        "B"
+      ],
+      "flavor": "From nothingness, sustenance.",
+      "id": "d29be4fef3da0fb8420ff25a0730314319a3a917",
+      "imageName": "kozilek's translator",
+      "layout": "normal",
+      "manaCost": "{4}{B}",
+      "mciNumber": "74",
+      "multiverseid": 407584,
+      "name": "Kozilek's Translator",
+      "number": "74",
+      "power": "3",
+      "rarity": "Common",
+      "subtypes": [
+        "Eldrazi",
+        "Drone"
+      ],
+      "text": "Devoid (This card has no color.)\nPay 1 life: Add {C}. Activate this ability only once each turn. ({C} represents colorless mana.)",
+      "toughness": "5",
+      "type": "Creature — Eldrazi Drone",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Daniel Ljunggren",
+      "cmc": 4,
+      "colorIdentity": [
+        "B"
+      ],
+      "flavor": "It's bad enough to be torn to pieces. It's worse by far to be torn from the world itself.",
+      "id": "a47d312d556b125efb70f0c2df4017a35d65c9f8",
+      "imageName": "oblivion strike",
+      "layout": "normal",
+      "manaCost": "{3}{B}",
+      "mciNumber": "75",
+      "multiverseid": 407585,
+      "name": "Oblivion Strike",
+      "number": "75",
+      "rarity": "Common",
+      "text": "Devoid (This card has no color.)\nExile target creature.",
+      "type": "Sorcery",
+      "types": [
+        "Sorcery"
+      ]
+    },
+    {
+      "artist": "Chris Rallis",
+      "cmc": 1,
+      "colorIdentity": [
+        "B"
+      ],
+      "flavor": "Kozilek's brood infiltrates and deceives. The spawn of Ulamog mindlessly consume.",
+      "id": "5030140924a7682e33d5d0d3832801abe450ae5a",
+      "imageName": "reaver drone",
+      "layout": "normal",
+      "manaCost": "{B}",
+      "mciNumber": "76",
+      "multiverseid": 407586,
+      "name": "Reaver Drone",
+      "number": "76",
+      "power": "2",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Eldrazi",
+        "Drone"
+      ],
+      "text": "Devoid (This card has no color.)\nAt the beginning of your upkeep, you lose 1 life unless you control another colorless creature.",
+      "toughness": "1",
+      "type": "Creature — Eldrazi Drone",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Slawomir Maniak",
+      "cmc": 4,
+      "colorIdentity": [
+        "B"
+      ],
+      "id": "293cbe9344f5a5840df4a0f1e03cf72176a9f08b",
+      "imageName": "sifter of skulls",
+      "layout": "normal",
+      "manaCost": "{3}{B}",
+      "mciNumber": "77",
+      "multiverseid": 407587,
+      "name": "Sifter of Skulls",
+      "number": "77",
+      "power": "4",
+      "rarity": "Rare",
+      "subtypes": [
+        "Eldrazi"
+      ],
+      "text": "Devoid (This card has no color.)\nWhenever another nontoken creature you control dies, create a 1/1 colorless Eldrazi Scion creature token. It has \"Sacrifice this creature: Add {C}.\" ({C} represents colorless mana.)",
+      "toughness": "3",
+      "type": "Creature — Eldrazi",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Winona Nelson",
+      "cmc": 2,
+      "colorIdentity": [
+        "B"
+      ],
+      "flavor": "\"The Eldrazi are nothing if not thorough.\"\n—Jace Beleren",
+      "id": "e52fd21e3f597d00a8c68bbc5b841f038ab84571",
+      "imageName": "sky scourer",
+      "layout": "normal",
+      "manaCost": "{1}{B}",
+      "mciNumber": "78",
+      "multiverseid": 407588,
+      "name": "Sky Scourer",
+      "number": "78",
+      "power": "1",
+      "rarity": "Common",
+      "subtypes": [
+        "Eldrazi",
+        "Drone"
+      ],
+      "text": "Devoid (This card has no color.)\nFlying\nWhenever you cast a colorless spell, Sky Scourer gets +1/+0 until end of turn.",
+      "toughness": "2",
+      "type": "Creature — Eldrazi Drone",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Dan Scott",
+      "cmc": 2,
+      "colorIdentity": [
+        "B"
+      ],
+      "flavor": "It kills what is, making way for what should not be.",
+      "id": "7371e7f6e7f8147e6f0a40fcb758962abe60eb16",
+      "imageName": "slaughter drone",
+      "layout": "normal",
+      "manaCost": "{1}{B}",
+      "mciNumber": "79",
+      "multiverseid": 407589,
+      "name": "Slaughter Drone",
+      "number": "79",
+      "power": "2",
+      "rarity": "Common",
+      "subtypes": [
+        "Eldrazi",
+        "Drone"
+      ],
+      "text": "Devoid (This card has no color.)\n{C}: Slaughter Drone gains deathtouch until end of turn. (Any amount of damage it deals to a creature is enough to destroy it. {C} represents colorless mana.)",
+      "toughness": "2",
+      "type": "Creature — Eldrazi Drone",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Mathias Kollros",
+      "cmc": 1,
+      "colorIdentity": [
+        "B"
+      ],
+      "flavor": "\"Eldrazi don't die easy. Sometimes they don't die at all.\"\n—Yon Basrel, Oran-Rief survivalist",
+      "id": "eaa1ed96a598b53a10472ca789662f685fc481a1",
+      "imageName": "unnatural endurance",
+      "layout": "normal",
+      "manaCost": "{B}",
+      "mciNumber": "80",
+      "multiverseid": 407590,
+      "name": "Unnatural Endurance",
+      "number": "80",
+      "rarity": "Common",
+      "text": "Devoid (This card has no color.)\nTarget creature gets +2/+0 until end of turn. Regenerate it.",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "Jama Jurabaev",
+      "cmc": 2,
+      "colorIdentity": [
+        "B"
+      ],
+      "id": "acc885c3d872a0ea50627dc7628c372f19fe0c3e",
+      "imageName": "visions of brutality",
+      "layout": "normal",
+      "manaCost": "{1}{B}",
+      "mciNumber": "81",
+      "multiverseid": 407591,
+      "name": "Visions of Brutality",
+      "number": "81",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Aura"
+      ],
+      "text": "Devoid (This card has no color.)\nEnchant creature\nEnchanted creature can't block.\nWhenever enchanted creature deals damage, its controller loses that much life.",
+      "type": "Enchantment — Aura",
+      "types": [
+        "Enchantment"
+      ]
+    },
+    {
+      "artist": "Igor Kieryluk",
+      "cmc": 4,
+      "colorIdentity": [
+        "B"
+      ],
+      "flavor": "\"Ulamog stood before us at Sea Gate, ready to succumb . . . and then Kozilek arose. Whatever hope I had for our world died.\"\n—Vandri, Kalastria emissary",
+      "id": "e58983abfb58b443dc0306887f277e87288527a9",
+      "imageName": "witness the end",
+      "layout": "normal",
+      "manaCost": "{3}{B}",
+      "mciNumber": "82",
+      "multiverseid": 407592,
+      "name": "Witness the End",
+      "number": "82",
+      "rarity": "Common",
+      "text": "Devoid (This card has no color.)\nTarget opponent exiles two cards from their hand and loses 2 life.",
+      "type": "Sorcery",
+      "types": [
+        "Sorcery"
+      ]
+    },
+    {
+      "artist": "Magali Villeneuve",
+      "cmc": 2,
+      "colorIdentity": [
+        "B"
+      ],
+      "colors": [
+        "Black"
+      ],
+      "flavor": "\"The distraction of your life has ended. Now your service begins.\"\n—Kalitas, thrall of Ulamog",
+      "id": "ee632684783573fe706d98029cfbf8be33db035e",
+      "imageName": "corpse churn",
+      "layout": "normal",
+      "manaCost": "{1}{B}",
+      "mciNumber": "83",
+      "multiverseid": 407593,
+      "name": "Corpse Churn",
+      "number": "83",
+      "rarity": "Common",
+      "text": "Put the top three cards of your library into your graveyard, then you may return a creature card from your graveyard to your hand.",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "Deruchenko Alexander",
+      "cmc": 4,
+      "colorIdentity": [
+        "B"
+      ],
+      "colors": [
+        "Black"
+      ],
+      "flavor": "\"Drana commands me. I command my nulls. And so her bidding is done.\"",
+      "id": "c97b2c3cb5dc7db37338b22826fdae183e271e0c",
+      "imageName": "drana's chosen",
+      "layout": "normal",
+      "manaCost": "{3}{B}",
+      "mciNumber": "84",
+      "multiverseid": 407594,
+      "name": "Drana's Chosen",
+      "number": "84",
+      "power": "2",
+      "rarity": "Rare",
+      "subtypes": [
+        "Vampire",
+        "Shaman",
+        "Ally"
+      ],
+      "text": "Cohort — {T}, Tap an untapped Ally you control: Create a tapped 2/2 black Zombie creature token.",
+      "toughness": "2",
+      "type": "Creature — Vampire Shaman Ally",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Daarken",
+      "cmc": 2,
+      "colorIdentity": [
+        "B"
+      ],
+      "colors": [
+        "Black"
+      ],
+      "flavor": "\"I welcome the use of even the foulest magic if it will rid us of the monstrosities that plague our world.\"\n—Munda, ambush leader",
+      "id": "e09b8e04d773e2f62ee0869a00a0a0da268cec2c",
+      "imageName": "grasp of darkness",
+      "layout": "normal",
+      "manaCost": "{B}{B}",
+      "mciNumber": "85",
+      "multiverseid": 407595,
+      "name": "Grasp of Darkness",
+      "number": "85",
+      "rarity": "Uncommon",
+      "text": "Target creature gets -4/-4 until end of turn.",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "Todd Lockwood",
+      "cmc": 4,
+      "colorIdentity": [
+        "B"
+      ],
+      "colors": [
+        "Black"
+      ],
+      "id": "a1591f0648574ff698282d0ecf0810bb4d3afa98",
+      "imageName": "kalitas, traitor of ghet",
+      "layout": "normal",
+      "manaCost": "{2}{B}{B}",
+      "mciNumber": "86",
+      "multiverseid": 407596,
+      "name": "Kalitas, Traitor of Ghet",
+      "number": "86",
+      "power": "3",
+      "rarity": "Mythic Rare",
+      "subtypes": [
+        "Vampire",
+        "Warrior"
+      ],
+      "supertypes": [
+        "Legendary"
+      ],
+      "text": "Lifelink\nIf a nontoken creature an opponent controls would die, instead exile that card and create a 2/2 black Zombie creature token.\n{2}{B}, Sacrifice another Vampire or Zombie: Put two +1/+1 counters on Kalitas, Traitor of Ghet.",
+      "toughness": "4",
+      "type": "Legendary Creature — Vampire Warrior",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Greg Opalinski",
+      "cmc": 5,
+      "colorIdentity": [
+        "B"
+      ],
+      "colors": [
+        "Black"
+      ],
+      "flavor": "\"Your blood whispers secrets your mind could never comprehend.\"",
+      "id": "f97ba1d32bc54578087ca0b4ea9f6773b5970edb",
+      "imageName": "malakir soothsayer",
+      "layout": "normal",
+      "manaCost": "{4}{B}",
+      "mciNumber": "87",
+      "multiverseid": 407597,
+      "name": "Malakir Soothsayer",
+      "number": "87",
+      "power": "4",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Vampire",
+        "Shaman",
+        "Ally"
+      ],
+      "text": "Cohort — {T}, Tap an untapped Ally you control: You draw a card and you lose 1 life.",
+      "toughness": "4",
+      "type": "Creature — Vampire Shaman Ally",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Darek Zabrocki",
+      "cmc": 4,
+      "colorIdentity": [
+        "B"
+      ],
+      "colors": [
+        "Black"
+      ],
+      "flavor": "Zendikar's defenders include both healers and vampires. One way or another, the fallen will return to the fight.",
+      "id": "48a1664cbbab3345344c5f34b87327ab2afa23d1",
+      "imageName": "null caller",
+      "layout": "normal",
+      "manaCost": "{3}{B}",
+      "mciNumber": "88",
+      "multiverseid": 407598,
+      "name": "Null Caller",
+      "number": "88",
+      "power": "2",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Vampire",
+        "Shaman"
+      ],
+      "text": "{3}{B}, Exile a creature card from your graveyard: Create a tapped 2/2 black Zombie creature token.",
+      "toughness": "4",
+      "type": "Creature — Vampire Shaman",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Ryan Barger",
+      "cmc": 5,
+      "colorIdentity": [
+        "B"
+      ],
+      "colors": [
+        "Black"
+      ],
+      "flavor": "\"I have suffered a thousand lifetimes of agony on this wretched world. I've far less time to share with you, but I assure you, no less pain.\"\n—Ob Nixilis",
+      "id": "c96f43c2a69f9825a27994a9ddc5fa0c32c83624",
+      "imageName": "remorseless punishment",
+      "layout": "normal",
+      "manaCost": "{3}{B}{B}",
+      "mciNumber": "89",
+      "multiverseid": 407599,
+      "name": "Remorseless Punishment",
+      "number": "89",
+      "rarity": "Rare",
+      "text": "Target opponent loses 5 life unless that player discards two cards or sacrifices a creature or planeswalker. Repeat this process once.",
+      "type": "Sorcery",
+      "types": [
+        "Sorcery"
+      ]
+    },
+    {
+      "artist": "Karl Kopinski",
+      "cmc": 3,
+      "colorIdentity": [
+        "B"
+      ],
+      "colors": [
+        "Black"
+      ],
+      "flavor": "The amorphous, magically animated residue known as the Fathom Sludge lurks in the Hagra Cistern, attacking its prey with pseudopods and dragging it down to be digested.",
+      "id": "dae947cd5d839ca5955b8f65e2e1b640ac428ef9",
+      "imageName": "tar snare",
+      "layout": "normal",
+      "manaCost": "{2}{B}",
+      "mciNumber": "90",
+      "multiverseid": 407600,
+      "name": "Tar Snare",
+      "number": "90",
+      "rarity": "Common",
+      "text": "Target creature gets -3/-2 until end of turn.",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "Willian Murai",
+      "cmc": 3,
+      "colorIdentity": [
+        "B"
+      ],
+      "colors": [
+        "Black"
+      ],
+      "flavor": "\"Mindlessness is not weakness. When we are lost to hunger we are unstoppable.\"\n—Drana, Kalastria bloodchief",
+      "id": "33c596185435b4eeb35fa045ecdf44fc7ece01c1",
+      "imageName": "untamed hunger",
+      "layout": "normal",
+      "manaCost": "{2}{B}",
+      "mciNumber": "91",
+      "multiverseid": 407601,
+      "name": "Untamed Hunger",
+      "number": "91",
+      "rarity": "Common",
+      "subtypes": [
+        "Aura"
+      ],
+      "text": "Enchant creature\nEnchanted creature gets +2/+1 and has menace. (It can't be blocked except by two or more creatures.)",
+      "type": "Enchantment — Aura",
+      "types": [
+        "Enchantment"
+      ]
+    },
+    {
+      "artist": "Johannes Voss",
+      "cmc": 3,
+      "colorIdentity": [
+        "B"
+      ],
+      "colors": [
+        "Black"
+      ],
+      "flavor": "\"Zendikar will fight until it has bled its last.\"",
+      "id": "31bfefd05057084863ad20f2e0ff5c9d6aa27015",
+      "imageName": "vampire envoy",
+      "layout": "normal",
+      "manaCost": "{2}{B}",
+      "mciNumber": "92",
+      "multiverseid": 407602,
+      "name": "Vampire Envoy",
+      "number": "92",
+      "power": "1",
+      "rarity": "Common",
+      "subtypes": [
+        "Vampire",
+        "Cleric",
+        "Ally"
+      ],
+      "text": "Flying\nWhenever Vampire Envoy becomes tapped, you gain 1 life.",
+      "toughness": "4",
+      "type": "Creature — Vampire Cleric Ally",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Chris Rallis",
+      "cmc": 4,
+      "colorIdentity": [
+        "B"
+      ],
+      "colors": [
+        "Black"
+      ],
+      "flavor": "The chains obey her. Everything else would do best to get out of her way.",
+      "id": "aff9bb4d6e71858638353dafa833a61d8f3d0ac6",
+      "imageName": "zulaport chainmage",
+      "layout": "normal",
+      "manaCost": "{3}{B}",
+      "mciNumber": "93",
+      "multiverseid": 407603,
+      "name": "Zulaport Chainmage",
+      "number": "93",
+      "power": "4",
+      "rarity": "Common",
+      "subtypes": [
+        "Human",
+        "Shaman",
+        "Ally"
+      ],
+      "text": "Cohort — {T}, Tap an untapped Ally you control: Target opponent loses 2 life.",
+      "toughness": "2",
+      "type": "Creature — Human Shaman Ally",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Igor Kieryluk",
+      "cmc": 4,
+      "colorIdentity": [
+        "R"
+      ],
+      "flavor": "\"What will not yield will be consumed.\"\n—Ayli, high priest of the Eternal Pilgrims",
+      "id": "502da21d67ea3da262e8ba3f625b77302f52bf3a",
+      "imageName": "consuming sinkhole",
+      "layout": "normal",
+      "manaCost": "{3}{R}",
+      "mciNumber": "94",
+      "multiverseid": 407604,
+      "name": "Consuming Sinkhole",
+      "number": "94",
+      "rarity": "Common",
+      "text": "Devoid (This card has no color.)\nChoose one —\n• Exile target land creature.\n• Consuming Sinkhole deals 4 damage to target player or planeswalker.",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "Mathias Kollros",
+      "cmc": 3,
+      "colorIdentity": [
+        "R"
+      ],
+      "flavor": "\"They employ a foul sort of teamwork.\"\n—General Tazri, allied commander",
+      "id": "0a8ad986d35a37ba90c7635a08b18ee567b82679",
+      "imageName": "eldrazi aggressor",
+      "layout": "normal",
+      "manaCost": "{2}{R}",
+      "mciNumber": "95",
+      "multiverseid": 407605,
+      "name": "Eldrazi Aggressor",
+      "number": "95",
+      "power": "2",
+      "rarity": "Common",
+      "subtypes": [
+        "Eldrazi",
+        "Drone"
+      ],
+      "text": "Devoid (This card has no color.)\nEldrazi Aggressor has haste as long as you control another colorless creature.",
+      "toughness": "3",
+      "type": "Creature — Eldrazi Drone",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Jason Felix",
+      "cmc": 3,
+      "colorIdentity": [
+        "R"
+      ],
+      "id": "967f5b09689e9a4f6c2bcf3528542ab191962801",
+      "imageName": "eldrazi obligator",
+      "layout": "normal",
+      "manaCost": "{2}{R}",
+      "mciNumber": "96",
+      "multiverseid": 407606,
+      "name": "Eldrazi Obligator",
+      "number": "96",
+      "power": "3",
+      "rarity": "Rare",
+      "subtypes": [
+        "Eldrazi"
+      ],
+      "text": "Devoid (This card has no color.)\nWhen you cast this spell, you may pay {1}{C}. If you do, gain control of target creature until end of turn, untap that creature, and it gains haste until end of turn. ({C} represents colorless mana.)\nHaste",
+      "toughness": "1",
+      "type": "Creature — Eldrazi",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Svetlin Velinov",
+      "cmc": 2,
+      "colorIdentity": [
+        "R"
+      ],
+      "flavor": "It denied the Zendikari the chance to stand and die fighting.",
+      "id": "dc5a9cf62eefd116975f1f7285438213d2000e6a",
+      "imageName": "immobilizer eldrazi",
+      "layout": "normal",
+      "manaCost": "{1}{R}",
+      "mciNumber": "97",
+      "multiverseid": 407607,
+      "name": "Immobilizer Eldrazi",
+      "number": "97",
+      "power": "2",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Eldrazi",
+        "Drone"
+      ],
+      "text": "Devoid (This card has no color.)\n{2}{C}: Each creature with toughness greater than its power can't block this turn. ({C} represents colorless mana.)",
+      "toughness": "1",
+      "type": "Creature — Eldrazi Drone",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Lius Lasahido",
+      "cmc": 3,
+      "colorIdentity": [
+        "R"
+      ],
+      "id": "aabc9cfa13a0ac1749069e8de3f5b9c60f502b7d",
+      "imageName": "kozilek's return",
+      "layout": "normal",
+      "manaCost": "{2}{R}",
+      "mciNumber": "98",
+      "multiverseid": 407608,
+      "name": "Kozilek's Return",
+      "number": "98",
+      "rarity": "Mythic Rare",
+      "text": "Devoid (This card has no color.)\nKozilek's Return deals 2 damage to each creature.\nWhenever you cast an Eldrazi creature spell with converted mana cost 7 or greater, you may exile Kozilek's Return from your graveyard. If you do, Kozilek's Return deals 5 damage to each creature.",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "Daarken",
+      "cmc": 4,
+      "colorIdentity": [
+        "R"
+      ],
+      "flavor": "\"The Eldrazi make worse than ruins—they make a world where not even ruins stand.\"\n—Gideon Jura",
+      "id": "adb2755b1a32d31a8781aa91f0a9b561464b0650",
+      "imageName": "maw of kozilek",
+      "layout": "normal",
+      "manaCost": "{3}{R}",
+      "mciNumber": "99",
+      "multiverseid": 407609,
+      "name": "Maw of Kozilek",
+      "number": "99",
+      "power": "2",
+      "rarity": "Common",
+      "subtypes": [
+        "Eldrazi",
+        "Drone"
+      ],
+      "text": "Devoid (This card has no color.)\n{C}: Maw of Kozilek gets +2/-2 until end of turn. ({C} represents colorless mana.)",
+      "toughness": "5",
+      "type": "Creature — Eldrazi Drone",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Chris Rallis",
+      "cmc": 2,
+      "colorIdentity": [
+        "R"
+      ],
+      "flavor": "Tarek could not tell whether he was losing his blood or his mind.",
+      "id": "10b71c6b221806164c7ea46f00048f22670a0df0",
+      "imageName": "reality hemorrhage",
+      "layout": "normal",
+      "manaCost": "{1}{R}",
+      "mciNumber": "100",
+      "multiverseid": 407610,
+      "name": "Reality Hemorrhage",
+      "number": "100",
+      "rarity": "Common",
+      "text": "Devoid (This card has no color.)\nReality Hemorrhage deals 2 damage to any target.",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "Willian Murai",
+      "cmc": 3,
+      "colorIdentity": [
+        "R"
+      ],
+      "colors": [
+        "Red"
+      ],
+      "flavor": "In the face of extinction, the most perilous endeavors can be cause for hope.",
+      "id": "5267ac1caf53dfb8c512f389452eb13c943650e2",
+      "imageName": "akoum flameseeker",
+      "layout": "normal",
+      "manaCost": "{2}{R}",
+      "mciNumber": "101",
+      "multiverseid": 407611,
+      "name": "Akoum Flameseeker",
+      "number": "101",
+      "power": "3",
+      "rarity": "Common",
+      "subtypes": [
+        "Human",
+        "Shaman",
+        "Ally"
+      ],
+      "text": "Cohort — {T}, Tap an untapped Ally you control: Discard a card. If you do, draw a card.",
+      "toughness": "2",
+      "type": "Creature — Human Shaman Ally",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Vincent Proce",
+      "cmc": 5,
+      "colorIdentity": [
+        "R"
+      ],
+      "colors": [
+        "Red"
+      ],
+      "flavor": "\"If someone claims the sky is falling, I listen.\"\n—Yon Basrel, Oran-Rief survivalist",
+      "id": "be4394744958ba7034d134e5a8bdd2a75a608890",
+      "imageName": "boulder salvo",
+      "layout": "normal",
+      "manaCost": "{4}{R}",
+      "mciNumber": "102",
+      "multiverseid": 407612,
+      "name": "Boulder Salvo",
+      "number": "102",
+      "rarity": "Common",
+      "text": "Surge {1}{R} (You may cast this spell for its surge cost if you or a teammate has cast another spell this turn.)\nBoulder Salvo deals 4 damage to target creature.",
+      "type": "Sorcery",
+      "types": [
+        "Sorcery"
+      ]
+    },
+    {
+      "artist": "Wayne Reynolds",
+      "cmc": 2,
+      "colorIdentity": [
+        "R"
+      ],
+      "colors": [
+        "Red"
+      ],
+      "flavor": "It's not the size of the rock. It's how badly you want to lift it.",
+      "id": "2d7d1e2fb2bb074768961d1d2cc897ca9c2e53f8",
+      "imageName": "brute strength",
+      "layout": "normal",
+      "manaCost": "{1}{R}",
+      "mciNumber": "103",
+      "multiverseid": 407613,
+      "name": "Brute Strength",
+      "number": "103",
+      "rarity": "Common",
+      "text": "Target creature gets +3/+1 and gains trample until end of turn.",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "Jason Rainville",
+      "cmc": 6,
+      "colorIdentity": [
+        "R"
+      ],
+      "colors": [
+        "Red"
+      ],
+      "id": "ad7e32b66961653d74f890e970cdaddb3a0eaf1f",
+      "imageName": "chandra, flamecaller",
+      "layout": "normal",
+      "loyalty": 4,
+      "manaCost": "{4}{R}{R}",
+      "mciNumber": "104",
+      "multiverseid": 407614,
+      "name": "Chandra, Flamecaller",
+      "number": "104",
+      "rarity": "Mythic Rare",
+      "subtypes": [
+        "Chandra"
+      ],
+      "supertypes": [
+        "Legendary"
+      ],
+      "text": "+1: Create two 3/1 red Elemental creature tokens with haste. Exile them at the beginning of the next end step.\n0: Discard all the cards in your hand, then draw that many cards plus one.\n−X: Chandra, Flamecaller deals X damage to each creature.",
+      "type": "Legendary Planeswalker — Chandra",
+      "types": [
+        "Planeswalker"
+      ]
+    },
+    {
+      "artist": "Jason Kang",
+      "cmc": 5,
+      "colorIdentity": [
+        "R"
+      ],
+      "colors": [
+        "Red"
+      ],
+      "flavor": "Chandra used jets of flame to lure hellions into the path of oncoming Eldrazi.",
+      "id": "87bb5b50bab7c6a84e5b3da2001b391bad00ed97",
+      "imageName": "cinder hellion",
+      "layout": "normal",
+      "manaCost": "{4}{R}",
+      "mciNumber": "105",
+      "multiverseid": 407615,
+      "name": "Cinder Hellion",
+      "number": "105",
+      "power": "4",
+      "rarity": "Common",
+      "subtypes": [
+        "Hellion"
+      ],
+      "text": "Trample\nWhen Cinder Hellion enters the battlefield, it deals 2 damage to target opponent or planeswalker.",
+      "toughness": "4",
+      "type": "Creature — Hellion",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Svetlin Velinov",
+      "cmc": 3,
+      "colorIdentity": [
+        "R"
+      ],
+      "colors": [
+        "Red"
+      ],
+      "flavor": "Ob Nixilis had prepared for every eventuality—except Chandra Nalaar.",
+      "id": "86e774c4f72524908fad2b383cf0dc7764f4c312",
+      "imageName": "devour in flames",
+      "layout": "normal",
+      "manaCost": "{2}{R}",
+      "mciNumber": "106",
+      "multiverseid": 407616,
+      "name": "Devour in Flames",
+      "number": "106",
+      "rarity": "Uncommon",
+      "text": "As an additional cost to cast this spell, return a land you control to its owner's hand.\nDevour in Flames deals 5 damage to target creature or planeswalker.",
+      "type": "Sorcery",
+      "types": [
+        "Sorcery"
+      ]
+    },
+    {
+      "artist": "David Palumbo",
+      "cmc": 4,
+      "colorIdentity": [
+        "R"
+      ],
+      "colors": [
+        "Red"
+      ],
+      "id": "538899838d2531b02ec357f1b5ba0db02aa95b56",
+      "imageName": "embodiment of fury",
+      "layout": "normal",
+      "manaCost": "{3}{R}",
+      "mciNumber": "107",
+      "multiverseid": 407617,
+      "name": "Embodiment of Fury",
+      "number": "107",
+      "power": "4",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Elemental"
+      ],
+      "text": "Trample\nLand creatures you control have trample.\nLandfall — Whenever a land enters the battlefield under your control, you may have target land you control become a 3/3 Elemental creature with haste until end of turn. It's still a land.",
+      "toughness": "3",
+      "type": "Creature — Elemental",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Kieran Yanner",
+      "cmc": 1,
+      "colorIdentity": [
+        "R"
+      ],
+      "colors": [
+        "Red"
+      ],
+      "flavor": "\"I run, and thunder follows.\"",
+      "id": "e4e60de95e5b86ece8a5c34dffda91cf9312bcae",
+      "imageName": "expedite",
+      "layout": "normal",
+      "manaCost": "{R}",
+      "mciNumber": "108",
+      "multiverseid": 407618,
+      "name": "Expedite",
+      "number": "108",
+      "rarity": "Common",
+      "text": "Target creature gains haste until end of turn.\nDraw a card.",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "Chris Rallis",
+      "cmc": 1,
+      "colorIdentity": [
+        "R"
+      ],
+      "colors": [
+        "Red"
+      ],
+      "flavor": "As Gideon kept the brood lineages at bay, Chandra incinerated the bound Eldrazi titans.",
+      "id": "8f6d5b42d12389a1fd939b26a08c30bee50f7ca8",
+      "imageName": "fall of the titans",
+      "layout": "normal",
+      "manaCost": "{X}{X}{R}",
+      "mciNumber": "109",
+      "multiverseid": 407619,
+      "name": "Fall of the Titans",
+      "number": "109",
+      "rarity": "Rare",
+      "text": "Surge {X}{R} (You may cast this spell for its surge cost if you or a teammate has cast another spell this turn.)\nFall of the Titans deals X damage to each of up to two targets.",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "Steven Belledin",
+      "cmc": 5,
+      "colorIdentity": [
+        "R"
+      ],
+      "colors": [
+        "Red"
+      ],
+      "id": "05ce4eb3183d8b8bc42861f58409d384786d9807",
+      "imageName": "goblin dark-dwellers",
+      "layout": "normal",
+      "manaCost": "{3}{R}{R}",
+      "mciNumber": "110",
+      "multiverseid": 407620,
+      "name": "Goblin Dark-Dwellers",
+      "number": "110",
+      "power": "4",
+      "rarity": "Rare",
+      "subtypes": [
+        "Goblin"
+      ],
+      "text": "Menace\nWhen Goblin Dark-Dwellers enters the battlefield, you may cast target instant or sorcery card with converted mana cost 3 or less from your graveyard without paying its mana cost. If that card would be put into your graveyard this turn, exile it instead.",
+      "toughness": "4",
+      "type": "Creature — Goblin",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Wayne Reynolds",
+      "cmc": 4,
+      "colorIdentity": [
+        "R"
+      ],
+      "colors": [
+        "Red"
+      ],
+      "flavor": "There are old goblins and ambitious goblins, but very few old, ambitious goblins.",
+      "id": "53d2a831a4d7493e7438379aa4bf2770c3de263a",
+      "imageName": "goblin freerunner",
+      "layout": "normal",
+      "manaCost": "{3}{R}",
+      "mciNumber": "111",
+      "multiverseid": 407621,
+      "name": "Goblin Freerunner",
+      "number": "111",
+      "power": "3",
+      "rarity": "Common",
+      "subtypes": [
+        "Goblin",
+        "Warrior",
+        "Ally"
+      ],
+      "text": "Surge {1}{R} (You may cast this spell for its surge cost if you or a teammate has cast another spell this turn.)\nMenace (This creature can't be blocked except by two or more creatures.)",
+      "toughness": "2",
+      "type": "Creature — Goblin Warrior Ally",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Greg Staples",
+      "cmc": 3,
+      "colorIdentity": [
+        "R"
+      ],
+      "colors": [
+        "Red"
+      ],
+      "flavor": "Travelers are advised to bring extra swords, preferably shiny ones.",
+      "id": "d74e3d5e6b08dadcf2b9e5650da593cccf93585f",
+      "imageName": "kazuul's toll collector",
+      "layout": "normal",
+      "manaCost": "{2}{R}",
+      "mciNumber": "112",
+      "multiverseid": 407622,
+      "name": "Kazuul's Toll Collector",
+      "number": "112",
+      "power": "3",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Ogre",
+        "Warrior"
+      ],
+      "text": "{0}: Attach target Equipment you control to Kazuul's Toll Collector. Activate this ability only any time you could cast a sorcery.",
+      "toughness": "2",
+      "type": "Creature — Ogre Warrior",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Wesley Burt",
+      "cmc": 2,
+      "colorIdentity": [
+        "R"
+      ],
+      "colors": [
+        "Red"
+      ],
+      "flavor": "\"If it means that people can live in freedom, yeah, I'll keep watch.\"",
+      "id": "9135363ee7c6ace12d57250ef8dad616a98986a8",
+      "imageName": "oath of chandra",
+      "layout": "normal",
+      "manaCost": "{1}{R}",
+      "mciNumber": "113",
+      "multiverseid": 407623,
+      "name": "Oath of Chandra",
+      "number": "113",
+      "rarity": "Rare",
+      "supertypes": [
+        "Legendary"
+      ],
+      "text": "When Oath of Chandra enters the battlefield, it deals 3 damage to target creature an opponent controls.\nAt the beginning of each end step, if a planeswalker entered the battlefield under your control this turn, Oath of Chandra deals 2 damage to each opponent.",
+      "type": "Legendary Enchantment",
+      "types": [
+        "Enchantment"
+      ]
+    },
+    {
+      "artist": "Steve Prescott",
+      "cmc": 5,
+      "colorIdentity": [
+        "R"
+      ],
+      "colors": [
+        "Red"
+      ],
+      "id": "6c75fde8f249214479996f5d593725a0cdda1426",
+      "imageName": "press into service",
+      "layout": "normal",
+      "manaCost": "{4}{R}",
+      "mciNumber": "114",
+      "multiverseid": 407624,
+      "name": "Press into Service",
+      "number": "114",
+      "rarity": "Uncommon",
+      "text": "Support 2. (Put a +1/+1 counter on each of up to two target creatures.)\nGain control of target creature until end of turn. Untap that creature. It gains haste until end of turn.",
+      "type": "Sorcery",
+      "types": [
+        "Sorcery"
+      ]
+    },
+    {
+      "artist": "Todd Lockwood",
+      "cmc": 4,
+      "colorIdentity": [
+        "R"
+      ],
+      "colors": [
+        "Red"
+      ],
+      "flavor": "Never ask a pyromancer if that's the best she's got.",
+      "id": "368d78821a90878ce10792c27e97dbf24a39f29e",
+      "imageName": "pyromancer's assault",
+      "layout": "normal",
+      "manaCost": "{3}{R}",
+      "mciNumber": "115",
+      "multiverseid": 407625,
+      "name": "Pyromancer's Assault",
+      "number": "115",
+      "rarity": "Uncommon",
+      "text": "Whenever you cast your second spell each turn, Pyromancer's Assault deals 2 damage to any target.",
+      "type": "Enchantment",
+      "types": [
+        "Enchantment"
+      ]
+    },
+    {
+      "artist": "Kieran Yanner",
+      "cmc": 3,
+      "colorIdentity": [
+        "R"
+      ],
+      "colors": [
+        "Red"
+      ],
+      "id": "9a664fa2652890567b38b28cfd0e5c5bc1b1396c",
+      "imageName": "reckless bushwhacker",
+      "layout": "normal",
+      "manaCost": "{2}{R}",
+      "mciNumber": "116",
+      "multiverseid": 407626,
+      "name": "Reckless Bushwhacker",
+      "number": "116",
+      "power": "2",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Goblin",
+        "Warrior",
+        "Ally"
+      ],
+      "text": "Surge {1}{R} (You may cast this spell for its surge cost if you or a teammate has cast another spell this turn.)\nHaste\nWhen Reckless Bushwhacker enters the battlefield, if its surge cost was paid, other creatures you control get +1/+0 and gain haste until end of turn.",
+      "toughness": "1",
+      "type": "Creature — Goblin Warrior Ally",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Mathias Kollros",
+      "cmc": 2,
+      "colorIdentity": [
+        "R"
+      ],
+      "colors": [
+        "Red"
+      ],
+      "flavor": "\"A touch of lightning, and anyone can be taught to dance.\"\n—Tobin, sparkmage",
+      "id": "076574c551846c2ad1f84defde9f4d581162d018",
+      "imageName": "sparkmage's gambit",
+      "layout": "normal",
+      "manaCost": "{1}{R}",
+      "mciNumber": "117",
+      "multiverseid": 407627,
+      "name": "Sparkmage's Gambit",
+      "number": "117",
+      "rarity": "Common",
+      "text": "Sparkmage's Gambit deals 1 damage to each of up to two target creatures. Those creatures can't block this turn.",
+      "type": "Sorcery",
+      "types": [
+        "Sorcery"
+      ]
+    },
+    {
+      "artist": "Noah Bradley",
+      "cmc": 2,
+      "colorIdentity": [
+        "R"
+      ],
+      "colors": [
+        "Red"
+      ],
+      "flavor": "When Kozilek destroyed Sea Gate, distant Valakut could not contain its grief.",
+      "id": "9c0c2b4153f6aa31d0b768fc1ddb7bee67282f85",
+      "imageName": "tears of valakut",
+      "layout": "normal",
+      "manaCost": "{1}{R}",
+      "mciNumber": "118",
+      "multiverseid": 407628,
+      "name": "Tears of Valakut",
+      "number": "118",
+      "rarity": "Uncommon",
+      "text": "This spell can't be countered.\nTears of Valakut deals 5 damage to target creature with flying.",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "Tyler Jacobson",
+      "cmc": 7,
+      "colorIdentity": [
+        "R"
+      ],
+      "colors": [
+        "Red"
+      ],
+      "id": "23c070d12afcbd27170a9e94081df7e743a0a8b5",
+      "imageName": "tyrant of valakut",
+      "layout": "normal",
+      "manaCost": "{5}{R}{R}",
+      "mciNumber": "119",
+      "multiverseid": 407629,
+      "name": "Tyrant of Valakut",
+      "number": "119",
+      "power": "5",
+      "rarity": "Rare",
+      "subtypes": [
+        "Dragon"
+      ],
+      "text": "Surge {3}{R}{R} (You may cast this spell for its surge cost if you or a teammate has cast another spell this turn.)\nFlying\nWhen Tyrant of Valakut enters the battlefield, if its surge cost was paid, it deals 3 damage to any target.",
+      "toughness": "4",
+      "type": "Creature — Dragon",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Zack Stella",
+      "cmc": 2,
+      "colorIdentity": [
+        "R"
+      ],
+      "colors": [
+        "Red"
+      ],
+      "flavor": "\"There's a word for someone who brings too much gear to battle: 'survivor.'\"\n—Zada of Slab Haven",
+      "id": "dcf17037302440d42f0dbf6256c485f378172d79",
+      "imageName": "zada's commando",
+      "layout": "normal",
+      "manaCost": "{1}{R}",
+      "mciNumber": "120",
+      "multiverseid": 407630,
+      "name": "Zada's Commando",
+      "number": "120",
+      "power": "2",
+      "rarity": "Common",
+      "subtypes": [
+        "Goblin",
+        "Archer",
+        "Ally"
+      ],
+      "text": "First strike\nCohort — {T}, Tap an untapped Ally you control: Zada's Commando deals 1 damage to target opponent or planeswalker.",
+      "toughness": "1",
+      "type": "Creature — Goblin Archer Ally",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Jack Wang",
+      "cmc": 7,
+      "colorIdentity": [
+        "G"
+      ],
+      "id": "3d5f198529eb6f9871a6d8e6c7900c4725b5a1a0",
+      "imageName": "birthing hulk",
+      "layout": "normal",
+      "manaCost": "{6}{G}",
+      "mciNumber": "121",
+      "multiverseid": 407631,
+      "name": "Birthing Hulk",
+      "number": "121",
+      "power": "5",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Eldrazi",
+        "Drone"
+      ],
+      "text": "Devoid (This card has no color.)\nWhen Birthing Hulk enters the battlefield, create two 1/1 colorless Eldrazi Scion creature tokens. They have \"Sacrifice this creature: Add {C}.\" ({C} represents colorless mana.)\n{1}{C}: Regenerate Birthing Hulk.",
+      "toughness": "4",
+      "type": "Creature — Eldrazi Drone",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Jason Felix",
+      "cmc": 2,
+      "colorIdentity": [
+        "G"
+      ],
+      "id": "d3125aaf3bbcb6911189f6ab6fb75ccf92142244",
+      "imageName": "ruin in their wake",
+      "layout": "normal",
+      "manaCost": "{1}{G}",
+      "mciNumber": "122",
+      "multiverseid": 407632,
+      "name": "Ruin in Their Wake",
+      "number": "122",
+      "rarity": "Uncommon",
+      "text": "Devoid (This card has no color.)\nSearch your library for a basic land card and reveal it. You may put that card onto the battlefield tapped if you control a land named Wastes. Otherwise, put that card into your hand. Then shuffle your library.",
+      "type": "Sorcery",
+      "types": [
+        "Sorcery"
+      ]
+    },
+    {
+      "artist": "Johann Bodin",
+      "cmc": 3,
+      "colorIdentity": [
+        "G"
+      ],
+      "id": "5b19a4256803823344cef53f4a0fd598fba1339d",
+      "imageName": "scion summoner",
+      "layout": "normal",
+      "manaCost": "{2}{G}",
+      "mciNumber": "123",
+      "multiverseid": 407633,
+      "name": "Scion Summoner",
+      "number": "123",
+      "power": "2",
+      "rarity": "Common",
+      "subtypes": [
+        "Eldrazi",
+        "Drone"
+      ],
+      "text": "Devoid (This card has no color.)\nWhen Scion Summoner enters the battlefield, create a 1/1 colorless Eldrazi Scion creature token. It has \"Sacrifice this creature: Add {C}.\" ({C} represents colorless mana.)",
+      "toughness": "2",
+      "type": "Creature — Eldrazi Drone",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Slawomir Maniak",
+      "cmc": 2,
+      "colorIdentity": [
+        "G"
+      ],
+      "flavor": "As the Eldrazi adapted to the jungles of Zendikar, some took on the tactics of more familiar predators.",
+      "id": "1dc9ca478c16e4c6d2338b864399c27becc5c494",
+      "imageName": "stalking drone",
+      "layout": "normal",
+      "manaCost": "{1}{G}",
+      "mciNumber": "124",
+      "multiverseid": 407634,
+      "name": "Stalking Drone",
+      "number": "124",
+      "power": "2",
+      "rarity": "Common",
+      "subtypes": [
+        "Eldrazi",
+        "Drone"
+      ],
+      "text": "Devoid (This card has no color.)\n{C}: Stalking Drone gets +1/+2 until end of turn. Activate this ability only once each turn. ({C} represents colorless mana.)",
+      "toughness": "2",
+      "type": "Creature — Eldrazi Drone",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Jason Rainville",
+      "cmc": 3,
+      "colorIdentity": [
+        "G"
+      ],
+      "id": "1f81c97c38db5b32d40f83f3c7a4d827fbf94af4",
+      "imageName": "vile redeemer",
+      "layout": "normal",
+      "manaCost": "{2}{G}",
+      "mciNumber": "125",
+      "multiverseid": 407635,
+      "name": "Vile Redeemer",
+      "number": "125",
+      "power": "3",
+      "rarity": "Rare",
+      "subtypes": [
+        "Eldrazi"
+      ],
+      "text": "Devoid (This card has no color.)\nFlash\nWhen you cast this spell, you may pay {C}. If you do, create a 1/1 colorless Eldrazi Scion creature token for each nontoken creature that died under your control this turn. Those tokens have \"Sacrifice this creature: Add {C}.\"",
+      "toughness": "3",
+      "type": "Creature — Eldrazi",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Jaime Jones",
+      "cmc": 7,
+      "colorIdentity": [
+        "G"
+      ],
+      "id": "25efd951dd491c3a723ba525ce1199e978118c9c",
+      "imageName": "world breaker",
+      "layout": "normal",
+      "manaCost": "{6}{G}",
+      "mciNumber": "126",
+      "multiverseid": 407636,
+      "name": "World Breaker",
+      "number": "126",
+      "power": "5",
+      "rarity": "Mythic Rare",
+      "subtypes": [
+        "Eldrazi"
+      ],
+      "text": "Devoid (This card has no color.)\nWhen you cast this spell, exile target artifact, enchantment, or land.\nReach\n{2}{C}, Sacrifice a land: Return World Breaker from your graveyard to your hand. ({C} represents colorless mana.)",
+      "toughness": "7",
+      "type": "Creature — Eldrazi",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Steve Prescott",
+      "cmc": 2,
+      "colorIdentity": [
+        "G"
+      ],
+      "colors": [
+        "Green"
+      ],
+      "flavor": "A young baloth channels its energy into playful destructiveness. Over time, it becomes less playful but no less destructive.",
+      "id": "b645679aa2aa6c45932b19c44b4fd7e5d73ea7d4",
+      "imageName": "baloth pup",
+      "layout": "normal",
+      "manaCost": "{1}{G}",
+      "mciNumber": "127",
+      "multiverseid": 407637,
+      "name": "Baloth Pup",
+      "number": "127",
+      "power": "3",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Beast"
+      ],
+      "text": "Baloth Pup has trample as long as it has a +1/+1 counter on it.",
+      "toughness": "1",
+      "type": "Creature — Beast",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Chris Rallis",
+      "cmc": 2,
+      "colorIdentity": [
+        "G"
+      ],
+      "colors": [
+        "Green"
+      ],
+      "flavor": "Jace discovered the leyline pattern needed to anchor Ulamog and Kozilek to reality, but it was Nissa who could trace it on her world.",
+      "id": "d5cbc2680f49846db69ec72fe532b1c0fdd49888",
+      "imageName": "bonds of mortality",
+      "layout": "normal",
+      "manaCost": "{1}{G}",
+      "mciNumber": "128",
+      "multiverseid": 407638,
+      "name": "Bonds of Mortality",
+      "number": "128",
+      "rarity": "Uncommon",
+      "text": "When Bonds of Mortality enters the battlefield, draw a card.\n{G}: Creatures your opponents control lose hexproof and indestructible until end of turn.",
+      "type": "Enchantment",
+      "types": [
+        "Enchantment"
+      ]
+    },
+    {
+      "artist": "Lake Hurwitz",
+      "cmc": 6,
+      "colorIdentity": [
+        "G"
+      ],
+      "colors": [
+        "Green"
+      ],
+      "flavor": "The settlement's defenders were glad to have such a massive, ferocious creature join the fight—but less glad to see it flatten their homes along the way.",
+      "id": "28538c78ff411e366db077da791b994c9136fca8",
+      "imageName": "canopy gorger",
+      "layout": "normal",
+      "manaCost": "{4}{G}{G}",
+      "mciNumber": "129",
+      "multiverseid": 407639,
+      "name": "Canopy Gorger",
+      "number": "129",
+      "power": "6",
+      "rarity": "Common",
+      "subtypes": [
+        "Wurm"
+      ],
+      "toughness": "5",
+      "type": "Creature — Wurm",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Svetlin Velinov",
+      "cmc": 2,
+      "colorIdentity": [
+        "G"
+      ],
+      "colors": [
+        "Green"
+      ],
+      "flavor": "\"My heart and Zendikar's beat as one. Together we will endure.\"\n—Nissa Revane",
+      "id": "edf6e41f672a71d0033a5104250932742c3553aa",
+      "imageName": "elemental uprising",
+      "layout": "normal",
+      "manaCost": "{1}{G}",
+      "mciNumber": "130",
+      "multiverseid": 407640,
+      "name": "Elemental Uprising",
+      "number": "130",
+      "rarity": "Common",
+      "text": "Target land you control becomes a 4/4 Elemental creature with haste until end of turn. It's still a land. It must be blocked this turn if able.",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "Marco Nelor",
+      "cmc": 5,
+      "colorIdentity": [
+        "G"
+      ],
+      "colors": [
+        "Green"
+      ],
+      "id": "b96df2829f6affe9cd9bcc14c350a5f1a7360c39",
+      "imageName": "embodiment of insight",
+      "layout": "normal",
+      "manaCost": "{4}{G}",
+      "mciNumber": "131",
+      "multiverseid": 407641,
+      "name": "Embodiment of Insight",
+      "number": "131",
+      "power": "4",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Elemental"
+      ],
+      "text": "Vigilance\nLand creatures you control have vigilance.\nLandfall — Whenever a land enters the battlefield under your control, you may have target land you control become a 3/3 Elemental creature with haste until end of turn. It's still a land.",
+      "toughness": "4",
+      "type": "Creature — Elemental",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Steven Belledin",
+      "cmc": 7,
+      "colorIdentity": [
+        "G"
+      ],
+      "colors": [
+        "Green"
+      ],
+      "id": "cadb4f88cf1e1bc899f07081f2c58d1d5adaa618",
+      "imageName": "gladehart cavalry",
+      "layout": "normal",
+      "manaCost": "{5}{G}{G}",
+      "mciNumber": "132",
+      "multiverseid": 407642,
+      "name": "Gladehart Cavalry",
+      "number": "132",
+      "power": "6",
+      "rarity": "Rare",
+      "subtypes": [
+        "Elf",
+        "Knight"
+      ],
+      "text": "When Gladehart Cavalry enters the battlefield, support 6. (Put a +1/+1 counter on each of up to six other target creatures.)\nWhenever a creature you control with a +1/+1 counter on it dies, you gain 2 life.",
+      "toughness": "6",
+      "type": "Creature — Elf Knight",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Greg Staples",
+      "cmc": 4,
+      "colorIdentity": [
+        "G"
+      ],
+      "colors": [
+        "Green"
+      ],
+      "flavor": "Having no interest in the greater conflict, the trolls continue to prey upon whatever wanders into their domain.",
+      "id": "4e6791c13efdbb2ca01208e774c2ba5d9f7f5ec7",
+      "imageName": "harvester troll",
+      "layout": "normal",
+      "manaCost": "{3}{G}",
+      "mciNumber": "133",
+      "multiverseid": 407643,
+      "name": "Harvester Troll",
+      "number": "133",
+      "power": "2",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Troll"
+      ],
+      "text": "When Harvester Troll enters the battlefield, you may sacrifice a creature or land. If you do, put two +1/+1 counters on Harvester Troll.",
+      "toughness": "3",
+      "type": "Creature — Troll",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Johannes Voss",
+      "cmc": 2,
+      "colorIdentity": [
+        "G"
+      ],
+      "colors": [
+        "Green"
+      ],
+      "flavor": "Gideon and Nissa carved a path through the Eldrazi swarm, and their Zendikari allies charged into the fray behind them.",
+      "id": "d639dd8b7896a8445faa633c00b96abdebbf9432",
+      "imageName": "lead by example",
+      "layout": "normal",
+      "manaCost": "{1}{G}",
+      "mciNumber": "134",
+      "multiverseid": 407644,
+      "name": "Lead by Example",
+      "number": "134",
+      "rarity": "Common",
+      "text": "Support 2. (Put a +1/+1 counter on each of up to two target creatures.)",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "Jason Kang",
+      "cmc": 2,
+      "colorIdentity": [
+        "G"
+      ],
+      "colors": [
+        "Green"
+      ],
+      "flavor": "The forest floor of Murasa is home to life as diverse and vibrant as that of the canopy above.",
+      "id": "265af4bec0bc25218c3a3d4eb852289c151f3384",
+      "imageName": "loam larva",
+      "layout": "normal",
+      "manaCost": "{1}{G}",
+      "mciNumber": "135",
+      "multiverseid": 407645,
+      "name": "Loam Larva",
+      "number": "135",
+      "power": "1",
+      "rarity": "Common",
+      "subtypes": [
+        "Insect"
+      ],
+      "text": "When Loam Larva enters the battlefield, you may search your library for a basic land card, reveal it, then shuffle your library and put that card on top of it.",
+      "toughness": "3",
+      "type": "Creature — Insect",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Volkan Baga",
+      "cmc": 1,
+      "colorIdentity": [
+        "G"
+      ],
+      "colors": [
+        "Green"
+      ],
+      "flavor": "\"Killing the Eldrazi is not enough. We must erase all memory of them from this world.\"\n—Greenweaver Mina",
+      "id": "6ddba4dc18f23332fae5dac895c1df0a1048a4aa",
+      "imageName": "natural state",
+      "layout": "normal",
+      "manaCost": "{G}",
+      "mciNumber": "136",
+      "multiverseid": 407646,
+      "name": "Natural State",
+      "number": "136",
+      "rarity": "Common",
+      "text": "Destroy target artifact or enchantment with converted mana cost 3 or less.",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "Zoltan Boros",
+      "cmc": 3,
+      "colorIdentity": [
+        "G"
+      ],
+      "colors": [
+        "Green"
+      ],
+      "flavor": "In the jungles of Tazeem, aerial assault is not always advantageous.",
+      "id": "c527a40571273aaf7a1d4a6c3d2c45f2ea08ae0d",
+      "imageName": "netcaster spider",
+      "layout": "normal",
+      "manaCost": "{2}{G}",
+      "mciNumber": "137",
+      "multiverseid": 407647,
+      "name": "Netcaster Spider",
+      "number": "137",
+      "power": "2",
+      "rarity": "Common",
+      "subtypes": [
+        "Spider"
+      ],
+      "text": "Reach (This creature can block creatures with flying.)\nWhenever Netcaster Spider blocks a creature with flying, Netcaster Spider gets +2/+0 until end of turn.",
+      "toughness": "3",
+      "type": "Creature — Spider",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Raymond Swanland",
+      "cmc": 3,
+      "colorIdentity": [
+        "G"
+      ],
+      "colors": [
+        "Green"
+      ],
+      "id": "ad8ccc27916504302bf130a89e175b56af77b531",
+      "imageName": "nissa, voice of zendikar",
+      "layout": "normal",
+      "loyalty": 3,
+      "manaCost": "{1}{G}{G}",
+      "mciNumber": "138",
+      "multiverseid": 407648,
+      "name": "Nissa, Voice of Zendikar",
+      "number": "138",
+      "rarity": "Mythic Rare",
+      "subtypes": [
+        "Nissa"
+      ],
+      "supertypes": [
+        "Legendary"
+      ],
+      "text": "+1: Create a 0/1 green Plant creature token.\n−2: Put a +1/+1 counter on each creature you control.\n−7: You gain X life and draw X cards, where X is the number of lands you control.",
+      "type": "Legendary Planeswalker — Nissa",
+      "types": [
+        "Planeswalker"
+      ]
+    },
+    {
+      "artist": "Tyler Jacobson",
+      "cmc": 5,
+      "colorIdentity": [
+        "G"
+      ],
+      "colors": [
+        "Green"
+      ],
+      "id": "acb0019abc829ceed9c748b084d8a001537d4a1c",
+      "imageName": "nissa's judgment",
+      "layout": "normal",
+      "manaCost": "{4}{G}",
+      "mciNumber": "139",
+      "multiverseid": 407649,
+      "name": "Nissa's Judgment",
+      "number": "139",
+      "rarity": "Uncommon",
+      "text": "Support 2. (Put a +1/+1 counter on each of up to two target creatures.)\nChoose up to one target creature an opponent controls. Each creature you control with a +1/+1 counter on it deals damage equal to its power to that creature.",
+      "type": "Sorcery",
+      "types": [
+        "Sorcery"
+      ]
+    },
+    {
+      "artist": "Wesley Burt",
+      "cmc": 1,
+      "colorIdentity": [
+        "G"
+      ],
+      "colors": [
+        "Green"
+      ],
+      "flavor": "\"For the life of every plane, I will keep watch.\"",
+      "id": "eeb4812f2fadb5d52166f6c5922997847dd5d71b",
+      "imageName": "oath of nissa",
+      "layout": "normal",
+      "manaCost": "{G}",
+      "mciNumber": "140",
+      "multiverseid": 407650,
+      "name": "Oath of Nissa",
+      "number": "140",
+      "rarity": "Rare",
+      "supertypes": [
+        "Legendary"
+      ],
+      "text": "When Oath of Nissa enters the battlefield, look at the top three cards of your library. You may reveal a creature, land, or planeswalker card from among them and put it into your hand. Put the rest on the bottom of your library in any order.\nYou may spend mana as though it were mana of any color to cast planeswalker spells.",
+      "type": "Legendary Enchantment",
+      "types": [
+        "Enchantment"
+      ]
+    },
+    {
+      "artist": "Matt Stewart",
+      "cmc": 3,
+      "colorIdentity": [
+        "G"
+      ],
+      "colors": [
+        "Green"
+      ],
+      "flavor": "\"Little flower twirl and bloom, arise from this your rocky tomb. Little warrior slash and brawl, be born again to free us all.\"",
+      "id": "03acd4f5d8ead29e7f746da65a1819ca9f73da0b",
+      "imageName": "pulse of murasa",
+      "layout": "normal",
+      "manaCost": "{2}{G}",
+      "mciNumber": "141",
+      "multiverseid": 407651,
+      "name": "Pulse of Murasa",
+      "number": "141",
+      "rarity": "Common",
+      "text": "Return target creature or land card from a graveyard to its owner's hand. You gain 6 life.",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "Jason Kang",
+      "cmc": 4,
+      "colorIdentity": [
+        "G"
+      ],
+      "colors": [
+        "Green"
+      ],
+      "flavor": "\"A good lagac will carry you through thick and thin. A bad one . . . well, it's a tasty dinner.\"\n—Raff Slugeater, goblin shortcutter",
+      "id": "7ad6d4eb04b8308e0605beda3498803eb0f7adee",
+      "imageName": "saddleback lagac",
+      "layout": "normal",
+      "manaCost": "{3}{G}",
+      "mciNumber": "142",
+      "multiverseid": 407652,
+      "name": "Saddleback Lagac",
+      "number": "142",
+      "power": "3",
+      "rarity": "Common",
+      "subtypes": [
+        "Lizard"
+      ],
+      "text": "When Saddleback Lagac enters the battlefield, support 2. (Put a +1/+1 counter on each of up to two other target creatures.)",
+      "toughness": "1",
+      "type": "Creature — Lizard",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Vincent Proce",
+      "cmc": 4,
+      "colorIdentity": [
+        "G"
+      ],
+      "colors": [
+        "Green"
+      ],
+      "flavor": "It is a reminder that spring will always follow winter.",
+      "id": "eef5755685bc439b85c599ff9f52c98a493d2e96",
+      "imageName": "seed guardian",
+      "layout": "normal",
+      "manaCost": "{2}{G}{G}",
+      "mciNumber": "143",
+      "multiverseid": 407653,
+      "name": "Seed Guardian",
+      "number": "143",
+      "power": "3",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Elemental"
+      ],
+      "text": "Reach\nWhen Seed Guardian dies, create an X/X green Elemental creature token, where X is the number of creature cards in your graveyard.",
+      "toughness": "4",
+      "type": "Creature — Elemental",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Volkan Baga",
+      "cmc": 2,
+      "colorIdentity": [
+        "G"
+      ],
+      "colors": [
+        "Green"
+      ],
+      "flavor": "\"The land gives of itself. Its abundance provides, even in times of chaos.\"",
+      "id": "caf811eef8ac1739f4079133a6f5b4aadeaf4d16",
+      "imageName": "sylvan advocate",
+      "layout": "normal",
+      "manaCost": "{1}{G}",
+      "mciNumber": "144",
+      "multiverseid": 407654,
+      "name": "Sylvan Advocate",
+      "number": "144",
+      "power": "2",
+      "rarity": "Rare",
+      "subtypes": [
+        "Elf",
+        "Druid",
+        "Ally"
+      ],
+      "text": "Vigilance\nAs long as you control six or more lands, Sylvan Advocate and land creatures you control get +2/+2.",
+      "toughness": "3",
+      "type": "Creature — Elf Druid Ally",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Victor Adame Minguez",
+      "cmc": 5,
+      "colorIdentity": [
+        "G"
+      ],
+      "colors": [
+        "Green"
+      ],
+      "flavor": "\"My people blazed these pathways long ago, before the Eldrazi came. We will ride them long after the Eldrazi are gone.\"",
+      "id": "67fac6557cc148cc179e286c0f3cd1619129a41f",
+      "imageName": "tajuru pathwarden",
+      "layout": "normal",
+      "manaCost": "{4}{G}",
+      "mciNumber": "145",
+      "multiverseid": 407655,
+      "name": "Tajuru Pathwarden",
+      "number": "145",
+      "power": "5",
+      "rarity": "Common",
+      "subtypes": [
+        "Elf",
+        "Warrior",
+        "Ally"
+      ],
+      "text": "Vigilance, trample",
+      "toughness": "4",
+      "type": "Creature — Elf Warrior Ally",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Dan Scott",
+      "cmc": 1,
+      "colorIdentity": [
+        "G"
+      ],
+      "colors": [
+        "Green"
+      ],
+      "flavor": "\"The most elegant solutions are found in nature. You just have to know where to look.\"",
+      "id": "596739117ad4db14b33fa6b7af827e0249f9c9ad",
+      "imageName": "vines of the recluse",
+      "layout": "normal",
+      "manaCost": "{G}",
+      "mciNumber": "146",
+      "multiverseid": 407656,
+      "name": "Vines of the Recluse",
+      "number": "146",
+      "rarity": "Common",
+      "text": "Target creature gets +1/+2 and gains reach until end of turn. Untap it. (A creature with reach can block creatures with flying.)",
+      "type": "Instant",
+      "types": [
+        "Instant"
+      ]
+    },
+    {
+      "artist": "Chris Rallis",
+      "cmc": 7,
+      "colorIdentity": [
+        "G"
+      ],
+      "colors": [
+        "Green"
+      ],
+      "id": "46c5fbb120b69bf967ff18d2068927ba748bfe78",
+      "imageName": "zendikar resurgent",
+      "layout": "normal",
+      "manaCost": "{5}{G}{G}",
+      "mciNumber": "147",
+      "multiverseid": 407657,
+      "name": "Zendikar Resurgent",
+      "number": "147",
+      "rarity": "Rare",
+      "text": "Whenever you tap a land for mana, add one mana of any type that land produced. (The types of mana are white, blue, black, red, green, and colorless.)\nWhenever you cast a creature spell, draw a card.",
+      "type": "Enchantment",
+      "types": [
+        "Enchantment"
+      ]
+    },
+    {
+      "artist": "Lius Lasahido",
+      "cmc": 3,
+      "colorIdentity": [
+        "B",
+        "R"
+      ],
+      "id": "804a7400eeb4f4ecff8aa639ea684f32009d6eac",
+      "imageName": "flayer drone",
+      "layout": "normal",
+      "manaCost": "{1}{B}{R}",
+      "mciNumber": "148",
+      "multiverseid": 407658,
+      "name": "Flayer Drone",
+      "number": "148",
+      "power": "3",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Eldrazi",
+        "Drone"
+      ],
+      "text": "Devoid (This card has no color.)\nFirst strike\nWhenever another colorless creature enters the battlefield under your control, target opponent loses 1 life.",
+      "toughness": "1",
+      "type": "Creature — Eldrazi Drone",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Jason Felix",
+      "cmc": 3,
+      "colorIdentity": [
+        "U",
+        "B"
+      ],
+      "id": "dc90dc31f537630781e23c013fd12cf02374ce72",
+      "imageName": "mindmelter",
+      "layout": "normal",
+      "manaCost": "{1}{U}{B}",
+      "mciNumber": "149",
+      "multiverseid": 407659,
+      "name": "Mindmelter",
+      "number": "149",
+      "power": "2",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Eldrazi",
+        "Drone"
+      ],
+      "text": "Devoid (This card has no color.)\nMindmelter can't be blocked.\n{3}{C}: Target opponent exiles a card from their hand. Activate this ability only any time you could cast a sorcery. ({C} represents colorless mana.)",
+      "toughness": "2",
+      "type": "Creature — Eldrazi Drone",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Alejandro Mirabal",
+      "cmc": 3,
+      "colorIdentity": [
+        "U",
+        "G"
+      ],
+      "id": "6eac858184fededdb64a6ebface7dde8e41eaaa2",
+      "imageName": "void grafter",
+      "layout": "normal",
+      "manaCost": "{1}{G}{U}",
+      "mciNumber": "150",
+      "multiverseid": 407660,
+      "name": "Void Grafter",
+      "number": "150",
+      "power": "2",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Eldrazi",
+        "Drone"
+      ],
+      "text": "Devoid (This card has no color.)\nFlash (You may cast this spell any time you could cast an instant.)\nWhen Void Grafter enters the battlefield, another target creature you control gains hexproof until end of turn.",
+      "toughness": "4",
+      "type": "Creature — Eldrazi Drone",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Cynthia Sheppard",
+      "cmc": 2,
+      "colorIdentity": [
+        "W",
+        "B"
+      ],
+      "colors": [
+        "White",
+        "Black"
+      ],
+      "id": "ab221d9c7f9299b2712e871a6f6428054231111f",
+      "imageName": "ayli, eternal pilgrim",
+      "layout": "normal",
+      "manaCost": "{W}{B}",
+      "mciNumber": "151",
+      "multiverseid": 407661,
+      "name": "Ayli, Eternal Pilgrim",
+      "number": "151",
+      "power": "2",
+      "rarity": "Rare",
+      "subtypes": [
+        "Kor",
+        "Cleric"
+      ],
+      "supertypes": [
+        "Legendary"
+      ],
+      "text": "Deathtouch\n{1}, Sacrifice another creature: You gain life equal to the sacrificed creature's toughness.\n{1}{W}{B}, Sacrifice another creature: Exile target nonland permanent. Activate this ability only if you have at least 10 life more than your starting life total.",
+      "toughness": "3",
+      "type": "Legendary Creature — Kor Cleric",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Jakub Kasper",
+      "cmc": 6,
+      "colorIdentity": [
+        "B",
+        "G"
+      ],
+      "colors": [
+        "Black",
+        "Green"
+      ],
+      "flavor": "\"Humans use pigs to hunt for mushrooms, don't they? It's like that.\"\n—Harak, Malakir bloodwitch",
+      "id": "2d84c2ddd576e8e648392c1efb2aa91576c1ad24",
+      "imageName": "baloth null",
+      "layout": "normal",
+      "manaCost": "{4}{B}{G}",
+      "mciNumber": "152",
+      "multiverseid": 407662,
+      "name": "Baloth Null",
+      "number": "152",
+      "power": "4",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Zombie",
+        "Beast"
+      ],
+      "text": "When Baloth Null enters the battlefield, return up to two target creature cards from your graveyard to your hand.",
+      "toughness": "5",
+      "type": "Creature — Zombie Beast",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "David Gaillet",
+      "cmc": 4,
+      "colorIdentity": [
+        "W",
+        "B"
+      ],
+      "colors": [
+        "White",
+        "Black"
+      ],
+      "flavor": "\"My people are no longer slaves to the Eldrazi, beholden to the past. We will determine our own future.\"",
+      "id": "9dbda604d39d65d140a0e09eec617e1e815ea4ed",
+      "imageName": "cliffhaven vampire",
+      "layout": "normal",
+      "manaCost": "{2}{W}{B}",
+      "mciNumber": "153",
+      "multiverseid": 407663,
+      "name": "Cliffhaven Vampire",
+      "number": "153",
+      "power": "2",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Vampire",
+        "Warrior",
+        "Ally"
+      ],
+      "text": "Flying\nWhenever you gain life, each opponent loses 1 life.",
+      "toughness": "4",
+      "type": "Creature — Vampire Warrior Ally",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "David Gaillet",
+      "cmc": 3,
+      "colorIdentity": [
+        "W",
+        "G"
+      ],
+      "colors": [
+        "White",
+        "Green"
+      ],
+      "flavor": "\"Before the battle, I heard them take an oath near the ruins of Sea Gate. I hope they inspire others to keep watch.\"",
+      "id": "09db6d72616f6c3fd95956805d1ee0eeea5113da",
+      "imageName": "joraga auxiliary",
+      "layout": "normal",
+      "manaCost": "{1}{G}{W}",
+      "mciNumber": "154",
+      "multiverseid": 407664,
+      "name": "Joraga Auxiliary",
+      "number": "154",
+      "power": "2",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Elf",
+        "Soldier",
+        "Ally"
+      ],
+      "text": "{4}{G}{W}: Support 2. (Put a +1/+1 counter on each of up to two other target creatures.)",
+      "toughness": "3",
+      "type": "Creature — Elf Soldier Ally",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Igor Kieryluk",
+      "cmc": 3,
+      "colorIdentity": [
+        "U",
+        "R"
+      ],
+      "colors": [
+        "Blue",
+        "Red"
+      ],
+      "flavor": "\"Some relic hunters have given up exploring and gone to fight the Eldrazi. But I know our work is more important than ever. The secrets we uncover could lead to the world's salvation.\"",
+      "id": "adb77c7508e347a1ed107e148bf1fe8f561191ce",
+      "imageName": "jori en, ruin diver",
+      "layout": "normal",
+      "manaCost": "{1}{U}{R}",
+      "mciNumber": "155",
+      "multiverseid": 407665,
+      "name": "Jori En, Ruin Diver",
+      "number": "155",
+      "power": "2",
+      "rarity": "Rare",
+      "subtypes": [
+        "Merfolk",
+        "Wizard"
+      ],
+      "supertypes": [
+        "Legendary"
+      ],
+      "text": "Whenever you cast your second spell each turn, draw a card.",
+      "toughness": "3",
+      "type": "Legendary Creature — Merfolk Wizard",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Izzy",
+      "cmc": 4,
+      "colorIdentity": [
+        "R",
+        "G"
+      ],
+      "colors": [
+        "Red",
+        "Green"
+      ],
+      "flavor": "Greenweaver Mina and her twin brother Denn lead the last of the Mul Daya into an uncertain future.",
+      "id": "efec27a0bc9bf61473621e4bcae7a64b10db70e2",
+      "imageName": "mina and denn, wildborn",
+      "layout": "normal",
+      "manaCost": "{2}{R}{G}",
+      "mciNumber": "156",
+      "multiverseid": 407666,
+      "name": "Mina and Denn, Wildborn",
+      "number": "156",
+      "power": "4",
+      "rarity": "Rare",
+      "subtypes": [
+        "Elf",
+        "Ally"
+      ],
+      "supertypes": [
+        "Legendary"
+      ],
+      "text": "You may play an additional land on each of your turns.\n{R}{G}, Return a land you control to its owner's hand: Target creature gains trample until end of turn.",
+      "toughness": "4",
+      "type": "Legendary Creature — Elf Ally",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Willian Murai",
+      "cmc": 3,
+      "colorIdentity": [
+        "W",
+        "U"
+      ],
+      "colors": [
+        "White",
+        "Blue"
+      ],
+      "id": "e8e4621b1380291be863ad62455c0ba7d505ca24",
+      "imageName": "reflector mage",
+      "layout": "normal",
+      "manaCost": "{1}{W}{U}",
+      "mciNumber": "157",
+      "multiverseid": 407667,
+      "name": "Reflector Mage",
+      "number": "157",
+      "power": "2",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Human",
+        "Wizard"
+      ],
+      "text": "When Reflector Mage enters the battlefield, return target creature an opponent controls to its owner's hand. That creature's owner can't cast spells with the same name as that creature until your next turn.",
+      "toughness": "3",
+      "type": "Creature — Human Wizard",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Matt Stewart",
+      "cmc": 3,
+      "colorIdentity": [
+        "R",
+        "G"
+      ],
+      "colors": [
+        "Red",
+        "Green"
+      ],
+      "flavor": "\"I swore to take one head for each member of my family they killed. My task is nowhere near its end.\"",
+      "id": "ec74a86c74d4cd9f21eacf81d51d00a2b22682a8",
+      "imageName": "relentless hunter",
+      "layout": "normal",
+      "manaCost": "{1}{R}{G}",
+      "mciNumber": "158",
+      "multiverseid": 407668,
+      "name": "Relentless Hunter",
+      "number": "158",
+      "power": "3",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Human",
+        "Warrior"
+      ],
+      "text": "{1}{R}{G}: Relentless Hunter gets +1/+1 and gains trample until end of turn.",
+      "toughness": "3",
+      "type": "Creature — Human Warrior",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Clint Cearley",
+      "cmc": 2,
+      "colorIdentity": [
+        "U",
+        "R"
+      ],
+      "colors": [
+        "Blue",
+        "Red"
+      ],
+      "flavor": "Roilmages' tactics are as chaotic as the energies they channel.",
+      "id": "9d769ae31259b59bdc325716efc9dcfd334dee28",
+      "imageName": "stormchaser mage",
+      "layout": "normal",
+      "manaCost": "{U}{R}",
+      "mciNumber": "159",
+      "multiverseid": 407669,
+      "name": "Stormchaser Mage",
+      "number": "159",
+      "power": "1",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Human",
+        "Wizard"
+      ],
+      "text": "Flying, haste\nProwess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)",
+      "toughness": "3",
+      "type": "Creature — Human Wizard",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Greg Opalinski",
+      "cmc": 2,
+      "colorIdentity": [
+        "W",
+        "R"
+      ],
+      "colors": [
+        "White",
+        "Red"
+      ],
+      "flavor": "\"When I'm done training you, anything will be a deadly weapon.\"",
+      "id": "ee7a5e51d5c025d21331e2a5119973e026c1ce25",
+      "imageName": "weapons trainer",
+      "layout": "normal",
+      "manaCost": "{R}{W}",
+      "mciNumber": "160",
+      "multiverseid": 407670,
+      "name": "Weapons Trainer",
+      "number": "160",
+      "power": "3",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Human",
+        "Soldier",
+        "Ally"
+      ],
+      "text": "Other creatures you control get +1/+0 as long as you control an Equipment.",
+      "toughness": "2",
+      "type": "Creature — Human Soldier Ally",
+      "types": [
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Kev Walker",
+      "cmc": 0,
+      "flavor": "Once a simple tool, it—like everything else on Zendikar—has been turned into a weapon against the Eldrazi.",
+      "id": "94dfeb494604ae5797bd7394f2bfa080d13fe006",
+      "imageName": "bone saw",
+      "layout": "normal",
+      "manaCost": "{0}",
+      "mciNumber": "161",
+      "multiverseid": 407671,
+      "name": "Bone Saw",
+      "number": "161",
+      "rarity": "Common",
+      "subtypes": [
+        "Equipment"
+      ],
+      "text": "Equipped creature gets +1/+0.\nEquip {1} ({1}: Attach to target creature you control. Equip only as a sorcery.)",
+      "type": "Artifact — Equipment",
+      "types": [
+        "Artifact"
+      ]
+    },
+    {
+      "artist": "Anthony Palumbo",
+      "cmc": 2,
+      "flavor": "Forged for victory in a time of despair.",
+      "id": "71cdcdd0061c5b5ea14260115a4a603ff65b8d61",
+      "imageName": "captain's claws",
+      "layout": "normal",
+      "manaCost": "{2}",
+      "mciNumber": "162",
+      "multiverseid": 407672,
+      "name": "Captain's Claws",
+      "number": "162",
+      "rarity": "Rare",
+      "subtypes": [
+        "Equipment"
+      ],
+      "text": "Equipped creature gets +1/+0.\nWhenever equipped creature attacks, create a 1/1 white Kor Ally creature token that's tapped and attacking.\nEquip {1}",
+      "type": "Artifact — Equipment",
+      "types": [
+        "Artifact"
+      ]
+    },
+    {
+      "artist": "Chris Rahn",
+      "cmc": 3,
+      "flavor": "\"If we're going to survive, we have to use every tool at our disposal. Especially the disgusting ones.\"\n—Ryza, Oran-Rief scout",
+      "id": "4295b5e3b9b3f0ec7c71368dcc35d18ce248f009",
+      "imageName": "chitinous cloak",
+      "layout": "normal",
+      "manaCost": "{3}",
+      "mciNumber": "163",
+      "multiverseid": 407673,
+      "name": "Chitinous Cloak",
+      "number": "163",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Equipment"
+      ],
+      "text": "Equipped creature gets +2/+2 and has menace. (It can't be blocked except by two or more creatures.)\nEquip {3}",
+      "type": "Artifact — Equipment",
+      "types": [
+        "Artifact"
+      ]
+    },
+    {
+      "artist": "Daniel Ljunggren",
+      "cmc": 2,
+      "flavor": "\"It's endearing, in a mystical, pointy sort of way.\"\n—General Tazri, allied commander",
+      "id": "ce5718463573850bf4f9fe12c8d0a44ed8bc7ebe",
+      "imageName": "hedron crawler",
+      "layout": "normal",
+      "manaCost": "{2}",
+      "mciNumber": "164",
+      "multiverseid": 407674,
+      "name": "Hedron Crawler",
+      "number": "164",
+      "power": "0",
+      "rarity": "Common",
+      "subtypes": [
+        "Construct"
+      ],
+      "text": "{T}: Add {C}. ({C} represents colorless mana.)",
+      "toughness": "1",
+      "type": "Artifact Creature — Construct",
+      "types": [
+        "Artifact",
+        "Creature"
+      ]
+    },
+    {
+      "artist": "Jung Park",
+      "cmc": 3,
+      "flavor": "A light to bring hope in dark times.",
+      "id": "fe19905b5706d9c5ecdc4eff590a7cc22e054c86",
+      "imageName": "seer's lantern",
+      "layout": "normal",
+      "manaCost": "{3}",
+      "mciNumber": "165",
+      "multiverseid": 407675,
+      "name": "Seer's Lantern",
+      "number": "165",
+      "rarity": "Common",
+      "text": "{T}: Add {C}. ({C} represents colorless mana.)\n{2}, {T}: Scry 1. (Look at the top card of your library. You may put that card on the bottom of your library.)",
+      "type": "Artifact",
+      "types": [
+        "Artifact"
+      ]
+    },
+    {
+      "artist": "Ben Maier",
+      "cmc": 1,
+      "flavor": "The nomadic kor carry only necessities on their long treks. The coming of the Eldrazi redefined \"necessities.\"",
+      "id": "c5815d8ac4d2cd4d617f350189b9fbea98bbb63b",
+      "imageName": "stoneforge masterwork",
+      "layout": "normal",
+      "manaCost": "{1}",
+      "mciNumber": "166",
+      "multiverseid": 407676,
+      "name": "Stoneforge Masterwork",
+      "number": "166",
+      "rarity": "Rare",
+      "subtypes": [
+        "Equipment"
+      ],
+      "text": "Equipped creature gets +1/+1 for each other creature you control that shares a creature type with it.\nEquip {2}",
+      "type": "Artifact — Equipment",
+      "types": [
+        "Artifact"
+      ]
+    },
+    {
+      "artist": "Kev Walker",
+      "cmc": 3,
+      "flavor": "\"Sometimes being fast is as important as being smart.\"\n—Ryza, Oran-Rief scout",
+      "id": "8f4d6fa0e064e71a1d946a751cb769fc506cdfd0",
+      "imageName": "strider harness",
+      "layout": "normal",
+      "manaCost": "{3}",
+      "mciNumber": "167",
+      "multiverseid": 407677,
+      "name": "Strider Harness",
+      "number": "167",
+      "rarity": "Uncommon",
+      "subtypes": [
+        "Equipment"
+      ],
+      "text": "Equipped creature gets +1/+1 and has haste.\nEquip {1} ({1}: Attach to target creature you control. Equip only as a sorcery.)",
+      "type": "Artifact — Equipment",
+      "types": [
+        "Artifact"
+      ]
+    },
+    {
+      "artist": "Cliff Childs",
+      "cmc": 0,
+      "colorIdentity": [
+        "B",
+        "R"
+      ],
+      "flavor": "A mudflow swallowed the lowlands years ago. All that remains are a bottomless mire and an endless rain of ash.",
+      "id": "a7d9152a92a0cc4a1cefc4fb7f2d29697145978c",
+      "imageName": "cinder barrens",
+      "layout": "normal",
+      "mciNumber": "168",
+      "multiverseid": 407678,
+      "name": "Cinder Barrens",
+      "number": "168",
+      "rarity": "Uncommon",
+      "text": "Cinder Barrens enters the battlefield tapped.\n{T}: Add {B} or {R}.",
+      "type": "Land",
+      "types": [
+        "Land"
+      ]
+    },
+    {
+      "artist": "Ryan Pancoast",
+      "cmc": 0,
+      "flavor": "\"Look, and see the future.\"\n—Ayli, high priest of the Eternal Pilgrims",
+      "id": "fb92aaa5c8be245f454d0906035032b7aba6512e",
+      "imageName": "corrupted crossroads",
+      "layout": "normal",
+      "mciNumber": "169",
+      "multiverseid": 407679,
+      "name": "Corrupted Crossroads",
+      "number": "169",
+      "rarity": "Rare",
+      "text": "{T}: Add {C}. ({C} represents colorless mana.)\n{T}, Pay 1 life: Add one mana of any color. Spend this mana only to cast a spell with devoid.",
+      "type": "Land",
+      "types": [
+        "Land"
+      ]
+    },
+    {
+      "artist": "Zack Stella",
+      "cmc": 0,
+      "id": "21e7f5640d1b83f1b485b8ef766717d1869349be",
+      "imageName": "crumbling vestige",
+      "layout": "normal",
+      "mciNumber": "170",
+      "multiverseid": 407680,
+      "name": "Crumbling Vestige",
+      "number": "170",
+      "rarity": "Common",
+      "text": "Crumbling Vestige enters the battlefield tapped.\nWhen Crumbling Vestige enters the battlefield, add one mana of any color.\n{T}: Add {C}. ({C} represents colorless mana.)",
+      "type": "Land",
+      "types": [
+        "Land"
+      ]
+    },
+    {
+      "artist": "Cliff Childs",
+      "cmc": 0,
+      "colorIdentity": [
+        "B",
+        "G"
+      ],
+      "id": "94fad11a4fc20640f01ecd7c99c7f8182f2c3bf0",
+      "imageName": "hissing quagmire",
+      "layout": "normal",
+      "mciNumber": "171",
+      "multiverseid": 407681,
+      "name": "Hissing Quagmire",
+      "number": "171",
+      "rarity": "Rare",
+      "text": "Hissing Quagmire enters the battlefield tapped.\n{T}: Add {B} or {G}.\n{1}{B}{G}: Hissing Quagmire becomes a 2/2 black and green Elemental creature with deathtouch until end of turn. It's still a land.",
+      "type": "Land",
+      "types": [
+        "Land"
+      ]
+    },
+    {
+      "artist": "Kieran Yanner",
+      "cmc": 0,
+      "flavor": "Even in areas of profound devastation, the hedrons remained intact.",
+      "id": "c7a9b50c7a40b9726bb86f35462505a4e69f0964",
+      "imageName": "holdout settlement",
+      "layout": "normal",
+      "mciNumber": "172",
+      "multiverseid": 407682,
+      "name": "Holdout Settlement",
+      "number": "172",
+      "rarity": "Common",
+      "text": "{T}: Add {C}. ({C} represents colorless mana.)\n{T}, Tap an untapped creature you control: Add one mana of any color.",
+      "type": "Land",
+      "types": [
+        "Land"
+      ]
+    },
+    {
+      "artist": "Cliff Childs",
+      "cmc": 0,
+      "colorIdentity": [
+        "W",
+        "U"
+      ],
+      "flavor": "The river split into many channels as it flowed to the Halimar Sea. Few travelers could follow the same one twice.",
+      "id": "f19f41541dd64584f174e9a0f5c8e9328bbdb387",
+      "imageName": "meandering river",
+      "layout": "normal",
+      "mciNumber": "173",
+      "multiverseid": 407683,
+      "name": "Meandering River",
+      "number": "173",
+      "rarity": "Uncommon",
+      "text": "Meandering River enters the battlefield tapped.\n{T}: Add {W} or {U}.",
+      "type": "Land",
+      "types": [
+        "Land"
+      ]
+    },
+    {
+      "artist": "Cliff Childs",
+      "cmc": 0,
+      "id": "e8ddf35f6cabb6093933786bc35e0beedac8e3c7",
+      "imageName": "mirrorpool",
+      "layout": "normal",
+      "mciNumber": "174",
+      "multiverseid": 407684,
+      "name": "Mirrorpool",
+      "number": "174",
+      "rarity": "Mythic Rare",
+      "text": "Mirrorpool enters the battlefield tapped.\n{T}: Add {C}.\n{2}{C}, {T}, Sacrifice Mirrorpool: Copy target instant or sorcery spell you control. You may choose new targets for the copy.\n{4}{C}, {T}, Sacrifice Mirrorpool: Create a token that's a copy of target creature you control.",
+      "type": "Land",
+      "types": [
+        "Land"
+      ]
+    },
+    {
+      "artist": "Jonas De Ro",
+      "cmc": 0,
+      "colorIdentity": [
+        "R",
+        "W"
+      ],
+      "id": "a775b62e5709b402107b2a910384d3e116f886fc",
+      "imageName": "needle spires",
+      "layout": "normal",
+      "mciNumber": "175",
+      "multiverseid": 407685,
+      "name": "Needle Spires",
+      "number": "175",
+      "rarity": "Rare",
+      "text": "Needle Spires enters the battlefield tapped.\n{T}: Add {R} or {W}.\n{2}{R}{W}: Needle Spires becomes a 2/1 red and white Elemental creature with double strike until end of turn. It's still a land.",
+      "type": "Land",
+      "types": [
+        "Land"
+      ]
+    },
+    {
+      "artist": "Jason Felix",
+      "cmc": 0,
+      "id": "16be438eff3ec6a63802fbd68ded0daf9a40614d",
+      "imageName": "ruins of oran-rief",
+      "layout": "normal",
+      "mciNumber": "176",
+      "multiverseid": 407686,
+      "name": "Ruins of Oran-Rief",
+      "number": "176",
+      "rarity": "Rare",
+      "text": "Ruins of Oran-Rief enters the battlefield tapped.\n{T}: Add {C}. ({C} represents colorless mana.)\n{T}: Put a +1/+1 counter on target colorless creature that entered the battlefield this turn.",
+      "type": "Land",
+      "types": [
+        "Land"
+      ]
+    },
+    {
+      "artist": "Zack Stella",
+      "cmc": 0,
+      "flavor": "Once a center for knowledge, Sea Gate now serves as a reminder of what was lost.",
+      "id": "0ef7547eb39660a298dfea0c2de0fb069b17bdc7",
+      "imageName": "sea gate wreckage",
+      "layout": "normal",
+      "mciNumber": "177",
+      "multiverseid": 407687,
+      "name": "Sea Gate Wreckage",
+      "number": "177",
+      "rarity": "Rare",
+      "text": "{T}: Add {C}. ({C} represents colorless mana.)\n{2}{C}, {T}: Draw a card. Activate this ability only if you have no cards in hand.",
+      "type": "Land",
+      "types": [
+        "Land"
+      ]
+    },
+    {
+      "artist": "Cliff Childs",
+      "cmc": 0,
+      "colorIdentity": [
+        "U",
+        "B"
+      ],
+      "flavor": "\"Long after the land has given up the last of its secrets, there will still be mysteries in the depths of the sea.\"\n—Kiora",
+      "id": "e5a85451def764645578a9628ba060814fc88794",
+      "imageName": "submerged boneyard",
+      "layout": "normal",
+      "mciNumber": "178",
+      "multiverseid": 407688,
+      "name": "Submerged Boneyard",
+      "number": "178",
+      "rarity": "Uncommon",
+      "text": "Submerged Boneyard enters the battlefield tapped.\n{T}: Add {U} or {B}.",
+      "type": "Land",
+      "types": [
+        "Land"
+      ]
+    },
+    {
+      "artist": "Cliff Childs",
+      "cmc": 0,
+      "colorIdentity": [
+        "R",
+        "G"
+      ],
+      "flavor": "Tazeem's embrace is harsh, but for those that call it home, nothing else will do.",
+      "id": "972e18fe5c304fe003476e0c6882c39e6a5641da",
+      "imageName": "timber gorge",
+      "layout": "normal",
+      "mciNumber": "179",
+      "multiverseid": 407689,
+      "name": "Timber Gorge",
+      "number": "179",
+      "rarity": "Uncommon",
+      "text": "Timber Gorge enters the battlefield tapped.\n{T}: Add {R} or {G}.",
+      "type": "Land",
+      "types": [
+        "Land"
+      ]
+    },
+    {
+      "artist": "Cliff Childs",
+      "cmc": 0,
+      "colorIdentity": [
+        "G",
+        "W"
+      ],
+      "flavor": "Despite the chaos of the Roil and the devastation of the Eldrazi, Zendikar is a world of breathtaking beauty.",
+      "id": "aa2c10e1e5c6bffb91c4ecdc1b329ba3ce5549dc",
+      "imageName": "tranquil expanse",
+      "layout": "normal",
+      "mciNumber": "180",
+      "multiverseid": 407690,
+      "name": "Tranquil Expanse",
+      "number": "180",
+      "rarity": "Uncommon",
+      "text": "Tranquil Expanse enters the battlefield tapped.\n{T}: Add {G} or {W}.",
+      "type": "Land",
+      "types": [
+        "Land"
+      ]
+    },
+    {
+      "artist": "Jung Park",
+      "cmc": 0,
+      "flavor": "Kozilek's presence warped the land, stripping away layer after layer.",
+      "id": "48813eedb9d2039649af01fb83096232fbedcf48",
+      "imageName": "unknown shores",
+      "layout": "normal",
+      "mciNumber": "181",
+      "multiverseid": 407691,
+      "name": "Unknown Shores",
+      "number": "181",
+      "rarity": "Common",
+      "text": "{T}: Add {C}.\n{1}, {T}: Add one mana of any color.",
+      "type": "Land",
+      "types": [
+        "Land"
+      ]
+    },
+    {
+      "artist": "Florian de Gesincourt",
+      "cmc": 0,
+      "colorIdentity": [
+        "U",
+        "R"
+      ],
+      "id": "4cf5a4531803dd3fb468a3586fb782c21a4acc5a",
+      "imageName": "wandering fumarole",
+      "layout": "normal",
+      "mciNumber": "182",
+      "multiverseid": 407692,
+      "name": "Wandering Fumarole",
+      "number": "182",
+      "rarity": "Rare",
+      "text": "Wandering Fumarole enters the battlefield tapped.\n{T}: Add {U} or {R}.\n{2}{U}{R}: Until end of turn, Wandering Fumarole becomes a 1/4 blue and red Elemental creature with \"{0}: Switch this creature's power and toughness until end of turn.\" It's still a land.",
+      "type": "Land",
+      "types": [
+        "Land"
+      ]
+    },
+    {
+      "artist": "Jason Felix",
+      "cmc": 0,
+      "id": "68d4ca6db1b4f92aa306627cefa3d02137e4fa10",
+      "imageName": "wastes2",
+      "layout": "normal",
+      "multiverseid": 407693,
+      "name": "Wastes",
+      "number": "183",
+      "rarity": "Basic Land",
+      "supertypes": [
+        "Basic"
+      ],
+      "text": "{T}: Add {C}.",
+      "type": "Basic Land",
+      "types": [
+        "Land"
+      ],
+      "variations": [
+        407694,
+        407695,
+        407696
+      ],
+      "watermark": "Colorless"
+    },
+    {
+      "artist": "Jason Felix",
+      "cmc": 0,
+      "id": "90a199d89b8723133c290be1c8fa99a13063fb05",
+      "imageName": "wastes1",
+      "layout": "normal",
+      "multiverseid": 407694,
+      "name": "Wastes",
+      "number": "183",
+      "rarity": "Basic Land",
+      "supertypes": [
+        "Basic"
+      ],
+      "text": "{T}: Add {C}.",
+      "type": "Basic Land",
+      "types": [
+        "Land"
+      ],
+      "variations": [
+        407693,
+        407695,
+        407696
+      ],
+      "watermark": "Colorless"
+    },
+    {
+      "artist": "Raymond Swanland",
+      "cmc": 0,
+      "id": "84e8fe1ff78f9f447c6870dfd80a354d687f230e",
+      "imageName": "wastes4",
+      "layout": "normal",
+      "multiverseid": 407695,
+      "name": "Wastes",
+      "number": "184",
+      "rarity": "Basic Land",
+      "supertypes": [
+        "Basic"
+      ],
+      "text": "{T}: Add {C}.",
+      "type": "Basic Land",
+      "types": [
+        "Land"
+      ],
+      "variations": [
+        407693,
+        407694,
+        407696
+      ],
+      "watermark": "Colorless"
+    },
+    {
+      "artist": "Raymond Swanland",
+      "cmc": 0,
+      "id": "9a1e2c33bbe0aed2a499e49036754b4e3aa5338d",
+      "imageName": "wastes3",
+      "layout": "normal",
+      "multiverseid": 407696,
+      "name": "Wastes",
+      "number": "184",
+      "rarity": "Basic Land",
+      "supertypes": [
+        "Basic"
+      ],
+      "text": "{T}: Add {C}.",
+      "type": "Basic Land",
+      "types": [
+        "Land"
+      ],
+      "variations": [
+        407693,
+        407694,
+        407695
+      ],
+      "watermark": "Colorless"
+    }
+  ]
+}

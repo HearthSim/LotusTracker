@@ -1,0 +1,1698 @@
+
+[UnityCrossThreadLogger]6/13/2018 7:54:44 PM
+<== Deck.GetDeckLists(212)
+[
+  {
+    "id": "288dccf6-67ed-4740-bb15-f10d51257fdc",
+    "name": "Dimir Manipulation",
+    "description": "",
+    "format": "Standard",
+    "resourceId": "712f88b3-fc97-4819-99aa-336b88c3c7ad",
+    "deckTileId": 66789,
+    "mainDeck": [
+      {
+        "id": "66789",
+        "quantity": 1
+      },
+      {
+        "id": "64887",
+        "quantity": 2
+      },
+      {
+        "id": "64891",
+        "quantity": 1
+      },
+      {
+        "id": "65539",
+        "quantity": 2
+      },
+      {
+        "id": "64903",
+        "quantity": 3
+      },
+      {
+        "id": "66487",
+        "quantity": 2
+      },
+      {
+        "id": "66763",
+        "quantity": 3
+      },
+      {
+        "id": "64913",
+        "quantity": 2
+      },
+      {
+        "id": "66775",
+        "quantity": 3
+      },
+      {
+        "id": "66707",
+        "quantity": 1
+      },
+      {
+        "id": "66781",
+        "quantity": 2
+      },
+      {
+        "id": "65471",
+        "quantity": 4
+      },
+      {
+        "id": "65575",
+        "quantity": 1
+      },
+      {
+        "id": "66477",
+        "quantity": 1
+      },
+      {
+        "id": "65769",
+        "quantity": 2
+      },
+      {
+        "id": "66223",
+        "quantity": 2
+      },
+      {
+        "id": "66109",
+        "quantity": 1
+      },
+      {
+        "id": "67001",
+        "quantity": 1
+      },
+      {
+        "id": "65863",
+        "quantity": 2
+      },
+      {
+        "id": "65859",
+        "quantity": 2
+      },
+      {
+        "id": "66143",
+        "quantity": 1
+      },
+      {
+        "id": "66757",
+        "quantity": 3
+      },
+      {
+        "id": "65231",
+        "quantity": 1
+      },
+      {
+        "id": "66793",
+        "quantity": 1
+      },
+      {
+        "id": "65889",
+        "quantity": 8
+      },
+      {
+        "id": "65437",
+        "quantity": 7
+      },
+      {
+        "id": "65779",
+        "quantity": 1
+      }
+    ],
+    "sideboard": [],
+    "lastUpdated": "2018-04-15T16:08:02",
+    "lockedForUse": false,
+    "lockedForEdit": false,
+    "isValid": true
+  },
+  {
+    "id": "7e4ffe31-786e-4069-802c-52bf833f5402",
+    "name": "Azorius Ascension",
+    "description": null,
+    "format": "Standard",
+    "resourceId": "00000000-0000-0000-0000-000000000000",
+    "deckTileId": 66701,
+    "mainDeck": [
+      {
+        "id": "66701",
+        "quantity": 1
+      },
+      {
+        "id": "64801",
+        "quantity": 1
+      },
+      {
+        "id": "64881",
+        "quantity": 1
+      },
+      {
+        "id": "67001",
+        "quantity": 1
+      },
+      {
+        "id": "66619",
+        "quantity": 1
+      },
+      {
+        "id": "64887",
+        "quantity": 2
+      },
+      {
+        "id": "64815",
+        "quantity": 1
+      },
+      {
+        "id": "64891",
+        "quantity": 1
+      },
+      {
+        "id": "64817",
+        "quantity": 1
+      },
+      {
+        "id": "65493",
+        "quantity": 1
+      },
+      {
+        "id": "65311",
+        "quantity": 1
+      },
+      {
+        "id": "64903",
+        "quantity": 2
+      },
+      {
+        "id": "66691",
+        "quantity": 1
+      },
+      {
+        "id": "66487",
+        "quantity": 1
+      },
+      {
+        "id": "64825",
+        "quantity": 1
+      },
+      {
+        "id": "64909",
+        "quantity": 1
+      },
+      {
+        "id": "64913",
+        "quantity": 2
+      },
+      {
+        "id": "67017",
+        "quantity": 10
+      },
+      {
+        "id": "65993",
+        "quantity": 1
+      },
+      {
+        "id": "64919",
+        "quantity": 1
+      },
+      {
+        "id": "65469",
+        "quantity": 4
+      },
+      {
+        "id": "66705",
+        "quantity": 1
+      },
+      {
+        "id": "66091",
+        "quantity": 2
+      },
+      {
+        "id": "66013",
+        "quantity": 1
+      },
+      {
+        "id": "67015",
+        "quantity": 9
+      },
+      {
+        "id": "66965",
+        "quantity": 1
+      },
+      {
+        "id": "66103",
+        "quantity": 1
+      },
+      {
+        "id": "66721",
+        "quantity": 2
+      },
+      {
+        "id": "66727",
+        "quantity": 1
+      },
+      {
+        "id": "66663",
+        "quantity": 2
+      },
+      {
+        "id": "66127",
+        "quantity": 1
+      },
+      {
+        "id": "65529",
+        "quantity": 1
+      },
+      {
+        "id": "65575",
+        "quantity": 1
+      },
+      {
+        "id": "64947",
+        "quantity": 1
+      },
+      {
+        "id": "65989",
+        "quantity": 1
+      }
+    ],
+    "sideboard": [],
+    "lastUpdated": "2018-05-26T20:39:20.523449",
+    "lockedForUse": false,
+    "lockedForEdit": false,
+    "isValid": true
+  },
+  {
+    "id": "194bc458-5b69-47cb-97e4-5a520a10b3db",
+    "name": "Boros Assault",
+    "description": "WR Exert",
+    "format": "precon",
+    "resourceId": "551cad78-30e0-4625-b293-e6933d0ea115",
+    "deckTileId": 64831,
+    "mainDeck": [
+      {
+        "id": "64831",
+        "quantity": 1
+      },
+      {
+        "id": "65643",
+        "quantity": 1
+      },
+      {
+        "id": "65481",
+        "quantity": 1
+      },
+      {
+        "id": "65033",
+        "quantity": 1
+      },
+      {
+        "id": "65483",
+        "quantity": 1
+      },
+      {
+        "id": "66619",
+        "quantity": 1
+      },
+      {
+        "id": "65035",
+        "quantity": 1
+      },
+      {
+        "id": "65039",
+        "quantity": 1
+      },
+      {
+        "id": "64813",
+        "quantity": 1
+      },
+      {
+        "id": "64815",
+        "quantity": 1
+      },
+      {
+        "id": "65049",
+        "quantity": 1
+      },
+      {
+        "id": "65491",
+        "quantity": 2
+      },
+      {
+        "id": "65493",
+        "quantity": 1
+      },
+      {
+        "id": "64819",
+        "quantity": 1
+      },
+      {
+        "id": "66819",
+        "quantity": 1
+      },
+      {
+        "id": "65659",
+        "quantity": 1
+      },
+      {
+        "id": "64833",
+        "quantity": 1
+      },
+      {
+        "id": "65069",
+        "quantity": 1
+      },
+      {
+        "id": "65199",
+        "quantity": 2
+      },
+      {
+        "id": "65993",
+        "quantity": 1
+      },
+      {
+        "id": "66263",
+        "quantity": 1
+      },
+      {
+        "id": "65081",
+        "quantity": 2
+      },
+      {
+        "id": "67021",
+        "quantity": 10
+      },
+      {
+        "id": "65087",
+        "quantity": 1
+      },
+      {
+        "id": "65511",
+        "quantity": 1
+      },
+      {
+        "id": "65325",
+        "quantity": 1
+      },
+      {
+        "id": "67015",
+        "quantity": 10
+      },
+      {
+        "id": "65687",
+        "quantity": 1
+      },
+      {
+        "id": "66021",
+        "quantity": 2
+      },
+      {
+        "id": "65763",
+        "quantity": 2
+      },
+      {
+        "id": "65883",
+        "quantity": 1
+      },
+      {
+        "id": "66659",
+        "quantity": 2
+      },
+      {
+        "id": "65527",
+        "quantity": 1
+      },
+      {
+        "id": "67011",
+        "quantity": 2
+      },
+      {
+        "id": "64867",
+        "quantity": 1
+      }
+    ],
+    "sideboard": [],
+    "lastUpdated": "2018-03-02T20:01:48.0708719Z",
+    "lockedForUse": true,
+    "lockedForEdit": true,
+    "isValid": true
+  },
+  {
+    "id": "472c228e-c6c4-4a13-a6d9-a1ce09aeb502",
+    "name": "The River Heralds",
+    "description": "UG Merfolk",
+    "format": "precon",
+    "resourceId": "00c327c0-c70d-4ab8-87b2-e12bda46ac58",
+    "deckTileId": 66101,
+    "mainDeck": [
+      {
+        "id": "66101",
+        "quantity": 2
+      },
+      {
+        "id": "66057",
+        "quantity": 1
+      },
+      {
+        "id": "66063",
+        "quantity": 1
+      },
+      {
+        "id": "66067",
+        "quantity": 2
+      },
+      {
+        "id": "66875",
+        "quantity": 2
+      },
+      {
+        "id": "67023",
+        "quantity": 11
+      },
+      {
+        "id": "66933",
+        "quantity": 1
+      },
+      {
+        "id": "66079",
+        "quantity": 1
+      },
+      {
+        "id": "67017",
+        "quantity": 11
+      },
+      {
+        "id": "66885",
+        "quantity": 1
+      },
+      {
+        "id": "66357",
+        "quantity": 2
+      },
+      {
+        "id": "66359",
+        "quantity": 1
+      },
+      {
+        "id": "66083",
+        "quantity": 1
+      },
+      {
+        "id": "66361",
+        "quantity": 1
+      },
+      {
+        "id": "66363",
+        "quantity": 1
+      },
+      {
+        "id": "66949",
+        "quantity": 1
+      },
+      {
+        "id": "66703",
+        "quantity": 2
+      },
+      {
+        "id": "66089",
+        "quantity": 2
+      },
+      {
+        "id": "66377",
+        "quantity": 2
+      },
+      {
+        "id": "66719",
+        "quantity": 1
+      },
+      {
+        "id": "66425",
+        "quantity": 1
+      },
+      {
+        "id": "66723",
+        "quantity": 1
+      },
+      {
+        "id": "66909",
+        "quantity": 1
+      },
+      {
+        "id": "66135",
+        "quantity": 1
+      },
+      {
+        "id": "66429",
+        "quantity": 1
+      },
+      {
+        "id": "66391",
+        "quantity": 2
+      },
+      {
+        "id": "66397",
+        "quantity": 2
+      },
+      {
+        "id": "66399",
+        "quantity": 1
+      },
+      {
+        "id": "66139",
+        "quantity": 1
+      },
+      {
+        "id": "67013",
+        "quantity": 2
+      }
+    ],
+    "sideboard": [],
+    "lastUpdated": "2018-03-02T20:05:45.2414202Z",
+    "lockedForUse": true,
+    "lockedForEdit": true,
+    "isValid": true
+  },
+  {
+    "id": "2b3a4b2e-32d1-46e1-8454-f80aee75b730",
+    "name": "Izzet Spellweaving",
+    "description": "UR Spells",
+    "format": "precon",
+    "resourceId": "78aa4678-c7e3-46fd-8d1f-6df01c99fd4a",
+    "deckTileId": 65195,
+    "mainDeck": [
+      {
+        "id": "65195",
+        "quantity": 2
+      },
+      {
+        "id": "65643",
+        "quantity": 1
+      },
+      {
+        "id": "65753",
+        "quantity": 2
+      },
+      {
+        "id": "64887",
+        "quantity": 2
+      },
+      {
+        "id": "64891",
+        "quantity": 1
+      },
+      {
+        "id": "64895",
+        "quantity": 2
+      },
+      {
+        "id": "65857",
+        "quantity": 1
+      },
+      {
+        "id": "65863",
+        "quantity": 1
+      },
+      {
+        "id": "66071",
+        "quantity": 1
+      },
+      {
+        "id": "64903",
+        "quantity": 2
+      },
+      {
+        "id": "66487",
+        "quantity": 1
+      },
+      {
+        "id": "66251",
+        "quantity": 1
+      },
+      {
+        "id": "64907",
+        "quantity": 1
+      },
+      {
+        "id": "64913",
+        "quantity": 2
+      },
+      {
+        "id": "67009",
+        "quantity": 4
+      },
+      {
+        "id": "65669",
+        "quantity": 1
+      },
+      {
+        "id": "67017",
+        "quantity": 11
+      },
+      {
+        "id": "64919",
+        "quantity": 1
+      },
+      {
+        "id": "66263",
+        "quantity": 1
+      },
+      {
+        "id": "65081",
+        "quantity": 2
+      },
+      {
+        "id": "65679",
+        "quantity": 1
+      },
+      {
+        "id": "67021",
+        "quantity": 8
+      },
+      {
+        "id": "66705",
+        "quantity": 1
+      },
+      {
+        "id": "66091",
+        "quantity": 2
+      },
+      {
+        "id": "66459",
+        "quantity": 1
+      },
+      {
+        "id": "64929",
+        "quantity": 1
+      },
+      {
+        "id": "65687",
+        "quantity": 1
+      },
+      {
+        "id": "65563",
+        "quantity": 1
+      },
+      {
+        "id": "64937",
+        "quantity": 1
+      },
+      {
+        "id": "66127",
+        "quantity": 1
+      },
+      {
+        "id": "66287",
+        "quantity": 1
+      },
+      {
+        "id": "65575",
+        "quantity": 1
+      }
+    ],
+    "sideboard": [],
+    "lastUpdated": "2018-03-02T20:04:00.143353Z",
+    "lockedForUse": true,
+    "lockedForEdit": true,
+    "isValid": true
+  },
+  {
+    "id": "b73eb221-80fb-4a55-9d33-8fbe933b5cdc",
+    "name": "Selesnya Pride",
+    "description": "GW Cats",
+    "format": "precon",
+    "resourceId": "6c31149c-05c5-41df-9c61-4516c6002862",
+    "deckTileId": 64847,
+    "mainDeck": [
+      {
+        "id": "64847",
+        "quantity": 2
+      },
+      {
+        "id": "65481",
+        "quantity": 1
+      },
+      {
+        "id": "65187",
+        "quantity": 1
+      },
+      {
+        "id": "65697",
+        "quantity": 1
+      },
+      {
+        "id": "64803",
+        "quantity": 1
+      },
+      {
+        "id": "64805",
+        "quantity": 1
+      },
+      {
+        "id": "65797",
+        "quantity": 1
+      },
+      {
+        "id": "66619",
+        "quantity": 1
+      },
+      {
+        "id": "65115",
+        "quantity": 1
+      },
+      {
+        "id": "64815",
+        "quantity": 1
+      },
+      {
+        "id": "65489",
+        "quantity": 1
+      },
+      {
+        "id": "65861",
+        "quantity": 1
+      },
+      {
+        "id": "65865",
+        "quantity": 1
+      },
+      {
+        "id": "65493",
+        "quantity": 1
+      },
+      {
+        "id": "65707",
+        "quantity": 3
+      },
+      {
+        "id": "67023",
+        "quantity": 7
+      },
+      {
+        "id": "65871",
+        "quantity": 2
+      },
+      {
+        "id": "65987",
+        "quantity": 1
+      },
+      {
+        "id": "65145",
+        "quantity": 3
+      },
+      {
+        "id": "65993",
+        "quantity": 1
+      },
+      {
+        "id": "67015",
+        "quantity": 8
+      },
+      {
+        "id": "66369",
+        "quantity": 1
+      },
+      {
+        "id": "65157",
+        "quantity": 3
+      },
+      {
+        "id": "65729",
+        "quantity": 2
+      },
+      {
+        "id": "66653",
+        "quantity": 1
+      },
+      {
+        "id": "64853",
+        "quantity": 3
+      },
+      {
+        "id": "65883",
+        "quantity": 2
+      },
+      {
+        "id": "66907",
+        "quantity": 1
+      },
+      {
+        "id": "65529",
+        "quantity": 1
+      },
+      {
+        "id": "66913",
+        "quantity": 1
+      },
+      {
+        "id": "65475",
+        "quantity": 4
+      },
+      {
+        "id": "65335",
+        "quantity": 1
+      }
+    ],
+    "sideboard": [],
+    "lastUpdated": "2018-03-02T20:04:19.0342431Z",
+    "lockedForUse": true,
+    "lockedForEdit": true,
+    "isValid": true
+  },
+  {
+    "id": "bc3d8924-5720-45f5-99d3-e49fcf379551",
+    "name": "Golgari Exploration",
+    "description": "",
+    "format": "Standard",
+    "resourceId": "e450c5db-8552-44dd-8ed5-7628b8a4bd90",
+    "deckTileId": 66401,
+    "mainDeck": [
+      {
+        "id": "66401",
+        "quantity": 3
+      },
+      {
+        "id": "65601",
+        "quantity": 1
+      },
+      {
+        "id": "67023",
+        "quantity": 9
+      },
+      {
+        "id": "67007",
+        "quantity": 4
+      },
+      {
+        "id": "66763",
+        "quantity": 2
+      },
+      {
+        "id": "65871",
+        "quantity": 1
+      },
+      {
+        "id": "65875",
+        "quantity": 1
+      },
+      {
+        "id": "66769",
+        "quantity": 1
+      },
+      {
+        "id": "66353",
+        "quantity": 2
+      },
+      {
+        "id": "66363",
+        "quantity": 1
+      },
+      {
+        "id": "66775",
+        "quantity": 4
+      },
+      {
+        "id": "66781",
+        "quantity": 3
+      },
+      {
+        "id": "66783",
+        "quantity": 1
+      },
+      {
+        "id": "66207",
+        "quantity": 2
+      },
+      {
+        "id": "66911",
+        "quantity": 1
+      },
+      {
+        "id": "66913",
+        "quantity": 2
+      },
+      {
+        "id": "66391",
+        "quantity": 2
+      },
+      {
+        "id": "66791",
+        "quantity": 1
+      },
+      {
+        "id": "65183",
+        "quantity": 1
+      },
+      {
+        "id": "66225",
+        "quantity": 1
+      },
+      {
+        "id": "67019",
+        "quantity": 8
+      },
+      {
+        "id": "65231",
+        "quantity": 1
+      },
+      {
+        "id": "66335",
+        "quantity": 1
+      },
+      {
+        "id": "67001",
+        "quantity": 1
+      },
+      {
+        "id": "66375",
+        "quantity": 1
+      },
+      {
+        "id": "66223",
+        "quantity": 2
+      },
+      {
+        "id": "66797",
+        "quantity": 1
+      },
+      {
+        "id": "66789",
+        "quantity": 1
+      },
+      {
+        "id": "66793",
+        "quantity": 1
+      }
+    ],
+    "sideboard": [],
+    "lastUpdated": "2018-04-01T01:22:45",
+    "lockedForUse": false,
+    "lockedForEdit": false,
+    "isValid": true
+  },
+  {
+    "id": "135d8d82-dc34-4ef7-9eb8-d18f5bb93ae1",
+    "name": "The Brazen Coalition",
+    "description": "BR Pirates",
+    "format": "precon",
+    "resourceId": "d3c38c21-1f60-43a2-b061-be19348c8a8d",
+    "deckTileId": 66237,
+    "mainDeck": [
+      {
+        "id": "66237",
+        "quantity": 1
+      },
+      {
+        "id": "65643",
+        "quantity": 1
+      },
+      {
+        "id": "66809",
+        "quantity": 1
+      },
+      {
+        "id": "66239",
+        "quantity": 1
+      },
+      {
+        "id": "65463",
+        "quantity": 2
+      },
+      {
+        "id": "66813",
+        "quantity": 2
+      },
+      {
+        "id": "66411",
+        "quantity": 2
+      },
+      {
+        "id": "66929",
+        "quantity": 2
+      },
+      {
+        "id": "66753",
+        "quantity": 1
+      },
+      {
+        "id": "66173",
+        "quantity": 1
+      },
+      {
+        "id": "66819",
+        "quantity": 2
+      },
+      {
+        "id": "66177",
+        "quantity": 1
+      },
+      {
+        "id": "66249",
+        "quantity": 1
+      },
+      {
+        "id": "66449",
+        "quantity": 1
+      },
+      {
+        "id": "66251",
+        "quantity": 2
+      },
+      {
+        "id": "66761",
+        "quantity": 2
+      },
+      {
+        "id": "66827",
+        "quantity": 1
+      },
+      {
+        "id": "66765",
+        "quantity": 2
+      },
+      {
+        "id": "66185",
+        "quantity": 1
+      },
+      {
+        "id": "66263",
+        "quantity": 1
+      },
+      {
+        "id": "65081",
+        "quantity": 2
+      },
+      {
+        "id": "66189",
+        "quantity": 1
+      },
+      {
+        "id": "67021",
+        "quantity": 12
+      },
+      {
+        "id": "66457",
+        "quantity": 1
+      },
+      {
+        "id": "65687",
+        "quantity": 1
+      },
+      {
+        "id": "66783",
+        "quantity": 1
+      },
+      {
+        "id": "66279",
+        "quantity": 2
+      },
+      {
+        "id": "66289",
+        "quantity": 1
+      },
+      {
+        "id": "66851",
+        "quantity": 1
+      },
+      {
+        "id": "67019",
+        "quantity": 9
+      },
+      {
+        "id": "66225",
+        "quantity": 1
+      }
+    ],
+    "sideboard": [],
+    "lastUpdated": "2018-03-02T20:05:09.1435159Z",
+    "lockedForUse": true,
+    "lockedForEdit": true,
+    "isValid": true
+  },
+  {
+    "id": "baa74728-757c-45eb-a717-dd16f2879f94",
+    "name": "The Sun Empire",
+    "description": "",
+    "format": "Standard",
+    "resourceId": "2a2c2f06-9f23-4bbe-bb86-ab30ad6870f8",
+    "deckTileId": 66235,
+    "mainDeck": [
+      {
+        "id": "66235",
+        "quantity": 1
+      },
+      {
+        "id": "65643",
+        "quantity": 1
+      },
+      {
+        "id": "65119",
+        "quantity": 1
+      },
+      {
+        "id": "66241",
+        "quantity": 3
+      },
+      {
+        "id": "66329",
+        "quantity": 2
+      },
+      {
+        "id": "66341",
+        "quantity": 1
+      },
+      {
+        "id": "66817",
+        "quantity": 1
+      },
+      {
+        "id": "66821",
+        "quantity": 2
+      },
+      {
+        "id": "67023",
+        "quantity": 9
+      },
+      {
+        "id": "66825",
+        "quantity": 2
+      },
+      {
+        "id": "65871",
+        "quantity": 1
+      },
+      {
+        "id": "66263",
+        "quantity": 1
+      },
+      {
+        "id": "67021",
+        "quantity": 8
+      },
+      {
+        "id": "65151",
+        "quantity": 2
+      },
+      {
+        "id": "66831",
+        "quantity": 2
+      },
+      {
+        "id": "66271",
+        "quantity": 1
+      },
+      {
+        "id": "66961",
+        "quantity": 2
+      },
+      {
+        "id": "66421",
+        "quantity": 2
+      },
+      {
+        "id": "66371",
+        "quantity": 2
+      },
+      {
+        "id": "66281",
+        "quantity": 1
+      },
+      {
+        "id": "65209",
+        "quantity": 1
+      },
+      {
+        "id": "66379",
+        "quantity": 2
+      },
+      {
+        "id": "66843",
+        "quantity": 1
+      },
+      {
+        "id": "66913",
+        "quantity": 1
+      },
+      {
+        "id": "66915",
+        "quantity": 1
+      },
+      {
+        "id": "65473",
+        "quantity": 4
+      },
+      {
+        "id": "66495",
+        "quantity": 1
+      },
+      {
+        "id": "66395",
+        "quantity": 1
+      },
+      {
+        "id": "66335",
+        "quantity": 1
+      },
+      {
+        "id": "66481",
+        "quantity": 1
+      },
+      {
+        "id": "67001",
+        "quantity": 1
+      }
+    ],
+    "sideboard": [],
+    "lastUpdated": "2018-04-01T01:23:56",
+    "lockedForUse": false,
+    "lockedForEdit": false,
+    "isValid": true
+  },
+  {
+    "id": "a6e69bcd-9c3f-45b0-8947-6490125cc20f",
+    "name": "The Legion of Dusk",
+    "description": "",
+    "format": "Standard",
+    "resourceId": "919076ad-f0b0-454e-a8fd-35bb38c61622",
+    "deckTileId": 66407,
+    "mainDeck": [
+      {
+        "id": "66407",
+        "quantity": 1
+      },
+      {
+        "id": "65961",
+        "quantity": 1
+      },
+      {
+        "id": "66619",
+        "quantity": 2
+      },
+      {
+        "id": "65971",
+        "quantity": 2
+      },
+      {
+        "id": "66745",
+        "quantity": 1
+      },
+      {
+        "id": "65859",
+        "quantity": 1
+      },
+      {
+        "id": "65865",
+        "quantity": 1
+      },
+      {
+        "id": "66757",
+        "quantity": 3
+      },
+      {
+        "id": "65977",
+        "quantity": 1
+      },
+      {
+        "id": "66635",
+        "quantity": 2
+      },
+      {
+        "id": "64825",
+        "quantity": 1
+      },
+      {
+        "id": "67005",
+        "quantity": 2
+      },
+      {
+        "id": "65993",
+        "quantity": 2
+      },
+      {
+        "id": "66947",
+        "quantity": 1
+      },
+      {
+        "id": "66645",
+        "quantity": 2
+      },
+      {
+        "id": "66009",
+        "quantity": 1
+      },
+      {
+        "id": "67015",
+        "quantity": 9
+      },
+      {
+        "id": "66019",
+        "quantity": 2
+      },
+      {
+        "id": "66787",
+        "quantity": 1
+      },
+      {
+        "id": "66205",
+        "quantity": 1
+      },
+      {
+        "id": "65883",
+        "quantity": 2
+      },
+      {
+        "id": "66213",
+        "quantity": 2
+      },
+      {
+        "id": "66659",
+        "quantity": 2
+      },
+      {
+        "id": "66667",
+        "quantity": 2
+      },
+      {
+        "id": "67019",
+        "quantity": 10
+      },
+      {
+        "id": "66481",
+        "quantity": 1
+      },
+      {
+        "id": "66221",
+        "quantity": 1
+      },
+      {
+        "id": "66431",
+        "quantity": 1
+      },
+      {
+        "id": "66047",
+        "quantity": 1
+      },
+      {
+        "id": "66793",
+        "quantity": 1
+      }
+    ],
+    "sideboard": [],
+    "lastUpdated": "2018-04-13T00:26:39",
+    "lockedForUse": false,
+    "lockedForEdit": false,
+    "isValid": true
+  },
+  {
+    "id": "88c28528-82b5-42a1-ac6f-e77fa71b20e8",
+    "name": "Grixis",
+    "description": "",
+    "format": "Standard",
+    "resourceId": "6f7b76fc-c988-4a35-b7cf-f5932c609571",
+    "deckTileId": 65539,
+    "mainDeck": [
+      {
+        "id": "65539",
+        "quantity": 2
+      },
+      {
+        "id": "67017",
+        "quantity": 5
+      },
+      {
+        "id": "67001",
+        "quantity": 1
+      },
+      {
+        "id": "66477",
+        "quantity": 1
+      },
+      {
+        "id": "65601",
+        "quantity": 1
+      },
+      {
+        "id": "67019",
+        "quantity": 6
+      },
+      {
+        "id": "66175",
+        "quantity": 2
+      },
+      {
+        "id": "65669",
+        "quantity": 1
+      },
+      {
+        "id": "67021",
+        "quantity": 3
+      },
+      {
+        "id": "64887",
+        "quantity": 2
+      },
+      {
+        "id": "64903",
+        "quantity": 2
+      },
+      {
+        "id": "64891",
+        "quantity": 1
+      },
+      {
+        "id": "65575",
+        "quantity": 2
+      },
+      {
+        "id": "66707",
+        "quantity": 1
+      },
+      {
+        "id": "66109",
+        "quantity": 1
+      },
+      {
+        "id": "65769",
+        "quantity": 1
+      },
+      {
+        "id": "67003",
+        "quantity": 2
+      },
+      {
+        "id": "65463",
+        "quantity": 2
+      },
+      {
+        "id": "66483",
+        "quantity": 1
+      },
+      {
+        "id": "67009",
+        "quantity": 2
+      },
+      {
+        "id": "65471",
+        "quantity": 2
+      },
+      {
+        "id": "65643",
+        "quantity": 2
+      },
+      {
+        "id": "64913",
+        "quantity": 1
+      },
+      {
+        "id": "66789",
+        "quantity": 1
+      },
+      {
+        "id": "66781",
+        "quantity": 2
+      },
+      {
+        "id": "65081",
+        "quantity": 2
+      },
+      {
+        "id": "66763",
+        "quantity": 2
+      },
+      {
+        "id": "66223",
+        "quantity": 2
+      },
+      {
+        "id": "66757",
+        "quantity": 4
+      },
+      {
+        "id": "65541",
+        "quantity": 2
+      },
+      {
+        "id": "65759",
+        "quantity": 1
+      }
+    ],
+    "sideboard": [],
+    "lastUpdated": "2018-04-04T00:55:50",
+    "lockedForUse": false,
+    "lockedForEdit": false,
+    "isValid": true
+  },
+  {
+    "id": "d4003c39-842f-424d-9696-022426ff376c",
+    "name": "Azorius Ascension (2)",
+    "description": null,
+    "format": "Standard",
+    "resourceId": "00000000-0000-0000-0000-000000000000",
+    "deckTileId": 66701,
+    "mainDeck": [
+      {
+        "id": "66701",
+        "quantity": 1
+      },
+      {
+        "id": "64801",
+        "quantity": 1
+      },
+      {
+        "id": "64881",
+        "quantity": 1
+      },
+      {
+        "id": "67001",
+        "quantity": 1
+      },
+      {
+        "id": "66619",
+        "quantity": 1
+      },
+      {
+        "id": "64887",
+        "quantity": 2
+      },
+      {
+        "id": "64815",
+        "quantity": 1
+      },
+      {
+        "id": "64891",
+        "quantity": 1
+      },
+      {
+        "id": "64817",
+        "quantity": 1
+      },
+      {
+        "id": "65311",
+        "quantity": 1
+      },
+      {
+        "id": "64903",
+        "quantity": 1
+      },
+      {
+        "id": "66487",
+        "quantity": 1
+      },
+      {
+        "id": "64909",
+        "quantity": 1
+      },
+      {
+        "id": "64913",
+        "quantity": 2
+      },
+      {
+        "id": "67017",
+        "quantity": 10
+      },
+      {
+        "id": "65993",
+        "quantity": 1
+      },
+      {
+        "id": "65469",
+        "quantity": 4
+      },
+      {
+        "id": "66705",
+        "quantity": 1
+      },
+      {
+        "id": "66091",
+        "quantity": 2
+      },
+      {
+        "id": "66013",
+        "quantity": 1
+      },
+      {
+        "id": "67015",
+        "quantity": 9
+      },
+      {
+        "id": "66965",
+        "quantity": 1
+      },
+      {
+        "id": "66103",
+        "quantity": 1
+      },
+      {
+        "id": "66721",
+        "quantity": 2
+      },
+      {
+        "id": "66727",
+        "quantity": 1
+      },
+      {
+        "id": "66663",
+        "quantity": 2
+      },
+      {
+        "id": "66127",
+        "quantity": 1
+      },
+      {
+        "id": "65529",
+        "quantity": 1
+      },
+      {
+        "id": "65575",
+        "quantity": 1
+      },
+      {
+        "id": "64947",
+        "quantity": 1
+      },
+      {
+        "id": "64813",
+        "quantity": 1
+      },
+      {
+        "id": "65989",
+        "quantity": 1
+      },
+      {
+        "id": "65503",
+        "quantity": 1
+      },
+      {
+        "id": "64823",
+        "quantity": 1
+      },
+      {
+        "id": "65977",
+        "quantity": 1
+      }
+    ],
+    "sideboard": [],
+    "lastUpdated": "2018-05-26T20:26:50.9503399",
+    "lockedForUse": false,
+    "lockedForEdit": false,
+    "isValid": true
+  }
+]
+ 

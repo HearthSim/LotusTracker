@@ -1,0 +1,356 @@
+
+5/20/2018 12:14:52 AM: Match to A3461766D418FFE6: GreToClientEvent
+{
+  "greToClientEvent": {
+    "greToClientMessages": [
+      {
+        "type": "GREMessageType_GameStateMessage",
+        "systemSeatIds": [
+          1
+        ],
+        "msgId": 106,
+        "gameStateId": 71,
+        "gameStateMessage": {
+          "type": "GameStateType_Diff",
+          "gameStateId": 71,
+          "zones": [
+            {
+              "zoneId": 27,
+              "type": "ZoneType_Stack",
+              "visibility": "Visibility_Public",
+              "objectInstanceIds": [
+                292
+              ]
+            },
+            {
+              "zoneId": 30,
+              "type": "ZoneType_Limbo",
+              "visibility": "Visibility_Hidden",
+              "objectInstanceIds": [
+                104,
+                288,
+                229,
+                222,
+                286,
+                227,
+                99,
+                106,
+                220,
+                225,
+                226,
+                100
+              ]
+            },
+            {
+              "zoneId": 31,
+              "type": "ZoneType_Hand",
+              "visibility": "Visibility_Private",
+              "ownerSeatId": 1,
+              "objectInstanceIds": [
+                284,
+                105,
+                103,
+                102,
+                101
+              ],
+              "viewers": [
+                1
+              ]
+            }
+          ],
+          "gameObjects": [
+            {
+              "instanceId": 104,
+              "grpId": 65643,
+              "type": "GameObjectType_Card",
+              "zoneId": 30,
+              "visibility": "Visibility_Private",
+              "ownerSeatId": 1,
+              "controllerSeatId": 1,
+              "cardTypes": [
+                "CardType_Instant",
+                "CardType_Instant"
+              ],
+              "color": [
+                "CardColor_Red"
+              ],
+              "viewers": [
+                1
+              ],
+              "name": 125232,
+              "abilities": [
+                103801
+              ],
+              "overlayGrpId": 65643
+            },
+            {
+              "instanceId": 292,
+              "grpId": 65643,
+              "type": "GameObjectType_Card",
+              "zoneId": 27,
+              "visibility": "Visibility_Public",
+              "ownerSeatId": 1,
+              "controllerSeatId": 1,
+              "cardTypes": [
+                "CardType_Instant"
+              ],
+              "color": [
+                "CardColor_Red"
+              ],
+              "name": 125232,
+              "abilities": [
+                103801
+              ],
+              "overlayGrpId": 65643
+            }
+          ],
+          "annotations": [
+            {
+              "id": 2104,
+              "affectedIds": [
+                104
+              ],
+              "type": [
+                "AnnotationType_ObjectIdChanged"
+              ],
+              "details": [
+                {
+                  "key": "orig_id",
+                  "type": "KeyValuePairValueType_int32",
+                  "valueInt32": [
+                    104
+                  ]
+                },
+                {
+                  "key": "new_id",
+                  "type": "KeyValuePairValueType_int32",
+                  "valueInt32": [
+                    292
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 2105,
+              "affectedIds": [
+                292
+              ],
+              "type": [
+                "AnnotationType_ZoneTransfer"
+              ],
+              "details": [
+                {
+                  "key": "zone_src",
+                  "type": "KeyValuePairValueType_int32",
+                  "valueInt32": [
+                    31
+                  ]
+                },
+                {
+                  "key": "zone_dest",
+                  "type": "KeyValuePairValueType_int32",
+                  "valueInt32": [
+                    27
+                  ]
+                },
+                {
+                  "key": "category",
+                  "type": "KeyValuePairValueType_string",
+                  "valueString": [
+                    "CastSpell"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 2003,
+              "affectorId": 27,
+              "affectedIds": [
+                292,
+                288
+              ],
+              "type": [
+                "AnnotationType_EnteredZoneThisTurn"
+              ]
+            },
+            {
+              "id": 2004,
+              "affectorId": 28,
+              "affectedIds": [
+                287
+              ],
+              "type": [
+                "AnnotationType_EnteredZoneThisTurn"
+              ]
+            },
+            {
+              "id": 2014,
+              "affectorId": 35,
+              "affectedIds": [
+                290,
+                286
+              ],
+              "type": [
+                "AnnotationType_EnteredZoneThisTurn"
+              ]
+            },
+            {
+              "id": 2016,
+              "affectorId": 37,
+              "affectedIds": [
+                291
+              ],
+              "type": [
+                "AnnotationType_EnteredZoneThisTurn"
+              ]
+            }
+          ],
+          "pendingMessageCount": 1,
+          "prevGameStateId": 70,
+          "timers": [
+            {
+              "timerId": 4,
+              "type": "TimerType_NonActivePlayer",
+              "durationSec": 45,
+              "elapsedSec": 3,
+              "running": true,
+              "behavior": "TimerBehavior_TakeControl",
+              "warningThresholdSec": 15,
+              "elapsedMs": 3577
+            },
+            {
+              "timerId": 5,
+              "type": "TimerType_Inactivity",
+              "durationSec": 150,
+              "running": true,
+              "behavior": "TimerBehavior_Timeout",
+              "warningThresholdSec": 130,
+              "elapsedMs": 2
+            }
+          ],
+          "update": "GameStateUpdate_Send",
+          "actions": [
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 101
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 102
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 103
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Cast",
+                "instanceId": 284
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Play",
+                "instanceId": 105
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Activate",
+                "abilityGrpId": 1002,
+                "sourceId": 279
+              }
+            },
+            {
+              "seatId": 2,
+              "action": {
+                "actionType": "ActionType_Activate",
+                "abilityGrpId": 1004,
+                "sourceId": 281
+              }
+            },
+            {
+              "seatId": 1,
+              "action": {
+                "actionType": "ActionType_Activate",
+                "abilityGrpId": 1004,
+                "sourceId": 285
+              }
+            },
+            {
+              "seatId": 2,
+              "action": {
+                "actionType": "ActionType_Activate",
+                "abilityGrpId": 1039,
+                "sourceId": 287
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "GREMessageType_CastingTimeOptionsReq",
+        "systemSeatIds": [
+          1
+        ],
+        "msgId": 107,
+        "gameStateId": 71,
+        "prompt": {
+          "promptId": 23
+        },
+        "nonDecisionPlayerPrompt": {
+          "promptId": 24,
+          "parameters": [
+            {
+              "parameterName": "PlayerId",
+              "type": "ParameterType_Number",
+              "numberValue": 1
+            }
+          ]
+        },
+        "castingTimeOptionsReq": {
+          "castingTimeOptionReq": [
+            {
+              "ctoId": 2,
+              "castingTimeOptionType": "CastingTimeOptionType_Modal",
+              "affectedId": 292,
+              "affectorId": 292,
+              "grpId": 65643,
+              "playerIdToPrompt": 1,
+              "isRequired": true,
+              "modalReq": {
+                "modalOptions": [
+                  {
+                    "grpId": 88831
+                  }
+                ],
+                "abilityGrpId": 103801,
+                "minSel": 1,
+                "maxSel": 1,
+                "excludedOptions": [
+                  {
+                    "grpId": 22564
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "allowCancel": "AllowCancel_Abort"
+      }
+    ]
+  }
+}
+ 

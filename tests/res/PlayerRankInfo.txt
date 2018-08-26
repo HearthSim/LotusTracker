@@ -1,0 +1,15 @@
+
+[UnityCrossThreadLogger]6/13/2018 7:54:44 PM
+<== Event.GetCombinedRankInfo(209)
+{
+  "playerId": "A3461766D4******",
+  "constructedClass": "Beginner",
+  "constructedClassHighWaterMark": "Beginner",
+  "constructedTier": 1,
+  "constructedProgress": 10.0,
+  "limitedClass": "Beginner",
+  "limitedClassHighWaterMark": "Beginner",
+  "limitedTier": 1,
+  "limitedProgress": 0.0
+}
+ 
