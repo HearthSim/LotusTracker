@@ -26,7 +26,7 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
     deckTrackerOpponent = new DeckTrackerOpponent();
     trayIcon = new TrayIcon(this);
     firebaseAuth = new FirebaseAuth(this);
-    api = new LotusTrackerAPI(this, firebaseAuth);
+    api = new LotusTrackerAPI(this);
     startScreen = new StartScreen(nullptr, firebaseAuth);
     connect(api, &LotusTrackerAPI::sgnDeckWinRate,
             deckTrackerPlayer, &DeckTrackerPlayer::onPlayerDeckStatus);
@@ -34,9 +34,9 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
             this, &LotusTracker::onGameFocusChanged);
     connect(firebaseAuth, &FirebaseAuth::sgnUserLogged,
             this, &LotusTracker::onUserSigned);
-    connect(firebaseAuth, &FirebaseAuth::sgnTokenRefreshed,
+    connect(api, &LotusTrackerAPI::sgnTokenRefreshed,
             this, &LotusTracker::onUserTokenRefreshed);
-    connect(firebaseAuth, &FirebaseAuth::sgnTokenRefreshError,
+    connect(api, &LotusTrackerAPI::sgnTokenRefreshError,
             this, &LotusTracker::onUserTokenRefreshError);
     //setupMatch should be called before setupLogParser because sgnMatchInfoResult order
     setupMtgaMatch();
@@ -364,7 +364,7 @@ void LotusTracker::checkForAutoLogin()
             break;
         }
         case AUTH_EXPIRED: {
-            firebaseAuth->refreshToken(userSettings.refreshToken);
+            api->refreshToken(userSettings.refreshToken);
             break;
         }
         case AUTH_INVALID: {

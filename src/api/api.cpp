@@ -17,17 +17,81 @@
 #define HEADER_AUTHORIZATION "Authorization"
 #define UPDATE_DELAY 30 //minutes between each player inventory and collection update
 
-LotusTrackerAPI::LotusTrackerAPI(QObject *parent, FirebaseAuth *firebaseAuth)
+LotusTrackerAPI::LotusTrackerAPI(QObject *parent)
 {
     UNUSED(parent);
-    this->firebaseAuth = firebaseAuth;
-    connect(firebaseAuth, &FirebaseAuth::sgnTokenRefreshed,
+    isRefreshTokenInProgress = false;
+    connect(this, &LotusTrackerAPI::sgnTokenRefreshed,
             this, &LotusTrackerAPI::onTokenRefreshed);
 }
 
 LotusTrackerAPI::~LotusTrackerAPI()
 {
 
+}
+
+void LotusTrackerAPI::refreshToken(QString refreshToken)
+{
+    if (isRefreshTokenInProgress) {
+        return;
+    }
+    isRefreshTokenInProgress = true;
+    QJsonObject jsonObj;
+    jsonObj.insert("grant_type", "refresh_token");
+    jsonObj.insert("refresh_token", QJsonValue(refreshToken));
+    QByteArray body = QJsonDocument(jsonObj).toJson();
+
+    QUrl url(QString("%1/refreshtoken").arg(ApiKeys::API_BASE_URL()));
+    if (LOG_REQUEST_ENABLED) {
+        LOGD(QString("Request: %1").arg(url.toString()));
+    }
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    QNetworkReply *reply = networkManager.post(request, body);
+    connect(reply, &QNetworkReply::finished,
+            this, &LotusTrackerAPI::tokenRefreshRequestOnFinish);
+}
+
+void LotusTrackerAPI::tokenRefreshRequestOnFinish()
+{
+    isRefreshTokenInProgress = false;
+    QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
+    QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());
+    if (LOG_REQUEST_ENABLED) {
+        LOGD(QString(QJsonDocument(jsonRsp).toJson()));
+    }
+    emit sgnRequestFinished();
+
+    int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    if (statusCode < 200 || statusCode > 299) {
+        QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
+        LOGW(QString("Error: %1 - %2").arg(reply->errorString()).arg(reason));
+        emit sgnTokenRefreshError();
+        return;
+    }
+    LOGD(QString("%1").arg("UserToken refreshed"));
+
+    UserSettings userSettings = createUserSettingsFromRefreshedToken(jsonRsp);
+    APP_SETTINGS->setUserSettings(userSettings);
+    emit sgnTokenRefreshed();
+}
+
+UserSettings LotusTrackerAPI::createUserSettingsFromRefreshedToken(QJsonObject jsonRsp)
+{
+    QString userId = jsonRsp["user_id"].toString();
+    QString userToken = jsonRsp["id_token"].toString();
+    QString refreshToken = jsonRsp["refresh_token"].toString();
+    QString expiresIn = jsonRsp["expires_in"].toString();
+    return UserSettings(userId, userToken, refreshToken, getExpiresEpoch(expiresIn));
+}
+
+qlonglong LotusTrackerAPI::getExpiresEpoch(QString expiresIn)
+{
+    using namespace std::chrono;
+    seconds expiresSeconds = seconds(expiresIn.toInt());
+    time_point<system_clock> now = system_clock::now();
+    time_point<system_clock> expires = now + expiresSeconds;
+    return expires.time_since_epoch().count();
 }
 
 void LotusTrackerAPI::onTokenRefreshed()
@@ -213,6 +277,53 @@ Deck LotusTrackerAPI::jsonToDeck(QJsonObject deckJson)
     return Deck(id, name, cards, sideboard);
 }
 
+void LotusTrackerAPI::uploadMatch(MatchInfo matchInfo, Deck playerDeck,
+                                   QString playerRankClass)
+{
+    rqtRegisterPlayerMatch = RqtRegisterPlayerMatch(matchInfo, playerDeck);
+    RqtUploadMatch rqtUploadMatch(matchInfo, playerDeck, playerRankClass);
+    QNetworkRequest request = prepareRequest(rqtUploadMatch, false);
+    QBuffer* buffer = prepareBody(rqtUploadMatch);
+    QNetworkReply *reply = networkManager.post(request, buffer);
+    connect(reply, &QNetworkReply::finished,
+            this, &LotusTrackerAPI::uploadMatchRequestOnFinish);
+}
+
+void LotusTrackerAPI::uploadMatchRequestOnFinish()
+{
+    QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
+    QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());
+    if (LOG_REQUEST_ENABLED) {
+        LOGD(QString("Request response: %1").arg(reply->request().url().url()));
+        LOGD(QString(QJsonDocument(jsonRsp).toJson()));
+    }
+    emit sgnRequestFinished();
+
+    int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    if (statusCode < 200 || statusCode > 299) {
+        QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
+        LOGW(QString("Error: %1 - %2").arg(reply->errorString()).arg(reason));
+        QString error = jsonRsp["error"].toString();
+        ARENA_TRACKER->showMessage(error);
+        return;
+    }
+
+    LOGD(QString("Match uploaded anonymously"));
+    QString matchID = jsonRsp["id"].toString();
+    registerPlayerMatch(matchID);
+}
+
+void LotusTrackerAPI::registerPlayerMatch(QString matchID)
+{
+    UserSettings userSettings = APP_SETTINGS->getUserSettings();
+    if (userSettings.userToken.isEmpty()) {
+        return;
+    }
+
+    rqtRegisterPlayerMatch.createPath(userSettings.userId, matchID);
+    sendPost(rqtRegisterPlayerMatch);
+}
+
 QNetworkRequest LotusTrackerAPI::prepareRequest(RequestData requestData,
                                                 bool checkUserAuth, QString method)
 {
@@ -223,7 +334,7 @@ QNetworkRequest LotusTrackerAPI::prepareRequest(RequestData requestData,
     UserSettings userSettings = APP_SETTINGS->getUserSettings();
     if (checkUserAuth && !userSettings.isAuthValid()) {
         LOGD(QString("User token expired.").arg(url.toString()));
-        firebaseAuth->refreshToken(userSettings.refreshToken);
+        refreshToken(userSettings.refreshToken);
         return request;
     }
 
@@ -291,7 +402,7 @@ void LotusTrackerAPI::requestOnFinish()
         LOGW(QString("Error: %1 - %2").arg(reply->errorString()).arg(reason));
         if (statusCode == 401) {    //Token expired
             UserSettings userSettings = APP_SETTINGS->getUserSettings();
-            firebaseAuth->refreshToken(userSettings.refreshToken);
+            refreshToken(userSettings.refreshToken);
             return;
         }
         QString error = jsonRsp["error"].toString();
@@ -303,51 +414,4 @@ void LotusTrackerAPI::requestOnFinish()
     if (LOG_REQUEST_ENABLED) {
         LOGD(QString("Database updated"));
     }
-}
-
-void LotusTrackerAPI::uploadMatch(MatchInfo matchInfo, Deck playerDeck,
-                                   QString playerRankClass)
-{
-    rqtRegisterPlayerMatch = RqtRegisterPlayerMatch(matchInfo, playerDeck);
-    RqtUploadMatch rqtUploadMatch(matchInfo, playerDeck, playerRankClass);
-    QNetworkRequest request = prepareRequest(rqtUploadMatch, false);
-    QBuffer* buffer = prepareBody(rqtUploadMatch);
-    QNetworkReply *reply = networkManager.post(request, buffer);
-    connect(reply, &QNetworkReply::finished,
-            this, &LotusTrackerAPI::uploadMatchRequestOnFinish);
-}
-
-void LotusTrackerAPI::uploadMatchRequestOnFinish()
-{
-    QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
-    QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());
-    if (LOG_REQUEST_ENABLED) {
-        LOGD(QString("Request response: %1").arg(reply->request().url().url()));
-        LOGD(QString(QJsonDocument(jsonRsp).toJson()));
-    }
-    emit sgnRequestFinished();
-
-    int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-    if (statusCode < 200 || statusCode > 299) {
-        QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
-        LOGW(QString("Error: %1 - %2").arg(reply->errorString()).arg(reason));
-        QString error = jsonRsp["error"].toString();
-        ARENA_TRACKER->showMessage(error);
-        return;
-    }
-
-    LOGD(QString("Match uploaded anonymously"));
-    QString matchID = jsonRsp["id"].toString();
-    registerPlayerMatch(matchID);
-}
-
-void LotusTrackerAPI::registerPlayerMatch(QString matchID)
-{
-    UserSettings userSettings = APP_SETTINGS->getUserSettings();
-    if (userSettings.userToken.isEmpty()) {
-        return;
-    }
-
-    rqtRegisterPlayerMatch.createPath(userSettings.userId, matchID);
-    sendPost(rqtRegisterPlayerMatch);
 }
