@@ -25,18 +25,17 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
     deckTrackerPlayer = new DeckTrackerPlayer();
     deckTrackerOpponent = new DeckTrackerOpponent();
     trayIcon = new TrayIcon(this);
-    firebaseAuth = new FirebaseAuth(this);
-    api = new LotusTrackerAPI(this);
-    startScreen = new StartScreen(nullptr, firebaseAuth);
-    connect(api, &LotusTrackerAPI::sgnDeckWinRate,
+    lotusAPI = new LotusTrackerAPI(this);
+    startScreen = new StartScreen(nullptr, lotusAPI);
+    connect(lotusAPI, &LotusTrackerAPI::sgnDeckWinRate,
             deckTrackerPlayer, &DeckTrackerPlayer::onPlayerDeckStatus);
     connect(mtgArena, &MtgArena::sgnMTGAFocusChanged,
             this, &LotusTracker::onGameFocusChanged);
-    connect(firebaseAuth, &FirebaseAuth::sgnUserLogged,
+    connect(lotusAPI, &LotusTrackerAPI::sgnUserLogged,
             this, &LotusTracker::onUserSigned);
-    connect(api, &LotusTrackerAPI::sgnTokenRefreshed,
+    connect(lotusAPI, &LotusTrackerAPI::sgnTokenRefreshed,
             this, &LotusTracker::onUserTokenRefreshed);
-    connect(api, &LotusTrackerAPI::sgnTokenRefreshError,
+    connect(lotusAPI, &LotusTrackerAPI::sgnTokenRefreshError,
             this, &LotusTracker::onUserTokenRefreshError);
     //setupMatch should be called before setupLogParser because sgnMatchInfoResult order
     setupMtgaMatch();
@@ -60,8 +59,7 @@ LotusTracker::~LotusTracker()
     DEL(trayIcon)
     DEL(mtgArena)
     DEL(mtgaMatch)
-    DEL(firebaseAuth)
-    DEL(api)
+    DEL(lotusAPI)
 }
 
 int LotusTracker::run()
@@ -158,15 +156,15 @@ void LotusTracker::setupPreferencesScreen()
 void LotusTracker::setupLogParserConnections()
 {
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerCollection,
-            api, &LotusTrackerAPI::updatePlayerCollection);
+            lotusAPI, &LotusTrackerAPI::updatePlayerCollection);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerInventory,
-            api, &LotusTrackerAPI::updatePlayerInventory);
+            lotusAPI, &LotusTrackerAPI::updatePlayerInventory);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerRankInfo,
             mtgaMatch, &MtgaMatch::onPlayerRankInfo);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckCreated,
-            api, &LotusTrackerAPI::createPlayerDeck);
+            lotusAPI, &LotusTrackerAPI::createPlayerDeck);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckUpdated,
-            api, &LotusTrackerAPI::updatePlayerDeck);
+            lotusAPI, &LotusTrackerAPI::updatePlayerDeck);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckSubmited,
             this, &LotusTracker::onDeckSubmited);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckWithSideboardSubmited,
@@ -253,8 +251,8 @@ void LotusTracker::showMessage(QString msg, QString title)
 void LotusTracker::onDeckSubmited(QString eventId, Deck deck)
 {
     deckTrackerPlayer->loadDeck(deck);
-    api->updatePlayerDeck(deck);
-    api->getPlayerDeckWinRate(deck.id, eventId);
+    lotusAPI->updatePlayerDeck(deck);
+    lotusAPI->getPlayerDeckWinRate(deck.id, eventId);
 }
 
 void LotusTracker::onPlayerDeckWithSideboardSubmited(QMap<Card*, int> cards)
@@ -325,7 +323,7 @@ void LotusTracker::onGameCompleted(QMap<int, int> teamIdWins)
 void LotusTracker::onMatchEnds(int winningTeamId)
 {
     UNUSED(winningTeamId);
-    api->uploadMatch(mtgaMatch->getInfo(),
+    lotusAPI->uploadMatch(mtgaMatch->getInfo(),
                                   deckTrackerPlayer->getDeck(),
                                   mtgaMatch->getPlayerRankInfo().first);
 }
@@ -360,11 +358,11 @@ void LotusTracker::checkForAutoLogin()
     UserSettings userSettings = appSettings->getUserSettings();
     switch (userSettings.getAuthStatus()) {
         case AUTH_VALID: {
-            emit firebaseAuth->sgnUserLogged(false);
+            emit lotusAPI->sgnUserLogged(false);
             break;
         }
         case AUTH_EXPIRED: {
-            api->refreshToken(userSettings.refreshToken);
+            lotusAPI->refreshToken(userSettings.refreshToken);
             break;
         }
         case AUTH_INVALID: {

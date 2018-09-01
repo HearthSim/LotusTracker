@@ -24,8 +24,9 @@ private:
     QMap<QString, QPair<QString, RequestData>> requestsToRecall;  //url, <method, request>
     Deck paramDeck;
 
-    qlonglong getExpiresEpoch(QString expiresIn);
+    UserSettings createUserSettingsFromSign(QJsonObject jsonRsp);
     UserSettings createUserSettingsFromRefreshedToken(QJsonObject jsonRsp);
+    qlonglong getExpiresEpoch(QString expiresIn);
     void getPlayerDeckToUpdate(QString deckID);
     void getPlayerDeckToUpdateRequestOnFinish();
     void getPlayerDeckWinRateRequestOnFinish();
@@ -43,6 +44,9 @@ public:
     explicit LotusTrackerAPI(QObject *parent = nullptr);
     ~LotusTrackerAPI();
     // Auth
+    void signInUser(QString email, QString password);
+    void registerUser(QString email, QString password);
+    void recoverPassword(QString email);
     void refreshToken(QString refreshToken);
     //
     void updatePlayerCollection(QMap<int, int> ownedCards);
@@ -54,12 +58,16 @@ public:
                      QString playerRankClass);
 
 signals:
+    void sgnUserLogged(bool fromSignUp);
     void sgnRequestFinished();
+    void sgnPasswordRecovered();
     void sgnTokenRefreshed();
     void sgnTokenRefreshError();
     void sgnDeckWinRate(int wins, int losses, double winRate);
 
 private slots:
+    void authRequestOnFinish();
+    void recoverPasswordRequestOnFinish();
     void tokenRefreshRequestOnFinish();
     void onTokenRefreshed();
 

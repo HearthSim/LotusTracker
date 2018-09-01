@@ -1,6 +1,7 @@
 #ifndef ARENATRACKER_H
 #define ARENATRACKER_H
 
+#include "api/lotusapi.h"
 #include "entity/matchinfo.h"
 #include "entity/opponentinfo.h"
 #include "mtg/mtgarena.h"
@@ -13,8 +14,6 @@
 #include "ui/trayicon.h"
 #include "utils/appsettings.h"
 #include "utils/logger.h"
-#include "api/auth.h"
-#include "api/api.h"
 #include "updater/sparkleupdater.h"
 
 #include <QApplication>
@@ -31,8 +30,7 @@ private:
     TrayIcon *trayIcon;
     PreferencesScreen *preferencesScreen;
     StartScreen *startScreen;
-    FirebaseAuth *firebaseAuth;
-    LotusTrackerAPI *api;
+    LotusTrackerAPI *lotusAPI;
     QPair<QString, Deck> eventPlayerCourse;
     bool isAlreadyRunning();
     void setupApp();

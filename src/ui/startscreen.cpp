@@ -6,8 +6,8 @@
 
 #define REGEXP_RAW_EMAIL "^[0-9a-zA-Z]+([0-9a-zA-Z]*[-._+])*[0-9a-zA-Z]+@[0-9a-zA-Z]+([-.][0-9a-zA-Z]+)*([0-9a-zA-Z]*[.])[a-zA-Z]{2,6}$"
 
-StartScreen::StartScreen(QWidget *parent, FirebaseAuth *auth) : QMainWindow(parent),
-    ui(new Ui::Start()), firebaseAuth(auth), reRawEmail(QRegularExpression(REGEXP_RAW_EMAIL))
+StartScreen::StartScreen(QWidget *parent, LotusTrackerAPI *lotusAPI) : QMainWindow(parent),
+    ui(new Ui::Start()), lotusAPI(lotusAPI), reRawEmail(QRegularExpression(REGEXP_RAW_EMAIL))
 {
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
@@ -43,19 +43,19 @@ StartScreen::StartScreen(QWidget *parent, FirebaseAuth *auth) : QMainWindow(pare
     connect(ui->edNewConfirm, SIGNAL(returnPressed()),ui->btRegister,SIGNAL(clicked()));
     connect(ui->edRecoverPasswordEmail, SIGNAL(returnPressed()),ui->btRecoverPassword,SIGNAL(clicked()));
     // Reset loading
-    connect(auth, &FirebaseAuth::sgnRequestFinished, this, [this](){
+    connect(lotusAPI, &LotusTrackerAPI::sgnRequestFinished, this, [this](){
         ui->lbLoading->setVisible(false);
         ui->btEnter->setVisible(true);
         ui->btRegister->setVisible(true);
         ui->btRecoverPassword->setVisible(true);
     });
-    connect(auth, &FirebaseAuth::sgnUserLogged, this, [this](){
+    connect(lotusAPI, &LotusTrackerAPI::sgnUserLogged, this, [this](){
         onBackClick();
         if (!isHidden()) {
             ARENA_TRACKER->showMessage("", tr("User Logged!"));
         }
     });
-    connect(auth, &FirebaseAuth::sgnPasswordRecovered, this, [this](){
+    connect(lotusAPI, &LotusTrackerAPI::sgnPasswordRecovered, this, [this](){
         onBackClick();
         ARENA_TRACKER->showMessage("", tr("Email was sent with Password Recover instructions"));
     });
@@ -64,7 +64,7 @@ StartScreen::StartScreen(QWidget *parent, FirebaseAuth *auth) : QMainWindow(pare
 StartScreen::~StartScreen()
 {
     DEL(ui)
-    DEL(firebaseAuth)
+    DEL(lotusAPI)
 }
 
 void StartScreen::closeEvent(QCloseEvent *event)
@@ -124,7 +124,7 @@ void StartScreen::onEnterClick()
     QString pass = ui->edLoginPassword->text();
     ui->btEnter->setVisible(false);
     ui->lbLoading->setVisible(true);
-    firebaseAuth->signInUser(email, pass);
+    lotusAPI->signInUser(email, pass);
 }
 
 void StartScreen::onRegisterClick()
@@ -140,7 +140,7 @@ void StartScreen::onRegisterClick()
     if (pass == confirm) {
         ui->btRegister->setVisible(false);
         ui->lbLoading->setVisible(true);
-        firebaseAuth->registerUser(email, pass);
+        lotusAPI->registerUser(email, pass);
     } else {
         ARENA_TRACKER->showMessage("", tr("Password and Confirm must be equals."));
     }
@@ -156,5 +156,5 @@ void StartScreen::onRecoverPasswordClick()
     }
     ui->btRecoverPassword->setVisible(false);
     ui->lbLoading->setVisible(true);
-    firebaseAuth->recoverPassword(email);
+    lotusAPI->recoverPassword(email);
 }

@@ -32,8 +32,7 @@ UI_DIR = tmp
 DEFINES += QT_DEPRECATED_WARNINGS
 
 HEADERS += \
-    src/api/api.h \
-    src/api/auth.h \
+    src/api/lotusapi.h \
     src/api/requestdata.h \
     src/api/rqtplayerdeck.h \
     src/api/rqtplayerdeckupdate.h \
@@ -75,8 +74,7 @@ HEADERS += \
     src/updater/sparkleupdater.h
 
 SOURCES += \
-    src/api/api.cpp \
-    src/api/auth.cpp \
+    src/api/lotusapi.cpp \
     src/main.cpp \
     src/lotustracker.cpp \
     src/transformations.cpp \

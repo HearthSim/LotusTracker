@@ -1,4 +1,4 @@
-#include "api.h"
+#include "lotusapi.h"
 #include "macros.h"
 #include "../apikeys.h"
 #include "rqtplayerdeck.h"
@@ -28,6 +28,93 @@ LotusTrackerAPI::LotusTrackerAPI(QObject *parent)
 LotusTrackerAPI::~LotusTrackerAPI()
 {
 
+}
+
+void LotusTrackerAPI::signInUser(QString email, QString password)
+{
+    QJsonObject jsonObj;
+    jsonObj.insert("email", QJsonValue(email));
+    jsonObj.insert("password", QJsonValue(password));
+    jsonObj.insert("returnSecureToken", QJsonValue(true));
+    QByteArray body = QJsonDocument(jsonObj).toJson();
+
+    QUrl url(QString("%1/signin").arg(ApiKeys::API_BASE_URL()));
+    if (LOG_REQUEST_ENABLED) {
+        LOGD(QString("Request: %1").arg(url.toString()));
+    }
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    QNetworkReply *reply = networkManager.post(request, body);
+    connect(reply, &QNetworkReply::finished,
+            this, &LotusTrackerAPI::authRequestOnFinish);
+}
+
+void LotusTrackerAPI::registerUser(QString email, QString password)
+{
+    QJsonObject jsonObj;
+    jsonObj.insert("email", QJsonValue(email));
+    jsonObj.insert("password", QJsonValue(password));
+    jsonObj.insert("returnSecureToken", QJsonValue(true));
+    QByteArray body = QJsonDocument(jsonObj).toJson();
+
+    QUrl url(QString("%1/signup").arg(ApiKeys::API_BASE_URL()));
+    if (LOG_REQUEST_ENABLED) {
+        LOGD(QString("Request: %1").arg(url.toString()));
+    }
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    QNetworkReply *reply = networkManager.post(request, body);
+    connect(reply, &QNetworkReply::finished,
+            this, &LotusTrackerAPI::authRequestOnFinish);
+}
+
+void LotusTrackerAPI::authRequestOnFinish()
+{
+    QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
+    QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());
+    if (LOG_REQUEST_ENABLED) {
+        LOGD(QString(QJsonDocument(jsonRsp).toJson()));
+    }
+    emit sgnRequestFinished();
+
+    int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    if (statusCode < 200 || statusCode > 299) {
+        QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
+        LOGW(QString("Error: %1 - %2").arg(reply->errorString()).arg(reason));
+        QJsonArray errors = jsonRsp["error"].toObject()["errors"].toArray();
+        QString message = errors.first()["message"].toString();
+        if (message.contains("EMAIL_EXISTS")) {
+            ARENA_TRACKER->showMessage(tr("Email already in use. Try do login."));
+        } else if (message.contains("INVALID_PASSWORD")) {
+            ARENA_TRACKER->showMessage(tr("Invalid password."));
+        } else if (message.contains("WEAK_PASSWORD")) {
+            ARENA_TRACKER->showMessage(tr("Password should be at least 6 characters."));
+        } else {
+            ARENA_TRACKER->showMessage(message);
+        }
+        return;
+    }
+
+    bool fromSignUp = jsonRsp["kind"].toString() == "identitytoolkit#SignupNewUserResponse";
+    if (fromSignUp) {
+        ARENA_TRACKER->showMessage(tr("Signin Success."));
+    };
+    LOGD(QString("%1").arg(fromSignUp ? "User created" : "User signed"));
+
+    UserSettings userSettings = createUserSettingsFromSign(jsonRsp);
+    QString email = jsonRsp["email"].toString();
+    QString userName = email.left(email.indexOf("@"));
+    APP_SETTINGS->setUserSettings(userSettings, userName);
+    emit sgnUserLogged(fromSignUp);
+}
+
+UserSettings LotusTrackerAPI::createUserSettingsFromSign(QJsonObject jsonRsp)
+{
+    QString userId = jsonRsp["localId"].toString();
+    QString userToken = jsonRsp["idToken"].toString();
+    QString refreshToken = jsonRsp["refreshToken"].toString();
+    QString expiresIn = jsonRsp["expiresIn"].toString();
+    return UserSettings(userId, userToken, refreshToken, getExpiresEpoch(expiresIn));
 }
 
 void LotusTrackerAPI::refreshToken(QString refreshToken)
@@ -106,6 +193,50 @@ void LotusTrackerAPI::onTokenRefreshed()
             sendPatch(methodRequest.second);
         }
     }
+}
+
+void LotusTrackerAPI::recoverPassword(QString email)
+{
+    QJsonObject jsonObj;
+    jsonObj.insert("email", QJsonValue(email));
+    jsonObj.insert("requestType", "PASSWORD_RESET");
+    QByteArray body = QJsonDocument(jsonObj).toJson();
+
+    QUrl url(QString("%1/recoverpassword").arg(ApiKeys::API_BASE_URL()));
+    if (LOG_REQUEST_ENABLED) {
+        LOGD(QString("Request: %1").arg(url.toString()));
+    }
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    QNetworkReply *reply = networkManager.post(request, body);
+    connect(reply, &QNetworkReply::finished,
+            this, &LotusTrackerAPI::recoverPasswordRequestOnFinish);
+}
+
+void LotusTrackerAPI::recoverPasswordRequestOnFinish()
+{
+    QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
+    QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());
+    if (LOG_REQUEST_ENABLED) {
+        LOGD(QString(QJsonDocument(jsonRsp).toJson()));
+    }
+    emit sgnRequestFinished();
+
+    int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    if (statusCode < 200 || statusCode > 299) {
+        QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
+        LOGW(QString("Error: %1 - %2").arg(reply->errorString()).arg(reason));
+        QJsonArray errors = jsonRsp["error"].toObject()["errors"].toArray();
+        QString message = errors.first()["message"].toString();
+        if (message == "EMAIL_NOT_FOUND") {
+            ARENA_TRACKER->showMessage(tr("Email not found."));
+        } else {
+            ARENA_TRACKER->showMessage(message);
+        }
+        return;
+    }
+    LOGD(QString("%1").arg("Password recovered"));
+    emit sgnPasswordRecovered();
 }
 
 void LotusTrackerAPI::updatePlayerCollection(QMap<int, int> ownedCards)
