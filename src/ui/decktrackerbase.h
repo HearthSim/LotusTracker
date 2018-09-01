@@ -47,7 +47,7 @@ protected:
     QPoint uiPos;
     QRect zoomMinusButton, zoomPlusButton;
     qreal uiAlpha, uiScale;
-    int cardHoverWidth, uiHeight, uiWidth, deckManaColorsEnd;
+    int cardHoverWidth, uiHeight, uiWidth;
     Deck deck;
     bool hidden, showCardOnHover;
     void blinkCard(Card* card);
@@ -58,7 +58,6 @@ protected:
     void drawDeckCards(QPainter &painter);
     void drawExpandBar(QPainter &painter);
     void drawHoverCard(QPainter &painter);
-    virtual int onGetDeckTitleXMax() = 0;
     virtual QString onGetDeckColorIdentity() = 0;
     virtual void onPositionChanged() = 0;
     virtual void onScaleChanged() = 0;

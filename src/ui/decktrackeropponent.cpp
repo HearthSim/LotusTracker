@@ -20,11 +20,6 @@ void DeckTrackerOpponent::applyCurrentSettings()
     uiScale = APP_SETTINGS->getDeckTrackerOpponentScale();
 }
 
-int DeckTrackerOpponent::onGetDeckTitleXMax()
-{
-    return uiPos.x() + uiWidth;
-}
-
 QString DeckTrackerOpponent::onGetDeckColorIdentity()
 {
     return deck.colorIdentity(false, true);
