@@ -1,5 +1,5 @@
 #include "mtgcards.h"
-#include "../apikeys.h"
+#include "../server.h"
 #include "../transformations.h"
 #include "../macros.h"
 
@@ -42,7 +42,7 @@ MtgCards::MtgCards(QObject *parent) : QObject(parent)
 
 void MtgCards::updateMtgaIdsFromAPI(){
     LOGD(QString("Updating mtga cards id"));
-    QUrl url(QString("%1/cards").arg(ApiKeys::API_BASE_URL()));
+    QUrl url(QString("%1/cards").arg(Server::API_URL()));
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     if (LOG_REQUEST_ENABLED) {

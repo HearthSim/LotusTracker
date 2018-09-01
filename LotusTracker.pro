@@ -40,9 +40,9 @@ HEADERS += \
     src/api/rqtupdateplayercollection.h \
     src/api/rqtuploadmatch.h \
     src/api/rqtuploadplayermatch.h \
-    src/apikeys.h \
     src/lotustracker.h \
     src/macros.h \
+    src/server.h \
     src/transformations.h \
     src/entity/card.h \
     src/entity/deck.h \

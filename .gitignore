@@ -1,7 +1,7 @@
 
 build/
 tmp/
-src/apikeys.h
+src/server.h
 dist/files
 
 # Created by https://www.gitignore.io/api/osx,windows,gradle,c++,qt,intellij

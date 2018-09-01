@@ -1,5 +1,6 @@
 #include "lotustracker.h"
 #include "macros.h"
+#include "server.h"
 #include "mtg/mtgalogparser.h"
 #include "utils/cocoainitializer.h"
 
@@ -11,8 +12,6 @@
 
 #include <QLocalSocket>
 #include <QMessageBox>
-
-#define UPDATE_URL "https://blacklotusvalley-ca867.firebaseapp.com/appcast.xml"
 
 LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
 {
@@ -87,10 +86,12 @@ void LotusTracker::setupApp()
 void LotusTracker::setupUpdater()
 {
 #if defined Q_OS_MAC
-  CocoaInitializer cocoaInitializer;
-  sparkleUpdater = new MacSparkleUpdater(UPDATE_URL);
+    CocoaInitializer cocoaInitializer;
+    QString updateUrl = QString("%1/%2").arg(Server::URL()).arg("appcast-osx.xml");
+    sparkleUpdater = new MacSparkleUpdater(updateUrl);
 #elif defined Q_OS_WIN
-  sparkleUpdater = new WinSparkleUpdater(UPDATE_URL);
+    QString updateUrl = QString("%1/%2").arg(Server::URL()).arg("appcast-win.xml");
+    sparkleUpdater = new WinSparkleUpdater(updateUrl);
 #endif
 }
 
