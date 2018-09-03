@@ -58,6 +58,7 @@ HEADERS += \
     src/mtg/mtgalogwatcher.h \
     src/mtg/mtgamatch.h \
     src/mtg/mtgcards.h \
+    src/mtg/mtgdecksarch.h \
     src/ui/cardblinkinfo.h \
     src/ui/decktrackerbase.h \
     src/ui/decktrackerplayer.h \
@@ -78,11 +79,13 @@ SOURCES += \
     src/main.cpp \
     src/lotustracker.cpp \
     src/transformations.cpp \
+    src/entity/matchinfo.cpp \
     src/mtg/mtgarena.cpp \
     src/mtg/mtgalogparser.cpp \
     src/mtg/mtgalogwatcher.cpp \
     src/mtg/mtgamatch.cpp \
     src/mtg/mtgcards.cpp \
+    src/mtg/mtgdecksarch.cpp \
     src/ui/decktrackerbase.cpp \
     src/ui/decktrackerplayer.cpp \
     src/ui/decktrackeropponent.cpp \

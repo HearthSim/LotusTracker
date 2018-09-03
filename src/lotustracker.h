@@ -6,6 +6,7 @@
 #include "entity/opponentinfo.h"
 #include "mtg/mtgarena.h"
 #include "mtg/mtgcards.h"
+#include "mtg/mtgdecksarch.h"
 #include "mtg/mtgamatch.h"
 #include "ui/decktrackerplayer.h"
 #include "ui/decktrackeropponent.h"
@@ -47,6 +48,7 @@ public:
     Logger *logger;
     MtgArena *mtgArena;
     MtgCards *mtgCards;
+    MtgDecksArch *mtgDecksArch;
     MtgaMatch *mtgaMatch;
     SparkleUpdater *sparkleUpdater;
     int run();

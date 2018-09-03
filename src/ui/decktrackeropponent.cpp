@@ -43,6 +43,7 @@ void DeckTrackerOpponent::afterPaintEvent(QPainter &painter)
 void DeckTrackerOpponent::clearDeck()
 {
     deck.clear();
+    deck.updateTitle("");
     update();
 }
 
@@ -75,4 +76,17 @@ void DeckTrackerOpponent::insertCard(Card* card)
 {
     deck.insertCard(card);
     blinkCard(card);
+    QMap<Card*, int> deckCards = deck.currentCards();
+    QMap<Card*, int> nonLandCards;
+    for (Card* card : deckCards.keys()) {
+        if (card->isLand) {
+            continue;
+        }
+        nonLandCards[card] = deckCards[card];
+    }
+    if (nonLandCards.size() >= 2) {
+        QString deckArchtecture = ARENA_TRACKER->mtgDecksArch->
+                findDeckArchitecture(deckCards);
+        deck.updateTitle(deckArchtecture);
+    }
 }

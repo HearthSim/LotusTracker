@@ -20,6 +20,7 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
     logger = new Logger(this);
     appSettings = new AppSettings(this);
     mtgCards = new MtgCards(this);
+    mtgDecksArch = new MtgDecksArch(this);
     mtgArena = new MtgArena(this);
     deckTrackerPlayer = new DeckTrackerPlayer();
     deckTrackerOpponent = new DeckTrackerOpponent();

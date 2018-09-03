@@ -90,6 +90,7 @@ void MtgArena::onMtgaStarted()
 	isRunning = true;
 	timer->setInterval(FAST_FIND_WINDOW_INTERVAL);
     ARENA_TRACKER->mtgCards->updateMtgaIdsFromAPI();
+    ARENA_TRACKER->mtgDecksArch->updateDecksArchitectureFromAPI();
 }
 
 void MtgArena::onMtgaStopped()
