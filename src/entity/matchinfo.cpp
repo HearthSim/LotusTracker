@@ -10,7 +10,9 @@ MatchInfo::MatchInfo(QString eventId, OpponentInfo opponentInfo):
 
 void MatchInfo::createNewGame()
 {
-    games << GameInfo();
+    if (currentGame().isCompleted) {
+        games << GameInfo();
+    }
 }
 
 GameInfo& MatchInfo::currentGame()
