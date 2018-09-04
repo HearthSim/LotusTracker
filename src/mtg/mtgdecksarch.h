@@ -2,6 +2,7 @@
 #define MTGDECKSARCH_H
 
 #include "../entity/card.h"
+#include "../entity/deckarch.h"
 
 #include <QJsonObject>
 #include <QList>
@@ -19,11 +20,11 @@ private:
     void downloadDecksArchOnFinish();
     void loadDecksArch();
     void loadDecksArchFromFile();
-    double getCardsArchValueForDeckArch(QMap<Card*, int> cards, QMap<int, double> archCards);
+    double getCardsArchValueForDeckArch(QMap<Card*, int> cards, QMap<int, int> archCards);
 
     QString dataDir;
     QNetworkAccessManager networkManager;
-    QMap<QString, QMap<int, double>> deckArchs;
+    QList<DeckArch> deckArchs;
 
 public:
     MtgDecksArch(QObject *parent = nullptr);

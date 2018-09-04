@@ -64,13 +64,16 @@ void MtgDecksArch::loadDecksArchFromFile() {
         return;
     }
     deckArchs.clear();
-    for (QString deckArchName: jsonDecksArchitecture.keys()) {
-        QJsonObject jsonDeckArch = jsonDecksArchitecture[deckArchName].toObject();
-        QMap<int, double> deckArchCards;
-        for (QString deckArchCard : jsonDeckArch.keys()) {
-            deckArchCards[deckArchCard.toInt()] = jsonDeckArch[deckArchCard].toDouble();
+    for (QString archName: jsonDecksArchitecture.keys()) {
+        QJsonObject jsonArch = jsonDecksArchitecture[archName].toObject();
+        int archId = jsonArch["id"].toInt();
+        QString archColors = jsonArch["colors"].toString();
+        QJsonObject archCards = jsonArch["cards"].toObject();
+        QMap<int, int> cards;
+        for (QString archCard : archCards.keys()) {
+            cards[archCard.toInt()] = archCards[archCard].toInt();
         }
-        deckArchs[deckArchName] = deckArchCards;
+        deckArchs << DeckArch(archId, archName, archColors, cards);
     }
 
     LOGI(QString("Decks architectures loaded with %1 archtectures")
@@ -118,54 +121,93 @@ void MtgDecksArch::downloadDecksArchOnFinish()
 
 QString MtgDecksArch::findDeckArchitecture(QMap<Card*, int> cards)
 {
-    QString deckArchName = "";
-    double deckArchValue = 0.0;
-    QString deckArchSecondaryName = "";
+    QMap<Card*, int> nonlandCards;
+    for (Card* card : cards.keys()) {
+        if (!card->isLand) {
+            nonlandCards[card] = cards[card];
+        }
+    }
+    DeckArch deckArchFirst;
+    double deckArchFirstValue = 0.0;
+    DeckArch deckArchSecondary;
     double deckArchSecondaryValue = 0.0;
-    for (QString archName : deckArchs.keys()) {
-        QMap<int, double> archCards = deckArchs[archName];
-        double archValue = getCardsArchValueForDeckArch(cards, archCards);
+    DeckArch deckArchThird;
+    double deckArchThirdValue = 0.0;
+    for (DeckArch deckArch : deckArchs) {
+        QMap<int, int> archCards = deckArch.cards;
+        double archValue = getCardsArchValueForDeckArch(nonlandCards, archCards);
         if (archValue == 0.0){
             continue;
         }
-        if (archValue > deckArchValue) {
-            deckArchName = archName;
-            deckArchValue = archValue;
+        if (archValue > deckArchFirstValue) {
+            deckArchThird = deckArchSecondary;
+            deckArchThirdValue = deckArchSecondaryValue;
+            deckArchSecondary = deckArchFirst;
+            deckArchSecondaryValue = deckArchFirstValue;
+            deckArchFirst = deckArch;
+            deckArchFirstValue = archValue;
         }
-        if (archValue > deckArchSecondaryValue && archName != deckArchName) {
-            deckArchSecondaryName = archName;
+        if (archValue > deckArchSecondaryValue && deckArch.id != deckArchFirst.id) {
+            deckArchThird = deckArchSecondary;
+            deckArchThirdValue = deckArchSecondaryValue;
+            deckArchSecondary = deckArch;
             deckArchSecondaryValue = archValue;
         }
+        if (archValue > deckArchThirdValue && deckArch.id != deckArchFirst.id &&
+                deckArch.id != deckArchSecondary.id) {
+            deckArchThird = deckArch;
+            deckArchThirdValue = archValue;
+        }
         if (LOG_DECK_ARCH_CALC) {
-            LOGD(QString("--- %1: %2\n").arg(archName).arg(archValue));
+            LOGD(QString("--- %1: %2\n").arg(deckArch.name).arg(archValue));
         }
     }
     // Check the difference first and secondary most likely arch
-    double deckArchsDiff = deckArchValue - deckArchSecondaryValue;
-    double deckArchsDiffPercent = deckArchsDiff / deckArchValue * 100;
+    double deckArchsDiff = deckArchFirstValue - deckArchSecondaryValue;
+    double deckArchsDiffPercent = deckArchsDiff / deckArchFirstValue * 100;
+    if (LOG_DECK_ARCH_CALC) {
+        LOGD(QString("%1:%2 \n%3:%4\n Diff %5 : %6").arg(deckArchFirst.name)
+             .arg(deckArchFirstValue).arg(deckArchSecondary.name).arg(deckArchSecondaryValue)
+             .arg(deckArchsDiff).arg(deckArchsDiffPercent));
+    }
     if (deckArchsDiffPercent < 10.0) {
-        // Priorize the arch with most likely lands
-        QMap<Card*, int> landCards;
-        for (Card* card : cards.keys()) {
-            if (card->isLand) {
-                landCards[card] = cards[card];
-            }
-        }
-        QMap<int, double> archCards = deckArchs[deckArchName];
-        double archLandsValue = getCardsArchValueForDeckArch(landCards, archCards);
-        QMap<int, double> archSecondaryCards = deckArchs[deckArchSecondaryName];
-        double archSecondaryLandsValue = getCardsArchValueForDeckArch(landCards, archSecondaryCards);
+        // Calculate similarity value with lands
+        double archFirstLandsValue = getCardsArchValueForDeckArch(cards, deckArchFirst.cards);
         if (LOG_DECK_ARCH_CALC) {
-            LOGD(QString("--- %1: %2 (Only lands)").arg(deckArchName).arg(archLandsValue));
-            LOGD(QString("--- %1: %2 (Only lands)\n").arg(deckArchSecondaryName).arg(archSecondaryLandsValue));
+            LOGD(QString("--- %1: %2 (With lands)").arg(deckArchFirst.name).arg(archFirstLandsValue));
         }
-        return archSecondaryLandsValue > archLandsValue ? deckArchSecondaryName : deckArchName;
+        QMap<int, int> archSecondaryCards = deckArchSecondary.cards;
+        double archSecondaryLandsValue = getCardsArchValueForDeckArch(cards, archSecondaryCards);
+        if (LOG_DECK_ARCH_CALC) {
+            LOGD(QString("--- %1: %2 (With lands)\n").arg(deckArchSecondary.name)
+                 .arg(archSecondaryLandsValue));
+        }
+        DeckArch arch = archSecondaryLandsValue > archFirstLandsValue
+                ? deckArchSecondary : deckArchFirst;
+        double archLandsValue = archSecondaryLandsValue > archFirstLandsValue
+                ? archSecondaryLandsValue : archFirstLandsValue;
+        // Check the difference first and third most likely arch
+        double deckArchsDiff = deckArchFirstValue - deckArchThirdValue;
+        double deckArchsDiffPercent = deckArchsDiff / deckArchFirstValue * 100;
+        if (LOG_DECK_ARCH_CALC) {
+            LOGD(QString("%1:%2 \n%3:%4\n Diff %5 : %6").arg(deckArchFirst.name)
+                 .arg(deckArchFirstValue).arg(deckArchThird.name).arg(deckArchThirdValue)
+                 .arg(deckArchsDiff).arg(deckArchsDiffPercent));
+        }
+        if (deckArchsDiffPercent < 10.0) {
+            double archThirdLandsValue = getCardsArchValueForDeckArch(cards, deckArchThird.cards);
+            if (LOG_DECK_ARCH_CALC) {
+                LOGD(QString("--- %1: %2 (With lands)").arg(deckArchThird.name).arg(archThirdLandsValue));
+            }
+            return archThirdLandsValue > archLandsValue ? deckArchThird.name : arch.name;
+        }
+        return arch.name;
     } else {
-        return deckArchName;
+        return deckArchFirst.name;
     }
 }
 
-double MtgDecksArch::getCardsArchValueForDeckArch(QMap<Card*, int> cards, QMap<int, double> archCards)
+double MtgDecksArch::getCardsArchValueForDeckArch(QMap<Card*, int> cards, QMap<int, int> archCards)
 {
     double archValue = 0.0;
     for (Card* card : cards.keys()) {

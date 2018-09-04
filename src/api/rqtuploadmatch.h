@@ -16,11 +16,13 @@ public:
         QString gameResult = QString("%1x%2").arg(matchInfo.playerGameWins)
                 .arg(matchInfo.playerGameLoses);
         QJsonObject player1Json{
+            {"arch", playerDeck.arch()},
             {"cards", cards2JsonMapValue(playerDeck.cards(true))},
             {"colors", playerDeck.colorIdentity()},
             {"rank", playerRankClass}
         };
         QJsonObject player2Json{
+            {"arch", matchInfo.getOpponentDeckArch()},
             {"colors", matchInfo.getOpponentDeckColorIdentity()},
             {"rank", matchInfo.opponentInfo.opponentRankClass()}
         };

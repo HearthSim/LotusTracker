@@ -147,6 +147,16 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
         emit ARENA_TRACKER->mtgaMatch->sgnOpponentPlayCard(card);
     });
     testMenu->addAction(opponentPlayAction);
+    // Test opponent deck arch
+    QAction *opponentDeckArchAction = new QAction(tr("Opponent Deck Arch"), this);
+    connect(opponentDeckArchAction, &QAction::triggered, this, [](){
+        QList<int> cardsMtgaId = {64129, 65343, 65343, 65993, 67238, 67586};
+        for (int cardMtgaId : cardsMtgaId) {
+            Card* card = ARENA_TRACKER->mtgCards->findCard(cardMtgaId);
+            emit ARENA_TRACKER->mtgaMatch->sgnOpponentPlayCard(card);
+        }
+    });
+    testMenu->addAction(opponentDeckArchAction);
     // Update user inventory
     QAction *updateUserInventoryAction = new QAction(tr("parse UserInventory"), this);
     connect(updateUserInventoryAction, &QAction::triggered, this, [this](){

@@ -21,8 +21,9 @@ public:
         QJsonObject jsonCards = cards2Json(deck.cards());
         QJsonObject jsonSideboard = cards2Json(deck.sideboard());
         QJsonObject jsonObj{
-            { "cards", jsonCards},
-            { "sideboard", jsonSideboard},
+            { "arch", deck.arch() },
+            { "cards", jsonCards },
+            { "sideboard", jsonSideboard },
             { "colors", deck.colorIdentity() },
             { "name", deck.name }
         };
