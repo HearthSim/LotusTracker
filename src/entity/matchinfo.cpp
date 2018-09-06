@@ -10,7 +10,7 @@ MatchInfo::MatchInfo(QString eventId, OpponentInfo opponentInfo):
 
 void MatchInfo::createNewGame()
 {
-    if (currentGame().isCompleted) {
+    if (games.size() == 0 || currentGame().isCompleted) {
         games << GameInfo();
     }
 }
@@ -37,7 +37,7 @@ QMap<Card*, int> MatchInfo::getOpponentMatchesCards() {
 QString MatchInfo::getOpponentDeckArch()
 {
     QMap<Card*, int> cards = getOpponentMatchesCards();
-    return ARENA_TRACKER->mtgDecksArch->findDeckArchitecture(cards);
+    return LOTUS_TRACKER->mtgDecksArch->findDeckArchitecture(cards);
 }
 
 QString MatchInfo::getOpponentDeckColorIdentity()

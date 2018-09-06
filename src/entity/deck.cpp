@@ -10,7 +10,7 @@ Deck::Deck(QString id, QString name, QMap<Card*, int> cards, QMap<Card*, int> si
         cardsCurrent[card] = cards[card];
     }
 
-    _arch = cards.isEmpty() ? "" : ARENA_TRACKER->mtgDecksArch->
+    _arch = cards.isEmpty() ? "" : LOTUS_TRACKER->mtgDecksArch->
                               findDeckArchitecture(cards);
     _colorIdentity = Deck::calcColorIdentity(cards, false);
 }

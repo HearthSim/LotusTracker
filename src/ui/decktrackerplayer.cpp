@@ -226,7 +226,7 @@ void DeckTrackerPlayer::mouseReleaseEvent(QMouseEvent *event)
         return;
     }
     if (preferencesButton.contains(event->pos())) {
-        ARENA_TRACKER->showPreferencesScreen();
+        LOTUS_TRACKER->showPreferencesScreen();
         showCardOnHover = false;
         return;
     }

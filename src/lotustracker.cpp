@@ -42,11 +42,11 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
     setupLogParserConnections();
     setupPreferencesScreen();
     checkForAutoLogin();
-    LOGI("Arena Tracker started");
+    LOGI("Lotus Tracker started");
     if (APP_SETTINGS->isFirstRun()) {
         startScreen->show();
         startScreen->raise();
-        showMessage(tr("Arena Tracker is running in background, you can click on tray icon for preferences."));
+        showMessage(tr("Lotus Tracker is running in background, you can click on tray icon for preferences."));
     }
 }
 
@@ -101,12 +101,12 @@ bool LotusTracker::isAlreadyRunning() {
     QLocalSocket socket;
     socket.connectToServer(serverName);
     if (socket.waitForConnected(500)) {
-        QMessageBox::information(preferencesScreen, "Arena Tracker",
-                                 "Arena Tracker already running in background.", QMessageBox::Ok);
+        QMessageBox::information(preferencesScreen, "Lotus Tracker",
+                                 "Lotus Tracker already running in background.", QMessageBox::Ok);
         return true;
     }
     QLocalServer::removeServer(serverName);
-    localServer = new QLocalServer(NULL);
+    localServer = new QLocalServer(nullptr);
     if (!localServer->listen(serverName)) {
         return true;
     }

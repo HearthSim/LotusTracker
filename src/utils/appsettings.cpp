@@ -31,6 +31,9 @@
 #define KEY_TRACKER_USER_EXPIRES_EPOCH "Tracker/user/tokenExpiresEpoch"
 #define KEY_TRACKER_USER_NAME "Tracker/user/name"
 
+#define DEFAULT_TRACKER_VIEW_X 5
+#define DEFAULT_TRACKER_VIEW_Y 90
+
 AppSettings::AppSettings(QObject *parent) : QObject(parent)
 {
     LOGD(QString("Settings saved in %1").arg(settings.fileName()));
@@ -160,8 +163,8 @@ void AppSettings::enableDeckTrackerPlayerStatistics(bool enabled)
 QPoint AppSettings::getDeckTrackerPlayerPos(int uiWidth)
 {
     UNUSED(uiWidth);
-    int x = settings.value(KEY_TRACKER_PLAYER_X, 5).toInt();
-    int y = settings.value(KEY_TRACKER_PLAYER_Y, 60).toInt();
+    int x = settings.value(KEY_TRACKER_PLAYER_X, DEFAULT_TRACKER_VIEW_X).toInt();
+    int y = settings.value(KEY_TRACKER_PLAYER_Y, DEFAULT_TRACKER_VIEW_Y).toInt();
     return QPoint(x, y);
 }
 
@@ -196,9 +199,9 @@ void AppSettings::enableDeckTrackerOpponent(bool enabled)
 QPoint AppSettings::getDeckTrackerOpponentPos(int uiWidth)
 {
     QRect screen = QApplication::desktop()->screenGeometry();
-    int defaultX = screen.width() - uiWidth - 5;
+    int defaultX = screen.width() - uiWidth - DEFAULT_TRACKER_VIEW_X;
     int x = settings.value(KEY_TRACKER_OPPONENT_X, defaultX).toInt();
-    int y = settings.value(KEY_TRACKER_OPPONENT_Y, 60).toInt();
+    int y = settings.value(KEY_TRACKER_OPPONENT_Y, DEFAULT_TRACKER_VIEW_Y).toInt();
     return QPoint(x, y);
 }
 

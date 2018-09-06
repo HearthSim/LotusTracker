@@ -69,9 +69,9 @@ void MtgDecksArch::loadDecksArchFromFile() {
         int archId = jsonArch["id"].toInt();
         QString archColors = jsonArch["colors"].toString();
         QJsonObject archCards = jsonArch["cards"].toObject();
-        QMap<int, int> cards;
+        QMap<int, double> cards;
         for (QString archCard : archCards.keys()) {
-            cards[archCard.toInt()] = archCards[archCard].toInt();
+            cards[archCard.toInt()] = archCards[archCard].toDouble();
         }
         deckArchs << DeckArch(archId, archName, archColors, cards);
     }
@@ -134,7 +134,7 @@ QString MtgDecksArch::findDeckArchitecture(QMap<Card*, int> cards)
     DeckArch deckArchThird;
     double deckArchThirdValue = 0.0;
     for (DeckArch deckArch : deckArchs) {
-        QMap<int, int> archCards = deckArch.cards;
+        QMap<int, double> archCards = deckArch.cards;
         double archValue = getCardsArchValueForDeckArch(nonlandCards, archCards);
         if (archValue == 0.0){
             continue;
@@ -176,7 +176,7 @@ QString MtgDecksArch::findDeckArchitecture(QMap<Card*, int> cards)
         if (LOG_DECK_ARCH_CALC) {
             LOGD(QString("--- %1: %2 (With lands)").arg(deckArchFirst.name).arg(archFirstLandsValue));
         }
-        QMap<int, int> archSecondaryCards = deckArchSecondary.cards;
+        QMap<int, double> archSecondaryCards = deckArchSecondary.cards;
         double archSecondaryLandsValue = getCardsArchValueForDeckArch(cards, archSecondaryCards);
         if (LOG_DECK_ARCH_CALC) {
             LOGD(QString("--- %1: %2 (With lands)\n").arg(deckArchSecondary.name)
@@ -207,7 +207,7 @@ QString MtgDecksArch::findDeckArchitecture(QMap<Card*, int> cards)
     }
 }
 
-double MtgDecksArch::getCardsArchValueForDeckArch(QMap<Card*, int> cards, QMap<int, int> archCards)
+double MtgDecksArch::getCardsArchValueForDeckArch(QMap<Card*, int> cards, QMap<int, double> archCards)
 {
     double archValue = 0.0;
     for (Card* card : cards.keys()) {

@@ -20,7 +20,7 @@ private:
     void downloadDecksArchOnFinish();
     void loadDecksArch();
     void loadDecksArchFromFile();
-    double getCardsArchValueForDeckArch(QMap<Card*, int> cards, QMap<int, int> archCards);
+    double getCardsArchValueForDeckArch(QMap<Card*, int> cards, QMap<int, double> archCards);
 
     QString dataDir;
     QNetworkAccessManager networkManager;

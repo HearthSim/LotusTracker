@@ -10,10 +10,10 @@ public:
     int id;
     QString name;
     QString colors;
-    QMap<int, int> cards;
+    QMap<int, double> cards;
 
     explicit DeckArch(int id = 0, QString name = "",
-                      QString colors = "", QMap<int, int> cards = {}):
+                      QString colors = "", QMap<int, double> cards = {}):
         id(id), name(name), colors(colors), cards(cards)
     {
     }

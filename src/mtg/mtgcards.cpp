@@ -66,7 +66,7 @@ void MtgCards::updateMtgaIdsFromAPIRequestOnFinish()
         QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
         LOGW(QString("Error: %1 - %2").arg(reply->errorString()).arg(reason));
         QString message = jsonRsp["error"].toString();
-        ARENA_TRACKER->showMessage(message);
+        LOTUS_TRACKER->showMessage(message);
         return;
     }
 

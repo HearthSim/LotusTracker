@@ -569,7 +569,7 @@ padding-left: 5px;</string>
       <string notr="true">border: 0px solid gray; </string>
      </property>
      <property name="text">
-      <string>Arena Tracker works without login, but only a logged user will be able to see their deck history, statistics and matches later.</string>
+      <string>Lotus Tracker works without login, but only a logged user will be able to see their deck history, statistics and matches later.</string>
      </property>
     </widget>
     <zorder>frameRecoverPassword</zorder>

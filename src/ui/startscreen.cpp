@@ -52,12 +52,12 @@ StartScreen::StartScreen(QWidget *parent, LotusTrackerAPI *lotusAPI) : QMainWind
     connect(lotusAPI, &LotusTrackerAPI::sgnUserLogged, this, [this](){
         onBackClick();
         if (!isHidden()) {
-            ARENA_TRACKER->showMessage("", tr("User Logged!"));
+            LOTUS_TRACKER->showMessage("", tr("User Logged!"));
         }
     });
     connect(lotusAPI, &LotusTrackerAPI::sgnPasswordRecovered, this, [this](){
         onBackClick();
-        ARENA_TRACKER->showMessage("", tr("Email was sent with Password Recover instructions"));
+        LOTUS_TRACKER->showMessage("", tr("Email was sent with Password Recover instructions"));
     });
 }
 
@@ -118,7 +118,7 @@ void StartScreen::onEnterClick()
     QString email = ui->edLoginEmail->text();
     QRegularExpressionMatch emailMatch = reRawEmail.match(email);
     if (!emailMatch.hasMatch()) {
-        ARENA_TRACKER->showMessage("", tr("Invalid email"));
+        LOTUS_TRACKER->showMessage("", tr("Invalid email"));
         return;
     }
     QString pass = ui->edLoginPassword->text();
@@ -132,7 +132,7 @@ void StartScreen::onRegisterClick()
     QString email = ui->edNewEmail->text();
     QRegularExpressionMatch emailMatch = reRawEmail.match(email);
     if (!emailMatch.hasMatch()) {
-        ARENA_TRACKER->showMessage("", tr("Invalid email"));
+        LOTUS_TRACKER->showMessage("", tr("Invalid email"));
         return;
     }
     QString pass = ui->edNewPassword->text();
@@ -142,7 +142,7 @@ void StartScreen::onRegisterClick()
         ui->lbLoading->setVisible(true);
         lotusAPI->registerUser(email, pass);
     } else {
-        ARENA_TRACKER->showMessage("", tr("Password and Confirm must be equals."));
+        LOTUS_TRACKER->showMessage("", tr("Password and Confirm must be equals."));
     }
 }
 
@@ -151,7 +151,7 @@ void StartScreen::onRecoverPasswordClick()
     QString email = ui->edRecoverPasswordEmail->text();
     QRegularExpressionMatch emailMatch = reRawEmail.match(email);
     if (!emailMatch.hasMatch()) {
-        ARENA_TRACKER->showMessage("", tr("Invalid email"));
+        LOTUS_TRACKER->showMessage("", tr("Invalid email"));
         return;
     }
     ui->btRecoverPassword->setVisible(false);

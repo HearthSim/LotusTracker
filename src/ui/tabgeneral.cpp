@@ -16,7 +16,7 @@ TabGeneral::TabGeneral(QWidget *parent)
     ui->setupUi(this);
     applyCurrentSettings();
     connect(ui->btCheckUpdate, &QPushButton::clicked, this, [] {
-        ARENA_TRACKER->sparkleUpdater->CheckForUpdatesNow();
+        LOTUS_TRACKER->sparkleUpdater->CheckForUpdatesNow();
     });
     connect(ui->cbStartAtLogin, &QCheckBox::clicked,
             this, &TabGeneral::onStartAtLoginChanged);
@@ -40,7 +40,7 @@ TabGeneral::~TabGeneral()
 void TabGeneral::applyCurrentSettings()
 {
     ui->cbStartAtLogin->setChecked(APP_SETTINGS->isAutoStartEnabled());
-    ui->btCheckUpdate->setChecked(ARENA_TRACKER->sparkleUpdater->AutomaticallyChecksForUpdates());
+    ui->btCheckUpdate->setChecked(LOTUS_TRACKER->sparkleUpdater->AutomaticallyChecksForUpdates());
     ui->cbPTEnabled->setChecked(APP_SETTINGS->isDeckTrackerPlayerEnabled());
     ui->cbOTEnabled->setChecked(APP_SETTINGS->isDeckTrackerOpponentEnabled());
     ui->cbHideOnLoseGameFocus->setChecked(APP_SETTINGS->isHideOnLoseGameFocusEnabled());
@@ -61,7 +61,7 @@ void TabGeneral::onStartAtLoginChanged()
 void TabGeneral::onAutoUpdateChanged()
 {
     bool enabled = ui->cbAutoUpdate->isChecked();
-    ARENA_TRACKER->sparkleUpdater->SetAutomaticallyChecksForUpdates(enabled);
+    LOTUS_TRACKER->sparkleUpdater->SetAutomaticallyChecksForUpdates(enabled);
     LOGD(QString("AutoUpdate: %1").arg(enabled ? "true" : "false"));
     APP_SETTINGS->enableAutoUpdate(enabled);
 }

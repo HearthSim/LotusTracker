@@ -26,7 +26,7 @@ MtgArena::MtgArena(QObject *parent)
             this, &MtgArena::onMtgaStopped);
     connect(this, &MtgArena::sgnMTGAFocusChanged,
             this, &MtgArena::onMtgaFocusChanged);
-    logParser = new MtgaLogParser(this, ARENA_TRACKER->mtgCards);
+    logParser = new MtgaLogParser(this, LOTUS_TRACKER->mtgCards);
     logWatcher = new MtgaLogWatcher(this);
     connect(logWatcher, &MtgaLogWatcher::sgnNewLogContent, this, &MtgArena::onNewLogContent);
 }
@@ -89,8 +89,8 @@ void MtgArena::onMtgaStarted()
 	LOGI("Game started");
 	isRunning = true;
 	timer->setInterval(FAST_FIND_WINDOW_INTERVAL);
-    ARENA_TRACKER->mtgCards->updateMtgaIdsFromAPI();
-    ARENA_TRACKER->mtgDecksArch->updateDecksArchitectureFromAPI();
+    LOTUS_TRACKER->mtgCards->updateMtgaIdsFromAPI();
+    LOTUS_TRACKER->mtgDecksArch->updateDecksArchitectureFromAPI();
 }
 
 void MtgArena::onMtgaStopped()

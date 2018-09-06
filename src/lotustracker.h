@@ -55,7 +55,7 @@ public:
     void avoidAppClose();
     void showStartScreen();
     void showPreferencesScreen();
-    void showMessage(QString msg, QString title = tr("Arena Tracker"));
+    void showMessage(QString msg, QString title = tr("Lotus Tracker"));
 
 signals:
 

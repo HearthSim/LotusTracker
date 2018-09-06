@@ -80,6 +80,7 @@ SOURCES += \
     src/main.cpp \
     src/lotustracker.cpp \
     src/transformations.cpp \
+    src/entity/deck.cpp \
     src/entity/matchinfo.cpp \
     src/mtg/mtgarena.cpp \
     src/mtg/mtgalogparser.cpp \

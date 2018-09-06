@@ -84,20 +84,20 @@ void LotusTrackerAPI::authRequestOnFinish()
         QJsonArray errors = jsonRsp["error"].toObject()["errors"].toArray();
         QString message = errors.first()["message"].toString();
         if (message.contains("EMAIL_EXISTS")) {
-            ARENA_TRACKER->showMessage(tr("Email already in use. Try do login."));
+            LOTUS_TRACKER->showMessage(tr("Email already in use. Try do login."));
         } else if (message.contains("INVALID_PASSWORD")) {
-            ARENA_TRACKER->showMessage(tr("Invalid password."));
+            LOTUS_TRACKER->showMessage(tr("Invalid password."));
         } else if (message.contains("WEAK_PASSWORD")) {
-            ARENA_TRACKER->showMessage(tr("Password should be at least 6 characters."));
+            LOTUS_TRACKER->showMessage(tr("Password should be at least 6 characters."));
         } else {
-            ARENA_TRACKER->showMessage(message);
+            LOTUS_TRACKER->showMessage(message);
         }
         return;
     }
 
     bool fromSignUp = jsonRsp["kind"].toString() == "identitytoolkit#SignupNewUserResponse";
     if (fromSignUp) {
-        ARENA_TRACKER->showMessage(tr("Signin Success."));
+        LOTUS_TRACKER->showMessage(tr("Signin Success."));
     };
     LOGD(QString("%1").arg(fromSignUp ? "User created" : "User signed"));
 
@@ -229,9 +229,9 @@ void LotusTrackerAPI::recoverPasswordRequestOnFinish()
         QJsonArray errors = jsonRsp["error"].toObject()["errors"].toArray();
         QString message = errors.first()["message"].toString();
         if (message == "EMAIL_NOT_FOUND") {
-            ARENA_TRACKER->showMessage(tr("Email not found."));
+            LOTUS_TRACKER->showMessage(tr("Email not found."));
         } else {
-            ARENA_TRACKER->showMessage(message);
+            LOTUS_TRACKER->showMessage(message);
         }
         return;
     }
@@ -325,7 +325,7 @@ void LotusTrackerAPI::getPlayerDeckWinRateRequestOnFinish()
             return;
         }
         QString message = jsonRsp["error"].toString();
-        ARENA_TRACKER->showMessage(message);
+        LOTUS_TRACKER->showMessage(message);
         return;
     }
 
@@ -374,7 +374,7 @@ void LotusTrackerAPI::getPlayerDeckToUpdateRequestOnFinish()
             return;
         }
         QString message = jsonRsp["error"].toString();
-        ARENA_TRACKER->showMessage(message);
+        LOTUS_TRACKER->showMessage(message);
         return;
     }
 
@@ -396,13 +396,13 @@ Deck LotusTrackerAPI::jsonToDeck(QJsonObject deckJson)
     QJsonObject cardsFields = deckJson["cards"].toObject();
     QMap<Card*, int> cards;
     for (QString key : cardsFields.keys()) {
-        Card* card = ARENA_TRACKER->mtgCards->findCard(key.toInt());
+        Card* card = LOTUS_TRACKER->mtgCards->findCard(key.toInt());
         cards[card] = cardsFields[key].toInt();
     }
     QJsonObject sideboardCardsFields = deckJson["sideboard"].toObject();
     QMap<Card*, int> sideboard;
     for (QString key : sideboardCardsFields.keys()) {
-        Card* card = ARENA_TRACKER->mtgCards->findCard(key.toInt());
+        Card* card = LOTUS_TRACKER->mtgCards->findCard(key.toInt());
         sideboard[card] = sideboardCardsFields[key].toInt();
     }
     return Deck(id, name, cards, sideboard);
@@ -435,7 +435,7 @@ void LotusTrackerAPI::uploadMatchRequestOnFinish()
         QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
         LOGW(QString("Error: %1 - %2").arg(reply->errorString()).arg(reason));
         QString error = jsonRsp["error"].toString();
-        ARENA_TRACKER->showMessage(error);
+        LOTUS_TRACKER->showMessage(error);
         return;
     }
 
@@ -537,7 +537,7 @@ void LotusTrackerAPI::requestOnFinish()
             return;
         }
         QString error = jsonRsp["error"].toString();
-        ARENA_TRACKER->showMessage(error);
+        LOTUS_TRACKER->showMessage(error);
         return;
     }
 

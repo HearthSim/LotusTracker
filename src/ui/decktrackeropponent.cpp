@@ -85,7 +85,7 @@ void DeckTrackerOpponent::insertCard(Card* card)
         nonLandCards[card] = deckCards[card];
     }
     if (nonLandCards.size() >= 2) {
-        QString deckArchtecture = ARENA_TRACKER->mtgDecksArch->
+        QString deckArchtecture = LOTUS_TRACKER->mtgDecksArch->
                 findDeckArchitecture(deckCards);
         deck.updateTitle(deckArchtecture);
     }
