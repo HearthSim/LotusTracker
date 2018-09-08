@@ -213,8 +213,12 @@ Card* MtgCards::jsonObject2Card(QJsonObject jsonCard, QString setCode)
     // Color identity
     QList<QChar> manaColorIdentity = getBoderColorUsingManaCost(manaCost, isArtifact);
     QList<QChar> borderColorIdentity = manaColorIdentity;
+    if (isArtifact) {
+        borderColorIdentity.clear();
+        borderColorIdentity << 'a';
+    }
     if (isLand) {
-        borderColorIdentity = getBorderColorUsingColorIdentity(jsonCard, isArtifact);;
+        borderColorIdentity = getLandBorderColorUsingColorIdentity(jsonCard);
     }
     return new Card(mtgaId, multiverseId, setCode, number, name, type, manaCost,
                     borderColorIdentity, manaColorIdentity, isLand, isArtifact);
@@ -245,7 +249,7 @@ QList<QChar> MtgCards::getBoderColorUsingManaCost(QString manaCost, bool isArtif
     return manaSymbols;
 }
 
-QList<QChar> MtgCards::getBorderColorUsingColorIdentity(QJsonObject jsonCard, bool isArtifact)
+QList<QChar> MtgCards::getLandBorderColorUsingColorIdentity(QJsonObject jsonCard)
 {
     QList<QChar> borderColorIdentity;
     QJsonArray jsonColorIdentity = jsonCard["colorIdentity"].toArray();
@@ -258,11 +262,7 @@ QList<QChar> MtgCards::getBorderColorUsingColorIdentity(QJsonObject jsonCard, bo
         borderColorIdentity << QChar('m');
     }
     if (borderColorIdentity.isEmpty()) {
-        if (isArtifact) {
-            borderColorIdentity << 'a';
-        } else {
-            borderColorIdentity << QChar(text.contains("mana of any color") ? 'm' : 'c');
-        }
+        borderColorIdentity << QChar(text.contains("mana of any color") ? 'm' : 'c');
     }
     return borderColorIdentity;
 }
