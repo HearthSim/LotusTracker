@@ -8,6 +8,7 @@ This source code already builds a Windows and Mac OS version of Lotus Tracker.
 * Multiplatform (Windows and Mac OS)
 * Show player deck and mark drawed cards
 * Show opponent drawed cards
+* Show opponent's deck archetype (Based on cards played)
 * Hover to see full card
 * Player draw statistics
 * Player deck winrate
@@ -22,7 +23,7 @@ This source code already builds a Windows and Mac OS version of Lotus Tracker.
 ## Build Instructions
 
 * Install QT Creator
-* Rename ``apikeys_sample.h`` to ``apikeys.h`` with credentials
+* Rename ``server_sample.h`` to ``server.h``
 * Setup Sparkle (_Auto update framework_)
 * Open project (_LotusTracker.pro_)
 * Run
