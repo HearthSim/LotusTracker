@@ -20,7 +20,11 @@ private:
     void downloadDecksArchOnFinish();
     void loadDecksArch();
     void loadDecksArchFromFile();
-    double getCardsArchValueForDeckArch(QMap<Card*, int> cards, QMap<int, double> archCards);
+    double getCardsSimilarityForDeckArch(QMap<Card*, int> cards, QMap<int, double> archCards);
+    double getSimilarityPercentDifference(QPair<DeckArch, double> archFirst,
+                                         QPair<DeckArch, double> archSecond);
+    static bool deckArchSimilarityComparator(const QPair<DeckArch, double>& first,
+                                             const QPair<DeckArch, double>& second);
 
     QString dataDir;
     QNetworkAccessManager networkManager;
