@@ -170,6 +170,15 @@ void MtgCards::loadSetFromFile(QString setFileName) {
         QJsonObject jsonCard = jsonCardRef.toObject();
         Card* card = jsonObject2Card(jsonCard, setCode);
         cards[card->mtgaId] = card;
+        QString layout = jsonCard["layout"].toString();
+        if (layout == "aftermath" && card->number.endsWith("b")) {
+            QString rightSideNumber = card->number;
+            QString leftSideNumber = rightSideNumber.replace("b", "a");
+            int leftSideMtgaId = mtgaIds[setCode][leftSideNumber];
+            Card* cardLeft = cards[leftSideMtgaId];
+            Card* cardSplit = createSplitCard(cardLeft, card);
+            cards[cardSplit->mtgaId] = cardSplit;
+        }
     }
 
     LOGI(QString("%1 set loaded with %2 cards").arg(setCode).arg(jsonCards.count()));
@@ -256,4 +265,27 @@ QList<QChar> MtgCards::getBorderColorUsingColorIdentity(QJsonObject jsonCard, bo
         }
     }
     return borderColorIdentity;
+}
+
+Card* MtgCards::createSplitCard(Card* leftSide, Card* rightSide)
+{
+    QString name = QString("%1 // %2").arg(leftSide->name).arg(rightSide->name);
+    QList<QChar> borderColorIdentity = leftSide->borderColorIdentity;
+    for (QChar c : rightSide->borderColorIdentity){
+        if (!borderColorIdentity.contains(c)) {
+            borderColorIdentity.append(c);
+        }
+    }
+    QList<QChar> manaColorIdentity = leftSide->manaColorIdentity;
+    for (QChar c : rightSide->manaColorIdentity){
+        if (!manaColorIdentity.contains(c)) {
+            manaColorIdentity.append(c);
+        }
+    }
+    QString leftSideNumber = leftSide->number;
+    QString number = leftSideNumber.replace("a", "");
+    int mtgaId = mtgaIds[leftSide->setCode][number];
+    return new Card(mtgaId, leftSide->multiverseId, leftSide->setCode, number,
+                    name, leftSide->type, leftSide->manaCost, borderColorIdentity,
+                    manaColorIdentity, leftSide->isLand, leftSide->isArtifact);
 }

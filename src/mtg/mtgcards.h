@@ -23,6 +23,7 @@ private:
     Card* jsonObject2Card(QJsonObject jsonCard, QString setCode);
     QList<QChar> getBoderColorUsingManaCost(QString manaCost, bool isArtifact);
     QList<QChar> getBorderColorUsingColorIdentity(QJsonObject jsonCard, bool isArtifact);
+    Card* createSplitCard(Card* leftSide, Card* rightSide);
 
     QString setsDir;
     QMap<QString, QMap<QString, int>> mtgaIds;
