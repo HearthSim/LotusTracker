@@ -1,5 +1,5 @@
 #include "mtgcards.h"
-#include "../apikeys.h"
+#include "../server.h"
 #include "../transformations.h"
 #include "../macros.h"
 
@@ -42,7 +42,7 @@ MtgCards::MtgCards(QObject *parent) : QObject(parent)
 
 void MtgCards::updateMtgaIdsFromAPI(){
     LOGD(QString("Updating mtga cards id"));
-    QUrl url(QString("%1/cards").arg(ApiKeys::API_BASE_URL()));
+    QUrl url(QString("%1/cards").arg(Server::API_URL()));
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     if (LOG_REQUEST_ENABLED) {
@@ -66,7 +66,7 @@ void MtgCards::updateMtgaIdsFromAPIRequestOnFinish()
         QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
         LOGW(QString("Error: %1 - %2").arg(reply->errorString()).arg(reason));
         QString message = jsonRsp["error"].toString();
-        ARENA_TRACKER->showMessage(message);
+        LOTUS_TRACKER->showMessage(message);
         return;
     }
 
@@ -170,6 +170,15 @@ void MtgCards::loadSetFromFile(QString setFileName) {
         QJsonObject jsonCard = jsonCardRef.toObject();
         Card* card = jsonObject2Card(jsonCard, setCode);
         cards[card->mtgaId] = card;
+        QString layout = jsonCard["layout"].toString();
+        if (layout == "aftermath" && card->number.endsWith("b")) {
+            QString rightSideNumber = card->number;
+            QString leftSideNumber = rightSideNumber.replace("b", "a");
+            int leftSideMtgaId = mtgaIds[setCode][leftSideNumber];
+            Card* cardLeft = cards[leftSideMtgaId];
+            Card* cardSplit = createSplitCard(cardLeft, card);
+            cards[cardSplit->mtgaId] = cardSplit;
+        }
     }
 
     LOGI(QString("%1 set loaded with %2 cards").arg(setCode).arg(jsonCards.count()));
@@ -204,8 +213,12 @@ Card* MtgCards::jsonObject2Card(QJsonObject jsonCard, QString setCode)
     // Color identity
     QList<QChar> manaColorIdentity = getBoderColorUsingManaCost(manaCost, isArtifact);
     QList<QChar> borderColorIdentity = manaColorIdentity;
+    if (isArtifact) {
+        borderColorIdentity.clear();
+        borderColorIdentity << 'a';
+    }
     if (isLand) {
-        borderColorIdentity = getBorderColorUsingColorIdentity(jsonCard, isArtifact);;
+        borderColorIdentity = getLandBorderColorUsingColorIdentity(jsonCard);
     }
     return new Card(mtgaId, multiverseId, setCode, number, name, type, manaCost,
                     borderColorIdentity, manaColorIdentity, isLand, isArtifact);
@@ -236,7 +249,7 @@ QList<QChar> MtgCards::getBoderColorUsingManaCost(QString manaCost, bool isArtif
     return manaSymbols;
 }
 
-QList<QChar> MtgCards::getBorderColorUsingColorIdentity(QJsonObject jsonCard, bool isArtifact)
+QList<QChar> MtgCards::getLandBorderColorUsingColorIdentity(QJsonObject jsonCard)
 {
     QList<QChar> borderColorIdentity;
     QJsonArray jsonColorIdentity = jsonCard["colorIdentity"].toArray();
@@ -249,11 +262,30 @@ QList<QChar> MtgCards::getBorderColorUsingColorIdentity(QJsonObject jsonCard, bo
         borderColorIdentity << QChar('m');
     }
     if (borderColorIdentity.isEmpty()) {
-        if (isArtifact) {
-            borderColorIdentity << 'a';
-        } else {
-            borderColorIdentity << QChar(text.contains("mana of any color") ? 'm' : 'c');
-        }
+        borderColorIdentity << QChar(text.contains("mana of any color") ? 'm' : 'c');
     }
     return borderColorIdentity;
+}
+
+Card* MtgCards::createSplitCard(Card* leftSide, Card* rightSide)
+{
+    QString name = QString("%1 // %2").arg(leftSide->name).arg(rightSide->name);
+    QList<QChar> borderColorIdentity = leftSide->borderColorIdentity;
+    for (QChar c : rightSide->borderColorIdentity){
+        if (!borderColorIdentity.contains(c)) {
+            borderColorIdentity.append(c);
+        }
+    }
+    QList<QChar> manaColorIdentity = leftSide->manaColorIdentity;
+    for (QChar c : rightSide->manaColorIdentity){
+        if (!manaColorIdentity.contains(c)) {
+            manaColorIdentity.append(c);
+        }
+    }
+    QString leftSideNumber = leftSide->number;
+    QString number = leftSideNumber.replace("a", "");
+    int mtgaId = mtgaIds[leftSide->setCode][number];
+    return new Card(mtgaId, leftSide->multiverseId, leftSide->setCode, number,
+                    name, leftSide->type, leftSide->manaCost, borderColorIdentity,
+                    manaColorIdentity, leftSide->isLand, leftSide->isArtifact);
 }

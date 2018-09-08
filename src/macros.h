@@ -13,6 +13,7 @@
 #define SITE_NAME "Black Lotus Valley"
 #define LOG_LEVEL DEBUG //DEBUG, INFO, WARNING
 #define LOG_IN_TESTS true
+#define LOG_DECK_ARCH_CALC false
 #define LOG_REQUEST_ENABLED false
 #define RUNNING_TESTS !qApp
 
@@ -22,14 +23,14 @@ if(__CLASSNAME__){ \
     __CLASSNAME__ = NULL; \
 } \
 
-#define ARENA_TRACKER ((LotusTracker*) qApp->instance())
+#define LOTUS_TRACKER dynamic_cast<LotusTracker*>(qApp->instance())
 
-#define APP_SETTINGS ARENA_TRACKER->appSettings
+#define APP_SETTINGS LOTUS_TRACKER->appSettings
 
 #define LOGD(msg) \
     if (LOG_LEVEL == DEBUG) { \
         if (qApp) { \
-            ARENA_TRACKER->logger->logD(__PRETTY_FUNCTION__, __LINE__, msg); \
+            LOTUS_TRACKER->logger->logD(__PRETTY_FUNCTION__, __LINE__, msg); \
         } else if (LOG_IN_TESTS) { \
             QString prettyFunction = QString(__PRETTY_FUNCTION__); \
             QString function = prettyFunction.left(prettyFunction.indexOf("::")); \
@@ -40,7 +41,7 @@ if(__CLASSNAME__){ \
 #define LOGI(msg) \
     if (LOG_LEVEL == INFO || LOG_LEVEL == DEBUG) { \
         if (qApp) { \
-            ARENA_TRACKER->logger->logI(__PRETTY_FUNCTION__, __LINE__, msg); \
+            LOTUS_TRACKER->logger->logI(__PRETTY_FUNCTION__, __LINE__, msg); \
         } else if (LOG_IN_TESTS) { \
             QString prettyFunction = QString(__PRETTY_FUNCTION__); \
             QString function = prettyFunction.left(prettyFunction.indexOf("::")); \
@@ -50,7 +51,7 @@ if(__CLASSNAME__){ \
 
 #define LOGW(msg) \
     if (qApp) { \
-        ARENA_TRACKER->logger->logW(__PRETTY_FUNCTION__, __LINE__, msg); \
+        LOTUS_TRACKER->logger->logW(__PRETTY_FUNCTION__, __LINE__, msg); \
     } else if (LOG_IN_TESTS) { \
         QString prettyFunction = QString(__PRETTY_FUNCTION__); \
         QString function = prettyFunction.left(prettyFunction.indexOf("::")); \

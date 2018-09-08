@@ -75,7 +75,7 @@ void TrayIcon::showMessage(QString title, QString msg)
 
 void TrayIcon::updateUserSettings()
 {
-    UserSettings userSettings = ARENA_TRACKER->appSettings->getUserSettings();
+    UserSettings userSettings = LOTUS_TRACKER->appSettings->getUserSettings();
     bool isAuthValid = userSettings.getAuthStatus() == AUTH_VALID;
     QString userText = QString("%1 (Logout)").arg(userSettings.getUserName());
     signAction->setText(isAuthValid ? userText : tr("Sign In"));
@@ -83,7 +83,7 @@ void TrayIcon::updateUserSettings()
 
 void TrayIcon::openSignInOrSignOut()
 {
-    UserSettings userSettings = ARENA_TRACKER->appSettings->getUserSettings();
+    UserSettings userSettings = LOTUS_TRACKER->appSettings->getUserSettings();
     bool isAuthValid = userSettings.getAuthStatus() == AUTH_VALID;
     if (isAuthValid) {
         QMessageBox msgBox(QMessageBox::Warning, tr("Logout user"), tr("Are you sure?"),
@@ -91,20 +91,19 @@ void TrayIcon::openSignInOrSignOut()
         msgBox.setDefaultButton(QMessageBox::Cancel);
         msgBox.deleteLater();
         if (msgBox.exec() == QMessageBox::Yes) {
-            ARENA_TRACKER->appSettings->clearUserSettings();
-            ARENA_TRACKER->showStartScreen();
+            LOTUS_TRACKER->appSettings->clearUserSettings();
+            LOTUS_TRACKER->showStartScreen();
             updateUserSettings();
         }
-        ARENA_TRACKER->avoidAppClose();
+        LOTUS_TRACKER->avoidAppClose();
     } else {
-        ARENA_TRACKER->showStartScreen();
+        LOTUS_TRACKER->showStartScreen();
     }
 }
 
 void TrayIcon::openPreferences()
 {
-    LotusTracker *arenaTracker = (LotusTracker*) qApp->instance();
-    arenaTracker->showPreferencesScreen();
+    LOTUS_TRACKER->showPreferencesScreen();
 }
 
 void TrayIcon::configTestMenu(QMenu* testMenu)
@@ -112,7 +111,7 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
     // Load Deck
     QAction *loadDeckAction = new QAction(tr("Load Deck"), this);
     connect(loadDeckAction, &QAction::triggered, this, [](){
-        MtgaLogParser *mtgaLogParser = ARENA_TRACKER->mtgArena->getLogParser();
+        MtgaLogParser *mtgaLogParser = LOTUS_TRACKER->mtgArena->getLogParser();
         emit mtgaLogParser->sgnMatchCreated(QString("ConstructedRanked1"),
                                             OpponentInfo("", "Beginner", 0));
         // Player Select Deck
@@ -133,25 +132,35 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
     testMenu->addAction(loadDeckAction);
     // Player Draw card
     QAction *playerDrawAction = new QAction(tr("Player Draw"), this);
-    connect(playerDrawAction, &QAction::triggered, this, [this](){
-        Card* card = ARENA_TRACKER->mtgCards->findCard(68186);
-        emit ARENA_TRACKER->mtgaMatch->sgnPlayerDrawCard(card);
+    connect(playerDrawAction, &QAction::triggered, this, [](){
+        Card* card = LOTUS_TRACKER->mtgCards->findCard(68186);
+        emit LOTUS_TRACKER->mtgaMatch->sgnPlayerDrawCard(card);
     });
     testMenu->addAction(playerDrawAction);
     // Opponent play card
     QAction *opponentPlayAction = new QAction(tr("Opponent Play"), this);
-    connect(opponentPlayAction, &QAction::triggered, this, [this](){
-        srand(QTime::currentTime().msec());
+    connect(opponentPlayAction, &QAction::triggered, this, [](){
+        srand(static_cast<unsigned int>(QTime::currentTime().msec()));
         int randomCardNumber = rand() % 200;
-        Card* card = ARENA_TRACKER->mtgCards->findCard(66619 + randomCardNumber * 2);
-        emit ARENA_TRACKER->mtgaMatch->sgnOpponentPlayCard(card);
+        Card* card = LOTUS_TRACKER->mtgCards->findCard(66619 + randomCardNumber * 2);
+        emit LOTUS_TRACKER->mtgaMatch->sgnOpponentPlayCard(card);
     });
     testMenu->addAction(opponentPlayAction);
+    // Test opponent deck arch
+    QAction *opponentDeckArchAction = new QAction(tr("Opponent Deck Arch"), this);
+    connect(opponentDeckArchAction, &QAction::triggered, this, [](){
+        QList<int> cardsMtgaId = {64129, 65343, 65343, 65993, 67238, 67586};
+        for (int cardMtgaId : cardsMtgaId) {
+            Card* card = LOTUS_TRACKER->mtgCards->findCard(cardMtgaId);
+            emit LOTUS_TRACKER->mtgaMatch->sgnOpponentPlayCard(card);
+        }
+    });
+    testMenu->addAction(opponentDeckArchAction);
     // Update user inventory
     QAction *updateUserInventoryAction = new QAction(tr("parse UserInventory"), this);
-    connect(updateUserInventoryAction, &QAction::triggered, this, [this](){
+    connect(updateUserInventoryAction, &QAction::triggered, this, [](){
         PlayerInventory playerInventory(rand() % 10, rand() % 10, rand() % 10, rand() % 10);
-        emit ARENA_TRACKER->mtgArena->getLogParser()->sgnPlayerInventory(playerInventory);
+        emit LOTUS_TRACKER->mtgArena->getLogParser()->sgnPlayerInventory(playerInventory);
     });
     testMenu->addAction(updateUserInventoryAction);
 }

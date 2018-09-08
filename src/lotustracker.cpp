@@ -1,5 +1,6 @@
 #include "lotustracker.h"
 #include "macros.h"
+#include "server.h"
 #include "mtg/mtgalogparser.h"
 #include "utils/cocoainitializer.h"
 
@@ -12,8 +13,6 @@
 #include <QLocalSocket>
 #include <QMessageBox>
 
-#define UPDATE_URL "https://blacklotusvalley-ca867.firebaseapp.com/appcast.xml"
-
 LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
 {
     setupApp();
@@ -21,33 +20,42 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
     logger = new Logger(this);
     appSettings = new AppSettings(this);
     mtgCards = new MtgCards(this);
+    mtgDecksArch = new MtgDecksArch(this);
     mtgArena = new MtgArena(this);
     deckTrackerPlayer = new DeckTrackerPlayer();
     deckTrackerOpponent = new DeckTrackerOpponent();
     trayIcon = new TrayIcon(this);
-    firebaseAuth = new FirebaseAuth(this);
-    api = new LotusTrackerAPI(this, firebaseAuth);
-    startScreen = new StartScreen(nullptr, firebaseAuth);
-    connect(api, &LotusTrackerAPI::sgnDeckWinRate,
+    lotusAPI = new LotusTrackerAPI(this);
+    startScreen = new StartScreen(nullptr, lotusAPI);
+    hideTrackerTimer = new QTimer(this);
+    mtgaMatch = new MtgaMatch(this, mtgCards);
+    connect(lotusAPI, &LotusTrackerAPI::sgnDeckWinRate,
             deckTrackerPlayer, &DeckTrackerPlayer::onPlayerDeckStatus);
     connect(mtgArena, &MtgArena::sgnMTGAFocusChanged,
             this, &LotusTracker::onGameFocusChanged);
-    connect(firebaseAuth, &FirebaseAuth::sgnUserLogged,
+    connect(lotusAPI, &LotusTrackerAPI::sgnUserLogged,
             this, &LotusTracker::onUserSigned);
-    connect(firebaseAuth, &FirebaseAuth::sgnTokenRefreshed,
+    connect(lotusAPI, &LotusTrackerAPI::sgnTokenRefreshed,
             this, &LotusTracker::onUserTokenRefreshed);
-    connect(firebaseAuth, &FirebaseAuth::sgnTokenRefreshError,
+    connect(lotusAPI, &LotusTrackerAPI::sgnTokenRefreshError,
             this, &LotusTracker::onUserTokenRefreshError);
+    connect(hideTrackerTimer, &QTimer::timeout, this, [this]{
+        hideTrackerTimer->stop();
+        deckTrackerPlayer->resetDeck();
+        deckTrackerPlayer->hide();
+        deckTrackerOpponent->clearDeck();
+        deckTrackerOpponent->hide();
+    });
     //setupMatch should be called before setupLogParser because sgnMatchInfoResult order
-    setupMtgaMatch();
     setupLogParserConnections();
+    setupMtgaMatchConnections();
     setupPreferencesScreen();
     checkForAutoLogin();
-    LOGI("Arena Tracker started");
+    LOGI("Lotus Tracker started");
     if (APP_SETTINGS->isFirstRun()) {
         startScreen->show();
         startScreen->raise();
-        showMessage(tr("Arena Tracker is running in background, you can click on tray icon for preferences."));
+        showMessage(tr("Lotus Tracker is running in background, you can click on tray icon for preferences."));
     }
 }
 
@@ -60,8 +68,7 @@ LotusTracker::~LotusTracker()
     DEL(trayIcon)
     DEL(mtgArena)
     DEL(mtgaMatch)
-    DEL(firebaseAuth)
-    DEL(api)
+    DEL(lotusAPI)
 }
 
 int LotusTracker::run()
@@ -89,10 +96,12 @@ void LotusTracker::setupApp()
 void LotusTracker::setupUpdater()
 {
 #if defined Q_OS_MAC
-  CocoaInitializer cocoaInitializer;
-  sparkleUpdater = new MacSparkleUpdater(UPDATE_URL);
+    CocoaInitializer cocoaInitializer;
+    QString updateUrl = QString("%1/%2").arg(Server::URL()).arg("appcast-osx.xml");
+    sparkleUpdater = new MacSparkleUpdater(updateUrl);
 #elif defined Q_OS_WIN
-  sparkleUpdater = new WinSparkleUpdater(UPDATE_URL);
+    QString updateUrl = QString("%1/%2").arg(Server::URL()).arg("appcast-win.xml");
+    sparkleUpdater = new WinSparkleUpdater(updateUrl);
 #endif
 }
 
@@ -101,12 +110,12 @@ bool LotusTracker::isAlreadyRunning() {
     QLocalSocket socket;
     socket.connectToServer(serverName);
     if (socket.waitForConnected(500)) {
-        QMessageBox::information(preferencesScreen, "Arena Tracker",
-                                 "Arena Tracker already running in background.", QMessageBox::Ok);
+        QMessageBox::information(preferencesScreen, "Lotus Tracker",
+                                 "Lotus Tracker already running in background.", QMessageBox::Ok);
         return true;
     }
     QLocalServer::removeServer(serverName);
-    localServer = new QLocalServer(NULL);
+    localServer = new QLocalServer(nullptr);
     if (!localServer->listen(serverName)) {
         return true;
     }
@@ -158,15 +167,15 @@ void LotusTracker::setupPreferencesScreen()
 void LotusTracker::setupLogParserConnections()
 {
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerCollection,
-            api, &LotusTrackerAPI::updatePlayerCollection);
+            lotusAPI, &LotusTrackerAPI::updatePlayerCollection);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerInventory,
-            api, &LotusTrackerAPI::updatePlayerInventory);
+            lotusAPI, &LotusTrackerAPI::updatePlayerInventory);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckCreated,
+            lotusAPI, &LotusTrackerAPI::createPlayerDeck);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckUpdated,
+            lotusAPI, &LotusTrackerAPI::updatePlayerDeck);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerRankInfo,
             mtgaMatch, &MtgaMatch::onPlayerRankInfo);
-    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckCreated,
-            api, &LotusTrackerAPI::createPlayerDeck);
-    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckUpdated,
-            api, &LotusTrackerAPI::updatePlayerDeck);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckSubmited,
             this, &LotusTracker::onDeckSubmited);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckWithSideboardSubmited,
@@ -185,9 +194,8 @@ void LotusTracker::setupLogParserConnections()
             this, &LotusTracker::onPlayerTakesMulligan);
 }
 
-void LotusTracker::setupMtgaMatch()
+void LotusTracker::setupMtgaMatchConnections()
 {
-    mtgaMatch = new MtgaMatch(this, mtgCards);
     // Player
     connect(mtgaMatch, &MtgaMatch::sgnPlayerPutInLibraryCard,
             deckTrackerPlayer, &DeckTrackerPlayer::onPlayerPutInLibraryCard);
@@ -211,10 +219,6 @@ void LotusTracker::setupMtgaMatch()
     connect(mtgaMatch, &MtgaMatch::sgnOpponentPutOnBattlefieldCard,
             deckTrackerOpponent, &DeckTrackerOpponent::onOpponentPutOnBattlefieldCard);
     // Match
-    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchCreated,
-            mtgaMatch, &MtgaMatch::onStartNewMatch);
-    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchResult,
-            mtgaMatch, &MtgaMatch::onEndCurrentMatch);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchInfoSeats,
             mtgaMatch, &MtgaMatch::onMatchInfoSeats);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchStateDiff,
@@ -253,8 +257,8 @@ void LotusTracker::showMessage(QString msg, QString title)
 void LotusTracker::onDeckSubmited(QString eventId, Deck deck)
 {
     deckTrackerPlayer->loadDeck(deck);
-    api->updatePlayerDeck(deck);
-    api->getPlayerDeckWinRate(deck.id, eventId);
+    lotusAPI->updatePlayerDeck(deck);
+    lotusAPI->getPlayerDeckWinRate(deck.id, eventId);
 }
 
 void LotusTracker::onPlayerDeckWithSideboardSubmited(QMap<Card*, int> cards)
@@ -269,8 +273,8 @@ void LotusTracker::onEventPlayerCourse(QString eventId, Deck currentDeck)
 
 void LotusTracker::onMatchStart(QString eventId, OpponentInfo opponentInfo)
 {
-    UNUSED(eventId);
-    UNUSED(opponentInfo);
+    mtgaMatch->onStartNewMatch(eventId, opponentInfo);
+    // Load deck from event in course if not loaded yet (event continues without submitDeck)
     if (!deckTrackerPlayer->isDeckLoadedAndReseted()) {
         if (eventId == eventPlayerCourse.first) {
             deckTrackerPlayer->loadDeck(eventPlayerCourse.second);
@@ -280,10 +284,10 @@ void LotusTracker::onMatchStart(QString eventId, OpponentInfo opponentInfo)
 
 void LotusTracker::onGameStart(MatchMode mode, QList<MatchZone> zones, int seatId)
 {
-    mtgaMatch->onGameStart(mode, zones, seatId);
     if (!mtgaMatch->isRunning) {
         return;
     }
+    mtgaMatch->onGameStart(mode, zones, seatId);
     if (APP_SETTINGS->isDeckTrackerPlayerEnabled()) {
         deckTrackerPlayer->show();
     }
@@ -315,17 +319,21 @@ void LotusTracker::onGameFocusChanged(bool hasFocus)
 
 void LotusTracker::onGameCompleted(QMap<int, int> teamIdWins)
 {
+    if (!mtgaMatch->isRunning) {
+        return;
+    }
     mtgaMatch->onGameCompleted(deckTrackerOpponent->getDeck(), teamIdWins);
-    deckTrackerPlayer->resetDeck();
-    deckTrackerPlayer->hide();
-    deckTrackerOpponent->clearDeck();
-    deckTrackerOpponent->hide();
+    hideTrackerTimer->start(5000);
 }
 
 void LotusTracker::onMatchEnds(int winningTeamId)
 {
     UNUSED(winningTeamId);
-    api->uploadMatch(mtgaMatch->getInfo(),
+    if (!mtgaMatch->isRunning) {
+        return;
+    }
+    mtgaMatch->onEndCurrentMatch(winningTeamId);
+    lotusAPI->uploadMatch(mtgaMatch->getInfo(),
                                   deckTrackerPlayer->getDeck(),
                                   mtgaMatch->getPlayerRankInfo().first);
 }
@@ -360,11 +368,11 @@ void LotusTracker::checkForAutoLogin()
     UserSettings userSettings = appSettings->getUserSettings();
     switch (userSettings.getAuthStatus()) {
         case AUTH_VALID: {
-            emit firebaseAuth->sgnUserLogged(false);
+            emit lotusAPI->sgnUserLogged(false);
             break;
         }
         case AUTH_EXPIRED: {
-            firebaseAuth->refreshToken(userSettings.refreshToken);
+            lotusAPI->refreshToken(userSettings.refreshToken);
             break;
         }
         case AUTH_INVALID: {

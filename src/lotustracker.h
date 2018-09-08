@@ -1,10 +1,12 @@
 #ifndef ARENATRACKER_H
 #define ARENATRACKER_H
 
+#include "api/lotusapi.h"
 #include "entity/matchinfo.h"
 #include "entity/opponentinfo.h"
 #include "mtg/mtgarena.h"
 #include "mtg/mtgcards.h"
+#include "mtg/mtgdecksarch.h"
 #include "mtg/mtgamatch.h"
 #include "ui/decktrackerplayer.h"
 #include "ui/decktrackeropponent.h"
@@ -13,8 +15,6 @@
 #include "ui/trayicon.h"
 #include "utils/appsettings.h"
 #include "utils/logger.h"
-#include "api/auth.h"
-#include "api/api.h"
 #include "updater/sparkleupdater.h"
 
 #include <QApplication>
@@ -31,15 +31,15 @@ private:
     TrayIcon *trayIcon;
     PreferencesScreen *preferencesScreen;
     StartScreen *startScreen;
-    FirebaseAuth *firebaseAuth;
-    LotusTrackerAPI *api;
+    LotusTrackerAPI *lotusAPI;
     QPair<QString, Deck> eventPlayerCourse;
+    QTimer *hideTrackerTimer;
     bool isAlreadyRunning();
     void setupApp();
     void setupUpdater();
     void setupPreferencesScreen();
     void setupLogParserConnections();
-    void setupMtgaMatch();
+    void setupMtgaMatchConnections();
     void checkForAutoLogin();
 
 public:
@@ -49,13 +49,14 @@ public:
     Logger *logger;
     MtgArena *mtgArena;
     MtgCards *mtgCards;
+    MtgDecksArch *mtgDecksArch;
     MtgaMatch *mtgaMatch;
     SparkleUpdater *sparkleUpdater;
     int run();
     void avoidAppClose();
     void showStartScreen();
     void showPreferencesScreen();
-    void showMessage(QString msg, QString title = tr("Arena Tracker"));
+    void showMessage(QString msg, QString title = tr("Lotus Tracker"));
 
 signals:
 

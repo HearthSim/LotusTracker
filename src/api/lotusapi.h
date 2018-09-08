@@ -1,7 +1,6 @@
 #ifndef DATABASE_H
 #define DATABASE_H
 
-#include "auth.h"
 #include "requestdata.h"
 #include "rqtuploadplayermatch.h"
 #include "entity/deck.h"
@@ -17,7 +16,7 @@ class LotusTrackerAPI : public QObject
 {
     Q_OBJECT
 private:
-    FirebaseAuth *firebaseAuth;
+    bool isRefreshTokenInProgress;
     RqtRegisterPlayerMatch rqtRegisterPlayerMatch;
     QNetworkAccessManager networkManager;
     QDateTime lastUpdatePlayerCollectionDate, lastUpdatePlayerInventoryDate;
@@ -25,22 +24,31 @@ private:
     QMap<QString, QPair<QString, RequestData>> requestsToRecall;  //url, <method, request>
     Deck paramDeck;
 
+    UserSettings createUserSettingsFromSign(QJsonObject jsonRsp);
+    UserSettings createUserSettingsFromRefreshedToken(QJsonObject jsonRsp);
+    qlonglong getExpiresEpoch(QString expiresIn);
     void getPlayerDeckToUpdate(QString deckID);
     void getPlayerDeckToUpdateRequestOnFinish();
     void getPlayerDeckWinRateRequestOnFinish();
     Deck jsonToDeck(QJsonObject deckJson);
+    void registerPlayerMatch(QString matchID);
+    void uploadMatchRequestOnFinish();
     QNetworkRequest prepareRequest(RequestData requestData,
                                    bool checkUserAuth, QString method = "");
     QBuffer* prepareBody(RequestData requestData);
     void sendPatch(RequestData requestData);
     void sendPost(RequestData requestData);
     void requestOnFinish();
-    void registerPlayerMatch(QString matchID);
-    void uploadMatchRequestOnFinish();
 
 public:
-    explicit LotusTrackerAPI(QObject *parent = nullptr, FirebaseAuth *firebaseAuth = nullptr);
+    explicit LotusTrackerAPI(QObject *parent = nullptr);
     ~LotusTrackerAPI();
+    // Auth
+    void signInUser(QString email, QString password);
+    void registerUser(QString email, QString password);
+    void recoverPassword(QString email);
+    void refreshToken(QString refreshToken);
+    //
     void updatePlayerCollection(QMap<int, int> ownedCards);
     void updatePlayerInventory(PlayerInventory playerInventory);
     void createPlayerDeck(Deck deck);
@@ -50,10 +58,17 @@ public:
                      QString playerRankClass);
 
 signals:
+    void sgnUserLogged(bool fromSignUp);
     void sgnRequestFinished();
+    void sgnPasswordRecovered();
+    void sgnTokenRefreshed();
+    void sgnTokenRefreshError();
     void sgnDeckWinRate(int wins, int losses, double winRate);
 
 private slots:
+    void authRequestOnFinish();
+    void recoverPasswordRequestOnFinish();
+    void tokenRefreshRequestOnFinish();
     void onTokenRefreshed();
 
 };

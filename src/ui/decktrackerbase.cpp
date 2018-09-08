@@ -107,7 +107,7 @@ void DeckTrackerBase::setupDrawTools()
     cardPen = QPen(Qt::black);
     cardNonePen = QPen(QColor(80, 80, 80));
     // Title
-    int titleFontSize = 11;
+    int titleFontSize = 9;
 #if defined Q_OS_MAC
     titleFontSize += 4;
 #endif
@@ -240,11 +240,10 @@ void DeckTrackerBase::drawDeckInfo(QPainter &painter)
     // Deck title
     QFontMetrics titleMetrics(titleFont);
     int titleHeight = titleMetrics.ascent() - titleMetrics.descent();
-    int titleTextOptions = Qt::AlignLeft | Qt::AlignVCenter | Qt::TextDontClip;
-    int deckNameWidth = onGetDeckTitleXMax() - uiPos.x();
-    QString deckName = titleMetrics.elidedText(deck.name, Qt::ElideRight, deckNameWidth);
+    int titleTextOptions = Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextDontClip;
+    QString deckName = titleMetrics.elidedText(deck.name, Qt::ElideRight, uiWidth);
     drawText(painter, titleFont, titlePen, deckName, titleTextOptions, true,
-             uiPos.x() + 8, uiPos.y() + 5, titleHeight, uiWidth);
+             uiPos.x(), uiPos.y() - titleHeight - 5, titleHeight, uiWidth);
     // Deck identity
     int manaMargen = 3;
     int manaSize = 12;
@@ -258,7 +257,6 @@ void DeckTrackerBase::drawDeckInfo(QPainter &painter)
             manaX += manaSize + manaMargen;
         }
     }
-    deckManaColorsEnd = manaX;
 }
 
 void DeckTrackerBase::drawDeckCards(QPainter &painter)

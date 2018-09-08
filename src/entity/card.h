@@ -30,6 +30,11 @@ public:
           borderColorIdentity(borderColorIdentity), manaColorIdentity(manaColorIdentity),
           isLand(isLand), isArtifact(isArtifact){}
 
+    bool isBasicLand()
+    {
+        return isLand && type.contains("Basic");
+    }
+
     int manaCostValue()
     {
         int manaValue = 0;

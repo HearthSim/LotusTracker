@@ -1,7 +1,7 @@
 #ifndef STARTSCREEN_H
 #define STARTSCREEN_H
 
-#include "../api/auth.h"
+#include "../api/lotusapi.h"
 
 #include <QMainWindow>
 #include <QRegularExpression>
@@ -13,7 +13,7 @@ class StartScreen : public QMainWindow
     Q_OBJECT
 private:
     Ui::Start *ui;
-    FirebaseAuth *firebaseAuth;
+    LotusTrackerAPI *lotusAPI;
     QRegularExpression reRawEmail;
     void onBackClick();
     void onLoginClick();
@@ -24,7 +24,7 @@ private:
     void onRecoverPasswordClick();
 
 public:
-    explicit StartScreen(QWidget *parent = nullptr, FirebaseAuth *firebaseAuth = nullptr);
+    explicit StartScreen(QWidget *parent = nullptr, LotusTrackerAPI *lotusAPI = nullptr);
     ~StartScreen();
     void closeEvent(QCloseEvent *event);
 

@@ -10,7 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = LotusTracker
 TEMPLATE = app
-VERSION = 1.0rc1
+VERSION = 1.0rc2
 
 CONFIG+=c++11
 
@@ -32,8 +32,7 @@ UI_DIR = tmp
 DEFINES += QT_DEPRECATED_WARNINGS
 
 HEADERS += \
-    src/api/api.h \
-    src/api/auth.h \
+    src/api/lotusapi.h \
     src/api/requestdata.h \
     src/api/rqtplayerdeck.h \
     src/api/rqtplayerdeckupdate.h \
@@ -41,12 +40,13 @@ HEADERS += \
     src/api/rqtupdateplayercollection.h \
     src/api/rqtuploadmatch.h \
     src/api/rqtuploadplayermatch.h \
-    src/apikeys.h \
     src/lotustracker.h \
     src/macros.h \
+    src/server.h \
     src/transformations.h \
     src/entity/card.h \
     src/entity/deck.h \
+    src/entity/deckarch.h \
     src/entity/user.h \
     src/entity/matchinfo.h \
     src/entity/matchplayer.h \
@@ -59,6 +59,7 @@ HEADERS += \
     src/mtg/mtgalogwatcher.h \
     src/mtg/mtgamatch.h \
     src/mtg/mtgcards.h \
+    src/mtg/mtgdecksarch.h \
     src/ui/cardblinkinfo.h \
     src/ui/decktrackerbase.h \
     src/ui/decktrackerplayer.h \
@@ -75,16 +76,18 @@ HEADERS += \
     src/updater/sparkleupdater.h
 
 SOURCES += \
-    src/api/api.cpp \
-    src/api/auth.cpp \
+    src/api/lotusapi.cpp \
     src/main.cpp \
     src/lotustracker.cpp \
     src/transformations.cpp \
+    src/entity/deck.cpp \
+    src/entity/matchinfo.cpp \
     src/mtg/mtgarena.cpp \
     src/mtg/mtgalogparser.cpp \
     src/mtg/mtgalogwatcher.cpp \
     src/mtg/mtgamatch.cpp \
     src/mtg/mtgcards.cpp \
+    src/mtg/mtgdecksarch.cpp \
     src/ui/decktrackerbase.cpp \
     src/ui/decktrackerplayer.cpp \
     src/ui/decktrackeropponent.cpp \

@@ -7,8 +7,8 @@
 ;General
 
   ;Name and file
-  Name "Lotus Tracker 1.0rc1"
-  OutFile "Lotus Tracker 1.0rc1.exe"
+  Name "Lotus Tracker 1.0rc2"
+  OutFile "Lotus Tracker 1.0rc2.exe"
 
   ;Default installation folder
   InstallDir "$PROGRAMFILES\Lotus Tracker"
