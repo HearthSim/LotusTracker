@@ -33,6 +33,7 @@ private:
     StartScreen *startScreen;
     LotusTrackerAPI *lotusAPI;
     QPair<QString, Deck> eventPlayerCourse;
+    QTimer *hideTrackerTimer;
     bool isAlreadyRunning();
     void setupApp();
     void setupUpdater();

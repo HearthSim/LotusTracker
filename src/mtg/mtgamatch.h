@@ -58,8 +58,10 @@ public:
     bool isRunning;
     MatchInfo getInfo();
     QPair<QString, int> getPlayerRankInfo();
+    void onStartNewMatch(QString eventId, OpponentInfo matchInfo);
     void onGameStart(MatchMode mode, QList<MatchZone> gameZones, int seatId);
     void onGameCompleted(Deck opponentDeck, QMap<int, int> teamIdWins);
+    void onEndCurrentMatch(int winningTeamId);
 
 signals:
     void sgnPlayerPutInLibraryCard(Card* card);
@@ -76,9 +78,7 @@ signals:
     void sgnOpponentPutOnBattlefieldCard(Card* card);
 
 public slots:
-    void onStartNewMatch(QString eventId, OpponentInfo matchInfo);
     void onMatchInfoSeats(QList<MatchPlayer> players);
-    void onEndCurrentMatch(int winningTeamId);
     void onPlayerRankInfo(QPair<QString, int> playerRankInfo);
     void onPlayerTakesMulligan();
     void onOpponentTakesMulligan(int opponentSeatId);

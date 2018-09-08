@@ -27,6 +27,7 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
     trayIcon = new TrayIcon(this);
     lotusAPI = new LotusTrackerAPI(this);
     startScreen = new StartScreen(nullptr, lotusAPI);
+    hideTrackerTimer = new QTimer(this);
     connect(lotusAPI, &LotusTrackerAPI::sgnDeckWinRate,
             deckTrackerPlayer, &DeckTrackerPlayer::onPlayerDeckStatus);
     connect(mtgArena, &MtgArena::sgnMTGAFocusChanged,
@@ -37,6 +38,13 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
             this, &LotusTracker::onUserTokenRefreshed);
     connect(lotusAPI, &LotusTrackerAPI::sgnTokenRefreshError,
             this, &LotusTracker::onUserTokenRefreshError);
+    connect(hideTrackerTimer, &QTimer::timeout, this, [this]{
+        hideTrackerTimer->stop();
+        deckTrackerPlayer->resetDeck();
+        deckTrackerPlayer->hide();
+        deckTrackerOpponent->clearDeck();
+        deckTrackerOpponent->hide();
+    });
     //setupMatch should be called before setupLogParser because sgnMatchInfoResult order
     setupMtgaMatch();
     setupLogParserConnections();
@@ -320,6 +328,7 @@ void LotusTracker::onGameCompleted(QMap<int, int> teamIdWins)
     deckTrackerPlayer->hide();
     deckTrackerOpponent->clearDeck();
     deckTrackerOpponent->hide();
+    hideTrackerTimer->start(5000);
 }
 
 void LotusTracker::onMatchEnds(int winningTeamId)
