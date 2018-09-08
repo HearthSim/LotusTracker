@@ -28,6 +28,7 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
     lotusAPI = new LotusTrackerAPI(this);
     startScreen = new StartScreen(nullptr, lotusAPI);
     hideTrackerTimer = new QTimer(this);
+    mtgaMatch = new MtgaMatch(this, mtgCards);
     connect(lotusAPI, &LotusTrackerAPI::sgnDeckWinRate,
             deckTrackerPlayer, &DeckTrackerPlayer::onPlayerDeckStatus);
     connect(mtgArena, &MtgArena::sgnMTGAFocusChanged,
@@ -46,8 +47,8 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
         deckTrackerOpponent->hide();
     });
     //setupMatch should be called before setupLogParser because sgnMatchInfoResult order
-    setupMtgaMatch();
     setupLogParserConnections();
+    setupMtgaMatchConnections();
     setupPreferencesScreen();
     checkForAutoLogin();
     LOGI("Lotus Tracker started");
@@ -169,12 +170,12 @@ void LotusTracker::setupLogParserConnections()
             lotusAPI, &LotusTrackerAPI::updatePlayerCollection);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerInventory,
             lotusAPI, &LotusTrackerAPI::updatePlayerInventory);
-    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerRankInfo,
-            mtgaMatch, &MtgaMatch::onPlayerRankInfo);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckCreated,
             lotusAPI, &LotusTrackerAPI::createPlayerDeck);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckUpdated,
             lotusAPI, &LotusTrackerAPI::updatePlayerDeck);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerRankInfo,
+            mtgaMatch, &MtgaMatch::onPlayerRankInfo);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckSubmited,
             this, &LotusTracker::onDeckSubmited);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckWithSideboardSubmited,
@@ -193,9 +194,8 @@ void LotusTracker::setupLogParserConnections()
             this, &LotusTracker::onPlayerTakesMulligan);
 }
 
-void LotusTracker::setupMtgaMatch()
+void LotusTracker::setupMtgaMatchConnections()
 {
-    mtgaMatch = new MtgaMatch(this, mtgCards);
     // Player
     connect(mtgaMatch, &MtgaMatch::sgnPlayerPutInLibraryCard,
             deckTrackerPlayer, &DeckTrackerPlayer::onPlayerPutInLibraryCard);
@@ -219,10 +219,6 @@ void LotusTracker::setupMtgaMatch()
     connect(mtgaMatch, &MtgaMatch::sgnOpponentPutOnBattlefieldCard,
             deckTrackerOpponent, &DeckTrackerOpponent::onOpponentPutOnBattlefieldCard);
     // Match
-    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchCreated,
-            mtgaMatch, &MtgaMatch::onStartNewMatch);
-    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchResult,
-            mtgaMatch, &MtgaMatch::onEndCurrentMatch);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchInfoSeats,
             mtgaMatch, &MtgaMatch::onMatchInfoSeats);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchStateDiff,
@@ -277,8 +273,8 @@ void LotusTracker::onEventPlayerCourse(QString eventId, Deck currentDeck)
 
 void LotusTracker::onMatchStart(QString eventId, OpponentInfo opponentInfo)
 {
-    UNUSED(eventId);
-    UNUSED(opponentInfo);
+    mtgaMatch->onStartNewMatch(eventId, opponentInfo);
+    // Load deck from event in course if not loaded yet (event continues without submitDeck)
     if (!deckTrackerPlayer->isDeckLoadedAndReseted()) {
         if (eventId == eventPlayerCourse.first) {
             deckTrackerPlayer->loadDeck(eventPlayerCourse.second);
@@ -288,10 +284,10 @@ void LotusTracker::onMatchStart(QString eventId, OpponentInfo opponentInfo)
 
 void LotusTracker::onGameStart(MatchMode mode, QList<MatchZone> zones, int seatId)
 {
-    mtgaMatch->onGameStart(mode, zones, seatId);
     if (!mtgaMatch->isRunning) {
         return;
     }
+    mtgaMatch->onGameStart(mode, zones, seatId);
     if (APP_SETTINGS->isDeckTrackerPlayerEnabled()) {
         deckTrackerPlayer->show();
     }
@@ -323,17 +319,20 @@ void LotusTracker::onGameFocusChanged(bool hasFocus)
 
 void LotusTracker::onGameCompleted(QMap<int, int> teamIdWins)
 {
+    if (!mtgaMatch->isRunning) {
+        return;
+    }
     mtgaMatch->onGameCompleted(deckTrackerOpponent->getDeck(), teamIdWins);
-    deckTrackerPlayer->resetDeck();
-    deckTrackerPlayer->hide();
-    deckTrackerOpponent->clearDeck();
-    deckTrackerOpponent->hide();
     hideTrackerTimer->start(5000);
 }
 
 void LotusTracker::onMatchEnds(int winningTeamId)
 {
     UNUSED(winningTeamId);
+    if (!mtgaMatch->isRunning) {
+        return;
+    }
+    mtgaMatch->onEndCurrentMatch(winningTeamId);
     lotusAPI->uploadMatch(mtgaMatch->getInfo(),
                                   deckTrackerPlayer->getDeck(),
                                   mtgaMatch->getPlayerRankInfo().first);

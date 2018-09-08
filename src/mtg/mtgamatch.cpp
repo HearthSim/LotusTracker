@@ -36,6 +36,9 @@ void MtgaMatch::onStartNewMatch(QString eventId, OpponentInfo opponentInfo)
 
 void MtgaMatch::onMatchInfoSeats(QList<MatchPlayer> players)
 {
+    if (!isRunning) {
+        return;
+    }
     for (MatchPlayer matchPlayer : players) {
         if (matchPlayer.name() == matchInfo.opponentInfo.opponentName()) {
             opponent = MatchPlayer(matchPlayer.name(), matchPlayer.seatId(), matchPlayer.teamId());
@@ -47,6 +50,9 @@ void MtgaMatch::onMatchInfoSeats(QList<MatchPlayer> players)
 
 void MtgaMatch::onGameStart(MatchMode mode, QList<MatchZone> zones, int seatId)
 {
+    if (!isRunning) {
+        return;
+    }
     matchInfo.createNewGame();
     matchInfo.mode = mode;
     for (MatchZone zone : zones) {
@@ -59,6 +65,9 @@ void MtgaMatch::onGameStart(MatchMode mode, QList<MatchZone> zones, int seatId)
 
 void MtgaMatch::onGameCompleted(Deck opponentDeck, QMap<int, int> teamIdWins)
 {
+    if (!isRunning) {
+        return;
+    }
     matchInfo.currentGame().opponentDeck = opponentDeck;
     int playerCurrentWins = 0;
     for(int i=0; i<matchInfo.games.size()-1; i++) {
@@ -76,6 +85,9 @@ void MtgaMatch::onGameCompleted(Deck opponentDeck, QMap<int, int> teamIdWins)
 
 void MtgaMatch::onEndCurrentMatch(int winningTeamId)
 {
+    if (!isRunning) {
+        return;
+    }
     isRunning = false;
     matchInfo.playerMatchWins = player.teamId() == winningTeamId;
     LOGI(QString("%1 wins").arg(matchInfo.playerMatchWins ? "Player" : "Opponent"))
@@ -88,6 +100,9 @@ void MtgaMatch::onPlayerRankInfo(QPair<QString, int> playerRankInfo)
 
 void MtgaMatch::onPlayerTakesMulligan()
 {
+    if (!isRunning) {
+        return;
+    }
     matchInfo.currentGame().playerMulligan = true;
     QMap<int, int> handObjectIds;
     for (MatchZone zone : gameZones.values()) {
@@ -113,11 +128,17 @@ void MtgaMatch::onPlayerTakesMulligan()
 void MtgaMatch::onOpponentTakesMulligan(int opponentSeatId)
 {
     UNUSED(opponentSeatId);
+    if (!isRunning) {
+        return;
+    }
     matchInfo.currentGame().opponentMulligan = true;
 }
 
 void MtgaMatch::onMatchStateDiff(MatchStateDiff matchStateDiff)
 {
+    if (!isRunning) {
+        return;
+    }
     // Initial player hand draws
     for (MatchZone zone : gameZones) {
         if (zone.type() == ZoneType_LIBRARY && zone.ownerSeatId() == player.seatId()) {
@@ -259,6 +280,9 @@ void MtgaMatch::notifyCardZoneChange(int objectId, int oldObjectId, MatchZone zo
 
 void MtgaMatch::onNewTurnStarted(int turnNumber)
 {
+    if (!isRunning) {
+        return;
+    }
     currentTurn = turnNumber;
     LOGI(QString("Turn %1 started").arg(turnNumber));
 }

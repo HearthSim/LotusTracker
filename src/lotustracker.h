@@ -39,7 +39,7 @@ private:
     void setupUpdater();
     void setupPreferencesScreen();
     void setupLogParserConnections();
-    void setupMtgaMatch();
+    void setupMtgaMatchConnections();
     void checkForAutoLogin();
 
 public:
