@@ -20,11 +20,11 @@ public:
         QJsonObject jsonObj{
             {"deck", playerDeck.id},
             {"event", matchInfo.eventId},
+            {"opponentDeckArch", matchInfo.getOpponentDeckArch()},
+            {"opponentDeckColors", matchInfo.getOpponentDeckColorIdentity()},
+            {"opponentName", matchInfo.opponentInfo.opponentName()},
             {"playerDeckArch", playerDeck.arch()},
             {"playerDeckColors", playerDeck.colorIdentity()},
-            {"opponentArch", matchInfo.getOpponentDeckArch()},
-            {"opponentName", matchInfo.opponentInfo.opponentName()},
-            {"opponentDeckColors", matchInfo.getOpponentDeckColorIdentity()},
             {"wins", matchInfo.playerMatchWins}
         };
 

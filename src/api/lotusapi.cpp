@@ -35,7 +35,6 @@ void LotusTrackerAPI::signInUser(QString email, QString password)
     QJsonObject jsonObj;
     jsonObj.insert("email", QJsonValue(email));
     jsonObj.insert("password", QJsonValue(password));
-    jsonObj.insert("returnSecureToken", QJsonValue(true));
     QByteArray body = QJsonDocument(jsonObj).toJson();
 
     QUrl url(QString("%1/signin").arg(Server::API_URL()));
@@ -54,7 +53,6 @@ void LotusTrackerAPI::registerUser(QString email, QString password)
     QJsonObject jsonObj;
     jsonObj.insert("email", QJsonValue(email));
     jsonObj.insert("password", QJsonValue(password));
-    jsonObj.insert("returnSecureToken", QJsonValue(true));
     QByteArray body = QJsonDocument(jsonObj).toJson();
 
     QUrl url(QString("%1/signup").arg(Server::API_URL()));
@@ -124,7 +122,6 @@ void LotusTrackerAPI::refreshToken(QString refreshToken)
     }
     isRefreshTokenInProgress = true;
     QJsonObject jsonObj;
-    jsonObj.insert("grant_type", "refresh_token");
     jsonObj.insert("refresh_token", QJsonValue(refreshToken));
     QByteArray body = QJsonDocument(jsonObj).toJson();
 
@@ -199,7 +196,6 @@ void LotusTrackerAPI::recoverPassword(QString email)
 {
     QJsonObject jsonObj;
     jsonObj.insert("email", QJsonValue(email));
-    jsonObj.insert("requestType", "PASSWORD_RESET");
     QByteArray body = QJsonDocument(jsonObj).toJson();
 
     QUrl url(QString("%1/recoverpassword").arg(Server::API_URL()));
