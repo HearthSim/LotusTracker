@@ -38,8 +38,7 @@ public:
         };
 
         _body = QJsonDocument(jsonObj);
-        QDate date = QDate::currentDate();
-        _path = QString("matches?date=%1").arg(date.toString("yyyy-MM-dd"));
+        _path = "matches";
     }
 
 private:

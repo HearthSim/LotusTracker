@@ -11,8 +11,12 @@ public:
         for (int key : ownedCards.keys()) {
             jsonCollection.insert(QString::number(key), ownedCards[key]);
         }
-        _body = QJsonDocument(jsonCollection);
-        _path = QString("users/collection?userId=%1").arg(userId);
+        _body = QJsonDocument(
+                    QJsonObject({
+                                    { "userId", userId },
+                                    { "cards", jsonCollection }
+                                }));
+        _path = "users/collection";
     }
 };
 

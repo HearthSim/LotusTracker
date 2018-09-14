@@ -32,11 +32,13 @@ public:
         _path = "";
     }
 
-    void createPath(QString userId, QString matchID)
+    void createPath(QString userId, QString matchId)
     {
-        QDate date = QDate::currentDate();
-        _path = QString("users/matches?userId=%1&date=%2&matchId=%3")
-                .arg(userId).arg(date.toString("yyyy-MM-dd")).arg(matchID);
+        QJsonObject jsonObj = _body.object();
+        jsonObj.insert("userId", userId);
+        jsonObj.insert("matchId", matchId);
+        _body = QJsonDocument(jsonObj);
+        _path = "users/matches";
     }
 
 };

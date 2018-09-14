@@ -21,6 +21,8 @@ public:
         QJsonObject jsonCards = cards2Json(deck.cards());
         QJsonObject jsonSideboard = cards2Json(deck.sideboard());
         QJsonObject jsonObj{
+            { "userId", userId },
+            { "deckId", deck.id },
             { "arch", deck.arch() },
             { "cards", jsonCards },
             { "sideboard", jsonSideboard },
@@ -28,7 +30,7 @@ public:
             { "name", deck.name }
         };
         _body = QJsonDocument(jsonObj);
-        _path = QString("users/decks?userId=%1&deckId=%2").arg(userId).arg(deck.id);
+        _path = "users/decks";
     }
     virtual ~RqtPlayerDeck() {}
 
