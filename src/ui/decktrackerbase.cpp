@@ -9,8 +9,10 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QStandardPaths>
+#include <QToolTip>
 #include <QUrlQuery>
 #include <tuple>
+#include <QGraphicsScene>
 
 #ifdef Q_OS_MAC
 #include <objc/objc-runtime.h>
@@ -24,7 +26,7 @@ DeckTrackerBase::DeckTrackerBase(QWidget *parent) : QMainWindow(parent),
     mouseRelativePosition(QPoint()), cornerRadius(10), uiPos(10, 10),
     zoomMinusButton(QRect(0, 0, 0, 0)), zoomPlusButton(QRect(0, 0, 0, 0)),
     uiAlpha(1.0), uiScale(1.0), cardHoverWidth(200), uiHeight(0),
-    uiWidth(160), deck(Deck()), hidden(false)
+    uiWidth(160), deck(Deck()), hidden(false), showingTooltip(false)
 {
     ui->setupUi(this);
     setupWindow();
@@ -82,7 +84,7 @@ void DeckTrackerBase::setupWindow()
 
     QRect screen = QApplication::desktop()->screenGeometry();
     move(0, 0);
-    resize(screen.width(), screen.height() * 1.2);
+    resize(screen.width(), static_cast<int> (screen.height() * 1.2));
     show();
     hide();
 }
@@ -223,16 +225,20 @@ void DeckTrackerBase::drawCoverButtons(QPainter &painter)
                                             Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     int zoomPlusX = uiPos.x() + uiWidth - zoomButtonSize - zoomButtonMargin;
     painter.drawImage(zoomPlusX, zoomButtonY, zoomPlusScaled);
-    zoomPlusButton = QRect(zoomPlusX*uiScale, zoomButtonY*uiScale,
-                           zoomButtonSize*uiScale, zoomButtonSize*uiScale);
+    zoomPlusButton = QRect(static_cast<int> (zoomPlusX * uiScale),
+                           static_cast<int> (zoomButtonY * uiScale),
+                           static_cast<int> (zoomButtonSize * uiScale),
+                           static_cast<int> (zoomButtonSize * uiScale));
     // Minus button
     QImage zoomMinus(":res/zoom_minus.png");
     QImage zoomMinusScaled = zoomMinus.scaled(zoomButtonSize, zoomButtonSize,
                                               Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    int zoomMinusX = zoomPlusX - zoomButtonSize - 3*uiScale;
+    int zoomMinusX = static_cast<int> (zoomPlusX - zoomButtonSize - 3*uiScale);
     painter.drawImage(zoomMinusX, zoomButtonY, zoomMinusScaled);
-    zoomMinusButton = QRect(zoomMinusX*uiScale, zoomButtonY*uiScale,
-                            zoomButtonSize*uiScale, zoomButtonSize*uiScale);
+    zoomMinusButton = QRect(static_cast<int> (zoomMinusX * uiScale),
+                            static_cast<int> (zoomButtonY * uiScale),
+                            static_cast<int> (zoomButtonSize * uiScale),
+                            static_cast<int> (zoomButtonSize * uiScale));
 }
 
 void DeckTrackerBase::drawDeckInfo(QPainter &painter)
@@ -355,7 +361,7 @@ void DeckTrackerBase::drawHoverCard(QPainter &painter)
         return;
     }
     int bottomMargin = 10;
-    int cardHoverHeight = cardHoverWidth / 0.7;
+    int cardHoverHeight = static_cast<int> (cardHoverWidth / 0.7);
     int cardHoverMargin = 10;
     QSize cardHoverSize(cardHoverWidth, cardHoverHeight);
     QImage cardImg(":res/cardback.png");
@@ -453,6 +459,18 @@ void DeckTrackerBase::onHoverMove(QHoverEvent *event)
     if (hoverPosition != currentHoverPosition) {
         updateCardHoverUrl(hoverPosition);
     }
+    if (zoomMinusButton.contains(event->pos())) {
+        showingTooltip = true;
+        QToolTip::showText(event->pos(), tr("Decrement zoom level"));
+    }
+    if (zoomPlusButton.contains(event->pos())) {
+        showingTooltip = true;
+        QToolTip::showText(event->pos(), tr("Increment zoom level"));
+    }
+    if (!showingTooltip) {
+        QToolTip::hideText();
+    }
+    showingTooltip = false;
 }
 
 void DeckTrackerBase::onHoverLeave(QHoverEvent *event)
@@ -556,7 +574,8 @@ void DeckTrackerBase::onZoomMinusClick()
 {
     if (uiScale > 0.9) {
         uiScale -= 0.05;
-        uiPos += QPoint(uiPos.x()*0.05, 0);
+        int x = static_cast<int> (uiPos.x() * 0.05);
+        uiPos += QPoint(x, 0);
         update();
         onScaleChanged();
     }
@@ -566,7 +585,8 @@ void DeckTrackerBase::onZoomPlusClick()
 {
     if (uiScale < 1.1) {
         uiScale += 0.05;
-        uiPos -= QPoint(uiPos.x()*0.05, 0);
+        int x = static_cast<int> (uiPos.x() * 0.05);
+        uiPos -= QPoint(x, 0);
         update();
         onScaleChanged();
     }

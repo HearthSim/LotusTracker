@@ -2,6 +2,7 @@
 #include "../macros.h"
 
 #include <QFontDatabase>
+#include <QToolTip>
 
 DeckTrackerPlayer::DeckTrackerPlayer(QWidget *parent) : DeckTrackerBase(parent)
 {
@@ -48,8 +49,10 @@ void DeckTrackerPlayer::afterPaintEvent(QPainter &painter)
                                             Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     int settingsPlusX = uiPos.x() + uiWidth - preferencesButtonSize - preferencesButtonMargin;
     painter.drawImage(settingsPlusX, preferencesButtonY, settingsPlusScaled);
-    preferencesButton = QRect(settingsPlusX*uiScale, preferencesButtonY*uiScale,
-                           preferencesButtonSize*uiScale, preferencesButtonSize*uiScale);
+    preferencesButton = QRect(static_cast<int> (settingsPlusX * uiScale),
+                              static_cast<int> (preferencesButtonY * uiScale),
+                              static_cast<int> (preferencesButtonSize * uiScale),
+                              static_cast<int> (preferencesButtonSize * uiScale));
     // WinRate
     if (deckWins > 0 || deckLosses > 0) {
         QString winRate = QString("%1-%2 (%3%)").arg(deckWins).arg(deckLosses)
@@ -102,12 +105,12 @@ void DeckTrackerPlayer::drawStatistics(QPainter &painter)
     int statisticsTextOptions = Qt::AlignCenter | Qt::AlignVCenter | Qt::TextDontClip;
     int statisticsTextX = uiPos.x() + statisticsBorderMargin;
     int statisticsText1Y = statisticsTitleY + statisticsTextHeight + statisticsTextMargin + statisticsBorderMargin;
-    float totalCards = deck.totalCards();
-    float drawChanceLandCards = deck.totalCardsLand() * 100 / totalCards;
-    float drawChance1xCards = deck.totalCardsOfQtd(1) > 0 ? 1 * 100 / totalCards : 0;
-    float drawChance2xCards = deck.totalCardsOfQtd(2) > 0 ? 2 * 100 / totalCards : 0;
-    float drawChance3xCards = deck.totalCardsOfQtd(3) > 0 ? 3 * 100 / totalCards : 0;
-    float drawChance4xCards = deck.totalCardsOfQtd(4) > 0 ? 4 * 100 / totalCards : 0;
+    double totalCards = deck.totalCards();
+    double drawChanceLandCards = deck.totalCardsLand() * 100 / totalCards;
+    double drawChance1xCards = deck.totalCardsOfQtd(1) > 0 ? 1 * 100 / totalCards : 0;
+    double drawChance2xCards = deck.totalCardsOfQtd(2) > 0 ? 2 * 100 / totalCards : 0;
+    double drawChance3xCards = deck.totalCardsOfQtd(3) > 0 ? 3 * 100 / totalCards : 0;
+    double drawChance4xCards = deck.totalCardsOfQtd(4) > 0 ? 4 * 100 / totalCards : 0;
     QString statisticsText1 = QString("1x: %1%    2x: %2%    3x: %3%")
             .arg(drawChance1xCards, 0, 'g', 2)
             .arg(drawChance2xCards, 0, 'g', 2)
@@ -208,6 +211,15 @@ void DeckTrackerPlayer::onStatisticsEnabled(bool enabled)
     update();
 }
 
+void DeckTrackerPlayer::onHoverMove(QHoverEvent *event)
+{
+    showingTooltip = false;
+    if (preferencesButton.contains(event->pos())) {
+        showingTooltip = true;
+        QToolTip::showText(event->pos(), tr("Settings"));
+    }
+    DeckTrackerBase::onHoverMove(event);
+}
 
 void DeckTrackerPlayer::mousePressEvent(QMouseEvent *event)
 {

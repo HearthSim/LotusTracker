@@ -14,7 +14,7 @@ private:
     bool isStatisticsEnabled;
     int deckWins, deckLosses;
     double deckWinRate;
-    QPen bgPen, statisticsPen, winRatePen;
+    QPen statisticsPen, winRatePen;
     QFont statisticsFont, winRateFont;
     QRect preferencesButton;
     void drawStatistics(QPainter &painter);
@@ -24,6 +24,7 @@ protected:
     virtual void onPositionChanged();
     virtual void onScaleChanged();
     virtual void afterPaintEvent(QPainter &painter);
+    virtual void onHoverMove(QHoverEvent *event);
     virtual void mousePressEvent(QMouseEvent *event);
     virtual void mouseReleaseEvent(QMouseEvent *event);
 

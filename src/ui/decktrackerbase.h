@@ -32,7 +32,6 @@ private:
     int getCardHeight();
     QList<Card*> getDeckCardsSorted();
     void onHoverEnter(QHoverEvent *event);
-    void onHoverMove(QHoverEvent *event);
     void onHoverLeave(QHoverEvent *event);
     int getCardsHoverPosition(QHoverEvent *event);
     void updateCardHoverUrl(int hoverPosition);
@@ -49,7 +48,7 @@ protected:
     qreal uiAlpha, uiScale;
     int cardHoverWidth, uiHeight, uiWidth;
     Deck deck;
-    bool hidden, showCardOnHover;
+    bool hidden, showCardOnHover, showingTooltip;
     void blinkCard(Card* card);
     void paintEvent(QPaintEvent *event);
     void drawCover(QPainter &painter);
@@ -63,6 +62,7 @@ protected:
     virtual void onScaleChanged() = 0;
     virtual void afterPaintEvent(QPainter &painter) = 0;
     virtual bool event(QEvent *event);
+    virtual void onHoverMove(QHoverEvent *event);
     virtual void mousePressEvent(QMouseEvent *event);
     virtual void mouseMoveEvent(QMouseEvent *event);
     virtual void mouseReleaseEvent(QMouseEvent *event);
