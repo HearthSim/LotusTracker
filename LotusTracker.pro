@@ -41,10 +41,6 @@ HEADERS += \
     src/api/rqtupdateplayercollection.h \
     src/api/rqtuploadmatch.h \
     src/api/rqtuploadplayermatch.h \
-    src/lotustracker.h \
-    src/macros.h \
-    src/server.h \
-    src/transformations.h \
     src/entity/card.h \
     src/entity/deck.h \
     src/entity/deckarch.h \
@@ -74,7 +70,11 @@ HEADERS += \
     src/ui/trayicon.h \
     src/utils/appsettings.h \
     src/utils/logger.h \
-    src/updater/sparkleupdater.h
+    src/updater/sparkleupdater.h \
+    src/lotustracker.h \
+    src/macros.h \
+    src/transformations.h \
+    src/urls.h
 
 SOURCES += \
     src/api/lotusapi.cpp \

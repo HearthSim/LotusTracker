@@ -1,5 +1,5 @@
 #include "mtgdecksarch.h"
-#include "../server.h"
+#include "../urls.h"
 #include "../transformations.h"
 #include "../macros.h"
 
@@ -83,7 +83,7 @@ void MtgDecksArch::loadDecksArchFromFile() {
 
 void MtgDecksArch::downloadDecksArch()
 {
-    QUrl url(QString("%1/decksarch").arg(Server::API_URL()));
+    QUrl url(QString("%1/decksarch").arg(URLs::API()));
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     if (LOG_REQUEST_ENABLED) {
