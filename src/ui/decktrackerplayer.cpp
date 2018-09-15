@@ -1,11 +1,17 @@
 #include "decktrackerplayer.h"
 #include "../macros.h"
+#include "server.h"
 
+#include <QClipboard>
 #include <QFontDatabase>
 #include <QToolTip>
 
-DeckTrackerPlayer::DeckTrackerPlayer(QWidget *parent) : DeckTrackerBase(parent)
+DeckTrackerPlayer::DeckTrackerPlayer(QWidget *parent) : DeckTrackerBase(parent),
+    publishingDeckIcon(":res/publish_deck.png")
 {
+    publishDeckTimer = new QTimer(this);
+    publishDeckTimer->setInterval(250);
+    connect(publishDeckTimer, &QTimer::timeout, this, &DeckTrackerPlayer::publishingDeckAnim);
     applyCurrentSettings();
     // Statistics
     int statisticsFontSize = 8;
@@ -28,6 +34,31 @@ DeckTrackerPlayer::~DeckTrackerPlayer()
 
 }
 
+void DeckTrackerPlayer::onLotusAPIRequestFinishedWithSuccess()
+{
+    if (publishDeckTimer->isActive()) {
+        stopPublishDeckAnimation();
+        QString owner = LOTUS_TRACKER->mtgaMatch->getPlayerName();
+        QString deckLink = QString("%1/%2/%3").arg(Server::URL()).arg(owner).arg(deck.name);
+        QApplication::clipboard()->setText(deckLink);
+        LOTUS_TRACKER->showMessage(tr("Deck published/updated.\nDeck link copied to clipboard."));
+    }
+}
+
+void DeckTrackerPlayer::onLotusAPIRequestFinishedWithError()
+{
+    if (publishDeckTimer->isActive()) {
+        stopPublishDeckAnimation();
+        LOTUS_TRACKER->showMessage(tr("Error while publishing/updating deck. Please try again."));
+    }
+}
+
+void DeckTrackerPlayer::stopPublishDeckAnimation()
+{
+    publishDeckTimer->stop();
+    publishingDeckIcon = ":res/publish_deck.png";
+}
+
 void DeckTrackerPlayer::onPositionChanged()
 {
     APP_SETTINGS->setDeckTrackerPlayerPos(uiPos);
@@ -41,18 +72,31 @@ void DeckTrackerPlayer::onScaleChanged()
 void DeckTrackerPlayer::afterPaintEvent(QPainter &painter)
 {
     // Preferences button
-    int preferencesButtonSize = 16;
-    int preferencesButtonMargin = 3;
-    int preferencesButtonY = uiPos.y() + preferencesButtonMargin;
-    QImage settingsPlus(":res/preferences.png");
-    QImage settingsPlusScaled = settingsPlus.scaled(preferencesButtonSize, preferencesButtonSize,
+    int buttonSize = 16;
+    int buttonMarginX = 2;
+    int buttonMarginY = 3;
+    int preferencesButtonY = uiPos.y() + buttonMarginY;
+    QImage settings(":res/preferences.png");
+    QImage settingsScaled = settings.scaled(buttonSize, buttonSize,
                                             Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    int settingsPlusX = uiPos.x() + uiWidth - preferencesButtonSize - preferencesButtonMargin;
-    painter.drawImage(settingsPlusX, preferencesButtonY, settingsPlusScaled);
+    int settingsPlusX = uiPos.x() + uiWidth - buttonSize - buttonMarginX;
+    painter.drawImage(settingsPlusX, preferencesButtonY, settingsScaled);
     preferencesButton = QRect(static_cast<int> (settingsPlusX * uiScale),
                               static_cast<int> (preferencesButtonY * uiScale),
-                              static_cast<int> (preferencesButtonSize * uiScale),
-                              static_cast<int> (preferencesButtonSize * uiScale));
+                              static_cast<int> (buttonSize * uiScale),
+                              static_cast<int> (buttonSize * uiScale));
+    // publish Button
+    int publishButtonY = uiPos.y() + buttonMarginY;
+    QImage publish(publishingDeckIcon);
+    QImage publishScaled = publish.scaled(buttonSize, buttonSize,
+                                          Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    int publishX = uiPos.x() + uiWidth - buttonSize - buttonMarginX -
+            buttonSize - buttonMarginX + 1;
+    painter.drawImage(publishX, publishButtonY, publishScaled);
+    publishDeckButton = QRect(static_cast<int> (publishX * uiScale),
+                              static_cast<int> (publishButtonY * uiScale),
+                              static_cast<int> (buttonSize * uiScale),
+                              static_cast<int> (buttonSize * uiScale));
     // WinRate
     if (deckWins > 0 || deckLosses > 0) {
         QString winRate = QString("%1-%2 (%3%)").arg(deckWins).arg(deckLosses)
@@ -77,6 +121,35 @@ void DeckTrackerPlayer::applyCurrentSettings()
     uiPos = APP_SETTINGS->getDeckTrackerPlayerPos(uiWidth);
     uiScale = APP_SETTINGS->getDeckTrackerPlayerScale();
     isStatisticsEnabled = APP_SETTINGS->isDeckTrackerPlayerStatisticsEnabled();
+}
+
+void DeckTrackerPlayer::publishingDeckAnim()
+{
+    if (publishingDeckIcon == ":res/publish_deck_anim7.png") {
+        publishingDeckIcon = ":res/publish_deck.png";
+    }
+    if (publishingDeckIcon == ":res/publish_deck_anim6.png") {
+        publishingDeckIcon = ":res/publish_deck_anim7.png";
+    }
+    if (publishingDeckIcon == ":res/publish_deck_anim5.png") {
+        publishingDeckIcon = ":res/publish_deck_anim6.png";
+    }
+    if (publishingDeckIcon == ":res/publish_deck_anim4.png") {
+        publishingDeckIcon = ":res/publish_deck_anim5.png";
+    }
+    if (publishingDeckIcon == ":res/publish_deck_anim3.png") {
+        publishingDeckIcon = ":res/publish_deck_anim4.png";
+    }
+    if (publishingDeckIcon == ":res/publish_deck_anim2.png") {
+        publishingDeckIcon = ":res/publish_deck_anim3.png";
+    }
+    if (publishingDeckIcon == ":res/publish_deck_anim1.png") {
+        publishingDeckIcon = ":res/publish_deck_anim2.png";
+    }
+    if (publishingDeckIcon == ":res/publish_deck.png") {
+        publishingDeckIcon = ":res/publish_deck_anim1.png";
+    }
+    update();
 }
 
 void DeckTrackerPlayer::drawStatistics(QPainter &painter)
@@ -214,6 +287,12 @@ void DeckTrackerPlayer::onStatisticsEnabled(bool enabled)
 void DeckTrackerPlayer::onHoverMove(QHoverEvent *event)
 {
     showingTooltip = false;
+    if (publishDeckButton.contains(event->pos())) {
+        showingTooltip = true;
+        QString tooltip = QString(tr("Publish/Update deck as public in %1"))
+                .arg(Server::URL());
+        QToolTip::showText(event->pos(), tooltip);
+    }
     if (preferencesButton.contains(event->pos())) {
         showingTooltip = true;
         QToolTip::showText(event->pos(), tr("Settings"));
@@ -226,6 +305,9 @@ void DeckTrackerPlayer::mousePressEvent(QMouseEvent *event)
     if (event->button() != Qt::LeftButton) {
         return;
     }
+    if (publishDeckButton.contains(event->pos())) {
+        return;
+    }
     if (preferencesButton.contains(event->pos())) {
         return;
     }
@@ -235,6 +317,12 @@ void DeckTrackerPlayer::mousePressEvent(QMouseEvent *event)
 void DeckTrackerPlayer::mouseReleaseEvent(QMouseEvent *event)
 {
     if (event->button() != Qt::LeftButton && event->button() != Qt::RightButton) {
+        return;
+    }
+    if (publishDeckButton.contains(event->pos()) && !publishDeckTimer->isActive()) {
+        publishDeckTimer->start();
+        LOTUS_TRACKER->publishOrUpdatePlayerDeck(deck);
+        showCardOnHover = false;
         return;
     }
     if (preferencesButton.contains(event->pos())) {

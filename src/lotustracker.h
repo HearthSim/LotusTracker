@@ -57,6 +57,7 @@ public:
     void showStartScreen();
     void showPreferencesScreen();
     void showMessage(QString msg, QString title = tr("Lotus Tracker"));
+    void publishOrUpdatePlayerDeck(Deck deck);
 
 signals:
 

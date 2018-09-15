@@ -35,6 +35,7 @@ HEADERS += \
     src/api/lotusapi.h \
     src/api/requestdata.h \
     src/api/rqtplayerdeck.h \
+    src/api/rqtplayerdeckpublish.h \
     src/api/rqtplayerdeckupdate.h \
     src/api/rqtupdateplayerinventory.h \
     src/api/rqtupdateplayercollection.h \

@@ -29,10 +29,14 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
     startScreen = new StartScreen(nullptr, lotusAPI);
     hideTrackerTimer = new QTimer(this);
     mtgaMatch = new MtgaMatch(this, mtgCards);
-    connect(lotusAPI, &LotusTrackerAPI::sgnDeckWinRate,
-            deckTrackerPlayer, &DeckTrackerPlayer::onPlayerDeckStatus);
     connect(mtgArena, &MtgArena::sgnMTGAFocusChanged,
             this, &LotusTracker::onGameFocusChanged);
+    connect(lotusAPI, &LotusTrackerAPI::sgnDeckWinRate,
+            deckTrackerPlayer, &DeckTrackerPlayer::onPlayerDeckStatus);
+    connect(lotusAPI, &LotusTrackerAPI::sgnRequestFinishedWithSuccess,
+            deckTrackerPlayer, &DeckTrackerPlayer::onLotusAPIRequestFinishedWithSuccess);
+    connect(lotusAPI, &LotusTrackerAPI::sgnRequestFinishedWithError,
+            deckTrackerPlayer, &DeckTrackerPlayer::onLotusAPIRequestFinishedWithError);
     connect(lotusAPI, &LotusTrackerAPI::sgnUserLogged,
             this, &LotusTracker::onUserSigned);
     connect(lotusAPI, &LotusTrackerAPI::sgnTokenRefreshed,
@@ -252,6 +256,12 @@ void LotusTracker::showPreferencesScreen()
 void LotusTracker::showMessage(QString msg, QString title)
 {
     trayIcon->showMessage(title, msg);
+}
+
+void LotusTracker::publishOrUpdatePlayerDeck(Deck deck)
+{
+    QString playerName = mtgaMatch->getPlayerName();
+    lotusAPI->publishOrUpdatePlayerDeck(playerName, deck);
 }
 
 void LotusTracker::onDeckSubmited(QString eventId, Deck deck)

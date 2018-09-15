@@ -216,8 +216,8 @@ void DeckTrackerBase::drawCover(QPainter &painter)
 
 void DeckTrackerBase::drawCoverButtons(QPainter &painter)
 {
-    int zoomButtonSize = 12;
-    int zoomButtonMargin = 4;
+    int zoomButtonSize = 14;
+    int zoomButtonMargin = 3;
     int zoomButtonY = uiPos.y() + uiHeight - zoomButtonSize - zoomButtonMargin;
     // Plus button
     QImage zoomPlus(":res/zoom_plus.png");
@@ -233,7 +233,7 @@ void DeckTrackerBase::drawCoverButtons(QPainter &painter)
     QImage zoomMinus(":res/zoom_minus.png");
     QImage zoomMinusScaled = zoomMinus.scaled(zoomButtonSize, zoomButtonSize,
                                               Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    int zoomMinusX = static_cast<int> (zoomPlusX - zoomButtonSize - 3*uiScale);
+    int zoomMinusX = static_cast<int> (zoomPlusX - zoomButtonSize - zoomButtonMargin);
     painter.drawImage(zoomMinusX, zoomButtonY, zoomMinusScaled);
     zoomMinusButton = QRect(static_cast<int> (zoomMinusX * uiScale),
                             static_cast<int> (zoomButtonY * uiScale),

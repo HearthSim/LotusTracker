@@ -56,6 +56,7 @@ private:
 public:
     explicit MtgaMatch(QObject *parent = nullptr, MtgCards *mtgCards = nullptr);
     bool isRunning;
+    QString getPlayerName();
     MatchInfo getInfo();
     QPair<QString, int> getPlayerRankInfo();
     void onStartNewMatch(QString eventId, OpponentInfo matchInfo);

@@ -2,6 +2,7 @@
 #include "macros.h"
 #include "../server.h"
 #include "rqtplayerdeck.h"
+#include "rqtplayerdeckpublish.h"
 #include "rqtplayerdeckupdate.h"
 #include "rqtupdateplayercollection.h"
 #include "rqtupdateplayerinventory.h"
@@ -284,6 +285,15 @@ void LotusTrackerAPI::updatePlayerDeck(Deck deck)
     getPlayerDeckToUpdate(deck.id);
 }
 
+void LotusTrackerAPI::publishOrUpdatePlayerDeck(QString playerName, Deck deck)
+{
+    UserSettings userSettings = APP_SETTINGS->getUserSettings();
+    if (userSettings.userToken.isEmpty()) {
+        return;
+    }
+    sendPost(RqtPublishPlayerDeck(playerName, deck));
+}
+
 void LotusTrackerAPI::getPlayerDeckWinRate(QString deckId, QString eventId)
 {
     UserSettings userSettings = APP_SETTINGS->getUserSettings();
@@ -534,8 +544,10 @@ void LotusTrackerAPI::requestOnFinish()
         }
         QString error = jsonRsp["error"].toString();
         LOTUS_TRACKER->showMessage(error);
+        emit sgnRequestFinishedWithError();
         return;
     }
+    emit sgnRequestFinishedWithSuccess();
 
     requestsToRecall.remove(requestUrl);
     if (LOG_REQUEST_ENABLED) {
