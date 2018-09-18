@@ -273,6 +273,7 @@ void LotusTracker::onDeckSubmited(QString eventId, Deck deck)
 
 void LotusTracker::onPlayerDeckWithSideboardSubmited(QMap<Card*, int> cards)
 {
+    UNUSED(cards);
     deckTrackerPlayer->loadDeckWithSideboard(cards);
 }
 

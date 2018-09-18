@@ -543,7 +543,11 @@ void LotusTrackerAPI::requestOnFinish()
             return;
         }
         QString error = jsonRsp["error"].toString();
-        LOTUS_TRACKER->showMessage(error);
+        if (error.isEmpty()) {
+            LOTUS_TRACKER->showMessage(reason);
+        } else {
+            LOTUS_TRACKER->showMessage(error);
+        }
         emit sgnRequestFinishedWithError();
         return;
     }
