@@ -15,20 +15,24 @@ public:
     const QString number;
     const QString name;
     const QString type;
+    const QString layout;
     const QString manaCost;
     const QList<QChar> borderColorIdentity;
     const QList<QChar> manaColorIdentity;
+    const QString imageUrl;
     bool isLand;
     bool isArtifact;
 
     Card(int mtgaId = 0, int multiverseId = 0, QString setCode = "",
          QString number = "", QString name = "", QString type = "",
-         QString manaCost = "", QList<QChar> borderColorIdentity = {},
-         QList<QChar> manaColorIdentity = {},bool isLand = false, bool isArtifact = false)
+         QString layout = "", QString manaCost = "",
+         QList<QChar> borderColorIdentity = {},
+         QList<QChar> manaColorIdentity = {},
+         QString imageUrl = "", bool isLand = false, bool isArtifact = false)
         : mtgaId(mtgaId), multiverseId(multiverseId), setCode(setCode),
-          number(number), name(name), type(type), manaCost(manaCost),
+          number(number), name(name), type(type), layout(layout), manaCost(manaCost),
           borderColorIdentity(borderColorIdentity), manaColorIdentity(manaColorIdentity),
-          isLand(isLand), isArtifact(isArtifact){}
+          imageUrl(imageUrl), isLand(isLand), isArtifact(isArtifact){}
 
     bool isBasicLand()
     {

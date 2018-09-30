@@ -20,7 +20,8 @@ private:
     Ui::TrackerOverlay *ui;
     QString cardBGSkin, cachesDir;
     QRect cardsRect, expandBar;
-    int currentHoverPosition, hoverCardMultiverseId, unhiddenTimeout;
+    int currentHoverPosition, unhiddenTimeout;
+    Card* hoverCard;
     QTimer* unhiddenTimer;
     QNetworkAccessManager networkManager;
     bool mousePressed;
