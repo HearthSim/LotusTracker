@@ -13,7 +13,6 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QUrl>
-#include <QUrlQuery>
 
 #define HEADER_AUTHORIZATION "Authorization"
 #define UPDATE_DELAY 30 //minutes between each player inventory and collection update

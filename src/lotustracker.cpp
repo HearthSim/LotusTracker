@@ -344,9 +344,11 @@ void LotusTracker::onMatchEnds(int winningTeamId)
         return;
     }
     mtgaMatch->onEndCurrentMatch(winningTeamId);
-    lotusAPI->uploadMatch(mtgaMatch->getInfo(),
-                                  deckTrackerPlayer->getDeck(),
-                                  mtgaMatch->getPlayerRankInfo().first);
+    if (mtgaMatch->getInfo().eventId != "NPE"){
+        lotusAPI->uploadMatch(mtgaMatch->getInfo(),
+                              deckTrackerPlayer->getDeck(),
+                              mtgaMatch->getPlayerRankInfo().first);
+    }
 }
 
 void LotusTracker::onPlayerTakesMulligan()
