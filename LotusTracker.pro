@@ -10,11 +10,11 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = LotusTracker
 TEMPLATE = app
-VERSION = 1.0rc3
+VERSION = 1.0.0
 
 CONFIG+=c++11
 
-CONFIG(debug, debug|release)
+CONFIG(release, debug|release)
 
 # asmCrashReport - https://github.com/asmaloney/asmCrashReport
 include(asmCrashReport.pri)
