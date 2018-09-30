@@ -15,8 +15,8 @@ class MtgCards : public QObject
     Q_OBJECT
 
 private:
-    void updateMtgaIdsFromAPIRequestOnFinish();
-    void downloadSet(QString setCode);
+    void updateMtgaSetsFromAPIRequestOnFinish();
+    void downloadSet(QString setCodeVersion);
     void downloadSetOnFinish();
     void loadSet(QString setCode);
     void loadSetFromFile(QString setFileName);
@@ -26,14 +26,14 @@ private:
     Card* createSplitCard(Card* leftSide, Card* rightSide);
 
     QString setsDir;
-    QMap<QString, QMap<QString, int>> mtgaIds;
     QMap<int, Card*> cards;		//indexed by mtgaId
     QNetworkAccessManager networkManager;
 
 public:
     MtgCards(QObject *parent = nullptr);
     Card* findCard(int mtgaId);
-    void updateMtgaIdsFromAPI();
+    void getMtgaSetsFromAPI();
+    void updateMtgaSetsFromAPI();
 
 signals:
 

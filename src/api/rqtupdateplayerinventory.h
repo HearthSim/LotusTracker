@@ -9,13 +9,14 @@ class RqtUpdatePlayerInventory : public RequestData
 public:
     RqtUpdatePlayerInventory(QString userId, PlayerInventory playerInventory) {
         QJsonObject jsonObj{
+            {"userId", userId},
             {"wcCommon", playerInventory.getWcCommon()},
             {"wcUncommon", playerInventory.getWcUncommon()},
             {"wcRare", playerInventory.getWcRare()},
             {"wcMythic", playerInventory.getWcMythic()}
         };
         _body = QJsonDocument(jsonObj);
-        _path = QString("users/extras?userId=%1").arg(userId);
+        _path = "users/extras";
     }
     virtual ~RqtUpdatePlayerInventory() {}
 };

@@ -53,6 +53,7 @@ public:
     void updatePlayerInventory(PlayerInventory playerInventory);
     void createPlayerDeck(Deck deck);
     void updatePlayerDeck(Deck deck);
+    void publishOrUpdatePlayerDeck(QString playerName, Deck deck);
     void getPlayerDeckWinRate(QString deckId, QString eventId);
     void uploadMatch(MatchInfo matchInfo, Deck playerDeck,
                      QString playerRankClass);
@@ -60,6 +61,8 @@ public:
 signals:
     void sgnUserLogged(bool fromSignUp);
     void sgnRequestFinished();
+    void sgnRequestFinishedWithSuccess();
+    void sgnRequestFinishedWithError();
     void sgnPasswordRecovered();
     void sgnTokenRefreshed();
     void sgnTokenRefreshError();

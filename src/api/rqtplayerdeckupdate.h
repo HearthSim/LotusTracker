@@ -46,11 +46,12 @@ public:
         QJsonObject jsonDiffSideboard = getDiffCardsJson(deck.sideboard(), oldDeck.sideboard());
         _isValid = jsonDiffCards.size() > 0 || jsonDiffSideboard.size() > 0;
         _body = QJsonDocument(QJsonObject{
-                                  {"mainDeck", jsonDiffCards},
-                                  {"sideboard", jsonDiffSideboard}
+                                  { "userId", userId },
+                                  { "deckId", deck.id },
+                                  { "mainDeck", jsonDiffCards },
+                                  { "sideboard", jsonDiffSideboard }
                               });
-        _path = QString("users/decks/updates?userId=%1&deckId=%2")
-                .arg(userId).arg(deck.id);
+        _path = "users/decks/updates";
     }
     virtual ~RqtPlayerDeckUpdate() {}
 

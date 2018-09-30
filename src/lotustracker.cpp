@@ -1,6 +1,6 @@
 #include "lotustracker.h"
 #include "macros.h"
-#include "server.h"
+#include "urls.h"
 #include "mtg/mtgalogparser.h"
 #include "utils/cocoainitializer.h"
 
@@ -29,10 +29,14 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
     startScreen = new StartScreen(nullptr, lotusAPI);
     hideTrackerTimer = new QTimer(this);
     mtgaMatch = new MtgaMatch(this, mtgCards);
-    connect(lotusAPI, &LotusTrackerAPI::sgnDeckWinRate,
-            deckTrackerPlayer, &DeckTrackerPlayer::onPlayerDeckStatus);
     connect(mtgArena, &MtgArena::sgnMTGAFocusChanged,
             this, &LotusTracker::onGameFocusChanged);
+    connect(lotusAPI, &LotusTrackerAPI::sgnDeckWinRate,
+            deckTrackerPlayer, &DeckTrackerPlayer::onPlayerDeckStatus);
+    connect(lotusAPI, &LotusTrackerAPI::sgnRequestFinishedWithSuccess,
+            deckTrackerPlayer, &DeckTrackerPlayer::onLotusAPIRequestFinishedWithSuccess);
+    connect(lotusAPI, &LotusTrackerAPI::sgnRequestFinishedWithError,
+            deckTrackerPlayer, &DeckTrackerPlayer::onLotusAPIRequestFinishedWithError);
     connect(lotusAPI, &LotusTrackerAPI::sgnUserLogged,
             this, &LotusTracker::onUserSigned);
     connect(lotusAPI, &LotusTrackerAPI::sgnTokenRefreshed,
@@ -100,7 +104,7 @@ void LotusTracker::setupUpdater()
     QString updateUrl = QString("%1/%2").arg(Server::URL()).arg("appcast-osx.xml");
     sparkleUpdater = new MacSparkleUpdater(updateUrl);
 #elif defined Q_OS_WIN
-    QString updateUrl = QString("%1/%2").arg(Server::URL()).arg("appcast-win.xml");
+    QString updateUrl = QString("%1/%2").arg(URLs::SITE()).arg("appcast-win.xml");
     sparkleUpdater = new WinSparkleUpdater(updateUrl);
 #endif
 }
@@ -254,6 +258,12 @@ void LotusTracker::showMessage(QString msg, QString title)
     trayIcon->showMessage(title, msg);
 }
 
+void LotusTracker::publishOrUpdatePlayerDeck(Deck deck)
+{
+    QString playerName = mtgaMatch->getPlayerName();
+    lotusAPI->publishOrUpdatePlayerDeck(playerName, deck);
+}
+
 void LotusTracker::onDeckSubmited(QString eventId, Deck deck)
 {
     deckTrackerPlayer->loadDeck(deck);
@@ -263,6 +273,7 @@ void LotusTracker::onDeckSubmited(QString eventId, Deck deck)
 
 void LotusTracker::onPlayerDeckWithSideboardSubmited(QMap<Card*, int> cards)
 {
+    UNUSED(cards);
     deckTrackerPlayer->loadDeckWithSideboard(cards);
 }
 
@@ -333,9 +344,11 @@ void LotusTracker::onMatchEnds(int winningTeamId)
         return;
     }
     mtgaMatch->onEndCurrentMatch(winningTeamId);
-    lotusAPI->uploadMatch(mtgaMatch->getInfo(),
-                                  deckTrackerPlayer->getDeck(),
-                                  mtgaMatch->getPlayerRankInfo().first);
+    if (mtgaMatch->getInfo().eventId != "NPE"){
+        lotusAPI->uploadMatch(mtgaMatch->getInfo(),
+                              deckTrackerPlayer->getDeck(),
+                              mtgaMatch->getPlayerRankInfo().first);
+    }
 }
 
 void LotusTracker::onPlayerTakesMulligan()

@@ -7,6 +7,11 @@ MtgaMatch::MtgaMatch(QObject *parent, MtgCards *mtgCards)
     playerRankInfo = qMakePair(QString(""), 0);
 }
 
+QString MtgaMatch::getPlayerName()
+{
+    return player.name();
+}
+
 MatchInfo MtgaMatch::getInfo()
 {
     return matchInfo;

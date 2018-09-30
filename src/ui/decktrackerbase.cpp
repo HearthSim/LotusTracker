@@ -9,8 +9,10 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QStandardPaths>
+#include <QToolTip>
 #include <QUrlQuery>
 #include <tuple>
+#include <QGraphicsScene>
 
 #ifdef Q_OS_MAC
 #include <objc/objc-runtime.h>
@@ -20,11 +22,11 @@
 
 DeckTrackerBase::DeckTrackerBase(QWidget *parent) : QMainWindow(parent),
     ui(new Ui::TrackerOverlay()), cardBGSkin(APP_SETTINGS->getCardLayout()),
-    currentHoverPosition(0), hoverCardMultiverseId(0), mousePressed(false),
+    currentHoverPosition(0), hoverCard(nullptr), mousePressed(false),
     mouseRelativePosition(QPoint()), cornerRadius(10), uiPos(10, 10),
     zoomMinusButton(QRect(0, 0, 0, 0)), zoomPlusButton(QRect(0, 0, 0, 0)),
-    uiAlpha(1.0), uiScale(1.0), cardHoverWidth(200), uiHeight(0),
-    uiWidth(160), deck(Deck()), hidden(false)
+    uiAlpha(1.0), uiScale(1.0), cardHoverWidth(220), uiHeight(0),
+    uiWidth(160), deck(Deck()), hidden(false), showingTooltip(false)
 {
     ui->setupUi(this);
     setupWindow();
@@ -82,7 +84,7 @@ void DeckTrackerBase::setupWindow()
 
     QRect screen = QApplication::desktop()->screenGeometry();
     move(0, 0);
-    resize(screen.width(), screen.height() * 1.2);
+    resize(screen.width(), static_cast<int> (screen.height() * 1.2));
     show();
     hide();
 }
@@ -214,8 +216,8 @@ void DeckTrackerBase::drawCover(QPainter &painter)
 
 void DeckTrackerBase::drawCoverButtons(QPainter &painter)
 {
-    int zoomButtonSize = 12;
-    int zoomButtonMargin = 4;
+    int zoomButtonSize = 14;
+    int zoomButtonMargin = 3;
     int zoomButtonY = uiPos.y() + uiHeight - zoomButtonSize - zoomButtonMargin;
     // Plus button
     QImage zoomPlus(":res/zoom_plus.png");
@@ -223,16 +225,20 @@ void DeckTrackerBase::drawCoverButtons(QPainter &painter)
                                             Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     int zoomPlusX = uiPos.x() + uiWidth - zoomButtonSize - zoomButtonMargin;
     painter.drawImage(zoomPlusX, zoomButtonY, zoomPlusScaled);
-    zoomPlusButton = QRect(zoomPlusX*uiScale, zoomButtonY*uiScale,
-                           zoomButtonSize*uiScale, zoomButtonSize*uiScale);
+    zoomPlusButton = QRect(static_cast<int> (zoomPlusX * uiScale),
+                           static_cast<int> (zoomButtonY * uiScale),
+                           static_cast<int> (zoomButtonSize * uiScale),
+                           static_cast<int> (zoomButtonSize * uiScale));
     // Minus button
     QImage zoomMinus(":res/zoom_minus.png");
     QImage zoomMinusScaled = zoomMinus.scaled(zoomButtonSize, zoomButtonSize,
                                               Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    int zoomMinusX = zoomPlusX - zoomButtonSize - 3*uiScale;
+    int zoomMinusX = static_cast<int> (zoomPlusX - zoomButtonSize - zoomButtonMargin);
     painter.drawImage(zoomMinusX, zoomButtonY, zoomMinusScaled);
-    zoomMinusButton = QRect(zoomMinusX*uiScale, zoomButtonY*uiScale,
-                            zoomButtonSize*uiScale, zoomButtonSize*uiScale);
+    zoomMinusButton = QRect(static_cast<int> (zoomMinusX * uiScale),
+                            static_cast<int> (zoomButtonY * uiScale),
+                            static_cast<int> (zoomButtonSize * uiScale),
+                            static_cast<int> (zoomButtonSize * uiScale));
 }
 
 void DeckTrackerBase::drawDeckInfo(QPainter &painter)
@@ -351,21 +357,22 @@ void DeckTrackerBase::drawExpandBar(QPainter &painter)
 
 void DeckTrackerBase::drawHoverCard(QPainter &painter)
 {
-    if (!showCardOnHover || hoverCardMultiverseId == 0) {
+    if (!showCardOnHover || hoverCard == nullptr) {
         return;
     }
     int bottomMargin = 10;
-    int cardHoverHeight = cardHoverWidth / 0.7;
+    int cardHoverHeight = static_cast<int> (cardHoverWidth / 0.7);
     int cardHoverMargin = 10;
     QSize cardHoverSize(cardHoverWidth, cardHoverHeight);
     QImage cardImg(":res/cardback.png");
     QString imageFile = QString("%1%2%3.png").arg(cachesDir)
-            .arg(QDir::separator()).arg(hoverCardMultiverseId);
+            .arg(QDir::separator()).arg(hoverCard->mtgaId);
     if (QFile::exists(imageFile)) {
         cardImg.load(imageFile);
     } else {
-        QUrl url(QString(GATHERER_IMAGE_URL).arg(hoverCardMultiverseId));
+        QUrl url(hoverCard->imageUrl);
         QNetworkRequest request(url);
+        request.setRawHeader("mtgaid", QString::number(hoverCard->mtgaId).toUtf8());
         QNetworkReply *reply = networkManager.get(request);
         connect(reply, &QNetworkReply::finished,
                 this, &DeckTrackerBase::onCardImageDownloaded);
@@ -387,12 +394,11 @@ void DeckTrackerBase::drawHoverCard(QPainter &painter)
 void DeckTrackerBase::onCardImageDownloaded()
 {
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
+    QString mtgaId = reply->request().rawHeader("mtgaid");
     QImage cardImg;
     cardImg.loadFromData(reply->readAll());
-    QString query = reply->request().url().query();
-    QString multiverseId = QUrlQuery(query).queryItemValue("multiverseid");
     cardImg.save(QString("%1%2%3.png").arg(cachesDir)
-                 .arg(QDir::separator()).arg(multiverseId));
+                 .arg(QDir::separator()).arg(mtgaId));
     update();
 }
 
@@ -427,15 +433,12 @@ bool DeckTrackerBase::event(QEvent *event)
     case QEvent::HoverEnter:
         onHoverEnter(static_cast<QHoverEvent*>(event));
         return true;
-        break;
     case QEvent::HoverMove:
         onHoverMove(static_cast<QHoverEvent*>(event));
         return true;
-        break;
     case QEvent::HoverLeave:
         onHoverLeave(static_cast<QHoverEvent*>(event));
         return true;
-        break;
     default:
         break;
     }
@@ -453,12 +456,24 @@ void DeckTrackerBase::onHoverMove(QHoverEvent *event)
     if (hoverPosition != currentHoverPosition) {
         updateCardHoverUrl(hoverPosition);
     }
+    if (zoomMinusButton.contains(event->pos())) {
+        showingTooltip = true;
+        QToolTip::showText(event->pos(), tr("Decrement zoom level"));
+    }
+    if (zoomPlusButton.contains(event->pos())) {
+        showingTooltip = true;
+        QToolTip::showText(event->pos(), tr("Increment zoom level"));
+    }
+    if (!showingTooltip) {
+        QToolTip::hideText();
+    }
+    showingTooltip = false;
 }
 
 void DeckTrackerBase::onHoverLeave(QHoverEvent *event)
 {
     UNUSED(event);
-    hoverCardMultiverseId = 0;
+    hoverCard = nullptr;
     currentHoverPosition = -1;
     update();
 }
@@ -480,7 +495,7 @@ void DeckTrackerBase::updateCardHoverUrl(int hoverPosition)
     }
     currentHoverPosition = hoverPosition;
     Card* cardHovered = getDeckCardsSorted()[currentHoverPosition];
-    hoverCardMultiverseId = cardHovered->multiverseId;
+    hoverCard = cardHovered;
     LOGD(QString("%1 - %2").arg(currentHoverPosition).arg(cardHovered->name));
     update();
 }
@@ -556,7 +571,8 @@ void DeckTrackerBase::onZoomMinusClick()
 {
     if (uiScale > 0.9) {
         uiScale -= 0.05;
-        uiPos += QPoint(uiPos.x()*0.05, 0);
+        int x = static_cast<int> (uiPos.x() * 0.05);
+        uiPos += QPoint(x, 0);
         update();
         onScaleChanged();
     }
@@ -566,7 +582,8 @@ void DeckTrackerBase::onZoomPlusClick()
 {
     if (uiScale < 1.1) {
         uiScale += 0.05;
-        uiPos -= QPoint(uiPos.x()*0.05, 0);
+        int x = static_cast<int> (uiPos.x() * 0.05);
+        uiPos -= QPoint(x, 0);
         update();
         onScaleChanged();
     }

@@ -1,7 +1,8 @@
 #include "lotusapi.h"
 #include "macros.h"
-#include "../server.h"
+#include "../urls.h"
 #include "rqtplayerdeck.h"
+#include "rqtplayerdeckpublish.h"
 #include "rqtplayerdeckupdate.h"
 #include "rqtupdateplayercollection.h"
 #include "rqtupdateplayerinventory.h"
@@ -12,7 +13,6 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QUrl>
-#include <QUrlQuery>
 
 #define HEADER_AUTHORIZATION "Authorization"
 #define UPDATE_DELAY 30 //minutes between each player inventory and collection update
@@ -35,10 +35,9 @@ void LotusTrackerAPI::signInUser(QString email, QString password)
     QJsonObject jsonObj;
     jsonObj.insert("email", QJsonValue(email));
     jsonObj.insert("password", QJsonValue(password));
-    jsonObj.insert("returnSecureToken", QJsonValue(true));
     QByteArray body = QJsonDocument(jsonObj).toJson();
 
-    QUrl url(QString("%1/signin").arg(Server::API_URL()));
+    QUrl url(QString("%1/signin").arg(URLs::API()));
     if (LOG_REQUEST_ENABLED) {
         LOGD(QString("Request: %1").arg(url.toString()));
     }
@@ -54,10 +53,9 @@ void LotusTrackerAPI::registerUser(QString email, QString password)
     QJsonObject jsonObj;
     jsonObj.insert("email", QJsonValue(email));
     jsonObj.insert("password", QJsonValue(password));
-    jsonObj.insert("returnSecureToken", QJsonValue(true));
     QByteArray body = QJsonDocument(jsonObj).toJson();
 
-    QUrl url(QString("%1/signup").arg(Server::API_URL()));
+    QUrl url(QString("%1/signup").arg(URLs::API()));
     if (LOG_REQUEST_ENABLED) {
         LOGD(QString("Request: %1").arg(url.toString()));
     }
@@ -124,11 +122,10 @@ void LotusTrackerAPI::refreshToken(QString refreshToken)
     }
     isRefreshTokenInProgress = true;
     QJsonObject jsonObj;
-    jsonObj.insert("grant_type", "refresh_token");
     jsonObj.insert("refresh_token", QJsonValue(refreshToken));
     QByteArray body = QJsonDocument(jsonObj).toJson();
 
-    QUrl url(QString("%1/refreshtoken").arg(Server::API_URL()));
+    QUrl url(QString("%1/refreshtoken").arg(URLs::API()));
     if (LOG_REQUEST_ENABLED) {
         LOGD(QString("Request: %1").arg(url.toString()));
     }
@@ -199,10 +196,9 @@ void LotusTrackerAPI::recoverPassword(QString email)
 {
     QJsonObject jsonObj;
     jsonObj.insert("email", QJsonValue(email));
-    jsonObj.insert("requestType", "PASSWORD_RESET");
     QByteArray body = QJsonDocument(jsonObj).toJson();
 
-    QUrl url(QString("%1/recoverpassword").arg(Server::API_URL()));
+    QUrl url(QString("%1/recoverpassword").arg(URLs::API()));
     if (LOG_REQUEST_ENABLED) {
         LOGD(QString("Request: %1").arg(url.toString()));
     }
@@ -288,6 +284,15 @@ void LotusTrackerAPI::updatePlayerDeck(Deck deck)
     getPlayerDeckToUpdate(deck.id);
 }
 
+void LotusTrackerAPI::publishOrUpdatePlayerDeck(QString playerName, Deck deck)
+{
+    UserSettings userSettings = APP_SETTINGS->getUserSettings();
+    if (userSettings.userToken.isEmpty()) {
+        return;
+    }
+    sendPost(RqtPublishPlayerDeck(playerName, deck));
+}
+
 void LotusTrackerAPI::getPlayerDeckWinRate(QString deckId, QString eventId)
 {
     UserSettings userSettings = APP_SETTINGS->getUserSettings();
@@ -295,7 +300,7 @@ void LotusTrackerAPI::getPlayerDeckWinRate(QString deckId, QString eventId)
         return;
     }
     QUrl url(QString("%1/users/decks/winrate?userId=%2&deckId=%3&eventId=%4")
-             .arg(Server::API_URL()).arg(userSettings.userId).arg(deckId).arg(eventId));
+             .arg(URLs::API()).arg(userSettings.userId).arg(deckId).arg(eventId));
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader(QString(HEADER_AUTHORIZATION).toUtf8(),
@@ -342,7 +347,7 @@ void LotusTrackerAPI::getPlayerDeckToUpdate(QString deckID)
         return;
     }
 
-    QUrl url(QString("%1/users/decks?userId=%2&deckId=%3").arg(Server::API_URL())
+    QUrl url(QString("%1/users/decks?userId=%2&deckId=%3").arg(URLs::API())
              .arg(userSettings.userId).arg(deckID));
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -458,7 +463,7 @@ void LotusTrackerAPI::registerPlayerMatch(QString matchID)
 QNetworkRequest LotusTrackerAPI::prepareRequest(RequestData requestData,
                                                 bool checkUserAuth, QString method)
 {
-    QUrl url(QString("%1/%2").arg(Server::API_URL()).arg(requestData.path()));
+    QUrl url(QString("%1/%2").arg(URLs::API()).arg(requestData.path()));
     QNetworkRequest request(url);
 
     requestsToRecall[url.toString()] = qMakePair(method, requestData);
@@ -537,9 +542,15 @@ void LotusTrackerAPI::requestOnFinish()
             return;
         }
         QString error = jsonRsp["error"].toString();
-        LOTUS_TRACKER->showMessage(error);
+        if (error.isEmpty()) {
+            LOTUS_TRACKER->showMessage(reason);
+        } else {
+            LOTUS_TRACKER->showMessage(error);
+        }
+        emit sgnRequestFinishedWithError();
         return;
     }
+    emit sgnRequestFinishedWithSuccess();
 
     requestsToRecall.remove(requestUrl);
     if (LOG_REQUEST_ENABLED) {

@@ -3,6 +3,14 @@
         <file>res/cardback.png</file>
         <file>res/expand.png</file>
         <file>res/logo.png</file>
+        <file>res/publish_deck.png</file>
+        <file>res/publish_deck_anim1.png</file>
+        <file>res/publish_deck_anim2.png</file>
+        <file>res/publish_deck_anim3.png</file>
+        <file>res/publish_deck_anim4.png</file>
+        <file>res/publish_deck_anim5.png</file>
+        <file>res/publish_deck_anim6.png</file>
+        <file>res/publish_deck_anim7.png</file>
         <file>res/preferences.png</file>
         <file>res/preferences_general.png</file>
         <file>res/preferences_overlay.png</file>

@@ -19,6 +19,7 @@ public:
             {"arch", playerDeck.arch()},
             {"cards", cards2JsonMapValue(playerDeck.cards(true))},
             {"colors", playerDeck.colorIdentity()},
+            {"deck", playerDeck.id},
             {"rank", playerRankClass}
         };
         QJsonObject player2Json{
@@ -37,8 +38,7 @@ public:
         };
 
         _body = QJsonDocument(jsonObj);
-        QDate date = QDate::currentDate();
-        _path = QString("matches?date=%1").arg(date.toString("yyyy-MM-dd"));
+        _path = "matches";
     }
 
 private:

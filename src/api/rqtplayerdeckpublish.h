@@ -1,10 +1,10 @@
-#ifndef RQTPLAYERDECK_H
-#define RQTPLAYERDECK_H
+#ifndef RQTPUBLISHPLAYERDECK_H
+#define RQTPUBLISHPLAYERDECK_H
 
 #include "requestdata.h"
 #include "../entity/deck.h"
 
-class RqtPlayerDeck : public RequestData
+class RqtPublishPlayerDeck : public RequestData
 {
 private:
     QJsonObject cards2Json(QMap<Card*, int> cards)
@@ -17,23 +17,23 @@ private:
     }
 
 public:
-    RqtPlayerDeck(QString userId, Deck deck) {
+    RqtPublishPlayerDeck(QString owner, Deck deck) {
         QJsonObject jsonCards = cards2Json(deck.cards());
         QJsonObject jsonSideboard = cards2Json(deck.sideboard());
         QJsonObject jsonObj{
-            { "userId", userId },
             { "deckId", deck.id },
             { "arch", deck.arch() },
             { "cards", jsonCards },
             { "sideboard", jsonSideboard },
             { "colors", deck.colorIdentity() },
-            { "name", deck.name }
+            { "name", deck.name },
+            { "owner", owner }
         };
         _body = QJsonDocument(jsonObj);
-        _path = "users/decks";
+        _path = "users/decks/publish";
     }
-    virtual ~RqtPlayerDeck() {}
+    virtual ~RqtPublishPlayerDeck() {}
 
 };
 
-#endif // RQTPLAYERDECK_H
+#endif // RQTPUBLISHPLAYERDECK_H

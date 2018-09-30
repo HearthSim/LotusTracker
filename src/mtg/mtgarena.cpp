@@ -89,7 +89,7 @@ void MtgArena::onMtgaStarted()
 	LOGI("Game started");
 	isRunning = true;
 	timer->setInterval(FAST_FIND_WINDOW_INTERVAL);
-    LOTUS_TRACKER->mtgCards->updateMtgaIdsFromAPI();
+    LOTUS_TRACKER->mtgCards->updateMtgaSetsFromAPI();
     LOTUS_TRACKER->mtgDecksArch->updateDecksArchitectureFromAPI();
 }
 

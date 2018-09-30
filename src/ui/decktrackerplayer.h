@@ -5,18 +5,22 @@
 #include "../entity/card.h"
 #include "../entity/deck.h"
 
+#include <QTimer>
 #include <QWidget>
 
 class DeckTrackerPlayer : public DeckTrackerBase
 {
     Q_OBJECT
 private:
+    QTimer *publishDeckTimer;
+    QString publishingDeckIcon;
     bool isStatisticsEnabled;
     int deckWins, deckLosses;
     double deckWinRate;
-    QPen bgPen, statisticsPen, winRatePen;
+    QPen statisticsPen, winRatePen;
     QFont statisticsFont, winRateFont;
-    QRect preferencesButton;
+    QRect publishDeckButton, preferencesButton;
+    void publishingDeckAnim();
     void drawStatistics(QPainter &painter);
 
 protected:
@@ -24,12 +28,14 @@ protected:
     virtual void onPositionChanged();
     virtual void onScaleChanged();
     virtual void afterPaintEvent(QPainter &painter);
+    virtual void onHoverMove(QHoverEvent *event);
     virtual void mousePressEvent(QMouseEvent *event);
     virtual void mouseReleaseEvent(QMouseEvent *event);
 
 public:
     explicit DeckTrackerPlayer(QWidget *parent = nullptr);
     ~DeckTrackerPlayer();
+    void stopPublishDeckAnimation();
     void applyCurrentSettings();
     void loadDeck(Deck deck);
     void loadDeckWithSideboard(QMap<Card*, int> cards);
@@ -39,6 +45,8 @@ public:
 signals:
 
 public slots:
+    void onLotusAPIRequestFinishedWithSuccess();
+    void onLotusAPIRequestFinishedWithError();
     void onPlayerPutInLibraryCard(Card* card);
     void onPlayerDrawCard(Card* card);
     void onPlayerDeckStatus(int wins, int losses, double winRate);
