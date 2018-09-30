@@ -1,6 +1,6 @@
 #include "lotustracker.h"
 #include "macros.h"
-#include "server.h"
+#include "urls.h"
 #include "mtg/mtgalogparser.h"
 #include "utils/cocoainitializer.h"
 
@@ -104,7 +104,7 @@ void LotusTracker::setupUpdater()
     QString updateUrl = QString("%1/%2").arg(Server::URL()).arg("appcast-osx.xml");
     sparkleUpdater = new MacSparkleUpdater(updateUrl);
 #elif defined Q_OS_WIN
-    QString updateUrl = QString("%1/%2").arg(Server::URL()).arg("appcast-win.xml");
+    QString updateUrl = QString("%1/%2").arg(URLs::SITE()).arg("appcast-win.xml");
     sparkleUpdater = new WinSparkleUpdater(updateUrl);
 #endif
 }
@@ -273,6 +273,7 @@ void LotusTracker::onDeckSubmited(QString eventId, Deck deck)
 
 void LotusTracker::onPlayerDeckWithSideboardSubmited(QMap<Card*, int> cards)
 {
+    UNUSED(cards);
     deckTrackerPlayer->loadDeckWithSideboard(cards);
 }
 

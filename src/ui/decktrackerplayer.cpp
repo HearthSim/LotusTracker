@@ -1,6 +1,6 @@
 #include "decktrackerplayer.h"
 #include "../macros.h"
-#include "server.h"
+#include "urls.h"
 
 #include <QClipboard>
 #include <QFontDatabase>
@@ -39,7 +39,7 @@ void DeckTrackerPlayer::onLotusAPIRequestFinishedWithSuccess()
     if (publishDeckTimer->isActive()) {
         stopPublishDeckAnimation();
         QString owner = LOTUS_TRACKER->mtgaMatch->getPlayerName();
-        QString deckLink = QString("%1/%2/%3").arg(Server::URL()).arg(owner).arg(deck.name);
+        QString deckLink = QString("%1/%2/%3").arg(URLs::SITE()).arg(owner).arg(deck.name);
         QApplication::clipboard()->setText(deckLink);
         LOTUS_TRACKER->showMessage(tr("Deck published/updated.\nDeck link copied to clipboard."));
     }
@@ -290,7 +290,7 @@ void DeckTrackerPlayer::onHoverMove(QHoverEvent *event)
     if (publishDeckButton.contains(event->pos())) {
         showingTooltip = true;
         QString tooltip = QString(tr("Publish/Update deck as public in %1"))
-                .arg(Server::URL());
+                .arg(URLs::SITE());
         QToolTip::showText(event->pos(), tooltip);
     }
     if (preferencesButton.contains(event->pos())) {
