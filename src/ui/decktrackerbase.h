@@ -49,8 +49,9 @@ protected:
     qreal uiAlpha, uiScale;
     int cardHoverWidth, uiHeight, uiWidth;
     Deck deck;
-    bool hidden, showCardOnHover, showingTooltip;
+    bool hidden, isShowCardOnHoverEnabled, showingTooltip;
     void blinkCard(Card* card);
+    void hideCardOnHover();
     void paintEvent(QPaintEvent *event);
     void drawCover(QPainter &painter);
     void drawCoverButtons(QPainter &painter);

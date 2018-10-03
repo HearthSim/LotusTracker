@@ -322,12 +322,12 @@ void DeckTrackerPlayer::mouseReleaseEvent(QMouseEvent *event)
     if (publishDeckButton.contains(event->pos()) && !publishDeckTimer->isActive()) {
         publishDeckTimer->start();
         LOTUS_TRACKER->publishOrUpdatePlayerDeck(deck);
-        showCardOnHover = false;
+        hideCardOnHover();
         return;
     }
     if (preferencesButton.contains(event->pos())) {
         LOTUS_TRACKER->showPreferencesScreen();
-        showCardOnHover = false;
+        hideCardOnHover();
         return;
     }
     DeckTrackerBase::mouseReleaseEvent(event);

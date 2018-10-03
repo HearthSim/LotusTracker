@@ -18,14 +18,12 @@
 #include <objc/objc-runtime.h>
 #endif
 
-#define GATHERER_IMAGE_URL "http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=%1&type=card"
-
 DeckTrackerBase::DeckTrackerBase(QWidget *parent) : QMainWindow(parent),
     ui(new Ui::TrackerOverlay()), cardBGSkin(APP_SETTINGS->getCardLayout()),
     currentHoverPosition(0), hoverCard(nullptr), mousePressed(false),
     mouseRelativePosition(QPoint()), cornerRadius(10), uiPos(10, 10),
     zoomMinusButton(QRect(0, 0, 0, 0)), zoomPlusButton(QRect(0, 0, 0, 0)),
-    uiAlpha(1.0), uiScale(1.0), cardHoverWidth(220), uiHeight(0),
+    uiAlpha(1.0), uiScale(1.05), cardHoverWidth(220), uiHeight(0),
     uiWidth(160), deck(Deck()), hidden(false), showingTooltip(false)
 {
     ui->setupUi(this);
@@ -39,7 +37,7 @@ DeckTrackerBase::DeckTrackerBase(QWidget *parent) : QMainWindow(parent),
     }
     changeAlpha(APP_SETTINGS->getDeckTrackerAlpha());
     unhiddenTimeout = APP_SETTINGS->getUnhiddenDelay();
-    showCardOnHover = APP_SETTINGS->isShowCardOnHoverEnabled();
+    isShowCardOnHoverEnabled = APP_SETTINGS->isShowCardOnHoverEnabled();
 
     unhiddenTimer = new QTimer();
     connect(unhiddenTimer, &QTimer::timeout, this, [this]{
@@ -149,7 +147,7 @@ void DeckTrackerBase::changeCardLayout(QString cardLayout)
 
 void DeckTrackerBase::onShowCardOnHoverEnabled(bool enabled)
 {
-    showCardOnHover = enabled;
+    isShowCardOnHoverEnabled = enabled;
     update();
 }
 
@@ -166,6 +164,11 @@ void DeckTrackerBase::blinkCard(Card* card)
     cardsBlinkInfo[card] = cardBlinkInfo;
     connect(blinkTimer, &QTimer::timeout, cardBlinkInfo, &CardBlinkInfo::timeout);
     blinkTimer->start(100);
+}
+
+void DeckTrackerBase::hideCardOnHover()
+{
+    hoverCard = nullptr;
 }
 
 void DeckTrackerBase::paintEvent(QPaintEvent*)
@@ -357,7 +360,7 @@ void DeckTrackerBase::drawExpandBar(QPainter &painter)
 
 void DeckTrackerBase::drawHoverCard(QPainter &painter)
 {
-    if (!showCardOnHover || hoverCard == nullptr) {
+    if (!isShowCardOnHoverEnabled || hoverCard == nullptr) {
         return;
     }
     int bottomMargin = 10;
@@ -580,7 +583,7 @@ void DeckTrackerBase::onZoomMinusClick()
 
 void DeckTrackerBase::onZoomPlusClick()
 {
-    if (uiScale < 1.1) {
+    if (uiScale < 1.3) {
         uiScale += 0.05;
         int x = static_cast<int> (uiPos.x() * 0.05);
         uiPos -= QPoint(x, 0);
