@@ -38,8 +38,9 @@ void DeckTrackerPlayer::onLotusAPIRequestFinishedWithSuccess()
 {
     if (publishDeckTimer->isActive()) {
         stopPublishDeckAnimation();
-        QString owner = LOTUS_TRACKER->mtgaMatch->getPlayerName();
-        QString deckLink = QString("%1/%2/%3").arg(URLs::SITE()).arg(owner).arg(deck.name);
+        QString deckStartId = deck.id.left(deck.id.indexOf('-'));
+        QString deckAlias = QString("%1-%2").arg(deckStartId).arg(deck.name);
+        QString deckLink = QString("%1/decks/%2").arg(URLs::SITE()).arg(deckAlias);
         QApplication::clipboard()->setText(deckLink);
         LOTUS_TRACKER->showMessage(tr("Deck published/updated.\nDeck link copied to clipboard."));
     }
