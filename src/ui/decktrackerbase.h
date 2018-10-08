@@ -73,7 +73,7 @@ protected:
     QFont cardFont, titleFont;
     void drawText(QPainter &painter, QFont textFont, QPen textPen, QString text, int textOptions,
                   bool shadow, int textX, int textY, int textHeight, int textWidth);
-    void drawMana(QPainter &painter, QChar manaSymbol, int manaSize,
+    void drawMana(QPainter &painter, QString manaSymbol, int manaSize,
                   bool grayscale, int manaX, int manaY);
 
 public:

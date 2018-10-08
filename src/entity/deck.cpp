@@ -147,7 +147,7 @@ QString Deck::calcColorIdentity(QMap<Card*, int> cards, bool includeLands)
         if (card->isLand && !includeLands) {
             continue;
         }
-        for (QChar symbol : card->manaColorIdentity) {
+        for (QChar symbol : card->colorIdentity) {
             if (symbol != QChar('a') && symbol != QChar('c') &&
                     symbol != QChar('m') && !distinctManaSymbols.contains(symbol)) {
                 distinctManaSymbols << symbol;

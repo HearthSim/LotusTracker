@@ -9,6 +9,7 @@
 #include <QNetworkAccessManager>
 #include <QObject>
 #include <QString>
+#include <QRegExp>
 
 class MtgCards : public QObject
 {
@@ -21,7 +22,7 @@ private:
     void loadSet(QString setCode);
     void loadSetFromFile(QString setFileName);
     Card* jsonObject2Card(QJsonObject jsonCard, QString setCode);
-    QList<QChar> getBoderColorUsingManaCost(QString manaCost, bool isArtifact);
+    QList<QChar> getBoderColorUsingManaSymbols(QList<QString> manaSymbols, bool isArtifact);
     QList<QChar> getLandBorderColorUsingColorIdentity(QJsonObject jsonCard);
     Card* createSplitCard(Card* leftSide, Card* rightSide);
 

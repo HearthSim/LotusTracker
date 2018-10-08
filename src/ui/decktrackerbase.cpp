@@ -305,10 +305,10 @@ void DeckTrackerBase::drawDeckCards(QPainter &painter)
         int manaRightMargin = 7;
         int manaMargin = 2;
         int manaSize = 8;
-        int manaCostWidth = card->manaCost.length() * (manaSize + manaMargin);
+        int manaCostWidth = card->manaSymbols.length() * (manaSize + manaMargin);
         int manaX = uiPos.x() + uiWidth - manaRightMargin - manaCostWidth;
         int manaY = cardBGY + cardBGImgSize.height()/2 - manaSize/2;
-        for (QChar manaSymbol : card->manaCost) {;
+        for (QString manaSymbol : card->manaSymbols) {;
             drawMana(painter, manaSymbol, manaSize, cardQtdRemains == 0, manaX, manaY);
             manaX += manaSize + manaMargin;
         }
@@ -417,7 +417,7 @@ void DeckTrackerBase::drawText(QPainter &painter, QFont textFont, QPen textPen, 
     painter.drawText(textX, textY, textWidth, textHeight, textOptions, text);
 }
 
-void DeckTrackerBase::drawMana(QPainter &painter, QChar manaSymbol, int manaSize,
+void DeckTrackerBase::drawMana(QPainter &painter, QString manaSymbol, int manaSize,
                                bool grayscale, int manaX, int manaY)
 {
     QImage manaImg;

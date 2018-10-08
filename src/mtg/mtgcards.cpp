@@ -199,63 +199,48 @@ Card* MtgCards::jsonObject2Card(QJsonObject jsonCard, QString setCode)
     QString rawManaCost = jsonCard["manaCost"].toString();
     QRegularExpression reManaSymbol("(?<=\\{)[\\w,\\/]+(?=\\})");
     QRegularExpressionMatchIterator iterator = reManaSymbol.globalMatch(rawManaCost);
-    QString manaCost;
-    QRegExp reDigits("\\d+");  // a digit (\d), one or more times (*)
+    QList<QString> manaSymbols;
     while (iterator.hasNext()) {
         QString manaSymbol = iterator.next().captured(0).toLower();
-        if (manaSymbol.size() == 1 || reDigits.exactMatch(manaSymbol)) {
-            manaCost += manaSymbol;
-        } else if (manaSymbol.contains('/')) {
-            for (QString mana : manaSymbol.split('/')) {
-                if (mana.size() > 1) {
-                    LOGD(QString(tr("Unkown mana symbol: %1")).arg(mana))
-                    break;
-                }
-                if (!manaCost.contains(mana)) {
-                    manaCost += mana;
-                }
-            }
-        } else {
-            LOGD(QString(tr("Unkown mana symbol: %1")).arg(manaSymbol))
-        }
+        manaSymbols << manaSymbol.replace('/', "");
     }
     // Color identity
-    QList<QChar> manaColorIdentity = getBoderColorUsingManaCost(manaCost, isArtifact);
-    QList<QChar> borderColorIdentity = manaColorIdentity;
+    QList<QChar> colorIdentity = getBoderColorUsingManaSymbols(manaSymbols, isArtifact);
+    QList<QChar> borderColors = colorIdentity;
     if (isArtifact) {
-        borderColorIdentity.clear();
-        borderColorIdentity << 'a';
+        borderColors.clear();
+        borderColors << 'a';
     }
     if (isLand) {
-        borderColorIdentity = getLandBorderColorUsingColorIdentity(jsonCard);
+        borderColors = getLandBorderColorUsingColorIdentity(jsonCard);
     }
-    return new Card(mtgaId, multiverseId, setCode, number, name, type, layout, manaCost,
-                    borderColorIdentity, manaColorIdentity, imageUrl, isLand, isArtifact);
+    return new Card(mtgaId, multiverseId, setCode, number, name, type, layout, rawManaCost,
+                    manaSymbols, borderColors, colorIdentity, imageUrl, isLand, isArtifact);
 }
 
-QList<QChar> MtgCards::getBoderColorUsingManaCost(QString manaCost, bool isArtifact)
+QList<QChar> MtgCards::getBoderColorUsingManaSymbols(QList<QString> manaSymbols, bool isArtifact)
 {
-    QList<QChar> manaSymbols;
-    for (QChar manaSymbol : manaCost) {
-        if (manaSymbol.isLetter() && manaSymbol != 'x'
-                && manaSymbol != 'y' && manaSymbol != 'z'){
-            if (!manaSymbols.contains(manaSymbol)){
-                manaSymbols << manaSymbol;
+    QString magicColors = "wubrg";
+    QList<QChar> colorIdentity;
+    for (QString manaSymbol : manaSymbols) {
+        for (QChar manaCharSymbol : manaSymbol) {
+            if (magicColors.contains(manaCharSymbol) && !colorIdentity.contains(manaCharSymbol)){
+                colorIdentity << manaCharSymbol;
             }
         }
     }
-    if (manaSymbols.size() >= 3) {
-        manaSymbols.clear();
-        manaSymbols << QChar('m');
+    if (colorIdentity.size() >= 3) {
+        colorIdentity.clear();
+        colorIdentity << QChar('m');
     }
-    if (manaSymbols.isEmpty()) {
+    if (colorIdentity.isEmpty()) {
         if (isArtifact) {
-            manaSymbols << 'a';
+            colorIdentity << 'a';
         } else {
-            manaSymbols << 'c';
+            colorIdentity << 'c';
         }
     }
-    return manaSymbols;
+    return colorIdentity;
 }
 
 QList<QChar> MtgCards::getLandBorderColorUsingColorIdentity(QJsonObject jsonCard)
@@ -279,16 +264,16 @@ QList<QChar> MtgCards::getLandBorderColorUsingColorIdentity(QJsonObject jsonCard
 Card* MtgCards::createSplitCard(Card* upSide, Card* downSide)
 {
     QString name = QString("%1 // %2").arg(upSide->name).arg(downSide->name);
-    QList<QChar> borderColorIdentity = upSide->borderColorIdentity;
-    for (QChar c : downSide->borderColorIdentity){
-        if (!borderColorIdentity.contains(c)) {
-            borderColorIdentity.append(c);
+    QList<QChar> borderColors = upSide->borderColors;
+    for (QChar c : downSide->borderColors){
+        if (!borderColors.contains(c)) {
+            borderColors.append(c);
         }
     }
-    QList<QChar> manaColorIdentity = upSide->manaColorIdentity;
-    for (QChar c : downSide->manaColorIdentity){
-        if (!manaColorIdentity.contains(c)) {
-            manaColorIdentity.append(c);
+    QList<QChar> colorIdentity = upSide->colorIdentity;
+    for (QChar c : downSide->colorIdentity){
+        if (!colorIdentity.contains(c)) {
+            colorIdentity.append(c);
         }
     }
     QString leftSideNumber = upSide->number;
@@ -296,7 +281,7 @@ Card* MtgCards::createSplitCard(Card* upSide, Card* downSide)
     int mtgaIdSidesDiff = downSide->mtgaId - upSide->mtgaId;
     int mtgaId = upSide->mtgaId - mtgaIdSidesDiff;
     return new Card(mtgaId, upSide->multiverseId, upSide->setCode, number,
-                    name, upSide->type, upSide->layout, upSide->manaCost,
-                    borderColorIdentity, manaColorIdentity, upSide->imageUrl,
+                    name, upSide->type, upSide->layout, upSide->rawManaCost,
+                    upSide->manaSymbols, borderColors, colorIdentity, upSide->imageUrl,
                     upSide->isLand, upSide->isArtifact);
 }
