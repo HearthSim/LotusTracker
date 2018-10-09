@@ -136,19 +136,20 @@ QString MtgDecksArch::findDeckArchitecture(QMap<Card*, int> cards)
             LOGD(QString("--- %1:").arg(deckArch.name));
         }
         QMap<int, double> archCards = deckArch.cards;
-        double archSimilarity = getCardsSimilarityForDeckArch(nonlandCards, archCards);
-        if (archSimilarity == 0.0){
-            continue;
-        }
         bool archContainsColor = true;
         for (QChar deckColor : deckColors) {
             if (!deckArch.colors.contains(deckColor, Qt::CaseInsensitive)) {
                 archContainsColor = false;
             }
         }
-        if (archContainsColor) {
-            archsWithDeckColors << qMakePair(deckArch, archSimilarity);
+        if (!archContainsColor) {
+            continue;
         }
+        double archSimilarity = getCardsSimilarityForDeckArch(nonlandCards, archCards);
+        if (archSimilarity == 0.0){
+            continue;
+        }
+        archsWithDeckColors << qMakePair(deckArch, archSimilarity);
         if (LOG_DECK_ARCH_CALC) {
             LOGD(QString("--- %1 added with %2\n").arg(deckArch.name).arg(archSimilarity));
         }

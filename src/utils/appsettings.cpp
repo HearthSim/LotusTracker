@@ -6,6 +6,7 @@
 #define KEY_AUTOSTART "autoStart"
 #define KEY_AUTOUPDATE "autoUpdate"
 #define KEY_FIRST_RUN "isFirstRun"
+#define KEY_FIRST_MATCH "isFirstMatch"
 #define KEY_HIDE_ON_LOSE_GAME_FOCUS "hideOnLoseGameFocus"
 #define KEY_TRACKER_ALPHA "Tracker/alpha"
 #define KEY_TRACKER_LAYOUT "Tracker/layout"
@@ -66,6 +67,15 @@ bool AppSettings::isFirstRun()
         settings.setValue(KEY_FIRST_RUN, false);
     }
     return isFirstRun;
+}
+
+bool AppSettings::isFirstMatch()
+{
+    bool isFirstMatch = settings.value(KEY_FIRST_MATCH, true).toBool();
+    if (isFirstMatch) {
+        settings.setValue(KEY_FIRST_MATCH, false);
+    }
+    return isFirstMatch;
 }
 
 bool AppSettings::isHideOnLoseGameFocusEnabled()

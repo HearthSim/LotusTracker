@@ -305,6 +305,9 @@ void LotusTracker::onGameStart(MatchMode mode, QList<MatchZone> zones, int seatI
     if (APP_SETTINGS->isDeckTrackerOpponentEnabled()) {
         deckTrackerOpponent->show();
     }
+    if (APP_SETTINGS->isFirstMatch()) {
+        showMessage(tr("You can hide the tracker temporarily with a mouse right click."));
+    }
 }
 
 void LotusTracker::onGameFocusChanged(bool hasFocus)

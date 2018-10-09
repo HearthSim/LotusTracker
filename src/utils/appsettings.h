@@ -20,6 +20,7 @@ public:
     bool isAutoUpdateEnabled();
     void enableAutoUpdate(bool enabled);
     bool isFirstRun();
+    bool isFirstMatch();
     bool isHideOnLoseGameFocusEnabled();
     void enableHideOnLoseGameFocus(bool enabled);
     int getDeckTrackerAlpha();
