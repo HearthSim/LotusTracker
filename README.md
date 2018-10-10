@@ -20,6 +20,12 @@ This source code already builds a Windows and Mac OS version of Lotus Tracker.
 
 ![LotusTracker Player](/extras/LotusTracker2.png)
 
+## Download
+
+You can download Lotus Tracker latest version [here](https://github.com/edipo2s/LotusTracker/releases/latest)
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JQWPQH3EE5RZW)
+
 ## Build Instructions
 
 * Install QT Creator

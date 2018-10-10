@@ -70,9 +70,9 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>160</y>
+        <y>150</y>
         <width>55</width>
-        <height>53</height>
+        <height>72</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
@@ -97,15 +97,22 @@
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>Donations:</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>90</x>
-        <y>160</y>
+        <y>150</y>
         <width>199</width>
-        <height>53</height>
+        <height>72</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -127,6 +134,13 @@
         <widget class="QLabel" name="label_7">
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/edipo2s/AT&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/edipo2s/LotusTracker&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=JQWPQH3EE5RZW&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Help Lotus Tracker, make a donation!&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
@@ -155,7 +169,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>1.0-rc1</string>
+       <string>1.0.0</string>
       </property>
      </widget>
     </widget>
