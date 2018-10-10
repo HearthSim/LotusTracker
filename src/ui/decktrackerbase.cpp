@@ -18,13 +18,15 @@
 #include <objc/objc-runtime.h>
 #endif
 
+#define BASE_UI_WIDTH 160
+
 DeckTrackerBase::DeckTrackerBase(QWidget *parent) : QMainWindow(parent),
     ui(new Ui::TrackerOverlay()), cardBGSkin(APP_SETTINGS->getCardLayout()),
     currentHoverPosition(0), hoverCard(nullptr), mousePressed(false),
     mouseRelativePosition(QPoint()), cornerRadius(10), uiPos(10, 10),
     zoomMinusButton(QRect(0, 0, 0, 0)), zoomPlusButton(QRect(0, 0, 0, 0)),
-    uiAlpha(1.0), uiScale(1.05), cardHoverWidth(220), uiHeight(0),
-    uiWidth(160), deck(Deck()), hidden(false), showingTooltip(false)
+    uiAlpha(1.0), cardHoverWidth(220), uiHeight(0), uiWidth(BASE_UI_WIDTH),
+    uiScale(2), deck(Deck()), hidden(false), showingTooltip(false)
 {
     ui->setupUi(this);
     setupWindow();
@@ -97,24 +99,15 @@ void DeckTrackerBase::setupDrawTools()
     int belerenID = QFontDatabase::addApplicationFont(":/res/fonts/OpenSans-Regular.ttf");
 #endif
     // Card
-    int cardFontSize = 7;
-#if defined Q_OS_MAC
-    cardFontSize += 2;
-#endif
     cardFont.setFamily(QFontDatabase::applicationFontFamilies(belerenID).at(0));
-    cardFont.setPointSize(cardFontSize);
     cardFont.setBold(false);
     cardPen = QPen(Qt::black);
     cardNonePen = QPen(QColor(80, 80, 80));
     // Title
-    int titleFontSize = 9;
-#if defined Q_OS_MAC
-    titleFontSize += 4;
-#endif
     titleFont.setFamily(QFontDatabase::applicationFontFamilies(belerenID).at(0));
-    titleFont.setPointSize(titleFontSize);
     titleFont.setBold(true);
     titlePen = QPen(Qt::white);
+    onScaleChanged();
 }
 
 int DeckTrackerBase::getCardHeight()
@@ -178,7 +171,6 @@ void DeckTrackerBase::paintEvent(QPaintEvent*)
     painter.setRenderHints(QPainter::HighQualityAntialiasing | QPainter::TextAntialiasing |
                            QPainter::SmoothPixmapTransform);
     painter.save();
-    painter.scale(uiScale, uiScale);
     drawCover(painter);
     drawCoverButtons(painter);
     drawDeckInfo(painter);
@@ -219,8 +211,8 @@ void DeckTrackerBase::drawCover(QPainter &painter)
 
 void DeckTrackerBase::drawCoverButtons(QPainter &painter)
 {
-    int zoomButtonSize = 14;
-    int zoomButtonMargin = 3;
+    int zoomButtonSize = 13 + static_cast<int> (uiScale * 1);
+    int zoomButtonMargin = 4;
     int zoomButtonY = uiPos.y() + uiHeight - zoomButtonSize - zoomButtonMargin;
     // Plus button
     QImage zoomPlus(":res/zoom_plus.png");
@@ -228,20 +220,14 @@ void DeckTrackerBase::drawCoverButtons(QPainter &painter)
                                             Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     int zoomPlusX = uiPos.x() + uiWidth - zoomButtonSize - zoomButtonMargin;
     painter.drawImage(zoomPlusX, zoomButtonY, zoomPlusScaled);
-    zoomPlusButton = QRect(static_cast<int> (zoomPlusX * uiScale),
-                           static_cast<int> (zoomButtonY * uiScale),
-                           static_cast<int> (zoomButtonSize * uiScale),
-                           static_cast<int> (zoomButtonSize * uiScale));
+    zoomPlusButton = QRect(zoomPlusX, zoomButtonY, zoomButtonSize, zoomButtonSize);
     // Minus button
     QImage zoomMinus(":res/zoom_minus.png");
     QImage zoomMinusScaled = zoomMinus.scaled(zoomButtonSize, zoomButtonSize,
                                               Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    int zoomMinusX = static_cast<int> (zoomPlusX - zoomButtonSize - zoomButtonMargin);
+    int zoomMinusX = static_cast<int> (zoomPlusX - zoomButtonSize - zoomButtonMargin - 1);
     painter.drawImage(zoomMinusX, zoomButtonY, zoomMinusScaled);
-    zoomMinusButton = QRect(static_cast<int> (zoomMinusX * uiScale),
-                            static_cast<int> (zoomButtonY * uiScale),
-                            static_cast<int> (zoomButtonSize * uiScale),
-                            static_cast<int> (zoomButtonSize * uiScale));
+    zoomMinusButton = QRect(zoomMinusX, zoomButtonY, zoomButtonSize, zoomButtonSize);
 }
 
 void DeckTrackerBase::drawDeckInfo(QPainter &painter)
@@ -255,7 +241,7 @@ void DeckTrackerBase::drawDeckInfo(QPainter &painter)
              uiPos.x(), uiPos.y() - titleHeight - 5, titleHeight, uiWidth);
     // Deck identity
     int manaMargen = 3;
-    int manaSize = 12;
+    int manaSize = 12 + static_cast<int> (uiScale * 1);
     int manaX = uiPos.x() + 8;
     int manaY = uiPos.y() + uiHeight - manaSize - 4;
     QString deckColorIdentity = onGetDeckColorIdentity();
@@ -304,7 +290,7 @@ void DeckTrackerBase::drawDeckCards(QPainter &painter)
         // Card mana
         int manaRightMargin = 7;
         int manaMargin = 2;
-        int manaSize = 8;
+        int manaSize = 8 + static_cast<int> (uiScale * 0.5);
         int manaCostWidth = card->manaSymbols.length() * (manaSize + manaMargin);
         int manaX = uiPos.x() + uiWidth - manaRightMargin - manaCostWidth;
         int manaY = cardBGY + cardBGImgSize.height()/2 - manaSize/2;
@@ -430,6 +416,23 @@ void DeckTrackerBase::drawMana(QPainter &painter, QString manaSymbol, int manaSi
     }
 }
 
+void DeckTrackerBase::onScaleChanged()
+{
+    uiWidth = BASE_UI_WIDTH + uiScale * 10;
+    // Title
+    int titleFontSize = 9 + (uiScale / 2);
+#if defined Q_OS_MAC
+    titleFontSize += 4;
+#endif
+    titleFont.setPointSize(titleFontSize);
+    // Card
+    int cardFontSize = 7 + (uiScale / 2);
+#if defined Q_OS_MAC
+    cardFontSize += 2;
+#endif
+    cardFont.setPointSize(cardFontSize);
+}
+
 bool DeckTrackerBase::event(QEvent *event)
 {
     switch(event->type()){
@@ -487,7 +490,7 @@ int DeckTrackerBase::getCardsHoverPosition(QHoverEvent *event)
     if (cardsHoverY < 0) {
         return -1;
     } else {
-        return cardsHoverY / getCardHeight();
+        return static_cast<int> (cardsHoverY / getCardHeight());
     }
 }
 
@@ -572,10 +575,8 @@ void DeckTrackerBase::onExpandBarClick()
 
 void DeckTrackerBase::onZoomMinusClick()
 {
-    if (uiScale > 0.9) {
-        uiScale -= 0.05;
-        int x = static_cast<int> (uiPos.x() * 0.05);
-        uiPos += QPoint(x, 0);
+    if (uiScale > 1) {
+        uiScale -= 1;
         update();
         onScaleChanged();
     }
@@ -583,10 +584,8 @@ void DeckTrackerBase::onZoomMinusClick()
 
 void DeckTrackerBase::onZoomPlusClick()
 {
-    if (uiScale < 1.3) {
-        uiScale += 0.05;
-        int x = static_cast<int> (uiPos.x() * 0.05);
-        uiPos -= QPoint(x, 0);
+    if (uiScale < 4) {
+        uiScale += 1;
         update();
         onScaleChanged();
     }

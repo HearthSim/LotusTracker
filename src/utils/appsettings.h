@@ -42,15 +42,15 @@ public:
     void enableDeckTrackerPlayerStatistics(bool enabled);
     QPoint getDeckTrackerPlayerPos(int uiWidth);
     void setDeckTrackerPlayerPos(QPoint pos);
-    qreal getDeckTrackerPlayerScale();
-    void setDeckTrackerPlayerScale(qreal scale);
+    int getDeckTrackerPlayerScale();
+    void setDeckTrackerPlayerScale(int scale);
     // Deck tracker opponent
     bool isDeckTrackerOpponentEnabled();
     void enableDeckTrackerOpponent(bool enabled);
     QPoint getDeckTrackerOpponentPos(int uiWidth);
     void setDeckTrackerOpponentPos(QPoint pos);
-    qreal getDeckTrackerOpponentScale();
-    void setDeckTrackerOpponentScale(qreal scale);
+    int getDeckTrackerOpponentScale();
+    void setDeckTrackerOpponentScale(int scale);
 
     void setUserSettings(UserSettings userSettings, QString userName = "");
     UserSettings getUserSettings();

@@ -67,14 +67,15 @@ void DeckTrackerPlayer::onPositionChanged()
 
 void DeckTrackerPlayer::onScaleChanged()
 {
+    DeckTrackerBase::onScaleChanged();
     APP_SETTINGS->setDeckTrackerPlayerScale(uiScale);
 }
 
 void DeckTrackerPlayer::afterPaintEvent(QPainter &painter)
 {
     // Preferences button
-    int buttonSize = 16;
-    int buttonMarginX = 2;
+    int buttonSize = 15 + static_cast<int> (uiScale * 1);
+    int buttonMarginX = 3;
     int buttonMarginY = 3;
     int preferencesButtonY = uiPos.y() + buttonMarginY;
     QImage settings(":res/preferences.png");
@@ -82,22 +83,16 @@ void DeckTrackerPlayer::afterPaintEvent(QPainter &painter)
                                             Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     int settingsPlusX = uiPos.x() + uiWidth - buttonSize - buttonMarginX;
     painter.drawImage(settingsPlusX, preferencesButtonY, settingsScaled);
-    preferencesButton = QRect(static_cast<int> (settingsPlusX * uiScale),
-                              static_cast<int> (preferencesButtonY * uiScale),
-                              static_cast<int> (buttonSize * uiScale),
-                              static_cast<int> (buttonSize * uiScale));
+    preferencesButton = QRect(settingsPlusX, preferencesButtonY, buttonSize, buttonSize);
     // publish Button
     int publishButtonY = uiPos.y() + buttonMarginY;
     QImage publish(publishingDeckIcon);
     QImage publishScaled = publish.scaled(buttonSize, buttonSize,
                                           Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     int publishX = uiPos.x() + uiWidth - buttonSize - buttonMarginX -
-            buttonSize - buttonMarginX + 1;
+            buttonSize - buttonMarginX;
     painter.drawImage(publishX, publishButtonY, publishScaled);
-    publishDeckButton = QRect(static_cast<int> (publishX * uiScale),
-                              static_cast<int> (publishButtonY * uiScale),
-                              static_cast<int> (buttonSize * uiScale),
-                              static_cast<int> (buttonSize * uiScale));
+    publishDeckButton = QRect(publishX, publishButtonY, buttonSize, buttonSize);
     // WinRate
     if (deckWins > 0 || deckLosses > 0) {
         QString winRate = QString("%1-%2 (%3%)").arg(deckWins).arg(deckLosses)
@@ -122,6 +117,7 @@ void DeckTrackerPlayer::applyCurrentSettings()
     uiPos = APP_SETTINGS->getDeckTrackerPlayerPos(uiWidth);
     uiScale = APP_SETTINGS->getDeckTrackerPlayerScale();
     isStatisticsEnabled = APP_SETTINGS->isDeckTrackerPlayerStatisticsEnabled();
+    DeckTrackerBase::onScaleChanged();
 }
 
 void DeckTrackerPlayer::publishingDeckAnim()

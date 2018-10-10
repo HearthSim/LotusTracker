@@ -9,7 +9,8 @@
 class DeckTrackerOpponent : public DeckTrackerBase
 {
     Q_OBJECT
-
+private:
+    int lastUiScale;
 protected:
     QString onGetDeckColorIdentity();
     virtual void onPositionChanged();

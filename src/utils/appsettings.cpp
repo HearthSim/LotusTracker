@@ -184,12 +184,12 @@ void AppSettings::setDeckTrackerPlayerPos(QPoint pos)
     settings.setValue(KEY_TRACKER_PLAYER_Y, pos.y());
 }
 
-qreal AppSettings::getDeckTrackerPlayerScale()
+int AppSettings::getDeckTrackerPlayerScale()
 {
-    return settings.value(KEY_TRACKER_PLAYER_SCALE, 1).toReal();
+    return settings.value(KEY_TRACKER_PLAYER_SCALE, 1).toInt();
 }
 
-void AppSettings::setDeckTrackerPlayerScale(qreal scale)
+void AppSettings::setDeckTrackerPlayerScale(int scale)
 {
     settings.setValue(KEY_TRACKER_PLAYER_SCALE, scale);
 }
@@ -221,12 +221,12 @@ void AppSettings::setDeckTrackerOpponentPos(QPoint pos)
     settings.setValue(KEY_TRACKER_OPPONENT_Y, pos.y());
 }
 
-qreal AppSettings::getDeckTrackerOpponentScale()
+int AppSettings::getDeckTrackerOpponentScale()
 {
-    return settings.value(KEY_TRACKER_OPPONENT_SCALE, 1).toReal();
+    return settings.value(KEY_TRACKER_OPPONENT_SCALE, 1).toInt();
 }
 
-void AppSettings::setDeckTrackerOpponentScale(qreal scale)
+void AppSettings::setDeckTrackerOpponentScale(int scale)
 {
     settings.setValue(KEY_TRACKER_OPPONENT_SCALE, scale);
 }

@@ -18,6 +18,8 @@ void DeckTrackerOpponent::applyCurrentSettings()
 {
     uiPos = APP_SETTINGS->getDeckTrackerOpponentPos(uiWidth);
     uiScale = APP_SETTINGS->getDeckTrackerOpponentScale();
+    lastUiScale = uiScale;
+    DeckTrackerBase::onScaleChanged();
 }
 
 QString DeckTrackerOpponent::onGetDeckColorIdentity()
@@ -32,7 +34,14 @@ void DeckTrackerOpponent::onPositionChanged()
 
 void DeckTrackerOpponent::onScaleChanged()
 {
+    DeckTrackerBase::onScaleChanged();
+    if (uiScale > lastUiScale) {
+        uiPos -= QPoint(10, 0);
+    } else {
+        uiPos += QPoint(10, 0);
+    }
     APP_SETTINGS->setDeckTrackerOpponentScale(uiScale);
+    lastUiScale = uiScale;
 }
 
 void DeckTrackerOpponent::afterPaintEvent(QPainter &painter)
