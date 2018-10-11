@@ -127,6 +127,13 @@ void MtgCards::downloadSetOnFinish()
     setFile.open(QIODevice::WriteOnly);
     setFile.write(jsonData);
     setFile.close();
+    if (version != "v1") {
+        int currentVersionNumber = version.right(1).toInt();
+        QString oldVersion = QString("v%1").arg(currentVersionNumber - 1);
+        QString oldSetCodeVersion = QString("%1_%2").arg(setCode).arg(oldVersion);
+        QFile oldSetFile(setsDir + QDir::separator() + oldSetCodeVersion + ".json");
+        oldSetFile.remove();
+    }
 
     loadSetFromFile(setCodeVersion + ".json");
 }
