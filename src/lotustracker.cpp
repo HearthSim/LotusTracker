@@ -194,8 +194,6 @@ void LotusTracker::setupLogParserConnections()
             this, &LotusTracker::onGameCompleted);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchResult,
             this, &LotusTracker::onMatchEnds);
-    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerTakesMulligan,
-            this, &LotusTracker::onPlayerTakesMulligan);
 }
 
 void LotusTracker::setupMtgaMatchConnections()
@@ -352,11 +350,6 @@ void LotusTracker::onMatchEnds(int winningTeamId)
                               deckTrackerPlayer->getDeck(),
                               mtgaMatch->getPlayerRankInfo().first);
     }
-}
-
-void LotusTracker::onPlayerTakesMulligan()
-{
-    deckTrackerPlayer->resetDeck();
 }
 
 void LotusTracker::onDeckTrackerPlayerEnabledChange(bool enabled)

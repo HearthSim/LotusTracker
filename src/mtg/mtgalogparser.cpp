@@ -255,7 +255,7 @@ void MtgaLogParser::parseMatchInfo(QString json)
     if (roomState == "MatchGameRoomStateType_MatchCompleted"){
         QJsonObject jsonFinalMatchResult = jsonRoomInfo["finalMatchResult"].toObject();
         QJsonArray jsonResults = jsonFinalMatchResult["resultList"].toArray();
-        int matchWinningTeamId;
+        int matchWinningTeamId = -1;
         for (QJsonValueRef jsonPlayerRef : jsonResults) {
             QJsonObject jsonResult = jsonPlayerRef.toObject();
             QString resultScope = jsonResult["scope"].toString();
@@ -410,7 +410,9 @@ void MtgaLogParser::parseGameStateDiff(int gameStateId, QJsonObject jsonMessage,
         emit sgnGameCompleted(getGameResults(jsonResults));
     }
     QList<MatchZone> zones = getMatchZones(jsonMessage);
-    checkPlayerMulligan(zones, hasMulliganReq);
+    if (hasMulliganReq) {
+        checkPlayerMulligan(zones);
+    }
     QJsonArray jsonGameObjects = jsonMessage["gameObjects"].toArray();
     for (QJsonValueRef jsonGameObjectRef : jsonGameObjects) {
         QJsonObject jsonGameObject = jsonGameObjectRef.toObject();
@@ -487,11 +489,8 @@ QList<MatchZone> MtgaLogParser::getMatchZones(QJsonObject jsonGameStateMessage)
     return zones;
 }
 
-void MtgaLogParser::checkPlayerMulligan(QList<MatchZone> zones, bool hasMulliganReq)
+void MtgaLogParser::checkPlayerMulligan(QList<MatchZone> zones)
 {
-    if (!hasMulliganReq) {
-        return;
-    }
     int libraryPlusHandSize = 0;
     for (MatchZone zone : zones) {
         if (zone.type() == ZoneType_LIBRARY) {
@@ -556,7 +555,7 @@ QMap<int, int> MtgaLogParser::getIdsChanged(QJsonArray jsonGSMAnnotations)
         QString type = jsonAnnotation["type"].toArray().first().toString();
         if (type == "AnnotationType_ObjectIdChanged") {
             QJsonArray jsonDetails = jsonAnnotation["details"].toArray();
-            int orgId, newId;
+            int orgId, newId = 0;
             for (QJsonValueRef jsonDetailsRef : jsonDetails) {
                 QJsonObject details = jsonDetailsRef.toObject();
                 QString key = details["key"].toString();
