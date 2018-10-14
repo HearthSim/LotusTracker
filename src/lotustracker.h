@@ -19,6 +19,7 @@
 
 #include <QApplication>
 #include <QLocalServer>
+#include <QTimer>
 
 class LotusTracker : public QApplication
 {
@@ -33,8 +34,9 @@ private:
     StartScreen *startScreen;
     LotusTrackerAPI *lotusAPI;
     QPair<QString, Deck> eventPlayerCourse;
-    QTimer *hideTrackerTimer;
+    QTimer *hideTrackerTimer, *checkConnection;
     bool isAlreadyRunning();
+    bool isOnline();
     void setupApp();
     void setupUpdater();
     void setupPreferencesScreen();

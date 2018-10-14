@@ -27,7 +27,9 @@ MtgCards::MtgCards(QObject *parent) : QObject(parent)
         QDir dir;
         dir.mkpath(setsDir);
     }
+#ifdef QT_DEBUG
     updateMtgaSetsFromAPI();
+#endif
 }
 
 Card* MtgCards::findCard(int mtgaId)
@@ -64,7 +66,8 @@ void MtgCards::updateMtgaSetsFromAPIRequestOnFinish()
     if (statusCode < 200 || statusCode > 299) {
         QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
         LOGW(QString("Error: %1 - %2").arg(reply->errorString()).arg(reason));
-        LOTUS_TRACKER->showMessage(tr("Error downloading sets list"));
+        LOTUS_TRACKER->showMessage(tr("Error downloading sets list. ") +
+                                   qApp->applicationName() + tr(" will try again when the game starts."));
         return;
     }
 
@@ -263,7 +266,7 @@ QList<QChar> MtgCards::getLandBorderColorUsingColorIdentity(QJsonObject jsonCard
         borderColorIdentity << QChar('m');
     }
     if (borderColorIdentity.isEmpty()) {
-        borderColorIdentity << QChar(text.contains("mana of any color") ? 'm' : 'c');
+        borderColorIdentity << 'c';
     }
     return borderColorIdentity;
 }

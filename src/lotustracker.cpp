@@ -12,6 +12,8 @@
 
 #include <QLocalSocket>
 #include <QMessageBox>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 
 LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
 {
@@ -54,12 +56,22 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
     setupLogParserConnections();
     setupMtgaMatchConnections();
     setupPreferencesScreen();
-    checkForAutoLogin();
     LOGI("Lotus Tracker started");
     if (APP_SETTINGS->isFirstRun()) {
         startScreen->show();
         startScreen->raise();
         showMessage(tr("Lotus Tracker is running in background, you can click on tray icon for preferences."));
+    } else {
+        checkConnection = new QTimer();
+        connect(checkConnection, &QTimer::timeout, this, [this]() {
+            LOGD("Checking internet connection..");
+            if (isOnline()) {
+                LOGD("Internet connection OK");
+                checkConnection->stop();
+                checkForAutoLogin();
+            }
+        });
+        checkConnection->start(3000);
     }
 }
 
@@ -124,6 +136,17 @@ bool LotusTracker::isAlreadyRunning() {
         return true;
     }
     return false;
+}
+
+bool LotusTracker::isOnline()
+{
+    QNetworkAccessManager nam;
+    QNetworkRequest req(QUrl("http://www.google.com"));
+    QNetworkReply *reply = nam.get(req);
+    QEventLoop loop;
+    connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
+    loop.exec();
+    return reply->bytesAvailable();
 }
 
 void LotusTracker::setupPreferencesScreen()
