@@ -17,64 +17,69 @@
         <file>res/preferences_logs.png</file>
         <file>res/preferences_about.png</file>
         <file>res/cards/mtg/a.png</file>
+        <file>res/cards/mtg/b.png</file>
         <file>res/cards/mtg/bg.png</file>
+        <file>res/cards/mtg/br.png</file>
         <file>res/cards/mtg/c.png</file>
-        <file>res/cards/mtg/gu.png</file>
+        <file>res/cards/mtg/g.png</file>
         <file>res/cards/mtg/m.png</file>
+        <file>res/cards/mtg/r.png</file>
         <file>res/cards/mtg/rg.png</file>
         <file>res/cards/mtg/u.png</file>
-        <file>res/cards/mtg/ur.png</file>
-        <file>res/cards/mtg/wb.png</file>
-        <file>res/cards/mtg/b.png</file>
-        <file>res/cards/mtg/br.png</file>
-        <file>res/cards/mtg/g.png</file>
-        <file>res/cards/mtg/gw.png</file>
-        <file>res/cards/mtg/r.png</file>
-        <file>res/cards/mtg/rw.png</file>
         <file>res/cards/mtg/ub.png</file>
+        <file>res/cards/mtg/ug.png</file>
+        <file>res/cards/mtg/ur.png</file>
         <file>res/cards/mtg/w.png</file>
+        <file>res/cards/mtg/wb.png</file>
+        <file>res/cards/mtg/wg.png</file>
+        <file>res/cards/mtg/wr.png</file>
         <file>res/cards/mtg/wu.png</file>
         <file>res/cards/mtga/a.png</file>
+        <file>res/cards/mtga/b.png</file>
         <file>res/cards/mtga/bg.png</file>
+        <file>res/cards/mtga/br.png</file>
         <file>res/cards/mtga/c.png</file>
-        <file>res/cards/mtga/gu.png</file>
+        <file>res/cards/mtga/g.png</file>
         <file>res/cards/mtga/m.png</file>
+        <file>res/cards/mtga/r.png</file>
         <file>res/cards/mtga/rg.png</file>
         <file>res/cards/mtga/u.png</file>
-        <file>res/cards/mtga/ur.png</file>
-        <file>res/cards/mtga/wb.png</file>
-        <file>res/cards/mtga/b.png</file>
-        <file>res/cards/mtga/br.png</file>
-        <file>res/cards/mtga/g.png</file>
-        <file>res/cards/mtga/gw.png</file>
-        <file>res/cards/mtga/r.png</file>
-        <file>res/cards/mtga/rw.png</file>
         <file>res/cards/mtga/ub.png</file>
+        <file>res/cards/mtga/ug.png</file>
+        <file>res/cards/mtga/ur.png</file>
         <file>res/cards/mtga/w.png</file>
+        <file>res/cards/mtga/wb.png</file>
+        <file>res/cards/mtga/wg.png</file>
+        <file>res/cards/mtga/wr.png</file>
         <file>res/cards/mtga/wu.png</file>
 		<file>res/covers/b.jpg</file>
-		<file>res/covers/c.jpg</file>
-		<file>res/covers/gw.jpg</file>
-		<file>res/covers/rg.jpg</file>
-		<file>res/covers/ub.jpg</file>
-		<file>res/covers/wb.jpg</file>
 		<file>res/covers/bg.jpg</file>
-		<file>res/covers/default.jpg</file>
-		<file>res/covers/gwu.jpg</file>
-		<file>res/covers/rgw.jpg</file>
-		<file>res/covers/ubr.jpg</file>
-		<file>res/covers/wu.jpg</file>
 		<file>res/covers/br.jpg</file>
+		<file>res/covers/brg.jpg</file>
+		<file>res/covers/c.jpg</file>
+		<file>res/covers/default.jpg</file>
 		<file>res/covers/g.jpg</file>
 		<file>res/covers/m.jpg</file>
-		<file>res/covers/rw.jpg</file>
-		<file>res/covers/ur.jpg</file>
-		<file>res/covers/wub.jpg</file>
-		<file>res/covers/brg.jpg</file>
-		<file>res/covers/gu.jpg</file>
 		<file>res/covers/r.jpg</file>
+		<file>res/covers/rg.jpg</file>
 		<file>res/covers/u.jpg</file>
+		<file>res/covers/ub.jpg</file>
+		<file>res/covers/ubg.jpg</file>
+		<file>res/covers/ubr.jpg</file>
+		<file>res/covers/ug.jpg</file>
+		<file>res/covers/ur.jpg</file>
+		<file>res/covers/urg.jpg</file>
 		<file>res/covers/w.jpg</file>
+		<file>res/covers/wb.jpg</file>
+		<file>res/covers/wbg.jpg</file>
+		<file>res/covers/wbr.jpg</file>
+		<file>res/covers/wg.jpg</file>
+		<file>res/covers/wr.jpg</file>
+		<file>res/covers/wrg.jpg</file>
+		<file>res/covers/wu.jpg</file>
+		<file>res/covers/wub.jpg</file>
+		<file>res/covers/wug.jpg</file>
+		<file>res/covers/wur.jpg</file>
         <file>res/fonts/Beleren-Bold.ttf</file>
         <file>res/fonts/OpenSans-Regular.ttf</file>
         <file>res/icons/icon_black.png</file>
