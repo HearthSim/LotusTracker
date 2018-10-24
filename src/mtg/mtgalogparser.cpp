@@ -105,7 +105,9 @@ void MtgaLogParser::parse(QString logNewContent)
 void MtgaLogParser::parseMsg(QPair<QString, QString> msg)
 {
 #ifdef QT_DEBUG
-    LOGD(msg.first);
+    if (msg.first != "GreToClientEvent") {
+        LOGD(msg.first);
+    }
 #endif
     if (msg.first == "PlayerInventory.GetPlayerInventory") {
         parsePlayerInventory(msg.second);

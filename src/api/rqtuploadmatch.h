@@ -20,6 +20,7 @@ public:
             {"cards", cards2JsonMapValue(playerDeck.cards(true))},
             {"colors", playerDeck.colorIdentity()},
             {"deck", playerDeck.id},
+            {"name", playerDeck.name},
             {"rank", playerRankClass}
         };
         QJsonObject player2Json{
