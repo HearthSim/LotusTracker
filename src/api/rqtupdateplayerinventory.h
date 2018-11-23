@@ -10,10 +10,13 @@ public:
     RqtUpdatePlayerInventory(QString userId, PlayerInventory playerInventory, QString appVersion) {
         QJsonObject jsonObj{
             {"userId", userId},
+            {"gold", playerInventory.getGold()},
+            {"gems", playerInventory.getGems()},
             {"wcCommon", playerInventory.getWcCommon()},
             {"wcUncommon", playerInventory.getWcUncommon()},
             {"wcRare", playerInventory.getWcRare()},
             {"wcMythic", playerInventory.getWcMythic()},
+            {"vaultProgress", playerInventory.getVaultProgress()},
             {"appVersion", appVersion}
         };
         _body = QJsonDocument(jsonObj);

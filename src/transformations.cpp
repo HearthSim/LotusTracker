@@ -31,7 +31,7 @@ QString Transformations::colorIdentityListToString(QList<QChar> distinctManaSymb
     if (identity == "grw") { identity = "wrg"; }    // Naya
     if (identity == "bgw") { identity = "wbg"; }    // Abzan
     if (identity == "brw") { identity = "wbr"; }    // Mardu
-    if (identity == "bwu") { identity = "wub"; }    // Esper
+    if (identity == "buw") { identity = "wub"; }    // Esper
     if (identity == "guw") { identity = "wug"; }    // Bant
     if (identity == "ruw") { identity = "wur"; }    // Jeskai
     return (identity.isEmpty()) ? "" : identity;

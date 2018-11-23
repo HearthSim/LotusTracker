@@ -144,11 +144,14 @@ void MtgaLogParser::parsePlayerInventory(QString json)
     if (jsonPlayerIventory.empty()) {
         return;
     }
+    int gold = jsonPlayerIventory["gold"].toInt();
+    int gems = jsonPlayerIventory["gems"].toInt();
     int wcCommon = jsonPlayerIventory["wcCommon"].toInt();
     int wcUncommon = jsonPlayerIventory["wcUncommon"].toInt();
     int wcRare = jsonPlayerIventory["wcRare"].toInt();
     int wcMythic = jsonPlayerIventory["wcMythic"].toInt();
-    PlayerInventory playerInventory(wcCommon, wcUncommon, wcRare, wcMythic);
+    double vaultProgress = jsonPlayerIventory["vaultProgress"].toDouble();
+    PlayerInventory playerInventory(gold, gems, wcCommon, wcUncommon, wcRare, wcMythic, vaultProgress);
     LOGD(QString("PlayerInventory: %1 wcC, %2 wcI, %3 wcR, %4 wcM")
          .arg(wcCommon).arg(wcUncommon).arg(wcRare).arg(wcMythic));
     emit sgnPlayerInventory(playerInventory);
