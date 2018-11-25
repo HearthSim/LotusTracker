@@ -183,6 +183,10 @@ void LotusTrackerAPI::onTokenRefreshed()
     for(QString requestUrl : requestsToRecall.keys()) {
         QPair<QString, RequestData> methodRequest = requestsToRecall[requestUrl];
         LOGD(QString("Recalling request"));
+        if (methodRequest.first == "GET") {
+            LotusTrackerAPIMethod onFinish = requestToRecallOnFinish[requestUrl];
+            sendGet(methodRequest.second, onFinish);
+        }
         if (methodRequest.first == "POST") {
             sendPost(methodRequest.second);
         }
@@ -300,18 +304,12 @@ void LotusTrackerAPI::getPlayerDeckWinRate(QString deckId, QString eventId)
     if (userSettings.userToken.isEmpty()) {
         return;
     }
-    QUrl url(QString("%1/users/decks/winrate?userId=%2&deckId=%3&eventId=%4")
-             .arg(URLs::API()).arg(userSettings.userId).arg(deckId).arg(eventId));
-    QNetworkRequest request(url);
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    request.setRawHeader(QString(HEADER_AUTHORIZATION).toUtf8(),
-                         QString("Bearer %1").arg(userSettings.userToken).toUtf8());
-    if (LOG_REQUEST_ENABLED) {
-        LOGD(QString("Get Request: %1").arg(url.toString()));
-    }
-    QNetworkReply *reply = networkManager.get(request);
-    connect(reply, &QNetworkReply::finished,
-            this, &LotusTrackerAPI::getPlayerDeckWinRateRequestOnFinish);
+    QString path = QString("users/decks/winrate?userId=%1&deckId=%2&eventId=%3")
+                    .arg(userSettings.userId).arg(deckId).arg(eventId);
+    RequestData rqtGetDeckWinRate(path);
+    LotusTrackerAPIMethod onFinish = &LotusTrackerAPI::getPlayerDeckWinRateRequestOnFinish;
+    QNetworkRequest request = prepareGetRequest(rqtGetDeckWinRate, true, onFinish);
+    sendGet(rqtGetDeckWinRate, onFinish);
 }
 
 void LotusTrackerAPI::getPlayerDeckWinRateRequestOnFinish()
@@ -348,18 +346,11 @@ void LotusTrackerAPI::getPlayerDeckToUpdate(QString deckID)
         return;
     }
 
-    QUrl url(QString("%1/users/decks?userId=%2&deckId=%3").arg(URLs::API())
-             .arg(userSettings.userId).arg(deckID));
-    QNetworkRequest request(url);
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    request.setRawHeader(QString(HEADER_AUTHORIZATION).toUtf8(),
-                         QString("Bearer %1").arg(userSettings.userToken).toUtf8());
-    if (LOG_REQUEST_ENABLED) {
-        LOGD(QString("Get Request: %1").arg(url.toString()));
-    }
-    QNetworkReply *reply = networkManager.get(request);
-    connect(reply, &QNetworkReply::finished,
-            this, &LotusTrackerAPI::getPlayerDeckToUpdateRequestOnFinish);
+    QString path = QString("users/decks?userId=%1&deckId=%2").arg(userSettings.userId).arg(deckID);
+    RequestData rqtDeckToUpdate(path);
+    LotusTrackerAPIMethod onFinish = &LotusTrackerAPI::getPlayerDeckToUpdateRequestOnFinish;
+    QNetworkRequest request = prepareGetRequest(rqtDeckToUpdate, true, onFinish);
+    sendGet(rqtDeckToUpdate, onFinish);
 }
 
 void LotusTrackerAPI::getPlayerDeckToUpdateRequestOnFinish()
@@ -461,6 +452,14 @@ void LotusTrackerAPI::registerPlayerMatch(QString matchID)
     sendPost(rqtRegisterPlayerMatch);
 }
 
+QNetworkRequest LotusTrackerAPI::prepareGetRequest(RequestData requestData, bool checkUserAuth,
+                                                   LotusTrackerAPIMethod onRequestFinish)
+{
+    QNetworkRequest request = prepareRequest(requestData, checkUserAuth, "GET");
+    requestToRecallOnFinish[request.url().toString()] = onRequestFinish;
+    return request;
+}
+
 QNetworkRequest LotusTrackerAPI::prepareRequest(RequestData requestData,
                                                 bool checkUserAuth, QString method)
 {
@@ -470,7 +469,7 @@ QNetworkRequest LotusTrackerAPI::prepareRequest(RequestData requestData,
     requestsToRecall[url.toString()] = qMakePair(method, requestData);
     UserSettings userSettings = APP_SETTINGS->getUserSettings();
     if (checkUserAuth && !userSettings.isAuthValid()) {
-        LOGD(QString("User token expired.").arg(url.toString()));
+        LOGD(QString("User token expired - %1").arg(url.toString()));
         refreshToken(userSettings.refreshToken);
         return request;
     }
@@ -496,6 +495,16 @@ QBuffer* LotusTrackerAPI::prepareBody(RequestData requestData)
     buffer->write(bodyJson);
     buffer->seek(0);
     return buffer;
+}
+
+void LotusTrackerAPI::sendGet(RequestData requestData, LotusTrackerAPIMethod onRequestFinish)
+{
+    QNetworkRequest request = prepareGetRequest(requestData, true, onRequestFinish);
+    if (!request.hasRawHeader(QString(HEADER_AUTHORIZATION).toUtf8())) {
+        return;
+    }
+    QNetworkReply *reply = networkManager.get(request);
+    connect(reply, &QNetworkReply::finished, this, onRequestFinish);
 }
 
 void LotusTrackerAPI::sendPatch(RequestData requestData)

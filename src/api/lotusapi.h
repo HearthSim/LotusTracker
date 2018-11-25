@@ -16,11 +16,15 @@ class LotusTrackerAPI : public QObject
 {
     Q_OBJECT
 private:
+//    typedef void (LotusTrackerAPI::*FunctionType)();
+    typedef void (LotusTrackerAPI::*LotusTrackerAPIMethod)();
+
     bool isRefreshTokenInProgress;
     RqtRegisterPlayerMatch rqtRegisterPlayerMatch;
     QNetworkAccessManager networkManager;
     QDateTime lastUpdatePlayerCollectionDate, lastUpdatePlayerInventoryDate;
     //Params for recall after refresh token
+    QMap<QString, LotusTrackerAPIMethod> requestToRecallOnFinish;
     QMap<QString, QPair<QString, RequestData>> requestsToRecall;  //url, <method, request>
     Deck paramDeck;
 
@@ -33,9 +37,12 @@ private:
     Deck jsonToDeck(QJsonObject deckJson);
     void registerPlayerMatch(QString matchID);
     void uploadMatchRequestOnFinish();
+    QNetworkRequest prepareGetRequest(RequestData requestData, bool checkUserAuth,
+                                      LotusTrackerAPIMethod onRequestFinish);
     QNetworkRequest prepareRequest(RequestData requestData,
                                    bool checkUserAuth, QString method = "");
     QBuffer* prepareBody(RequestData requestData);
+    void sendGet(RequestData requestData, LotusTrackerAPIMethod onRequestFinish);
     void sendPatch(RequestData requestData);
     void sendPost(RequestData requestData);
     void requestOnFinish();
