@@ -7,6 +7,7 @@
 #include <QMap>
 #include <QPair>
 #include <QString>
+#include <QElapsedTimer>
 
 typedef enum {
     MatchMode_SINGLE,
@@ -16,14 +17,26 @@ typedef enum {
 
 class GameInfo
 {
+private:
+    QElapsedTimer timer;
+
 public:
     bool playerGoFirst, playerMulligan, opponentMulligan, isCompleted, playerWins;
+    int duration;
     Deck opponentDeck;
 
     GameInfo(): playerGoFirst(false), playerMulligan(false), opponentMulligan(false),
-        isCompleted(false), playerWins(false), opponentDeck(Deck()){
-
+        isCompleted(false), playerWins(false), duration(0), opponentDeck(Deck()){
+        timer.start();
     }
+
+    void finish(bool playerGameWins)
+    {
+        duration = static_cast<int>(timer.elapsed() / 1000);
+        playerWins = playerGameWins;
+        isCompleted = true;
+    }
+
 };
 
 class MatchInfo

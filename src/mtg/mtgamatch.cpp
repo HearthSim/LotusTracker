@@ -84,8 +84,7 @@ void MtgaMatch::onGameCompleted(Deck opponentDeck, QMap<int, int> teamIdWins)
     matchInfo.playerGameWins = teamIdWins[player.teamId()];
     matchInfo.playerGameLoses = teamIdWins[opponent.teamId()];
     bool playerGameWins = matchInfo.playerGameWins > playerCurrentWins;
-    matchInfo.currentGame().playerWins = playerGameWins;
-    matchInfo.currentGame().isCompleted = true;
+    matchInfo.currentGame().finish(playerGameWins);
 }
 
 void MtgaMatch::onEndCurrentMatch(int winningTeamId)
