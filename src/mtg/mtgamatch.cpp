@@ -145,8 +145,8 @@ void MtgaMatch::onMatchStateDiff(MatchStateDiff matchStateDiff)
     }
     // Initial player hand draws
     for (MatchZone zone : gameZones) {
-        if (zone.type() == ZoneType_LIBRARY && zone.ownerSeatId() == player.seatId()) {
-            if (zone.objectIds.size() >= 60) {
+        if (zone.type() == ZoneType_HAND && zone.ownerSeatId() == player.seatId()) {
+            if (zone.objectIds.size() == 0) {
                 notifyHandCardsDraw(matchStateDiff);
             }
             break;
@@ -159,7 +159,7 @@ void MtgaMatch::onMatchStateDiff(MatchStateDiff matchStateDiff)
     for (int objectId : idsZoneChanged.keys()) {
         MatchZone zoneSrc = gameZones[idsZoneChanged[objectId].zoneSrcId()];
         MatchZone zoneDst = gameZones[idsZoneChanged[objectId].zoneDstId()];
-        int oldObjectId;
+        int oldObjectId = 0;
         for (auto idChanged : matchStateDiff.idsChanged().toStdMap()) {
             if (idChanged.second == objectId) {
                 oldObjectId = idChanged.first;

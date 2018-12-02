@@ -225,7 +225,7 @@ void DeckTrackerPlayer::resetDeck()
 
 bool DeckTrackerPlayer::isDeckLoadedAndReseted()
 {
-    return deck.cards().size() >= 60 && deck.isReseted();
+    return deck.cards().size() > 0 && deck.isReseted();
 }
 
 void DeckTrackerPlayer::onPlayerPutInLibraryCard(Card* card)

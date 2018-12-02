@@ -365,11 +365,11 @@ void LotusTrackerAPI::getPlayerDeckToUpdateRequestOnFinish()
     int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     if (statusCode < 200 || statusCode > 299) {
         QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
-        LOGW(QString("Error: %1 - %2").arg(reply->errorString()).arg(reason));
         if (statusCode == 404) {    //Not found
             createPlayerDeck(paramDeck);
             return;
         }
+        LOGW(QString("Error: %1 - %2").arg(reply->errorString()).arg(reason));
         QString message = jsonRsp["error"].toString();
         LOTUS_TRACKER->showMessage(message);
         return;

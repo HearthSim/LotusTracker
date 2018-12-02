@@ -502,7 +502,6 @@ void DeckTrackerBase::updateCardHoverUrl(int hoverPosition)
     currentHoverPosition = hoverPosition;
     Card* cardHovered = getDeckCardsSorted()[currentHoverPosition];
     hoverCard = cardHovered;
-    LOGD(QString("%1 - %2").arg(currentHoverPosition).arg(cardHovered->name));
     update();
 }
 
