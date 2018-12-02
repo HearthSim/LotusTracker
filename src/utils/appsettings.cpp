@@ -33,7 +33,7 @@
 #define KEY_TRACKER_USER_NAME "Tracker/user/name"
 
 #define DEFAULT_TRACKER_VIEW_X 5
-#define DEFAULT_TRACKER_VIEW_Y 90
+#define DEFAULT_TRACKER_VIEW_Y 110
 
 AppSettings::AppSettings(QObject *parent) : QObject(parent)
 {

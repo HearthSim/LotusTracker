@@ -6,9 +6,9 @@
 #include <QList>
 #include <QRegularExpression>
 
-#define REGEXP_RAW_MSG "\\s(<==|Incoming|Match\\sto).+(\\s|\\n)(\\{|\\[)(\\n\\s+.*)+\\n(\\}|\\])"
+#define REGEXP_RAW_MSG "\\s(==>|<==|Incoming|Match\\sto).+(\\s|\\n)(\\{|\\[)(\\n\\s+.*)+\\n(\\}|\\])"
 #define REGEXP_MSG_RESPONSE_NUMBER "((?<=\\s)\\d+(?=\\:\\s)|(?<=\\()\\d+(?=\\)))"
-#define REGEXP_MSG_ID "\\S+(?=(\\s|\\n)(\\{|\\[))"
+#define REGEXP_MSG_ID "\\S+(?=(\\(|((\\s|\\n)(\\{|\\[))))"
 #define REGEXP_MSG_JSON "(\\{|\\[)(\\n\\s+.*)+\\n(\\}||\\])"
 
 MtgaLogParser::MtgaLogParser(QObject *parent, MtgCards *mtgCards)
@@ -33,9 +33,14 @@ Deck MtgaLogParser::jsonObject2Deck(QJsonObject jsonDeck)
     QMap<Card*, int> cards;
     for(QJsonValueRef jsonCardRef : jsonCards){
         QJsonObject jsonCard = jsonCardRef.toObject();
-        int cardId = jsonCard["id"].toString().toInt();
-        Card* card = mtgCards->findCard(cardId);
-        if (card) {
+        int cardId = 0;
+        if (jsonCard["id"].isString()) {
+            cardId = jsonCard["id"].toString().toInt();
+        } else {
+            cardId = jsonCard["id"].toInt();
+        }
+        if (cardId > 0) {
+            Card* card = mtgCards->findCard(cardId);
             cards[card] = jsonCard["quantity"].toInt();
         }
     }
@@ -135,6 +140,8 @@ void MtgaLogParser::parseMsg(QPair<QString, QString> msg)
         parsePlayerDeckSubmited(msg.second);
     } else if (msg.first == "GreToClientEvent"){
         parseGreToClientMessages(msg.second);
+    } else if (msg.first == "DirectGame.Challenge") {
+        parseDirectGameChallenge(msg.second);
     }
 }
 
@@ -334,6 +341,19 @@ void MtgaLogParser::parsePlayerDeckSubmited(QString json)
     Deck deckSubmited = jsonObject2Deck(jsonDeck);
     LOGD(QString("Deck submited: %1").arg(deckSubmited.name));
     emit sgnPlayerDeckSubmited(eventId, deckSubmited);
+}
+
+void MtgaLogParser::parseDirectGameChallenge(QString json)
+{
+    QJsonObject jsonMessage = Transformations::stringToJsonObject(json);
+    QJsonObject jsonParams = jsonMessage["params"].toObject();
+    QString jsonDeckString = jsonParams["deck"].toString().replace("\\", "")
+            .replace("\"Id\"", "\"id\"").replace("\"Quantity\"", "\"quantity\"");
+    LOGD(jsonDeckString);
+    QJsonObject jsonDeck = Transformations::stringToJsonObject(jsonDeckString);
+    Deck deckSubmited = jsonObject2Deck(jsonDeck);
+    LOGD(QString("Deck submited: %1").arg(deckSubmited.name));
+    emit sgnPlayerDeckSubmited("DirectGame", deckSubmited);
 }
 
 void MtgaLogParser::parseSubmitDeck(QJsonObject jsonMessage)
@@ -585,8 +605,9 @@ QMap<int, MatchZoneTransfer> MtgaLogParser::getIdsZoneChanged(QJsonArray jsonGSM
         if (type == "AnnotationType_ZoneTransfer") {
             int transferId = jsonAnnotation["affectedIds"].toArray().first().toInt();
             QJsonArray jsonDetails = jsonAnnotation["details"].toArray();
-            int srcZone, dstZone;
-            ZoneTransferCategory transferCategory;
+            int srcZone = 0;
+            int dstZone = 0;
+            ZoneTransferCategory transferCategory = ZoneTransfer_UNKOWN;
             for (QJsonValueRef jsonDetailsRef : jsonDetails) {
                 QJsonObject details = jsonDetailsRef.toObject();
                 QString key = details["key"].toString();

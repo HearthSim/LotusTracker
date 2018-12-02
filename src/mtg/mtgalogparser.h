@@ -37,6 +37,7 @@ private:
     void parsePlayerDeckCreate(QString json);
     void parsePlayerDeckUpdate(QString json);
     void parsePlayerDeckSubmited(QString json);
+    void parseDirectGameChallenge(QString json);
     void parseSubmitDeck(QJsonObject jsonMessage);
     void parseGreToClientMessages(QString json);
     void parseGameStateFull(QJsonObject jsonMessage);
