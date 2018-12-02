@@ -102,7 +102,7 @@ void MtgaMatch::onPlayerRankInfo(QPair<QString, int> playerRankInfo)
     this->playerRankInfo = playerRankInfo;
 }
 
-void MtgaMatch::onPlayerTakesMulligan()
+void MtgaMatch::onPlayerTakesMulligan(QMap<int, int> newHandDrawed)
 {
     if (!isRunning) {
         return;
@@ -126,6 +126,11 @@ void MtgaMatch::onPlayerTakesMulligan()
             gameZones[zoneId] = zone;
             break;
         }
+    }
+    for(int mtgaCardId : newHandDrawed.values()) {
+        Card* card = mtgCards->findCard(mtgaCardId);
+        LOGI(QString("Player draw %1").arg(card->name));
+        emit sgnPlayerDrawCard(card);
     }
 }
 

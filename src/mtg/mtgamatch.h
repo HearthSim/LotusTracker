@@ -81,7 +81,7 @@ signals:
 public slots:
     void onMatchInfoSeats(QList<MatchPlayer> players);
     void onPlayerRankInfo(QPair<QString, int> playerRankInfo);
-    void onPlayerTakesMulligan();
+    void onPlayerTakesMulligan(QMap<int, int> newHandDrawed);
     void onOpponentTakesMulligan(int opponentSeatId);
     void onMatchStateDiff(MatchStateDiff matchStateDiff);
     void onNewTurnStarted(int turnNumber);
