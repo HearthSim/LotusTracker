@@ -377,7 +377,9 @@ void DeckTrackerBase::drawHoverCard(QPainter &painter)
     }
     QImage cardImgScaled = cardImg.scaled(cardHoverSize,
                                           Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+    painter.setOpacity(1);
     painter.drawImage(cardX, cardY, cardImgScaled);
+    painter.setOpacity(uiAlpha);
 }
 
 void DeckTrackerBase::onCardImageDownloaded()
