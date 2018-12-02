@@ -22,6 +22,11 @@ void DeckTrackerOpponent::applyCurrentSettings()
     DeckTrackerBase::onScaleChanged();
 }
 
+int DeckTrackerOpponent::getDeckNameYPosition()
+{
+    return uiPos.y() - titleHeight - 5;
+}
+
 QString DeckTrackerOpponent::onGetDeckColorIdentity()
 {
     return deck.colorIdentity(false, true);

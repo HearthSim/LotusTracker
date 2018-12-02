@@ -74,6 +74,7 @@ signals:
     void sgnTokenRefreshed();
     void sgnTokenRefreshError();
     void sgnDeckWinRate(int wins, int losses, double winRate);
+    void sgnEventName(QString eventName);
 
 private slots:
     void authRequestOnFinish();

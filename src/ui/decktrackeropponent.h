@@ -12,7 +12,8 @@ class DeckTrackerOpponent : public DeckTrackerBase
 private:
     int lastUiScale;
 protected:
-    QString onGetDeckColorIdentity();
+    virtual int getDeckNameYPosition();
+    virtual QString onGetDeckColorIdentity();
     virtual void onPositionChanged();
     virtual void onScaleChanged();
     virtual void afterPaintEvent(QPainter &painter);

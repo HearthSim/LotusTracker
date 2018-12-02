@@ -336,7 +336,9 @@ void LotusTrackerAPI::getPlayerDeckWinRateRequestOnFinish()
     int wins = jsonRsp["wins"].toInt();
     int losses = jsonRsp["losses"].toInt();
     double winRate = jsonRsp["winrate"].toDouble();
+    QString eventName = jsonRsp["eventName"].toString();
     emit sgnDeckWinRate(wins, losses, winRate);
+    emit sgnEventName(eventName);
 }
 
 void LotusTrackerAPI::getPlayerDeckToUpdate(QString deckID)

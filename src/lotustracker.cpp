@@ -35,6 +35,8 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
             this, &LotusTracker::onGameFocusChanged);
     connect(lotusAPI, &LotusTrackerAPI::sgnDeckWinRate,
             deckTrackerPlayer, &DeckTrackerPlayer::onPlayerDeckStatus);
+    connect(lotusAPI, &LotusTrackerAPI::sgnEventName,
+            deckTrackerPlayer, &DeckTrackerPlayer::onReceiveEventName);
     connect(lotusAPI, &LotusTrackerAPI::sgnRequestFinishedWithSuccess,
             deckTrackerPlayer, &DeckTrackerPlayer::onLotusAPIRequestFinishedWithSuccess);
     connect(lotusAPI, &LotusTrackerAPI::sgnRequestFinishedWithError,

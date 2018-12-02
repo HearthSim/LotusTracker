@@ -107,6 +107,8 @@ void DeckTrackerBase::setupDrawTools()
     titleFont.setFamily(QFontDatabase::applicationFontFamilies(belerenID).at(0));
     titleFont.setBold(true);
     titlePen = QPen(Qt::white);
+    QFontMetrics titleMetrics(titleFont);
+    titleHeight = titleMetrics.ascent() - titleMetrics.descent();
     onScaleChanged();
 }
 
@@ -211,37 +213,35 @@ void DeckTrackerBase::drawCover(QPainter &painter)
 
 void DeckTrackerBase::drawCoverButtons(QPainter &painter)
 {
-    int zoomButtonSize = 13 + static_cast<int> (uiScale * 1);
-    int zoomButtonMargin = 4;
-    int zoomButtonY = uiPos.y() + uiHeight - zoomButtonSize - zoomButtonMargin;
-    // Plus button
-    QImage zoomPlus(":res/zoom_plus.png");
-    QImage zoomPlusScaled = zoomPlus.scaled(zoomButtonSize, zoomButtonSize,
-                                            Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    int zoomPlusX = uiPos.x() + uiWidth - zoomButtonSize - zoomButtonMargin;
-    painter.drawImage(zoomPlusX, zoomButtonY, zoomPlusScaled);
-    zoomPlusButton = QRect(zoomPlusX, zoomButtonY, zoomButtonSize, zoomButtonSize);
+    int zoomButtonSize = 12 + static_cast<int> (uiScale * 1);
+    int zoomButtonMargin = 5;
+    int zoomButtonY = uiPos.y() + zoomButtonMargin;
     // Minus button
+    int zoomMinusX = uiPos.x() + zoomButtonMargin + 2;
     QImage zoomMinus(":res/zoom_minus.png");
     QImage zoomMinusScaled = zoomMinus.scaled(zoomButtonSize, zoomButtonSize,
                                               Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    int zoomMinusX = static_cast<int> (zoomPlusX - zoomButtonSize - zoomButtonMargin - 1);
     painter.drawImage(zoomMinusX, zoomButtonY, zoomMinusScaled);
     zoomMinusButton = QRect(zoomMinusX, zoomButtonY, zoomButtonSize, zoomButtonSize);
+    // Plus button
+    int zoomPlusX = static_cast<int> (zoomMinusX + zoomButtonSize + zoomButtonMargin);
+    QImage zoomPlus(":res/zoom_plus.png");
+    QImage zoomPlusScaled = zoomPlus.scaled(zoomButtonSize, zoomButtonSize,
+                                            Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    painter.drawImage(zoomPlusX, zoomButtonY, zoomPlusScaled);
+    zoomPlusButton = QRect(zoomPlusX, zoomButtonY, zoomButtonSize, zoomButtonSize);
 }
 
 void DeckTrackerBase::drawDeckInfo(QPainter &painter)
 {
     // Deck title
     QFontMetrics titleMetrics(titleFont);
-    int titleHeight = titleMetrics.ascent() - titleMetrics.descent();
     int titleTextOptions = Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextDontClip;
     QString deckName = titleMetrics.elidedText(deck.name, Qt::ElideRight, uiWidth);
     drawText(painter, titleFont, titlePen, deckName, titleTextOptions, true,
-             uiPos.x(), uiPos.y() - titleHeight - 5, titleHeight, uiWidth);
+             uiPos.x(), getDeckNameYPosition(), titleHeight, uiWidth);
     // Deck identity
-    int manaMargen = 3;
-    int manaSize = 12 + static_cast<int> (uiScale * 1);
+    int manaSize = 13 + static_cast<int> (uiScale * 1);
     int manaX = uiPos.x() + 8;
     int manaY = uiPos.y() + uiHeight - manaSize - 4;
     QString deckColorIdentity = onGetDeckColorIdentity();
@@ -249,7 +249,7 @@ void DeckTrackerBase::drawDeckInfo(QPainter &painter)
         for (int i=0; i<deckColorIdentity.length(); i++) {
             QChar manaSymbol = deckColorIdentity.at(i);
             drawMana(painter, manaSymbol, manaSize, false, manaX, manaY);
-            manaX += manaSize + manaMargen;
+            manaX += manaSize + 3;
         }
     }
 }

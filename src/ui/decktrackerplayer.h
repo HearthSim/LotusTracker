@@ -13,9 +13,9 @@ class DeckTrackerPlayer : public DeckTrackerBase
     Q_OBJECT
 private:
     QTimer *publishDeckTimer;
-    QString publishingDeckIcon;
+    QString publishingDeckIcon, eventName;
     bool isStatisticsEnabled;
-    int deckWins, deckLosses;
+    int deckWins, deckLosses, winrateFontSize;
     double deckWinRate;
     QPen statisticsPen, winRatePen;
     QFont statisticsFont, winRateFont;
@@ -24,6 +24,7 @@ private:
     void drawStatistics(QPainter &painter);
 
 protected:
+    virtual int getDeckNameYPosition();
     virtual QString onGetDeckColorIdentity();
     virtual void onPositionChanged();
     virtual void onScaleChanged();
@@ -50,6 +51,7 @@ public slots:
     void onPlayerPutInLibraryCard(Card* card);
     void onPlayerDrawCard(Card* card);
     void onPlayerDeckStatus(int wins, int losses, double winRate);
+    void onReceiveEventName(QString name);
     void onPlayerDiscardCard(Card* card);
     void onPlayerDiscardFromLibraryCard(Card* card);
     void onPlayerPutOnBattlefieldCard(Card* card);

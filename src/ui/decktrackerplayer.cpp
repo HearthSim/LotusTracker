@@ -7,7 +7,7 @@
 #include <QToolTip>
 
 DeckTrackerPlayer::DeckTrackerPlayer(QWidget *parent) : DeckTrackerBase(parent),
-    publishingDeckIcon(":res/publish_deck.png")
+    publishingDeckIcon(":res/publish_deck.png"), eventName("-")
 {
     publishDeckTimer = new QTimer(this);
     publishDeckTimer->setInterval(250);
@@ -15,7 +15,7 @@ DeckTrackerPlayer::DeckTrackerPlayer(QWidget *parent) : DeckTrackerBase(parent),
     applyCurrentSettings();
     // Statistics
     int statisticsFontSize = 8;
-    int winrateFontSize = 9;
+    winrateFontSize = 8;
 #if defined Q_OS_MAC
     statisticsFontSize += 2;
     winrateFontSize += 2;
@@ -85,27 +85,27 @@ void DeckTrackerPlayer::afterPaintEvent(QPainter &painter)
     painter.drawImage(settingsPlusX, preferencesButtonY, settingsScaled);
     preferencesButton = QRect(settingsPlusX, preferencesButtonY, buttonSize, buttonSize);
     // publish Button
-    int publishButtonY = uiPos.y() + buttonMarginY;
+    int publishButtonY = uiPos.y() + buttonSize + buttonMarginY + buttonMarginY;
     QImage publish(publishingDeckIcon);
     QImage publishScaled = publish.scaled(buttonSize, buttonSize,
                                           Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    int publishX = uiPos.x() + uiWidth - buttonSize - buttonMarginX -
-            buttonSize - buttonMarginX;
-    painter.drawImage(publishX, publishButtonY, publishScaled);
-    publishDeckButton = QRect(publishX, publishButtonY, buttonSize, buttonSize);
-    // WinRate
+    int publishButtonX = uiPos.x() + uiWidth - buttonSize - buttonMarginX;
+    painter.drawImage(publishButtonX, publishButtonY, publishScaled);
+    publishDeckButton = QRect(publishButtonX, publishButtonY, buttonSize, buttonSize);
+    // Event name and WinRate
+    QString eventNameWithWinRate = eventName;
     if (deckWins > 0 || deckLosses > 0) {
-        QString winRate = QString("%1-%2 (%3%)").arg(deckWins).arg(deckLosses)
-                .arg(deckWinRate);
-        int winRateOptions = Qt::AlignLeft | Qt::AlignVCenter | Qt::TextDontClip;
-        QFontMetrics winrateMetrics(statisticsFont);
-        int winrateMargin = 8;
-        int winrateTextHeight = winrateMetrics.ascent() - winrateMetrics.descent();
-        int winrateTextWidth = uiWidth - preferencesButton.width() - winrateMargin;
-        int winRateY = uiPos.y() + winrateMargin;
-        drawText(painter, winRateFont, winRatePen, winRate, winRateOptions, true,
-                 uiPos.x() + winrateMargin, winRateY, winrateTextHeight, winrateTextWidth);
+        eventNameWithWinRate = QString("%1 | %2-%3 (%4%)").arg(eventName)
+                .arg(deckWins).arg(deckLosses).arg(deckWinRate);
     }
+    winRateFont.setPointSize(winrateFontSize + (uiScale / 2));
+    int winRateOptions = Qt::AlignCenter | Qt::AlignVCenter | Qt::TextDontClip;
+    QFontMetrics winrateMetrics(statisticsFont);
+    int winrateMargin = 8;
+    int winrateTextHeight = winrateMetrics.ascent() - winrateMetrics.descent();
+    int winRateY = static_cast<int> (uiPos.y() - titleHeight - 5.5 - (uiScale / 2));
+    drawText(painter, winRateFont, winRatePen, eventNameWithWinRate, winRateOptions, true,
+             uiPos.x() + winrateMargin, winRateY, winrateTextHeight, uiWidth);
     // Statistics
     if (!hidden && isStatisticsEnabled) {
         drawStatistics(painter);
@@ -196,6 +196,11 @@ void DeckTrackerPlayer::drawStatistics(QPainter &painter)
     uiHeight += statisticsRect.height();
 }
 
+int DeckTrackerPlayer::getDeckNameYPosition()
+{
+    return uiPos.y() - (titleHeight + 7 + (uiScale / 2)) * 2;
+}
+
 QString DeckTrackerPlayer::onGetDeckColorIdentity()
 {
     return deck.colorIdentity();
@@ -245,6 +250,12 @@ void DeckTrackerPlayer::onPlayerDeckStatus(int wins, int losses, double winRate)
     deckWins = wins;
     deckLosses = losses;
     deckWinRate = winRate;
+    update();
+}
+
+void DeckTrackerPlayer::onReceiveEventName(QString name)
+{
+    eventName = name;
     update();
 }
 
