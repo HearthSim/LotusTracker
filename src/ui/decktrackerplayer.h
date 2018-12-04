@@ -39,8 +39,8 @@ public:
     void stopPublishDeckAnimation();
     void applyCurrentSettings();
     void loadDeck(Deck deck);
-    void loadDeckWithSideboard(QMap<Card*, int> cards);
-    void resetDeck();
+    void loadDeckWithSideboard(QMap<Card*, int> cards, QMap<Card*, int> sideboard);
+    void reset();
     bool isDeckLoadedAndReseted();
 
 signals:

@@ -49,9 +49,9 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
             this, &LotusTracker::onUserTokenRefreshError);
     connect(hideTrackerTimer, &QTimer::timeout, this, [this]{
         hideTrackerTimer->stop();
-        deckTrackerPlayer->resetDeck();
+        deckTrackerPlayer->reset();
         deckTrackerPlayer->hide();
-        deckTrackerOpponent->clearDeck();
+        deckTrackerOpponent->reset();
         deckTrackerOpponent->hide();
     });
     //setupMatch should be called before setupLogParser because sgnMatchInfoResult order
@@ -208,7 +208,7 @@ void LotusTracker::setupLogParserConnections()
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckSubmited,
             this, &LotusTracker::onDeckSubmited);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckWithSideboardSubmited,
-            this, &LotusTracker::onPlayerDeckWithSideboardSubmited);
+            deckTrackerPlayer, &DeckTrackerPlayer::loadDeckWithSideboard);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnEventPlayerCourse,
             this, &LotusTracker::onEventPlayerCourse);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchCreated,
@@ -219,6 +219,8 @@ void LotusTracker::setupLogParserConnections()
             this, &LotusTracker::onGameCompleted);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchResult,
             this, &LotusTracker::onMatchEnds);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnEventFinish,
+            this, &LotusTracker::onEventFinish);
 }
 
 void LotusTracker::setupMtgaMatchConnections()
@@ -294,12 +296,6 @@ void LotusTracker::onDeckSubmited(QString eventId, Deck deck)
     lotusAPI->getPlayerDeckWinRate(deck.id, eventId);
 }
 
-void LotusTracker::onPlayerDeckWithSideboardSubmited(QMap<Card*, int> cards)
-{
-    UNUSED(cards);
-    deckTrackerPlayer->loadDeckWithSideboard(cards);
-}
-
 void LotusTracker::onEventPlayerCourse(QString eventId, Deck currentDeck)
 {
     eventPlayerCourse = qMakePair(eventId, currentDeck);
@@ -311,9 +307,12 @@ void LotusTracker::onMatchStart(QString eventId, OpponentInfo opponentInfo)
     // Load deck from event in course if not loaded yet (event continues without submitDeck)
     if (!deckTrackerPlayer->isDeckLoadedAndReseted()) {
         if (eventId == eventPlayerCourse.first) {
-            deckTrackerPlayer->loadDeck(eventPlayerCourse.second);
+            Deck deck = eventPlayerCourse.second;
+            deckTrackerPlayer->loadDeck(deck);
+            lotusAPI->getPlayerDeckWinRate(deck.id, eventId);
         }
     }
+    deckTrackerOpponent->setEventId(eventId);
 }
 
 void LotusTracker::onGameStart(MatchMode mode, QList<MatchZone> zones, int seatId)
@@ -365,7 +364,6 @@ void LotusTracker::onGameCompleted(QMap<int, int> teamIdWins)
 
 void LotusTracker::onMatchEnds(int winningTeamId)
 {
-    UNUSED(winningTeamId);
     if (!mtgaMatch->isRunning) {
         return;
     }

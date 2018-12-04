@@ -6,6 +6,7 @@
 #include <QFileInfo>
 #include <QStandardPaths>
 
+#define CHECK_FOR_NEW_LOGS_INTERVAL 250
 #define WATCH_TEST_LOG false
 #define LOG_PATH QString("AppData%1LocalLow%2Wizards of the Coast%3MTGA")\
     .arg(QDir::separator()).arg(QDir::separator()).arg(QDir::separator())
@@ -76,7 +77,7 @@ void MtgaLogWatcher::startWatching(){
         return;
     }
     LOGD("Starting watch log");
-    timer->start(100);
+    timer->start(CHECK_FOR_NEW_LOGS_INTERVAL);
 }
 
 void MtgaLogWatcher::stopWatching(){

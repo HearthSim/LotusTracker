@@ -65,7 +65,6 @@ signals:
 
 private slots:
     void onDeckSubmited(QString eventId, Deck deck);
-    void onPlayerDeckWithSideboardSubmited(QMap<Card*, int> cards);
     void onEventPlayerCourse(QString eventId, Deck currentDeck);
     void onMatchStart(QString eventId, OpponentInfo match);
     void onGameStart(MatchMode mode, QList<MatchZone> zones, int seatId);

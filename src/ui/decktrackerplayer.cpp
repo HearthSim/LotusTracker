@@ -7,7 +7,7 @@
 #include <QToolTip>
 
 DeckTrackerPlayer::DeckTrackerPlayer(QWidget *parent) : DeckTrackerBase(parent),
-    publishingDeckIcon(":res/publish_deck.png"), eventName("-")
+    publishingDeckIcon(":res/publish_deck.png"), eventName("-"), deckWins(0), deckLosses(0)
 {
     publishDeckTimer = new QTimer(this);
     publishDeckTimer->setInterval(250);
@@ -101,11 +101,10 @@ void DeckTrackerPlayer::afterPaintEvent(QPainter &painter)
     winRateFont.setPointSize(winrateFontSize + (uiScale / 2));
     int winRateOptions = Qt::AlignCenter | Qt::AlignVCenter | Qt::TextDontClip;
     QFontMetrics winrateMetrics(statisticsFont);
-    int winrateMargin = 8;
     int winrateTextHeight = winrateMetrics.ascent() - winrateMetrics.descent();
     int winRateY = static_cast<int> (uiPos.y() - titleHeight - 5.5 - (uiScale / 2));
     drawText(painter, winRateFont, winRatePen, eventNameWithWinRate, winRateOptions, true,
-             uiPos.x() + winrateMargin, winRateY, winrateTextHeight, uiWidth);
+             uiPos.x(), winRateY, winrateTextHeight, uiWidth);
     // Statistics
     if (!hidden && isStatisticsEnabled) {
         drawStatistics(painter);
@@ -212,17 +211,18 @@ void DeckTrackerPlayer::loadDeck(Deck deck)
     this->deckWins = 0;
     this->deckLosses = 0;
     this->deckWinRate = 0;
+    this->eventName = "-";
     this->deck.showOnlyRemainingCards = APP_SETTINGS->isShowOnlyRemainingCardsEnabled();
     LOGI(QString("Loading deck %1").arg(deck.name));
 }
 
-void DeckTrackerPlayer::loadDeckWithSideboard(QMap<Card*, int> cards)
+void DeckTrackerPlayer::loadDeckWithSideboard(QMap<Card*, int> cards, QMap<Card*, int> sideboard)
 {
-    this->deck.updateCards(cards);
-    LOGI(QString("Loading deck with sideboard"));
+    this->deck.updateCards(cards, sideboard);
+    LOGI("Deck with sideboard loaded");
 }
 
-void DeckTrackerPlayer::resetDeck()
+void DeckTrackerPlayer::reset()
 {
     deck.reset();
     update();

@@ -12,7 +12,7 @@ private:
     QString _arch;
     QString _colorIdentity;
     QMap<Card*, int> cardsInitial;
-    QMap<Card*, int> cardsInitialWithSideboard;
+    QMap<Card*, int> cardsSideboardingInitial;
     QMap<Card*, int> cardsCurrent;
     QMap<Card*, int> cardsSideboard;
 
@@ -31,7 +31,7 @@ public:
     int totalCardsLand();
     int totalCardsOfQtd(int qtd);
 
-    void updateCards(QMap<Card*, int> cards);
+    void updateCards(QMap<Card*, int> cards, QMap<Card*, int> sideboard);
     void updateTitle(QString title);
     void clear();
     void reset();

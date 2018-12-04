@@ -6,7 +6,7 @@
 #include <QList>
 #include <QRegularExpression>
 
-#define REGEXP_RAW_MSG "\\s(==>|<==|Incoming|Match\\sto).+(\\s|\\n)(\\{|\\[)(\\n\\s+.*)+\\n(\\}|\\])"
+#define REGEXP_RAW_MSG "\\s(==>|to\\sMatch|<==|Incoming|Match\\sto).+(\\s|\\n)(\\{|\\[)(\\n\\s+.*)+\\n+(\\}|\\])\\n"
 #define REGEXP_MSG_RESPONSE_NUMBER "((?<=\\s)\\d+(?=\\:\\s)|(?<=\\()\\d+(?=\\)))"
 #define REGEXP_MSG_ID "\\S+(?=(\\(|((\\s|\\n)(\\{|\\[))))"
 #define REGEXP_MSG_JSON "(\\{|\\[)(\\n\\s+.*)+\\n(\\}||\\])"
@@ -67,7 +67,8 @@ void MtgaLogParser::parse(QString logNewContent)
     }
     // Extract msg id and json
     // List of msgs in format (msgId, msgJson)
-    QList<QPair<QString, QString>> msgs;
+    QList<QPair<QString, QString>> incomingMsgs;
+    QList<QPair<QString, QString>> outcomingMsgs;
     for (QString msg: rawMsgs) {
         QRegularExpressionMatch numberMatch = reMsgNumber.match(msg);
         if (numberMatch.hasMatch()) {
@@ -99,15 +100,31 @@ void MtgaLogParser::parse(QString logNewContent)
                 msgJson += "]";
             }
         }
-        msgs << QPair<QString, QString>(msgId, msgJson);
+        if (msg.contains("==>") || msg.contains("to Match")) {
+            outcomingMsgs << QPair<QString, QString>(msgId, msgJson);
+        } else {
+            incomingMsgs << QPair<QString, QString>(msgId, msgJson);
+        }
     }
     // Log msgs
-    for (QPair<QString, QString> msg: msgs) {
-        parseMsg(msg);
+    for (QPair<QString, QString> msg: outcomingMsgs) {
+        parseOutcomingMsg(msg);
+    }
+    for (QPair<QString, QString> msg: incomingMsgs) {
+        parseIncomingMsg(msg);
     }
 }
 
-void MtgaLogParser::parseMsg(QPair<QString, QString> msg)
+void MtgaLogParser::parseOutcomingMsg(QPair<QString, QString> msg)
+{
+    if (msg.first == "ClientToMatchServiceMessageType_ClientToGREMessage") {
+        parseClientToGreMessages(msg.second);
+    } else if (msg.first == "DirectGame.Challenge") {
+        parseDirectGameChallenge(msg.second);
+    }
+}
+
+void MtgaLogParser::parseIncomingMsg(QPair<QString, QString> msg)
 {
 #ifdef QT_DEBUG
     if (msg.first != "GreToClientEvent") {
@@ -140,8 +157,6 @@ void MtgaLogParser::parseMsg(QPair<QString, QString> msg)
         parsePlayerDeckSubmited(msg.second);
     } else if (msg.first == "GreToClientEvent"){
         parseGreToClientMessages(msg.second);
-    } else if (msg.first == "DirectGame.Challenge") {
-        parseDirectGameChallenge(msg.second);
     }
 }
 
@@ -356,37 +371,17 @@ void MtgaLogParser::parseDirectGameChallenge(QString json)
     emit sgnPlayerDeckSubmited("DirectGame", deckSubmited);
 }
 
-void MtgaLogParser::parseSubmitDeck(QJsonObject jsonMessage)
-{
-    QJsonObject jsonDeck = jsonMessage["submitDeckReq"].toObject();
-    QJsonArray jsonCards = jsonDeck["deck"].toObject()["deckCards"].toArray();
-    QMap<Card*, int> cards;
-    for(QJsonValueRef jsonCardRef : jsonCards){
-        int cardId = jsonCardRef.toInt();
-        Card* card = mtgCards->findCard(cardId);
-        if (cards.keys().contains(card)) {
-            cards[card] += 1;
-        } else {
-            cards[card] = 1;
-        }
-    }
-    emit sgnPlayerDeckWithSideboardSubmited(cards);
-}
-
 void MtgaLogParser::parseGreToClientMessages(QString json)
 {
-    QJsonObject jsonPlayerToClientMsg = Transformations::stringToJsonObject(json);
-    if (jsonPlayerToClientMsg.empty()) {
+    QJsonObject jsonGreToClientMsg = Transformations::stringToJsonObject(json);
+    if (jsonGreToClientMsg.empty()) {
         return;
     }
-    QJsonObject jsonGreToClientEvent = jsonPlayerToClientMsg["greToClientEvent"].toObject();
+    QJsonObject jsonGreToClientEvent = jsonGreToClientMsg["greToClientEvent"].toObject();
     QJsonArray jsonGreToClientMessages = jsonGreToClientEvent["greToClientMessages"].toArray();
     for (QJsonValueRef jsonMessageRef : jsonGreToClientMessages) {
         QJsonObject jsonMessage = jsonMessageRef.toObject();
         QString messageType = jsonMessage["type"].toString();
-        if (messageType == "GREMessageType_SubmitDeckReq") {
-            parseSubmitDeck(jsonMessage);
-        }
         if (messageType == "GREMessageType_GameStateMessage" ||
                    messageType == "GREMessageType_QueuedGameStateMessage") {
             int gameStateId = jsonMessage["gameStateId"].toInt();
@@ -605,4 +600,46 @@ QMap<int, MatchZoneTransfer> MtgaLogParser::getIdsZoneChanged(QJsonArray jsonGSM
         }
     }
     return idsZoneChanged;
+}
+
+void MtgaLogParser::parseClientToGreMessages(QString json)
+{
+    QJsonObject jsonClientToGreMsg = Transformations::stringToJsonObject(json);
+    if (jsonClientToGreMsg.empty()) {
+        return;
+    }
+    QJsonObject jsonPayload = jsonClientToGreMsg["payload"].toObject();
+    QString messageType = jsonPayload["type"].toString();
+    if (messageType == "ClientMessageType_SubmitDeckResp") {
+        parseSubmitDeckResp(jsonPayload);
+    }
+}
+
+void MtgaLogParser::parseSubmitDeckResp(QJsonObject jsonMessage)
+{
+    QJsonObject jsonDeckResp = jsonMessage["submitDeckResp"].toObject();
+    QJsonObject jsonDeck = jsonDeckResp["deck"].toObject();
+    QJsonArray jsonMainDeckCards = jsonDeck["deckCards"].toArray();
+    QMap<Card*, int> mainDeck;
+    for(QJsonValueRef jsonCardRef : jsonMainDeckCards){
+        int cardId = jsonCardRef.toInt();
+        Card* card = mtgCards->findCard(cardId);
+        if (mainDeck.keys().contains(card)) {
+            mainDeck[card] += 1;
+        } else {
+            mainDeck[card] = 1;
+        }
+    }
+    QJsonArray jsonSideboardCards = jsonDeck["sideboardCards"].toArray();
+    QMap<Card*, int> sideboard;
+    for(QJsonValueRef jsonCardRef : jsonSideboardCards){
+        int cardId = jsonCardRef.toInt();
+        Card* card = mtgCards->findCard(cardId);
+        if (sideboard.keys().contains(card)) {
+            sideboard[card] += 1;
+        } else {
+            sideboard[card] = 1;
+        }
+    }
+    emit sgnPlayerDeckWithSideboardSubmited(mainDeck, sideboard);
 }

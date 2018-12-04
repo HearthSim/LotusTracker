@@ -24,7 +24,8 @@ private:
     MtgCards *mtgCards;
     QList<int> msgResponseNumbers;
     Deck jsonObject2Deck(QJsonObject jsonDeck);
-    void parseMsg(QPair<QString, QString> msg);
+    void parseOutcomingMsg(QPair<QString, QString> msg);
+    void parseIncomingMsg(QPair<QString, QString> msg);
     void parsePlayerInventory(QString json);
     void parsePlayerInventoryUpdate(QString json);
     void parsePlayerCollection(QString json);
@@ -38,7 +39,8 @@ private:
     void parsePlayerDeckUpdate(QString json);
     void parsePlayerDeckSubmited(QString json);
     void parseDirectGameChallenge(QString json);
-    void parseSubmitDeck(QJsonObject jsonMessage);
+    void parseSubmitDeckResp(QJsonObject jsonMessage);
+    void parseClientToGreMessages(QString json);
     void parseGreToClientMessages(QString json);
     void parseGameStateFull(QJsonObject jsonMessage);
     void parseGameStateDiff(int playerSeatId, int gameStateId, QJsonObject jsonMessage);
@@ -71,7 +73,8 @@ signals:
     void sgnPlayerDeckCreated(Deck deck);
     void sgnPlayerDeckUpdated(Deck deck);
     void sgnPlayerDeckSubmited(QString eventId, Deck deck);
-    void sgnPlayerDeckWithSideboardSubmited(QMap<Card*, int> cards);
+    void sgnPlayerDeckWithSideboardSubmited(QMap<Card*, int> mainDeck,
+                                            QMap<Card*, int> sideboard);
     void sgnPlayerTakesMulligan(QMap<int, int> newHandDrawed);
     void sgnOpponentTakesMulligan(int opponentSeatId);
     void sgnMatchStateDiff(MatchStateDiff matchStateDiff);
