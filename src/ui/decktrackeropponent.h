@@ -11,6 +11,7 @@ class DeckTrackerOpponent : public DeckTrackerBase
     Q_OBJECT
 private:
     int lastUiScale;
+    QString eventId;
 protected:
     virtual int getDeckNameYPosition();
     virtual QString onGetDeckColorIdentity();
@@ -23,7 +24,8 @@ public:
     explicit DeckTrackerOpponent(QWidget *parent = nullptr);
     ~DeckTrackerOpponent();
     void applyCurrentSettings();
-    void clearDeck();
+    void setEventId(QString eventId);
+    void reset();
 
 signals:
 

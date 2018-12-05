@@ -54,10 +54,16 @@ void DeckTrackerOpponent::afterPaintEvent(QPainter &painter)
     UNUSED(painter);
 }
 
-void DeckTrackerOpponent::clearDeck()
+void DeckTrackerOpponent::setEventId(QString eventId)
+{
+    this->eventId = eventId;
+}
+
+void DeckTrackerOpponent::reset()
 {
     deck.clear();
     deck.updateTitle("");
+    eventId = "";
     update();
 }
 
@@ -98,7 +104,7 @@ void DeckTrackerOpponent::insertCard(Card* card)
         }
         nonLandCards[card] = deckCards[card];
     }
-    if (nonLandCards.size() >= 2) {
+    if (eventId.contains("constructed") && nonLandCards.size() >= 2) {
         QString deckArchtecture = LOTUS_TRACKER->mtgDecksArch->
                 findDeckArchitecture(deckCards);
         deck.updateTitle(deckArchtecture);
