@@ -248,6 +248,8 @@ void LotusTracker::setupMtgaMatchConnections()
     connect(mtgaMatch, &MtgaMatch::sgnOpponentPutOnBattlefieldCard,
             deckTrackerOpponent, &DeckTrackerOpponent::onOpponentPutOnBattlefieldCard);
     // Match
+    connect(mtgaMatch, &MtgaMatch::sgnPlayerUserName,
+            lotusAPI, &LotusTrackerAPI::setPlayerUserName);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchInfoSeats,
             mtgaMatch, &MtgaMatch::onMatchInfoSeats);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchStateDiff,

@@ -7,9 +7,11 @@
 class RqtUpdatePlayerInventory : public RequestData
 {
 public:
-    RqtUpdatePlayerInventory(QString userId, PlayerInventory playerInventory, QString appVersion) {
+    RqtUpdatePlayerInventory(QString userId, QString userName,
+                             PlayerInventory playerInventory, QString appVersion) {
         QJsonObject jsonObj{
             {"userId", userId},
+            {"userName", userName},
             {"gold", playerInventory.getGold()},
             {"gems", playerInventory.getGems()},
             {"wcCommon", playerInventory.getWcCommon()},

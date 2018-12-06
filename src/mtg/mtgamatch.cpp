@@ -51,6 +51,7 @@ void MtgaMatch::onMatchInfoSeats(QList<MatchPlayer> players)
             player = MatchPlayer(matchPlayer.name(), matchPlayer.seatId(), matchPlayer.teamId());
         }
     }
+    emit sgnPlayerUserName(player.name());
 }
 
 void MtgaMatch::onGameStart(MatchMode mode, QList<MatchZone> zones, int seatId)

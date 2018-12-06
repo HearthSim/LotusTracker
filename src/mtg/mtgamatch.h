@@ -65,6 +65,7 @@ public:
     void onEndCurrentMatch(int winningTeamId);
 
 signals:
+    void sgnPlayerUserName(QString userName);
     void sgnPlayerPutInLibraryCard(Card* card);
     void sgnPlayerDrawCard(Card* card);
     void sgnPlayerPlayCard(Card* card);

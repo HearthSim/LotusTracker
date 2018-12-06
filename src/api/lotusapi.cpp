@@ -20,6 +20,7 @@
 LotusTrackerAPI::LotusTrackerAPI(QObject *parent)
 {
     UNUSED(parent);
+    userName = "";
     isRefreshTokenInProgress = false;
     connect(this, &LotusTrackerAPI::sgnTokenRefreshed,
             this, &LotusTrackerAPI::onTokenRefreshed);
@@ -254,6 +255,11 @@ void LotusTrackerAPI::updatePlayerCollection(QMap<int, int> ownedCards)
     sendPost(RqtUpdatePlayerCollection(userSettings.userId, ownedCards));
 }
 
+void LotusTrackerAPI::setPlayerUserName(QString userName)
+{
+    this->userName = userName;
+}
+
 void LotusTrackerAPI::updatePlayerInventory(PlayerInventory playerInventory)
 {
     QDateTime now = QDateTime::currentDateTime();
@@ -336,7 +342,7 @@ void LotusTrackerAPI::getPlayerDeckWinRateRequestOnFinish()
     int wins = jsonRsp["wins"].toInt();
     int losses = jsonRsp["losses"].toInt();
     double winRate = jsonRsp["winrate"].toDouble();
-    QString eventName = jsonRsp["eventName"].toString();
+    QString eventName = jsonRsp["eventPublicName"].toString();
     emit sgnDeckWinRate(wins, losses, winRate);
     emit sgnEventName(eventName);
 }

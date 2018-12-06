@@ -16,9 +16,9 @@ class LotusTrackerAPI : public QObject
 {
     Q_OBJECT
 private:
-//    typedef void (LotusTrackerAPI::*FunctionType)();
     typedef void (LotusTrackerAPI::*LotusTrackerAPIMethod)();
 
+    QString userName;
     bool isRefreshTokenInProgress;
     RqtRegisterPlayerMatch rqtRegisterPlayerMatch;
     QNetworkAccessManager networkManager;
