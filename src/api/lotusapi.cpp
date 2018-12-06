@@ -6,6 +6,7 @@
 #include "rqtplayerdeckupdate.h"
 #include "rqtupdateplayercollection.h"
 #include "rqtupdateplayerinventory.h"
+#include "rqtuploadeventresult.h"
 #include "rqtuploadmatch.h"
 
 #include <QJsonDocument>
@@ -424,6 +425,19 @@ void LotusTrackerAPI::uploadMatch(MatchInfo matchInfo, Deck playerDeck,
     QNetworkReply *reply = networkManager.post(request, buffer);
     connect(reply, &QNetworkReply::finished,
             this, &LotusTrackerAPI::uploadMatchRequestOnFinish);
+}
+
+void LotusTrackerAPI::uploadEventResult(QString eventId, QString deckId, int maxWins,
+                                        int wins, int losses, QList<QString> matchesIds)
+{
+    UserSettings userSettings = APP_SETTINGS->getUserSettings();
+    if (userSettings.userToken.isEmpty()) {
+        return;
+    }
+    QString appVersion = qApp->applicationVersion();
+    RqtUploadEventResult rqtUploadEventResult(userSettings.userId, eventId, deckId,
+                                              maxWins, wins, losses, matchesIds);
+    sendPost(rqtUploadEventResult);
 }
 
 void LotusTrackerAPI::uploadMatchRequestOnFinish()

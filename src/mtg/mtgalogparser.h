@@ -39,6 +39,7 @@ private:
     void parsePlayerDeckUpdate(QString json);
     void parsePlayerDeckSubmited(QString json);
     void parseDirectGameChallenge(QString json);
+    void parseEventFinish(QString json);
     void parseSubmitDeckResp(QJsonObject jsonMessage);
     void parseClientToGreMessages(QString json);
     void parseGreToClientMessages(QString json);
@@ -79,6 +80,8 @@ signals:
     void sgnOpponentTakesMulligan(int opponentSeatId);
     void sgnMatchStateDiff(MatchStateDiff matchStateDiff);
     void sgnNewTurnStarted(int turnNumber);
+    void sgnEventFinish(QString eventId, QString deckId, int maxWins,
+                        int wins, int losses, QList<QString> matchesIds);
 
 public slots:
 };

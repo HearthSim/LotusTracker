@@ -160,6 +160,8 @@ void MtgaLogParser::parseIncomingMsg(QPair<QString, QString> msg)
         parsePlayerDeckSubmited(msg.second);
     } else if (msg.first == "GreToClientEvent"){
         parseGreToClientMessages(msg.second);
+    } else if (msg.first == "Event.ClaimPrize") {
+        parseEventFinish(msg.second);
     }
 }
 
@@ -425,6 +427,7 @@ void MtgaLogParser::parseGameStateDiff(int playerSeatId, int gameStateId, QJsonO
     if (jsonInfoObject["matchState"].toString() == "MatchState_GameComplete") {
         QJsonArray jsonResults = jsonInfoObject["results"].toArray();
         emit sgnGameCompleted(getGameResults(jsonResults));
+        return;
     }
     QList<MatchZone> zones = getMatchZones(jsonMessage);
     QJsonArray jsonGameObjects = jsonMessage["gameObjects"].toArray();
@@ -470,6 +473,7 @@ void MtgaLogParser::parseGameStateDiff(int playerSeatId, int gameStateId, QJsonO
     QMap<int, MatchZoneTransfer> idsZoneChanged = getIdsZoneChanged(jsonGSMAnnotations);
     MatchStateDiff matchStateDiff(gameStateId, zones, idsChanged, idsZoneChanged);
     emit sgnMatchStateDiff(matchStateDiff);
+    return;
 }
 
 QMap<int, int> MtgaLogParser::getGameResults(QJsonArray jsonResults)
@@ -645,4 +649,28 @@ void MtgaLogParser::parseSubmitDeckResp(QJsonObject jsonMessage)
         }
     }
     emit sgnPlayerDeckWithSideboardSubmited(mainDeck, sideboard);
+}
+
+void MtgaLogParser::parseEventFinish(QString json)
+{
+    QJsonObject jsonClainPrize = Transformations::stringToJsonObject(json);
+    if (jsonClainPrize.empty()) {
+        return;
+    }
+    QString eventState = jsonClainPrize["CurrentEventState"].toString();
+    if (eventState != "Completed") {
+        return;
+    }    
+    QString eventId = jsonClainPrize["InternalEventName"].toString();
+    QString deckId = jsonClainPrize["CourseDeck"].toObject()["id"].toString();
+    QJsonObject jsonWinLossGate = jsonClainPrize["ModuleInstanceData"].toObject()["WinLossGate"].toObject();
+    int maxWins = jsonWinLossGate["MaxWins"].toInt();
+    int wins = jsonWinLossGate["CurrentWins"].toInt();
+    int losses = jsonWinLossGate["CurrentLosses"].toInt();
+    QList<QString> matchesIds;
+    QJsonArray jsonMatchesIds = jsonWinLossGate["ProcessedMatchIds"].toArray();
+    for(QJsonValueRef jsonMatchIdRef : jsonMatchesIds){
+        matchesIds << jsonMatchIdRef.toString();
+    }
+    emit sgnEventFinish(eventId, deckId, maxWins, wins, losses, matchesIds);
 }

@@ -377,6 +377,12 @@ void LotusTracker::onMatchEnds(int winningTeamId)
     }
 }
 
+void LotusTracker::onEventFinish(QString eventId, QString deckId, int maxWins,
+                                 int wins, int losses, QList<QString> matchesIds)
+{
+    lotusAPI->uploadEventResult(eventId, deckId, maxWins, wins, losses, matchesIds);
+}
+
 void LotusTracker::onDeckTrackerPlayerEnabledChange(bool enabled)
 {
     if (enabled && mtgaMatch->isRunning) {

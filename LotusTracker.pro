@@ -40,6 +40,7 @@ HEADERS += \
     src/api/rqtupdateplayerinventory.h \
     src/api/rqtupdateplayercollection.h \
     src/api/rqtuploadmatch.h \
+    src/api/rqtuploadeventresult.h \
     src/api/rqtuploadplayermatch.h \
     src/entity/card.h \
     src/entity/deck.h \
