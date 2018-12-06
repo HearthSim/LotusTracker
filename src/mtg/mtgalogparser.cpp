@@ -8,8 +8,8 @@
 
 #define REGEXP_RAW_MSG "\\s(==>|to\\sMatch|<==|Incoming|Match\\sto).+(\\s|\\n)(\\{|\\[)(\\n\\s+.*)+\\n+(\\}|\\])\\n"
 #define REGEXP_MSG_RESPONSE_NUMBER "((?<=\\s)\\d+(?=\\:\\s)|(?<=\\()\\d+(?=\\)))"
-#define REGEXP_MSG_ID "\\S+(?=(\\(|((\\s|\\n)(\\{|\\[))))"
-#define REGEXP_MSG_JSON "(\\{|\\[)(\\n\\s+.*)+\\n(\\}||\\])"
+#define REGEXP_MSG_ID "[\\w\\.]+(?=(\\(|((\\s|\\n)(\\{|\\[))))"
+#define REGEXP_MSG_JSON "(\\{|\\[)(\\n\\s+.*)+\\n*(\\}||\\])"
 
 MtgaLogParser::MtgaLogParser(QObject *parent, MtgCards *mtgCards)
     : QObject(parent), mtgCards(mtgCards)
@@ -60,7 +60,7 @@ Deck MtgaLogParser::jsonObject2Deck(QJsonObject jsonDeck)
 void MtgaLogParser::parse(QString logNewContent)
 {
     // Extract raw msgs
-    QRegularExpressionMatchIterator iterator = reRawMsg.globalMatch(logNewContent);
+    QRegularExpressionMatchIterator iterator = reRawMsg.globalMatch(logNewContent + "\n");
     QList<QString> rawMsgs;
     while (iterator.hasNext()) {
         rawMsgs << iterator.next().captured(0);
@@ -74,13 +74,16 @@ void MtgaLogParser::parse(QString logNewContent)
         if (numberMatch.hasMatch()) {
             int msgNumber = numberMatch.captured(0).toInt();
             // Avoid process duplicated responses
-            if (msgResponseNumbers.contains(msgNumber)) {
-                continue;
-            } else {
-                msgResponseNumbers << msgNumber;
-                // Store only last 4 msg resposne number
-                if (msgResponseNumbers.size() >= 5) {
-                    msgResponseNumbers.removeFirst();
+            if (msg.contains("<==")) {
+                if (msgResponseNumbers.contains(msgNumber)) {
+                    LOGD("Duplicated msg")
+                    continue;
+                } else {
+                    msgResponseNumbers << msgNumber;
+                    // Store only last 4 msg resposne number
+                    if (msgResponseNumbers.size() >= 5) {
+                        msgResponseNumbers.removeFirst();
+                    }
                 }
             }
         }

@@ -273,7 +273,8 @@ void LotusTrackerAPI::updatePlayerInventory(PlayerInventory playerInventory)
         return;
     }
     QString appVersion = qApp->applicationVersion();
-    sendPatch(RqtUpdatePlayerInventory(userSettings.userId, playerInventory, appVersion));
+    sendPatch(RqtUpdatePlayerInventory(userSettings.userId, userName,
+                                       playerInventory, appVersion));
 }
 
 void LotusTrackerAPI::createPlayerDeck(Deck deck)

@@ -57,6 +57,7 @@ public:
     void refreshToken(QString refreshToken);
     //
     void updatePlayerCollection(QMap<int, int> ownedCards);
+    void setPlayerUserName(QString userName);
     void updatePlayerInventory(PlayerInventory playerInventory);
     void createPlayerDeck(Deck deck);
     void updatePlayerDeck(Deck deck);
