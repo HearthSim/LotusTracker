@@ -80,8 +80,8 @@ signals:
     void sgnOpponentTakesMulligan(int opponentSeatId);
     void sgnMatchStateDiff(MatchStateDiff matchStateDiff);
     void sgnNewTurnStarted(int turnNumber);
-    void sgnEventFinish(QString eventId, QString deckId, int maxWins,
-                        int wins, int losses, QList<QString> matchesIds);
+    void sgnEventFinish(QString eventId, QString deckId,
+                        int maxWins, int wins, int losses);
 
 public slots:
 };

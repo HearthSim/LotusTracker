@@ -377,10 +377,10 @@ void LotusTracker::onMatchEnds(int winningTeamId)
     }
 }
 
-void LotusTracker::onEventFinish(QString eventId, QString deckId, int maxWins,
-                                 int wins, int losses, QList<QString> matchesIds)
+void LotusTracker::onEventFinish(QString eventId, QString deckId,
+                                 int maxWins, int wins, int losses)
 {
-    lotusAPI->uploadEventResult(eventId, deckId, maxWins, wins, losses, matchesIds);
+    lotusAPI->uploadEventResult(eventId, deckId, maxWins, wins, losses);
 }
 
 void LotusTracker::onDeckTrackerPlayerEnabledChange(bool enabled)

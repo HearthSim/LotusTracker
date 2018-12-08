@@ -667,10 +667,5 @@ void MtgaLogParser::parseEventFinish(QString json)
     int maxWins = jsonWinLossGate["MaxWins"].toInt();
     int wins = jsonWinLossGate["CurrentWins"].toInt();
     int losses = jsonWinLossGate["CurrentLosses"].toInt();
-    QList<QString> matchesIds;
-    QJsonArray jsonMatchesIds = jsonWinLossGate["ProcessedMatchIds"].toArray();
-    for(QJsonValueRef jsonMatchIdRef : jsonMatchesIds){
-        matchesIds << jsonMatchIdRef.toString();
-    }
-    emit sgnEventFinish(eventId, deckId, maxWins, wins, losses, matchesIds);
+    emit sgnEventFinish(eventId, deckId, maxWins, wins, losses);
 }

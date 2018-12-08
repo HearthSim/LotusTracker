@@ -14,20 +14,15 @@ public:
         _path = "";
     }
 
-    RqtUploadEventResult(QString userId, QString eventId, QString deckId, int maxWins,
-                         int wins, int losses, QList<QString> matchesIds) {
-        QJsonArray matches;
-        for (QString matchId : matchesIds) {
-            matches.append(matchId);
-        }
+    RqtUploadEventResult(QString userId, QString eventId, QString deckId,
+                         int maxWins, int wins, int losses) {
         QJsonObject jsonObj{
             {"userId", userId},
             {"deckId", deckId},
             {"eventId", eventId},
             {"maxWins", maxWins},
             {"wins", wins},
-            {"losses", losses},
-            {"matchesIds", matches}
+            {"losses", losses}
         };
 
         _body = QJsonDocument(jsonObj);
