@@ -15,10 +15,11 @@ public:
     }
 
     RqtUploadEventResult(QString userId, QString eventId, QString deckId,
-                         int maxWins, int wins, int losses) {
+                         QString deckColors, int maxWins, int wins, int losses) {
         QJsonObject jsonObj{
             {"userId", userId},
             {"deckId", deckId},
+            {"deckColors", deckColors},
             {"eventId", eventId},
             {"maxWins", maxWins},
             {"wins", wins},

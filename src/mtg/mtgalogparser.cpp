@@ -662,10 +662,11 @@ void MtgaLogParser::parseEventFinish(QString json)
         return;
     }    
     QString eventId = jsonClainPrize["InternalEventName"].toString();
-    QString deckId = jsonClainPrize["CourseDeck"].toObject()["id"].toString();
+    QJsonObject jsonCourseDeck = jsonClainPrize["CourseDeck"].toObject();
+    Deck deck = jsonObject2Deck(jsonCourseDeck);
     QJsonObject jsonWinLossGate = jsonClainPrize["ModuleInstanceData"].toObject()["WinLossGate"].toObject();
     int maxWins = jsonWinLossGate["MaxWins"].toInt();
     int wins = jsonWinLossGate["CurrentWins"].toInt();
     int losses = jsonWinLossGate["CurrentLosses"].toInt();
-    emit sgnEventFinish(eventId, deckId, maxWins, wins, losses);
+    emit sgnEventFinish(eventId, deck.id, deck.colorIdentity(), maxWins, wins, losses);
 }

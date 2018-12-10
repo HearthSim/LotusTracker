@@ -65,7 +65,7 @@ public:
     void getPlayerDeckWinRate(QString deckId, QString eventId);
     void uploadMatch(MatchInfo matchInfo, Deck playerDeck,
                      QString playerRankClass);
-    void uploadEventResult(QString eventId, QString deckId,
+    void uploadEventResult(QString eventId, QString deckId, QString deckColors,
                            int maxWins, int wins, int losses);
 
 signals:

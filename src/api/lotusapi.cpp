@@ -427,7 +427,7 @@ void LotusTrackerAPI::uploadMatch(MatchInfo matchInfo, Deck playerDeck,
             this, &LotusTrackerAPI::uploadMatchRequestOnFinish);
 }
 
-void LotusTrackerAPI::uploadEventResult(QString eventId, QString deckId,
+void LotusTrackerAPI::uploadEventResult(QString eventId, QString deckId, QString deckColors,
                                         int maxWins, int wins, int losses)
 {
     UserSettings userSettings = APP_SETTINGS->getUserSettings();
@@ -435,8 +435,8 @@ void LotusTrackerAPI::uploadEventResult(QString eventId, QString deckId,
         return;
     }
     QString appVersion = qApp->applicationVersion();
-    RqtUploadEventResult rqtUploadEventResult(userSettings.userId, eventId,
-                                              deckId, maxWins, wins, losses);
+    RqtUploadEventResult rqtUploadEventResult(userSettings.userId, eventId, deckId,
+                                              deckColors, maxWins, wins, losses);
     sendPost(rqtUploadEventResult);
 }
 

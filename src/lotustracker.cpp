@@ -307,12 +307,10 @@ void LotusTracker::onMatchStart(QString eventId, OpponentInfo opponentInfo)
 {
     mtgaMatch->onStartNewMatch(eventId, opponentInfo);
     // Load deck from event in course if not loaded yet (event continues without submitDeck)
-    if (!deckTrackerPlayer->isDeckLoadedAndReseted()) {
-        if (eventId == eventPlayerCourse.first) {
-            Deck deck = eventPlayerCourse.second;
-            deckTrackerPlayer->loadDeck(deck);
-            lotusAPI->getPlayerDeckWinRate(deck.id, eventId);
-        }
+    if (eventId == eventPlayerCourse.first) {
+        Deck deck = eventPlayerCourse.second;
+        deckTrackerPlayer->loadDeck(deck);
+        lotusAPI->getPlayerDeckWinRate(deck.id, eventId);
     }
     deckTrackerOpponent->setEventId(eventId);
 }
@@ -377,10 +375,10 @@ void LotusTracker::onMatchEnds(int winningTeamId)
     }
 }
 
-void LotusTracker::onEventFinish(QString eventId, QString deckId,
+void LotusTracker::onEventFinish(QString eventId, QString deckId, QString deckColors,
                                  int maxWins, int wins, int losses)
 {
-    lotusAPI->uploadEventResult(eventId, deckId, maxWins, wins, losses);
+    lotusAPI->uploadEventResult(eventId, deckId, deckColors, maxWins, wins, losses);
 }
 
 void LotusTracker::onDeckTrackerPlayerEnabledChange(bool enabled)

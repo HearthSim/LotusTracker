@@ -71,7 +71,7 @@ private slots:
     void onGameFocusChanged(bool hasFocus);
     void onGameCompleted(QMap<int, int> teamIdWins);
     void onMatchEnds(int winningTeamId);
-    void onEventFinish(QString eventId, QString deckId,
+    void onEventFinish(QString eventId, QString deckId, QString deckColors,
                        int maxWins, int wins, int losses);
     void onDeckTrackerPlayerEnabledChange(bool enabled);
     void onDeckTrackerOpponentEnabledChange(bool enabled);
