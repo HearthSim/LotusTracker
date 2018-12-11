@@ -14,6 +14,8 @@ class TrayIcon : public QObject
 private:
     QSystemTrayIcon *trayIcon;
     QAction *signAction;
+    QAction *profileAction;
+    QAction *logoutAction;
     void TrayIconActivated(QSystemTrayIcon::ActivationReason reason);
     void setupTrayIcon();
     void configTestMenu(QMenu* testMenu);
@@ -27,8 +29,10 @@ public:
 signals:
 
 private slots:
-    void openSignInOrSignOut();
+    void signIn();
+    void openProfile();
     void openPreferences();
+    void signOut();
 
 public slots:
 };

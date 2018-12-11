@@ -1,6 +1,7 @@
 #include "trayicon.h"
 #include "../lotustracker.h"
 #include "../macros.h"
+#include "../urls.h"
 #include "../mtg/mtgalogparser.h"
 #include "../mtg/mtgcards.h"
 
@@ -9,6 +10,7 @@
 #include <QDir>
 #include <QMenu>
 #include <QMessageBox>
+#include <QDesktopServices>
 
 TrayIcon::TrayIcon(QObject *parent): QObject(parent)
 {
@@ -42,8 +44,12 @@ void TrayIcon::setupTrayIcon()
     trayIcon->setIcon(icon);
 
     signAction = new QAction(tr("Sign In"), this);
-    connect(signAction, &QAction::triggered, this, &TrayIcon::openSignInOrSignOut);
+    connect(signAction, &QAction::triggered, this, &TrayIcon::signIn);
     trayMenu->addAction(signAction);
+    profileAction = new QAction(tr("My Profile"), this);
+    connect(profileAction, &QAction::triggered, this, &TrayIcon::openProfile);
+    trayMenu->addAction(profileAction);
+    profileAction->setVisible(false);
     QAction *settingsAction = new QAction(tr("Preferences"), this);
     connect(settingsAction, &QAction::triggered, this, &TrayIcon::openPreferences);
     trayMenu->addAction(settingsAction);
@@ -51,6 +57,10 @@ void TrayIcon::setupTrayIcon()
     QMenu* testMenu = trayMenu->addMenu(tr("Tests"));
     configTestMenu(testMenu);
 #endif
+    logoutAction = new QAction(tr("Logout"), this);
+    connect(logoutAction, &QAction::triggered, this, &TrayIcon::signOut);
+    trayMenu->addAction(logoutAction);
+    logoutAction->setVisible(false);
     QAction *quitAction = new QAction(tr("Quit"), this);
     connect(quitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
     trayMenu->addAction(quitAction);
@@ -77,33 +87,39 @@ void TrayIcon::updateUserSettings()
 {
     UserSettings userSettings = LOTUS_TRACKER->appSettings->getUserSettings();
     bool isAuthValid = userSettings.getAuthStatus() == AUTH_VALID;
-    QString userText = QString("%1 (Logout)").arg(userSettings.getUserName());
-    signAction->setText(isAuthValid ? userText : tr("Sign In"));
+    signAction->setVisible(!isAuthValid);
+    profileAction->setVisible(isAuthValid);
+    logoutAction->setVisible(isAuthValid);
 }
 
-void TrayIcon::openSignInOrSignOut()
+void TrayIcon::signIn()
 {
-    UserSettings userSettings = LOTUS_TRACKER->appSettings->getUserSettings();
-    bool isAuthValid = userSettings.getAuthStatus() == AUTH_VALID;
-    if (isAuthValid) {
-        QMessageBox msgBox(QMessageBox::Warning, tr("Logout user"), tr("Are you sure?"),
-                           QMessageBox::Yes | QMessageBox::Cancel);
-        msgBox.setDefaultButton(QMessageBox::Cancel);
-        msgBox.deleteLater();
-        if (msgBox.exec() == QMessageBox::Yes) {
-            LOTUS_TRACKER->appSettings->clearUserSettings();
-            LOTUS_TRACKER->showStartScreen();
-            updateUserSettings();
-        }
-        LOTUS_TRACKER->avoidAppClose();
-    } else {
-        LOTUS_TRACKER->showStartScreen();
-    }
+    LOTUS_TRACKER->showStartScreen();
+}
+
+void TrayIcon::openProfile()
+{
+    QString link = QString("%1/user").arg(URLs::SITE());
+    QDesktopServices::openUrl(QUrl(link));
 }
 
 void TrayIcon::openPreferences()
 {
     LOTUS_TRACKER->showPreferencesScreen();
+}
+
+void TrayIcon::signOut()
+{
+    QMessageBox msgBox(QMessageBox::Warning, tr("Logout user"), tr("Are you sure?"),
+                       QMessageBox::Yes | QMessageBox::Cancel);
+    msgBox.setDefaultButton(QMessageBox::Cancel);
+    msgBox.deleteLater();
+    if (msgBox.exec() == QMessageBox::Yes) {
+        LOTUS_TRACKER->appSettings->clearUserSettings();
+        LOTUS_TRACKER->showStartScreen();
+        updateUserSettings();
+    }
+    LOTUS_TRACKER->avoidAppClose();
 }
 
 void TrayIcon::configTestMenu(QMenu* testMenu)
