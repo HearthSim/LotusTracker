@@ -27,6 +27,7 @@
 #define KEY_TRACKER_OPPONENT_SCALE "Tracker/opponentPrefs/scale"
 
 #define KEY_TRACKER_USER_ID "Tracker/user/id"
+#define KEY_TRACKER_USER_EMAIL "Tracker/user/email"
 #define KEY_TRACKER_USER_TOKEN "Tracker/user/token"
 #define KEY_TRACKER_USER_REFRESH_TOKEN "Tracker/user/refreshToken"
 #define KEY_TRACKER_USER_EXPIRES_EPOCH "Tracker/user/tokenExpiresEpoch"
@@ -234,6 +235,7 @@ void AppSettings::setDeckTrackerOpponentScale(int scale)
 void AppSettings::setUserSettings(UserSettings userSettings, QString userName)
 {
     settings.setValue(KEY_TRACKER_USER_ID, userSettings.userId);
+    settings.setValue(KEY_TRACKER_USER_EMAIL, userSettings.userEmail);
     settings.setValue(KEY_TRACKER_USER_TOKEN, userSettings.userToken);
     settings.setValue(KEY_TRACKER_USER_REFRESH_TOKEN, userSettings.refreshToken);
     settings.setValue(KEY_TRACKER_USER_EXPIRES_EPOCH, userSettings.expiresTokenEpoch);
@@ -245,6 +247,7 @@ void AppSettings::setUserSettings(UserSettings userSettings, QString userName)
 UserSettings AppSettings::getUserSettings()
 {
     UserSettings userSettings = UserSettings(settings.value(KEY_TRACKER_USER_ID, "").toString(),
+                        settings.value(KEY_TRACKER_USER_EMAIL, "").toString(),
                         settings.value(KEY_TRACKER_USER_TOKEN, "").toString(),
                         settings.value(KEY_TRACKER_USER_REFRESH_TOKEN, "").toString(),
                         settings.value(KEY_TRACKER_USER_EXPIRES_EPOCH, 0).toLongLong());

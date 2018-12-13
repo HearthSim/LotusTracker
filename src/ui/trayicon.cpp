@@ -99,7 +99,10 @@ void TrayIcon::signIn()
 
 void TrayIcon::openProfile()
 {
-    QString link = QString("%1/user").arg(URLs::SITE());
+    UserSettings userSettings = APP_SETTINGS->getUserSettings();
+    QString link = QString("%1/user?localId=%2&email=%3&idToken=%4&refreshToken=%5&userName=%6&expiresIn=%7")
+            .arg(URLs::SITE()).arg(userSettings.userId).arg(userSettings.userEmail).arg(userSettings.userToken)
+            .arg(userSettings.refreshToken).arg(userSettings.getUserName()).arg(userSettings.expiresTokenEpoch);
     QDesktopServices::openUrl(QUrl(link));
 }
 

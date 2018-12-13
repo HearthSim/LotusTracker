@@ -46,16 +46,20 @@ private:
 
 public:
     const QString userId;
+    const QString userEmail;
     const QString userToken;
     const QString refreshToken;
     const qlonglong expiresTokenEpoch;
 
-    UserSettings() : userId(""), userToken(""), refreshToken(""), expiresTokenEpoch(0){
+    UserSettings() : userId(""), userEmail(""), userToken(""),
+        refreshToken(""), expiresTokenEpoch(0){
         userName = "";
     }
 
-    UserSettings(QString userId, QString userToken, QString refreshToken, qlonglong expiresTokenEpoch)
-        : userId(userId), userToken(userToken), refreshToken(refreshToken), expiresTokenEpoch(expiresTokenEpoch){}
+    UserSettings(QString userId, QString userEmail, QString userToken,
+                 QString refreshToken, qlonglong expiresTokenEpoch)
+        : userId(userId), userEmail(userEmail), userToken(userToken),
+          refreshToken(refreshToken), expiresTokenEpoch(expiresTokenEpoch){}
 
     void setUserName(QString userName) {
         this->userName = userName;

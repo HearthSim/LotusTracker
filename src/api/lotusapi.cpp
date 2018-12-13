@@ -111,10 +111,11 @@ void LotusTrackerAPI::authRequestOnFinish()
 UserSettings LotusTrackerAPI::createUserSettingsFromSign(QJsonObject jsonRsp)
 {
     QString userId = jsonRsp["localId"].toString();
+    QString userEmail = jsonRsp["email"].toString();
     QString userToken = jsonRsp["idToken"].toString();
     QString refreshToken = jsonRsp["refreshToken"].toString();
     QString expiresIn = jsonRsp["expiresIn"].toString();
-    return UserSettings(userId, userToken, refreshToken, getExpiresEpoch(expiresIn));
+    return UserSettings(userId, userEmail, userToken, refreshToken, getExpiresEpoch(expiresIn));
 }
 
 void LotusTrackerAPI::refreshToken(QString refreshToken)
@@ -165,10 +166,11 @@ void LotusTrackerAPI::tokenRefreshRequestOnFinish()
 UserSettings LotusTrackerAPI::createUserSettingsFromRefreshedToken(QJsonObject jsonRsp)
 {
     QString userId = jsonRsp["user_id"].toString();
+    QString userEmail = jsonRsp["email"].toString();
     QString userToken = jsonRsp["id_token"].toString();
     QString refreshToken = jsonRsp["refresh_token"].toString();
     QString expiresIn = jsonRsp["expires_in"].toString();
-    return UserSettings(userId, userToken, refreshToken, getExpiresEpoch(expiresIn));
+    return UserSettings(userId, userEmail, userToken, refreshToken, getExpiresEpoch(expiresIn));
 }
 
 qlonglong LotusTrackerAPI::getExpiresEpoch(QString expiresIn)
