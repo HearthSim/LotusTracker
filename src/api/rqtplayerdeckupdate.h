@@ -41,12 +41,11 @@ private:
     }
 
 public:
-    RqtPlayerDeckUpdate(QString userId, Deck deck, Deck oldDeck){
+    RqtPlayerDeckUpdate(Deck deck, Deck oldDeck){
         QJsonObject jsonDiffCards = getDiffCardsJson(deck.cards(), oldDeck.cards());
         QJsonObject jsonDiffSideboard = getDiffCardsJson(deck.sideboard(), oldDeck.sideboard());
         _isValid = jsonDiffCards.size() > 0 || jsonDiffSideboard.size() > 0;
         _body = QJsonDocument(QJsonObject{
-                                  { "userId", userId },
                                   { "deckId", deck.id },
                                   { "mainDeck", jsonDiffCards },
                                   { "sideboard", jsonDiffSideboard }

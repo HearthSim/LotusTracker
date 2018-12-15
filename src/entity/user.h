@@ -87,6 +87,11 @@ public:
         return getAuthStatus() == AUTH_VALID;
     }
 
+    bool isUserLogged()
+    {
+        return !userToken.isEmpty();
+    }
+
 };
 
 #endif // USER_H

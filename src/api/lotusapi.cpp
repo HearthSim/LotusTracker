@@ -16,7 +16,8 @@
 #include <QUrl>
 
 #define HEADER_AUTHORIZATION "Authorization"
-#define UPDATE_DELAY 30 //minutes between each player inventory and collection update
+#define UPDATE_COLLECTION_INTERVAL 30 //minutes between each player collection update
+#define UPDATE_INVENTARY_INTERVAL 15 //minutes between each player inventory update
 
 LotusTrackerAPI::LotusTrackerAPI(QObject *parent)
 {
@@ -245,17 +246,17 @@ void LotusTrackerAPI::recoverPasswordRequestOnFinish()
 
 void LotusTrackerAPI::updatePlayerCollection(QMap<int, int> ownedCards)
 {
+    UserSettings userSettings = APP_SETTINGS->getUserSettings();
+    if (!userSettings.isUserLogged()) {
+        return;
+    }
     QDateTime now = QDateTime::currentDateTime();
     if (!lastUpdatePlayerCollectionDate.isNull() &&
-            lastUpdatePlayerCollectionDate.secsTo(now) <= UPDATE_DELAY*60) {
+            lastUpdatePlayerCollectionDate.secsTo(now) <= UPDATE_COLLECTION_INTERVAL) {
         return;
     }
     lastUpdatePlayerCollectionDate = now;
-    UserSettings userSettings = APP_SETTINGS->getUserSettings();
-    if (userSettings.userToken.isEmpty()) {
-        return;
-    }
-    sendPost(RqtUpdatePlayerCollection(userSettings.userId, ownedCards));
+    sendPost(RqtUpdatePlayerCollection(ownedCards));
 }
 
 void LotusTrackerAPI::setPlayerUserName(QString userName)
@@ -267,32 +268,31 @@ void LotusTrackerAPI::updatePlayerInventory(PlayerInventory playerInventory)
 {
     QDateTime now = QDateTime::currentDateTime();
     if (!lastUpdatePlayerInventoryDate.isNull() &&
-            lastUpdatePlayerInventoryDate.secsTo(now) <= UPDATE_DELAY*60) {
+            lastUpdatePlayerInventoryDate.secsTo(now) <= UPDATE_INVENTARY_INTERVAL) {
         return;
     }
     lastUpdatePlayerInventoryDate = now;
     UserSettings userSettings = APP_SETTINGS->getUserSettings();
-    if (userSettings.userToken.isEmpty()) {
+    if (!userSettings.isUserLogged()) {
         return;
     }
     QString appVersion = qApp->applicationVersion();
-    sendPatch(RqtUpdatePlayerInventory(userSettings.userId, userName,
-                                       playerInventory, appVersion));
+    sendPatch(RqtUpdatePlayerInventory(userName, playerInventory, appVersion));
 }
 
 void LotusTrackerAPI::createPlayerDeck(Deck deck)
 {
     UserSettings userSettings = APP_SETTINGS->getUserSettings();
-    if (userSettings.userToken.isEmpty()) {
+    if (!userSettings.isUserLogged()) {
         return;
     }
-    sendPost(RqtPlayerDeck(userSettings.userId, deck));
+    sendPost(RqtPlayerDeck(deck));
 }
 
 void LotusTrackerAPI::updatePlayerDeck(Deck deck)
 {
     UserSettings userSettings = APP_SETTINGS->getUserSettings();
-    if (userSettings.userToken.isEmpty()) {
+    if (!userSettings.isUserLogged()) {
         return;
     }
     paramDeck = deck;
@@ -302,16 +302,16 @@ void LotusTrackerAPI::updatePlayerDeck(Deck deck)
 void LotusTrackerAPI::publishOrUpdatePlayerDeck(QString playerName, Deck deck)
 {
     UserSettings userSettings = APP_SETTINGS->getUserSettings();
-    if (userSettings.userToken.isEmpty()) {
+    if (!userSettings.isUserLogged()) {
         return;
     }
-    sendPost(RqtPublishPlayerDeck(playerName, deck));
+    sendPost(RqtPublishPlayerDeck(playerName, userSettings.userId, deck));
 }
 
 void LotusTrackerAPI::getPlayerDeckWinRate(QString deckId, QString eventId)
 {
     UserSettings userSettings = APP_SETTINGS->getUserSettings();
-    if (userSettings.userToken.isEmpty()) {
+    if (!userSettings.isUserLogged()) {
         return;
     }
     QString path = QString("users/decks/winrate?userId=%1&deckId=%2&eventId=%3")
@@ -354,7 +354,7 @@ void LotusTrackerAPI::getPlayerDeckWinRateRequestOnFinish()
 void LotusTrackerAPI::getPlayerDeckToUpdate(QString deckID)
 {
     UserSettings userSettings = APP_SETTINGS->getUserSettings();
-    if (userSettings.userToken.isEmpty()) {
+    if (!userSettings.isUserLogged()) {
         return;
     }
 
@@ -388,11 +388,10 @@ void LotusTrackerAPI::getPlayerDeckToUpdateRequestOnFinish()
     }
 
     Deck oldDeck = jsonToDeck(jsonRsp);
-    UserSettings userSettings = APP_SETTINGS->getUserSettings();
     //Update deck data
-    sendPatch(RqtPlayerDeck(userSettings.userId, paramDeck));
+    sendPatch(RqtPlayerDeck(paramDeck));
     //Create deck update
-    RqtPlayerDeckUpdate rqtPlayerDeckUpdate(userSettings.userId, paramDeck, oldDeck);
+    RqtPlayerDeckUpdate rqtPlayerDeckUpdate(paramDeck, oldDeck);
     if (rqtPlayerDeckUpdate.isValid()) {
         sendPost(rqtPlayerDeckUpdate);
     }
@@ -433,12 +432,12 @@ void LotusTrackerAPI::uploadEventResult(QString eventId, QString deckId, QString
                                         int maxWins, int wins, int losses)
 {
     UserSettings userSettings = APP_SETTINGS->getUserSettings();
-    if (userSettings.userToken.isEmpty()) {
+    if (!userSettings.isUserLogged()) {
         return;
     }
     QString appVersion = qApp->applicationVersion();
-    RqtUploadEventResult rqtUploadEventResult(userSettings.userId, eventId, deckId,
-                                              deckColors, maxWins, wins, losses);
+    RqtUploadEventResult rqtUploadEventResult(eventId, deckId, deckColors,
+                                              maxWins, wins, losses);
     sendPost(rqtUploadEventResult);
 }
 
@@ -469,11 +468,11 @@ void LotusTrackerAPI::uploadMatchRequestOnFinish()
 void LotusTrackerAPI::registerPlayerMatch(QString matchID)
 {
     UserSettings userSettings = APP_SETTINGS->getUserSettings();
-    if (userSettings.userToken.isEmpty()) {
+    if (!userSettings.isUserLogged()) {
         return;
     }
 
-    rqtRegisterPlayerMatch.createPath(userSettings.userId, matchID);
+    rqtRegisterPlayerMatch.createPath(matchID);
     sendPost(rqtRegisterPlayerMatch);
 }
 

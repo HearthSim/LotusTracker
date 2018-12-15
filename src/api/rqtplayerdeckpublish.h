@@ -17,7 +17,7 @@ private:
     }
 
 public:
-    RqtPublishPlayerDeck(QString owner, Deck deck) {
+    RqtPublishPlayerDeck(QString owner, QString ownerId, Deck deck) {
         QJsonObject jsonCards = cards2Json(deck.cards());
         QJsonObject jsonSideboard = cards2Json(deck.sideboard());
         QJsonObject jsonObj{
@@ -27,7 +27,8 @@ public:
             { "sideboard", jsonSideboard },
             { "colors", deck.colorIdentity() },
             { "name", deck.name },
-            { "owner", owner }
+            { "owner", owner },
+            { "ownerId", ownerId }
         };
         _body = QJsonDocument(jsonObj);
         _path = "users/decks/publish";

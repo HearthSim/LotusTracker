@@ -14,10 +14,9 @@ public:
         _path = "";
     }
 
-    RqtUploadEventResult(QString userId, QString eventId, QString deckId,
-                         QString deckColors, int maxWins, int wins, int losses) {
+    RqtUploadEventResult(QString eventId, QString deckId, QString deckColors,
+                         int maxWins, int wins, int losses) {
         QJsonObject jsonObj{
-            {"userId", userId},
             {"deckId", deckId},
             {"deckColors", deckColors},
             {"eventId", eventId},
