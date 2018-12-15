@@ -2,13 +2,37 @@
 #include "../macros.h"
 #include "urls.h"
 
+#include <QAction>
 #include <QClipboard>
+#include <QCursor>
+#include <QDesktopServices>
 #include <QFontDatabase>
 #include <QToolTip>
 
 DeckTrackerPlayer::DeckTrackerPlayer(QWidget *parent) : DeckTrackerBase(parent),
-    publishingDeckIcon(":res/publish_deck.png"), eventName("-"), deckWins(0), deckLosses(0)
+    deckMenu(new QMenu()), publishingDeckIcon(":res/publish_deck.png"), eventName("-"),
+    deckWins(0), deckLosses(0)
 {
+    QAction *deckProfileAction = new QAction(tr("Deck Profile"), this);
+    connect(deckProfileAction, &QAction::triggered, this, [this](){
+        QString deckLink = QString("%1/user/decks/%2").arg(URLs::SITE()).arg(deck.id);
+        QDesktopServices::openUrl(QUrl(deckLink));
+    });
+    deckMenu->addAction(deckProfileAction);
+    QAction *deckPublicProfileAction = new QAction(tr("Deck Public Page"), this);
+    connect(deckPublicProfileAction, &QAction::triggered, this, [this](){
+        QString deckStartId = deck.id.left(deck.id.indexOf('-'));
+        QString deckAlias = QString("%1-%2").arg(deckStartId).arg(deck.name);
+        QString deckLink = QString("%1/decks/%2").arg(URLs::SITE()).arg(deckAlias);
+        QDesktopServices::openUrl(QUrl(deckLink));
+    });
+    deckMenu->addAction(deckPublicProfileAction);
+    QAction *settingsAction = new QAction(tr("Preferences"), this);
+    connect(settingsAction, &QAction::triggered, this, [this](){
+        LOTUS_TRACKER->showPreferencesScreen();
+        hideCardOnHover();
+    });
+    deckMenu->addAction(settingsAction);
     publishDeckTimer = new QTimer(this);
     publishDeckTimer->setInterval(250);
     connect(publishDeckTimer, &QTimer::timeout, this, &DeckTrackerPlayer::publishingDeckAnim);
@@ -74,9 +98,9 @@ void DeckTrackerPlayer::onScaleChanged()
 void DeckTrackerPlayer::afterPaintEvent(QPainter &painter)
 {
     // Preferences button
-    int buttonSize = 15 + static_cast<int> (uiScale * 1);
+    int buttonSize = 16 + static_cast<int> (uiScale * 1);
     int buttonMarginX = 3;
-    int buttonMarginY = 3;
+    int buttonMarginY = 2;
     int preferencesButtonY = uiPos.y() + buttonMarginY;
     QImage settings(":res/preferences.png");
     QImage settingsScaled = settings.scaled(buttonSize, buttonSize,
@@ -261,9 +285,7 @@ void DeckTrackerPlayer::onReceiveEventName(QString name)
 
 void DeckTrackerPlayer::onPlayerDiscardCard(Card* card)
 {
-    if (deck.drawCard(card)) {
-        blinkCard(card);
-    }
+    UNUSED(card);
 }
 
 void DeckTrackerPlayer::onPlayerDiscardFromLibraryCard(Card* card)
@@ -328,14 +350,18 @@ void DeckTrackerPlayer::mouseReleaseEvent(QMouseEvent *event)
         return;
     }
     if (publishDeckButton.contains(event->pos()) && !publishDeckTimer->isActive()) {
-        publishDeckTimer->start();
-        LOTUS_TRACKER->publishOrUpdatePlayerDeck(deck);
         hideCardOnHover();
+        UserSettings userSettings = APP_SETTINGS->getUserSettings();
+        if (userSettings.isUserLogged()) {
+            publishDeckTimer->start();
+            LOTUS_TRACKER->publishOrUpdatePlayerDeck(deck);
+        } else {
+            LOTUS_TRACKER->showMessage(tr("User need to be logged before publish a deck."));
+        }
         return;
     }
     if (preferencesButton.contains(event->pos())) {
-        LOTUS_TRACKER->showPreferencesScreen();
-        hideCardOnHover();
+        deckMenu->exec(QCursor::pos());
         return;
     }
     DeckTrackerBase::mouseReleaseEvent(event);

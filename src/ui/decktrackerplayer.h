@@ -5,6 +5,7 @@
 #include "../entity/card.h"
 #include "../entity/deck.h"
 
+#include <QMenu>
 #include <QTimer>
 #include <QWidget>
 
@@ -12,6 +13,7 @@ class DeckTrackerPlayer : public DeckTrackerBase
 {
     Q_OBJECT
 private:
+    QMenu *deckMenu;
     QTimer *publishDeckTimer;
     QString publishingDeckIcon, eventName;
     bool isStatisticsEnabled;

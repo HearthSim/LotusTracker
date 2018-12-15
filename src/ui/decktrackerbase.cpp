@@ -439,10 +439,14 @@ bool DeckTrackerBase::event(QEvent *event)
 {
     switch(event->type()){
     case QEvent::HoverEnter:
-        onHoverEnter(static_cast<QHoverEvent*>(event));
+        if (!hidden) {
+            onHoverEnter(static_cast<QHoverEvent*>(event));
+        }
         return true;
     case QEvent::HoverMove:
-        onHoverMove(static_cast<QHoverEvent*>(event));
+        if (!hidden) {
+            onHoverMove(static_cast<QHoverEvent*>(event));
+        }
         return true;
     case QEvent::HoverLeave:
         onHoverLeave(static_cast<QHoverEvent*>(event));
