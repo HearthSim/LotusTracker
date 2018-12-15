@@ -45,7 +45,7 @@ private:
 protected:
     const int cornerRadius;
     QPoint uiPos;
-    QRect zoomMinusButton, zoomPlusButton;
+    QRect zoomMinusButton, zoomPlusButton, screen;
     qreal uiAlpha;
     int cardHoverWidth, titleHeight, uiHeight, uiWidth, uiScale;
     Deck deck;

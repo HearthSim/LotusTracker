@@ -81,8 +81,7 @@ void DeckTrackerBase::setupWindow()
 #else
     setWindowFlags(windowFlags() | Qt::Tool);
 #endif
-
-    QRect screen = QApplication::desktop()->screenGeometry();
+    screen = QApplication::desktop()->screenGeometry();
     move(0, 0);
     resize(screen.width(), static_cast<int> (screen.height() * 1.2));
     show();
@@ -459,11 +458,20 @@ bool DeckTrackerBase::event(QEvent *event)
 
 void DeckTrackerBase::onHoverEnter(QHoverEvent *event)
 {
+    if (event->pos().x() < uiPos.x() ||
+            event->pos().x() > uiPos.x() + uiWidth) {
+        return;
+    }
+    LOGD("Hove enter");
     updateCardHoverUrl(getCardsHoverPosition(event));
 }
 
 void DeckTrackerBase::onHoverMove(QHoverEvent *event)
 {
+    if (event->pos().x() < uiPos.x() ||
+            event->pos().x() > uiPos.x() + uiWidth) {
+        return;
+    }
     int hoverPosition = getCardsHoverPosition(event);
     if (hoverPosition != currentHoverPosition) {
         updateCardHoverUrl(hoverPosition);
@@ -527,6 +535,12 @@ void DeckTrackerBase::mousePressEvent(QMouseEvent *event)
 void DeckTrackerBase::mouseMoveEvent(QMouseEvent *event)
 {
     if (mousePressed) {
+        if (event->pos().x() < 10) {
+            return;
+        }
+        if (event->pos().x() > screen.width() - 10) {
+            return;
+        }
         uiPos = mapToParent(event->pos() - mouseRelativePosition);
         update();
     }

@@ -10,8 +10,8 @@
 #include <QToolTip>
 
 DeckTrackerPlayer::DeckTrackerPlayer(QWidget *parent) : DeckTrackerBase(parent),
-    deckMenu(new QMenu()), publishingDeckIcon(":res/publish_deck.png"), eventName("-"),
-    deckWins(0), deckLosses(0)
+    deckMenu(new QMenu()), publishingDeckIcon(":res/publish_deck.png"),
+    eventName("-"), deckWins(0), deckLosses(0)
 {
     QAction *deckProfileAction = new QAction(tr("Deck Profile"), this);
     connect(deckProfileAction, &QAction::triggered, this, [this](){
@@ -29,8 +29,8 @@ DeckTrackerPlayer::DeckTrackerPlayer(QWidget *parent) : DeckTrackerBase(parent),
     deckMenu->addAction(deckPublicProfileAction);
     QAction *settingsAction = new QAction(tr("Preferences"), this);
     connect(settingsAction, &QAction::triggered, this, [this](){
-        LOTUS_TRACKER->showPreferencesScreen();
         hideCardOnHover();
+        LOTUS_TRACKER->showPreferencesScreen();
     });
     deckMenu->addAction(settingsAction);
     publishDeckTimer = new QTimer(this);
@@ -86,6 +86,12 @@ void DeckTrackerPlayer::stopPublishDeckAnimation()
 
 void DeckTrackerPlayer::onPositionChanged()
 {
+    if (uiPos.x() < 10) {
+        return;
+    }
+    if (uiPos.x() > screen.width() - 10) {
+        return;
+    }
     APP_SETTINGS->setDeckTrackerPlayerPos(uiPos);
 }
 

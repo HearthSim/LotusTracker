@@ -34,6 +34,12 @@ QString DeckTrackerOpponent::onGetDeckColorIdentity()
 
 void DeckTrackerOpponent::onPositionChanged()
 {
+    if (uiPos.x() < 10) {
+        return;
+    }
+    if (uiPos.x() > screen.width() - 10) {
+        return;
+    }
     APP_SETTINGS->setDeckTrackerOpponentPos(uiPos);
 }
 
