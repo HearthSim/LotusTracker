@@ -35,12 +35,14 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
             this, &LotusTracker::onGameFocusChanged);
     connect(lotusAPI, &LotusTrackerAPI::sgnDeckWinRate,
             deckTrackerPlayer, &DeckTrackerPlayer::onPlayerDeckStatus);
-    connect(lotusAPI, &LotusTrackerAPI::sgnEventName,
-            deckTrackerPlayer, &DeckTrackerPlayer::onReceiveEventName);
+    connect(lotusAPI, &LotusTrackerAPI::sgnEventInfo,
+            deckTrackerPlayer, &DeckTrackerPlayer::onReceiveEventInfo);
     connect(lotusAPI, &LotusTrackerAPI::sgnRequestFinishedWithSuccess,
             deckTrackerPlayer, &DeckTrackerPlayer::onLotusAPIRequestFinishedWithSuccess);
     connect(lotusAPI, &LotusTrackerAPI::sgnRequestFinishedWithError,
             deckTrackerPlayer, &DeckTrackerPlayer::onLotusAPIRequestFinishedWithError);
+    connect(lotusAPI, &LotusTrackerAPI::sgnEventInfo,
+            deckTrackerOpponent, &DeckTrackerOpponent::onReceiveEventInfo);
     connect(lotusAPI, &LotusTrackerAPI::sgnUserLogged,
             this, &LotusTracker::onUserSigned);
     connect(lotusAPI, &LotusTrackerAPI::sgnTokenRefreshed,
@@ -295,7 +297,7 @@ void LotusTracker::onDeckSubmited(QString eventId, Deck deck)
 {
     deckTrackerPlayer->loadDeck(deck);
     lotusAPI->updatePlayerDeck(deck);
-    lotusAPI->getPlayerDeckWinRate(deck.id, eventId);
+    lotusAPI->getMatchInfo(eventId, deck.id);
 }
 
 void LotusTracker::onEventPlayerCourse(QString eventId, Deck currentDeck)
@@ -310,7 +312,7 @@ void LotusTracker::onMatchStart(QString eventId, OpponentInfo opponentInfo)
     if (eventId == eventPlayerCourse.first) {
         Deck deck = eventPlayerCourse.second;
         deckTrackerPlayer->loadDeck(deck);
-        lotusAPI->getPlayerDeckWinRate(deck.id, eventId);
+        lotusAPI->getMatchInfo(eventId, deck.id);
     }
     deckTrackerOpponent->setEventId(eventId);
 }

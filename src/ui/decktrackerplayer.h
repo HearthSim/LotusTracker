@@ -53,7 +53,7 @@ public slots:
     void onPlayerPutInLibraryCard(Card* card);
     void onPlayerDrawCard(Card* card);
     void onPlayerDeckStatus(int wins, int losses, double winRate);
-    void onReceiveEventName(QString name);
+    void onReceiveEventInfo(QString name, QString type);
     void onPlayerDiscardCard(Card* card);
     void onPlayerDiscardFromLibraryCard(Card* card);
     void onPlayerPutOnBattlefieldCard(Card* card);

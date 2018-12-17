@@ -33,7 +33,7 @@ private:
     qlonglong getExpiresEpoch(QString expiresIn);
     void getPlayerDeckToUpdate(QString deckID);
     void getPlayerDeckToUpdateRequestOnFinish();
-    void getPlayerDeckWinRateRequestOnFinish();
+    void getMatchInfoRequestOnFinish();
     Deck jsonToDeck(QJsonObject deckJson);
     void registerPlayerMatch(QString matchID);
     void uploadMatchRequestOnFinish();
@@ -62,7 +62,7 @@ public:
     void createPlayerDeck(Deck deck);
     void updatePlayerDeck(Deck deck);
     void publishOrUpdatePlayerDeck(QString playerName, Deck deck);
-    void getPlayerDeckWinRate(QString deckId, QString eventId);
+    void getMatchInfo(QString eventId, QString deckId);
     void uploadMatch(MatchInfo matchInfo, Deck playerDeck,
                      QString playerRankClass);
     void uploadEventResult(QString eventId, QString deckId, QString deckColors,
@@ -77,7 +77,7 @@ signals:
     void sgnTokenRefreshed();
     void sgnTokenRefreshError();
     void sgnDeckWinRate(int wins, int losses, double winRate);
-    void sgnEventName(QString eventName);
+    void sgnEventInfo(QString eventName, QString eventType);
 
 private slots:
     void authRequestOnFinish();

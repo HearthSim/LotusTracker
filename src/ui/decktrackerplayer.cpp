@@ -283,8 +283,9 @@ void DeckTrackerPlayer::onPlayerDeckStatus(int wins, int losses, double winRate)
     update();
 }
 
-void DeckTrackerPlayer::onReceiveEventName(QString name)
+void DeckTrackerPlayer::onReceiveEventInfo(QString name, QString type)
 {
+    UNUSED(type);
     eventName = name;
     update();
 }
