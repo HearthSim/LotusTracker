@@ -33,6 +33,8 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
     mtgaMatch = new MtgaMatch(this, mtgCards);
     connect(mtgArena, &MtgArena::sgnMTGAFocusChanged,
             this, &LotusTracker::onGameFocusChanged);
+    connect(mtgArena, &MtgArena::sgnMTGAStopped,
+            this, &LotusTracker::onGameStopped);
     connect(lotusAPI, &LotusTrackerAPI::sgnDeckWinRate,
             deckTrackerPlayer, &DeckTrackerPlayer::onPlayerDeckStatus);
     connect(lotusAPI, &LotusTrackerAPI::sgnEventInfo,
@@ -353,6 +355,12 @@ void LotusTracker::onGameFocusChanged(bool hasFocus)
             deckTrackerOpponent->hide();
         }
     }
+}
+
+void LotusTracker::onGameStopped()
+{
+    deckTrackerPlayer->hide();
+    deckTrackerOpponent->hide();
 }
 
 void LotusTracker::onGameCompleted(QMap<int, int> teamIdWins)

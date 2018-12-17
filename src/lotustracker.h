@@ -69,6 +69,7 @@ private slots:
     void onMatchStart(QString eventId, OpponentInfo match);
     void onGameStart(MatchMode mode, QList<MatchZone> zones, int seatId);
     void onGameFocusChanged(bool hasFocus);
+    void onGameStopped();
     void onGameCompleted(QMap<int, int> teamIdWins);
     void onMatchEnds(int winningTeamId);
     void onEventFinish(QString eventId, QString deckId, QString deckColors,

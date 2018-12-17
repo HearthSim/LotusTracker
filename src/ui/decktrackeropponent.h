@@ -11,7 +11,8 @@ class DeckTrackerOpponent : public DeckTrackerBase
     Q_OBJECT
 private:
     int lastUiScale;
-    QString eventId;
+    QString eventId, eventType;
+
 protected:
     virtual int getDeckNameYPosition();
     virtual QString onGetDeckColorIdentity();
@@ -29,7 +30,8 @@ public:
 
 signals:
 
-public slots:
+public slots:    
+    void onReceiveEventInfo(QString name, QString type);
     void onOpponentPutInLibraryCard(Card* card);
     void onOpponentPlayCard(Card* card);
     void onOpponentDiscardCard(Card* card);

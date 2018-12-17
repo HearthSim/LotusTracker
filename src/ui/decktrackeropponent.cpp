@@ -24,7 +24,7 @@ void DeckTrackerOpponent::applyCurrentSettings()
 
 int DeckTrackerOpponent::getDeckNameYPosition()
 {
-    return uiPos.y() - titleHeight - 5;
+    return uiPos.y() - titleHeight - 7;
 }
 
 QString DeckTrackerOpponent::onGetDeckColorIdentity()
@@ -73,6 +73,12 @@ void DeckTrackerOpponent::reset()
     update();
 }
 
+void DeckTrackerOpponent::onReceiveEventInfo(QString name, QString type)
+{
+    UNUSED(name);
+    eventType = type;
+}
+
 void DeckTrackerOpponent::onOpponentPutInLibraryCard(Card* card)
 {
     deck.drawCard(card); //remove a card from opponent current deck on screen
@@ -110,7 +116,7 @@ void DeckTrackerOpponent::insertCard(Card* card)
         }
         nonLandCards[card] = deckCards[card];
     }
-    if (eventId.contains("constructed") && nonLandCards.size() >= 2) {
+    if (eventType == "Constructed" && nonLandCards.size() >= 2) {
         QString deckArchtecture = LOTUS_TRACKER->mtgDecksArch->
                 findDeckArchitecture(deckCards);
         deck.updateTitle(deckArchtecture);
