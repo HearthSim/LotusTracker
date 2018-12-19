@@ -15,6 +15,8 @@ class DeckTrackerPlayer : public DeckTrackerBase
 private:
     QMenu *deckMenu;
     QTimer *publishDeckTimer;
+    QAction *deckProfileAction;
+    QAction *deckPublicProfileAction;
     QString publishingDeckIcon, eventName;
     bool isStatisticsEnabled;
     int deckWins, deckLosses, winrateFontSize;

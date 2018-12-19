@@ -13,13 +13,13 @@ DeckTrackerPlayer::DeckTrackerPlayer(QWidget *parent) : DeckTrackerBase(parent),
     deckMenu(new QMenu()), publishingDeckIcon(":res/publish_deck.png"),
     eventName("-"), deckWins(0), deckLosses(0)
 {
-    QAction *deckProfileAction = new QAction(tr("Deck Profile"), this);
+    deckProfileAction = new QAction(tr("Deck Profile"), this);
     connect(deckProfileAction, &QAction::triggered, this, [this](){
         QString deckLink = QString("%1/user/decks/%2").arg(URLs::SITE()).arg(deck.id);
         QDesktopServices::openUrl(QUrl(deckLink));
     });
     deckMenu->addAction(deckProfileAction);
-    QAction *deckPublicProfileAction = new QAction(tr("Deck Public Page"), this);
+    deckPublicProfileAction = new QAction(tr("Deck Public Page"), this);
     connect(deckPublicProfileAction, &QAction::triggered, this, [this](){
         QString deckStartId = deck.id.left(deck.id.indexOf('-'));
         QString deckAlias = QString("%1-%2").arg(deckStartId).arg(deck.name);
@@ -103,6 +103,9 @@ void DeckTrackerPlayer::onScaleChanged()
 
 void DeckTrackerPlayer::afterPaintEvent(QPainter &painter)
 {
+    bool isUserLogged = APP_SETTINGS->getUserSettings().isUserLogged();
+    deckProfileAction->setEnabled(isUserLogged);
+    deckPublicProfileAction->setEnabled(isUserLogged);
     // Preferences button
     int buttonSize = 16 + static_cast<int> (uiScale * 1);
     int buttonMarginX = 3;
