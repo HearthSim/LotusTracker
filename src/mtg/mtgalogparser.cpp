@@ -657,8 +657,8 @@ void MtgaLogParser::parseEventFinish(QString json)
     if (jsonClainPrize.empty()) {
         return;
     }
-    QString eventState = jsonClainPrize["CurrentEventState"].toString();
-    if (eventState != "Completed") {
+    QString eventState = jsonClainPrize["CurrentModule"].toString();
+    if (eventState != "Complete") {
         return;
     }    
     QString eventId = jsonClainPrize["InternalEventName"].toString();
