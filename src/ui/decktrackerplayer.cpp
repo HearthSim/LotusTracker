@@ -15,7 +15,11 @@ DeckTrackerPlayer::DeckTrackerPlayer(QWidget *parent) : DeckTrackerBase(parent),
 {
     deckProfileAction = new QAction(tr("Deck Profile"), this);
     connect(deckProfileAction, &QAction::triggered, this, [this](){
-        QString deckLink = QString("%1/user/decks/%2").arg(URLs::SITE()).arg(deck.id);
+        UserSettings userSettings = APP_SETTINGS->getUserSettings();
+        QString deckLink = QString("%1/user/decks/%2?localId=%3&email=%4&idToken=%5&refreshToken=%6&userName=%7&expiresIn=%8")
+                .arg(URLs::SITE()).arg(deck.id).arg(userSettings.userId).arg(userSettings.userEmail)
+                .arg(userSettings.userToken).arg(userSettings.refreshToken).arg(userSettings.getUserName())
+                .arg(userSettings.expiresTokenEpoch);
         QDesktopServices::openUrl(QUrl(deckLink));
     });
     deckMenu->addAction(deckProfileAction);
