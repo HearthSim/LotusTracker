@@ -15,10 +15,14 @@ This source code already builds a Windows and Mac OS version of Lotus Tracker.
 * Minimize tracker on right click
 * Choose between two cards layout
 * Configure opacity and zoom
+* Dual monitor support
+* Access you collection, deck and matches in [MtgLotusValley](https://www.mtglotusvalley.com)
 
 ![LotusTracker Player](/extras/LotusTracker.png)
 
 ![LotusTracker Player](/extras/LotusTracker2.png)
+
+[More info](https://www.mtglotusvalley.com/lotustracker)
 
 ## Download
 
@@ -29,7 +33,7 @@ You can download Lotus Tracker latest version [here](https://github.com/edipo2s/
 ## Build Instructions
 
 * Install QT Creator
-* Rename ``server_sample.h`` to ``server.h``
+* Rename ``urls_sample.h`` to ``urls.h``
 * Setup Sparkle (_Auto update framework_)
 * Open project (_LotusTracker.pro_)
 * Run
