@@ -7,18 +7,23 @@
 class RqtUpdatePlayerInventory : public RequestData
 {
 public:
-    RqtUpdatePlayerInventory(QString userId, PlayerInventory playerInventory) {
+    RqtUpdatePlayerInventory(QString userName, PlayerInventory playerInventory,
+                             QString appVersion) {
         QJsonObject jsonObj{
-            {"userId", userId},
+            {"userName", userName},
+            {"gold", playerInventory.getGold()},
+            {"gems", playerInventory.getGems()},
             {"wcCommon", playerInventory.getWcCommon()},
             {"wcUncommon", playerInventory.getWcUncommon()},
             {"wcRare", playerInventory.getWcRare()},
-            {"wcMythic", playerInventory.getWcMythic()}
+            {"wcMythic", playerInventory.getWcMythic()},
+            {"vaultProgress", playerInventory.getVaultProgress()},
+            {"appVersion", appVersion}
         };
         _body = QJsonDocument(jsonObj);
         _path = "users/extras";
     }
-    virtual ~RqtUpdatePlayerInventory() {}
+    ~RqtUpdatePlayerInventory() {}
 };
 
 #endif // RQTUPDATEPLAYERINVENTORY_H

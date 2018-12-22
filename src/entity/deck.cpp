@@ -20,10 +20,10 @@ QString Deck::arch()
     return _arch;
 }
 
-QMap<Card*, int> Deck::cards(bool ignoreCardsWithSideboard)
+QMap<Card*, int> Deck::cards(bool ignoreSideboarding)
 {
-    if (!ignoreCardsWithSideboard && !cardsInitialWithSideboard.isEmpty()) {
-        return cardsInitialWithSideboard;
+    if (!ignoreSideboarding && !cardsSideboardingInitial.isEmpty()) {
+        return cardsSideboardingInitial;
     } else {
         return cardsInitial;
     }
@@ -80,9 +80,10 @@ int Deck::totalCardsOfQtd(int qtd)
     return totalXCards;
 }
 
-void Deck::updateCards(QMap<Card*, int> cards)
+void Deck::updateCards(QMap<Card*, int> cards, QMap<Card*, int> sideboard)
 {
-    cardsInitialWithSideboard = cards;
+    cardsSideboardingInitial = cards;
+    cardsSideboard = sideboard;
     reset();
 }
 
@@ -98,15 +99,18 @@ void Deck::clear()
 
 void Deck::reset()
 {
-    for (Card *card : cards().keys()) {
-        cardsCurrent[card] = cards()[card];
+    cardsCurrent.clear();
+    QMap<Card*, int> cards = this->cards();
+    for (Card *card : cards.keys()) {
+        cardsCurrent[card] = cards[card];
     }
 }
 
 bool Deck::isReseted()
 {
-    for (Card *card : cardsInitial.keys()) {
-        if (cardsCurrent[card] != cardsInitial[card]) {
+    QMap<Card*, int> cards = this->cards();
+    for (Card *card : cards.keys()) {
+        if (cardsCurrent[card] != cards[card]) {
             return false;
         }
     }
@@ -147,9 +151,10 @@ QString Deck::calcColorIdentity(QMap<Card*, int> cards, bool includeLands)
         if (card->isLand && !includeLands) {
             continue;
         }
-        for (QChar symbol : card->manaColorIdentity) {
-            if (symbol != QChar('a') && symbol != QChar('c') &&
-                    symbol != QChar('m') && !distinctManaSymbols.contains(symbol)) {
+        for (QString manaSymbol : card->manaSymbols) {
+            QChar symbol = manaSymbol.at(0);
+            if (!symbol.isNumber() && symbol != QChar('a') && symbol != QChar('c') &&
+                    symbol != QChar('m') && symbol != QChar('x') && !distinctManaSymbols.contains(symbol)) {
                 distinctManaSymbols << symbol;
             }
         }

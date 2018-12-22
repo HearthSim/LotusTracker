@@ -17,11 +17,10 @@ private:
     }
 
 public:
-    RqtPlayerDeck(QString userId, Deck deck) {
+    RqtPlayerDeck(Deck deck) {
         QJsonObject jsonCards = cards2Json(deck.cards());
         QJsonObject jsonSideboard = cards2Json(deck.sideboard());
         QJsonObject jsonObj{
-            { "userId", userId },
             { "deckId", deck.id },
             { "arch", deck.arch() },
             { "cards", jsonCards },

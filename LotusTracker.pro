@@ -10,11 +10,11 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = LotusTracker
 TEMPLATE = app
-VERSION = 1.0.0
+VERSION = 1.0.3
 
 CONFIG+=c++11
 
-CONFIG(release, debug|release)
+CONFIG(debug, debug|release)
 
 # asmCrashReport - https://github.com/asmaloney/asmCrashReport
 include(asmCrashReport.pri)
@@ -40,6 +40,7 @@ HEADERS += \
     src/api/rqtupdateplayerinventory.h \
     src/api/rqtupdateplayercollection.h \
     src/api/rqtuploadmatch.h \
+    src/api/rqtuploadeventresult.h \
     src/api/rqtuploadplayermatch.h \
     src/entity/card.h \
     src/entity/deck.h \
@@ -71,6 +72,8 @@ HEADERS += \
     src/utils/appsettings.h \
     src/utils/logger.h \
     src/updater/sparkleupdater.h \
+    src/credentials.h \
+    src/ganalytics.h \
     src/lotustracker.h \
     src/macros.h \
     src/transformations.h \
@@ -79,6 +82,7 @@ HEADERS += \
 SOURCES += \
     src/api/lotusapi.cpp \
     src/main.cpp \
+    src/ganalytics.cpp \
     src/lotustracker.cpp \
     src/transformations.cpp \
     src/entity/deck.cpp \

@@ -26,7 +26,7 @@ Logger::~Logger()
 {
     if (logFile) {
         delete logFile;
-        logFile = NULL;
+        logFile = nullptr;
     }
 }
 

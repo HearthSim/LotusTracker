@@ -24,7 +24,8 @@ private:
     MtgCards *mtgCards;
     QList<int> msgResponseNumbers;
     Deck jsonObject2Deck(QJsonObject jsonDeck);
-    void parseMsg(QPair<QString, QString> msg);
+    void parseOutcomingMsg(QPair<QString, QString> msg);
+    void parseIncomingMsg(QPair<QString, QString> msg);
     void parsePlayerInventory(QString json);
     void parsePlayerInventoryUpdate(QString json);
     void parsePlayerCollection(QString json);
@@ -37,13 +38,16 @@ private:
     void parsePlayerDeckCreate(QString json);
     void parsePlayerDeckUpdate(QString json);
     void parsePlayerDeckSubmited(QString json);
-    void parseSubmitDeck(QJsonObject jsonMessage);
+    void parseDirectGameChallenge(QString json);
+    void parseEventFinish(QString json);
+    void parseSubmitDeckResp(QJsonObject jsonMessage);
+    void parseClientToGreMessages(QString json);
     void parseGreToClientMessages(QString json);
     void parseGameStateFull(QJsonObject jsonMessage);
-    void parseGameStateDiff(int gameStateId, QJsonObject jsonMessage, bool hasMulliganReq);
-    void checkPlayerMulligan(QList<MatchZone> zones, bool hasMulliganReq);
-    void checkOpponentMulligan(QList<MatchZone> zones, int turnNumber,
-                               QJsonArray jsonDiffDeletedInstanceIds);
+    void parseGameStateDiff(int playerSeatId, int gameStateId, QJsonObject jsonMessage);
+    void checkMulligans(int playerSeatId, QList<int> diffDeletedInstanceIds,
+                        QList<MatchZone> zones);
+    bool listContainsSublist(QList<int> list, QList<int> subList);
     QList<MatchZone> getMatchZones(QJsonObject jsonGameStateMessage);
     QMap<int, int> getIdsChanged(QJsonArray jsonGSMAnnotations);
     QMap<int, MatchZoneTransfer> getIdsZoneChanged(QJsonArray jsonGSMAnnotations);
@@ -70,11 +74,14 @@ signals:
     void sgnPlayerDeckCreated(Deck deck);
     void sgnPlayerDeckUpdated(Deck deck);
     void sgnPlayerDeckSubmited(QString eventId, Deck deck);
-    void sgnPlayerDeckWithSideboardSubmited(QMap<Card*, int> cards);
-    void sgnPlayerTakesMulligan();
+    void sgnPlayerDeckWithSideboardSubmited(QMap<Card*, int> mainDeck,
+                                            QMap<Card*, int> sideboard);
+    void sgnPlayerTakesMulligan(QMap<int, int> newHandDrawed);
     void sgnOpponentTakesMulligan(int opponentSeatId);
     void sgnMatchStateDiff(MatchStateDiff matchStateDiff);
     void sgnNewTurnStarted(int turnNumber);
+    void sgnEventFinish(QString eventId, QString deckId, QString deckColors,
+                        int maxWins, int wins, int losses);
 
 public slots:
 };

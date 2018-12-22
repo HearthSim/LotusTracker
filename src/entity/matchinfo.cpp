@@ -17,6 +17,10 @@ void MatchInfo::createNewGame()
 
 GameInfo& MatchInfo::currentGame()
 {
+    if (games.size() == 0) {
+        LOGW("Invalid game state");
+        games << GameInfo();
+    }
     return games.last();
 }
 

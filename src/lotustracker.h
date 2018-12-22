@@ -16,9 +16,12 @@
 #include "utils/appsettings.h"
 #include "utils/logger.h"
 #include "updater/sparkleupdater.h"
+#include "credentials.h"
+#include "ganalytics.h"
 
 #include <QApplication>
 #include <QLocalServer>
+#include <QTimer>
 
 class LotusTracker : public QApplication
 {
@@ -33,8 +36,9 @@ private:
     StartScreen *startScreen;
     LotusTrackerAPI *lotusAPI;
     QPair<QString, Deck> eventPlayerCourse;
-    QTimer *hideTrackerTimer;
+    QTimer *hideTrackerTimer, *checkConnection;
     bool isAlreadyRunning();
+    bool isOnline();
     void setupApp();
     void setupUpdater();
     void setupPreferencesScreen();
@@ -45,13 +49,14 @@ private:
 public:
     LotusTracker(int& argc, char **argv);
     ~LotusTracker();
-    AppSettings *appSettings;
-    Logger *logger;
-    MtgArena *mtgArena;
-    MtgCards *mtgCards;
-    MtgDecksArch *mtgDecksArch;
-    MtgaMatch *mtgaMatch;
-    SparkleUpdater *sparkleUpdater;
+    AppSettings* appSettings;
+    Logger* logger;
+    MtgArena* mtgArena;
+    MtgCards* mtgCards;
+    MtgDecksArch* mtgDecksArch;
+    MtgaMatch* mtgaMatch;
+    SparkleUpdater* sparkleUpdater;
+    GAnalytics* gaTracker;
     int run();
     void avoidAppClose();
     void showStartScreen();
@@ -63,14 +68,16 @@ signals:
 
 private slots:
     void onDeckSubmited(QString eventId, Deck deck);
-    void onPlayerDeckWithSideboardSubmited(QMap<Card*, int> cards);
     void onEventPlayerCourse(QString eventId, Deck currentDeck);
     void onMatchStart(QString eventId, OpponentInfo match);
     void onGameStart(MatchMode mode, QList<MatchZone> zones, int seatId);
+    void onGameStarted();
     void onGameFocusChanged(bool hasFocus);
+    void onGameStopped();
     void onGameCompleted(QMap<int, int> teamIdWins);
     void onMatchEnds(int winningTeamId);
-    void onPlayerTakesMulligan();
+    void onEventFinish(QString eventId, QString deckId, QString deckColors,
+                       int maxWins, int wins, int losses);
     void onDeckTrackerPlayerEnabledChange(bool enabled);
     void onDeckTrackerOpponentEnabledChange(bool enabled);
     void onUserSigned(bool fromSignUp);

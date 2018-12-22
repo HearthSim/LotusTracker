@@ -4,20 +4,28 @@
 class PlayerInventory
 {
 private:
+    int gold;
+    int gems;
     int wcCommon;
     int wcUncommon;
     int wcRare;
     int wcMythic;
+    double vaultProgress;
 
 public:
 
-    PlayerInventory(int wcCommon = 0, int wcUncommon = 0, int wcRare = 0, int wcMythic = 0)
-        : wcCommon(wcCommon), wcUncommon(wcUncommon), wcRare(wcRare), wcMythic(wcMythic){}
+    PlayerInventory(int gold = 0, int gems = 0, int wcCommon = 0, int wcUncommon = 0,
+                    int wcRare = 0, int wcMythic = 0, double vaultProgress = 0.0)
+        : gold(gold), gems(gems), wcCommon(wcCommon), wcUncommon(wcUncommon),
+          wcRare(wcRare), wcMythic(wcMythic), vaultProgress(vaultProgress){}
 
+    int getGold(){ return gold; }
+    int getGems(){ return gems; }
     int getWcCommon(){ return wcCommon; }
     int getWcUncommon(){ return wcUncommon; }
     int getWcRare(){ return wcRare; }
     int getWcMythic(){ return wcMythic; }
+    double getVaultProgress(){ return vaultProgress; }
 
 };
 
@@ -38,16 +46,20 @@ private:
 
 public:
     const QString userId;
+    const QString userEmail;
     const QString userToken;
     const QString refreshToken;
     const qlonglong expiresTokenEpoch;
 
-    UserSettings() : userId(""), userToken(""), refreshToken(""), expiresTokenEpoch(0){
+    UserSettings() : userId(""), userEmail(""), userToken(""),
+        refreshToken(""), expiresTokenEpoch(0){
         userName = "";
     }
 
-    UserSettings(QString userId, QString userToken, QString refreshToken, qlonglong expiresTokenEpoch)
-        : userId(userId), userToken(userToken), refreshToken(refreshToken), expiresTokenEpoch(expiresTokenEpoch){}
+    UserSettings(QString userId, QString userEmail, QString userToken,
+                 QString refreshToken, qlonglong expiresTokenEpoch)
+        : userId(userId), userEmail(userEmail), userToken(userToken),
+          refreshToken(refreshToken), expiresTokenEpoch(expiresTokenEpoch){}
 
     void setUserName(QString userName) {
         this->userName = userName;
@@ -73,6 +85,11 @@ public:
     bool isAuthValid()
     {
         return getAuthStatus() == AUTH_VALID;
+    }
+
+    bool isUserLogged()
+    {
+        return !userToken.isEmpty();
     }
 
 };

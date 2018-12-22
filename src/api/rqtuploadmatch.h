@@ -20,6 +20,7 @@ public:
             {"cards", cards2JsonMapValue(playerDeck.cards(true))},
             {"colors", playerDeck.colorIdentity()},
             {"deck", playerDeck.id},
+            {"name", playerDeck.name},
             {"rank", playerRankClass}
         };
         QJsonObject player2Json{
@@ -50,6 +51,7 @@ private:
             QString first = gameInfo.playerGoFirst ? "player1" : "player2";
             QJsonObject jsonOpponentCards = cards2JsonMapValue(gameInfo.opponentDeck.currentCards());
             QJsonObject jsonGame{
+                {"duration", gameInfo.duration},
                 {"first", first},
                 {"opponentCards", jsonOpponentCards},
                 {"opponentMulligan", gameInfo.opponentMulligan },

@@ -5,6 +5,7 @@
 #include "../entity/card.h"
 #include "../entity/deck.h"
 
+#include <QMenu>
 #include <QTimer>
 #include <QWidget>
 
@@ -12,10 +13,13 @@ class DeckTrackerPlayer : public DeckTrackerBase
 {
     Q_OBJECT
 private:
+    QMenu *deckMenu;
     QTimer *publishDeckTimer;
-    QString publishingDeckIcon;
+    QAction *deckProfileAction;
+    QAction *deckPublicProfileAction;
+    QString publishingDeckIcon, eventName;
     bool isStatisticsEnabled;
-    int deckWins, deckLosses;
+    int deckWins, deckLosses, winrateFontSize;
     double deckWinRate;
     QPen statisticsPen, winRatePen;
     QFont statisticsFont, winRateFont;
@@ -24,7 +28,9 @@ private:
     void drawStatistics(QPainter &painter);
 
 protected:
-    virtual QString onGetDeckColorIdentity();
+    virtual int getDeckNameYPosition();
+    virtual int getHoverCardXPosition();
+    virtual QString getDeckColorIdentity();
     virtual void onPositionChanged();
     virtual void onScaleChanged();
     virtual void afterPaintEvent(QPainter &painter);
@@ -38,8 +44,8 @@ public:
     void stopPublishDeckAnimation();
     void applyCurrentSettings();
     void loadDeck(Deck deck);
-    void loadDeckWithSideboard(QMap<Card*, int> cards);
-    void resetDeck();
+    void loadDeckWithSideboard(QMap<Card*, int> cards, QMap<Card*, int> sideboard);
+    void reset();
     bool isDeckLoadedAndReseted();
 
 signals:
@@ -50,6 +56,7 @@ public slots:
     void onPlayerPutInLibraryCard(Card* card);
     void onPlayerDrawCard(Card* card);
     void onPlayerDeckStatus(int wins, int losses, double winRate);
+    void onReceiveEventInfo(QString name, QString type);
     void onPlayerDiscardCard(Card* card);
     void onPlayerDiscardFromLibraryCard(Card* card);
     void onPlayerPutOnBattlefieldCard(Card* card);

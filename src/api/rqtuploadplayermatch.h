@@ -32,10 +32,9 @@ public:
         _path = "";
     }
 
-    void createPath(QString userId, QString matchId)
+    void createPath(QString matchId)
     {
         QJsonObject jsonObj = _body.object();
-        jsonObj.insert("userId", userId);
         jsonObj.insert("matchId", matchId);
         _body = QJsonDocument(jsonObj);
         _path = "users/matches";

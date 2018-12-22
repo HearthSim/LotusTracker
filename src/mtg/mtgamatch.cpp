@@ -51,6 +51,7 @@ void MtgaMatch::onMatchInfoSeats(QList<MatchPlayer> players)
             player = MatchPlayer(matchPlayer.name(), matchPlayer.seatId(), matchPlayer.teamId());
         }
     }
+    emit sgnPlayerUserName(player.name());
 }
 
 void MtgaMatch::onGameStart(MatchMode mode, QList<MatchZone> zones, int seatId)
@@ -84,8 +85,7 @@ void MtgaMatch::onGameCompleted(Deck opponentDeck, QMap<int, int> teamIdWins)
     matchInfo.playerGameWins = teamIdWins[player.teamId()];
     matchInfo.playerGameLoses = teamIdWins[opponent.teamId()];
     bool playerGameWins = matchInfo.playerGameWins > playerCurrentWins;
-    matchInfo.currentGame().playerWins = playerGameWins;
-    matchInfo.currentGame().isCompleted = true;
+    matchInfo.currentGame().finish(playerGameWins);
 }
 
 void MtgaMatch::onEndCurrentMatch(int winningTeamId)
@@ -103,7 +103,7 @@ void MtgaMatch::onPlayerRankInfo(QPair<QString, int> playerRankInfo)
     this->playerRankInfo = playerRankInfo;
 }
 
-void MtgaMatch::onPlayerTakesMulligan()
+void MtgaMatch::onPlayerTakesMulligan(QMap<int, int> newHandDrawed)
 {
     if (!isRunning) {
         return;
@@ -128,6 +128,11 @@ void MtgaMatch::onPlayerTakesMulligan()
             break;
         }
     }
+    for(int mtgaCardId : newHandDrawed.values()) {
+        Card* card = mtgCards->findCard(mtgaCardId);
+        LOGI(QString("Player draw %1").arg(card->name));
+        emit sgnPlayerDrawCard(card);
+    }
 }
 
 void MtgaMatch::onOpponentTakesMulligan(int opponentSeatId)
@@ -146,8 +151,8 @@ void MtgaMatch::onMatchStateDiff(MatchStateDiff matchStateDiff)
     }
     // Initial player hand draws
     for (MatchZone zone : gameZones) {
-        if (zone.type() == ZoneType_LIBRARY && zone.ownerSeatId() == player.seatId()) {
-            if (zone.objectIds.size() >= 60) {
+        if (zone.type() == ZoneType_HAND && zone.ownerSeatId() == player.seatId()) {
+            if (zone.objectIds.size() == 0) {
                 notifyHandCardsDraw(matchStateDiff);
             }
             break;
@@ -160,7 +165,7 @@ void MtgaMatch::onMatchStateDiff(MatchStateDiff matchStateDiff)
     for (int objectId : idsZoneChanged.keys()) {
         MatchZone zoneSrc = gameZones[idsZoneChanged[objectId].zoneSrcId()];
         MatchZone zoneDst = gameZones[idsZoneChanged[objectId].zoneDstId()];
-        int oldObjectId;
+        int oldObjectId = 0;
         for (auto idChanged : matchStateDiff.idsChanged().toStdMap()) {
             if (idChanged.second == objectId) {
                 oldObjectId = idChanged.first;

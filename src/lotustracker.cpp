@@ -12,6 +12,8 @@
 
 #include <QLocalSocket>
 #include <QMessageBox>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 
 LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
 {
@@ -29,14 +31,23 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
     startScreen = new StartScreen(nullptr, lotusAPI);
     hideTrackerTimer = new QTimer(this);
     mtgaMatch = new MtgaMatch(this, mtgCards);
+    gaTracker = new GAnalytics(CREDENTIALS::GA_ID());
+    connect(mtgArena, &MtgArena::sgnMTGAStarted,
+            this, &LotusTracker::onGameStarted);
     connect(mtgArena, &MtgArena::sgnMTGAFocusChanged,
             this, &LotusTracker::onGameFocusChanged);
+    connect(mtgArena, &MtgArena::sgnMTGAStopped,
+            this, &LotusTracker::onGameStopped);
     connect(lotusAPI, &LotusTrackerAPI::sgnDeckWinRate,
             deckTrackerPlayer, &DeckTrackerPlayer::onPlayerDeckStatus);
+    connect(lotusAPI, &LotusTrackerAPI::sgnEventInfo,
+            deckTrackerPlayer, &DeckTrackerPlayer::onReceiveEventInfo);
     connect(lotusAPI, &LotusTrackerAPI::sgnRequestFinishedWithSuccess,
             deckTrackerPlayer, &DeckTrackerPlayer::onLotusAPIRequestFinishedWithSuccess);
     connect(lotusAPI, &LotusTrackerAPI::sgnRequestFinishedWithError,
             deckTrackerPlayer, &DeckTrackerPlayer::onLotusAPIRequestFinishedWithError);
+    connect(lotusAPI, &LotusTrackerAPI::sgnEventInfo,
+            deckTrackerOpponent, &DeckTrackerOpponent::onReceiveEventInfo);
     connect(lotusAPI, &LotusTrackerAPI::sgnUserLogged,
             this, &LotusTracker::onUserSigned);
     connect(lotusAPI, &LotusTrackerAPI::sgnTokenRefreshed,
@@ -45,21 +56,31 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
             this, &LotusTracker::onUserTokenRefreshError);
     connect(hideTrackerTimer, &QTimer::timeout, this, [this]{
         hideTrackerTimer->stop();
-        deckTrackerPlayer->resetDeck();
+        deckTrackerPlayer->reset();
         deckTrackerPlayer->hide();
-        deckTrackerOpponent->clearDeck();
+        deckTrackerOpponent->reset();
         deckTrackerOpponent->hide();
     });
     //setupMatch should be called before setupLogParser because sgnMatchInfoResult order
     setupLogParserConnections();
     setupMtgaMatchConnections();
     setupPreferencesScreen();
-    checkForAutoLogin();
     LOGI("Lotus Tracker started");
     if (APP_SETTINGS->isFirstRun()) {
         startScreen->show();
         startScreen->raise();
         showMessage(tr("Lotus Tracker is running in background, you can click on tray icon for preferences."));
+    } else {
+        checkConnection = new QTimer();
+        connect(checkConnection, &QTimer::timeout, this, [this]() {
+            LOGD("Checking internet connection..");
+            if (isOnline()) {
+                LOGD("Internet connection OK");
+                checkConnection->stop();
+                checkForAutoLogin();
+            }
+        });
+        checkConnection->start(3000);
     }
 }
 
@@ -73,11 +94,17 @@ LotusTracker::~LotusTracker()
     DEL(mtgArena)
     DEL(mtgaMatch)
     DEL(lotusAPI)
+    DEL(gaTracker)
 }
 
 int LotusTracker::run()
 {
-    return isAlreadyRunning() ? 1 : exec();
+    try {
+        return isAlreadyRunning() ? 1 : exec();
+    } catch (const std::exception& ex) {
+        gaTracker->sendException(ex.what());
+        return -1;
+    }
 }
 
 void LotusTracker::setupApp()
@@ -90,10 +117,10 @@ void LotusTracker::setupApp()
   QIcon icon(":/res/icon.ico");
 #endif
   setAttribute(Qt::AA_Use96Dpi);
-  setApplicationName("Lotus Tracker");
+  setApplicationName(APP_NAME);
   setApplicationVersion(VERSION);
-  setOrganizationName("Black Lotus Valley");
-  setOrganizationDomain("blacklotusvalley.com");
+  setOrganizationName(URLs::SITE_NAME());
+  setOrganizationDomain(URLs::SITE());
   setWindowIcon(icon);
 }
 
@@ -124,6 +151,17 @@ bool LotusTracker::isAlreadyRunning() {
         return true;
     }
     return false;
+}
+
+bool LotusTracker::isOnline()
+{
+    QNetworkAccessManager nam;
+    QNetworkRequest req(QUrl("http://www.google.com"));
+    QNetworkReply *reply = nam.get(req);
+    QEventLoop loop;
+    connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
+    loop.exec();
+    return reply->bytesAvailable();
 }
 
 void LotusTracker::setupPreferencesScreen()
@@ -183,7 +221,7 @@ void LotusTracker::setupLogParserConnections()
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckSubmited,
             this, &LotusTracker::onDeckSubmited);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckWithSideboardSubmited,
-            this, &LotusTracker::onPlayerDeckWithSideboardSubmited);
+            deckTrackerPlayer, &DeckTrackerPlayer::loadDeckWithSideboard);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnEventPlayerCourse,
             this, &LotusTracker::onEventPlayerCourse);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchCreated,
@@ -194,8 +232,8 @@ void LotusTracker::setupLogParserConnections()
             this, &LotusTracker::onGameCompleted);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchResult,
             this, &LotusTracker::onMatchEnds);
-    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerTakesMulligan,
-            this, &LotusTracker::onPlayerTakesMulligan);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnEventFinish,
+            this, &LotusTracker::onEventFinish);
 }
 
 void LotusTracker::setupMtgaMatchConnections()
@@ -223,6 +261,8 @@ void LotusTracker::setupMtgaMatchConnections()
     connect(mtgaMatch, &MtgaMatch::sgnOpponentPutOnBattlefieldCard,
             deckTrackerOpponent, &DeckTrackerOpponent::onOpponentPutOnBattlefieldCard);
     // Match
+    connect(mtgaMatch, &MtgaMatch::sgnPlayerUserName,
+            lotusAPI, &LotusTrackerAPI::setPlayerUserName);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchInfoSeats,
             mtgaMatch, &MtgaMatch::onMatchInfoSeats);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchStateDiff,
@@ -268,13 +308,7 @@ void LotusTracker::onDeckSubmited(QString eventId, Deck deck)
 {
     deckTrackerPlayer->loadDeck(deck);
     lotusAPI->updatePlayerDeck(deck);
-    lotusAPI->getPlayerDeckWinRate(deck.id, eventId);
-}
-
-void LotusTracker::onPlayerDeckWithSideboardSubmited(QMap<Card*, int> cards)
-{
-    UNUSED(cards);
-    deckTrackerPlayer->loadDeckWithSideboard(cards);
+    lotusAPI->getMatchInfo(eventId, deck.id);
 }
 
 void LotusTracker::onEventPlayerCourse(QString eventId, Deck currentDeck)
@@ -286,11 +320,13 @@ void LotusTracker::onMatchStart(QString eventId, OpponentInfo opponentInfo)
 {
     mtgaMatch->onStartNewMatch(eventId, opponentInfo);
     // Load deck from event in course if not loaded yet (event continues without submitDeck)
-    if (!deckTrackerPlayer->isDeckLoadedAndReseted()) {
-        if (eventId == eventPlayerCourse.first) {
-            deckTrackerPlayer->loadDeck(eventPlayerCourse.second);
-        }
+    if (eventId == eventPlayerCourse.first) {
+        Deck deck = eventPlayerCourse.second;
+        deckTrackerPlayer->loadDeck(deck);
+        lotusAPI->getMatchInfo(eventId, deck.id);
     }
+    deckTrackerOpponent->setEventId(eventId);
+    gaTracker->sendEvent("Match", "starts", eventId);
 }
 
 void LotusTracker::onGameStart(MatchMode mode, QList<MatchZone> zones, int seatId)
@@ -305,6 +341,14 @@ void LotusTracker::onGameStart(MatchMode mode, QList<MatchZone> zones, int seatI
     if (APP_SETTINGS->isDeckTrackerOpponentEnabled()) {
         deckTrackerOpponent->show();
     }
+    if (APP_SETTINGS->isFirstMatch()) {
+        showMessage(tr("You can hide the tracker temporarily with a mouse right click."));
+    }
+}
+
+void LotusTracker::onGameStarted()
+{
+    gaTracker->startSession();
 }
 
 void LotusTracker::onGameFocusChanged(bool hasFocus)
@@ -326,6 +370,14 @@ void LotusTracker::onGameFocusChanged(bool hasFocus)
             deckTrackerOpponent->hide();
         }
     }
+    gaTracker->sendEvent("Game", "Focus change");
+}
+
+void LotusTracker::onGameStopped()
+{
+    deckTrackerPlayer->hide();
+    deckTrackerOpponent->hide();
+    gaTracker->endSession();
 }
 
 void LotusTracker::onGameCompleted(QMap<int, int> teamIdWins)
@@ -339,7 +391,6 @@ void LotusTracker::onGameCompleted(QMap<int, int> teamIdWins)
 
 void LotusTracker::onMatchEnds(int winningTeamId)
 {
-    UNUSED(winningTeamId);
     if (!mtgaMatch->isRunning) {
         return;
     }
@@ -349,11 +400,13 @@ void LotusTracker::onMatchEnds(int winningTeamId)
                               deckTrackerPlayer->getDeck(),
                               mtgaMatch->getPlayerRankInfo().first);
     }
+    gaTracker->sendEvent("Match", "ends");
 }
 
-void LotusTracker::onPlayerTakesMulligan()
+void LotusTracker::onEventFinish(QString eventId, QString deckId, QString deckColors,
+                                 int maxWins, int wins, int losses)
 {
-    deckTrackerPlayer->resetDeck();
+    lotusAPI->uploadEventResult(eventId, deckId, deckColors, maxWins, wins, losses);
 }
 
 void LotusTracker::onDeckTrackerPlayerEnabledChange(bool enabled)

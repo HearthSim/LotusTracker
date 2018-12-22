@@ -2,20 +2,51 @@
 #include "../macros.h"
 #include "urls.h"
 
+#include <QAction>
 #include <QClipboard>
+#include <QCursor>
+#include <QDesktopServices>
 #include <QFontDatabase>
 #include <QToolTip>
 
 DeckTrackerPlayer::DeckTrackerPlayer(QWidget *parent) : DeckTrackerBase(parent),
-    publishingDeckIcon(":res/publish_deck.png")
+    deckMenu(new QMenu()), publishingDeckIcon(":res/publish_deck.png"),
+    eventName("-"), deckWins(0), deckLosses(0)
 {
+    deckProfileAction = new QAction(tr("Deck Profile"), this);
+    connect(deckProfileAction, &QAction::triggered, this, [this](){
+        UserSettings userSettings = APP_SETTINGS->getUserSettings();
+        QString deckLink = QString("%1/user/decks/%2?localId=%3&email=%4&idToken=%5&refreshToken=%6&userName=%7&expiresIn=%8")
+                .arg(URLs::SITE()).arg(deck.id).arg(userSettings.userId).arg(userSettings.userEmail)
+                .arg(userSettings.userToken).arg(userSettings.refreshToken).arg(userSettings.getUserName())
+                .arg(userSettings.expiresTokenEpoch);
+        QDesktopServices::openUrl(QUrl(deckLink));
+        LOTUS_TRACKER->gaTracker->sendEvent("Overlay", "Deck Profile");
+    });
+    deckMenu->addAction(deckProfileAction);
+    deckPublicProfileAction = new QAction(tr("Deck Public Page"), this);
+    connect(deckPublicProfileAction, &QAction::triggered, this, [this](){
+        QString deckStartId = deck.id.left(deck.id.indexOf('-'));
+        QString deckAlias = QString("%1-%2").arg(deckStartId).arg(deck.name);
+        QString deckLink = QString("%1/decks/%2").arg(URLs::SITE()).arg(deckAlias);
+        QDesktopServices::openUrl(QUrl(deckLink));
+        LOTUS_TRACKER->gaTracker->sendEvent("Overlay", "Deck Public Page");
+    });
+    deckMenu->addAction(deckPublicProfileAction);
+    QAction *settingsAction = new QAction(tr("Preferences"), this);
+    connect(settingsAction, &QAction::triggered, this, [this](){
+        hideCardOnHover();
+        LOTUS_TRACKER->showPreferencesScreen();
+        LOTUS_TRACKER->gaTracker->sendEvent("Overlay", "Preferences");
+    });
+    deckMenu->addAction(settingsAction);
     publishDeckTimer = new QTimer(this);
     publishDeckTimer->setInterval(250);
     connect(publishDeckTimer, &QTimer::timeout, this, &DeckTrackerPlayer::publishingDeckAnim);
     applyCurrentSettings();
     // Statistics
     int statisticsFontSize = 8;
-    int winrateFontSize = 9;
+    winrateFontSize = 8;
 #if defined Q_OS_MAC
     statisticsFontSize += 2;
     winrateFontSize += 2;
@@ -38,10 +69,12 @@ void DeckTrackerPlayer::onLotusAPIRequestFinishedWithSuccess()
 {
     if (publishDeckTimer->isActive()) {
         stopPublishDeckAnimation();
-        QString owner = LOTUS_TRACKER->mtgaMatch->getPlayerName();
-        QString deckLink = QString("%1/%2/%3").arg(URLs::SITE()).arg(owner).arg(deck.name);
+        QString deckStartId = deck.id.left(deck.id.indexOf('-'));
+        QString deckAlias = QString("%1-%2").arg(deckStartId).arg(deck.name);
+        QString deckLink = QString("%1/decks/%2").arg(URLs::SITE()).arg(deckAlias);
         QApplication::clipboard()->setText(deckLink);
         LOTUS_TRACKER->showMessage(tr("Deck published/updated.\nDeck link copied to clipboard."));
+        LOTUS_TRACKER->gaTracker->sendEvent("Overlay", "Deck Published");
     }
 }
 
@@ -61,55 +94,52 @@ void DeckTrackerPlayer::stopPublishDeckAnimation()
 
 void DeckTrackerPlayer::onPositionChanged()
 {
-    APP_SETTINGS->setDeckTrackerPlayerPos(uiPos);
+    APP_SETTINGS->setDeckTrackerPlayerPos(pos());
 }
 
 void DeckTrackerPlayer::onScaleChanged()
 {
+    DeckTrackerBase::onScaleChanged();
     APP_SETTINGS->setDeckTrackerPlayerScale(uiScale);
 }
 
 void DeckTrackerPlayer::afterPaintEvent(QPainter &painter)
 {
+    bool isUserLogged = APP_SETTINGS->getUserSettings().isUserLogged();
+    deckProfileAction->setEnabled(isUserLogged);
+    deckPublicProfileAction->setEnabled(isUserLogged);
     // Preferences button
-    int buttonSize = 16;
-    int buttonMarginX = 2;
-    int buttonMarginY = 3;
+    int buttonSize = 16 + static_cast<int> (uiScale * 1);
+    int buttonMarginX = 3;
+    int buttonMarginY = 2;
     int preferencesButtonY = uiPos.y() + buttonMarginY;
     QImage settings(":res/preferences.png");
     QImage settingsScaled = settings.scaled(buttonSize, buttonSize,
                                             Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     int settingsPlusX = uiPos.x() + uiWidth - buttonSize - buttonMarginX;
     painter.drawImage(settingsPlusX, preferencesButtonY, settingsScaled);
-    preferencesButton = QRect(static_cast<int> (settingsPlusX * uiScale),
-                              static_cast<int> (preferencesButtonY * uiScale),
-                              static_cast<int> (buttonSize * uiScale),
-                              static_cast<int> (buttonSize * uiScale));
+    preferencesButton = QRect(settingsPlusX, preferencesButtonY, buttonSize, buttonSize);
     // publish Button
-    int publishButtonY = uiPos.y() + buttonMarginY;
+    int publishButtonY = uiPos.y() + buttonSize + buttonMarginY + buttonMarginY;
     QImage publish(publishingDeckIcon);
     QImage publishScaled = publish.scaled(buttonSize, buttonSize,
                                           Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    int publishX = uiPos.x() + uiWidth - buttonSize - buttonMarginX -
-            buttonSize - buttonMarginX + 1;
-    painter.drawImage(publishX, publishButtonY, publishScaled);
-    publishDeckButton = QRect(static_cast<int> (publishX * uiScale),
-                              static_cast<int> (publishButtonY * uiScale),
-                              static_cast<int> (buttonSize * uiScale),
-                              static_cast<int> (buttonSize * uiScale));
-    // WinRate
+    int publishButtonX = uiPos.x() + uiWidth - buttonSize - buttonMarginX;
+    painter.drawImage(publishButtonX, publishButtonY, publishScaled);
+    publishDeckButton = QRect(publishButtonX, publishButtonY, buttonSize, buttonSize);
+    // Event name and WinRate
+    QString eventNameWithWinRate = eventName;
     if (deckWins > 0 || deckLosses > 0) {
-        QString winRate = QString("%1-%2 (%3%)").arg(deckWins).arg(deckLosses)
-                .arg(deckWinRate);
-        int winRateOptions = Qt::AlignLeft | Qt::AlignVCenter | Qt::TextDontClip;
-        QFontMetrics winrateMetrics(statisticsFont);
-        int winrateMargin = 8;
-        int winrateTextHeight = winrateMetrics.ascent() - winrateMetrics.descent();
-        int winrateTextWidth = uiWidth - preferencesButton.width() - winrateMargin;
-        int winRateY = uiPos.y() + winrateMargin;
-        drawText(painter, winRateFont, winRatePen, winRate, winRateOptions, true,
-                 uiPos.x() + winrateMargin, winRateY, winrateTextHeight, winrateTextWidth);
+        eventNameWithWinRate = QString("%1 | %2-%3 (%4%)").arg(eventName)
+                .arg(deckWins).arg(deckLosses).arg(deckWinRate);
     }
+    winRateFont.setPointSize(winrateFontSize + (uiScale / 2));
+    int winRateOptions = Qt::AlignCenter | Qt::AlignVCenter | Qt::TextDontClip;
+    QFontMetrics winrateMetrics(statisticsFont);
+    int winrateTextHeight = winrateMetrics.ascent() - winrateMetrics.descent();
+    int winRateY = static_cast<int> (uiPos.y() - titleHeight - 5.5 - (uiScale / 2));
+    drawText(painter, winRateFont, winRatePen, eventNameWithWinRate, winRateOptions, true,
+             uiPos.x(), winRateY, winrateTextHeight, uiWidth);
     // Statistics
     if (!hidden && isStatisticsEnabled) {
         drawStatistics(painter);
@@ -118,9 +148,10 @@ void DeckTrackerPlayer::afterPaintEvent(QPainter &painter)
 
 void DeckTrackerPlayer::applyCurrentSettings()
 {
-    uiPos = APP_SETTINGS->getDeckTrackerPlayerPos(uiWidth);
+    move(APP_SETTINGS->getDeckTrackerPlayerPos(uiWidth));
     uiScale = APP_SETTINGS->getDeckTrackerPlayerScale();
     isStatisticsEnabled = APP_SETTINGS->isDeckTrackerPlayerStatisticsEnabled();
+    DeckTrackerBase::onScaleChanged();
 }
 
 void DeckTrackerPlayer::publishingDeckAnim()
@@ -199,7 +230,17 @@ void DeckTrackerPlayer::drawStatistics(QPainter &painter)
     uiHeight += statisticsRect.height();
 }
 
-QString DeckTrackerPlayer::onGetDeckColorIdentity()
+int DeckTrackerPlayer::getDeckNameYPosition()
+{
+    return uiPos.y() - (titleHeight + 7 + (uiScale / 2)) * 2;
+}
+
+int DeckTrackerPlayer::getHoverCardXPosition()
+{
+    return uiPos.x() + uiWidth + 10;
+}
+
+QString DeckTrackerPlayer::getDeckColorIdentity()
 {
     return deck.colorIdentity();
 }
@@ -210,17 +251,18 @@ void DeckTrackerPlayer::loadDeck(Deck deck)
     this->deckWins = 0;
     this->deckLosses = 0;
     this->deckWinRate = 0;
+    this->eventName = "-";
     this->deck.showOnlyRemainingCards = APP_SETTINGS->isShowOnlyRemainingCardsEnabled();
     LOGI(QString("Loading deck %1").arg(deck.name));
 }
 
-void DeckTrackerPlayer::loadDeckWithSideboard(QMap<Card*, int> cards)
+void DeckTrackerPlayer::loadDeckWithSideboard(QMap<Card*, int> cards, QMap<Card*, int> sideboard)
 {
-    this->deck.updateCards(cards);
-    LOGI(QString("Loading deck with sideboard"));
+    this->deck.updateCards(cards, sideboard);
+    LOGI("Deck with sideboard loaded");
 }
 
-void DeckTrackerPlayer::resetDeck()
+void DeckTrackerPlayer::reset()
 {
     deck.reset();
     update();
@@ -228,7 +270,7 @@ void DeckTrackerPlayer::resetDeck()
 
 bool DeckTrackerPlayer::isDeckLoadedAndReseted()
 {
-    return deck.cards().size() >= 60 && deck.isReseted();
+    return deck.cards().size() > 0 && deck.isReseted();
 }
 
 void DeckTrackerPlayer::onPlayerPutInLibraryCard(Card* card)
@@ -251,11 +293,16 @@ void DeckTrackerPlayer::onPlayerDeckStatus(int wins, int losses, double winRate)
     update();
 }
 
+void DeckTrackerPlayer::onReceiveEventInfo(QString name, QString type)
+{
+    UNUSED(type);
+    eventName = name;
+    update();
+}
+
 void DeckTrackerPlayer::onPlayerDiscardCard(Card* card)
 {
-    if (deck.drawCard(card)) {
-        blinkCard(card);
-    }
+    UNUSED(card);
 }
 
 void DeckTrackerPlayer::onPlayerDiscardFromLibraryCard(Card* card)
@@ -320,14 +367,18 @@ void DeckTrackerPlayer::mouseReleaseEvent(QMouseEvent *event)
         return;
     }
     if (publishDeckButton.contains(event->pos()) && !publishDeckTimer->isActive()) {
-        publishDeckTimer->start();
-        LOTUS_TRACKER->publishOrUpdatePlayerDeck(deck);
-        showCardOnHover = false;
+        hideCardOnHover();
+        UserSettings userSettings = APP_SETTINGS->getUserSettings();
+        if (userSettings.isUserLogged()) {
+            publishDeckTimer->start();
+            LOTUS_TRACKER->publishOrUpdatePlayerDeck(deck);
+        } else {
+            LOTUS_TRACKER->showMessage(tr("User need to be logged before publish a deck."));
+        }
         return;
     }
     if (preferencesButton.contains(event->pos())) {
-        LOTUS_TRACKER->showPreferencesScreen();
-        showCardOnHover = false;
+        deckMenu->exec(QCursor::pos());
         return;
     }
     DeckTrackerBase::mouseReleaseEvent(event);

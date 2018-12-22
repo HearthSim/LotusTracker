@@ -65,6 +65,7 @@ public:
     void onEndCurrentMatch(int winningTeamId);
 
 signals:
+    void sgnPlayerUserName(QString userName);
     void sgnPlayerPutInLibraryCard(Card* card);
     void sgnPlayerDrawCard(Card* card);
     void sgnPlayerPlayCard(Card* card);
@@ -81,7 +82,7 @@ signals:
 public slots:
     void onMatchInfoSeats(QList<MatchPlayer> players);
     void onPlayerRankInfo(QPair<QString, int> playerRankInfo);
-    void onPlayerTakesMulligan();
+    void onPlayerTakesMulligan(QMap<int, int> newHandDrawed);
     void onOpponentTakesMulligan(int opponentSeatId);
     void onMatchStateDiff(MatchStateDiff matchStateDiff);
     void onNewTurnStarted(int turnNumber);

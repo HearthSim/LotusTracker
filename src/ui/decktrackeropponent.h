@@ -9,9 +9,14 @@
 class DeckTrackerOpponent : public DeckTrackerBase
 {
     Q_OBJECT
+private:
+    int lastUiScale;
+    QString eventId, eventType;
 
 protected:
-    QString onGetDeckColorIdentity();
+    virtual int getDeckNameYPosition();
+    virtual int getHoverCardXPosition();
+    virtual QString getDeckColorIdentity();
     virtual void onPositionChanged();
     virtual void onScaleChanged();
     virtual void afterPaintEvent(QPainter &painter);
@@ -21,11 +26,13 @@ public:
     explicit DeckTrackerOpponent(QWidget *parent = nullptr);
     ~DeckTrackerOpponent();
     void applyCurrentSettings();
-    void clearDeck();
+    void setEventId(QString eventId);
+    void reset();
 
 signals:
 
-public slots:
+public slots:    
+    void onReceiveEventInfo(QString name, QString type);
     void onOpponentPutInLibraryCard(Card* card);
     void onOpponentPlayCard(Card* card);
     void onOpponentDiscardCard(Card* card);

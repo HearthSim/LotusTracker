@@ -18,15 +18,15 @@
 #include <objc/objc-runtime.h>
 #endif
 
-#define GATHERER_IMAGE_URL "http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=%1&type=card"
+#define BASE_UI_WIDTH 160
 
 DeckTrackerBase::DeckTrackerBase(QWidget *parent) : QMainWindow(parent),
     ui(new Ui::TrackerOverlay()), cardBGSkin(APP_SETTINGS->getCardLayout()),
     currentHoverPosition(0), hoverCard(nullptr), mousePressed(false),
-    mouseRelativePosition(QPoint()), cornerRadius(10), uiPos(10, 10),
+    mouseInitialPosition(QPoint()), cornerRadius(10), uiPos(0, 50),
     zoomMinusButton(QRect(0, 0, 0, 0)), zoomPlusButton(QRect(0, 0, 0, 0)),
-    uiAlpha(1.0), uiScale(1.0), cardHoverWidth(220), uiHeight(0),
-    uiWidth(160), deck(Deck()), hidden(false), showingTooltip(false)
+    uiAlpha(1.0), cardHoverWidth(220), uiHeight(0), uiWidth(BASE_UI_WIDTH),
+    uiScale(2), deck(Deck()), hidden(false), showingTooltip(false)
 {
     ui->setupUi(this);
     setupWindow();
@@ -39,7 +39,7 @@ DeckTrackerBase::DeckTrackerBase(QWidget *parent) : QMainWindow(parent),
     }
     changeAlpha(APP_SETTINGS->getDeckTrackerAlpha());
     unhiddenTimeout = APP_SETTINGS->getUnhiddenDelay();
-    showCardOnHover = APP_SETTINGS->isShowCardOnHoverEnabled();
+    isShowCardOnHoverEnabled = APP_SETTINGS->isShowCardOnHoverEnabled();
 
     unhiddenTimer = new QTimer();
     connect(unhiddenTimer, &QTimer::timeout, this, [this]{
@@ -81,9 +81,9 @@ void DeckTrackerBase::setupWindow()
 #else
     setWindowFlags(windowFlags() | Qt::Tool);
 #endif
-
-    QRect screen = QApplication::desktop()->screenGeometry();
+    screen = QApplication::desktop()->screenGeometry();
     move(0, 0);
+    setFixedSize(screen.width() / 2, QApplication::desktop()->height());
     resize(screen.width(), static_cast<int> (screen.height() * 1.2));
     show();
     hide();
@@ -99,24 +99,17 @@ void DeckTrackerBase::setupDrawTools()
     int belerenID = QFontDatabase::addApplicationFont(":/res/fonts/OpenSans-Regular.ttf");
 #endif
     // Card
-    int cardFontSize = 7;
-#if defined Q_OS_MAC
-    cardFontSize += 2;
-#endif
     cardFont.setFamily(QFontDatabase::applicationFontFamilies(belerenID).at(0));
-    cardFont.setPointSize(cardFontSize);
     cardFont.setBold(false);
     cardPen = QPen(Qt::black);
     cardNonePen = QPen(QColor(80, 80, 80));
     // Title
-    int titleFontSize = 9;
-#if defined Q_OS_MAC
-    titleFontSize += 4;
-#endif
     titleFont.setFamily(QFontDatabase::applicationFontFamilies(belerenID).at(0));
-    titleFont.setPointSize(titleFontSize);
     titleFont.setBold(true);
     titlePen = QPen(Qt::white);
+    QFontMetrics titleMetrics(titleFont);
+    titleHeight = titleMetrics.ascent() - titleMetrics.descent();
+    onScaleChanged();
 }
 
 int DeckTrackerBase::getCardHeight()
@@ -149,7 +142,7 @@ void DeckTrackerBase::changeCardLayout(QString cardLayout)
 
 void DeckTrackerBase::onShowCardOnHoverEnabled(bool enabled)
 {
-    showCardOnHover = enabled;
+    isShowCardOnHoverEnabled = enabled;
     update();
 }
 
@@ -168,6 +161,11 @@ void DeckTrackerBase::blinkCard(Card* card)
     blinkTimer->start(100);
 }
 
+void DeckTrackerBase::hideCardOnHover()
+{
+    hoverCard = nullptr;
+}
+
 void DeckTrackerBase::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
@@ -175,7 +173,6 @@ void DeckTrackerBase::paintEvent(QPaintEvent*)
     painter.setRenderHints(QPainter::HighQualityAntialiasing | QPainter::TextAntialiasing |
                            QPainter::SmoothPixmapTransform);
     painter.save();
-    painter.scale(uiScale, uiScale);
     drawCover(painter);
     drawCoverButtons(painter);
     drawDeckInfo(painter);
@@ -198,7 +195,7 @@ void DeckTrackerBase::drawCover(QPainter &painter)
     // Cover image
     bool coverImgLoaded = false;
     QImage coverImg;
-    QString deckColorIdentity = onGetDeckColorIdentity();
+    QString deckColorIdentity = getDeckColorIdentity();
     coverImgLoaded = coverImg.load(QString(":/res/covers/%1.jpg").arg(deckColorIdentity));
     if (!coverImgLoaded) {
         coverImg.load(":/res/covers/default.jpg");
@@ -216,51 +213,43 @@ void DeckTrackerBase::drawCover(QPainter &painter)
 
 void DeckTrackerBase::drawCoverButtons(QPainter &painter)
 {
-    int zoomButtonSize = 14;
-    int zoomButtonMargin = 3;
-    int zoomButtonY = uiPos.y() + uiHeight - zoomButtonSize - zoomButtonMargin;
-    // Plus button
-    QImage zoomPlus(":res/zoom_plus.png");
-    QImage zoomPlusScaled = zoomPlus.scaled(zoomButtonSize, zoomButtonSize,
-                                            Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    int zoomPlusX = uiPos.x() + uiWidth - zoomButtonSize - zoomButtonMargin;
-    painter.drawImage(zoomPlusX, zoomButtonY, zoomPlusScaled);
-    zoomPlusButton = QRect(static_cast<int> (zoomPlusX * uiScale),
-                           static_cast<int> (zoomButtonY * uiScale),
-                           static_cast<int> (zoomButtonSize * uiScale),
-                           static_cast<int> (zoomButtonSize * uiScale));
+    int zoomButtonSize = 12 + static_cast<int> (uiScale * 1);
+    int zoomButtonMargin = 5;
+    int zoomButtonY = uiPos.y() + zoomButtonMargin;
     // Minus button
+    int zoomMinusX = uiPos.x() + zoomButtonMargin + 2;
     QImage zoomMinus(":res/zoom_minus.png");
     QImage zoomMinusScaled = zoomMinus.scaled(zoomButtonSize, zoomButtonSize,
                                               Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    int zoomMinusX = static_cast<int> (zoomPlusX - zoomButtonSize - zoomButtonMargin);
     painter.drawImage(zoomMinusX, zoomButtonY, zoomMinusScaled);
-    zoomMinusButton = QRect(static_cast<int> (zoomMinusX * uiScale),
-                            static_cast<int> (zoomButtonY * uiScale),
-                            static_cast<int> (zoomButtonSize * uiScale),
-                            static_cast<int> (zoomButtonSize * uiScale));
+    zoomMinusButton = QRect(zoomMinusX, zoomButtonY, zoomButtonSize, zoomButtonSize);
+    // Plus button
+    int zoomPlusX = static_cast<int> (zoomMinusX + zoomButtonSize + zoomButtonMargin);
+    QImage zoomPlus(":res/zoom_plus.png");
+    QImage zoomPlusScaled = zoomPlus.scaled(zoomButtonSize, zoomButtonSize,
+                                            Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    painter.drawImage(zoomPlusX, zoomButtonY, zoomPlusScaled);
+    zoomPlusButton = QRect(zoomPlusX, zoomButtonY, zoomButtonSize, zoomButtonSize);
 }
 
 void DeckTrackerBase::drawDeckInfo(QPainter &painter)
 {
     // Deck title
     QFontMetrics titleMetrics(titleFont);
-    int titleHeight = titleMetrics.ascent() - titleMetrics.descent();
     int titleTextOptions = Qt::AlignHCenter | Qt::AlignVCenter | Qt::TextDontClip;
     QString deckName = titleMetrics.elidedText(deck.name, Qt::ElideRight, uiWidth);
     drawText(painter, titleFont, titlePen, deckName, titleTextOptions, true,
-             uiPos.x(), uiPos.y() - titleHeight - 5, titleHeight, uiWidth);
+             uiPos.x(), getDeckNameYPosition(), titleHeight, uiWidth);
     // Deck identity
-    int manaMargen = 3;
-    int manaSize = 12;
+    int manaSize = 13 + static_cast<int> (uiScale * 1);
     int manaX = uiPos.x() + 8;
     int manaY = uiPos.y() + uiHeight - manaSize - 4;
-    QString deckColorIdentity = onGetDeckColorIdentity();
+    QString deckColorIdentity = getDeckColorIdentity();
     if (deckColorIdentity != "m"){
         for (int i=0; i<deckColorIdentity.length(); i++) {
             QChar manaSymbol = deckColorIdentity.at(i);
             drawMana(painter, manaSymbol, manaSize, false, manaX, manaY);
-            manaX += manaSize + manaMargen;
+            manaX += manaSize + 3;
         }
     }
 }
@@ -301,11 +290,11 @@ void DeckTrackerBase::drawDeckCards(QPainter &painter)
         // Card mana
         int manaRightMargin = 7;
         int manaMargin = 2;
-        int manaSize = 8;
-        int manaCostWidth = card->manaCost.length() * (manaSize + manaMargin);
+        int manaSize = 8 + static_cast<int> (uiScale * 0.5);
+        int manaCostWidth = card->manaSymbols.length() * (manaSize + manaMargin);
         int manaX = uiPos.x() + uiWidth - manaRightMargin - manaCostWidth;
         int manaY = cardBGY + cardBGImgSize.height()/2 - manaSize/2;
-        for (QChar manaSymbol : card->manaCost) {;
+        for (QString manaSymbol : card->manaSymbols) {;
             drawMana(painter, manaSymbol, manaSize, cardQtdRemains == 0, manaX, manaY);
             manaX += manaSize + manaMargin;
         }
@@ -357,12 +346,11 @@ void DeckTrackerBase::drawExpandBar(QPainter &painter)
 
 void DeckTrackerBase::drawHoverCard(QPainter &painter)
 {
-    if (!showCardOnHover || hoverCard == nullptr) {
+    if (!isShowCardOnHoverEnabled || hoverCard == nullptr) {
         return;
     }
     int bottomMargin = 10;
     int cardHoverHeight = static_cast<int> (cardHoverWidth / 0.7);
-    int cardHoverMargin = 10;
     QSize cardHoverSize(cardHoverWidth, cardHoverHeight);
     QImage cardImg(":res/cardback.png");
     QString imageFile = QString("%1%2%3.png").arg(cachesDir)
@@ -378,17 +366,16 @@ void DeckTrackerBase::drawHoverCard(QPainter &painter)
                 this, &DeckTrackerBase::onCardImageDownloaded);
     }
     QRect screen = QApplication::desktop()->screenGeometry();
-    int cardX = uiPos.x() - cardHoverWidth - cardHoverMargin;
-    if (cardX < cardHoverMargin) {
-        cardX = uiPos.x() + uiWidth + cardHoverMargin;
-    }
+    int cardX = getHoverCardXPosition();
     int cardY = uiPos.y() + (currentHoverPosition * getCardHeight());
     if (cardY > screen.height() - cardHoverHeight - bottomMargin) {
         cardY = screen.height() - cardHoverHeight - bottomMargin;
     }
     QImage cardImgScaled = cardImg.scaled(cardHoverSize,
                                           Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+    painter.setOpacity(1);
     painter.drawImage(cardX, cardY, cardImgScaled);
+    painter.setOpacity(uiAlpha);
 }
 
 void DeckTrackerBase::onCardImageDownloaded()
@@ -414,7 +401,7 @@ void DeckTrackerBase::drawText(QPainter &painter, QFont textFont, QPen textPen, 
     painter.drawText(textX, textY, textWidth, textHeight, textOptions, text);
 }
 
-void DeckTrackerBase::drawMana(QPainter &painter, QChar manaSymbol, int manaSize,
+void DeckTrackerBase::drawMana(QPainter &painter, QString manaSymbol, int manaSize,
                                bool grayscale, int manaX, int manaY)
 {
     QImage manaImg;
@@ -427,14 +414,35 @@ void DeckTrackerBase::drawMana(QPainter &painter, QChar manaSymbol, int manaSize
     }
 }
 
+void DeckTrackerBase::onScaleChanged()
+{
+    uiWidth = BASE_UI_WIDTH + uiScale * 10;
+    // Title
+    int titleFontSize = 9 + (uiScale / 2);
+#if defined Q_OS_MAC
+    titleFontSize += 4;
+#endif
+    titleFont.setPointSize(titleFontSize);
+    // Card
+    int cardFontSize = 7 + (uiScale / 2);
+#if defined Q_OS_MAC
+    cardFontSize += 2;
+#endif
+    cardFont.setPointSize(cardFontSize);
+}
+
 bool DeckTrackerBase::event(QEvent *event)
 {
     switch(event->type()){
     case QEvent::HoverEnter:
-        onHoverEnter(static_cast<QHoverEvent*>(event));
+        if (!hidden) {
+            onHoverEnter(static_cast<QHoverEvent*>(event));
+        }
         return true;
     case QEvent::HoverMove:
-        onHoverMove(static_cast<QHoverEvent*>(event));
+        if (!hidden) {
+            onHoverMove(static_cast<QHoverEvent*>(event));
+        }
         return true;
     case QEvent::HoverLeave:
         onHoverLeave(static_cast<QHoverEvent*>(event));
@@ -447,11 +455,20 @@ bool DeckTrackerBase::event(QEvent *event)
 
 void DeckTrackerBase::onHoverEnter(QHoverEvent *event)
 {
+    if (event->pos().x() < uiPos.x() ||
+            event->pos().x() > uiPos.x() + uiWidth) {
+        return;
+    }
+    LOGD("Hove enter");
     updateCardHoverUrl(getCardsHoverPosition(event));
 }
 
 void DeckTrackerBase::onHoverMove(QHoverEvent *event)
 {
+    if (event->pos().x() < uiPos.x() ||
+            event->pos().x() > uiPos.x() + uiWidth) {
+        return;
+    }
     int hoverPosition = getCardsHoverPosition(event);
     if (hoverPosition != currentHoverPosition) {
         updateCardHoverUrl(hoverPosition);
@@ -484,7 +501,7 @@ int DeckTrackerBase::getCardsHoverPosition(QHoverEvent *event)
     if (cardsHoverY < 0) {
         return -1;
     } else {
-        return cardsHoverY / getCardHeight();
+        return static_cast<int> (cardsHoverY / getCardHeight());
     }
 }
 
@@ -496,7 +513,6 @@ void DeckTrackerBase::updateCardHoverUrl(int hoverPosition)
     currentHoverPosition = hoverPosition;
     Card* cardHovered = getDeckCardsSorted()[currentHoverPosition];
     hoverCard = cardHovered;
-    LOGD(QString("%1 - %2").arg(currentHoverPosition).arg(cardHovered->name));
     update();
 }
 
@@ -510,14 +526,16 @@ void DeckTrackerBase::mousePressEvent(QMouseEvent *event)
         return;
     }
     mousePressed = true;
-    mouseRelativePosition = event->pos() - uiPos;
+    mouseInitialPosition = event->globalPos() - frameGeometry().topLeft();
+    event->accept();
 }
 
 void DeckTrackerBase::mouseMoveEvent(QMouseEvent *event)
 {
     if (mousePressed) {
-        uiPos = mapToParent(event->pos() - mouseRelativePosition);
+        move(event->globalPos() - mouseInitialPosition);
         update();
+        event->accept();
     }
 }
 
@@ -545,7 +563,7 @@ void DeckTrackerBase::mouseReleaseEvent(QMouseEvent *event)
     if (mousePressed) {
         onPositionChanged();
         mousePressed = false;
-        mouseRelativePosition = QPoint();
+        mouseInitialPosition = QPoint();
     }
 }
 
@@ -558,6 +576,7 @@ void DeckTrackerBase::onRightClick()
         unhiddenTimer->stop();
     }
     update();
+    LOTUS_TRACKER->gaTracker->sendEvent("Overlay", "Collapse/Expand");
 }
 
 void DeckTrackerBase::onExpandBarClick()
@@ -565,26 +584,25 @@ void DeckTrackerBase::onExpandBarClick()
     hidden = false;
     unhiddenTimer->stop();
     update();
+    LOTUS_TRACKER->gaTracker->sendEvent("Overlay", "Collapse/Expand");
 }
 
 void DeckTrackerBase::onZoomMinusClick()
 {
-    if (uiScale > 0.9) {
-        uiScale -= 0.05;
-        int x = static_cast<int> (uiPos.x() * 0.05);
-        uiPos += QPoint(x, 0);
+    if (uiScale > 1) {
+        uiScale -= 1;
         update();
         onScaleChanged();
+        LOTUS_TRACKER->gaTracker->sendEvent("Overlay", "Zoom minor");
     }
 }
 
 void DeckTrackerBase::onZoomPlusClick()
 {
-    if (uiScale < 1.1) {
-        uiScale += 0.05;
-        int x = static_cast<int> (uiPos.x() * 0.05);
-        uiPos -= QPoint(x, 0);
+    if (uiScale < 4) {
+        uiScale += 1;
         update();
         onScaleChanged();
+        LOTUS_TRACKER->gaTracker->sendEvent("Overlay", "Zoom plus");
     }
 }

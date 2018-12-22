@@ -6,6 +6,7 @@
 #define KEY_AUTOSTART "autoStart"
 #define KEY_AUTOUPDATE "autoUpdate"
 #define KEY_FIRST_RUN "isFirstRun"
+#define KEY_FIRST_MATCH "isFirstMatch"
 #define KEY_HIDE_ON_LOSE_GAME_FOCUS "hideOnLoseGameFocus"
 #define KEY_TRACKER_ALPHA "Tracker/alpha"
 #define KEY_TRACKER_LAYOUT "Tracker/layout"
@@ -26,13 +27,14 @@
 #define KEY_TRACKER_OPPONENT_SCALE "Tracker/opponentPrefs/scale"
 
 #define KEY_TRACKER_USER_ID "Tracker/user/id"
+#define KEY_TRACKER_USER_EMAIL "Tracker/user/email"
 #define KEY_TRACKER_USER_TOKEN "Tracker/user/token"
 #define KEY_TRACKER_USER_REFRESH_TOKEN "Tracker/user/refreshToken"
 #define KEY_TRACKER_USER_EXPIRES_EPOCH "Tracker/user/tokenExpiresEpoch"
 #define KEY_TRACKER_USER_NAME "Tracker/user/name"
 
 #define DEFAULT_TRACKER_VIEW_X 5
-#define DEFAULT_TRACKER_VIEW_Y 90
+#define DEFAULT_TRACKER_VIEW_Y 60
 
 AppSettings::AppSettings(QObject *parent) : QObject(parent)
 {
@@ -66,6 +68,15 @@ bool AppSettings::isFirstRun()
         settings.setValue(KEY_FIRST_RUN, false);
     }
     return isFirstRun;
+}
+
+bool AppSettings::isFirstMatch()
+{
+    bool isFirstMatch = settings.value(KEY_FIRST_MATCH, true).toBool();
+    if (isFirstMatch) {
+        settings.setValue(KEY_FIRST_MATCH, false);
+    }
+    return isFirstMatch;
 }
 
 bool AppSettings::isHideOnLoseGameFocusEnabled()
@@ -174,12 +185,12 @@ void AppSettings::setDeckTrackerPlayerPos(QPoint pos)
     settings.setValue(KEY_TRACKER_PLAYER_Y, pos.y());
 }
 
-qreal AppSettings::getDeckTrackerPlayerScale()
+int AppSettings::getDeckTrackerPlayerScale()
 {
-    return settings.value(KEY_TRACKER_PLAYER_SCALE, 1).toReal();
+    return settings.value(KEY_TRACKER_PLAYER_SCALE, 1).toInt();
 }
 
-void AppSettings::setDeckTrackerPlayerScale(qreal scale)
+void AppSettings::setDeckTrackerPlayerScale(int scale)
 {
     settings.setValue(KEY_TRACKER_PLAYER_SCALE, scale);
 }
@@ -196,10 +207,10 @@ void AppSettings::enableDeckTrackerOpponent(bool enabled)
     settings.setValue(KEY_TRACKER_OPPONENT_ENABLED, enabled);
 }
 
-QPoint AppSettings::getDeckTrackerOpponentPos(int uiWidth)
+QPoint AppSettings::getDeckTrackerOpponentPos(int uiWidth, int cardHoverWidth)
 {
     QRect screen = QApplication::desktop()->screenGeometry();
-    int defaultX = screen.width() - uiWidth - DEFAULT_TRACKER_VIEW_X;
+    int defaultX = screen.width() - uiWidth - cardHoverWidth - DEFAULT_TRACKER_VIEW_X;
     int x = settings.value(KEY_TRACKER_OPPONENT_X, defaultX).toInt();
     int y = settings.value(KEY_TRACKER_OPPONENT_Y, DEFAULT_TRACKER_VIEW_Y).toInt();
     return QPoint(x, y);
@@ -211,12 +222,12 @@ void AppSettings::setDeckTrackerOpponentPos(QPoint pos)
     settings.setValue(KEY_TRACKER_OPPONENT_Y, pos.y());
 }
 
-qreal AppSettings::getDeckTrackerOpponentScale()
+int AppSettings::getDeckTrackerOpponentScale()
 {
-    return settings.value(KEY_TRACKER_OPPONENT_SCALE, 1).toReal();
+    return settings.value(KEY_TRACKER_OPPONENT_SCALE, 1).toInt();
 }
 
-void AppSettings::setDeckTrackerOpponentScale(qreal scale)
+void AppSettings::setDeckTrackerOpponentScale(int scale)
 {
     settings.setValue(KEY_TRACKER_OPPONENT_SCALE, scale);
 }
@@ -224,6 +235,7 @@ void AppSettings::setDeckTrackerOpponentScale(qreal scale)
 void AppSettings::setUserSettings(UserSettings userSettings, QString userName)
 {
     settings.setValue(KEY_TRACKER_USER_ID, userSettings.userId);
+    settings.setValue(KEY_TRACKER_USER_EMAIL, userSettings.userEmail);
     settings.setValue(KEY_TRACKER_USER_TOKEN, userSettings.userToken);
     settings.setValue(KEY_TRACKER_USER_REFRESH_TOKEN, userSettings.refreshToken);
     settings.setValue(KEY_TRACKER_USER_EXPIRES_EPOCH, userSettings.expiresTokenEpoch);
@@ -235,6 +247,7 @@ void AppSettings::setUserSettings(UserSettings userSettings, QString userName)
 UserSettings AppSettings::getUserSettings()
 {
     UserSettings userSettings = UserSettings(settings.value(KEY_TRACKER_USER_ID, "").toString(),
+                        settings.value(KEY_TRACKER_USER_EMAIL, "").toString(),
                         settings.value(KEY_TRACKER_USER_TOKEN, "").toString(),
                         settings.value(KEY_TRACKER_USER_REFRESH_TOKEN, "").toString(),
                         settings.value(KEY_TRACKER_USER_EXPIRES_EPOCH, 0).toLongLong());

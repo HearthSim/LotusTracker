@@ -12,17 +12,28 @@ QString Transformations::colorIdentityListToString(QList<QChar> distinctManaSymb
     if (distinctManaSymbols.contains(QChar('b'))) { identity += "b"; }
     if (distinctManaSymbols.contains(QChar('g'))) { identity += "g"; }
     if (distinctManaSymbols.contains(QChar('r'))) { identity += "r"; }
-    if (distinctManaSymbols.contains(QChar('w'))) { identity += "w"; }
     if (distinctManaSymbols.contains(QChar('u'))) { identity += "u"; }
-    if (identity == "gr") { identity = "rg"; }
-    if (identity == "bu") { identity = "ub"; }
-    if (identity == "ru") { identity = "ur"; }
-    if (identity == "bw") { identity = "wb"; }
-    if (identity == "uw") { identity = "wu"; }
-    if (identity == "bgr") { identity = "brg"; }
-    if (identity == "grw") { identity = "rgw"; }
-    if (identity == "bru") { identity = "ubr"; }
-    if (identity == "bwu") { identity = "wub"; }
+    if (distinctManaSymbols.contains(QChar('w'))) { identity += "w"; }
+    if (identity == "bg") { identity = "bg"; }      // Golgari
+    if (identity == "br") { identity = "br"; }      // Rakdos
+    if (identity == "gr") { identity = "rg"; }      // Gruul
+    if (identity == "bu") { identity = "ub"; }      // Dimir
+    if (identity == "gu") { identity = "ug"; }      // Simic
+    if (identity == "ru") { identity = "ur"; }      // Izzet
+    if (identity == "bw") { identity = "wb"; }      // Orzhov
+    if (identity == "gw") { identity = "wg"; }      // Selesnya
+    if (identity == "rw") { identity = "wr"; }      // Boros
+    if (identity == "uw") { identity = "wu"; }      // Azorius
+    if (identity == "bgr") { identity = "brg"; }    // Jund
+    if (identity == "bgu") { identity = "ubg"; }    // Sultai
+    if (identity == "bru") { identity = "ubr"; }    // Grixis
+    if (identity == "gru") { identity = "urg"; }    // Temur
+    if (identity == "grw") { identity = "wrg"; }    // Naya
+    if (identity == "bgw") { identity = "wbg"; }    // Abzan
+    if (identity == "brw") { identity = "wbr"; }    // Mardu
+    if (identity == "buw") { identity = "wub"; }    // Esper
+    if (identity == "guw") { identity = "wug"; }    // Bant
+    if (identity == "ruw") { identity = "wur"; }    // Jeskai
     return (identity.isEmpty()) ? "" : identity;
 }
 
