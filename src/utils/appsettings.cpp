@@ -34,7 +34,7 @@
 #define KEY_TRACKER_USER_NAME "Tracker/user/name"
 
 #define DEFAULT_TRACKER_VIEW_X 5
-#define DEFAULT_TRACKER_VIEW_Y 50
+#define DEFAULT_TRACKER_VIEW_Y 60
 
 AppSettings::AppSettings(QObject *parent) : QObject(parent)
 {
@@ -210,7 +210,7 @@ void AppSettings::enableDeckTrackerOpponent(bool enabled)
 QPoint AppSettings::getDeckTrackerOpponentPos(int uiWidth, int cardHoverWidth)
 {
     QRect screen = QApplication::desktop()->screenGeometry();
-    int defaultX = screen.width() - uiWidth - cardHoverWidth - 10 - DEFAULT_TRACKER_VIEW_X;
+    int defaultX = screen.width() - uiWidth - cardHoverWidth - DEFAULT_TRACKER_VIEW_X;
     int x = settings.value(KEY_TRACKER_OPPONENT_X, defaultX).toInt();
     int y = settings.value(KEY_TRACKER_OPPONENT_Y, DEFAULT_TRACKER_VIEW_Y).toInt();
     return QPoint(x, y);
