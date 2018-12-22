@@ -47,7 +47,7 @@ public:
     // Deck tracker opponent
     bool isDeckTrackerOpponentEnabled();
     void enableDeckTrackerOpponent(bool enabled);
-    QPoint getDeckTrackerOpponentPos(int uiWidth);
+    QPoint getDeckTrackerOpponentPos(int uiWidth, int cardHoverWidth);
     void setDeckTrackerOpponentPos(QPoint pos);
     int getDeckTrackerOpponentScale();
     void setDeckTrackerOpponentScale(int scale);

@@ -15,7 +15,8 @@ private:
 
 protected:
     virtual int getDeckNameYPosition();
-    virtual QString onGetDeckColorIdentity();
+    virtual int getHoverCardXPosition();
+    virtual QString getDeckColorIdentity();
     virtual void onPositionChanged();
     virtual void onScaleChanged();
     virtual void afterPaintEvent(QPainter &painter);

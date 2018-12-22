@@ -6,6 +6,7 @@
 
 DeckTrackerOpponent::DeckTrackerOpponent(QWidget *parent) : DeckTrackerBase(parent)
 {
+    uiPos.setX(cardHoverWidth + 10);
     applyCurrentSettings();
 }
 
@@ -16,7 +17,7 @@ DeckTrackerOpponent::~DeckTrackerOpponent()
 
 void DeckTrackerOpponent::applyCurrentSettings()
 {
-    uiPos = APP_SETTINGS->getDeckTrackerOpponentPos(uiWidth);
+    move(APP_SETTINGS->getDeckTrackerOpponentPos(uiWidth, cardHoverWidth));
     uiScale = APP_SETTINGS->getDeckTrackerOpponentScale();
     lastUiScale = uiScale;
     DeckTrackerBase::onScaleChanged();
@@ -27,20 +28,19 @@ int DeckTrackerOpponent::getDeckNameYPosition()
     return uiPos.y() - titleHeight - 7;
 }
 
-QString DeckTrackerOpponent::onGetDeckColorIdentity()
+int DeckTrackerOpponent::getHoverCardXPosition()
+{
+    return uiPos.x() - cardHoverWidth - 10;
+}
+
+QString DeckTrackerOpponent::getDeckColorIdentity()
 {
     return deck.colorIdentity(false, true);
 }
 
 void DeckTrackerOpponent::onPositionChanged()
 {
-    if (uiPos.x() < 10) {
-        return;
-    }
-    if (uiPos.x() > screen.width() - 10) {
-        return;
-    }
-    APP_SETTINGS->setDeckTrackerOpponentPos(uiPos);
+    APP_SETTINGS->setDeckTrackerOpponentPos(pos());
 }
 
 void DeckTrackerOpponent::onScaleChanged()
@@ -116,7 +116,7 @@ void DeckTrackerOpponent::insertCard(Card* card)
         }
         nonLandCards[card] = deckCards[card];
     }
-    if (eventType == "Constructed" && nonLandCards.size() >= 2) {
+    if (eventType == "Constructed" && nonLandCards.size() >= 3) {
         QString deckArchtecture = LOTUS_TRACKER->mtgDecksArch->
                 findDeckArchitecture(deckCards);
         deck.updateTitle(deckArchtecture);

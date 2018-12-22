@@ -25,7 +25,7 @@ private:
     QTimer* unhiddenTimer;
     QNetworkAccessManager networkManager;
     bool mousePressed;
-    QPoint mouseRelativePosition;
+    QPoint mouseInitialPosition;
     void setupWindow();
     // Draw fields and methods
     QMap<Card*, CardBlinkInfo*> cardsBlinkInfo;
@@ -60,7 +60,8 @@ protected:
     void drawExpandBar(QPainter &painter);
     void drawHoverCard(QPainter &painter);
     virtual int getDeckNameYPosition() = 0;
-    virtual QString onGetDeckColorIdentity() = 0;
+    virtual int getHoverCardXPosition() = 0;
+    virtual QString getDeckColorIdentity() = 0;
     virtual void onPositionChanged() = 0;
     virtual void onScaleChanged();
     virtual void afterPaintEvent(QPainter &painter) = 0;

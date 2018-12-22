@@ -94,13 +94,7 @@ void DeckTrackerPlayer::stopPublishDeckAnimation()
 
 void DeckTrackerPlayer::onPositionChanged()
 {
-    if (uiPos.x() < 10) {
-        return;
-    }
-    if (uiPos.x() > screen.width() - 10) {
-        return;
-    }
-    APP_SETTINGS->setDeckTrackerPlayerPos(uiPos);
+    APP_SETTINGS->setDeckTrackerPlayerPos(pos());
 }
 
 void DeckTrackerPlayer::onScaleChanged()
@@ -154,7 +148,7 @@ void DeckTrackerPlayer::afterPaintEvent(QPainter &painter)
 
 void DeckTrackerPlayer::applyCurrentSettings()
 {
-    uiPos = APP_SETTINGS->getDeckTrackerPlayerPos(uiWidth);
+    move(APP_SETTINGS->getDeckTrackerPlayerPos(uiWidth));
     uiScale = APP_SETTINGS->getDeckTrackerPlayerScale();
     isStatisticsEnabled = APP_SETTINGS->isDeckTrackerPlayerStatisticsEnabled();
     DeckTrackerBase::onScaleChanged();
@@ -241,7 +235,12 @@ int DeckTrackerPlayer::getDeckNameYPosition()
     return uiPos.y() - (titleHeight + 7 + (uiScale / 2)) * 2;
 }
 
-QString DeckTrackerPlayer::onGetDeckColorIdentity()
+int DeckTrackerPlayer::getHoverCardXPosition()
+{
+    return uiPos.x() + uiWidth + 10;
+}
+
+QString DeckTrackerPlayer::getDeckColorIdentity()
 {
     return deck.colorIdentity();
 }
