@@ -31,6 +31,9 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
     startScreen = new StartScreen(nullptr, lotusAPI);
     hideTrackerTimer = new QTimer(this);
     mtgaMatch = new MtgaMatch(this, mtgCards);
+    gaTracker = new GAnalytics(CREDENTIALS::GA_ID());
+    connect(mtgArena, &MtgArena::sgnMTGAStarted,
+            this, &LotusTracker::onGameStarted);
     connect(mtgArena, &MtgArena::sgnMTGAFocusChanged,
             this, &LotusTracker::onGameFocusChanged);
     connect(mtgArena, &MtgArena::sgnMTGAStopped,
@@ -91,11 +94,17 @@ LotusTracker::~LotusTracker()
     DEL(mtgArena)
     DEL(mtgaMatch)
     DEL(lotusAPI)
+    DEL(gaTracker)
 }
 
 int LotusTracker::run()
 {
-    return isAlreadyRunning() ? 1 : exec();
+    try {
+        return isAlreadyRunning() ? 1 : exec();
+    } catch (const std::exception& ex) {
+        gaTracker->sendException(ex.what());
+        return -1;
+    }
 }
 
 void LotusTracker::setupApp()
@@ -317,6 +326,7 @@ void LotusTracker::onMatchStart(QString eventId, OpponentInfo opponentInfo)
         lotusAPI->getMatchInfo(eventId, deck.id);
     }
     deckTrackerOpponent->setEventId(eventId);
+    gaTracker->sendEvent("Match", "starts", eventId);
 }
 
 void LotusTracker::onGameStart(MatchMode mode, QList<MatchZone> zones, int seatId)
@@ -334,6 +344,11 @@ void LotusTracker::onGameStart(MatchMode mode, QList<MatchZone> zones, int seatI
     if (APP_SETTINGS->isFirstMatch()) {
         showMessage(tr("You can hide the tracker temporarily with a mouse right click."));
     }
+}
+
+void LotusTracker::onGameStarted()
+{
+    gaTracker->startSession();
 }
 
 void LotusTracker::onGameFocusChanged(bool hasFocus)
@@ -355,12 +370,14 @@ void LotusTracker::onGameFocusChanged(bool hasFocus)
             deckTrackerOpponent->hide();
         }
     }
+    gaTracker->sendEvent("Game", "Focus change");
 }
 
 void LotusTracker::onGameStopped()
 {
     deckTrackerPlayer->hide();
     deckTrackerOpponent->hide();
+    gaTracker->endSession();
 }
 
 void LotusTracker::onGameCompleted(QMap<int, int> teamIdWins)
@@ -383,6 +400,7 @@ void LotusTracker::onMatchEnds(int winningTeamId)
                               deckTrackerPlayer->getDeck(),
                               mtgaMatch->getPlayerRankInfo().first);
     }
+    gaTracker->sendEvent("Match", "ends");
 }
 
 void LotusTracker::onEventFinish(QString eventId, QString deckId, QString deckColors,

@@ -21,6 +21,7 @@ DeckTrackerPlayer::DeckTrackerPlayer(QWidget *parent) : DeckTrackerBase(parent),
                 .arg(userSettings.userToken).arg(userSettings.refreshToken).arg(userSettings.getUserName())
                 .arg(userSettings.expiresTokenEpoch);
         QDesktopServices::openUrl(QUrl(deckLink));
+        LOTUS_TRACKER->gaTracker->sendEvent("Overlay", "Deck Profile");
     });
     deckMenu->addAction(deckProfileAction);
     deckPublicProfileAction = new QAction(tr("Deck Public Page"), this);
@@ -29,12 +30,14 @@ DeckTrackerPlayer::DeckTrackerPlayer(QWidget *parent) : DeckTrackerBase(parent),
         QString deckAlias = QString("%1-%2").arg(deckStartId).arg(deck.name);
         QString deckLink = QString("%1/decks/%2").arg(URLs::SITE()).arg(deckAlias);
         QDesktopServices::openUrl(QUrl(deckLink));
+        LOTUS_TRACKER->gaTracker->sendEvent("Overlay", "Deck Public Page");
     });
     deckMenu->addAction(deckPublicProfileAction);
     QAction *settingsAction = new QAction(tr("Preferences"), this);
     connect(settingsAction, &QAction::triggered, this, [this](){
         hideCardOnHover();
         LOTUS_TRACKER->showPreferencesScreen();
+        LOTUS_TRACKER->gaTracker->sendEvent("Overlay", "Preferences");
     });
     deckMenu->addAction(settingsAction);
     publishDeckTimer = new QTimer(this);
@@ -71,6 +74,7 @@ void DeckTrackerPlayer::onLotusAPIRequestFinishedWithSuccess()
         QString deckLink = QString("%1/decks/%2").arg(URLs::SITE()).arg(deckAlias);
         QApplication::clipboard()->setText(deckLink);
         LOTUS_TRACKER->showMessage(tr("Deck published/updated.\nDeck link copied to clipboard."));
+        LOTUS_TRACKER->gaTracker->sendEvent("Overlay", "Deck Published");
     }
 }
 

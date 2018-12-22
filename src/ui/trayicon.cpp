@@ -62,7 +62,10 @@ void TrayIcon::setupTrayIcon()
     trayMenu->addAction(logoutAction);
     logoutAction->setVisible(false);
     QAction *quitAction = new QAction(tr("Quit"), this);
-    connect(quitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
+    connect(quitAction, &QAction::triggered, qApp, []() {
+        LOTUS_TRACKER->gaTracker->sendEvent("TrayIcon", "Quit");
+        QCoreApplication::quit();
+    });
     trayMenu->addAction(quitAction);
 
     trayIcon->show();
@@ -90,6 +93,7 @@ void TrayIcon::updateUserSettings()
     signAction->setVisible(!isAuthValid);
     profileAction->setVisible(isAuthValid);
     logoutAction->setVisible(isAuthValid);
+    LOTUS_TRACKER->gaTracker->setUserID(userSettings.userId);
 }
 
 void TrayIcon::signIn()
@@ -104,11 +108,13 @@ void TrayIcon::openProfile()
             .arg(URLs::SITE()).arg(userSettings.userId).arg(userSettings.userEmail).arg(userSettings.userToken)
             .arg(userSettings.refreshToken).arg(userSettings.getUserName()).arg(userSettings.expiresTokenEpoch);
     QDesktopServices::openUrl(QUrl(link));
+     LOTUS_TRACKER->gaTracker->sendEvent("TrayIcon", "User Profile");
 }
 
 void TrayIcon::openPreferences()
 {
     LOTUS_TRACKER->showPreferencesScreen();
+    LOTUS_TRACKER->gaTracker->sendEvent("TrayIcon", "Preferences");
 }
 
 void TrayIcon::signOut()
@@ -123,6 +129,7 @@ void TrayIcon::signOut()
         updateUserSettings();
     }
     LOTUS_TRACKER->avoidAppClose();
+     LOTUS_TRACKER->gaTracker->sendEvent("TrayIcon", "Logout");
 }
 
 void TrayIcon::configTestMenu(QMenu* testMenu)

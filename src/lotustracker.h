@@ -16,6 +16,8 @@
 #include "utils/appsettings.h"
 #include "utils/logger.h"
 #include "updater/sparkleupdater.h"
+#include "credentials.h"
+#include "ganalytics.h"
 
 #include <QApplication>
 #include <QLocalServer>
@@ -47,13 +49,14 @@ private:
 public:
     LotusTracker(int& argc, char **argv);
     ~LotusTracker();
-    AppSettings *appSettings;
-    Logger *logger;
-    MtgArena *mtgArena;
-    MtgCards *mtgCards;
-    MtgDecksArch *mtgDecksArch;
-    MtgaMatch *mtgaMatch;
-    SparkleUpdater *sparkleUpdater;
+    AppSettings* appSettings;
+    Logger* logger;
+    MtgArena* mtgArena;
+    MtgCards* mtgCards;
+    MtgDecksArch* mtgDecksArch;
+    MtgaMatch* mtgaMatch;
+    SparkleUpdater* sparkleUpdater;
+    GAnalytics* gaTracker;
     int run();
     void avoidAppClose();
     void showStartScreen();
@@ -68,6 +71,7 @@ private slots:
     void onEventPlayerCourse(QString eventId, Deck currentDeck);
     void onMatchStart(QString eventId, OpponentInfo match);
     void onGameStart(MatchMode mode, QList<MatchZone> zones, int seatId);
+    void onGameStarted();
     void onGameFocusChanged(bool hasFocus);
     void onGameStopped();
     void onGameCompleted(QMap<int, int> teamIdWins);

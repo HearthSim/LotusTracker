@@ -72,6 +72,8 @@ HEADERS += \
     src/utils/appsettings.h \
     src/utils/logger.h \
     src/updater/sparkleupdater.h \
+    src/credentials.h \
+    src/ganalytics.h \
     src/lotustracker.h \
     src/macros.h \
     src/transformations.h \
@@ -80,6 +82,7 @@ HEADERS += \
 SOURCES += \
     src/api/lotusapi.cpp \
     src/main.cpp \
+    src/ganalytics.cpp \
     src/lotustracker.cpp \
     src/transformations.cpp \
     src/entity/deck.cpp \

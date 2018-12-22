@@ -1,6 +1,7 @@
 
 build/
 tmp/
+src/credentials.h
 src/urls.h
 dist/files
 
