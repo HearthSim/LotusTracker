@@ -117,10 +117,10 @@ void LotusTracker::setupApp()
   QIcon icon(":/res/icon.ico");
 #endif
   setAttribute(Qt::AA_Use96Dpi);
-  setApplicationName("Lotus Tracker");
+  setApplicationName(APP_NAME);
   setApplicationVersion(VERSION);
-  setOrganizationName("Black Lotus Valley");
-  setOrganizationDomain("blacklotusvalley.com");
+  setOrganizationName(URLs::SITE_NAME());
+  setOrganizationDomain(URLs::SITE());
   setWindowIcon(icon);
 }
 

@@ -10,7 +10,6 @@
 #include <QDebug>
 
 #define APP_NAME "Lotus Tracker"
-#define SITE_NAME "Black Lotus Valley"
 #define LOG_LEVEL DEBUG //DEBUG, INFO, WARNING
 #define LOG_IN_TESTS true
 #define LOG_DECK_ARCH_CALC false

@@ -7,15 +7,22 @@ class URLs : public QObject
 {
     Q_OBJECT
 public:
-    static const QString SITE()
-    {
-        return "";
-    }
 
     static const QString API()
     {
         return "";
     }
+
+    static const QString SITE()
+    {
+        return "";
+    }
+
+    static const QString SITE_NAME()
+    {
+        return "";
+    }
+
 };
 
 #endif // URLS_H
