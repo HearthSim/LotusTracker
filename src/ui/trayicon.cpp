@@ -63,7 +63,7 @@ void TrayIcon::setupTrayIcon()
     logoutAction->setVisible(false);
     QAction *quitAction = new QAction(tr("Quit"), this);
     connect(quitAction, &QAction::triggered, qApp, []() {
-        LOTUS_TRACKER->gaTracker->sendEvent("TrayIcon", "Quit");
+        LOTUS_TRACKER->gaTracker->sendEvent("LotusTracker", "Quit");
         QCoreApplication::quit();
     });
     trayMenu->addAction(quitAction);
@@ -129,7 +129,7 @@ void TrayIcon::signOut()
         updateUserSettings();
     }
     LOTUS_TRACKER->avoidAppClose();
-     LOTUS_TRACKER->gaTracker->sendEvent("TrayIcon", "Logout");
+    LOTUS_TRACKER->gaTracker->sendEvent("Tracker", "Logout");
 }
 
 void TrayIcon::configTestMenu(QMenu* testMenu)

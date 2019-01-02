@@ -449,7 +449,9 @@ void LotusTracker::checkForAutoLogin()
 
 void LotusTracker::onUserSigned(bool fromSignUp)
 {
-    UNUSED(fromSignUp);
+    if (fromSignUp) {
+        gaTracker->sendEvent("LotusTracker", "SignUp");
+    }
     startScreen->hide();
     trayIcon->updateUserSettings();
 }
