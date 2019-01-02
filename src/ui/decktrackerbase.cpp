@@ -599,7 +599,7 @@ void DeckTrackerBase::onZoomMinusClick()
 
 void DeckTrackerBase::onZoomPlusClick()
 {
-    if (uiScale < 4) {
+    if (uiScale < 10) {
         uiScale += 1;
         update();
         onScaleChanged();
