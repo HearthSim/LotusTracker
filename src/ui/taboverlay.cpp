@@ -13,6 +13,8 @@ TabOverlay::TabOverlay(QWidget *parent)
             this, &TabOverlay::onCardLayoutChanged);
     connect(ui->cbShowCardOnHover, &QCheckBox::clicked,
             this, &TabOverlay::onShowCardOnHoverChanged);
+    connect(ui->cbShowCardManaCost, &QCheckBox::clicked,
+            this, &TabOverlay::onShowCardManaCostChanged);
     connect(ui->cbShowOnlyRemainingCard, &QCheckBox::clicked,
             this, &TabOverlay::onShowOnlyRemainingCardsChanged);
     connect(ui->hsAlpha, &QSlider::valueChanged,
@@ -41,6 +43,7 @@ void TabOverlay::applyCurrentSettings()
     QString unhideText = delay == 0 ? tr("(disabled)")
                                     : QString(tr("(%1 seconds)")).arg(delay);
     ui->lbUnhideDelay->setText(unhideText);
+    ui->cbShowCardManaCost->setChecked(APP_SETTINGS->isShowCardManaCostEnabled());
     ui->cbShowCardOnHover->setChecked(APP_SETTINGS->isShowCardOnHoverEnabled());
     ui->cbShowOnlyRemainingCard->setChecked(APP_SETTINGS->isShowOnlyRemainingCardsEnabled());
     ui->cbPTStatistics->setChecked(APP_SETTINGS->isDeckTrackerPlayerStatisticsEnabled());
@@ -55,6 +58,14 @@ void TabOverlay::onCardLayoutChanged()
     emit sgnTrackerCardLayout(cardLayout);
     LOGD(QString("CardLayout: %1").arg(cardLayout));
     APP_SETTINGS->setCardLayout(cardLayout);
+}
+
+void TabOverlay::onShowCardManaCostChanged()
+{
+    bool enabled = ui->cbShowCardManaCost->isChecked();
+    emit sgnShowCardManaCostEnabled(enabled);
+    LOGD(QString("ShowCardManaCostEnabled: %1").arg(enabled ? "true" : "false"));
+    APP_SETTINGS->enableShowCardManaCost(enabled);
 }
 
 void TabOverlay::onShowCardOnHoverChanged()

@@ -12,6 +12,7 @@
 #define KEY_TRACKER_LAYOUT "Tracker/layout"
 #define KEY_TRACKER_UNHIDDEN_DELAY "Tracker/unhiddenDelay"
 #define KEY_TRACKER_SHOW_CARD_ON_HOVER "Tracker/showCardOnHover"
+#define KEY_TRACKER_SHOW_CARD_MANA_COST "Tracker/showCardManaCost"
 #define KEY_TRACKER_SHOW_ONLY_REMAINING_CARDS "Tracker/showOnlyRemainingCards"
 #define KEY_TRACKER_SHOW_DEBUG_LOGS "Tracker/showDebugLogs"
 
@@ -117,6 +118,16 @@ int AppSettings::getUnhiddenDelay()
 void AppSettings::setUnhiddenDelay(int unhiddenDelay)
 {
     settings.setValue(KEY_TRACKER_UNHIDDEN_DELAY, unhiddenDelay);
+}
+
+bool AppSettings::isShowCardManaCostEnabled()
+{
+    return settings.value(KEY_TRACKER_SHOW_CARD_MANA_COST, true).toBool();
+}
+
+void AppSettings::enableShowCardManaCost(bool enabled)
+{
+    settings.setValue(KEY_TRACKER_SHOW_CARD_MANA_COST, enabled);
 }
 
 bool AppSettings::isShowCardOnHoverEnabled()

@@ -189,7 +189,9 @@ void DeckTrackerPlayer::drawStatistics(QPainter &painter)
         return;
     }
     // Statistics BG
-    QRect statisticsRect(uiPos.x(), uiPos.y() + uiHeight, uiWidth, uiWidth/4);
+    float ratio = isShowCardManaCostEnabled ? 4 : 3.5f;
+    int height = static_cast<int>(uiWidth/ratio);
+    QRect statisticsRect(uiPos.x(), uiPos.y() + uiHeight, uiWidth, height);
     painter.setPen(bgPen);
     painter.setBrush(QBrush(QColor(70, 70, 70, 175)));
     painter.drawRoundedRect(statisticsRect, cornerRadius, cornerRadius);

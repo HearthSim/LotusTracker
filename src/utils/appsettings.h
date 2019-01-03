@@ -29,6 +29,8 @@ public:
     void setCardLayout(QString cardLayout);
     int getUnhiddenDelay();
     void setUnhiddenDelay(int unhiddenTimeout);
+    bool isShowCardManaCostEnabled();
+    void enableShowCardManaCost(bool enabled);
     bool isShowCardOnHoverEnabled();
     void enableShowCardOnHover(bool enabled);
     bool isShowOnlyRemainingCardsEnabled();

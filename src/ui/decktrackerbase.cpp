@@ -39,7 +39,9 @@ DeckTrackerBase::DeckTrackerBase(QWidget *parent) : QMainWindow(parent),
     }
     changeAlpha(APP_SETTINGS->getDeckTrackerAlpha());
     unhiddenTimeout = APP_SETTINGS->getUnhiddenDelay();
+    stackCardsPixels = 1;
     isShowCardOnHoverEnabled = APP_SETTINGS->isShowCardOnHoverEnabled();
+    isShowCardManaCostEnabled = APP_SETTINGS->isShowCardManaCostEnabled();
 
     unhiddenTimer = new QTimer();
     connect(unhiddenTimer, &QTimer::timeout, this, [this]{
@@ -114,8 +116,8 @@ void DeckTrackerBase::setupDrawTools()
 
 int DeckTrackerBase::getCardHeight()
 {
-    int stackCardsPixels = 1;
-    return (uiWidth/7) - stackCardsPixels;
+    float ratio = isShowCardManaCostEnabled ? 7 : 6.1f;
+    return static_cast<int>(uiWidth / ratio) - stackCardsPixels;
 }
 
 QList<Card*> DeckTrackerBase::getDeckCardsSorted()
@@ -137,6 +139,12 @@ void DeckTrackerBase::changeAlpha(int alpha)
 void DeckTrackerBase::changeCardLayout(QString cardLayout)
 {
     cardBGSkin = cardLayout;
+    update();
+}
+
+void DeckTrackerBase::onShowCardManaCostEnabled(bool enabled)
+{
+    isShowCardManaCostEnabled = enabled;
     update();
 }
 
@@ -168,6 +176,7 @@ void DeckTrackerBase::hideCardOnHover()
 
 void DeckTrackerBase::paintEvent(QPaintEvent*)
 {
+    uiWidth = BASE_UI_WIDTH - (isShowCardManaCostEnabled ? 0 : 20) + uiScale * 10;
     QPainter painter(this);
     painter.setOpacity(uiAlpha);
     painter.setRenderHints(QPainter::HighQualityAntialiasing | QPainter::TextAntialiasing |
@@ -189,7 +198,9 @@ void DeckTrackerBase::paintEvent(QPaintEvent*)
 void DeckTrackerBase::drawCover(QPainter &painter)
 {
     // Cover BG
-    QRect coverRect(uiPos.x(), uiPos.y(), uiWidth, uiWidth/4);
+    float ratio = isShowCardManaCostEnabled ? 4 : 3.5f;
+    int height = static_cast<int>(uiWidth/ratio);
+    QRect coverRect(uiPos.x(), uiPos.y(), uiWidth, height);
     painter.setPen(bgPen);
     painter.drawRoundedRect(coverRect, cornerRadius, cornerRadius);
     // Cover image
@@ -205,7 +216,7 @@ void DeckTrackerBase::drawCover(QPainter &painter)
     QImage coverImgWithRoundedCorders = Transformations::applyRoundedCorners2Image(coverImgScaled, cornerRadius);
     painter.drawImage(uiPos.x() + 1, uiPos.y() + 1, coverImgWithRoundedCorders);
     // Img Opacity
-    QRect coverImgRect(uiPos.x() + 1, uiPos.y() + 1, uiWidth, uiWidth/4);
+    QRect coverImgRect(uiPos.x() + 1, uiPos.y() + 1, uiWidth, height);
     painter.setBrush(QBrush(QColor(70, 70, 70, 50)));
     painter.drawRoundedRect(coverImgRect, cornerRadius, cornerRadius);
     uiHeight = coverImgRect.height();
@@ -257,7 +268,7 @@ void DeckTrackerBase::drawDeckInfo(QPainter &painter)
 void DeckTrackerBase::drawDeckCards(QPainter &painter)
 {
     int cardListHeight = 0;
-    QSize cardBGImgSize(uiWidth, uiWidth/7);
+    QSize cardBGImgSize(uiWidth, getCardHeight() + stackCardsPixels);
     QFontMetrics cardMetrics(cardFont);
     int cardTextHeight = cardMetrics.ascent() - cardMetrics.descent();
     int cardTextOptions = Qt::AlignLeft | Qt::AlignVCenter | Qt::TextDontClip;
@@ -289,17 +300,20 @@ void DeckTrackerBase::drawDeckCards(QPainter &painter)
                  cardQtdX, cardQtdY, cardTextHeight, cardQtdWidth);
         // Card mana
         int manaRightMargin = 7;
-        int manaMargin = 2;
-        int manaSize = 8 + static_cast<int> (uiScale * 0.5);
-        int manaCostWidth = card->manaSymbols.length() * (manaSize + manaMargin);
-        int manaX = uiPos.x() + uiWidth - manaRightMargin - manaCostWidth;
-        int manaY = cardBGY + cardBGImgSize.height()/2 - manaSize/2;
-        for (QString manaSymbol : card->manaSymbols) {;
-            drawMana(painter, manaSymbol, manaSize, cardQtdRemains == 0, manaX, manaY);
-            manaX += manaSize + manaMargin;
+        int manaWidth = manaRightMargin;
+        if (isShowCardManaCostEnabled) {
+            int manaMargin = 2;
+            int manaSize = 8 + static_cast<int> (uiScale * 0.5);
+            int manaCostWidth = card->manaSymbols.length() * (manaSize + manaMargin);
+            int manaX = uiPos.x() + uiWidth - manaRightMargin - manaCostWidth;
+            int manaY = cardBGY + cardBGImgSize.height()/2 - manaSize/2;
+            for (QString manaSymbol : card->manaSymbols) {;
+                drawMana(painter, manaSymbol, manaSize, cardQtdRemains == 0, manaX, manaY);
+                manaX += manaSize + manaMargin;
+            }
+            manaWidth += manaCostWidth;
         }
         // Card name
-        int manaWidth = manaCostWidth + manaRightMargin;
         int cardNameWidth = uiWidth - cardQtdMargin - cardQtdWidth - manaWidth;
         QFontMetrics metrics(cardFont);
         QString cardName = metrics.elidedText(card->name, Qt::ElideRight, cardNameWidth);
@@ -416,7 +430,6 @@ void DeckTrackerBase::drawMana(QPainter &painter, QString manaSymbol, int manaSi
 
 void DeckTrackerBase::onScaleChanged()
 {
-    uiWidth = BASE_UI_WIDTH + uiScale * 10;
     // Title
     int titleFontSize = 9 + (uiScale / 2);
 #if defined Q_OS_MAC

@@ -13,6 +13,7 @@ private:
     Ui::TabOverlay *ui;
     void applyCurrentSettings();
     void onCardLayoutChanged();
+    void onShowCardManaCostChanged();
     void onShowCardOnHoverChanged();
     void onShowOnlyRemainingCardsChanged();
     void onTrackerAlphaChanged();
@@ -27,6 +28,7 @@ signals:
     void sgnTrackerAlpha(qreal alpha);
     void sgnUnhideDelay(int delay);
     void sgnTrackerCardLayout(QString cardLayout);
+    void sgnShowCardManaCostEnabled(bool enabled);
     void sgnShowCardOnHoverEnabled(bool enabled);
     void sgnShowOnlyRemainingCardsEnabled(bool enabled);
     void sgnPlayerTrackerStatistics(bool enabled);

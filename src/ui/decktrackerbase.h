@@ -20,7 +20,7 @@ private:
     Ui::TrackerOverlay *ui;
     QString cardBGSkin, cachesDir;
     QRect cardsRect, expandBar;
-    int currentHoverPosition, unhiddenTimeout;
+    int currentHoverPosition, unhiddenTimeout, stackCardsPixels;
     Card* hoverCard;
     QTimer* unhiddenTimer;
     QNetworkAccessManager networkManager;
@@ -49,7 +49,7 @@ protected:
     qreal uiAlpha;
     int cardHoverWidth, titleHeight, uiHeight, uiWidth, uiScale;
     Deck deck;
-    bool hidden, isShowCardOnHoverEnabled, showingTooltip;
+    bool hidden, isShowCardManaCostEnabled, isShowCardOnHoverEnabled, showingTooltip;
     void blinkCard(Card* card);
     void hideCardOnHover();
     void paintEvent(QPaintEvent *event);
@@ -90,6 +90,7 @@ signals:
 public slots:
     void changeAlpha(int alpha);
     void changeCardLayout(QString cardLayout);
+    void onShowCardManaCostEnabled(bool enabled);
     void onShowCardOnHoverEnabled(bool enabled);
     void changeUnhiddenTimeout(int unhiddenTimeout);
 };

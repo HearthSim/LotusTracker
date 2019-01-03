@@ -186,6 +186,8 @@ void LotusTracker::setupPreferencesScreen()
             deckTrackerPlayer, &DeckTrackerBase::changeUnhiddenTimeout);
     connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnTrackerCardLayout,
             deckTrackerPlayer, &DeckTrackerBase::changeCardLayout);
+    connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnShowCardManaCostEnabled,
+            deckTrackerPlayer, &DeckTrackerBase::onShowCardManaCostEnabled);
     connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnShowCardOnHoverEnabled,
             deckTrackerPlayer, &DeckTrackerBase::onShowCardOnHoverEnabled);
     connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnShowOnlyRemainingCardsEnabled,
@@ -199,6 +201,8 @@ void LotusTracker::setupPreferencesScreen()
             deckTrackerOpponent, &DeckTrackerBase::changeUnhiddenTimeout);
     connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnTrackerCardLayout,
             deckTrackerOpponent, &DeckTrackerBase::changeCardLayout);
+    connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnShowCardManaCostEnabled,
+            deckTrackerOpponent, &DeckTrackerBase::onShowCardManaCostEnabled);
     connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnShowCardOnHoverEnabled,
             deckTrackerOpponent, &DeckTrackerBase::onShowCardOnHoverEnabled);
     // Tab Logs
