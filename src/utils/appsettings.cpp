@@ -112,7 +112,7 @@ void AppSettings::setCardLayout(QString cardLayout)
 
 int AppSettings::getUnhiddenDelay()
 {
-    return settings.value(KEY_TRACKER_UNHIDDEN_DELAY, 5).toInt();
+    return settings.value(KEY_TRACKER_UNHIDDEN_DELAY, 0).toInt();
 }
 
 void AppSettings::setUnhiddenDelay(int unhiddenDelay)
