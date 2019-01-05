@@ -37,6 +37,11 @@ QString DraftOverlay::getDeckColorIdentity()
     return deck.colorIdentity(false, true);
 }
 
+QString DraftOverlay::cardQtdFormat()
+{
+    return "%1/4 ";
+}
+
 bool DraftOverlay::useGrayscaleForZeroQtd()
 {
     return false;
@@ -74,6 +79,12 @@ void DraftOverlay::reset()
     deck.updateTitle("");
     update();
 }
+
+void DraftOverlay::setPlayerCollection(QMap<int, int> ownedCards)
+{
+    playerCollection = ownedCards;
+}
+
 void DraftOverlay::onDraftStatus(QList<Card *> availablePicks, QList<Card *> pickedCards)
 {
     UNUSED(pickedCards);

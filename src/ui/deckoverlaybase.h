@@ -62,6 +62,7 @@ protected:
     virtual int getDeckNameYPosition() = 0;
     virtual int getHoverCardXPosition() = 0;
     virtual QString getDeckColorIdentity() = 0;
+    virtual QString cardQtdFormat();
     virtual bool useGrayscaleForZeroQtd();
     virtual void onPositionChanged() = 0;
     virtual void onScaleChanged();

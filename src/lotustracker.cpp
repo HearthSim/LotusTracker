@@ -229,6 +229,8 @@ void LotusTracker::setupLogParserConnections()
 {
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerCollection,
             lotusAPI, &LotusTrackerAPI::updatePlayerCollection);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerCollection,
+            draftOverlay, &DraftOverlay::setPlayerCollection);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerInventory,
             lotusAPI, &LotusTrackerAPI::updatePlayerInventory);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckCreated,

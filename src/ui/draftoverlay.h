@@ -17,6 +17,7 @@ protected:
     virtual int getDeckNameYPosition();
     virtual int getHoverCardXPosition();
     virtual QString getDeckColorIdentity();
+    virtual QString cardQtdFormat();
     virtual bool useGrayscaleForZeroQtd();
     virtual void onPositionChanged();
     virtual void onScaleChanged();
@@ -34,6 +35,7 @@ public:
 signals:
 
 public slots:
+    void setPlayerCollection(QMap<int, int> ownedCards);
     void onDraftStatus(QList<Card*> availablePicks, QList<Card*> pickedCards);
 };
 

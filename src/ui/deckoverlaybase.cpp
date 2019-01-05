@@ -130,6 +130,11 @@ QList<Card*> DeckOverlayBase::getDeckCardsSorted()
     return sortedDeckCards;
 }
 
+QString DeckOverlayBase::cardQtdFormat()
+{
+    return "%1 ";
+}
+
 bool DeckOverlayBase::useGrayscaleForZeroQtd()
 {
     return true;
@@ -293,7 +298,7 @@ void DeckOverlayBase::drawDeckCards(QPainter &painter)
         QPen cardTextPen = cardQtdRemains == 0 ? cardNonePen : cardPen;
         // Card quantity
         painter.setFont(cardFont);
-        QString cardQtd = QString("%1 ").arg(cardQtdRemains);
+        QString cardQtd = QString(cardQtdFormat()).arg(cardQtdRemains);
         int cardQtdMargin = 12;
         int cardQtdWidth = painter.fontMetrics().width(cardQtd);
         int cardQtdX = uiPos.x() + cardQtdMargin;
