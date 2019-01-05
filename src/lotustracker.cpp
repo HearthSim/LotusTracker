@@ -19,6 +19,7 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
 {
     setupApp();
     setupUpdater();
+    isOnDraftScreen = false;
     logger = new Logger(this);
     appSettings = new AppSettings(this);
     mtgCards = new MtgCards(this);
@@ -156,12 +157,14 @@ void LotusTracker::setupPreferencesScreen()
     // Tab General
     connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnRestoreDefaults,
             preferencesScreen->getTabOverlay(), &TabOverlay::onRestoreDefaultsSettings);
-    connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnPlayerTrackerEnabled,
-            this, &LotusTracker::onDeckTrackerPlayerEnabledChange);
+    connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnDraftOverlayEnabled,
+            this, &LotusTracker::onDraftOverlayEnabledChange);
+    connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnPlayerOverlayEnabled,
+            this, &LotusTracker::onDeckOverlayPlayerEnabledChange);
     connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnRestoreDefaults,
             deckOverlayPlayer, &DeckOverlayPlayer::applyCurrentSettings);
-    connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnOpponentTrackerEnabled,
-            this, &LotusTracker::onDeckTrackerOpponentEnabledChange);
+    connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnOpponentOverlayEnabled,
+            this, &LotusTracker::onDeckOverlayOpponentEnabledChange);
     connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnRestoreDefaults,
             deckOverlayOpponent, &DeckOverlayOpponent::applyCurrentSettings);
     // Tab Overlay
@@ -228,9 +231,9 @@ void LotusTracker::setupLotusAPIConnectsions()
 void LotusTracker::setupLogParserConnections()
 {
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerCollection,
-            lotusAPI, &LotusTrackerAPI::updatePlayerCollection);
-    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerCollection,
-            draftOverlay, &DraftOverlay::setPlayerCollection);
+            this, &LotusTracker::onPlayerCollectionUpdated);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDecks,
+            this, &LotusTracker::onPlayerDecks);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerInventory,
             lotusAPI, &LotusTrackerAPI::updatePlayerInventory);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckCreated,
@@ -327,6 +330,21 @@ void LotusTracker::publishOrUpdatePlayerDeck(Deck deck)
     lotusAPI->publishOrUpdatePlayerDeck(playerName, deck);
 }
 
+void LotusTracker::onPlayerCollectionUpdated(QMap<int, int> ownedCards)
+{
+    lotusAPI->updatePlayerCollection(ownedCards);
+    isOnDraftScreen = false;
+    draftOverlay->hide();
+    draftOverlay->setPlayerCollection(ownedCards);
+}
+
+void LotusTracker::onPlayerDecks(QList<Deck> playerDecks)
+{
+    UNUSED(playerDecks);
+    isOnDraftScreen = false;
+    draftOverlay->hide();
+}
+
 void LotusTracker::onDeckSubmited(QString eventId, Deck deck)
 {
     deckOverlayPlayer->loadDeck(deck);
@@ -341,6 +359,8 @@ void LotusTracker::onEventPlayerCourse(QString eventId, Deck currentDeck)
 
 void LotusTracker::onMatchStart(QString eventId, OpponentInfo opponentInfo)
 {
+    isOnDraftScreen = false;
+    draftOverlay->hide();
     mtgaMatch->onStartNewMatch(eventId, opponentInfo);
     // Load deck from event in course if not loaded yet (event continues without submitDeck)
     if (eventId == eventPlayerCourse.first) {
@@ -365,7 +385,7 @@ void LotusTracker::onGameStart(MatchMode mode, QList<MatchZone> zones, int seatI
         deckOverlayOpponent->show();
     }
     if (APP_SETTINGS->isFirstMatch()) {
-        showMessage(tr("You can hide the tracker temporarily with a mouse right click."));
+        showMessage(tr("You can hide/show the overlay with a mouse right click on it."));
     }
 }
 
@@ -432,7 +452,16 @@ void LotusTracker::onEventFinish(QString eventId, QString deckId, QString deckCo
     lotusAPI->uploadEventResult(eventId, deckId, deckColors, maxWins, wins, losses);
 }
 
-void LotusTracker::onDeckTrackerPlayerEnabledChange(bool enabled)
+void LotusTracker::onDraftOverlayEnabledChange(bool enabled)
+{
+    if (enabled && isOnDraftScreen) {
+        draftOverlay->show();
+    } else {
+        draftOverlay->hide();
+    }
+}
+
+void LotusTracker::onDeckOverlayPlayerEnabledChange(bool enabled)
 {
     if (enabled && mtgaMatch->isRunning) {
         deckOverlayPlayer->show();
@@ -442,7 +471,7 @@ void LotusTracker::onDeckTrackerPlayerEnabledChange(bool enabled)
     }
 }
 
-void LotusTracker::onDeckTrackerOpponentEnabledChange(bool enabled)
+void LotusTracker::onDeckOverlayOpponentEnabledChange(bool enabled)
 {
     if (enabled && mtgaMatch->isRunning) {
         deckOverlayOpponent->show();
@@ -499,6 +528,7 @@ void LotusTracker::onDraftStatus(QString eventId, QString status, int packNumber
     UNUSED(pickNumber);
     UNUSED(pickedCards);
     UNUSED(availablePicks);
+    isOnDraftScreen = true;
     draftOverlay->onDraftStatus(availablePicks, pickedCards);
     if (status == "Draft.PickNext") {
         draftOverlay->show();

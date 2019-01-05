@@ -15,8 +15,9 @@ private:
     void applyCurrentSettings();
     void onStartAtLoginChanged();
     void onAutoUpdateChanged();
-    void onPTEnabledChanged();
-    void onOTEnabledChanged();
+    void onDOEnabledChanged();
+    void onPOEnabledChanged();
+    void onOOEnabledChanged();
     void onHideOnLoseGameFocusChanged();
     void onRestoreDefaultsSettingsClicked();
 
@@ -26,8 +27,9 @@ public:
 
 signals:
     void sgnRestoreDefaults();
-    void sgnPlayerTrackerEnabled(bool enabled);
-    void sgnOpponentTrackerEnabled(bool enabled);
+    void sgnDraftOverlayEnabled(bool enabled);
+    void sgnPlayerOverlayEnabled(bool enabled);
+    void sgnOpponentOverlayEnabled(bool enabled);
 
 public slots:
 };

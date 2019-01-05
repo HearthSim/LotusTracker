@@ -54,6 +54,8 @@ public:
     int getDeckOverlayOpponentScale();
     void setDeckOverlayOpponentScale(int scale);
     // Draft overlay
+    bool isDraftOverlayEnabled();
+    void enableDraftOverlay(bool enabled);
     QPoint getDraftOverlayPos(int uiWidth);
     void setDraftOverlayPos(QPoint pos);
     int getDraftOverlayScale();

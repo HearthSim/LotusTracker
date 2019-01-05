@@ -27,6 +27,7 @@
 #define KEY_OVERLAY_OPPONENT_Y "Tracker/opponentPrefs/y"
 #define KEY_OVERLAY_OPPONENT_SCALE "Tracker/opponentPrefs/scale"
 
+#define KEY_OVERLAY_DRAFT_ENABLED "Tracker/draftPrefs/enabled"
 #define KEY_OVERLAY_DRAFT_X "Tracker/draftPrefs/x"
 #define KEY_OVERLAY_DRAFT_Y "Tracker/draftPrefs/y"
 #define KEY_OVERLAY_DRAFT_SCALE "Tracker/draftPrefs/scale"
@@ -248,6 +249,16 @@ void AppSettings::setDeckOverlayOpponentScale(int scale)
 }
 
 // Draft overlay
+
+bool AppSettings::isDraftOverlayEnabled()
+{
+    return settings.value(KEY_OVERLAY_DRAFT_ENABLED, true).toBool();
+}
+
+void AppSettings::enableDraftOverlay(bool enabled)
+{
+    settings.setValue(KEY_OVERLAY_DRAFT_ENABLED, enabled);
+}
 
 QPoint AppSettings::getDraftOverlayPos(int uiWidth)
 {
