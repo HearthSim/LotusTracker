@@ -162,6 +162,8 @@ void MtgaLogParser::parseIncomingMsg(QPair<QString, QString> msg)
         parseGreToClientMessages(msg.second);
     } else if (msg.first == "Event.ClaimPrize") {
         parseEventFinish(msg.second);
+    } else if (msg.first == "Draft.DraftStatus") {
+        parseDraftStatus(msg.second);
     }
 }
 
@@ -671,4 +673,29 @@ void MtgaLogParser::parseEventFinish(QString json)
     int wins = jsonWinLossGate["CurrentWins"].toInt();
     int losses = jsonWinLossGate["CurrentLosses"].toInt();
     emit sgnEventFinish(eventId, deck.id, deck.colorIdentity(), maxWins, wins, losses);
+}
+
+void MtgaLogParser::parseDraftStatus(QString json)
+{
+    QJsonObject jsonDraftStatus = Transformations::stringToJsonObject(json);
+    if (jsonDraftStatus.empty()) {
+        return;
+    }
+    QString eventId = jsonDraftStatus["eventName"].toString();
+    QString status = jsonDraftStatus["draftStatus"].toString();
+    int packNumber = jsonDraftStatus["packNumber"].toInt();
+    int pickNumber = jsonDraftStatus["pickNumber"].toInt();
+    QList<Card*> availablePicks;
+    QJsonArray jsonAvailablePicks = jsonDraftStatus["draftPack"].toArray();
+    for(QJsonValueRef jsonAvailablePickRef : jsonAvailablePicks){
+        int mtgaId = jsonAvailablePickRef.toString().toInt();
+        availablePicks << LOTUS_TRACKER->mtgCards->findCard(mtgaId);
+    }
+    QList<Card*> pickedCards;
+    QJsonArray jsonPickedCards = jsonDraftStatus["pickedCards"].toArray();
+    for(QJsonValueRef jsonPickedCardRef : jsonPickedCards){
+        int mtgaId = jsonPickedCardRef.toString().toInt();
+        pickedCards << LOTUS_TRACKER->mtgCards->findCard(mtgaId);
+    }
+    emit sgnDraftStatus(eventId, status, packNumber, pickNumber, availablePicks, pickedCards);
 }

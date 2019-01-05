@@ -42,7 +42,7 @@ void TabGeneral::applyCurrentSettings()
     ui->cbStartAtLogin->setChecked(APP_SETTINGS->isAutoStartEnabled());
     ui->btCheckUpdate->setChecked(LOTUS_TRACKER->sparkleUpdater->AutomaticallyChecksForUpdates());
     ui->cbPTEnabled->setChecked(APP_SETTINGS->isDeckOverlayPlayerEnabled());
-    ui->cbOTEnabled->setChecked(APP_SETTINGS->isDeckOverlayrOpponentEnabled());
+    ui->cbOTEnabled->setChecked(APP_SETTINGS->isDeckOverlayOpponentEnabled());
     ui->cbHideOnLoseGameFocus->setChecked(APP_SETTINGS->isHideOnLoseGameFocusEnabled());
 }
 

@@ -37,23 +37,23 @@ public:
     void enableShowOnlyRemainingCards(bool enabled);
     bool isShowDebugLogsEnabled();
     void enableShowDebugLogs(bool enabled);
-    // Deck tracker player
+    // Deck overlay player
     bool isDeckOverlayPlayerEnabled();
     void enableDeckOverlayPlayer(bool enabled);
     bool isDeckOverlayPlayerStatisticsEnabled();
     void enableDeckOverlayPlayerStatistics(bool enabled);
     QPoint getDeckOverlayPlayerPos(int uiWidth);
-    void setDecOverlayPlayerPos(QPoint pos);
+    void setDeckOverlayPlayerPos(QPoint pos);
     int getDeckOverlayPlayerScale();
     void setDeckOverlayPlayerScale(int scale);
-    // Deck tracker opponent
-    bool isDeckOverlayrOpponentEnabled();
+    // Deck overlay opponent
+    bool isDeckOverlayOpponentEnabled();
     void enableDeckOverlayOpponent(bool enabled);
     QPoint getDeckOverlayOpponentPos(int uiWidth, int cardHoverWidth);
     void setDeckOverlayOpponentPos(QPoint pos);
     int getDeckOverlayOpponentScale();
     void setDeckOverlayOpponentScale(int scale);
-
+    // User settings
     void setUserSettings(UserSettings userSettings, QString userName = "");
     UserSettings getUserSettings();
     void clearUserSettings();
