@@ -27,6 +27,10 @@
 #define KEY_OVERLAY_OPPONENT_Y "Tracker/opponentPrefs/y"
 #define KEY_OVERLAY_OPPONENT_SCALE "Tracker/opponentPrefs/scale"
 
+#define KEY_OVERLAY_DRAFT_X "Tracker/draftPrefs/x"
+#define KEY_OVERLAY_DRAFT_Y "Tracker/draftPrefs/y"
+#define KEY_OVERLAY_DRAFT_SCALE "Tracker/draftPrefs/scale"
+
 #define KEY_OVERLAY_USER_ID "Tracker/user/id"
 #define KEY_OVERLAY_USER_EMAIL "Tracker/user/email"
 #define KEY_OVERLAY_USER_TOKEN "Tracker/user/token"
@@ -241,6 +245,32 @@ int AppSettings::getDeckOverlayOpponentScale()
 void AppSettings::setDeckOverlayOpponentScale(int scale)
 {
     settings.setValue(KEY_OVERLAY_OPPONENT_SCALE, scale);
+}
+
+// Draft overlay
+
+QPoint AppSettings::getDraftOverlayPos(int uiWidth)
+{
+    UNUSED(uiWidth);
+    int x = settings.value(KEY_OVERLAY_DRAFT_X, DEFAULT_OVERLAY_VIEW_X).toInt();
+    int y = settings.value(KEY_OVERLAY_DRAFT_Y, DEFAULT_OVERLAY_VIEW_Y).toInt();
+    return QPoint(x, y);
+}
+
+void AppSettings::setDraftOverlayPos(QPoint pos)
+{
+    settings.setValue(KEY_OVERLAY_DRAFT_X, pos.x());
+    settings.setValue(KEY_OVERLAY_DRAFT_Y, pos.y());
+}
+
+int AppSettings::getDraftOverlayScale()
+{
+    return settings.value(KEY_OVERLAY_DRAFT_SCALE, 1).toInt();
+}
+
+void AppSettings::setDraftOverlayScale(int scale)
+{
+    settings.setValue(KEY_OVERLAY_DRAFT_SCALE, scale);
 }
 
 // User settings

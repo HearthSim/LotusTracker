@@ -94,7 +94,7 @@ void DeckOverlayPlayer::stopPublishDeckAnimation()
 
 void DeckOverlayPlayer::onPositionChanged()
 {
-    APP_SETTINGS->setDecOverlayPlayerPos(pos());
+    APP_SETTINGS->setDeckOverlayPlayerPos(pos());
 }
 
 void DeckOverlayPlayer::onScaleChanged()

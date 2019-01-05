@@ -183,7 +183,7 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
     });
     testMenu->addAction(opponentDeckArchAction);
     // Test draft overlay
-    QAction *draftOverlayAction = new QAction(tr("Draft Overlay"), this);
+    QAction *draftOverlayAction = new QAction(tr("Parser Draft Status"), this);
     connect(draftOverlayAction, &QAction::triggered, this, [](){
         QList<int> cardsMtgaId = { 66997, 66717, 66867, 66893, 66827, 66895, 66631, 66663, 66747, 66999, 66811, 67007, 66787, 66921 };
         QList<Card*> availableCards;

@@ -130,6 +130,11 @@ QList<Card*> DeckOverlayBase::getDeckCardsSorted()
     return sortedDeckCards;
 }
 
+bool DeckOverlayBase::useGrayscaleForZeroQtd()
+{
+    return true;
+}
+
 void DeckOverlayBase::changeAlpha(int alpha)
 {
     uiAlpha = 0.3 + (alpha / 10.0);
@@ -281,7 +286,7 @@ void DeckOverlayBase::drawDeckCards(QPainter &painter)
         QString borderColorIdentity = card->borderColorIdentityAsString();
         cardBGImg.load(QString(":/res/cards/%1/%2.png").arg(cardBGSkin).arg(borderColorIdentity));
         QImage cardBGImgScaled = cardBGImg.scaled(cardBGImgSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-        if (cardQtdRemains == 0) {
+        if (cardQtdRemains == 0 && useGrayscaleForZeroQtd()) {
             cardBGImgScaled = Transformations::toGrayscale(cardBGImgScaled);
         }
         painter.drawImage(uiPos.x(), cardBGY, cardBGImgScaled);

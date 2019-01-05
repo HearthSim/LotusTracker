@@ -40,6 +40,7 @@ public:
     QString colorIdentity(bool useStartCalc = true, bool includeLands = false);
     bool drawCard(Card *card);
     void insertCard(Card *card);
+    void setCardQtd(Card *card, int qtd);
 
     static QString calcColorIdentity(QMap<Card*, int> cards, bool includeLands);
 

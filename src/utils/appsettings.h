@@ -53,6 +53,11 @@ public:
     void setDeckOverlayOpponentPos(QPoint pos);
     int getDeckOverlayOpponentScale();
     void setDeckOverlayOpponentScale(int scale);
+    // Draft overlay
+    QPoint getDraftOverlayPos(int uiWidth);
+    void setDraftOverlayPos(QPoint pos);
+    int getDraftOverlayScale();
+    void setDraftOverlayScale(int scale);
     // User settings
     void setUserSettings(UserSettings userSettings, QString userName = "");
     UserSettings getUserSettings();

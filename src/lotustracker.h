@@ -10,6 +10,7 @@
 #include "mtg/mtgamatch.h"
 #include "ui/deckoverlayplayer.h"
 #include "ui/deckoverlayopponent.h"
+#include "ui/draftoverlay.h"
 #include "ui/preferencesscreen.h"
 #include "ui/startscreen.h"
 #include "ui/trayicon.h"
@@ -29,8 +30,9 @@ class LotusTracker : public QApplication
 
 private:
     QLocalServer *localServer;
-    DeckOverlayPlayer *deckTrackerPlayer;
-    DeckOverlayOpponent *deckTrackerOpponent;
+    DeckOverlayPlayer *deckOverlayPlayer;
+    DeckOverlayOpponent *deckOverlayOpponent;
+    DraftOverlay *draftOverlay;
     TrayIcon *trayIcon;
     PreferencesScreen *preferencesScreen;
     StartScreen *startScreen;
@@ -42,6 +44,7 @@ private:
     void setupApp();
     void setupUpdater();
     void setupPreferencesScreen();
+    void setupLotusAPIConnectsions();
     void setupLogParserConnections();
     void setupMtgaMatchConnections();
     void checkForAutoLogin();
@@ -83,6 +86,8 @@ private slots:
     void onUserSigned(bool fromSignUp);
     void onUserTokenRefreshed();
     void onUserTokenRefreshError();
+    void onDraftStatus(QString eventId, QString status, int packNumber, int pickNumber,
+                       QList<Card*> availablePicks, QList<Card*> pickedCards);
 };
 
 #endif // ARENATRACKER_H

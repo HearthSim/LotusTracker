@@ -62,6 +62,7 @@ HEADERS += \
     src/ui/deckoverlaybase.h \
     src/ui/deckoverlayopponent.h \
     src/ui/deckoverlayplayer.h \
+    src/ui/draftoverlay.h \
     src/ui/preferencesscreen.h \
     src/ui/startscreen.h \
     src/ui/tababout.h \
@@ -96,6 +97,7 @@ SOURCES += \
     src/ui/deckoverlaybase.cpp \
     src/ui/deckoverlayopponent.cpp \
     src/ui/deckoverlayplayer.cpp \
+    src/ui/draftoverlay.cpp \
     src/ui/preferencesscreen.cpp \
     src/ui/startscreen.cpp \
     src/ui/tababout.cpp \
