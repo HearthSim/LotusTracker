@@ -1,4 +1,4 @@
-#include "decktrackerplayer.h"
+#include "deckoverlayplayer.h"
 #include "../macros.h"
 #include "urls.h"
 
@@ -9,7 +9,7 @@
 #include <QFontDatabase>
 #include <QToolTip>
 
-DeckTrackerPlayer::DeckTrackerPlayer(QWidget *parent) : DeckTrackerBase(parent),
+DeckOverlayPlayer::DeckOverlayPlayer(QWidget *parent) : DeckOverlayBase(parent),
     deckMenu(new QMenu()), publishingDeckIcon(":res/publish_deck.png"),
     eventName("-"), deckWins(0), deckLosses(0)
 {
@@ -42,7 +42,7 @@ DeckTrackerPlayer::DeckTrackerPlayer(QWidget *parent) : DeckTrackerBase(parent),
     deckMenu->addAction(settingsAction);
     publishDeckTimer = new QTimer(this);
     publishDeckTimer->setInterval(250);
-    connect(publishDeckTimer, &QTimer::timeout, this, &DeckTrackerPlayer::publishingDeckAnim);
+    connect(publishDeckTimer, &QTimer::timeout, this, &DeckOverlayPlayer::publishingDeckAnim);
     applyCurrentSettings();
     // Statistics
     int statisticsFontSize = 8;
@@ -60,12 +60,12 @@ DeckTrackerPlayer::DeckTrackerPlayer(QWidget *parent) : DeckTrackerBase(parent),
     winRatePen = QPen(Qt::white);
 }
 
-DeckTrackerPlayer::~DeckTrackerPlayer()
+DeckOverlayPlayer::~DeckOverlayPlayer()
 {
 
 }
 
-void DeckTrackerPlayer::onLotusAPIRequestFinishedWithSuccess()
+void DeckOverlayPlayer::onLotusAPIRequestFinishedWithSuccess()
 {
     if (publishDeckTimer->isActive()) {
         stopPublishDeckAnimation();
@@ -78,7 +78,7 @@ void DeckTrackerPlayer::onLotusAPIRequestFinishedWithSuccess()
     }
 }
 
-void DeckTrackerPlayer::onLotusAPIRequestFinishedWithError()
+void DeckOverlayPlayer::onLotusAPIRequestFinishedWithError()
 {
     if (publishDeckTimer->isActive()) {
         stopPublishDeckAnimation();
@@ -86,24 +86,24 @@ void DeckTrackerPlayer::onLotusAPIRequestFinishedWithError()
     }
 }
 
-void DeckTrackerPlayer::stopPublishDeckAnimation()
+void DeckOverlayPlayer::stopPublishDeckAnimation()
 {
     publishDeckTimer->stop();
     publishingDeckIcon = ":res/publish_deck.png";
 }
 
-void DeckTrackerPlayer::onPositionChanged()
+void DeckOverlayPlayer::onPositionChanged()
 {
-    APP_SETTINGS->setDeckTrackerPlayerPos(pos());
+    APP_SETTINGS->setDecOverlayPlayerPos(pos());
 }
 
-void DeckTrackerPlayer::onScaleChanged()
+void DeckOverlayPlayer::onScaleChanged()
 {
-    DeckTrackerBase::onScaleChanged();
-    APP_SETTINGS->setDeckTrackerPlayerScale(uiScale);
+    DeckOverlayBase::onScaleChanged();
+    APP_SETTINGS->setDeckOverlayPlayerScale(uiScale);
 }
 
-void DeckTrackerPlayer::afterPaintEvent(QPainter &painter)
+void DeckOverlayPlayer::afterPaintEvent(QPainter &painter)
 {
     bool isUserLogged = APP_SETTINGS->getUserSettings().isUserLogged();
     deckProfileAction->setEnabled(isUserLogged);
@@ -146,15 +146,15 @@ void DeckTrackerPlayer::afterPaintEvent(QPainter &painter)
     }
 }
 
-void DeckTrackerPlayer::applyCurrentSettings()
+void DeckOverlayPlayer::applyCurrentSettings()
 {
-    move(APP_SETTINGS->getDeckTrackerPlayerPos(uiWidth));
-    uiScale = APP_SETTINGS->getDeckTrackerPlayerScale();
-    isStatisticsEnabled = APP_SETTINGS->isDeckTrackerPlayerStatisticsEnabled();
-    DeckTrackerBase::onScaleChanged();
+    move(APP_SETTINGS->getDeckOverlayPlayerPos(uiWidth));
+    uiScale = APP_SETTINGS->getDeckOverlayPlayerScale();
+    isStatisticsEnabled = APP_SETTINGS->isDeckOverlayPlayerStatisticsEnabled();
+    DeckOverlayBase::onScaleChanged();
 }
 
-void DeckTrackerPlayer::publishingDeckAnim()
+void DeckOverlayPlayer::publishingDeckAnim()
 {
     if (publishingDeckIcon == ":res/publish_deck_anim7.png") {
         publishingDeckIcon = ":res/publish_deck.png";
@@ -183,7 +183,7 @@ void DeckTrackerPlayer::publishingDeckAnim()
     update();
 }
 
-void DeckTrackerPlayer::drawStatistics(QPainter &painter)
+void DeckOverlayPlayer::drawStatistics(QPainter &painter)
 {
     if (deck.currentCards().size() == 0) {
         return;
@@ -232,22 +232,22 @@ void DeckTrackerPlayer::drawStatistics(QPainter &painter)
     uiHeight += statisticsRect.height();
 }
 
-int DeckTrackerPlayer::getDeckNameYPosition()
+int DeckOverlayPlayer::getDeckNameYPosition()
 {
     return uiPos.y() - (titleHeight + 7 + (uiScale / 2)) * 2;
 }
 
-int DeckTrackerPlayer::getHoverCardXPosition()
+int DeckOverlayPlayer::getHoverCardXPosition()
 {
     return uiPos.x() + uiWidth + 10;
 }
 
-QString DeckTrackerPlayer::getDeckColorIdentity()
+QString DeckOverlayPlayer::getDeckColorIdentity()
 {
     return deck.colorIdentity();
 }
 
-void DeckTrackerPlayer::loadDeck(Deck deck)
+void DeckOverlayPlayer::loadDeck(Deck deck)
 {
     this->deck = deck;
     this->deckWins = 0;
@@ -258,36 +258,36 @@ void DeckTrackerPlayer::loadDeck(Deck deck)
     LOGI(QString("Loading deck %1").arg(deck.name));
 }
 
-void DeckTrackerPlayer::loadDeckWithSideboard(QMap<Card*, int> cards, QMap<Card*, int> sideboard)
+void DeckOverlayPlayer::loadDeckWithSideboard(QMap<Card*, int> cards, QMap<Card*, int> sideboard)
 {
     this->deck.updateCards(cards, sideboard);
     LOGI("Deck with sideboard loaded");
 }
 
-void DeckTrackerPlayer::reset()
+void DeckOverlayPlayer::reset()
 {
     deck.reset();
     update();
 }
 
-bool DeckTrackerPlayer::isDeckLoadedAndReseted()
+bool DeckOverlayPlayer::isDeckLoadedAndReseted()
 {
     return deck.cards().size() > 0 && deck.isReseted();
 }
 
-void DeckTrackerPlayer::onPlayerPutInLibraryCard(Card* card)
+void DeckOverlayPlayer::onPlayerPutInLibraryCard(Card* card)
 {
     deck.insertCard(card);
 }
 
-void DeckTrackerPlayer::onPlayerDrawCard(Card* card)
+void DeckOverlayPlayer::onPlayerDrawCard(Card* card)
 {
     if (deck.drawCard(card)) {
         blinkCard(card);
     }
 }
 
-void DeckTrackerPlayer::onPlayerDeckStatus(int wins, int losses, double winRate)
+void DeckOverlayPlayer::onPlayerDeckStatus(int wins, int losses, double winRate)
 {
     deckWins = wins;
     deckLosses = losses;
@@ -295,45 +295,45 @@ void DeckTrackerPlayer::onPlayerDeckStatus(int wins, int losses, double winRate)
     update();
 }
 
-void DeckTrackerPlayer::onReceiveEventInfo(QString name, QString type)
+void DeckOverlayPlayer::onReceiveEventInfo(QString name, QString type)
 {
     UNUSED(type);
     eventName = name;
     update();
 }
 
-void DeckTrackerPlayer::onPlayerDiscardCard(Card* card)
+void DeckOverlayPlayer::onPlayerDiscardCard(Card* card)
 {
     UNUSED(card);
 }
 
-void DeckTrackerPlayer::onPlayerDiscardFromLibraryCard(Card* card)
+void DeckOverlayPlayer::onPlayerDiscardFromLibraryCard(Card* card)
 {
     if (deck.drawCard(card)) {
         blinkCard(card);
     }
 }
 
-void DeckTrackerPlayer::onPlayerPutOnBattlefieldCard(Card* card)
+void DeckOverlayPlayer::onPlayerPutOnBattlefieldCard(Card* card)
 {
     if (deck.drawCard(card)) {
         blinkCard(card);
     }
 }
 
-void DeckTrackerPlayer::onShowOnlyRemainingCardsEnabled(bool enabled)
+void DeckOverlayPlayer::onShowOnlyRemainingCardsEnabled(bool enabled)
 {
     deck.showOnlyRemainingCards = enabled;
     update();
 }
 
-void DeckTrackerPlayer::onStatisticsEnabled(bool enabled)
+void DeckOverlayPlayer::onStatisticsEnabled(bool enabled)
 {
     isStatisticsEnabled = enabled;
     update();
 }
 
-void DeckTrackerPlayer::onHoverMove(QHoverEvent *event)
+void DeckOverlayPlayer::onHoverMove(QHoverEvent *event)
 {
     showingTooltip = false;
     if (publishDeckButton.contains(event->pos())) {
@@ -346,10 +346,10 @@ void DeckTrackerPlayer::onHoverMove(QHoverEvent *event)
         showingTooltip = true;
         QToolTip::showText(event->pos(), tr("Settings"));
     }
-    DeckTrackerBase::onHoverMove(event);
+    DeckOverlayBase::onHoverMove(event);
 }
 
-void DeckTrackerPlayer::mousePressEvent(QMouseEvent *event)
+void DeckOverlayPlayer::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() != Qt::LeftButton) {
         return;
@@ -360,10 +360,10 @@ void DeckTrackerPlayer::mousePressEvent(QMouseEvent *event)
     if (preferencesButton.contains(event->pos())) {
         return;
     }
-    DeckTrackerBase::mousePressEvent(event);
+    DeckOverlayBase::mousePressEvent(event);
 }
 
-void DeckTrackerPlayer::mouseReleaseEvent(QMouseEvent *event)
+void DeckOverlayPlayer::mouseReleaseEvent(QMouseEvent *event)
 {
     if (event->button() != Qt::LeftButton && event->button() != Qt::RightButton) {
         return;
@@ -383,5 +383,5 @@ void DeckTrackerPlayer::mouseReleaseEvent(QMouseEvent *event)
         deckMenu->exec(QCursor::pos());
         return;
     }
-    DeckTrackerBase::mouseReleaseEvent(event);
+    DeckOverlayBase::mouseReleaseEvent(event);
 }

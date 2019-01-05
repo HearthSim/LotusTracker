@@ -1,5 +1,5 @@
 #include "tabgeneral.h"
-#include "ui_TabGeneral.h"
+#include "ui_tabgeneral.h"
 #include "../macros.h"
 
 #if defined Q_OS_MAC
@@ -41,8 +41,8 @@ void TabGeneral::applyCurrentSettings()
 {
     ui->cbStartAtLogin->setChecked(APP_SETTINGS->isAutoStartEnabled());
     ui->btCheckUpdate->setChecked(LOTUS_TRACKER->sparkleUpdater->AutomaticallyChecksForUpdates());
-    ui->cbPTEnabled->setChecked(APP_SETTINGS->isDeckTrackerPlayerEnabled());
-    ui->cbOTEnabled->setChecked(APP_SETTINGS->isDeckTrackerOpponentEnabled());
+    ui->cbPTEnabled->setChecked(APP_SETTINGS->isDeckOverlayPlayerEnabled());
+    ui->cbOTEnabled->setChecked(APP_SETTINGS->isDeckOverlayrOpponentEnabled());
     ui->cbHideOnLoseGameFocus->setChecked(APP_SETTINGS->isHideOnLoseGameFocusEnabled());
 }
 
@@ -71,7 +71,7 @@ void TabGeneral::onPTEnabledChanged()
     bool enabled = ui->cbPTEnabled->isChecked();
     emit sgnPlayerTrackerEnabled(enabled);
     LOGD(QString("PlayerTrackerEnabled: %1").arg(enabled ? "true" : "false"));
-    APP_SETTINGS->enableDeckTrackerPlayer(enabled);
+    APP_SETTINGS->enableDeckOverlayPlayer(enabled);
 }
 
 void TabGeneral::onOTEnabledChanged()
@@ -79,7 +79,7 @@ void TabGeneral::onOTEnabledChanged()
     bool enabled = ui->cbOTEnabled->isChecked();
     emit sgnOpponentTrackerEnabled(enabled);
     LOGD(QString("DeckTrackerOpponent: %1").arg(enabled ? "true" : "false"));
-    APP_SETTINGS->enableDeckTrackerOpponent(enabled);
+    APP_SETTINGS->enableDeckOverlayOpponent(enabled);
 }
 
 void TabGeneral::onHideOnLoseGameFocusChanged()

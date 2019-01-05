@@ -1,5 +1,5 @@
-#ifndef DECKTRACKERUI_H
-#define DECKTRACKERUI_H
+#ifndef DECKOVERLAYUI_H
+#define DECKOVERLAYUI_H
 
 #include "../entity/card.h"
 #include "../entity/deck.h"
@@ -13,7 +13,7 @@
 
 namespace Ui { class TrackerOverlay; }
 
-class DeckTrackerBase : public QMainWindow
+class DeckOverlayBase : public QMainWindow
 {
     Q_OBJECT
 private:
@@ -79,8 +79,8 @@ protected:
                   bool grayscale, int manaX, int manaY);
 
 public:
-    explicit DeckTrackerBase(QWidget *parent = nullptr);
-    ~DeckTrackerBase();
+    explicit DeckOverlayBase(QWidget *parent = nullptr);
+    ~DeckOverlayBase();
     Deck getDeck();
 
     static const QString TITLE(){ return "TrackerOverlay"; }
@@ -95,4 +95,4 @@ public slots:
     void changeUnhiddenTimeout(int unhiddenTimeout);
 };
 
-#endif // DECKTRACKERUI_H
+#endif // DECKOVERLAYUI_H

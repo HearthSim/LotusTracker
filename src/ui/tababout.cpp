@@ -1,5 +1,5 @@
 #include "tababout.h"
-#include "ui_TabAbout.h"
+#include "ui_tababout.h"
 #include "../macros.h"
 
 #include <QFontDatabase>

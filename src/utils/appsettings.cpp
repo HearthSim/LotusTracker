@@ -162,27 +162,27 @@ void AppSettings::enableShowDebugLogs(bool enabled)
 
 // Deck tracker player
 
-bool AppSettings::isDeckTrackerPlayerEnabled()
+bool AppSettings::isDeckOverlayPlayerEnabled()
 {
     return settings.value(KEY_TRACKER_PLAYER_ENABLED, true).toBool();
 }
 
-void AppSettings::enableDeckTrackerPlayer(bool enabled)
+void AppSettings::enableDeckOverlayPlayer(bool enabled)
 {
     settings.setValue(KEY_TRACKER_PLAYER_ENABLED, enabled);
 }
 
-bool AppSettings::isDeckTrackerPlayerStatisticsEnabled()
+bool AppSettings::isDeckOverlayPlayerStatisticsEnabled()
 {
     return settings.value(KEY_TRACKER_PLAYER_STATISTICS, false).toBool();
 }
 
-void AppSettings::enableDeckTrackerPlayerStatistics(bool enabled)
+void AppSettings::enableDeckOverlayPlayerStatistics(bool enabled)
 {
     settings.setValue(KEY_TRACKER_PLAYER_STATISTICS, enabled);
 }
 
-QPoint AppSettings::getDeckTrackerPlayerPos(int uiWidth)
+QPoint AppSettings::getDeckOverlayPlayerPos(int uiWidth)
 {
     UNUSED(uiWidth);
     int x = settings.value(KEY_TRACKER_PLAYER_X, DEFAULT_TRACKER_VIEW_X).toInt();
@@ -190,35 +190,35 @@ QPoint AppSettings::getDeckTrackerPlayerPos(int uiWidth)
     return QPoint(x, y);
 }
 
-void AppSettings::setDeckTrackerPlayerPos(QPoint pos)
+void AppSettings::setDecOverlayPlayerPos(QPoint pos)
 {
     settings.setValue(KEY_TRACKER_PLAYER_X, pos.x());
     settings.setValue(KEY_TRACKER_PLAYER_Y, pos.y());
 }
 
-int AppSettings::getDeckTrackerPlayerScale()
+int AppSettings::getDeckOverlayPlayerScale()
 {
     return settings.value(KEY_TRACKER_PLAYER_SCALE, 1).toInt();
 }
 
-void AppSettings::setDeckTrackerPlayerScale(int scale)
+void AppSettings::setDeckOverlayPlayerScale(int scale)
 {
     settings.setValue(KEY_TRACKER_PLAYER_SCALE, scale);
 }
 
 // Deck tracker opponent
 
-bool AppSettings::isDeckTrackerOpponentEnabled()
+bool AppSettings::isDeckOverlayrOpponentEnabled()
 {
     return settings.value(KEY_TRACKER_OPPONENT_ENABLED, true).toBool();
 }
 
-void AppSettings::enableDeckTrackerOpponent(bool enabled)
+void AppSettings::enableDeckOverlayOpponent(bool enabled)
 {
     settings.setValue(KEY_TRACKER_OPPONENT_ENABLED, enabled);
 }
 
-QPoint AppSettings::getDeckTrackerOpponentPos(int uiWidth, int cardHoverWidth)
+QPoint AppSettings::getDeckOverlayOpponentPos(int uiWidth, int cardHoverWidth)
 {
     QRect screen = QApplication::desktop()->screenGeometry();
     int defaultX = screen.width() - uiWidth - cardHoverWidth - DEFAULT_TRACKER_VIEW_X;
@@ -227,18 +227,18 @@ QPoint AppSettings::getDeckTrackerOpponentPos(int uiWidth, int cardHoverWidth)
     return QPoint(x, y);
 }
 
-void AppSettings::setDeckTrackerOpponentPos(QPoint pos)
+void AppSettings::setDeckOverlayOpponentPos(QPoint pos)
 {
     settings.setValue(KEY_TRACKER_OPPONENT_X, pos.x());
     settings.setValue(KEY_TRACKER_OPPONENT_Y, pos.y());
 }
 
-int AppSettings::getDeckTrackerOpponentScale()
+int AppSettings::getDeckOverlayOpponentScale()
 {
     return settings.value(KEY_TRACKER_OPPONENT_SCALE, 1).toInt();
 }
 
-void AppSettings::setDeckTrackerOpponentScale(int scale)
+void AppSettings::setDeckOverlayOpponentScale(int scale)
 {
     settings.setValue(KEY_TRACKER_OPPONENT_SCALE, scale);
 }

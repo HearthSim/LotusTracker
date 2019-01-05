@@ -73,7 +73,7 @@ void MtgArena::onCurrentFocusChanged(bool hasFocus)
     wndId = MacWindowFinder::findWindowId("LotusTracker", PreferencesScreen::TITLE());
     bool hasLotusTrackerFocus = MacWindowFinder::isWindowFocused(wndId);
 #elif defined Q_OS_WIN
-    HWND wnd = WinWindowFinder::findWindow(DeckTrackerBase::TITLE());
+    HWND wnd = WinWindowFinder::findWindow(DeckOverlayBase::TITLE());
     bool hasTrackerOverlayFocus = WinWindowFinder::isWindowFocused(wnd);
     wnd = WinWindowFinder::findWindow(PreferencesScreen::TITLE());
     bool hasLotusTrackerFocus = WinWindowFinder::isWindowFocused(wnd);

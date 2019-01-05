@@ -1,5 +1,5 @@
 #include "taboverlay.h"
-#include "ui_TabOverlay.h"
+#include "ui_taboverlay.h"
 #include "../macros.h"
 
 TabOverlay::TabOverlay(QWidget *parent)
@@ -46,7 +46,7 @@ void TabOverlay::applyCurrentSettings()
     ui->cbShowCardManaCost->setChecked(APP_SETTINGS->isShowCardManaCostEnabled());
     ui->cbShowCardOnHover->setChecked(APP_SETTINGS->isShowCardOnHoverEnabled());
     ui->cbShowOnlyRemainingCard->setChecked(APP_SETTINGS->isShowOnlyRemainingCardsEnabled());
-    ui->cbPTStatistics->setChecked(APP_SETTINGS->isDeckTrackerPlayerStatisticsEnabled());
+    ui->cbPTStatistics->setChecked(APP_SETTINGS->isDeckOverlayPlayerStatisticsEnabled());
 }
 
 void TabOverlay::onCardLayoutChanged()
@@ -108,7 +108,7 @@ void TabOverlay::onPTStatisticsChanged()
     bool enabled = ui->cbPTStatistics->isChecked();
     emit sgnPlayerTrackerStatistics(enabled);
     LOGD(QString("PlayerTrackerStatistics: %1").arg(enabled ? "true" : "false"));
-    APP_SETTINGS->enableDeckTrackerPlayerStatistics(enabled);
+    APP_SETTINGS->enableDeckOverlayPlayerStatistics(enabled);
 }
 
 void TabOverlay::onRestoreDefaultsSettings()

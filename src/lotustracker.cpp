@@ -24,8 +24,8 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
     mtgCards = new MtgCards(this);
     mtgDecksArch = new MtgDecksArch(this);
     mtgArena = new MtgArena(this);
-    deckTrackerPlayer = new DeckTrackerPlayer();
-    deckTrackerOpponent = new DeckTrackerOpponent();
+    deckTrackerPlayer = new DeckOverlayPlayer();
+    deckTrackerOpponent = new DeckOverlayOpponent();
     trayIcon = new TrayIcon(this);
     lotusAPI = new LotusTrackerAPI(this);
     startScreen = new StartScreen(nullptr, lotusAPI);
@@ -39,15 +39,15 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
     connect(mtgArena, &MtgArena::sgnMTGAStopped,
             this, &LotusTracker::onGameStopped);
     connect(lotusAPI, &LotusTrackerAPI::sgnDeckWinRate,
-            deckTrackerPlayer, &DeckTrackerPlayer::onPlayerDeckStatus);
+            deckTrackerPlayer, &DeckOverlayPlayer::onPlayerDeckStatus);
     connect(lotusAPI, &LotusTrackerAPI::sgnEventInfo,
-            deckTrackerPlayer, &DeckTrackerPlayer::onReceiveEventInfo);
+            deckTrackerPlayer, &DeckOverlayPlayer::onReceiveEventInfo);
     connect(lotusAPI, &LotusTrackerAPI::sgnRequestFinishedWithSuccess,
-            deckTrackerPlayer, &DeckTrackerPlayer::onLotusAPIRequestFinishedWithSuccess);
+            deckTrackerPlayer, &DeckOverlayPlayer::onLotusAPIRequestFinishedWithSuccess);
     connect(lotusAPI, &LotusTrackerAPI::sgnRequestFinishedWithError,
-            deckTrackerPlayer, &DeckTrackerPlayer::onLotusAPIRequestFinishedWithError);
+            deckTrackerPlayer, &DeckOverlayPlayer::onLotusAPIRequestFinishedWithError);
     connect(lotusAPI, &LotusTrackerAPI::sgnEventInfo,
-            deckTrackerOpponent, &DeckTrackerOpponent::onReceiveEventInfo);
+            deckTrackerOpponent, &DeckOverlayOpponent::onReceiveEventInfo);
     connect(lotusAPI, &LotusTrackerAPI::sgnUserLogged,
             this, &LotusTracker::onUserSigned);
     connect(lotusAPI, &LotusTrackerAPI::sgnTokenRefreshed,
@@ -173,38 +173,38 @@ void LotusTracker::setupPreferencesScreen()
     connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnPlayerTrackerEnabled,
             this, &LotusTracker::onDeckTrackerPlayerEnabledChange);
     connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnRestoreDefaults,
-            deckTrackerPlayer, &DeckTrackerPlayer::applyCurrentSettings);
+            deckTrackerPlayer, &DeckOverlayPlayer::applyCurrentSettings);
     connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnOpponentTrackerEnabled,
             this, &LotusTracker::onDeckTrackerOpponentEnabledChange);
     connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnRestoreDefaults,
-            deckTrackerOpponent, &DeckTrackerOpponent::applyCurrentSettings);
+            deckTrackerOpponent, &DeckOverlayOpponent::applyCurrentSettings);
     // Tab Overlay
     // --- Player UI
     connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnTrackerAlpha,
-            deckTrackerPlayer, &DeckTrackerBase::changeAlpha);
+            deckTrackerPlayer, &DeckOverlayBase::changeAlpha);
     connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnUnhideDelay,
-            deckTrackerPlayer, &DeckTrackerBase::changeUnhiddenTimeout);
+            deckTrackerPlayer, &DeckOverlayBase::changeUnhiddenTimeout);
     connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnTrackerCardLayout,
-            deckTrackerPlayer, &DeckTrackerBase::changeCardLayout);
+            deckTrackerPlayer, &DeckOverlayBase::changeCardLayout);
     connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnShowCardManaCostEnabled,
-            deckTrackerPlayer, &DeckTrackerBase::onShowCardManaCostEnabled);
+            deckTrackerPlayer, &DeckOverlayBase::onShowCardManaCostEnabled);
     connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnShowCardOnHoverEnabled,
-            deckTrackerPlayer, &DeckTrackerBase::onShowCardOnHoverEnabled);
+            deckTrackerPlayer, &DeckOverlayBase::onShowCardOnHoverEnabled);
     connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnShowOnlyRemainingCardsEnabled,
-            deckTrackerPlayer, &DeckTrackerPlayer::onShowOnlyRemainingCardsEnabled);
+            deckTrackerPlayer, &DeckOverlayPlayer::onShowOnlyRemainingCardsEnabled);
     connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnPlayerTrackerStatistics,
-            deckTrackerPlayer, &DeckTrackerPlayer::onStatisticsEnabled);
+            deckTrackerPlayer, &DeckOverlayPlayer::onStatisticsEnabled);
     // --- Opponent UI
     connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnTrackerAlpha,
-            deckTrackerOpponent, &DeckTrackerBase::changeAlpha);
+            deckTrackerOpponent, &DeckOverlayBase::changeAlpha);
     connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnUnhideDelay,
-            deckTrackerOpponent, &DeckTrackerBase::changeUnhiddenTimeout);
+            deckTrackerOpponent, &DeckOverlayBase::changeUnhiddenTimeout);
     connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnTrackerCardLayout,
-            deckTrackerOpponent, &DeckTrackerBase::changeCardLayout);
+            deckTrackerOpponent, &DeckOverlayBase::changeCardLayout);
     connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnShowCardManaCostEnabled,
-            deckTrackerOpponent, &DeckTrackerBase::onShowCardManaCostEnabled);
+            deckTrackerOpponent, &DeckOverlayBase::onShowCardManaCostEnabled);
     connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnShowCardOnHoverEnabled,
-            deckTrackerOpponent, &DeckTrackerBase::onShowCardOnHoverEnabled);
+            deckTrackerOpponent, &DeckOverlayBase::onShowCardOnHoverEnabled);
     // Tab Logs
     connect(logger, &Logger::sgnLog,
             preferencesScreen->getTabLogs(), &TabLogs::onNewLog);
@@ -225,7 +225,7 @@ void LotusTracker::setupLogParserConnections()
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckSubmited,
             this, &LotusTracker::onDeckSubmited);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckWithSideboardSubmited,
-            deckTrackerPlayer, &DeckTrackerPlayer::loadDeckWithSideboard);
+            deckTrackerPlayer, &DeckOverlayPlayer::loadDeckWithSideboard);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnEventPlayerCourse,
             this, &LotusTracker::onEventPlayerCourse);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMatchCreated,
@@ -244,26 +244,26 @@ void LotusTracker::setupMtgaMatchConnections()
 {
     // Player
     connect(mtgaMatch, &MtgaMatch::sgnPlayerPutInLibraryCard,
-            deckTrackerPlayer, &DeckTrackerPlayer::onPlayerPutInLibraryCard);
+            deckTrackerPlayer, &DeckOverlayPlayer::onPlayerPutInLibraryCard);
     connect(mtgaMatch, &MtgaMatch::sgnPlayerDrawCard,
-            deckTrackerPlayer, &DeckTrackerPlayer::onPlayerDrawCard);
+            deckTrackerPlayer, &DeckOverlayPlayer::onPlayerDrawCard);
     connect(mtgaMatch, &MtgaMatch::sgnPlayerDiscardCard,
-            deckTrackerPlayer, &DeckTrackerPlayer::onPlayerDiscardCard);
+            deckTrackerPlayer, &DeckOverlayPlayer::onPlayerDiscardCard);
     connect(mtgaMatch, &MtgaMatch::sgnPlayerDiscardFromLibraryCard,
-            deckTrackerPlayer, &DeckTrackerPlayer::onPlayerDiscardFromLibraryCard);
+            deckTrackerPlayer, &DeckOverlayPlayer::onPlayerDiscardFromLibraryCard);
     connect(mtgaMatch, &MtgaMatch::sgnPlayerPutOnBattlefieldCard,
-            deckTrackerPlayer, &DeckTrackerPlayer::onPlayerPutOnBattlefieldCard);
+            deckTrackerPlayer, &DeckOverlayPlayer::onPlayerPutOnBattlefieldCard);
     // Opponent
     connect(mtgaMatch, &MtgaMatch::sgnOpponentPutInLibraryCard,
-            deckTrackerOpponent, &DeckTrackerOpponent::onOpponentPutInLibraryCard);
+            deckTrackerOpponent, &DeckOverlayOpponent::onOpponentPutInLibraryCard);
     connect(mtgaMatch, &MtgaMatch::sgnOpponentPlayCard,
-            deckTrackerOpponent, &DeckTrackerOpponent::onOpponentPlayCard);
+            deckTrackerOpponent, &DeckOverlayOpponent::onOpponentPlayCard);
     connect(mtgaMatch, &MtgaMatch::sgnOpponentDiscardCard,
-            deckTrackerOpponent, &DeckTrackerOpponent::onOpponentDiscardCard);
+            deckTrackerOpponent, &DeckOverlayOpponent::onOpponentDiscardCard);
     connect(mtgaMatch, &MtgaMatch::sgnOpponentDiscardFromLibraryCard,
-            deckTrackerOpponent, &DeckTrackerOpponent::onOpponentDiscardFromLibraryCard);
+            deckTrackerOpponent, &DeckOverlayOpponent::onOpponentDiscardFromLibraryCard);
     connect(mtgaMatch, &MtgaMatch::sgnOpponentPutOnBattlefieldCard,
-            deckTrackerOpponent, &DeckTrackerOpponent::onOpponentPutOnBattlefieldCard);
+            deckTrackerOpponent, &DeckOverlayOpponent::onOpponentPutOnBattlefieldCard);
     // Match
     connect(mtgaMatch, &MtgaMatch::sgnPlayerUserName,
             lotusAPI, &LotusTrackerAPI::setPlayerUserName);
@@ -339,10 +339,10 @@ void LotusTracker::onGameStart(MatchMode mode, QList<MatchZone> zones, int seatI
         return;
     }
     mtgaMatch->onGameStart(mode, zones, seatId);
-    if (APP_SETTINGS->isDeckTrackerPlayerEnabled()) {
+    if (APP_SETTINGS->isDeckOverlayPlayerEnabled()) {
         deckTrackerPlayer->show();
     }
-    if (APP_SETTINGS->isDeckTrackerOpponentEnabled()) {
+    if (APP_SETTINGS->isDeckOverlayrOpponentEnabled()) {
         deckTrackerOpponent->show();
     }
     if (APP_SETTINGS->isFirstMatch()) {
@@ -360,14 +360,14 @@ void LotusTracker::onGameFocusChanged(bool hasFocus)
     if (!mtgaMatch->isRunning) {
         return;
     }
-    if (APP_SETTINGS->isDeckTrackerPlayerEnabled()) {
+    if (APP_SETTINGS->isDeckOverlayPlayerEnabled()) {
         if (hasFocus) {
             deckTrackerPlayer->show();
         } else if (APP_SETTINGS->isHideOnLoseGameFocusEnabled()) {
             deckTrackerPlayer->hide();
         }
     }
-    if (APP_SETTINGS->isDeckTrackerOpponentEnabled()) {
+    if (APP_SETTINGS->isDeckOverlayrOpponentEnabled()) {
         if (hasFocus) {
             deckTrackerOpponent->show();
         } else if (APP_SETTINGS->isHideOnLoseGameFocusEnabled()) {

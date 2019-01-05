@@ -38,21 +38,21 @@ public:
     bool isShowDebugLogsEnabled();
     void enableShowDebugLogs(bool enabled);
     // Deck tracker player
-    bool isDeckTrackerPlayerEnabled();
-    void enableDeckTrackerPlayer(bool enabled);
-    bool isDeckTrackerPlayerStatisticsEnabled();
-    void enableDeckTrackerPlayerStatistics(bool enabled);
-    QPoint getDeckTrackerPlayerPos(int uiWidth);
-    void setDeckTrackerPlayerPos(QPoint pos);
-    int getDeckTrackerPlayerScale();
-    void setDeckTrackerPlayerScale(int scale);
+    bool isDeckOverlayPlayerEnabled();
+    void enableDeckOverlayPlayer(bool enabled);
+    bool isDeckOverlayPlayerStatisticsEnabled();
+    void enableDeckOverlayPlayerStatistics(bool enabled);
+    QPoint getDeckOverlayPlayerPos(int uiWidth);
+    void setDecOverlayPlayerPos(QPoint pos);
+    int getDeckOverlayPlayerScale();
+    void setDeckOverlayPlayerScale(int scale);
     // Deck tracker opponent
-    bool isDeckTrackerOpponentEnabled();
-    void enableDeckTrackerOpponent(bool enabled);
-    QPoint getDeckTrackerOpponentPos(int uiWidth, int cardHoverWidth);
-    void setDeckTrackerOpponentPos(QPoint pos);
-    int getDeckTrackerOpponentScale();
-    void setDeckTrackerOpponentScale(int scale);
+    bool isDeckOverlayrOpponentEnabled();
+    void enableDeckOverlayOpponent(bool enabled);
+    QPoint getDeckOverlayOpponentPos(int uiWidth, int cardHoverWidth);
+    void setDeckOverlayOpponentPos(QPoint pos);
+    int getDeckOverlayOpponentScale();
+    void setDeckOverlayOpponentScale(int scale);
 
     void setUserSettings(UserSettings userSettings, QString userName = "");
     UserSettings getUserSettings();

@@ -1,7 +1,7 @@
-#ifndef DECKTRACKERPLAYER_H
-#define DECKTRACKERPLAYER_H
+#ifndef DECKOVERLAYPLAYER_H
+#define DECKOVERLAYPLAYER_H
 
-#include "decktrackerbase.h"
+#include "deckoverlaybase.h"
 #include "../entity/card.h"
 #include "../entity/deck.h"
 
@@ -9,7 +9,7 @@
 #include <QTimer>
 #include <QWidget>
 
-class DeckTrackerPlayer : public DeckTrackerBase
+class DeckOverlayPlayer : public DeckOverlayBase
 {
     Q_OBJECT
 private:
@@ -39,8 +39,8 @@ protected:
     virtual void mouseReleaseEvent(QMouseEvent *event);
 
 public:
-    explicit DeckTrackerPlayer(QWidget *parent = nullptr);
-    ~DeckTrackerPlayer();
+    explicit DeckOverlayPlayer(QWidget *parent = nullptr);
+    ~DeckOverlayPlayer();
     void stopPublishDeckAnimation();
     void applyCurrentSettings();
     void loadDeck(Deck deck);
@@ -64,4 +64,4 @@ public slots:
     void onStatisticsEnabled(bool enabled);
 };
 
-#endif // DECKTRACKERPLAYER_H
+#endif // DECKOVERLAYPLAYER_H

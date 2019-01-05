@@ -8,8 +8,8 @@
 #include "mtg/mtgcards.h"
 #include "mtg/mtgdecksarch.h"
 #include "mtg/mtgamatch.h"
-#include "ui/decktrackerplayer.h"
-#include "ui/decktrackeropponent.h"
+#include "ui/deckoverlayplayer.h"
+#include "ui/deckoverlayopponent.h"
 #include "ui/preferencesscreen.h"
 #include "ui/startscreen.h"
 #include "ui/trayicon.h"
@@ -29,8 +29,8 @@ class LotusTracker : public QApplication
 
 private:
     QLocalServer *localServer;
-    DeckTrackerPlayer *deckTrackerPlayer;
-    DeckTrackerOpponent *deckTrackerOpponent;
+    DeckOverlayPlayer *deckTrackerPlayer;
+    DeckOverlayOpponent *deckTrackerOpponent;
     TrayIcon *trayIcon;
     PreferencesScreen *preferencesScreen;
     StartScreen *startScreen;
