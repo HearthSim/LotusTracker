@@ -10,8 +10,10 @@ class DraftOverlay : public DeckOverlayBase
 {
     Q_OBJECT
 private:
+    QList<Card *> availablePicks;
     QMap<int, int> playerCollection;
     QRect preferencesButton;
+    void udpateAvailableCardsList(QList<Card *> availablePicks);
 
 protected:    
     virtual QList<Card*> getDeckCardsSorted();
@@ -34,6 +36,7 @@ public:
     void reset();
 
 signals:
+    void sgnRequestPlayerCollection();
 
 public slots:
     void setPlayerCollection(QMap<int, int> ownedCards);

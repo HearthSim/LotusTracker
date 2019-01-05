@@ -40,6 +40,8 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
             this, &LotusTracker::onGameFocusChanged);
     connect(mtgArena, &MtgArena::sgnMTGAStopped,
             this, &LotusTracker::onGameStopped);
+    connect(draftOverlay, &DraftOverlay::sgnRequestPlayerCollection,
+            lotusAPI, &LotusTrackerAPI::onRequestPlayerCollection);
     connect(hideTrackerTimer, &QTimer::timeout, this, [this]{
         hideTrackerTimer->stop();
         deckOverlayPlayer->reset();
@@ -226,6 +228,8 @@ void LotusTracker::setupLotusAPIConnectsions()
             this, &LotusTracker::onUserTokenRefreshed);
     connect(lotusAPI, &LotusTrackerAPI::sgnTokenRefreshError,
             this, &LotusTracker::onUserTokenRefreshError);
+    connect(lotusAPI, &LotusTrackerAPI::sgnPlayerCollection,
+            draftOverlay, &DraftOverlay::setPlayerCollection);
 }
 
 void LotusTracker::setupLogParserConnections()
@@ -332,10 +336,10 @@ void LotusTracker::publishOrUpdatePlayerDeck(Deck deck)
 
 void LotusTracker::onPlayerCollectionUpdated(QMap<int, int> ownedCards)
 {
+    draftOverlay->setPlayerCollection(ownedCards);
     lotusAPI->updatePlayerCollection(ownedCards);
     isOnDraftScreen = false;
     draftOverlay->hide();
-    draftOverlay->setPlayerCollection(ownedCards);
 }
 
 void LotusTracker::onPlayerDecks(QList<Deck> playerDecks)

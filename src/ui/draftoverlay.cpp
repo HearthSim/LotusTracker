@@ -105,11 +105,23 @@ void DraftOverlay::reset()
 void DraftOverlay::setPlayerCollection(QMap<int, int> ownedCards)
 {
     playerCollection = ownedCards;
+    if (!availablePicks.isEmpty()) {
+        udpateAvailableCardsList(availablePicks);
+    }
 }
 
 void DraftOverlay::onDraftStatus(QList<Card *> availablePicks, QList<Card *> pickedCards)
 {
     UNUSED(pickedCards);
+    this->availablePicks = availablePicks;
+    if (playerCollection.keys().isEmpty()) {
+        emit sgnRequestPlayerCollection();
+    }
+    udpateAvailableCardsList(availablePicks);
+}
+
+void DraftOverlay::udpateAvailableCardsList(QList<Card *> availablePicks)
+{
     deck.clear();
     for (Card* card : availablePicks) {
         int qtdOwned = playerCollection[card->mtgaId];
