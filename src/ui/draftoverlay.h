@@ -14,6 +14,7 @@ private:
     QRect preferencesButton;
 
 protected:    
+    virtual QList<Card*> getDeckCardsSorted();
     virtual int getDeckNameYPosition();
     virtual int getHoverCardXPosition();
     virtual QString getDeckColorIdentity();

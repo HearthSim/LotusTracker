@@ -31,7 +31,6 @@ private:
     QMap<Card*, CardBlinkInfo*> cardsBlinkInfo;
     void setupDrawTools();
     int getCardHeight();
-    QList<Card*> getDeckCardsSorted();
     void onHoverEnter(QHoverEvent *event);
     void onHoverLeave(QHoverEvent *event);
     int getCardsHoverPosition(QHoverEvent *event);
@@ -59,6 +58,7 @@ protected:
     void drawDeckCards(QPainter &painter);
     void drawExpandBar(QPainter &painter);
     void drawHoverCard(QPainter &painter);
+    virtual QList<Card*> getDeckCardsSorted();
     virtual int getDeckNameYPosition() = 0;
     virtual int getHoverCardXPosition() = 0;
     virtual QString getDeckColorIdentity() = 0;

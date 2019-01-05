@@ -22,6 +22,26 @@ void DraftOverlay::applyCurrentSettings()
     DeckOverlayBase::onScaleChanged();
 }
 
+QList<Card *> DraftOverlay::getDeckCardsSorted()
+{
+    QList<Card*> sortedDeckCards(deck.currentCards().keys());
+    std::sort(std::begin(sortedDeckCards), std::end(sortedDeckCards), [](Card*& lhs, Card*& rhs) {
+        QList<QString> rarities = { "common", "uncommon", "rare", "mythic" };
+        QList<QString> colors = { "c", "a", "m", "d", "g", "r", "b", "u", "w" };
+        QString lhsColors = lhs->borderColorIdentityAsString();
+        if (lhsColors.length() > 1) {
+            lhsColors = "d";
+        }
+        QString rhsColors = rhs->borderColorIdentityAsString();
+        if (rhsColors.length() > 1) {
+            rhsColors = "d";
+        }
+        return std::make_tuple(rarities.indexOf(lhs->rarity), colors.indexOf(lhsColors), lhs->name) >
+                std::make_tuple(rarities.indexOf(rhs->rarity), colors.indexOf(rhsColors), rhs->name);
+    });
+    return sortedDeckCards;
+}
+
 int DraftOverlay::getDeckNameYPosition()
 {
     return uiPos.y() - titleHeight - 7;
@@ -77,6 +97,8 @@ void DraftOverlay::reset()
 {
     deck.clear();
     deck.updateTitle("");
+    availablePicks.clear();
+    playerCollection.clear();
     update();
 }
 

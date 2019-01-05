@@ -13,6 +13,7 @@ public:
     const int multiverseId;
     const QString setCode;
     const QString number;
+    const QString rarity;
     const QString name;
     const QString type;
     const QString layout;
@@ -25,14 +26,14 @@ public:
     const bool isArtifact;
 
     Card(int mtgaId = 0, int multiverseId = 0, QString setCode = "",
-         QString number = "", QString name = "", QString type = "",
-         QString layout = "", QString rawManaCost = "",
+         QString number = "", QString rarity = "", QString name = "",
+         QString type = "", QString layout = "", QString rawManaCost = "",
          QList<QString> manaSymbols = {}, QList<QChar> borderColors = {},
          QList<QChar> colorIdentity = {}, QString imageUrl = "",
          bool isLand = false, bool isArtifact = false)
         : mtgaId(mtgaId), multiverseId(multiverseId), setCode(setCode),
-          number(number), name(name), type(type), layout(layout),
-          rawManaCost(rawManaCost), manaSymbols(manaSymbols),
+          number(number), rarity(rarity), name(name), type(type),
+          layout(layout), rawManaCost(rawManaCost), manaSymbols(manaSymbols),
           borderColors(borderColors), colorIdentity(colorIdentity),
           imageUrl(imageUrl), isLand(isLand), isArtifact(isArtifact){}
 

@@ -295,7 +295,7 @@ void DeckOverlayBase::drawDeckCards(QPainter &painter)
             cardBGImgScaled = Transformations::toGrayscale(cardBGImgScaled);
         }
         painter.drawImage(uiPos.x(), cardBGY, cardBGImgScaled);
-        QPen cardTextPen = cardQtdRemains == 0 ? cardNonePen : cardPen;
+        QPen cardTextPen = cardQtdRemains == 0 && useGrayscaleForZeroQtd() ? cardNonePen : cardPen;
         // Card quantity
         painter.setFont(cardFont);
         QString cardQtd = QString(cardQtdFormat()).arg(cardQtdRemains);

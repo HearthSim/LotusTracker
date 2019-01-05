@@ -37,7 +37,7 @@ Card* MtgCards::findCard(int mtgaId)
     if (cards.keys().contains(mtgaId)) {
         return cards[mtgaId];
     } else {
-        return new Card(mtgaId, 0, "", "", QString("UNKNOWN %1").arg(mtgaId));
+        return new Card(mtgaId, 0, "", "", "", QString("UNKNOWN %1").arg(mtgaId));
     }
 }
 
@@ -190,6 +190,7 @@ Card* MtgCards::jsonObject2Card(QJsonObject jsonCard, QString setCode)
     int mtgaId = jsonCard["mtgaid"].toInt();
     int multiverseId = jsonCard["multiverseid"].toInt();
     QString number = jsonCard["number"].toString();
+    QString rarity = jsonCard["rarity"].toString();
     QString name = jsonCard["name"].toString();
     QString layout = jsonCard["layout"].toString();
     QString imageUrl = jsonCard["imageUrl"].toString();
@@ -224,8 +225,9 @@ Card* MtgCards::jsonObject2Card(QJsonObject jsonCard, QString setCode)
     if (isLand) {
         borderColors = getLandBorderColorUsingColorIdentity(jsonCard);
     }
-    return new Card(mtgaId, multiverseId, setCode, number, name, type, layout, rawManaCost,
-                    manaSymbols, borderColors, colorIdentity, imageUrl, isLand, isArtifact);
+    return new Card(mtgaId, multiverseId, setCode, number, rarity, name,
+                    type, layout, rawManaCost, manaSymbols, borderColors,
+                    colorIdentity, imageUrl, isLand, isArtifact);
 }
 
 QList<QChar> MtgCards::getBoderColorUsingManaSymbols(QList<QString> manaSymbols, bool isArtifact)
@@ -291,7 +293,7 @@ Card* MtgCards::createSplitCard(Card* upSide, Card* downSide)
     int mtgaIdSidesDiff = downSide->mtgaId - upSide->mtgaId;
     int mtgaId = upSide->mtgaId - mtgaIdSidesDiff;
     return new Card(mtgaId, upSide->multiverseId, upSide->setCode, number,
-                    name, upSide->type, upSide->layout, upSide->rawManaCost,
-                    upSide->manaSymbols, borderColors, colorIdentity, upSide->imageUrl,
-                    upSide->isLand, upSide->isArtifact);
+                    upSide->rarity, name, upSide->type, upSide->layout,
+                    upSide->rawManaCost, upSide->manaSymbols, borderColors,
+                    colorIdentity, upSide->imageUrl, upSide->isLand, upSide->isArtifact);
 }

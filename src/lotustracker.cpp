@@ -396,17 +396,21 @@ void LotusTracker::onGameStarted()
 
 void LotusTracker::onGameFocusChanged(bool hasFocus)
 {
-    if (!mtgaMatch->isRunning) {
-        return;
+    if (isOnDraftScreen && APP_SETTINGS->isDraftOverlayEnabled()) {
+        if (hasFocus) {
+            draftOverlay->show();
+        } else if (APP_SETTINGS->isHideOnLoseGameFocusEnabled()) {
+            draftOverlay->hide();
+        }
     }
-    if (APP_SETTINGS->isDeckOverlayPlayerEnabled()) {
+    if (mtgaMatch->isRunning && APP_SETTINGS->isDeckOverlayPlayerEnabled()) {
         if (hasFocus) {
             deckOverlayPlayer->show();
         } else if (APP_SETTINGS->isHideOnLoseGameFocusEnabled()) {
             deckOverlayPlayer->hide();
         }
     }
-    if (APP_SETTINGS->isDeckOverlayOpponentEnabled()) {
+    if (mtgaMatch->isRunning && APP_SETTINGS->isDeckOverlayOpponentEnabled()) {
         if (hasFocus) {
             deckOverlayOpponent->show();
         } else if (APP_SETTINGS->isHideOnLoseGameFocusEnabled()) {
@@ -533,6 +537,7 @@ void LotusTracker::onDraftStatus(QString eventId, QString status, int packNumber
     if (status == "Draft.PickNext") {
         draftOverlay->show();
     } else {
+        draftOverlay->reset();
         draftOverlay->hide();
     }
 }
