@@ -67,6 +67,7 @@ protected:
     virtual void onPositionChanged() = 0;
     virtual void onScaleChanged();
     virtual void afterPaintEvent(QPainter &painter) = 0;
+    virtual void beforeDrawCardEvent(QPainter &painter, Card* card, int cardBGY);
     virtual bool event(QEvent *event);
     virtual void onHoverMove(QHoverEvent *event);
     virtual void mousePressEvent(QMouseEvent *event);

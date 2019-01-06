@@ -162,7 +162,7 @@ void MtgaLogParser::parseIncomingMsg(QPair<QString, QString> msg)
         parseGreToClientMessages(msg.second);
     } else if (msg.first == "Event.ClaimPrize") {
         parseEventFinish(msg.second);
-    } else if (msg.first == "Draft.DraftStatus") {
+    } else if (msg.first == "Draft.DraftStatus" || msg.first == "Draft.MakePick") {
         parseDraftStatus(msg.second);
     }
 }

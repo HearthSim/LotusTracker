@@ -1,28 +1,33 @@
-#include "draftoverlay.h"
+#include "deckoverlaydraft.h"
 #include "../macros.h"
 
 #include <QApplication>
+#include <QDesktopWidget>
+#include <QFontDatabase>
 #include <QPoint>
 #include <QToolTip>
+#include <QtMath>
 
-DraftOverlay::DraftOverlay(QWidget *parent) : DeckOverlayBase(parent)
+DeckOverlayDraft::DeckOverlayDraft(QWidget *parent) : DeckOverlayBase(parent)
 {
+    rankDescTextMargin = 10;
+    rankFont.setBold(true);
     applyCurrentSettings();
 }
 
-DraftOverlay::~DraftOverlay()
+DeckOverlayDraft::~DeckOverlayDraft()
 {
 
 }
 
-void DraftOverlay::applyCurrentSettings()
+void DeckOverlayDraft::applyCurrentSettings()
 {
-    move(APP_SETTINGS->getDraftOverlayPos(uiWidth));
-    uiScale = APP_SETTINGS->getDraftOverlayScale();
+    move(APP_SETTINGS->getDeckOverlayDraftPos(uiWidth));
+    uiScale = APP_SETTINGS->getDeckOverlayDraftScale();
     DeckOverlayBase::onScaleChanged();
 }
 
-QList<Card *> DraftOverlay::getDeckCardsSorted()
+QList<Card *> DeckOverlayDraft::getDeckCardsSorted()
 {
     QList<Card*> sortedDeckCards(deck.currentCards().keys());
     std::sort(std::begin(sortedDeckCards), std::end(sortedDeckCards), [](Card*& lhs, Card*& rhs) {
@@ -42,7 +47,7 @@ QList<Card *> DraftOverlay::getDeckCardsSorted()
     return sortedDeckCards;
 }
 
-int DraftOverlay::getDeckNameYPosition()
+int DeckOverlayDraft::getDeckNameYPosition()
 {
     return uiPos.y() - titleHeight - 7;
 }
@@ -52,33 +57,62 @@ int DraftOverlay::getHoverCardXPosition()
     return uiPos.x() + uiWidth + 10;
 }
 
-QString DraftOverlay::getDeckColorIdentity()
+QString DeckOverlayDraft::getDeckColorIdentity()
 {
     return deck.colorIdentity(false, true);
 }
 
-QString DraftOverlay::cardQtdFormat()
+QString DeckOverlayDraft::cardQtdFormat()
 {
     return "%1/4 ";
 }
 
-bool DraftOverlay::useGrayscaleForZeroQtd()
+bool DeckOverlayDraft::useGrayscaleForZeroQtd()
 {
     return false;
 }
 
-void DraftOverlay::onPositionChanged()
+void DeckOverlayDraft::onPositionChanged()
 {
-    APP_SETTINGS->setDraftOverlayPos(pos());
+    APP_SETTINGS->setDeckOverlayDraftPos(pos());
 }
 
-void DraftOverlay::onScaleChanged()
+void DeckOverlayDraft::onScaleChanged()
 {
     DeckOverlayBase::onScaleChanged();
-    APP_SETTINGS->setDraftOverlayScale(uiScale);
+    APP_SETTINGS->setDeckOverlayDraftScale(uiScale);
 }
 
-void DraftOverlay::afterPaintEvent(QPainter &painter)
+void DeckOverlayDraft::beforeDrawCardEvent(QPainter &painter, Card *card, int cardBGY)
+{
+    int rankMargin = 10 + uiScale/2;
+    QFontMetrics cardMetrics(rankFont);
+    int rankTextHeight = cardMetrics.ascent() - cardMetrics.descent();
+    int rankTextOptions = Qt::AlignRight | Qt::AlignVCenter | Qt::TextDontClip;
+    painter.setFont(rankFont);
+    QString rank = card->lsvRank;
+    int rankWidth = painter.fontMetrics().width(rank);
+    int rankX = uiPos.x() + uiWidth;
+    int rankY = cardBGY + getCardHeight()/2 - rankTextHeight/2;
+#if defined Q_OS_WIN
+    rankY -= 1;
+#endif
+
+    int rankBGWidth = rankWidth + rankMargin + rankMargin;
+    int rankBGX = rankX - rankMargin;
+    QRect descRect(rankBGX, cardBGY, rankBGWidth, getCardHeight() - 1);
+    painter.setPen(bgPen);
+    painter.setBrush(QBrush(QColor(70, 70, 70, 200)));
+    painter.drawRoundedRect(descRect, cornerRadius, cornerRadius);
+
+    QPen rankPen = QPen(Qt::white);
+    drawText(painter, cardFont, rankPen, rank, rankTextOptions, true,
+             rankX + uiScale, rankY, rankTextHeight, rankWidth);
+}
+
+}
+
+void DeckOverlayDraft::afterPaintEvent(QPainter &painter)
 {
     // Preferences button
     int buttonSize = 16 + static_cast<int> (uiScale * 1);
@@ -93,7 +127,7 @@ void DraftOverlay::afterPaintEvent(QPainter &painter)
     preferencesButton = QRect(settingsPlusX, preferencesButtonY, buttonSize, buttonSize);
 }
 
-void DraftOverlay::reset()
+void DeckOverlayDraft::reset()
 {
     deck.clear();
     deck.updateTitle("");
@@ -102,7 +136,7 @@ void DraftOverlay::reset()
     update();
 }
 
-void DraftOverlay::setPlayerCollection(QMap<int, int> ownedCards)
+void DeckOverlayDraft::setPlayerCollection(QMap<int, int> ownedCards)
 {
     playerCollection = ownedCards;
     if (!availablePicks.isEmpty()) {
@@ -110,7 +144,7 @@ void DraftOverlay::setPlayerCollection(QMap<int, int> ownedCards)
     }
 }
 
-void DraftOverlay::onDraftStatus(QList<Card *> availablePicks, QList<Card *> pickedCards)
+void DeckOverlayDraft::onDraftStatus(QList<Card *> availablePicks, QList<Card *> pickedCards)
 {
     UNUSED(pickedCards);
     this->availablePicks = availablePicks;
@@ -120,7 +154,7 @@ void DraftOverlay::onDraftStatus(QList<Card *> availablePicks, QList<Card *> pic
     udpateAvailableCardsList(availablePicks);
 }
 
-void DraftOverlay::udpateAvailableCardsList(QList<Card *> availablePicks)
+void DeckOverlayDraft::udpateAvailableCardsList(QList<Card *> availablePicks)
 {
     deck.clear();
     for (Card* card : availablePicks) {
@@ -130,7 +164,7 @@ void DraftOverlay::udpateAvailableCardsList(QList<Card *> availablePicks)
     update();
 }
 
-void DraftOverlay::onHoverMove(QHoverEvent *event)
+void DeckOverlayDraft::onHoverMove(QHoverEvent *event)
 {
     showingTooltip = false;
     if (preferencesButton.contains(event->pos())) {
@@ -140,7 +174,7 @@ void DraftOverlay::onHoverMove(QHoverEvent *event)
     DeckOverlayBase::onHoverMove(event);
 }
 
-void DraftOverlay::mousePressEvent(QMouseEvent *event)
+void DeckOverlayDraft::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() != Qt::LeftButton) {
         return;
@@ -151,7 +185,7 @@ void DraftOverlay::mousePressEvent(QMouseEvent *event)
     DeckOverlayBase::mousePressEvent(event);
 }
 
-void DraftOverlay::mouseReleaseEvent(QMouseEvent *event)
+void DeckOverlayDraft::mouseReleaseEvent(QMouseEvent *event)
 {
     if (event->button() != Qt::LeftButton && event->button() != Qt::RightButton) {
         return;

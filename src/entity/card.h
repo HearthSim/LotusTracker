@@ -22,6 +22,8 @@ public:
     const QList<QChar> borderColors;
     const QList<QChar> colorIdentity;
     const QString imageUrl;
+    const QString lsvRank;
+    const QString lsvDesc;
     const bool isLand;
     const bool isArtifact;
 
@@ -30,12 +32,14 @@ public:
          QString type = "", QString layout = "", QString rawManaCost = "",
          QList<QString> manaSymbols = {}, QList<QChar> borderColors = {},
          QList<QChar> colorIdentity = {}, QString imageUrl = "",
+         QString lvsRank = "", QString lvsDesc = "",
          bool isLand = false, bool isArtifact = false)
         : mtgaId(mtgaId), multiverseId(multiverseId), setCode(setCode),
           number(number), rarity(rarity), name(name), type(type),
           layout(layout), rawManaCost(rawManaCost), manaSymbols(manaSymbols),
           borderColors(borderColors), colorIdentity(colorIdentity),
-          imageUrl(imageUrl), isLand(isLand), isArtifact(isArtifact){}
+          imageUrl(imageUrl), lsvRank(lvsRank), lsvDesc(lvsDesc),
+          isLand(isLand), isArtifact(isArtifact){}
 
     bool isBasicLand()
     {

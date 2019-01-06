@@ -84,7 +84,7 @@ private slots:
     void onMatchEnds(int winningTeamId);
     void onEventFinish(QString eventId, QString deckId, QString deckColors,
                        int maxWins, int wins, int losses);
-    void onDraftOverlayEnabledChange(bool enabled);
+    void onDeckOverlayDraftEnabledChange(bool enabled);
     void onDeckOverlayPlayerEnabledChange(bool enabled);
     void onDeckOverlayOpponentEnabledChange(bool enabled);
     void onUserSigned(bool fromSignUp);

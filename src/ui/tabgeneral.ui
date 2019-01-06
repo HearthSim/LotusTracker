@@ -235,6 +235,9 @@
    </item>
    <item row="2" column="1">
     <widget class="QCheckBox" name="cbDOEnabled">
+     <property name="statusTip">
+      <string>Draft help show you cards ranking by Luis Scott-Vargas (LSV)</string>
+     </property>
      <property name="text">
       <string>Enable Draft helper overlay</string>
      </property>

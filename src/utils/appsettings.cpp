@@ -226,7 +226,7 @@ void AppSettings::enableDeckOverlayOpponent(bool enabled)
 QPoint AppSettings::getDeckOverlayOpponentPos(int uiWidth, int cardHoverWidth)
 {
     QRect screen = QApplication::desktop()->screenGeometry();
-    int defaultX = screen.width() - uiWidth - cardHoverWidth - DEFAULT_OVERLAY_VIEW_X;
+    int defaultX = screen.width() - uiWidth - cardHoverWidth - DEFAULT_OVERLAY_VIEW_X - 25;
     int x = settings.value(KEY_OVERLAY_OPPONENT_X, defaultX).toInt();
     int y = settings.value(KEY_OVERLAY_OPPONENT_Y, DEFAULT_OVERLAY_VIEW_Y).toInt();
     return QPoint(x, y);
@@ -250,17 +250,17 @@ void AppSettings::setDeckOverlayOpponentScale(int scale)
 
 // Draft overlay
 
-bool AppSettings::isDraftOverlayEnabled()
+bool AppSettings::isDeckOverlayDraftEnabled()
 {
     return settings.value(KEY_OVERLAY_DRAFT_ENABLED, true).toBool();
 }
 
-void AppSettings::enableDraftOverlay(bool enabled)
+void AppSettings::enableDeckOverlayDraft(bool enabled)
 {
     settings.setValue(KEY_OVERLAY_DRAFT_ENABLED, enabled);
 }
 
-QPoint AppSettings::getDraftOverlayPos(int uiWidth)
+QPoint AppSettings::getDeckOverlayDraftPos(int uiWidth)
 {
     UNUSED(uiWidth);
     int x = settings.value(KEY_OVERLAY_DRAFT_X, DEFAULT_OVERLAY_VIEW_X).toInt();
@@ -268,18 +268,18 @@ QPoint AppSettings::getDraftOverlayPos(int uiWidth)
     return QPoint(x, y);
 }
 
-void AppSettings::setDraftOverlayPos(QPoint pos)
+void AppSettings::setDeckOverlayDraftPos(QPoint pos)
 {
     settings.setValue(KEY_OVERLAY_DRAFT_X, pos.x());
     settings.setValue(KEY_OVERLAY_DRAFT_Y, pos.y());
 }
 
-int AppSettings::getDraftOverlayScale()
+int AppSettings::getDeckOverlayDraftScale()
 {
     return settings.value(KEY_OVERLAY_DRAFT_SCALE, 1).toInt();
 }
 
-void AppSettings::setDraftOverlayScale(int scale)
+void AppSettings::setDeckOverlayDraftScale(int scale)
 {
     settings.setValue(KEY_OVERLAY_DRAFT_SCALE, scale);
 }
@@ -329,4 +329,8 @@ void AppSettings::restoreDefaults()
     settings.remove(KEY_OVERLAY_OPPONENT_X);
     settings.remove(KEY_OVERLAY_OPPONENT_Y);
     settings.remove(KEY_OVERLAY_OPPONENT_SCALE);
+    settings.remove(KEY_OVERLAY_DRAFT_ENABLED);
+    settings.remove(KEY_OVERLAY_DRAFT_X);
+    settings.remove(KEY_OVERLAY_DRAFT_Y);
+    settings.remove(KEY_OVERLAY_DRAFT_SCALE);
 }

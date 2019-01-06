@@ -195,6 +195,8 @@ Card* MtgCards::jsonObject2Card(QJsonObject jsonCard, QString setCode)
     QString layout = jsonCard["layout"].toString();
     QString imageUrl = jsonCard["imageUrl"].toString();
     QString type = jsonCard["type"].toString();
+    QString lvsRank = jsonCard["lvsRank"].toString();
+    QString lvsDesc = jsonCard["lvsDesc"].toString();
     QJsonArray jsonTypes = jsonCard["types"].toArray();
     bool isArtifact = false;
     bool isLand = false;
@@ -227,7 +229,7 @@ Card* MtgCards::jsonObject2Card(QJsonObject jsonCard, QString setCode)
     }
     return new Card(mtgaId, multiverseId, setCode, number, rarity, name,
                     type, layout, rawManaCost, manaSymbols, borderColors,
-                    colorIdentity, imageUrl, isLand, isArtifact);
+                    colorIdentity, imageUrl, lvsRank, lvsDesc, isLand, isArtifact);
 }
 
 QList<QChar> MtgCards::getBoderColorUsingManaSymbols(QList<QString> manaSymbols, bool isArtifact)
@@ -295,5 +297,6 @@ Card* MtgCards::createSplitCard(Card* upSide, Card* downSide)
     return new Card(mtgaId, upSide->multiverseId, upSide->setCode, number,
                     upSide->rarity, name, upSide->type, upSide->layout,
                     upSide->rawManaCost, upSide->manaSymbols, borderColors,
-                    colorIdentity, upSide->imageUrl, upSide->isLand, upSide->isArtifact);
+                    colorIdentity, upSide->imageUrl, upSide->lsvRank,
+                    upSide->lsvDesc, upSide->isLand, upSide->isArtifact);
 }

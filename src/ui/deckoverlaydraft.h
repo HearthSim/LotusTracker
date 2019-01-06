@@ -10,6 +10,8 @@ class DeckOverlayDraft : public DeckOverlayBase
 {
     Q_OBJECT
 private:
+    int rankDescTextMargin;
+    QFont rankFont;
     QList<Card *> availablePicks;
     QMap<int, int> playerCollection;
     QRect preferencesButton;
@@ -23,7 +25,8 @@ protected:
     virtual QString cardQtdFormat();
     virtual bool useGrayscaleForZeroQtd();
     virtual void onPositionChanged();
-    virtual void onScaleChanged();
+    virtual void onScaleChanged();    
+    virtual void beforeDrawCardEvent(QPainter &painter, Card* card, int cardBGY);
     virtual void afterPaintEvent(QPainter &painter);
     virtual void onHoverMove(QHoverEvent *event);
     virtual void mousePressEvent(QMouseEvent *event);

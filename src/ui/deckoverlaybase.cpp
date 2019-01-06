@@ -22,11 +22,10 @@
 
 DeckOverlayBase::DeckOverlayBase(QWidget *parent) : QMainWindow(parent),
     ui(new Ui::TrackerOverlay()), cardBGSkin(APP_SETTINGS->getCardLayout()),
-    currentHoverPosition(0), hoverCard(nullptr), mousePressed(false),
-    mouseInitialPosition(QPoint()), cornerRadius(10), uiPos(0, 50),
-    zoomMinusButton(QRect(0, 0, 0, 0)), zoomPlusButton(QRect(0, 0, 0, 0)),
-    uiAlpha(1.0), cardHoverWidth(220), uiHeight(0), uiWidth(BASE_UI_WIDTH),
-    uiScale(2), deck(Deck()), hidden(false), showingTooltip(false)
+    mousePressed(false), mouseInitialPosition(QPoint()), cornerRadius(10), uiPos(0, 50),
+    zoomMinusButton(QRect(0, 0, 0, 0)), zoomPlusButton(QRect(0, 0, 0, 0)), uiAlpha(1.0),
+    cardHoverWidth(220), coverHeight(0), uiHeight(0), uiWidth(BASE_UI_WIDTH), uiScale(2),
+    currentHoverPosition(0), hoverCard(nullptr), deck(Deck()), hidden(false), showingTooltip(false)
 {
     ui->setupUi(this);
     setupWindow();
@@ -287,6 +286,7 @@ void DeckOverlayBase::drawDeckCards(QPainter &painter)
         int cardQtdRemains = deck.currentCards()[card];
         // Card BG
         int cardBGY = uiPos.y() + uiHeight + cardListHeight;
+        beforeDrawCardEvent(painter, card, cardBGY);
         QImage cardBGImg;
         QString borderColorIdentity = card->borderColorIdentityAsString();
         cardBGImg.load(QString(":/res/cards/%1/%2.png").arg(cardBGSkin).arg(borderColorIdentity));
@@ -452,6 +452,13 @@ void DeckOverlayBase::onScaleChanged()
     cardFontSize += 2;
 #endif
     cardFont.setPointSize(cardFontSize);
+}
+
+void DeckOverlayBase::beforeDrawCardEvent(QPainter &painter, Card* card, int cardBGY)
+{
+    UNUSED(painter);
+    UNUSED(card);
+    UNUSED(cardBGY);
 }
 
 bool DeckOverlayBase::event(QEvent *event)
