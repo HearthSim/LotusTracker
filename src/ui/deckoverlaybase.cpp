@@ -392,8 +392,8 @@ void DeckOverlayBase::drawHoverCard(QPainter &painter)
     QRect screen = QApplication::desktop()->screenGeometry();
     int cardX = getHoverCardXPosition();
     int cardY = uiPos.y() + (currentHoverPosition * getCardHeight());
-    if (cardY > screen.height() - cardHoverHeight - bottomMargin) {
-        cardY = screen.height() - cardHoverHeight - bottomMargin;
+    if (pos().y() + cardY > screen.height() - cardHoverHeight - bottomMargin) {
+        cardY = screen.height() - cardHoverHeight - bottomMargin - pos().y();
     }
     QImage cardImgScaled = cardImg.scaled(cardHoverSize,
                                           Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
