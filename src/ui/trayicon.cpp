@@ -182,9 +182,9 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
         }
     });
     testMenu->addAction(opponentDeckArchAction);
-    // Test draft overlay
-    QAction *draftOverlayAction = new QAction(tr("Parser Draft Status"), this);
-    connect(draftOverlayAction, &QAction::triggered, this, [](){
+    // Test deck overlay draft
+    QAction *deckOverlayDraftAction = new QAction(tr("Parser Draft Status"), this);
+    connect(deckOverlayDraftAction, &QAction::triggered, this, [](){
         QList<int> cardsMtgaId = { 66997, 66717, 66867, 66893, 66827, 66895, 66631, 66663, 66747, 66999, 66811, 67007, 66787, 66921 };
         QList<Card*> availableCards;
         QList<Card*> pickedCards;
@@ -195,7 +195,7 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
         MtgaLogParser* logParser = LOTUS_TRACKER->mtgArena->getLogParser();
         emit logParser->sgnDraftStatus("", "Draft.PickNext", 0, 0, availableCards, pickedCards);
     });
-    testMenu->addAction(draftOverlayAction);
+    testMenu->addAction(deckOverlayDraftAction);
     // Update user inventory
     QAction *updateUserInventoryAction = new QAction(tr("parse UserInventory"), this);
     connect(updateUserInventoryAction, &QAction::triggered, this, [](){

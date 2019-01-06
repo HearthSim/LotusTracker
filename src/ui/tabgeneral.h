@@ -27,7 +27,7 @@ public:
 
 signals:
     void sgnRestoreDefaults();
-    void sgnDraftOverlayEnabled(bool enabled);
+    void sgnDeckOverlayDraftEnabled(bool enabled);
     void sgnPlayerOverlayEnabled(bool enabled);
     void sgnOpponentOverlayEnabled(bool enabled);
 

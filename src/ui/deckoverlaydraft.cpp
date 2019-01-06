@@ -1,4 +1,4 @@
-#include "DraftOverlay.h"
+#include "draftoverlay.h"
 #include "../macros.h"
 
 #include <QApplication>

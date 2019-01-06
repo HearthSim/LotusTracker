@@ -10,7 +10,7 @@
 #include "mtg/mtgamatch.h"
 #include "ui/deckoverlayplayer.h"
 #include "ui/deckoverlayopponent.h"
-#include "ui/draftoverlay.h"
+#include "ui/deckoverlaydraft.h"
 #include "ui/preferencesscreen.h"
 #include "ui/startscreen.h"
 #include "ui/trayicon.h"
@@ -32,7 +32,7 @@ private:
     QLocalServer *localServer;
     DeckOverlayPlayer *deckOverlayPlayer;
     DeckOverlayOpponent *deckOverlayOpponent;
-    DraftOverlay *draftOverlay;
+    DeckOverlayDraft *deckOverlayDraft;
     TrayIcon *trayIcon;
     PreferencesScreen *preferencesScreen;
     StartScreen *startScreen;

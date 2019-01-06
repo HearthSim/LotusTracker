@@ -43,7 +43,7 @@ void TabGeneral::applyCurrentSettings()
 {
     ui->cbStartAtLogin->setChecked(APP_SETTINGS->isAutoStartEnabled());
     ui->btCheckUpdate->setChecked(LOTUS_TRACKER->sparkleUpdater->AutomaticallyChecksForUpdates());
-    ui->cbDOEnabled->setChecked(APP_SETTINGS->isDraftOverlayEnabled());
+    ui->cbDOEnabled->setChecked(APP_SETTINGS->isDeckOverlayDraftEnabled());
     ui->cbPOEnabled->setChecked(APP_SETTINGS->isDeckOverlayPlayerEnabled());
     ui->cbOOEnabled->setChecked(APP_SETTINGS->isDeckOverlayOpponentEnabled());
     ui->cbHideOnLoseGameFocus->setChecked(APP_SETTINGS->isHideOnLoseGameFocusEnabled());
@@ -72,9 +72,9 @@ void TabGeneral::onAutoUpdateChanged()
 void TabGeneral::onDOEnabledChanged()
 {
     bool enabled = ui->cbDOEnabled->isChecked();
-    emit sgnDraftOverlayEnabled(enabled);
-    LOGD(QString("DraftOverlayEnabled: %1").arg(enabled ? "true" : "false"));
-    APP_SETTINGS->enableDraftOverlay(enabled);
+    emit sgnDeckOverlayDraftEnabled(enabled);
+    LOGD(QString("DeckOverlayDraftEnabled: %1").arg(enabled ? "true" : "false"));
+    APP_SETTINGS->enableDeckOverlayDraft(enabled);
 }
 
 void TabGeneral::onPOEnabledChanged()

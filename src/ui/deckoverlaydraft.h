@@ -1,12 +1,12 @@
-#ifndef DRAFTOVERLAY_H
-#define DRAFTOVERLAY_H
+#ifndef DECKOVERLAYDRAFT_H
+#define DECKOVERLAYDRAFT_H
 
 #include "deckoverlaybase.h"
 #include "../entity/card.h"
 
 #include <QWidget>
 
-class DraftOverlay : public DeckOverlayBase
+class DeckOverlayDraft : public DeckOverlayBase
 {
     Q_OBJECT
 private:
@@ -30,8 +30,8 @@ protected:
     virtual void mouseReleaseEvent(QMouseEvent *event);
 
 public:
-    explicit DraftOverlay(QWidget *parent = nullptr);
-    ~DraftOverlay();
+    explicit DeckOverlayDraft(QWidget *parent = nullptr);
+    ~DeckOverlayDraft();
     void applyCurrentSettings();
     void reset();
 
@@ -43,4 +43,4 @@ public slots:
     void onDraftStatus(QList<Card*> availablePicks, QList<Card*> pickedCards);
 };
 
-#endif // DRAFTOVERLAY_H
+#endif // DECKOVERLAYDRAFT_H

@@ -27,7 +27,7 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
     mtgArena = new MtgArena(this);
     deckOverlayPlayer = new DeckOverlayPlayer();
     deckOverlayOpponent = new DeckOverlayOpponent();
-    draftOverlay = new DraftOverlay();
+    deckOverlayDraft = new DeckOverlayDraft();
     trayIcon = new TrayIcon(this);
     lotusAPI = new LotusTrackerAPI(this);
     startScreen = new StartScreen(nullptr, lotusAPI);
@@ -40,7 +40,7 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
             this, &LotusTracker::onGameFocusChanged);
     connect(mtgArena, &MtgArena::sgnMTGAStopped,
             this, &LotusTracker::onGameStopped);
-    connect(draftOverlay, &DraftOverlay::sgnRequestPlayerCollection,
+    connect(deckOverlayDraft, &DeckOverlayDraft::sgnRequestPlayerCollection,
             lotusAPI, &LotusTrackerAPI::onRequestPlayerCollection);
     connect(hideTrackerTimer, &QTimer::timeout, this, [this]{
         hideTrackerTimer->stop();
@@ -159,8 +159,8 @@ void LotusTracker::setupPreferencesScreen()
     // Tab General
     connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnRestoreDefaults,
             preferencesScreen->getTabOverlay(), &TabOverlay::onRestoreDefaultsSettings);
-    connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnDraftOverlayEnabled,
-            this, &LotusTracker::onDraftOverlayEnabledChange);
+    connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnDeckOverlayDraftEnabled,
+            this, &LotusTracker::onDeckOverlayDraftEnabledChange);
     connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnPlayerOverlayEnabled,
             this, &LotusTracker::onDeckOverlayPlayerEnabledChange);
     connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnRestoreDefaults,
@@ -198,13 +198,13 @@ void LotusTracker::setupPreferencesScreen()
             deckOverlayOpponent, &DeckOverlayBase::onShowCardOnHoverEnabled);
     // --- Draft Overlay
     connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnTrackerAlpha,
-            draftOverlay, &DeckOverlayBase::changeAlpha);
+            deckOverlayDraft, &DeckOverlayBase::changeAlpha);
     connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnUnhideDelay,
-            draftOverlay, &DeckOverlayBase::changeUnhiddenTimeout);
+            deckOverlayDraft, &DeckOverlayBase::changeUnhiddenTimeout);
     connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnTrackerCardLayout,
-            draftOverlay, &DeckOverlayBase::changeCardLayout);
+            deckOverlayDraft, &DeckOverlayBase::changeCardLayout);
     connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnShowCardManaCostEnabled,
-            draftOverlay, &DeckOverlayBase::onShowCardManaCostEnabled);
+            deckOverlayDraft, &DeckOverlayBase::onShowCardManaCostEnabled);
     // Tab Logs
     connect(logger, &Logger::sgnLog,
             preferencesScreen->getTabLogs(), &TabLogs::onNewLog);
@@ -229,7 +229,7 @@ void LotusTracker::setupLotusAPIConnectsions()
     connect(lotusAPI, &LotusTrackerAPI::sgnTokenRefreshError,
             this, &LotusTracker::onUserTokenRefreshError);
     connect(lotusAPI, &LotusTrackerAPI::sgnPlayerCollection,
-            draftOverlay, &DraftOverlay::setPlayerCollection);
+            deckOverlayDraft, &DeckOverlayDraft::setPlayerCollection);
 }
 
 void LotusTracker::setupLogParserConnections()
@@ -336,17 +336,17 @@ void LotusTracker::publishOrUpdatePlayerDeck(Deck deck)
 
 void LotusTracker::onPlayerCollectionUpdated(QMap<int, int> ownedCards)
 {
-    draftOverlay->setPlayerCollection(ownedCards);
+    deckOverlayDraft->setPlayerCollection(ownedCards);
     lotusAPI->updatePlayerCollection(ownedCards);
     isOnDraftScreen = false;
-    draftOverlay->hide();
+    deckOverlayDraft->hide();
 }
 
 void LotusTracker::onPlayerDecks(QList<Deck> playerDecks)
 {
     UNUSED(playerDecks);
     isOnDraftScreen = false;
-    draftOverlay->hide();
+    deckOverlayDraft->hide();
 }
 
 void LotusTracker::onDeckSubmited(QString eventId, Deck deck)
@@ -364,7 +364,7 @@ void LotusTracker::onEventPlayerCourse(QString eventId, Deck currentDeck)
 void LotusTracker::onMatchStart(QString eventId, OpponentInfo opponentInfo)
 {
     isOnDraftScreen = false;
-    draftOverlay->hide();
+    deckOverlayDraft->hide();
     mtgaMatch->onStartNewMatch(eventId, opponentInfo);
     // Load deck from event in course if not loaded yet (event continues without submitDeck)
     if (eventId == eventPlayerCourse.first) {
@@ -400,11 +400,11 @@ void LotusTracker::onGameStarted()
 
 void LotusTracker::onGameFocusChanged(bool hasFocus)
 {
-    if (isOnDraftScreen && APP_SETTINGS->isDraftOverlayEnabled()) {
+    if (isOnDraftScreen && APP_SETTINGS->isDeckOverlayDraftEnabled()) {
         if (hasFocus) {
-            draftOverlay->show();
+            deckOverlayDraft->show();
         } else if (APP_SETTINGS->isHideOnLoseGameFocusEnabled()) {
-            draftOverlay->hide();
+            deckOverlayDraft->hide();
         }
     }
     if (mtgaMatch->isRunning && APP_SETTINGS->isDeckOverlayPlayerEnabled()) {
@@ -460,12 +460,12 @@ void LotusTracker::onEventFinish(QString eventId, QString deckId, QString deckCo
     lotusAPI->uploadEventResult(eventId, deckId, deckColors, maxWins, wins, losses);
 }
 
-void LotusTracker::onDraftOverlayEnabledChange(bool enabled)
+void LotusTracker::onDeckOverlayDraftEnabledChange(bool enabled)
 {
     if (enabled && isOnDraftScreen) {
-        draftOverlay->show();
+        deckOverlayDraft->show();
     } else {
-        draftOverlay->hide();
+        deckOverlayDraft->hide();
     }
 }
 
@@ -537,11 +537,11 @@ void LotusTracker::onDraftStatus(QString eventId, QString status, int packNumber
     UNUSED(pickedCards);
     UNUSED(availablePicks);
     isOnDraftScreen = true;
-    draftOverlay->onDraftStatus(availablePicks, pickedCards);
+    deckOverlayDraft->onDraftStatus(availablePicks, pickedCards);
     if (status == "Draft.PickNext") {
-        draftOverlay->show();
+        deckOverlayDraft->show();
     } else {
-        draftOverlay->reset();
-        draftOverlay->hide();
+        deckOverlayDraft->reset();
+        deckOverlayDraft->hide();
     }
 }

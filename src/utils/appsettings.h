@@ -53,13 +53,13 @@ public:
     void setDeckOverlayOpponentPos(QPoint pos);
     int getDeckOverlayOpponentScale();
     void setDeckOverlayOpponentScale(int scale);
-    // Draft overlay
-    bool isDraftOverlayEnabled();
-    void enableDraftOverlay(bool enabled);
-    QPoint getDraftOverlayPos(int uiWidth);
-    void setDraftOverlayPos(QPoint pos);
-    int getDraftOverlayScale();
-    void setDraftOverlayScale(int scale);
+    // Deck overlay Draft
+    bool isDeckOverlayDraftEnabled();
+    void enableDeckOverlayDraft(bool enabled);
+    QPoint getDeckOverlayDraftPos(int uiWidth);
+    void setDeckOverlayDraftPos(QPoint pos);
+    int getDeckOverlayDraftScale();
+    void setDeckOverlayDraftScale(int scale);
     // User settings
     void setUserSettings(UserSettings userSettings, QString userName = "");
     UserSettings getUserSettings();
