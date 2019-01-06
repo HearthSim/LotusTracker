@@ -110,6 +110,7 @@ void DeckOverlayBase::setupDrawTools()
     titlePen = QPen(Qt::white);
     QFontMetrics titleMetrics(titleFont);
     titleHeight = titleMetrics.ascent() - titleMetrics.descent();
+    cardHoverHeight = static_cast<int> (cardHoverWidth / 0.7);
     onScaleChanged();
 }
 
@@ -127,6 +128,12 @@ QList<Card*> DeckOverlayBase::getDeckCardsSorted()
                 std::make_tuple(rhs->isLand, rhs->manaCostValue(), rhs->name);
     });
     return sortedDeckCards;
+}
+
+int DeckOverlayBase::cardHoverMarginBottom(QPainter &painter)
+{
+    UNUSED(painter);
+    return 0;
 }
 
 QString DeckOverlayBase::cardQtdFormat()
@@ -228,6 +235,7 @@ void DeckOverlayBase::drawCover(QPainter &painter)
     QRect coverImgRect(uiPos.x() + 1, uiPos.y() + 1, uiWidth, height);
     painter.setBrush(QBrush(QColor(70, 70, 70, 50)));
     painter.drawRoundedRect(coverImgRect, cornerRadius, cornerRadius);
+    coverHeight = coverImgRect.height();
     uiHeight = coverImgRect.height();
 }
 
@@ -309,11 +317,11 @@ void DeckOverlayBase::drawDeckCards(QPainter &painter)
         drawText(painter, cardFont, cardTextPen, cardQtd, cardQtdOptions, false,
                  cardQtdX, cardQtdY, cardTextHeight, cardQtdWidth);
         // Card mana
-        int manaRightMargin = 7;
+        int manaRightMargin = 7 + uiScale/2;
         int manaWidth = manaRightMargin;
         if (isShowCardManaCostEnabled) {
             int manaMargin = 2;
-            int manaSize = 8 + static_cast<int> (uiScale * 0.5);
+            int manaSize = 8 + static_cast<int> (uiScale/2);
             int manaCostWidth = card->manaSymbols.length() * (manaSize + manaMargin);
             int manaX = uiPos.x() + uiWidth - manaRightMargin - manaCostWidth;
             int manaY = cardBGY + cardBGImgSize.height()/2 - manaSize/2;
@@ -374,7 +382,6 @@ void DeckOverlayBase::drawHoverCard(QPainter &painter)
         return;
     }
     int bottomMargin = 10;
-    int cardHoverHeight = static_cast<int> (cardHoverWidth / 0.7);
     QSize cardHoverSize(cardHoverWidth, cardHoverHeight);
     QImage cardImg(":res/cardback.png");
     QString imageFile = QString("%1%2%3.png").arg(cachesDir)
@@ -392,8 +399,9 @@ void DeckOverlayBase::drawHoverCard(QPainter &painter)
     QRect screen = QApplication::desktop()->screenGeometry();
     int cardX = getHoverCardXPosition();
     int cardY = uiPos.y() + (currentHoverPosition * getCardHeight());
-    if (pos().y() + cardY > screen.height() - cardHoverHeight - bottomMargin) {
-        cardY = screen.height() - cardHoverHeight - bottomMargin - pos().y();
+    int hoverMarginBottom = cardHoverMarginBottom(painter);
+    if (pos().y() + cardY + hoverMarginBottom > screen.height() - cardHoverHeight - bottomMargin) {
+        cardY = screen.height() - cardHoverHeight - bottomMargin - pos().y() - hoverMarginBottom;
     }
     QImage cardImgScaled = cardImg.scaled(cardHoverSize,
                                           Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);

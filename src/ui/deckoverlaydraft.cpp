@@ -52,9 +52,27 @@ int DeckOverlayDraft::getDeckNameYPosition()
     return uiPos.y() - titleHeight - 7;
 }
 
-int DraftOverlay::getHoverCardXPosition()
+int DeckOverlayDraft::getHoverCardXPosition()
 {
-    return uiPos.x() + uiWidth + 10;
+    QString rank = hoverCard->lsvRank;
+    QFontMetrics cardMetrics(cardFont);
+    int rankWidth = cardMetrics.width(rank);
+    return uiPos.x() + uiWidth + rankWidth + 15 + uiScale * 3;
+}
+
+int DeckOverlayDraft::cardHoverMarginBottom(QPainter &painter)
+{
+    float ratio = isShowCardManaCostEnabled ? 4 : 3.5f;
+    int heightRaw = static_cast<int>(uiWidth/ratio);
+    int width = static_cast<int>(uiWidth * 1.5);
+
+    painter.setFont(cardFont);
+    float descWidth = painter.fontMetrics().width(hoverCard->lsvDesc);
+    float lineWidth = width - rankDescTextMargin * 2;
+    float linesRaw = descWidth / lineWidth;
+    int lines = qCeil(static_cast<qreal>(linesRaw));
+    int height = heightRaw / 3 * (lines + 2);
+    return height;
 }
 
 QString DeckOverlayDraft::getDeckColorIdentity()
@@ -110,6 +128,35 @@ void DeckOverlayDraft::beforeDrawCardEvent(QPainter &painter, Card *card, int ca
              rankX + uiScale, rankY, rankTextHeight, rankWidth);
 }
 
+void DeckOverlayDraft::drawHoverCard(QPainter &painter)
+{
+    if (!isShowCardOnHoverEnabled || hoverCard == nullptr) {
+        return;
+    }
+    DeckOverlayBase::drawHoverCard(painter);
+    // LVS Desc BG
+    int bottomMargin = 10;
+    int height = cardHoverMarginBottom(painter);
+    int width = static_cast<int>(uiWidth * 1.5);
+    QString desc = QString("\t\t\t\t\tLSV Rank: %1\n%2")
+            .arg(hoverCard->lsvRank).arg(hoverCard->lsvDesc);
+
+    QRect screen = QApplication::desktop()->screenGeometry();
+    int descX = uiPos.x() + uiWidth + 2;
+    int descY = uiPos.y() + (currentHoverPosition * getCardHeight()) + cardHoverHeight;
+    if (pos().y() + descY > screen.height() - height - bottomMargin) {
+        descY = screen.height() - height - bottomMargin - pos().y();
+    }
+
+    QRect descRect(descX, descY, width, height);
+    painter.setPen(bgPen);
+    painter.setBrush(QBrush(QColor(70, 70, 70, 250)));
+    painter.drawRoundedRect(descRect, cornerRadius, cornerRadius);
+
+    int descTextOptions = Qt::AlignLeft | Qt::AlignVCenter | Qt::TextWordWrap;
+    QRect textRect(descX + rankDescTextMargin, descY, width - rankDescTextMargin, height);
+    painter.setPen(QPen(Qt::white));
+    painter.drawText(textRect, descTextOptions, desc);
 }
 
 void DeckOverlayDraft::afterPaintEvent(QPainter &painter)

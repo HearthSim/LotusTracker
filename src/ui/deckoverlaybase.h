@@ -20,8 +20,7 @@ private:
     Ui::TrackerOverlay *ui;
     QString cardBGSkin, cachesDir;
     QRect cardsRect, expandBar;
-    int currentHoverPosition, unhiddenTimeout, stackCardsPixels;
-    Card* hoverCard;
+    int unhiddenTimeout, stackCardsPixels;
     QTimer* unhiddenTimer;
     QNetworkAccessManager networkManager;
     bool mousePressed;
@@ -30,10 +29,8 @@ private:
     // Draw fields and methods
     QMap<Card*, CardBlinkInfo*> cardsBlinkInfo;
     void setupDrawTools();
-    int getCardHeight();
     void onHoverEnter(QHoverEvent *event);
     void onHoverLeave(QHoverEvent *event);
-    int getCardsHoverPosition(QHoverEvent *event);
     void updateCardHoverUrl(int hoverPosition);
     void onRightClick();
     void onExpandBarClick();
@@ -46,7 +43,9 @@ protected:
     QPoint uiPos;
     QRect zoomMinusButton, zoomPlusButton, screen;
     qreal uiAlpha;
-    int cardHoverWidth, titleHeight, uiHeight, uiWidth, uiScale;
+    int cardHoverHeight, cardHoverWidth, titleHeight, coverHeight,
+        uiHeight, uiWidth, uiScale, currentHoverPosition;
+    Card* hoverCard;
     Deck deck;
     bool hidden, isShowCardManaCostEnabled, isShowCardOnHoverEnabled, showingTooltip;
     void blinkCard(Card* card);
@@ -57,10 +56,11 @@ protected:
     void drawDeckInfo(QPainter &painter);
     void drawDeckCards(QPainter &painter);
     void drawExpandBar(QPainter &painter);
-    void drawHoverCard(QPainter &painter);
+    virtual void drawHoverCard(QPainter &painter);
     virtual QList<Card*> getDeckCardsSorted();
     virtual int getDeckNameYPosition() = 0;
     virtual int getHoverCardXPosition() = 0;
+    virtual int cardHoverMarginBottom(QPainter &painter);
     virtual QString getDeckColorIdentity() = 0;
     virtual QString cardQtdFormat();
     virtual bool useGrayscaleForZeroQtd();
@@ -70,6 +70,8 @@ protected:
     virtual void beforeDrawCardEvent(QPainter &painter, Card* card, int cardBGY);
     virtual bool event(QEvent *event);
     virtual void onHoverMove(QHoverEvent *event);
+    int getCardHeight();
+    int getCardsHoverPosition(QHoverEvent *event);
     virtual void mousePressEvent(QMouseEvent *event);
     virtual void mouseMoveEvent(QMouseEvent *event);
     virtual void mouseReleaseEvent(QMouseEvent *event);

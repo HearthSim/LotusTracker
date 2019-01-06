@@ -21,12 +21,14 @@ protected:
     virtual QList<Card*> getDeckCardsSorted();
     virtual int getDeckNameYPosition();
     virtual int getHoverCardXPosition();
+    virtual int cardHoverMarginBottom(QPainter &painter);
     virtual QString getDeckColorIdentity();
     virtual QString cardQtdFormat();
     virtual bool useGrayscaleForZeroQtd();
     virtual void onPositionChanged();
     virtual void onScaleChanged();    
     virtual void beforeDrawCardEvent(QPainter &painter, Card* card, int cardBGY);
+    virtual void drawHoverCard(QPainter &painter);
     virtual void afterPaintEvent(QPainter &painter);
     virtual void onHoverMove(QHoverEvent *event);
     virtual void mousePressEvent(QMouseEvent *event);
