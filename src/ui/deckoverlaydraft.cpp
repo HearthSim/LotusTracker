@@ -205,7 +205,7 @@ void DeckOverlayDraft::udpateAvailableCardsList(QList<Card *> availablePicks)
 {
     deck.clear();
     for (Card* card : availablePicks) {
-        int qtdOwned = playerCollection[card->mtgaId];
+        int qtdOwned = playerCollection[card->mtgaId] + deck.currentCards()[card];
         deck.setCardQtd(card, qtdOwned);
     }
     update();
