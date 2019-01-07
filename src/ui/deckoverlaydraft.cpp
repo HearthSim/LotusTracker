@@ -31,8 +31,8 @@ QList<Card *> DeckOverlayDraft::getDeckCardsSorted()
 {
     QList<Card*> sortedDeckCards(deck.currentCards().keys());
     std::sort(std::begin(sortedDeckCards), std::end(sortedDeckCards), [](Card*& lhs, Card*& rhs) {
-        QList<QString> rarities = { "common", "uncommon", "rare", "mythic" };
-        QList<QString> colors = { "c", "a", "m", "d", "g", "r", "b", "u", "w" };
+        QList<QString> rarities = { "mythic", "rare", "uncommon", "common" };
+        QList<QString> colors = { "w", "u", "b", "r", "g", "d", "m", "a", "c" };
         QString lhsColors = lhs->borderColorIdentityAsString();
         if (lhsColors.length() > 1) {
             lhsColors = "d";
@@ -41,8 +41,8 @@ QList<Card *> DeckOverlayDraft::getDeckCardsSorted()
         if (rhsColors.length() > 1) {
             rhsColors = "d";
         }
-        return std::make_tuple(rarities.indexOf(lhs->rarity), colors.indexOf(lhsColors), lhs->name) >
-                std::make_tuple(rarities.indexOf(rhs->rarity), colors.indexOf(rhsColors), rhs->name);
+        return std::make_tuple(rarities.indexOf(lhs->rarity), colors.indexOf(lhsColors), lhs->cmc) <
+                std::make_tuple(rarities.indexOf(rhs->rarity), colors.indexOf(rhsColors), rhs->cmc);
     });
     return sortedDeckCards;
 }
@@ -109,14 +109,14 @@ void DeckOverlayDraft::beforeDrawCardEvent(QPainter &painter, Card *card, int ca
     int rankTextOptions = Qt::AlignRight | Qt::AlignVCenter | Qt::TextDontClip;
     painter.setFont(rankFont);
     QString rank = card->lsvRank;
-    int rankWidth = painter.fontMetrics().width(rank);
+    int rankWidth = painter.fontMetrics().width(QString(rank).replace("//", "/"));
     int rankX = uiPos.x() + uiWidth;
     int rankY = cardBGY + getCardHeight()/2 - rankTextHeight/2;
 #if defined Q_OS_WIN
     rankY -= 1;
 #endif
 
-    int rankBGWidth = rankWidth + rankMargin + rankMargin;
+    int rankBGWidth = rankWidth + rankMargin * 2;
     int rankBGX = rankX - rankMargin;
     QRect descRect(rankBGX, cardBGY, rankBGWidth, getCardHeight() - 1);
     painter.setPen(bgPen);
@@ -137,7 +137,7 @@ void DeckOverlayDraft::drawHoverCard(QPainter &painter)
     // LVS Desc BG
     int bottomMargin = 10;
     int height = cardHoverMarginBottom(painter);
-    int width = static_cast<int>(uiWidth * 1.5);
+    int width = static_cast<int>(uiWidth * 2);
     QString desc = QString("\t\t\t\t\tLSV Rank: %1\n%2")
             .arg(hoverCard->lsvRank).arg(hoverCard->lsvDesc);
 
