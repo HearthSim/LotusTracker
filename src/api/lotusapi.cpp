@@ -331,7 +331,7 @@ void LotusTrackerAPI::getMatchInfoRequestOnFinish()
     if (statusCode < 200 || statusCode > 299) {
         QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
         LOGW(QString("Error: %1 - %2").arg(reply->errorString()).arg(reason));
-        if (statusCode == 401) {    //Token expired
+        if (statusCode == 401 || statusCode == 403) {    //Token expired
             UserSettings userSettings = APP_SETTINGS->getUserSettings();
             refreshToken(userSettings.refreshToken);
             return;
@@ -378,7 +378,7 @@ void LotusTrackerAPI::getPlayerDeckToUpdateRequestOnFinish()
     int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     if (statusCode < 200 || statusCode > 299) {
         QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
-        if (statusCode == 401) {    //Token expired
+        if (statusCode == 401 || statusCode == 403) {    //Token expired
             UserSettings userSettings = APP_SETTINGS->getUserSettings();
             refreshToken(userSettings.refreshToken);
             return;
@@ -472,8 +472,8 @@ void LotusTrackerAPI::getPlayerCollectionRequestOnFinish()
     int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     if (statusCode < 200 || statusCode > 299) {
         QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
-        LOGW(QString("Error: %1 - %2").arg(reply->errorString()).arg(reason));
-        if (statusCode == 401) {    //Token expired
+        LOGW(QString("Error: %1 - %2: %3").arg(reply->errorString()).arg(reason));
+        if (statusCode == 401 || statusCode == 403) {    //Token expired
             UserSettings userSettings = APP_SETTINGS->getUserSettings();
             refreshToken(userSettings.refreshToken);
             return;
@@ -617,7 +617,7 @@ void LotusTrackerAPI::requestOnFinish()
     if (statusCode < 200 || statusCode > 299) {
         QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
         LOGW(QString("Error: %1 - %2").arg(reply->errorString()).arg(reason));
-        if (statusCode == 401) {    //Token expired
+        if (statusCode == 401 || statusCode == 403) {    //Token expired
             UserSettings userSettings = APP_SETTINGS->getUserSettings();
             refreshToken(userSettings.refreshToken);
             return;

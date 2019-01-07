@@ -2,7 +2,7 @@
 #include "../macros.h"
 
 MtgaMatch::MtgaMatch(QObject *parent, MtgCards *mtgCards)
-    : QObject(parent), mtgCards(mtgCards)
+    : QObject(parent), mtgCards(mtgCards), isRunning(false)
 {
     playerRankInfo = qMakePair(QString(""), 0);
 }
