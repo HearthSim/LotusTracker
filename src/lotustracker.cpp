@@ -382,10 +382,10 @@ void LotusTracker::onGameStart(MatchMode mode, QList<MatchZone> zones, int seatI
         return;
     }
     mtgaMatch->onGameStart(mode, zones, seatId);
-    if (APP_SETTINGS->isDeckOverlayPlayerEnabled()) {
+    if (APP_SETTINGS->isDeckOverlayPlayerEnabled() && mtgArena->isFocused) {
         deckOverlayPlayer->show();
     }
-    if (APP_SETTINGS->isDeckOverlayOpponentEnabled()) {
+    if (APP_SETTINGS->isDeckOverlayOpponentEnabled() && mtgArena->isFocused) {
         deckOverlayOpponent->show();
     }
     if (APP_SETTINGS->isFirstMatch()) {
