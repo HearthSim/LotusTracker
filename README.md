@@ -10,6 +10,7 @@ This source code already builds a Windows and Mac OS version of Lotus Tracker.
 * Show opponent drawed cards
 * Show opponent's deck archetype (Based on cards played)
 * Hover to see full card
+* Draft Helper with LSV cards tier
 * Player draw statistics
 * Player deck winrate
 * Minimize tracker on right click
@@ -21,6 +22,8 @@ This source code already builds a Windows and Mac OS version of Lotus Tracker.
 ![LotusTracker Player](/extras/LotusTracker.png)
 
 ![LotusTracker Player](/extras/LotusTracker2.png)
+
+![LotusTracker Draft Helper](/extras/DraftHelper.png)
 
 [More info](https://www.mtglotusvalley.com/lotustracker)
 
