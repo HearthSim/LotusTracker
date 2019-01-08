@@ -12,10 +12,10 @@ class DeckOverlayDraft : public DeckOverlayBase
 private:
     int rankDescTextMargin;
     QFont rankFont;
-    QList<Card *> availablePicks;
+    QList<Card *> availablePicks, pickedCards;
     QMap<int, int> playerCollection;
     QRect preferencesButton;
-    void udpateAvailableCardsList(QList<Card *> availablePicks);
+    void udpateAvailableCardsList(QList<Card *> availablePicks, QList<Card*> pickedCards);
 
 protected:    
     virtual QList<Card*> getDeckCardsSorted();

@@ -103,29 +103,34 @@ void DeckOverlayDraft::onScaleChanged()
 
 void DeckOverlayDraft::beforeDrawCardEvent(QPainter &painter, Card *card, int cardBGY)
 {
-    int rankMargin = 10 + uiScale/2;
+    int rankMargin = 2 + uiScale;
     QFontMetrics cardMetrics(rankFont);
     int rankTextHeight = cardMetrics.ascent() - cardMetrics.descent();
-    int rankTextOptions = Qt::AlignRight | Qt::AlignVCenter | Qt::TextDontClip;
+    int rankTextOptions = Qt::AlignLeft | Qt::AlignVCenter | Qt::TextDontClip;
     painter.setFont(rankFont);
     QString rank = card->lsvRank;
-    int rankWidth = painter.fontMetrics().width(QString(rank).replace("//", "/"));
-    int rankX = uiPos.x() + uiWidth;
+    int rankWidth = painter.fontMetrics().width(rank);
+    int rankX = uiPos.x() + uiWidth + 2;
     int rankY = cardBGY + getCardHeight()/2 - rankTextHeight/2;
 #if defined Q_OS_WIN
     rankY -= 1;
 #endif
 
-    int rankBGWidth = rankWidth + rankMargin * 2;
-    int rankBGX = rankX - rankMargin;
+    int rankBGWidth = rankWidth + rankMargin * 4;
+    int rankBGX = rankX - rankMargin * 3;
     QRect descRect(rankBGX, cardBGY, rankBGWidth, getCardHeight() - 1);
     painter.setPen(bgPen);
     painter.setBrush(QBrush(QColor(70, 70, 70, 200)));
     painter.drawRoundedRect(descRect, cornerRadius, cornerRadius);
 
-    QPen rankPen = QPen(Qt::white);
+    QPen rankPen = QPen(Qt::yellow);
+    if (rank < "2.0") {
+        rankPen = QPen(Qt::white);
+    } else if (rank > "3.0") {
+        rankPen = QPen(Qt::green);
+    }
     drawText(painter, cardFont, rankPen, rank, rankTextOptions, true,
-             rankX + uiScale, rankY, rankTextHeight, rankWidth);
+             rankX, rankY, rankTextHeight, rankWidth);
 }
 
 void DeckOverlayDraft::drawHoverCard(QPainter &painter)
@@ -137,8 +142,8 @@ void DeckOverlayDraft::drawHoverCard(QPainter &painter)
     // LVS Desc BG
     int bottomMargin = 10;
     int height = cardHoverMarginBottom(painter);
-    int width = static_cast<int>(uiWidth * 2);
-    QString desc = QString("\t\t\t\t\tLSV Rank: %1\n%2")
+    int width = static_cast<int>(uiWidth * 1.6);
+    QString desc = QString("\t\t\t\t\tLSV Tier: %1\n%2")
             .arg(hoverCard->lsvRank).arg(hoverCard->lsvDesc);
 
     QRect screen = QApplication::desktop()->screenGeometry();
@@ -154,8 +159,9 @@ void DeckOverlayDraft::drawHoverCard(QPainter &painter)
     painter.drawRoundedRect(descRect, cornerRadius, cornerRadius);
 
     int descTextOptions = Qt::AlignLeft | Qt::AlignVCenter | Qt::TextWordWrap;
-    QRect textRect(descX + rankDescTextMargin, descY, width - rankDescTextMargin, height);
-    painter.setPen(QPen(Qt::white));
+    QRect textRect(descX + rankDescTextMargin, descY,
+                   width - rankDescTextMargin * 2, height);
+    painter.setPen(QPen(Qt::yellow));
     painter.drawText(textRect, descTextOptions, desc);
 }
 
@@ -179,6 +185,7 @@ void DeckOverlayDraft::reset()
     deck.clear();
     deck.updateTitle("");
     availablePicks.clear();
+    pickedCards.clear();
     playerCollection.clear();
     update();
 }
@@ -187,26 +194,32 @@ void DeckOverlayDraft::setPlayerCollection(QMap<int, int> ownedCards)
 {
     playerCollection = ownedCards;
     if (!availablePicks.isEmpty()) {
-        udpateAvailableCardsList(availablePicks);
+        udpateAvailableCardsList(availablePicks, pickedCards);
     }
 }
 
 void DeckOverlayDraft::onDraftStatus(QList<Card *> availablePicks, QList<Card *> pickedCards)
 {
-    UNUSED(pickedCards);
     this->availablePicks = availablePicks;
+    this->pickedCards = pickedCards;
     if (playerCollection.keys().isEmpty()) {
         emit sgnRequestPlayerCollection();
     }
-    udpateAvailableCardsList(availablePicks);
+    udpateAvailableCardsList(availablePicks, pickedCards);
 }
 
-void DeckOverlayDraft::udpateAvailableCardsList(QList<Card *> availablePicks)
+void DeckOverlayDraft::udpateAvailableCardsList(QList<Card*> availablePicks, QList<Card*> pickedCards)
 {
     deck.clear();
     for (Card* card : availablePicks) {
-        int qtdOwned = playerCollection[card->mtgaId] + deck.currentCards()[card];
-        deck.setCardQtd(card, qtdOwned);
+        int qtdPicked = 0;
+        for (Card* cardPicked : pickedCards) {
+            if (cardPicked->mtgaId == card->mtgaId) {
+                qtdPicked++;
+            }
+        }
+        int qtdOwned = playerCollection[card->mtgaId];
+        deck.setCardQtd(card, qtdOwned + qtdPicked);
     }
     update();
 }
