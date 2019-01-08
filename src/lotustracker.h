@@ -8,8 +8,9 @@
 #include "mtg/mtgcards.h"
 #include "mtg/mtgdecksarch.h"
 #include "mtg/mtgamatch.h"
-#include "ui/decktrackerplayer.h"
-#include "ui/decktrackeropponent.h"
+#include "ui/deckoverlayplayer.h"
+#include "ui/deckoverlayopponent.h"
+#include "ui/deckoverlaydraft.h"
 #include "ui/preferencesscreen.h"
 #include "ui/startscreen.h"
 #include "ui/trayicon.h"
@@ -29,19 +30,22 @@ class LotusTracker : public QApplication
 
 private:
     QLocalServer *localServer;
-    DeckTrackerPlayer *deckTrackerPlayer;
-    DeckTrackerOpponent *deckTrackerOpponent;
+    DeckOverlayPlayer *deckOverlayPlayer;
+    DeckOverlayOpponent *deckOverlayOpponent;
+    DeckOverlayDraft *deckOverlayDraft;
     TrayIcon *trayIcon;
     PreferencesScreen *preferencesScreen;
     StartScreen *startScreen;
     LotusTrackerAPI *lotusAPI;
     QPair<QString, Deck> eventPlayerCourse;
     QTimer *hideTrackerTimer, *checkConnection;
+    bool isOnDraftScreen;
     bool isAlreadyRunning();
     bool isOnline();
     void setupApp();
     void setupUpdater();
     void setupPreferencesScreen();
+    void setupLotusAPIConnectsions();
     void setupLogParserConnections();
     void setupMtgaMatchConnections();
     void checkForAutoLogin();
@@ -67,6 +71,8 @@ public:
 signals:
 
 private slots:
+    void onPlayerCollectionUpdated(QMap<int, int> ownedCards);
+    void onPlayerDecks(QList<Deck> playerDecks);
     void onDeckSubmited(QString eventId, Deck deck);
     void onEventPlayerCourse(QString eventId, Deck currentDeck);
     void onMatchStart(QString eventId, OpponentInfo match);
@@ -78,11 +84,14 @@ private slots:
     void onMatchEnds(int winningTeamId);
     void onEventFinish(QString eventId, QString deckId, QString deckColors,
                        int maxWins, int wins, int losses);
-    void onDeckTrackerPlayerEnabledChange(bool enabled);
-    void onDeckTrackerOpponentEnabledChange(bool enabled);
+    void onDeckOverlayDraftEnabledChange(bool enabled);
+    void onDeckOverlayPlayerEnabledChange(bool enabled);
+    void onDeckOverlayOpponentEnabledChange(bool enabled);
     void onUserSigned(bool fromSignUp);
     void onUserTokenRefreshed();
     void onUserTokenRefreshError();
+    void onDraftStatus(QString eventId, QString status, int packNumber, int pickNumber,
+                       QList<Card*> availablePicks, QList<Card*> pickedCards);
 };
 
 #endif // ARENATRACKER_H

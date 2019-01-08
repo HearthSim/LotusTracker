@@ -1,5 +1,5 @@
 #include "tablogs.h"
-#include "ui_TabLogs.h"
+#include "ui_tablogs.h"
 #include "../macros.h"
 
 TabLogs::TabLogs(QWidget *parent)

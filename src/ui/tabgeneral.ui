@@ -19,7 +19,7 @@
   <property name="windowTitle">
    <string>General</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" columnstretch="0,0,0">
+  <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" columnstretch="0,0,0">
    <property name="sizeConstraint">
     <enum>QLayout::SetDefaultConstraint</enum>
    </property>
@@ -35,82 +35,6 @@
    <property name="verticalSpacing">
     <number>0</number>
    </property>
-   <item row="19" column="1">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeType">
-      <enum>QSizePolicy::Fixed</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="8" column="1">
-    <layout class="QHBoxLayout" name="horizontalLayout_9">
-     <item>
-      <widget class="QPushButton" name="btCheckUpdate">
-       <property name="statusTip">
-        <string>Verify if there is a new version now</string>
-       </property>
-       <property name="text">
-        <string>Check for update now</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_12">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </item>
-   <item row="7" column="1">
-    <widget class="QCheckBox" name="cbAutoUpdate">
-     <property name="statusTip">
-      <string>Automatically verify for new versions</string>
-     </property>
-     <property name="text">
-      <string>Check for updates automatically</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QCheckBox" name="cbStartAtLogin">
-     <property name="statusTip">
-      <string>Start Lotus Tracker with system</string>
-     </property>
-     <property name="text">
-      <string>Start at login</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>System</string>
-     </property>
-    </widget>
-   </item>
    <item row="1" column="2">
     <spacer name="horizontalSpacer_6">
      <property name="orientation">
@@ -127,7 +51,62 @@
      </property>
     </spacer>
    </item>
-   <item row="18" column="1">
+   <item row="5" column="1">
+    <widget class="QCheckBox" name="cbHideOnLoseGameFocus">
+     <property name="statusTip">
+      <string>When change focus to other apps, hide cards overlay.</string>
+     </property>
+     <property name="text">
+      <string>Hide cards overlay when lose game focus</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QCheckBox" name="cbPOEnabled">
+     <property name="statusTip">
+      <string>Show player deck with cards drawed</string>
+     </property>
+     <property name="text">
+      <string>Enable player cards overlay</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="20" column="1">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="4" column="1">
+    <widget class="QCheckBox" name="cbOOEnabled">
+     <property name="statusTip">
+      <string>Show opponent cards drawed</string>
+     </property>
+     <property name="text">
+      <string>Enable opponent cards overlay</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="19" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout_5">
      <item>
       <widget class="QPushButton" name="btReset">
@@ -154,20 +133,94 @@
      </item>
     </layout>
    </item>
-   <item row="3" column="1">
-    <widget class="QCheckBox" name="cbOTEnabled">
+   <item row="7" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Updates</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="1">
+    <layout class="QHBoxLayout" name="horizontalLayout_9">
+     <item>
+      <widget class="QPushButton" name="btCheckUpdate">
+       <property name="statusTip">
+        <string>Verify if there is a new version now</string>
+       </property>
+       <property name="text">
+        <string>Check for update now</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_12">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item row="6" column="1">
+    <widget class="Line" name="line_2">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>20</height>
+      </size>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QCheckBox" name="cbStartAtLogin">
      <property name="statusTip">
-      <string>Show opponent cards drawed</string>
+      <string>Start Lotus Tracker with system</string>
      </property>
      <property name="text">
-      <string>Enable opponent cards overlay</string>
+      <string>Start at login</string>
      </property>
      <property name="checked">
       <bool>true</bool>
      </property>
     </widget>
    </item>
-   <item row="9" column="1">
+   <item row="8" column="1">
+    <widget class="QCheckBox" name="cbAutoUpdate">
+     <property name="statusTip">
+      <string>Automatically verify for new versions</string>
+     </property>
+     <property name="text">
+      <string>Check for updates automatically</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Settings</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>System</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="1">
     <widget class="Line" name="line">
      <property name="minimumSize">
       <size>
@@ -181,52 +234,12 @@
     </widget>
    </item>
    <item row="2" column="1">
-    <widget class="QCheckBox" name="cbPTEnabled">
+    <widget class="QCheckBox" name="cbDOEnabled">
      <property name="statusTip">
-      <string>Show player deck with cards drawed</string>
+      <string>Draft help show you cards ranking by Luis Scott-Vargas (LSV)</string>
      </property>
      <property name="text">
-      <string>Enable player cards overlay</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="0">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Updates</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="1">
-    <widget class="Line" name="line_2">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>20</height>
-      </size>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="11" column="0">
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string>Settings</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="1">
-    <widget class="QCheckBox" name="cbHideOnLoseGameFocus">
-     <property name="statusTip">
-      <string>When change focus to other apps, hide cards overlay.</string>
-     </property>
-     <property name="text">
-      <string>Hide cards overlay when lose game focus</string>
+      <string>Enable Draft helper overlay</string>
      </property>
      <property name="checked">
       <bool>true</bool>

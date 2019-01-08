@@ -10,11 +10,11 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = LotusTracker
 TEMPLATE = app
-VERSION = 1.0.3
+VERSION = 1.1.0
 
 CONFIG+=c++11
 
-CONFIG(debug, debug|release)
+CONFIG(release, debug|release)
 
 # asmCrashReport - https://github.com/asmaloney/asmCrashReport
 include(asmCrashReport.pri)
@@ -59,9 +59,10 @@ HEADERS += \
     src/mtg/mtgcards.h \
     src/mtg/mtgdecksarch.h \
     src/ui/cardblinkinfo.h \
-    src/ui/decktrackerbase.h \
-    src/ui/decktrackerplayer.h \
-    src/ui/decktrackeropponent.h \
+    src/ui/deckoverlaybase.h \
+    src/ui/deckoverlaydraft.h \
+    src/ui/deckoverlayopponent.h \
+    src/ui/deckoverlayplayer.h \
     src/ui/preferencesscreen.h \
     src/ui/startscreen.h \
     src/ui/tababout.h \
@@ -93,9 +94,10 @@ SOURCES += \
     src/mtg/mtgamatch.cpp \
     src/mtg/mtgcards.cpp \
     src/mtg/mtgdecksarch.cpp \
-    src/ui/decktrackerbase.cpp \
-    src/ui/decktrackerplayer.cpp \
-    src/ui/decktrackeropponent.cpp \
+    src/ui/deckoverlaybase.cpp \
+    src/ui/deckoverlaydraft.cpp \
+    src/ui/deckoverlayopponent.cpp \
+    src/ui/deckoverlayplayer.cpp \
     src/ui/preferencesscreen.cpp \
     src/ui/startscreen.cpp \
     src/ui/tababout.cpp \

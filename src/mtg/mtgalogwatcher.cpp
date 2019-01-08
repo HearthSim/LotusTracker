@@ -17,7 +17,7 @@ MtgaLogWatcher::MtgaLogWatcher(QObject *parent) : QObject(parent),
 {
     QString homeDir = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
     logPath = homeDir + QDir::separator() + (WATCH_TEST_LOG ? LOG_PATH_TEST : LOG_PATH);
-    MtgArena* mtgArena = (MtgArena*) parent;
+    MtgArena* mtgArena = static_cast<MtgArena*>(parent);
     if (WATCH_TEST_LOG) {
         startWatching();
     } else {

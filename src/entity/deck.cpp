@@ -144,6 +144,11 @@ void Deck::insertCard(Card *card)
     }
 }
 
+void Deck::setCardQtd(Card *card, int qtd)
+{
+    cardsCurrent[card] = qtd;
+}
+
 QString Deck::calcColorIdentity(QMap<Card*, int> cards, bool includeLands)
 {
     QList<QChar> distinctManaSymbols;

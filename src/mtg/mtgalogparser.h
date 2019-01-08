@@ -45,6 +45,7 @@ private:
     void parseGreToClientMessages(QString json);
     void parseGameStateFull(QJsonObject jsonMessage);
     void parseGameStateDiff(int playerSeatId, int gameStateId, QJsonObject jsonMessage);
+    void parseDraftStatus(QString json);
     void checkMulligans(int playerSeatId, QList<int> diffDeletedInstanceIds,
                         QList<MatchZone> zones);
     bool listContainsSublist(QList<int> list, QList<int> subList);
@@ -82,6 +83,8 @@ signals:
     void sgnNewTurnStarted(int turnNumber);
     void sgnEventFinish(QString eventId, QString deckId, QString deckColors,
                         int maxWins, int wins, int losses);
+    void sgnDraftStatus(QString eventId, QString status, int packNumber, int pickNumber,
+                        QList<Card*> availablePicks, QList<Card*> pickedCards);
 
 public slots:
 };

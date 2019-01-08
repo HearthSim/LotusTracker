@@ -1,12 +1,12 @@
-#ifndef DECKTRACKEROPPONENT_H
-#define DECKTRACKEROPPONENT_H
+#ifndef DECKOVERLAYOPPONENT_H
+#define DECKOVERLAYOPPONENT_H
 
-#include "decktrackerbase.h"
+#include "deckoverlaybase.h"
 #include "../entity/card.h"
 
 #include <QWidget>
 
-class DeckTrackerOpponent : public DeckTrackerBase
+class DeckOverlayOpponent : public DeckOverlayBase
 {
     Q_OBJECT
 private:
@@ -23,8 +23,8 @@ protected:
     void insertCard(Card* card);
 
 public:
-    explicit DeckTrackerOpponent(QWidget *parent = nullptr);
-    ~DeckTrackerOpponent();
+    explicit DeckOverlayOpponent(QWidget *parent = nullptr);
+    ~DeckOverlayOpponent();
     void applyCurrentSettings();
     void setEventId(QString eventId);
     void reset();
@@ -40,4 +40,4 @@ public slots:
     void onOpponentPutOnBattlefieldCard(Card* card);
 };
 
-#endif // DECKTRACKEROPPONENT_H
+#endif // DECKOVERLAYOPPONENT_H

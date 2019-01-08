@@ -35,6 +35,7 @@ private:
     void getPlayerDeckToUpdateRequestOnFinish();
     void getMatchInfoRequestOnFinish();
     Deck jsonToDeck(QJsonObject deckJson);
+    void getPlayerCollectionRequestOnFinish();
     void registerPlayerMatch(QString matchID);
     void uploadMatchRequestOnFinish();
     QNetworkRequest prepareGetRequest(RequestData requestData, bool checkUserAuth,
@@ -78,6 +79,10 @@ signals:
     void sgnTokenRefreshError();
     void sgnDeckWinRate(int wins, int losses, double winRate);
     void sgnEventInfo(QString eventName, QString eventType);
+    void sgnPlayerCollection(QMap<int, int> ownedCards);
+
+public slots:
+    void onRequestPlayerCollection();
 
 private slots:
     void authRequestOnFinish();

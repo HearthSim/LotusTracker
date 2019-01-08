@@ -1,71 +1,71 @@
-#include "decktrackeropponent.h"
+#include "deckoverlayopponent.h"
 #include "../macros.h"
 
 #include <QApplication>
 #include <QPoint>
 
-DeckTrackerOpponent::DeckTrackerOpponent(QWidget *parent) : DeckTrackerBase(parent)
+DeckOverlayOpponent::DeckOverlayOpponent(QWidget *parent) : DeckOverlayBase(parent)
 {
     uiPos.setX(cardHoverWidth + 10);
     applyCurrentSettings();
 }
 
-DeckTrackerOpponent::~DeckTrackerOpponent()
+DeckOverlayOpponent::~DeckOverlayOpponent()
 {
 
 }
 
-void DeckTrackerOpponent::applyCurrentSettings()
+void DeckOverlayOpponent::applyCurrentSettings()
 {
-    move(APP_SETTINGS->getDeckTrackerOpponentPos(uiWidth, cardHoverWidth));
-    uiScale = APP_SETTINGS->getDeckTrackerOpponentScale();
+    move(APP_SETTINGS->getDeckOverlayOpponentPos(uiWidth, cardHoverWidth));
+    uiScale = APP_SETTINGS->getDeckOverlayOpponentScale();
     lastUiScale = uiScale;
-    DeckTrackerBase::onScaleChanged();
+    DeckOverlayBase::onScaleChanged();
 }
 
-int DeckTrackerOpponent::getDeckNameYPosition()
+int DeckOverlayOpponent::getDeckNameYPosition()
 {
     return uiPos.y() - titleHeight - 7;
 }
 
-int DeckTrackerOpponent::getHoverCardXPosition()
+int DeckOverlayOpponent::getHoverCardXPosition()
 {
     return uiPos.x() - cardHoverWidth - 10;
 }
 
-QString DeckTrackerOpponent::getDeckColorIdentity()
+QString DeckOverlayOpponent::getDeckColorIdentity()
 {
     return deck.colorIdentity(false, true);
 }
 
-void DeckTrackerOpponent::onPositionChanged()
+void DeckOverlayOpponent::onPositionChanged()
 {
-    APP_SETTINGS->setDeckTrackerOpponentPos(pos());
+    APP_SETTINGS->setDeckOverlayOpponentPos(pos());
 }
 
-void DeckTrackerOpponent::onScaleChanged()
+void DeckOverlayOpponent::onScaleChanged()
 {
-    DeckTrackerBase::onScaleChanged();
+    DeckOverlayBase::onScaleChanged();
     if (uiScale > lastUiScale) {
         uiPos -= QPoint(10, 0);
     } else {
         uiPos += QPoint(10, 0);
     }
-    APP_SETTINGS->setDeckTrackerOpponentScale(uiScale);
+    APP_SETTINGS->setDeckOverlayOpponentScale(uiScale);
     lastUiScale = uiScale;
 }
 
-void DeckTrackerOpponent::afterPaintEvent(QPainter &painter)
+void DeckOverlayOpponent::afterPaintEvent(QPainter &painter)
 {
     UNUSED(painter);
 }
 
-void DeckTrackerOpponent::setEventId(QString eventId)
+void DeckOverlayOpponent::setEventId(QString eventId)
 {
     this->eventId = eventId;
 }
 
-void DeckTrackerOpponent::reset()
+void DeckOverlayOpponent::reset()
 {
     deck.clear();
     deck.updateTitle("");
@@ -73,38 +73,38 @@ void DeckTrackerOpponent::reset()
     update();
 }
 
-void DeckTrackerOpponent::onReceiveEventInfo(QString name, QString type)
+void DeckOverlayOpponent::onReceiveEventInfo(QString name, QString type)
 {
     UNUSED(name);
     eventType = type;
 }
 
-void DeckTrackerOpponent::onOpponentPutInLibraryCard(Card* card)
+void DeckOverlayOpponent::onOpponentPutInLibraryCard(Card* card)
 {
     deck.drawCard(card); //remove a card from opponent current deck on screen
 }
 
-void DeckTrackerOpponent::onOpponentPlayCard(Card* card)
+void DeckOverlayOpponent::onOpponentPlayCard(Card* card)
 {
     insertCard(card);
 }
 
-void DeckTrackerOpponent::onOpponentDiscardCard(Card* card)
+void DeckOverlayOpponent::onOpponentDiscardCard(Card* card)
 {
     insertCard(card);
 }
 
-void DeckTrackerOpponent::onOpponentDiscardFromLibraryCard(Card* card)
+void DeckOverlayOpponent::onOpponentDiscardFromLibraryCard(Card* card)
 {
     insertCard(card);
 }
 
-void DeckTrackerOpponent::onOpponentPutOnBattlefieldCard(Card* card)
+void DeckOverlayOpponent::onOpponentPutOnBattlefieldCard(Card* card)
 {
     insertCard(card);
 }
 
-void DeckTrackerOpponent::insertCard(Card* card)
+void DeckOverlayOpponent::insertCard(Card* card)
 {
     deck.insertCard(card);
     blinkCard(card);

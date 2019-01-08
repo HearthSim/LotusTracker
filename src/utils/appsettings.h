@@ -37,23 +37,30 @@ public:
     void enableShowOnlyRemainingCards(bool enabled);
     bool isShowDebugLogsEnabled();
     void enableShowDebugLogs(bool enabled);
-    // Deck tracker player
-    bool isDeckTrackerPlayerEnabled();
-    void enableDeckTrackerPlayer(bool enabled);
-    bool isDeckTrackerPlayerStatisticsEnabled();
-    void enableDeckTrackerPlayerStatistics(bool enabled);
-    QPoint getDeckTrackerPlayerPos(int uiWidth);
-    void setDeckTrackerPlayerPos(QPoint pos);
-    int getDeckTrackerPlayerScale();
-    void setDeckTrackerPlayerScale(int scale);
-    // Deck tracker opponent
-    bool isDeckTrackerOpponentEnabled();
-    void enableDeckTrackerOpponent(bool enabled);
-    QPoint getDeckTrackerOpponentPos(int uiWidth, int cardHoverWidth);
-    void setDeckTrackerOpponentPos(QPoint pos);
-    int getDeckTrackerOpponentScale();
-    void setDeckTrackerOpponentScale(int scale);
-
+    // Deck overlay player
+    bool isDeckOverlayPlayerEnabled();
+    void enableDeckOverlayPlayer(bool enabled);
+    bool isDeckOverlayPlayerStatisticsEnabled();
+    void enableDeckOverlayPlayerStatistics(bool enabled);
+    QPoint getDeckOverlayPlayerPos(int uiWidth);
+    void setDeckOverlayPlayerPos(QPoint pos);
+    int getDeckOverlayPlayerScale();
+    void setDeckOverlayPlayerScale(int scale);
+    // Deck overlay opponent
+    bool isDeckOverlayOpponentEnabled();
+    void enableDeckOverlayOpponent(bool enabled);
+    QPoint getDeckOverlayOpponentPos(int uiWidth, int cardHoverWidth);
+    void setDeckOverlayOpponentPos(QPoint pos);
+    int getDeckOverlayOpponentScale();
+    void setDeckOverlayOpponentScale(int scale);
+    // Deck overlay Draft
+    bool isDeckOverlayDraftEnabled();
+    void enableDeckOverlayDraft(bool enabled);
+    QPoint getDeckOverlayDraftPos(int uiWidth);
+    void setDeckOverlayDraftPos(QPoint pos);
+    int getDeckOverlayDraftScale();
+    void setDeckOverlayDraftScale(int scale);
+    // User settings
     void setUserSettings(UserSettings userSettings, QString userName = "");
     UserSettings getUserSettings();
     void clearUserSettings();

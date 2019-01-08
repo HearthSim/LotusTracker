@@ -331,7 +331,9 @@ void LotusTrackerAPI::getMatchInfoRequestOnFinish()
     if (statusCode < 200 || statusCode > 299) {
         QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
         LOGW(QString("Error: %1 - %2").arg(reply->errorString()).arg(reason));
-        if (statusCode == 404) {    //Not found
+        if (statusCode == 401 || statusCode == 403) {    //Token expired
+            UserSettings userSettings = APP_SETTINGS->getUserSettings();
+            refreshToken(userSettings.refreshToken);
             return;
         }
         QString message = jsonRsp["error"].toString();
@@ -357,7 +359,7 @@ void LotusTrackerAPI::getPlayerDeckToUpdate(QString deckID)
         return;
     }
 
-    QString path = QString("users/decks?userId=%1&deckId=%2").arg(userSettings.userId).arg(deckID);
+    QString path = QString("users/decks?deckId=%1").arg(deckID);
     RequestData rqtDeckToUpdate(path);
     LotusTrackerAPIMethod onFinish = &LotusTrackerAPI::getPlayerDeckToUpdateRequestOnFinish;
     QNetworkRequest request = prepareGetRequest(rqtDeckToUpdate, true, onFinish);
@@ -376,6 +378,11 @@ void LotusTrackerAPI::getPlayerDeckToUpdateRequestOnFinish()
     int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     if (statusCode < 200 || statusCode > 299) {
         QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
+        if (statusCode == 401 || statusCode == 403) {    //Token expired
+            UserSettings userSettings = APP_SETTINGS->getUserSettings();
+            refreshToken(userSettings.refreshToken);
+            return;
+        }
         if (statusCode == 404) {    //Not found
             createPlayerDeck(paramDeck);
             return;
@@ -438,6 +445,49 @@ void LotusTrackerAPI::uploadEventResult(QString eventId, QString deckId, QString
     RqtUploadEventResult rqtUploadEventResult(eventId, deckId, deckColors,
                                               maxWins, wins, losses);
     sendPost(rqtUploadEventResult);
+}
+
+void LotusTrackerAPI::onRequestPlayerCollection()
+{
+    UserSettings userSettings = APP_SETTINGS->getUserSettings();
+    if (!userSettings.isUserLogged()) {
+        return;
+    }
+
+    RequestData rqtUserCollection("users/collection");
+    LotusTrackerAPIMethod onFinish = &LotusTrackerAPI::getPlayerCollectionRequestOnFinish;
+    QNetworkRequest request = prepareGetRequest(rqtUserCollection, true, onFinish);
+    sendGet(rqtUserCollection, onFinish);
+}
+
+void LotusTrackerAPI::getPlayerCollectionRequestOnFinish()
+{
+    QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
+    QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());
+    if (LOG_REQUEST_ENABLED) {
+        LOGD(QString(QJsonDocument(jsonRsp).toJson()));
+    }
+    emit sgnRequestFinished();
+
+    int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    if (statusCode < 200 || statusCode > 299) {
+        QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
+        LOGW(QString("Error: %1 - %2: %3").arg(reply->errorString()).arg(reason));
+        if (statusCode == 401 || statusCode == 403) {    //Token expired
+            UserSettings userSettings = APP_SETTINGS->getUserSettings();
+            refreshToken(userSettings.refreshToken);
+            return;
+        }
+        QString message = jsonRsp["error"].toString();
+        LOTUS_TRACKER->showMessage(message);
+        return;
+    }
+
+    QMap<int, int> userCollection;
+    for (QString mtgaId : jsonRsp.keys()) {
+         userCollection[mtgaId.toInt()] = jsonRsp[mtgaId].toInt();
+    }
+    emit sgnPlayerCollection(userCollection);
 }
 
 void LotusTrackerAPI::uploadMatchRequestOnFinish()
@@ -567,7 +617,7 @@ void LotusTrackerAPI::requestOnFinish()
     if (statusCode < 200 || statusCode > 299) {
         QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
         LOGW(QString("Error: %1 - %2").arg(reply->errorString()).arg(reason));
-        if (statusCode == 401) {    //Token expired
+        if (statusCode == 401 || statusCode == 403) {    //Token expired
             UserSettings userSettings = APP_SETTINGS->getUserSettings();
             refreshToken(userSettings.refreshToken);
             return;
