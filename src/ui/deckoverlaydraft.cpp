@@ -218,8 +218,11 @@ void DeckOverlayDraft::udpateAvailableCardsList(QList<Card*> availablePicks, QLi
                 qtdPicked++;
             }
         }
-        int qtdOwned = playerCollection[card->mtgaId];
-        deck.setCardQtd(card, qtdOwned + qtdPicked);
+        int qtdOwned = playerCollection[card->mtgaId] + qtdPicked;
+        if (qtdOwned > 4) {
+            qtdOwned = 4;
+        }
+        deck.setCardQtd(card, qtdOwned);
     }
     update();
 }
