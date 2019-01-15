@@ -10,7 +10,7 @@ StartScreen::StartScreen(QWidget *parent, LotusTrackerAPI *lotusAPI) : QMainWind
     ui(new Ui::Start()), lotusAPI(lotusAPI), reRawEmail(QRegularExpression(REGEXP_RAW_EMAIL))
 {
     ui->setupUi(this);
-    setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
 
     int belerenID = QFontDatabase::addApplicationFont(":/res/fonts/Beleren-Bold.ttf");
