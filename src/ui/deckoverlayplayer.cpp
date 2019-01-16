@@ -261,6 +261,7 @@ void DeckOverlayPlayer::loadDeck(Deck deck)
 void DeckOverlayPlayer::loadDeckWithSideboard(QMap<Card*, int> cards, QMap<Card*, int> sideboard)
 {
     this->deck.updateCards(cards, sideboard);
+    update();
     LOGI("Deck with sideboard loaded");
 }
 
