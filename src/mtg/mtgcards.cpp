@@ -37,6 +37,7 @@ Card* MtgCards::findCard(int mtgaId)
     if (cards.keys().contains(mtgaId)) {
         return cards[mtgaId];
     } else {
+        LOTUS_TRACKER->gaTracker->sendEvent("Card", "Unknown", QString("%1").arg(mtgaId));
         return new Card(mtgaId, 0, "", "", "", QString("UNKNOWN %1").arg(mtgaId));
     }
 }
@@ -91,8 +92,8 @@ void MtgCards::loadSet(QString setCodeVersion)
 
 void MtgCards::downloadSet(QString setCodeVersion)
 {
-    QString setCode = setCodeVersion.left(setCodeVersion.indexOf("_"));
-    QString version = setCodeVersion.right(setCodeVersion.indexOf("_") - 1);
+    QString setCode = setCodeVersion.split("_")[0];
+    QString version = setCodeVersion.split("_")[1];
     QUrlQuery urlQuery;
     urlQuery.addQueryItem("set", setCode);
     urlQuery.addQueryItem("version", version);
@@ -131,7 +132,7 @@ void MtgCards::downloadSetOnFinish()
     setFile.write(jsonData);
     setFile.close();
     if (version != "v1") {
-        int currentVersionNumber = version.right(1).toInt();
+        int currentVersionNumber = version.replace("v", "").toInt();
         QString oldVersion = QString("v%1").arg(currentVersionNumber - 1);
         QString oldSetCodeVersion = QString("%1_%2").arg(setCode).arg(oldVersion);
         QFile oldSetFile(setsDir + QDir::separator() + oldSetCodeVersion + ".json");
@@ -142,7 +143,7 @@ void MtgCards::downloadSetOnFinish()
 }
 
 void MtgCards::loadSetFromFile(QString setFileName) {
-    QString setCode = setFileName.left(setFileName.indexOf("v") - 1);
+    QString setCode = setFileName.split("_")[0];
     LOGD(QString("Loading %1").arg(setCode));
 
     QFile setFile(setsDir + QDir::separator() + setFileName);

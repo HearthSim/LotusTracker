@@ -312,7 +312,7 @@ void MtgaLogParser::parsePlayerRankInfo(QString json)
         return;
     }
     QString rankClass = jsonPlayerRankInfo["constructedClass"].toString();
-    int rankTier = jsonPlayerRankInfo["constructedTier"].toInt();
+    int rankTier = jsonPlayerRankInfo["constructedLevel"].toInt();
     LOGD(QString("PlayerRankInfo: %1 - %2").arg(rankClass).arg(rankTier));
     emit sgnPlayerRankInfo(qMakePair(rankClass, rankTier));
 }
