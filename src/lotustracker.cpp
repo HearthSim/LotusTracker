@@ -161,6 +161,8 @@ void LotusTracker::setupPreferencesScreen()
             preferencesScreen->getTabOverlay(), &TabOverlay::onRestoreDefaultsSettings);
     connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnDeckOverlayDraftEnabled,
             this, &LotusTracker::onDeckOverlayDraftEnabledChange);
+    connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnDraftOverlaySource,
+            deckOverlayDraft, &DeckOverlayDraft::onSourceChanged);
     connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnPlayerOverlayEnabled,
             this, &LotusTracker::onDeckOverlayPlayerEnabledChange);
     connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnRestoreDefaults,

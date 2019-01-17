@@ -11,10 +11,12 @@ class DeckOverlayDraft : public DeckOverlayBase
     Q_OBJECT
 private:
     int rankDescTextMargin;
+    QString currentSource;
     QFont rankFont;
     QList<Card *> availablePicks, pickedCards;
     QMap<int, int> playerCollection;
     QRect preferencesButton;
+    QString getHoverCardRank();
     void udpateAvailableCardsList(QList<Card *> availablePicks, QList<Card*> pickedCards);
 
 protected:    
@@ -26,7 +28,7 @@ protected:
     virtual QString cardQtdFormat();
     virtual bool useGrayscaleForZeroQtd();
     virtual void onPositionChanged();
-    virtual void onScaleChanged();    
+    virtual void onScaleChanged();
     virtual void beforeDrawCardEvent(QPainter &painter, Card* card, int cardBGY);
     virtual void drawHoverCard(QPainter &painter);
     virtual void afterPaintEvent(QPainter &painter);
@@ -46,6 +48,7 @@ signals:
 public slots:
     void setPlayerCollection(QMap<int, int> ownedCards);
     void onDraftStatus(QList<Card*> availablePicks, QList<Card*> pickedCards);
+    void onSourceChanged(QString source);
 };
 
 #endif // DECKOVERLAYDRAFT_H
