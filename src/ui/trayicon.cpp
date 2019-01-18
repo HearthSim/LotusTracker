@@ -156,6 +156,25 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
         }
     });
     testMenu->addAction(loadDeckAction);
+    // Load Sideboard
+    QAction *loadSideboardAction = new QAction(tr("Load Sideboard"), this);
+    connect(loadSideboardAction, &QAction::triggered, this, [](){
+        MtgaLogParser *mtgaLogParser = LOTUS_TRACKER->mtgArena->getLogParser();
+        // Player Select Deck
+        QString currentDir = QDir::currentPath();
+#ifdef Q_OS_MAC
+        currentDir = currentDir.left(currentDir.indexOf(".app"));
+        currentDir = currentDir.left(currentDir.lastIndexOf(QDir::separator()));
+#endif
+        QFile *logFile = new QFile(currentDir + QDir::separator() + "PlayerDeckSideboard.txt");
+        if(logFile->open(QFile::ReadOnly | QFile::Text)) {
+            QString logContent = QTextStream(logFile).readAll();
+            mtgaLogParser->parse(logContent);
+        } else {
+            LOGW("PlayerDeckSideboard.txt file not found in current dir");
+        }
+    });
+    testMenu->addAction(loadSideboardAction);
     // Player Draw card
     QAction *playerDrawAction = new QAction(tr("Player Draw"), this);
     connect(playerDrawAction, &QAction::triggered, this, [](){

@@ -21,6 +21,7 @@ public:
     void enableAutoUpdate(bool enabled);
     bool isFirstRun();
     bool isFirstMatch();
+    bool isFirstDraft();
     bool isHideOnLoseGameFocusEnabled();
     void enableHideOnLoseGameFocus(bool enabled);
     int getDeckTrackerAlpha();
@@ -56,6 +57,8 @@ public:
     // Deck overlay Draft
     bool isDeckOverlayDraftEnabled();
     void enableDeckOverlayDraft(bool enabled);
+    QString getDeckOverlayDraftSource();
+    void setDeckOverlayDraftSource(QString source);
     QPoint getDeckOverlayDraftPos(int uiWidth);
     void setDeckOverlayDraftPos(QPoint pos);
     int getDeckOverlayDraftScale();

@@ -23,6 +23,7 @@ public:
     const QList<QChar> borderColors;
     const QList<QChar> colorIdentity;
     const QString imageUrl;
+    const QString draftsimRank;
     const QString lsvRank;
     const QString lsvDesc;
     const bool isLand;
@@ -33,14 +34,14 @@ public:
          QString type = "", QString layout = "", int cmc = 0, QString rawManaCost = "",
          QList<QString> manaSymbols = {}, QList<QChar> borderColors = {},
          QList<QChar> colorIdentity = {}, QString imageUrl = "",
-         QString lvsRank = "", QString lvsDesc = "",
+         QString draftsimRank = "", QString lvsRank = "", QString lvsDesc = "",
          bool isLand = false, bool isArtifact = false)
         : mtgaId(mtgaId), multiverseId(multiverseId), setCode(setCode),
           number(number), rarity(rarity), name(name), type(type),
           layout(layout), cmc(cmc), rawManaCost(rawManaCost),
           manaSymbols(manaSymbols), borderColors(borderColors),
-          colorIdentity(colorIdentity), imageUrl(imageUrl), lsvRank(lvsRank),
-          lsvDesc(lvsDesc), isLand(isLand), isArtifact(isArtifact){}
+          colorIdentity(colorIdentity), imageUrl(imageUrl), draftsimRank(draftsimRank),
+          lsvRank(lvsRank), lsvDesc(lvsDesc), isLand(isLand), isArtifact(isArtifact){}
 
     bool isBasicLand()
     {

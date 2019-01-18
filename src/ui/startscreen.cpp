@@ -4,13 +4,13 @@
 
 #include <QFontDatabase>
 
-#define REGEXP_RAW_EMAIL "^[0-9a-zA-Z]+([0-9a-zA-Z]*[-._+])*[0-9a-zA-Z]+@[0-9a-zA-Z]+([-.][0-9a-zA-Z]+)*([0-9a-zA-Z]*[.])[a-zA-Z]{2,6}$"
+#define REGEXP_RAW_EMAIL "^[0-9a-zA-Z]+([0-9a-zA-Z]*[-._+])*[0-9a-zA-Z]*+@[0-9a-zA-Z]+([-.][0-9a-zA-Z]+)*([0-9a-zA-Z]*[.])[a-zA-Z]{2,6}$"
 
 StartScreen::StartScreen(QWidget *parent, LotusTrackerAPI *lotusAPI) : QMainWindow(parent),
     ui(new Ui::Start()), lotusAPI(lotusAPI), reRawEmail(QRegularExpression(REGEXP_RAW_EMAIL))
 {
     ui->setupUi(this);
-    setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
 
     int belerenID = QFontDatabase::addApplicationFont(":/res/fonts/Beleren-Bold.ttf");

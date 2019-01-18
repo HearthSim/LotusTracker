@@ -37,6 +37,7 @@ Card* MtgCards::findCard(int mtgaId)
     if (cards.keys().contains(mtgaId)) {
         return cards[mtgaId];
     } else {
+        LOTUS_TRACKER->gaTracker->sendEvent("Card", "Unknown", QString("%1").arg(mtgaId));
         return new Card(mtgaId, 0, "", "", "", QString("UNKNOWN %1").arg(mtgaId));
     }
 }
@@ -91,8 +92,8 @@ void MtgCards::loadSet(QString setCodeVersion)
 
 void MtgCards::downloadSet(QString setCodeVersion)
 {
-    QString setCode = setCodeVersion.left(setCodeVersion.indexOf("_"));
-    QString version = setCodeVersion.right(setCodeVersion.indexOf("_") - 1);
+    QString setCode = setCodeVersion.split("_")[0];
+    QString version = setCodeVersion.split("_")[1];
     QUrlQuery urlQuery;
     urlQuery.addQueryItem("set", setCode);
     urlQuery.addQueryItem("version", version);
@@ -131,7 +132,7 @@ void MtgCards::downloadSetOnFinish()
     setFile.write(jsonData);
     setFile.close();
     if (version != "v1") {
-        int currentVersionNumber = version.right(1).toInt();
+        int currentVersionNumber = version.replace("v", "").toInt();
         QString oldVersion = QString("v%1").arg(currentVersionNumber - 1);
         QString oldSetCodeVersion = QString("%1_%2").arg(setCode).arg(oldVersion);
         QFile oldSetFile(setsDir + QDir::separator() + oldSetCodeVersion + ".json");
@@ -142,7 +143,7 @@ void MtgCards::downloadSetOnFinish()
 }
 
 void MtgCards::loadSetFromFile(QString setFileName) {
-    QString setCode = setFileName.left(setFileName.indexOf("v") - 1);
+    QString setCode = setFileName.split("_")[0];
     LOGD(QString("Loading %1").arg(setCode));
 
     QFile setFile(setsDir + QDir::separator() + setFileName);
@@ -195,6 +196,7 @@ Card* MtgCards::jsonObject2Card(QJsonObject jsonCard, QString setCode)
     QString layout = jsonCard["layout"].toString();
     QString imageUrl = jsonCard["imageUrl"].toString();
     QString type = jsonCard["type"].toString();
+    QString draftsimRank = jsonCard["draftsimRank"].toString();
     QString lvsRank = jsonCard["lvsRank"].toString();
     QString lvsDesc = jsonCard["lvsDesc"].toString();
     QJsonArray jsonTypes = jsonCard["types"].toArray();
@@ -230,7 +232,7 @@ Card* MtgCards::jsonObject2Card(QJsonObject jsonCard, QString setCode)
     }
     return new Card(mtgaId, multiverseId, setCode, number, rarity, name,
                     type, layout, cmc, rawManaCost, manaSymbols, borderColors,
-                    colorIdentity, imageUrl, lvsRank, lvsDesc, isLand, isArtifact);
+                    colorIdentity, imageUrl, draftsimRank, lvsRank, lvsDesc, isLand, isArtifact);
 }
 
 QList<QChar> MtgCards::getBoderColorUsingManaSymbols(QList<QString> manaSymbols, bool isArtifact)
@@ -298,6 +300,7 @@ Card* MtgCards::createSplitCard(Card* upSide, Card* downSide)
     return new Card(mtgaId, upSide->multiverseId, upSide->setCode, number,
                     upSide->rarity, name, upSide->type, upSide->layout,
                     upSide->cmc, upSide->rawManaCost, upSide->manaSymbols,
-                    borderColors, colorIdentity, upSide->imageUrl, upSide->lsvRank,
-                    upSide->lsvDesc, upSide->isLand, upSide->isArtifact);
+                    borderColors, colorIdentity, upSide->imageUrl,
+                    upSide->draftsimRank, upSide->lsvRank, upSide->lsvDesc,
+                    upSide->isLand, upSide->isArtifact);
 }

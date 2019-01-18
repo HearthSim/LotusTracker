@@ -15,9 +15,10 @@ private:
     void applyCurrentSettings();
     void onStartAtLoginChanged();
     void onAutoUpdateChanged();
-    void onDOEnabledChanged();
     void onPOEnabledChanged();
     void onOOEnabledChanged();
+    void onDOEnabledChanged();
+    void onRBRankChanged();
     void onHideOnLoseGameFocusChanged();
     void onRestoreDefaultsSettingsClicked();
 
@@ -30,6 +31,7 @@ signals:
     void sgnDeckOverlayDraftEnabled(bool enabled);
     void sgnPlayerOverlayEnabled(bool enabled);
     void sgnOpponentOverlayEnabled(bool enabled);
+    void sgnDraftOverlaySource(QString source);
 
 public slots:
 };

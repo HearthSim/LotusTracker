@@ -7,6 +7,7 @@
 #define KEY_AUTOUPDATE "autoUpdate"
 #define KEY_FIRST_RUN "isFirstRun"
 #define KEY_FIRST_MATCH "isFirstMatch"
+#define KEY_FIRST_DRAFT "isFirstDraft"
 #define KEY_HIDE_ON_LOSE_GAME_FOCUS "hideOnLoseGameFocus"
 #define KEY_OVERLAY_ALPHA "Tracker/alpha"
 #define KEY_OVERLAY_LAYOUT "Tracker/layout"
@@ -28,6 +29,7 @@
 #define KEY_OVERLAY_OPPONENT_SCALE "Tracker/opponentPrefs/scale"
 
 #define KEY_OVERLAY_DRAFT_ENABLED "Tracker/draftPrefs/enabled"
+#define KEY_OVERLAY_DRAFT_SOURCE "Tracker/draftPrefs/source"
 #define KEY_OVERLAY_DRAFT_X "Tracker/draftPrefs/x"
 #define KEY_OVERLAY_DRAFT_Y "Tracker/draftPrefs/y"
 #define KEY_OVERLAY_DRAFT_SCALE "Tracker/draftPrefs/scale"
@@ -83,6 +85,15 @@ bool AppSettings::isFirstMatch()
         settings.setValue(KEY_FIRST_MATCH, false);
     }
     return isFirstMatch;
+}
+
+bool AppSettings::isFirstDraft()
+{
+    bool isFirstDraft = settings.value(KEY_FIRST_DRAFT, true).toBool();
+    if (isFirstDraft) {
+        settings.setValue(KEY_FIRST_DRAFT, false);
+    }
+    return isFirstDraft;
 }
 
 bool AppSettings::isHideOnLoseGameFocusEnabled()
@@ -258,6 +269,16 @@ bool AppSettings::isDeckOverlayDraftEnabled()
 void AppSettings::enableDeckOverlayDraft(bool enabled)
 {
     settings.setValue(KEY_OVERLAY_DRAFT_ENABLED, enabled);
+}
+
+QString AppSettings::getDeckOverlayDraftSource()
+{
+    return settings.value(KEY_OVERLAY_DRAFT_SOURCE, "lsv").toString();
+}
+
+void AppSettings::setDeckOverlayDraftSource(QString source)
+{
+    settings.setValue(KEY_OVERLAY_DRAFT_SOURCE, source);
 }
 
 QPoint AppSettings::getDeckOverlayDraftPos(int uiWidth)

@@ -312,7 +312,7 @@ void MtgaLogParser::parsePlayerRankInfo(QString json)
         return;
     }
     QString rankClass = jsonPlayerRankInfo["constructedClass"].toString();
-    int rankTier = jsonPlayerRankInfo["constructedTier"].toInt();
+    int rankTier = jsonPlayerRankInfo["constructedLevel"].toInt();
     LOGD(QString("PlayerRankInfo: %1 - %2").arg(rankClass).arg(rankTier));
     emit sgnPlayerRankInfo(qMakePair(rankClass, rankTier));
 }
@@ -619,18 +619,17 @@ void MtgaLogParser::parseClientToGreMessages(QString json)
     if (jsonClientToGreMsg.empty()) {
         return;
     }
-    QJsonObject jsonPayload = jsonClientToGreMsg["payload"].toObject();
-    QString messageType = jsonPayload["type"].toString();
-    if (messageType == "ClientMessageType_SubmitDeckResp") {
+    QJsonObject jsonPayload = jsonClientToGreMsg["Payload"].toObject();
+    if (jsonPayload.keys().contains("SubmitDeckResp")) {
         parseSubmitDeckResp(jsonPayload);
     }
 }
 
 void MtgaLogParser::parseSubmitDeckResp(QJsonObject jsonMessage)
 {
-    QJsonObject jsonDeckResp = jsonMessage["submitDeckResp"].toObject();
-    QJsonObject jsonDeck = jsonDeckResp["deck"].toObject();
-    QJsonArray jsonMainDeckCards = jsonDeck["deckCards"].toArray();
+    QJsonObject jsonDeckResp = jsonMessage["SubmitDeckResp"].toObject();
+    QJsonObject jsonDeck = jsonDeckResp["Deck"].toObject();
+    QJsonArray jsonMainDeckCards = jsonDeck["DeckCards"].toArray();
     QMap<Card*, int> mainDeck;
     for(QJsonValueRef jsonCardRef : jsonMainDeckCards){
         int cardId = jsonCardRef.toInt();
@@ -641,7 +640,7 @@ void MtgaLogParser::parseSubmitDeckResp(QJsonObject jsonMessage)
             mainDeck[card] = 1;
         }
     }
-    QJsonArray jsonSideboardCards = jsonDeck["sideboardCards"].toArray();
+    QJsonArray jsonSideboardCards = jsonDeck["SideboardCards"].toArray();
     QMap<Card*, int> sideboard;
     for(QJsonValueRef jsonCardRef : jsonSideboardCards){
         int cardId = jsonCardRef.toInt();

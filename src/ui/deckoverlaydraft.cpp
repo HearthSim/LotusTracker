@@ -24,6 +24,7 @@ void DeckOverlayDraft::applyCurrentSettings()
 {
     move(APP_SETTINGS->getDeckOverlayDraftPos(uiWidth));
     uiScale = APP_SETTINGS->getDeckOverlayDraftScale();
+    currentSource = APP_SETTINGS->getDeckOverlayDraftSource();
     DeckOverlayBase::onScaleChanged();
 }
 
@@ -54,7 +55,7 @@ int DeckOverlayDraft::getDeckNameYPosition()
 
 int DeckOverlayDraft::getHoverCardXPosition()
 {
-    QString rank = hoverCard->lsvRank;
+    QString rank = getHoverCardRank();
     QFontMetrics cardMetrics(cardFont);
     int rankWidth = cardMetrics.width(rank);
     return uiPos.x() + uiWidth + rankWidth + 15 + uiScale * 3;
@@ -62,15 +63,18 @@ int DeckOverlayDraft::getHoverCardXPosition()
 
 int DeckOverlayDraft::cardHoverMarginBottom(QPainter &painter)
 {
+    int lines = 0;
     float ratio = isShowCardManaCostEnabled ? 4 : 3.5f;
     int heightRaw = static_cast<int>(uiWidth/ratio);
-    int width = static_cast<int>(uiWidth * 1.5);
+    if (currentSource == "lsv") {
+        int width = static_cast<int>(uiWidth * 1.5);
 
-    painter.setFont(cardFont);
-    float descWidth = painter.fontMetrics().width(hoverCard->lsvDesc);
-    float lineWidth = width - rankDescTextMargin * 2;
-    float linesRaw = descWidth / lineWidth;
-    int lines = qCeil(static_cast<qreal>(linesRaw));
+        painter.setFont(cardFont);
+        float descWidth = painter.fontMetrics().width(hoverCard->lsvDesc);
+        float lineWidth = width - rankDescTextMargin * 2;
+        float linesRaw = descWidth / lineWidth;
+        lines = qCeil(static_cast<qreal>(linesRaw));
+    }
     int height = heightRaw / 3 * (lines + 2);
     return height;
 }
@@ -108,7 +112,10 @@ void DeckOverlayDraft::beforeDrawCardEvent(QPainter &painter, Card *card, int ca
     int rankTextHeight = cardMetrics.ascent() - cardMetrics.descent();
     int rankTextOptions = Qt::AlignLeft | Qt::AlignVCenter | Qt::TextDontClip;
     painter.setFont(rankFont);
-    QString rank = card->lsvRank;
+    QString rank = currentSource == "lsv" ? card->lsvRank : card->draftsimRank;
+    if (rank.length() == 1) {
+        rank += ".0";
+    }
     int rankWidth = painter.fontMetrics().width(rank);
     int rankX = uiPos.x() + uiWidth + 2;
     int rankY = cardBGY + getCardHeight()/2 - rankTextHeight/2;
@@ -143,8 +150,13 @@ void DeckOverlayDraft::drawHoverCard(QPainter &painter)
     int bottomMargin = 10;
     int height = cardHoverMarginBottom(painter);
     int width = static_cast<int>(uiWidth * 1.6);
-    QString desc = QString("\t\t\t\t\tLSV Tier: %1\n%2")
-            .arg(hoverCard->lsvRank).arg(hoverCard->lsvDesc);
+    QString desc = "";
+    if (currentSource == "lsv") {
+        desc = QString("\t\t\t\t\tChannelFireball LSV Tier: %1\n%2")
+                .arg(getHoverCardRank()).arg(hoverCard->lsvDesc);
+    } else {
+        desc = QString("\t\t\t\t\tDraftSim Tier: %1").arg(getHoverCardRank());
+    }
 
     QRect screen = QApplication::desktop()->screenGeometry();
     int descX = uiPos.x() + uiWidth + 2;
@@ -206,6 +218,21 @@ void DeckOverlayDraft::onDraftStatus(QList<Card *> availablePicks, QList<Card *>
         emit sgnRequestPlayerCollection();
     }
     udpateAvailableCardsList(availablePicks, pickedCards);
+}
+
+void DeckOverlayDraft::onSourceChanged(QString source)
+{
+    currentSource = source;
+    update();
+}
+
+QString DeckOverlayDraft::getHoverCardRank()
+{
+    if (currentSource == "lsv") {
+        return hoverCard->lsvRank;
+    } else {
+        return hoverCard->draftsimRank;
+    }
 }
 
 void DeckOverlayDraft::udpateAvailableCardsList(QList<Card*> availablePicks, QList<Card*> pickedCards)
