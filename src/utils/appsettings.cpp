@@ -7,6 +7,7 @@
 #define KEY_AUTOUPDATE "autoUpdate"
 #define KEY_FIRST_RUN "isFirstRun"
 #define KEY_FIRST_MATCH "isFirstMatch"
+#define KEY_FIRST_DRAFT "isFirstDraft"
 #define KEY_HIDE_ON_LOSE_GAME_FOCUS "hideOnLoseGameFocus"
 #define KEY_OVERLAY_ALPHA "Tracker/alpha"
 #define KEY_OVERLAY_LAYOUT "Tracker/layout"
@@ -84,6 +85,15 @@ bool AppSettings::isFirstMatch()
         settings.setValue(KEY_FIRST_MATCH, false);
     }
     return isFirstMatch;
+}
+
+bool AppSettings::isFirstDraft()
+{
+    bool isFirstDraft = settings.value(KEY_FIRST_DRAFT, true).toBool();
+    if (isFirstDraft) {
+        settings.setValue(KEY_FIRST_DRAFT, false);
+    }
+    return isFirstDraft;
 }
 
 bool AppSettings::isHideOnLoseGameFocusEnabled()
