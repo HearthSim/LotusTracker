@@ -5,8 +5,10 @@
 #include "utils/cocoainitializer.h"
 
 #if defined Q_OS_MAC
+#include "utils/macautostart.h"
 #include "updater/macsparkleupdater.h"
 #elif defined Q_OS_WIN
+#include "utils/winautostart.h"
 #include "updater/winsparkleupdater.h"
 #endif
 
@@ -55,6 +57,11 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
     setupMtgaMatchConnections();
     setupPreferencesScreen();
     LOGI("Lotus Tracker started");
+#if defined Q_OS_MAC
+    MacAutoStart::setEnabled(APP_SETTINGS->isAutoStartEnabled());
+#elif defined Q_OS_WIN
+    WinAutoStart::setEnabled(APP_SETTINGS->isAutoStartEnabled());
+#endif
     if (APP_SETTINGS->isFirstRun()) {
         startScreen->show();
         startScreen->raise();
