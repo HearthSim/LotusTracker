@@ -23,6 +23,8 @@ typedef enum {
     TRANSFER_PLAY,
     TRANSFER_PUT_ON_BATTLEFIELD,
     TRANSFER_PUT_ON_TOP,
+    TRANSFER_PUT_ON_LIBRARY,
+    TRANSFER_PUT_ON_HAND,
     TRANSFER_RESOLVE,
     TRANSFER_RETURN,
     TRANSFER_UNKOWN
@@ -66,13 +68,15 @@ public:
 
 signals:
     void sgnPlayerUserName(QString userName);
-    void sgnPlayerPutInLibraryCard(Card* card);
+    void sgnPlayerPutOnLibraryCard(Card* card);
+    void sgnPlayerPutOnHandCard(Card* card);
     void sgnPlayerDrawCard(Card* card);
     void sgnPlayerPlayCard(Card* card);
     void sgnPlayerDiscardCard(Card* card);
     void sgnPlayerDiscardFromLibraryCard(Card* card);
     void sgnPlayerPutOnBattlefieldCard(Card* card);
-    void sgnOpponentPutInLibraryCard(Card* card);
+    void sgnOpponentPutOnLibraryCard(Card* card);
+    void sgnOpponentPutOnHandCard(Card* card);
     void sgnOpponentDrawCard();
     void sgnOpponentPlayCard(Card* card);
     void sgnOpponentDiscardCard(Card* card);

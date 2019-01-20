@@ -278,8 +278,10 @@ void LotusTracker::setupLogParserConnections()
 void LotusTracker::setupMtgaMatchConnections()
 {
     // Player
-    connect(mtgaMatch, &MtgaMatch::sgnPlayerPutInLibraryCard,
-            deckOverlayPlayer, &DeckOverlayPlayer::onPlayerPutInLibraryCard);
+    connect(mtgaMatch, &MtgaMatch::sgnPlayerPutOnLibraryCard,
+            deckOverlayPlayer, &DeckOverlayPlayer::onPlayerPutOnLibraryCard);
+    connect(mtgaMatch, &MtgaMatch::sgnPlayerPutOnHandCard,
+            deckOverlayPlayer, &DeckOverlayPlayer::onPlayerPutOnHandCard);
     connect(mtgaMatch, &MtgaMatch::sgnPlayerDrawCard,
             deckOverlayPlayer, &DeckOverlayPlayer::onPlayerDrawCard);
     connect(mtgaMatch, &MtgaMatch::sgnPlayerDiscardCard,
@@ -289,8 +291,10 @@ void LotusTracker::setupMtgaMatchConnections()
     connect(mtgaMatch, &MtgaMatch::sgnPlayerPutOnBattlefieldCard,
             deckOverlayPlayer, &DeckOverlayPlayer::onPlayerPutOnBattlefieldCard);
     // Opponent
-    connect(mtgaMatch, &MtgaMatch::sgnOpponentPutInLibraryCard,
-            deckOverlayOpponent, &DeckOverlayOpponent::onOpponentPutInLibraryCard);
+    connect(mtgaMatch, &MtgaMatch::sgnOpponentPutOnLibraryCard,
+            deckOverlayOpponent, &DeckOverlayOpponent::onOpponentPutOnLibraryCard);
+    connect(mtgaMatch, &MtgaMatch::sgnOpponentPutOnHandCard,
+            deckOverlayOpponent, &DeckOverlayOpponent::onOpponentPutOnHandCard);
     connect(mtgaMatch, &MtgaMatch::sgnOpponentPlayCard,
             deckOverlayOpponent, &DeckOverlayOpponent::onOpponentPlayCard);
     connect(mtgaMatch, &MtgaMatch::sgnOpponentDiscardCard,
@@ -386,6 +390,7 @@ void LotusTracker::onMatchStart(QString eventId, OpponentInfo opponentInfo)
         deckOverlayPlayer->loadDeck(deck);
         lotusAPI->getMatchInfo(eventId, deck.id);
     }
+    deckOverlayOpponent->reset();
     deckOverlayOpponent->setEventId(eventId);
     gaTracker->sendEvent("Match", "starts", eventId);
 }

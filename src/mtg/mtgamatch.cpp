@@ -122,7 +122,7 @@ void MtgaMatch::onPlayerTakesMulligan(QMap<int, int> newHandDrawed)
             for (int objectId : handObjectIds.keys()) {
                 zone.objectIds[objectId] = 0;
                 Card* card = mtgCards->findCard(handObjectIds[objectId]);
-                emit sgnPlayerPutInLibraryCard(card);
+                emit sgnPlayerPutOnLibraryCard(card);
             }
             gameZones[zoneId] = zone;
             break;
@@ -266,6 +266,24 @@ void MtgaMatch::notifyCardZoneChange(int objectId, int oldObjectId, MatchZone zo
             LOGI(QString("%1 put %2 on top of deck").arg(ownerIdenfitier).arg(cardName));
             break;
         }
+        case TRANSFER_PUT_ON_LIBRARY: {
+            LOGI(QString("%1 put %2 on library").arg(ownerIdenfitier).arg(cardName));
+            if (isTransferFromPlayer) {
+                emit sgnPlayerPutOnLibraryCard(card);
+            } else {
+                emit sgnOpponentPutOnLibraryCard(card);
+            }
+            break;
+        }
+        case TRANSFER_PUT_ON_HAND: {
+            LOGI(QString("%1 put %2 on hand").arg(ownerIdenfitier).arg(cardName));
+            if (isTransferFromPlayer) {
+                emit sgnPlayerPutOnHandCard(card);
+            } else {
+                emit sgnOpponentPutOnHandCard(card);
+            }
+            break;
+        }
         case TRANSFER_RETURN: {
             Card* returnedCard = nullptr;
             for (MatchZone zone : gameZones) {
@@ -362,11 +380,17 @@ ZoneTransferType MtgaMatch::getZoneTransferType(int objectId, MatchZone zoneSrc,
     if (zoneSrc.type() == ZoneType_LIBRARY && zoneDst.type() == ZoneType_HAND) {
         return TRANSFER_DRAW;
     }
+    if (zoneSrc.type() != ZoneType_LIBRARY && zoneDst.type() == ZoneType_HAND) {
+        return TRANSFER_PUT_ON_HAND;
+    }
     if (zoneSrc.type() == ZoneType_LIBRARY && zoneDst.type() == ZoneType_BATTLEFIELD) {
         return TRANSFER_PUT_ON_BATTLEFIELD;
     }
     if (zoneSrc.type() == ZoneType_LIBRARY && zoneDst.type() == ZoneType_LIBRARY) {
         return TRANSFER_PUT_ON_TOP;
+    }
+    if (zoneSrc.type() != ZoneType_LIBRARY && zoneDst.type() == ZoneType_LIBRARY) {
+        return TRANSFER_PUT_ON_LIBRARY;
     }
     if (zoneSrc.type() == ZoneType_HAND && zoneDst.type() == ZoneType_BATTLEFIELD) {
         return TRANSFER_PLAY;

@@ -276,7 +276,12 @@ bool DeckOverlayPlayer::isDeckLoadedAndReseted()
     return deck.cards().size() > 0 && deck.isReseted();
 }
 
-void DeckOverlayPlayer::onPlayerPutInLibraryCard(Card* card)
+void DeckOverlayPlayer::onPlayerPutOnLibraryCard(Card* card)
+{
+    deck.insertCard(card);
+}
+
+void DeckOverlayPlayer::onPlayerPutOnHandCard(Card *card)
 {
     deck.insertCard(card);
 }
