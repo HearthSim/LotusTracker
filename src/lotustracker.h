@@ -74,7 +74,7 @@ private slots:
     void onPlayerCollectionUpdated(QMap<int, int> ownedCards);
     void onPlayerDecks(QList<Deck> playerDecks);
     void onDeckSubmited(QString eventId, Deck deck);
-    void onEventPlayerCourse(QString eventId, Deck currentDeck);
+    void onEventPlayerCourse(QString eventId, Deck currentDeck, bool isFinished);
     void onMatchStart(QString eventId, OpponentInfo match);
     void onGameStart(MatchMode mode, QList<MatchZone> zones, int seatId);
     void onGameStarted();

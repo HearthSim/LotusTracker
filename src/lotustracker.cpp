@@ -356,6 +356,7 @@ void LotusTracker::onPlayerDecks(QList<Deck> playerDecks)
     UNUSED(playerDecks);
     isOnDraftScreen = false;
     deckOverlayDraft->hide();
+    deckOverlayPlayer->hide();
 }
 
 void LotusTracker::onDeckSubmited(QString eventId, Deck deck)
@@ -365,9 +366,13 @@ void LotusTracker::onDeckSubmited(QString eventId, Deck deck)
     lotusAPI->getMatchInfo(eventId, deck.id);
 }
 
-void LotusTracker::onEventPlayerCourse(QString eventId, Deck currentDeck)
+void LotusTracker::onEventPlayerCourse(QString eventId, Deck currentDeck, bool isFinished)
 {
     eventPlayerCourse = qMakePair(eventId, currentDeck);
+    if (isFinished) {
+        deckOverlayPlayer->loadDeck(currentDeck);
+        deckOverlayPlayer->show();
+    }
 }
 
 void LotusTracker::onMatchStart(QString eventId, OpponentInfo opponentInfo)
