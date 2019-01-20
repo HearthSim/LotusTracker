@@ -35,15 +35,21 @@ QList<Card *> DeckOverlayDraft::getDeckCardsSorted()
         QList<QString> rarities = { "mythic", "rare", "uncommon", "common" };
         QList<QString> colors = { "w", "u", "b", "r", "g", "d", "m", "a", "c" };
         QString lhsColors = lhs->borderColorIdentityAsString();
+        QString lhsDualFirstColor = "";
         if (lhsColors.length() > 1) {
             lhsColors = "d";
+            lhsDualFirstColor = lhs->colorIdentity.first();
         }
+        QString rhsDualFirstColor = "";
         QString rhsColors = rhs->borderColorIdentityAsString();
         if (rhsColors.length() > 1) {
             rhsColors = "d";
+            lhsDualFirstColor = rhs->colorIdentity.first();
         }
-        return std::make_tuple(rarities.indexOf(lhs->rarity), colors.indexOf(lhsColors), lhs->cmc) <
-                std::make_tuple(rarities.indexOf(rhs->rarity), colors.indexOf(rhsColors), rhs->cmc);
+        return std::make_tuple(lhs->isBasicLand(), rarities.indexOf(lhs->rarity), lhs->isLand,
+                               colors.indexOf(lhsColors), lhsDualFirstColor, lhs->cmc) <
+                std::make_tuple(rhs->isBasicLand(), rarities.indexOf(rhs->rarity), lhs->isLand,
+                                colors.indexOf(rhsColors), rhsDualFirstColor, rhs->cmc);
     });
     return sortedDeckCards;
 }
@@ -173,7 +179,7 @@ void DeckOverlayDraft::drawHoverCard(QPainter &painter)
     int descTextOptions = Qt::AlignLeft | Qt::AlignVCenter | Qt::TextWordWrap;
     QRect textRect(descX + rankDescTextMargin, descY,
                    width - rankDescTextMargin * 2, height);
-    painter.setPen(QPen(Qt::yellow));
+    painter.setPen(QPen(QColor(255, 255, 150, 250)));
     painter.drawText(textRect, descTextOptions, desc);
 }
 

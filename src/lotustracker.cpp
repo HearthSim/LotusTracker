@@ -5,8 +5,10 @@
 #include "utils/cocoainitializer.h"
 
 #if defined Q_OS_MAC
+#include "utils/macautostart.h"
 #include "updater/macsparkleupdater.h"
 #elif defined Q_OS_WIN
+#include "utils/winautostart.h"
 #include "updater/winsparkleupdater.h"
 #endif
 
@@ -55,6 +57,11 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
     setupMtgaMatchConnections();
     setupPreferencesScreen();
     LOGI("Lotus Tracker started");
+#if defined Q_OS_MAC
+    MacAutoStart::setEnabled(APP_SETTINGS->isAutoStartEnabled());
+#elif defined Q_OS_WIN
+    WinAutoStart::setEnabled(APP_SETTINGS->isAutoStartEnabled());
+#endif
     if (APP_SETTINGS->isFirstRun()) {
         startScreen->show();
         startScreen->raise();
@@ -271,8 +278,10 @@ void LotusTracker::setupLogParserConnections()
 void LotusTracker::setupMtgaMatchConnections()
 {
     // Player
-    connect(mtgaMatch, &MtgaMatch::sgnPlayerPutInLibraryCard,
-            deckOverlayPlayer, &DeckOverlayPlayer::onPlayerPutInLibraryCard);
+    connect(mtgaMatch, &MtgaMatch::sgnPlayerPutOnLibraryCard,
+            deckOverlayPlayer, &DeckOverlayPlayer::onPlayerPutOnLibraryCard);
+    connect(mtgaMatch, &MtgaMatch::sgnPlayerPutOnHandCard,
+            deckOverlayPlayer, &DeckOverlayPlayer::onPlayerPutOnHandCard);
     connect(mtgaMatch, &MtgaMatch::sgnPlayerDrawCard,
             deckOverlayPlayer, &DeckOverlayPlayer::onPlayerDrawCard);
     connect(mtgaMatch, &MtgaMatch::sgnPlayerDiscardCard,
@@ -282,8 +291,10 @@ void LotusTracker::setupMtgaMatchConnections()
     connect(mtgaMatch, &MtgaMatch::sgnPlayerPutOnBattlefieldCard,
             deckOverlayPlayer, &DeckOverlayPlayer::onPlayerPutOnBattlefieldCard);
     // Opponent
-    connect(mtgaMatch, &MtgaMatch::sgnOpponentPutInLibraryCard,
-            deckOverlayOpponent, &DeckOverlayOpponent::onOpponentPutInLibraryCard);
+    connect(mtgaMatch, &MtgaMatch::sgnOpponentPutOnLibraryCard,
+            deckOverlayOpponent, &DeckOverlayOpponent::onOpponentPutOnLibraryCard);
+    connect(mtgaMatch, &MtgaMatch::sgnOpponentPutOnHandCard,
+            deckOverlayOpponent, &DeckOverlayOpponent::onOpponentPutOnHandCard);
     connect(mtgaMatch, &MtgaMatch::sgnOpponentPlayCard,
             deckOverlayOpponent, &DeckOverlayOpponent::onOpponentPlayCard);
     connect(mtgaMatch, &MtgaMatch::sgnOpponentDiscardCard,
@@ -349,6 +360,7 @@ void LotusTracker::onPlayerDecks(QList<Deck> playerDecks)
     UNUSED(playerDecks);
     isOnDraftScreen = false;
     deckOverlayDraft->hide();
+    deckOverlayPlayer->hide();
 }
 
 void LotusTracker::onDeckSubmited(QString eventId, Deck deck)
@@ -358,9 +370,13 @@ void LotusTracker::onDeckSubmited(QString eventId, Deck deck)
     lotusAPI->getMatchInfo(eventId, deck.id);
 }
 
-void LotusTracker::onEventPlayerCourse(QString eventId, Deck currentDeck)
+void LotusTracker::onEventPlayerCourse(QString eventId, Deck currentDeck, bool isFinished)
 {
     eventPlayerCourse = qMakePair(eventId, currentDeck);
+    if (isFinished) {
+        deckOverlayPlayer->loadDeck(currentDeck);
+        deckOverlayPlayer->show();
+    }
 }
 
 void LotusTracker::onMatchStart(QString eventId, OpponentInfo opponentInfo)
@@ -374,6 +390,7 @@ void LotusTracker::onMatchStart(QString eventId, OpponentInfo opponentInfo)
         deckOverlayPlayer->loadDeck(deck);
         lotusAPI->getMatchInfo(eventId, deck.id);
     }
+    deckOverlayOpponent->reset();
     deckOverlayOpponent->setEventId(eventId);
     gaTracker->sendEvent("Match", "starts", eventId);
 }

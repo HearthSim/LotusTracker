@@ -79,7 +79,12 @@ void DeckOverlayOpponent::onReceiveEventInfo(QString name, QString type)
     eventType = type;
 }
 
-void DeckOverlayOpponent::onOpponentPutInLibraryCard(Card* card)
+void DeckOverlayOpponent::onOpponentPutOnLibraryCard(Card* card)
+{
+    deck.drawCard(card); //remove a card from opponent current deck on screen
+}
+
+void DeckOverlayOpponent::onOpponentPutOnHandCard(Card *card)
 {
     deck.drawCard(card); //remove a card from opponent current deck on screen
 }

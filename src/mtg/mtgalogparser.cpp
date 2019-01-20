@@ -242,10 +242,12 @@ void MtgaLogParser::parseEventPlayerCourse(QString json)
     }
     QString eventId = jsonEventPlayerCourse["InternalEventName"].toString();
     if (!jsonEventPlayerCourse["CourseDeck"].isNull()) {
+        QString currentModule = jsonEventPlayerCourse["CurrentModule"].toString();
         QJsonObject jsonEventPlayerCourseDeck = jsonEventPlayerCourse["CourseDeck"].toObject();
         Deck deck = jsonObject2Deck(jsonEventPlayerCourseDeck);
-        LOGD(QString("EventPlayerCourse: %1 with %2").arg(eventId).arg(deck.name));
-        emit sgnEventPlayerCourse(eventId, deck);
+        bool isFinished = currentModule == "ClaimPrize";
+        LOGD(QString("EventPlayerCourse: %1 with %2. Finished: %3").arg(eventId).arg(deck.name).arg(isFinished));
+        emit sgnEventPlayerCourse(eventId, deck, isFinished);
     }
 }
 

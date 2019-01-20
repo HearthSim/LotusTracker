@@ -33,7 +33,8 @@ signals:
 
 public slots:    
     void onReceiveEventInfo(QString name, QString type);
-    void onOpponentPutInLibraryCard(Card* card);
+    void onOpponentPutOnLibraryCard(Card* card);
+    void onOpponentPutOnHandCard(Card* card);
     void onOpponentPlayCard(Card* card);
     void onOpponentDiscardCard(Card* card);
     void onOpponentDiscardFromLibraryCard(Card* card);

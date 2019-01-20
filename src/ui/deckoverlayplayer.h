@@ -53,7 +53,8 @@ signals:
 public slots:
     void onLotusAPIRequestFinishedWithSuccess();
     void onLotusAPIRequestFinishedWithError();
-    void onPlayerPutInLibraryCard(Card* card);
+    void onPlayerPutOnLibraryCard(Card* card);
+    void onPlayerPutOnHandCard(Card* card);
     void onPlayerDrawCard(Card* card);
     void onPlayerDeckStatus(int wins, int losses, double winRate);
     void onReceiveEventInfo(QString name, QString type);
