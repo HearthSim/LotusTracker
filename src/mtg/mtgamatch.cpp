@@ -353,7 +353,7 @@ Card* MtgaMatch::getCardByObjectId(MatchZone zone, int objectId)
     if (cardId > 0) {
         return mtgCards->findCard(cardId);
     }
-    return nullptr;
+    return new Card(cardId, 0, "", "", "", QString("UNKNOWN %1").arg(cardId));
 }
 
 QString MtgaMatch::getOwnerIdentifier(int objectId, MatchZone zoneSrc)

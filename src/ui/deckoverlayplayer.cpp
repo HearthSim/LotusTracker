@@ -283,7 +283,7 @@ void DeckOverlayPlayer::onPlayerPutOnLibraryCard(Card* card)
 
 void DeckOverlayPlayer::onPlayerPutOnHandCard(Card *card)
 {
-    deck.insertCard(card);
+    UNUSED(card);
 }
 
 void DeckOverlayPlayer::onPlayerDrawCard(Card* card)
