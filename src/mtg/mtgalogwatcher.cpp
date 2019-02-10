@@ -6,7 +6,7 @@
 #include <QFileInfo>
 #include <QStandardPaths>
 
-#define CHECK_FOR_NEW_LOGS_INTERVAL 250
+#define CHECK_FOR_NEW_LOGS_INTERVAL 1000
 #define WATCH_TEST_LOG false
 #define LOG_PATH QString("AppData%1LocalLow%2Wizards of the Coast%3MTGA")\
     .arg(QDir::separator()).arg(QDir::separator()).arg(QDir::separator())
