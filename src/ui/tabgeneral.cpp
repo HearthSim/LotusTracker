@@ -42,7 +42,7 @@ TabGeneral::TabGeneral(QWidget *parent)
             }
             if (file.endsWith(".app")) {
                 QString homeDir = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
-                QString userName = homeDir.right(homeDir.lastIndexOf(QDir::separator()) - 1);
+                QString userName = homeDir.right(homeDir.length() - homeDir.lastIndexOf(QDir::separator()) - 1);
                 file = file + QDir::separator() + "Contents" + QDir::separator() + "Resources" +
                         QDir::separator() + "drive_c" + QDir::separator() + "users" +
                         QDir::separator() + userName + QDir::separator() + LOG_PATH;
