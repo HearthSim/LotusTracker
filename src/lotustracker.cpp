@@ -169,6 +169,8 @@ void LotusTracker::setupPreferencesScreen()
 {
     preferencesScreen = new PreferencesScreen();
     // Tab General
+    connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnLogFilePathChanged,
+            mtgArena, &MtgArena::onLogFilePathChanged);
     connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnRestoreDefaults,
             preferencesScreen->getTabOverlay(), &TabOverlay::onRestoreDefaultsSettings);
     connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnDeckOverlayDraftEnabled,

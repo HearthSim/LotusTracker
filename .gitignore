@@ -8,6 +8,7 @@ src/urls.h
 dist/*.exe
 dist/*.zip
 dist/files
+dist/osx
 
 # Created by https://www.gitignore.io/api/osx,windows,gradle,c++,qt,intellij
 
