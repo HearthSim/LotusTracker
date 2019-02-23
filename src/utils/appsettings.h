@@ -28,6 +28,8 @@ public:
     void setDeckTrackerAlpha(int alpha);
     QString getCardLayout();
     void setCardLayout(QString cardLayout);
+    QString getLogPath();
+    void setLogPath(QString logPath);
     int getUnhiddenDelay();
     void setUnhiddenDelay(int unhiddenTimeout);
     bool isShowCardManaCostEnabled();

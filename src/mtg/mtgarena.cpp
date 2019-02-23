@@ -9,7 +9,6 @@
 #include <windows.h>
 #endif
 
-#define MTG_ARENA_NAME "MTGA"
 #define MTG_ARENA_TITLE "MTGA"
 #define SLOW_FIND_WINDOW_INTERVAL 5000
 #define FAST_FIND_WINDOW_INTERVAL 500
@@ -43,10 +42,16 @@ MtgaLogParser* MtgArena::getLogParser()
     return logParser;
 }
 
+void MtgArena::onLogFilePathChanged(QString logPath)
+{
+    logWatcher->setLogPath(logPath);
+    logWatcher->stopWatching();
+}
+
 void MtgArena::findGameWindow()
 {
 #if defined Q_OS_MAC
-    int wndId = MacWindowFinder::findWindowId(MTG_ARENA_NAME, MTG_ARENA_TITLE);
+    int wndId = MacWindowFinder::findWindowId(MTG_ARENA_TITLE);
     bool hasFind = wndId != 0;
     bool hasFocus = MacWindowFinder::isWindowFocused(wndId);
 #elif defined Q_OS_WIN
@@ -68,9 +73,9 @@ void MtgArena::findGameWindow()
 void MtgArena::onCurrentFocusChanged(bool hasFocus)
 {
 #if defined Q_OS_MAC
-    int wndId = MacWindowFinder::findWindowId("LotusTracker", DeckTrackerBase::TITLE());
+    int wndId = MacWindowFinder::findWindowId(DeckOverlayBase::TITLE());
     bool hasTrackerOverlayFocus = MacWindowFinder::isWindowFocused(wndId);
-    wndId = MacWindowFinder::findWindowId("LotusTracker", PreferencesScreen::TITLE());
+    wndId = MacWindowFinder::findWindowId(PreferencesScreen::TITLE());
     bool hasLotusTrackerFocus = MacWindowFinder::isWindowFocused(wndId);
 #elif defined Q_OS_WIN
     HWND wnd = WinWindowFinder::findWindow("LotusTracker", DeckOverlayBase::TITLE());

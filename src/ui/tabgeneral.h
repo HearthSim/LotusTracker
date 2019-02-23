@@ -27,6 +27,7 @@ public:
     ~TabGeneral();
 
 signals:
+    void sgnLogFilePathChanged(QString logPath);
     void sgnRestoreDefaults();
     void sgnDeckOverlayDraftEnabled(bool enabled);
     void sgnPlayerOverlayEnabled(bool enabled);

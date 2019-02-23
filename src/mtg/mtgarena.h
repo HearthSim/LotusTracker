@@ -36,6 +36,7 @@ signals:
 	void sgnMTGAStopped();
 
 public slots:
+    void onLogFilePathChanged(QString logPath);
 };
 
 #endif // MTGARENA_H

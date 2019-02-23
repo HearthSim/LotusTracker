@@ -124,7 +124,7 @@ void LotusTracker::setupUpdater()
 {
 #if defined Q_OS_MAC
     CocoaInitializer cocoaInitializer;
-    QString updateUrl = QString("%1/%2").arg(Server::URL()).arg("appcast-osx.xml");
+    QString updateUrl = QString("%1/%2").arg(URLs::SITE()).arg("appcast-osx.xml");
     sparkleUpdater = new MacSparkleUpdater(updateUrl);
 #elif defined Q_OS_WIN
     QString updateUrl = QString("%1/%2").arg(URLs::SITE()).arg("appcast-win.xml");
@@ -164,6 +164,8 @@ void LotusTracker::setupPreferencesScreen()
 {
     preferencesScreen = new PreferencesScreen();
     // Tab General
+    connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnLogFilePathChanged,
+            mtgArena, &MtgArena::onLogFilePathChanged);
     connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnRestoreDefaults,
             preferencesScreen->getTabOverlay(), &TabOverlay::onRestoreDefaultsSettings);
     connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnDeckOverlayDraftEnabled,

@@ -2,6 +2,8 @@
 #include "../macros.h"
 
 #include <QDesktopWidget>
+#include <QDir>
+#include <QStandardPaths>
 
 #define KEY_AUTOSTART "autoStart"
 #define KEY_AUTOUPDATE "autoUpdate"
@@ -9,6 +11,8 @@
 #define KEY_FIRST_MATCH "isFirstMatch"
 #define KEY_FIRST_DRAFT "isFirstDraft"
 #define KEY_HIDE_ON_LOSE_GAME_FOCUS "hideOnLoseGameFocus"
+#define KEY_LOG_PATH "log_path"
+
 #define KEY_OVERLAY_ALPHA "Tracker/alpha"
 #define KEY_OVERLAY_LAYOUT "Tracker/layout"
 #define KEY_OVERLAY_UNHIDDEN_DELAY "Tracker/unhiddenDelay"
@@ -43,6 +47,9 @@
 
 #define DEFAULT_OVERLAY_VIEW_X 5
 #define DEFAULT_OVERLAY_VIEW_Y 60
+
+#define LOG_PATH QString("AppData%1LocalLow%2Wizards of the Coast%3MTGA")\
+    .arg(QDir::separator()).arg(QDir::separator()).arg(QDir::separator())
 
 AppSettings::AppSettings(QObject *parent) : QObject(parent)
 {
@@ -124,6 +131,25 @@ QString AppSettings::getCardLayout()
 void AppSettings::setCardLayout(QString cardLayout)
 {
     settings.setValue(KEY_OVERLAY_LAYOUT, cardLayout);
+}
+
+QString AppSettings::getLogPath()
+{
+#if defined Q_OS_MAC
+    QString homeDir = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
+    QString userName = homeDir.right(homeDir.lastIndexOf(QDir::separator()) - 1);
+    QString baseLogFilePath = "/Applications/MTGArena.app/Contents/Resources/drive_c/users";
+    QString defaultLogPath = baseLogFilePath + QDir::separator() + userName + QDir::separator() + LOG_PATH;
+#elif defined Q_OS_WIN
+    QString homeDir = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
+    QString defaultLogPath = homeDir + QDir::separator() + LOG_PATH;
+#endif
+    return settings.value(KEY_LOG_PATH, defaultLogPath).toString();
+}
+
+void AppSettings::setLogPath(QString logPath)
+{
+    settings.setValue(KEY_LOG_PATH, logPath);
 }
 
 int AppSettings::getUnhiddenDelay()
