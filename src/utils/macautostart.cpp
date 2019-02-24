@@ -74,4 +74,5 @@ LSSharedFileListItemRef MacAutoStart::findLoginItemForCurrentBundle(CFArrayRef c
     }
 
     CFRelease(mainBundleURL);
+    return NULL;
 }
