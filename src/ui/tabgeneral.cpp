@@ -13,7 +13,7 @@
 #include <QToolTip>
 #include <QStandardPaths>
 
-#define LOG_PATH QString("AppData%1LocalLow%2Wizards of the Coast%3MTGA")\
+#define LOG_PATH QString("AppData%1LocalLow%2Wizards Of The Coast%3MTGA")\
     .arg(QDir::separator()).arg(QDir::separator()).arg(QDir::separator())
 
 #if defined Q_OS_MAC
