@@ -10,26 +10,33 @@ MacWindowFinder::MacWindowFinder()
 {
 }
 
-int MacWindowFinder::findWindowId(const QString& title)
+int MacWindowFinder::findWindowId(const QString& name)
 {
-  int wId = 0;
+    int wId = 0;
 
-  CFArrayRef windowList = CGWindowListCopyWindowInfo(kCGWindowListExcludeDesktopElements, kCGNullWindowID);
-  CFIndex numWindows = CFArrayGetCount(windowList);
-  CFStringRef titleRef = title.toCFString();
+    CFArrayRef windowList = CGWindowListCopyWindowInfo(kCGWindowListExcludeDesktopElements, kCGNullWindowID);
+    CFIndex numWindows = CFArrayGetCount(windowList);
+    CFStringRef nameRef = name.toCFString();
 
-  for(int i = 0; i < (int)numWindows; i++) {
-    CFDictionaryRef info = (CFDictionaryRef)CFArrayGetValueAtIndex(windowList, i);
-    CFStringRef thisWindowName = (CFStringRef)CFDictionaryGetValue(info, kCGWindowName);
-    if(thisWindowName && CFStringCompare(thisWindowName, titleRef, 0) == kCFCompareEqualTo) {
-        CFNumberRef thisWindowNumber = (CFNumberRef)CFDictionaryGetValue(info, kCGWindowNumber);
-        CFNumberGetValue(thisWindowNumber, kCFNumberIntType, &wId);
-        break;
+    for(int i = 0; i < (int)numWindows; i++) {
+        CFDictionaryRef info = (CFDictionaryRef)CFArrayGetValueAtIndex(windowList, i);
+        CFStringRef thisWindowName = (CFStringRef)CFDictionaryGetValue(info, kCGWindowName);
+        CFStringRef thisWindowOwnerName = (CFStringRef)CFDictionaryGetValue(info, kCGWindowOwnerName);
+//        LOGD(QString("%1 - %2")
+//               .arg(QString::fromCFString(thisWindowName))
+//               .arg(QString::fromCFString(thisWindowOwnerName)));
+//        if(thisWindowOwnerName && CFStringCompare(thisWindowOwnerName, nameRef, 0) == kCFCompareEqualTo) {
+            if(thisWindowName && CFStringCompare(thisWindowName, nameRef, 0) == kCFCompareEqualTo) {
+                CFNumberRef thisWindowNumber = (CFNumberRef)CFDictionaryGetValue(info, kCGWindowNumber);
+                CFNumberGetValue(thisWindowNumber, kCFNumberIntType, &wId);
+                break;
+            }
+//        }
     }
-  }
 
-  CFRelease(windowList);
-  return wId;
+    CFRelease(nameRef);
+    CFRelease(windowList);
+    return wId;
 }
 
 bool MacWindowFinder::isWindowFocused(int wId)

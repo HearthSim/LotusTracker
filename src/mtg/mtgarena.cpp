@@ -9,9 +9,10 @@
 #include <windows.h>
 #endif
 
+#define MTG_ARENA_NAME "MTGA"
 #define MTG_ARENA_TITLE "MTGA"
 #define SLOW_FIND_WINDOW_INTERVAL 5000
-#define FAST_FIND_WINDOW_INTERVAL 500
+#define FAST_FIND_WINDOW_INTERVAL 1000
 
 MtgArena::MtgArena(QObject *parent)
     : QObject(parent), isFocused(false), isRunning(false)
