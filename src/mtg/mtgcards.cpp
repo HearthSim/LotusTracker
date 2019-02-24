@@ -264,7 +264,6 @@ QList<QChar> MtgCards::getLandBorderColorUsingColorIdentity(QJsonObject jsonCard
 {
     QList<QChar> borderColorIdentity;
     QJsonArray jsonColorIdentity = jsonCard["colorIdentity"].toArray();
-    QString text = jsonCard["text"].toString();
     for (QJsonValueRef colorIdentityRef : jsonColorIdentity) {
         borderColorIdentity << colorIdentityRef.toString().toLower().at(0);
     }

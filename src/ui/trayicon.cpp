@@ -152,7 +152,7 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
             mtgaLogParser->parse(logContent);
             emit mtgaLogParser->sgnGameStart(MatchMode_SINGLE, {{}}, 1);
         } else {
-            LOGW("PlayerDeckSubmit.txt file not found in current dir");
+            LOGW(QString("PlayerDeckSubmit.txt file not found in current dir: %1").arg(logFile->fileName()));
         }
     });
     testMenu->addAction(loadDeckAction);

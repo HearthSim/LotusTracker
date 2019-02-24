@@ -67,15 +67,17 @@ void MtgArena::findGameWindow()
 
 void MtgArena::onCurrentFocusChanged(bool hasFocus)
 {
+    QString overlayTitle = QString("%1 - %2").arg(DeckOverlayBase::TITLE()).arg(APP_NAME);
+    QString preferencesTitle = QString("%1 - %2").arg(PreferencesScreen::TITLE()).arg(APP_NAME);
 #if defined Q_OS_MAC
-    int wndId = MacWindowFinder::findWindowId("LotusTracker", DeckTrackerBase::TITLE());
+    int wndId = MacWindowFinder::findWindowId("LotusTracker", overlayTitle);
     bool hasTrackerOverlayFocus = MacWindowFinder::isWindowFocused(wndId);
-    wndId = MacWindowFinder::findWindowId("LotusTracker", PreferencesScreen::TITLE());
+    wndId = MacWindowFinder::findWindowId("LotusTracker", preferencesTitle);
     bool hasLotusTrackerFocus = MacWindowFinder::isWindowFocused(wndId);
 #elif defined Q_OS_WIN
-    HWND wnd = WinWindowFinder::findWindow("LotusTracker", DeckOverlayBase::TITLE());
+    HWND wnd = WinWindowFinder::findWindow(NULL, overlayTitle);
     bool hasTrackerOverlayFocus = WinWindowFinder::isWindowFocused(wnd);
-    wnd = WinWindowFinder::findWindow("LotusTracker", PreferencesScreen::TITLE());
+    wnd = WinWindowFinder::findWindow(NULL, preferencesTitle);
     bool hasLotusTrackerFocus = WinWindowFinder::isWindowFocused(wnd);
 #endif
     if (!hasFocus && (hasTrackerOverlayFocus || hasLotusTrackerFocus)) {

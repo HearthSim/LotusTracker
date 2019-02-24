@@ -12,7 +12,7 @@ TARGET = LotusTracker
 TEMPLATE = app
 VERSION = 1.2.3
 
-CONFIG+=c++11
+CONFIG += c++11
 
 CONFIG(debug, debug|release)
 

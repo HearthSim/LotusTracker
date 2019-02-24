@@ -114,6 +114,7 @@ void LotusTracker::setupApp()
 #endif
   setAttribute(Qt::AA_Use96Dpi);
   setApplicationName(APP_NAME);
+  setApplicationDisplayName(APP_NAME);
   setApplicationVersion(VERSION);
   setOrganizationName(URLs::SITE_NAME());
   setOrganizationDomain(URLs::SITE());

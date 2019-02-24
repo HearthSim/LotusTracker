@@ -548,7 +548,7 @@ QNetworkRequest LotusTrackerAPI::prepareRequest(RequestData requestData,
     }
 
     if (LOG_REQUEST_ENABLED) {
-        LOGD(QString("Request: %1").arg(url.toString()));
+        LOGD(QString("%1 Request: %2").arg(method).arg(url.toString()));
     }
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     if (userSettings.isUserLogged()) {
