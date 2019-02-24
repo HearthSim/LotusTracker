@@ -69,12 +69,23 @@ int Deck::totalCardsLand()
     return totalLandCards;
 }
 
+int Deck::totalCardsOfMore()
+{
+    int totalMoreCards = 0;
+    for (Card *card : cardsCurrent.keys()) {
+        if (card->manaCostValue() > 4 && !card->isLand) {
+            totalMoreCards += cardsCurrent[card];
+        }
+    }
+    return totalMoreCards;
+}
+
 int Deck::totalCardsOfQtd(int qtd)
 {
     int totalXCards = 0;
     for (Card *card : cardsCurrent.keys()) {
-        if (cardsCurrent[card] == qtd && !card->isLand) {
-            totalXCards += qtd;
+        if (card->manaCostValue() == qtd && !card->isLand) {
+            totalXCards += cardsCurrent[card];
         }
     }
     return totalXCards;

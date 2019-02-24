@@ -48,7 +48,7 @@ DeckOverlayPlayer::DeckOverlayPlayer(QWidget *parent) : DeckOverlayBase(parent),
     int statisticsFontSize = 8;
     winrateFontSize = 8;
 #if defined Q_OS_MAC
-    statisticsFontSize += 2;
+    statisticsFontSize += 6;
     winrateFontSize += 2;
 #endif
     int belerenID = QFontDatabase::addApplicationFont(":/res/fonts/Beleren-Bold.ttf");
@@ -211,12 +211,17 @@ void DeckOverlayPlayer::drawStatistics(QPainter &painter)
     int statisticsTextOptions = Qt::AlignCenter | Qt::AlignVCenter | Qt::TextDontClip;
     int statisticsTextX = uiPos.x() + statisticsBorderMargin;
     int statisticsText1Y = statisticsTitleY + statisticsTextHeight + statisticsTextMargin + statisticsBorderMargin;
-    double totalCards = deck.totalCards();
+    
+    int totalCards = deck.totalCards();
+
     double drawChanceLandCards = deck.totalCardsLand() * 100 / totalCards;
-    double drawChance1xCards = deck.totalCardsOfQtd(1) > 0 ? 1 * 100 / totalCards : 0;
-    double drawChance2xCards = deck.totalCardsOfQtd(2) > 0 ? 2 * 100 / totalCards : 0;
-    double drawChance3xCards = deck.totalCardsOfQtd(3) > 0 ? 3 * 100 / totalCards : 0;
-    double drawChance4xCards = deck.totalCardsOfQtd(4) > 0 ? 4 * 100 / totalCards : 0;
+    double drawChanceMoreCards = deck.totalCardsOfMore() * 100 / totalCards;
+
+    double drawChance1xCards = deck.totalCardsOfQtd(1) * 100 / totalCards;
+    double drawChance2xCards = deck.totalCardsOfQtd(2) * 100 / totalCards;
+    double drawChance3xCards = deck.totalCardsOfQtd(3) * 100 / totalCards;
+    double drawChance4xCards = deck.totalCardsOfQtd(4) * 100 / totalCards;
+
     QString statisticsText1 = QString("1x: %1%    2x: %2%    3x: %3%")
             .arg(drawChance1xCards, 0, 'g', 2)
             .arg(drawChance2xCards, 0, 'g', 2)
@@ -224,8 +229,9 @@ void DeckOverlayPlayer::drawStatistics(QPainter &painter)
     drawText(painter, statisticsFont, statisticsPen, statisticsText1, statisticsTextOptions, false,
              statisticsTextX, statisticsText1Y, statisticsTextHeight, uiWidth - statisticsBorderMargin);
     int statisticsText2Y = statisticsText1Y + statisticsTextHeight + statisticsTextMargin;
-    QString statisticsText2 = QString("4x: %1%    Land: %2%")
+    QString statisticsText2 = QString("4x: %1%    >4: %2%    Land: %3%")
             .arg(drawChance4xCards, 0, 'g', 2)
+            .arg(drawChanceMoreCards, 0, 'g', 2)
             .arg(drawChanceLandCards, 0, 'g', 2);
     drawText(painter, statisticsFont, statisticsPen, statisticsText2, statisticsTextOptions, false,
              statisticsTextX, statisticsText2Y, statisticsTextHeight, uiWidth - statisticsBorderMargin);

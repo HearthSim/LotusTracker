@@ -30,6 +30,7 @@ public:
     int totalCards();
     int totalCardsLand();
     int totalCardsOfQtd(int qtd);
+    int totalCardsOfMore();
 
     void updateCards(QMap<Card*, int> cards, QMap<Card*, int> sideboard);
     void updateTitle(QString title);
