@@ -141,11 +141,7 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
         emit mtgaLogParser->sgnMatchCreated(QString("ConstructedRanked1"),
                                             OpponentInfo("", "Beginner", 0));
         // Player Select Deck
-        QString currentDir = QDir::currentPath();
-#ifdef Q_OS_MAC
-        currentDir = currentDir.left(currentDir.indexOf(".app"));
-        currentDir = currentDir.left(currentDir.lastIndexOf(QDir::separator()));
-#endif
+        QString currentDir = QCoreApplication::applicationDirPath();
         QFile *logFile = new QFile(currentDir + QDir::separator() + "PlayerDeckSubmit.txt");
         if(logFile->open(QFile::ReadOnly | QFile::Text)) {
             QString logContent = QTextStream(logFile).readAll();
@@ -161,11 +157,7 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
     connect(loadSideboardAction, &QAction::triggered, this, [this](){
         MtgaLogParser *mtgaLogParser = LOTUS_TRACKER->mtgArena->getLogParser();
         // Player Select Deck
-        QString currentDir = QDir::currentPath();
-#ifdef Q_OS_MAC
-        currentDir = currentDir.left(currentDir.indexOf(".app"));
-        currentDir = currentDir.left(currentDir.lastIndexOf(QDir::separator()));
-#endif
+        QString currentDir = QCoreApplication::applicationDirPath();
         QFile *logFile = new QFile(currentDir + QDir::separator() + "PlayerDeckSideboard.txt");
         if(logFile->open(QFile::ReadOnly | QFile::Text)) {
             QString logContent = QTextStream(logFile).readAll();
