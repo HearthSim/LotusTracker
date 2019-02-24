@@ -41,7 +41,10 @@ Deck MtgaLogParser::jsonObject2Deck(QJsonObject jsonDeck)
         }
         if (cardId > 0) {
             Card* card = mtgCards->findCard(cardId);
-            cards[card] = jsonCard["quantity"].toInt();
+            int qtd = jsonCard["quantity"].toInt();
+            if (card && qtd > 0) {
+                cards[card] = qtd;
+            }
         }
     }
     QJsonArray jsonSideboard = jsonDeck["sideboard"].toArray();
@@ -50,8 +53,9 @@ Deck MtgaLogParser::jsonObject2Deck(QJsonObject jsonDeck)
         QJsonObject jsonCard = jsonCardRef.toObject();
         int cardId = jsonCard["id"].toString().toInt();
         Card* card = mtgCards->findCard(cardId);
-        if (card) {
-            sideboard[card] = jsonCard["quantity"].toInt();
+        int qtd = jsonCard["quantity"].toInt();
+        if (card && qtd > 0) {
+            sideboard[card] = qtd;
         }
     }
     return Deck(id, name, cards, sideboard);

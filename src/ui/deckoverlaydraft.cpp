@@ -47,9 +47,9 @@ QList<Card *> DeckOverlayDraft::getDeckCardsSorted()
             lhsDualFirstColor = rhs->colorIdentity.first();
         }
         return std::make_tuple(lhs->isBasicLand(), rarities.indexOf(lhs->rarity), lhs->isLand,
-                               colors.indexOf(lhsColors), lhsDualFirstColor, lhs->cmc) <
+                               colors.indexOf(lhsColors), lhsDualFirstColor, lhs->name, lhs->cmc) <
                 std::make_tuple(rhs->isBasicLand(), rarities.indexOf(rhs->rarity), lhs->isLand,
-                                colors.indexOf(rhsColors), rhsDualFirstColor, rhs->cmc);
+                                colors.indexOf(rhsColors), rhsDualFirstColor, rhs->name, rhs->cmc);
     });
     return sortedDeckCards;
 }
