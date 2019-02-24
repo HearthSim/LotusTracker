@@ -367,7 +367,7 @@ void LotusTracker::onPlayerDecks(QList<Deck> playerDecks)
     UNUSED(playerDecks);
     isOnDraftScreen = false;
     deckOverlayDraft->hide();
-    deckOverlayPlayer->hide();
+    hideTrackerTimer->start(2000);
 }
 
 void LotusTracker::onDeckSubmited(QString eventId, Deck deck)
