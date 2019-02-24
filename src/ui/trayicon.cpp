@@ -136,7 +136,7 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
 {
     // Load Deck
     QAction *loadDeckAction = new QAction(tr("Load Deck"), this);
-    connect(loadDeckAction, &QAction::triggered, this, [](){
+    connect(loadDeckAction, &QAction::triggered, this, [this](){
         MtgaLogParser *mtgaLogParser = LOTUS_TRACKER->mtgArena->getLogParser();
         emit mtgaLogParser->sgnMatchCreated(QString("ConstructedRanked1"),
                                             OpponentInfo("", "Beginner", 0));
@@ -150,7 +150,7 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
         if(logFile->open(QFile::ReadOnly | QFile::Text)) {
             QString logContent = QTextStream(logFile).readAll();
             mtgaLogParser->parse(logContent);
-            emit mtgaLogParser->sgnGameStart(MatchMode_SINGLE, {{}}, 1);
+            emit sgnShowDeckOverlay();
         } else {
             LOGW(QString("PlayerDeckSubmit.txt file not found in current dir: %1").arg(logFile->fileName()));
         }
@@ -158,7 +158,7 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
     testMenu->addAction(loadDeckAction);
     // Load Sideboard
     QAction *loadSideboardAction = new QAction(tr("Load Sideboard"), this);
-    connect(loadSideboardAction, &QAction::triggered, this, [](){
+    connect(loadSideboardAction, &QAction::triggered, this, [this](){
         MtgaLogParser *mtgaLogParser = LOTUS_TRACKER->mtgArena->getLogParser();
         // Player Select Deck
         QString currentDir = QDir::currentPath();
@@ -170,6 +170,7 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
         if(logFile->open(QFile::ReadOnly | QFile::Text)) {
             QString logContent = QTextStream(logFile).readAll();
             mtgaLogParser->parse(logContent);
+            emit sgnShowDeckOverlay();
         } else {
             LOGW("PlayerDeckSideboard.txt file not found in current dir");
         }
@@ -178,27 +179,30 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
     // Player Draw card
     QAction *playerDrawAction = new QAction(tr("Player Draw"), this);
     connect(playerDrawAction, &QAction::triggered, this, [](){
-        Card* card = LOTUS_TRACKER->mtgCards->findCard(68186);
+        Card* card = LOTUS_TRACKER->mtgCards->findCard(66829);
         emit LOTUS_TRACKER->mtgaMatch->sgnPlayerDrawCard(card);
     });
     testMenu->addAction(playerDrawAction);
     // Opponent play card
     QAction *opponentPlayAction = new QAction(tr("Opponent Play"), this);
-    connect(opponentPlayAction, &QAction::triggered, this, [](){
+    connect(opponentPlayAction, &QAction::triggered, this, [this](){
         srand(static_cast<unsigned int>(QTime::currentTime().msec()));
         int randomCardNumber = rand() % 200;
         Card* card = LOTUS_TRACKER->mtgCards->findCard(66619 + randomCardNumber * 2);
         emit LOTUS_TRACKER->mtgaMatch->sgnOpponentPlayCard(card);
+        emit sgnShowDeckOverlay();
     });
     testMenu->addAction(opponentPlayAction);
     // Test opponent deck arch
     QAction *opponentDeckArchAction = new QAction(tr("Opponent Deck Arch"), this);
-    connect(opponentDeckArchAction, &QAction::triggered, this, [](){
-        QList<int> cardsMtgaId = {64129, 65343, 65343, 65993, 67238, 67586};
+    connect(opponentDeckArchAction, &QAction::triggered, this, [this](){
+        emit LOTUS_TRACKER->setEventInfo("Test", "Constructed");
+        QList<int> cardsMtgaId = {66109, 68667, 68628, 66223, 67238, 66109};
         for (int cardMtgaId : cardsMtgaId) {
             Card* card = LOTUS_TRACKER->mtgCards->findCard(cardMtgaId);
             emit LOTUS_TRACKER->mtgaMatch->sgnOpponentPlayCard(card);
         }
+        emit sgnShowDeckOverlay();
     });
     testMenu->addAction(opponentDeckArchAction);
     // Test deck overlay draft

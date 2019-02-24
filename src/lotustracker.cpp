@@ -31,6 +31,10 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
     deckOverlayOpponent = new DeckOverlayOpponent();
     deckOverlayDraft = new DeckOverlayDraft();
     trayIcon = new TrayIcon(this);
+    connect(trayIcon, &TrayIcon::sgnShowDeckOverlay, this, [this]{
+        deckOverlayPlayer->show();
+        deckOverlayOpponent->show();
+    });
     lotusAPI = new LotusTrackerAPI(this);
     startScreen = new StartScreen(nullptr, lotusAPI);
     hideTrackerTimer = new QTimer(this);
@@ -125,7 +129,7 @@ void LotusTracker::setupUpdater()
 {
 #if defined Q_OS_MAC
     CocoaInitializer cocoaInitializer;
-    QString updateUrl = QString("%1/%2").arg(Server::URL()).arg("appcast-osx.xml");
+    QString updateUrl = QString("%1/%2").arg(URLs::SITE()).arg("appcast-osx.xml");
     sparkleUpdater = new MacSparkleUpdater(updateUrl);
 #elif defined Q_OS_WIN
     QString updateUrl = QString("%1/%2").arg(URLs::SITE()).arg("appcast-win.xml");
@@ -402,6 +406,7 @@ void LotusTracker::onGameStart(MatchMode mode, QList<MatchZone> zones, int seatI
         return;
     }
     mtgaMatch->onGameStart(mode, zones, seatId);
+    LOGD(QString("mtgArena->isFocused: %1").arg(mtgArena->isFocused));
     if (APP_SETTINGS->isDeckOverlayPlayerEnabled() && mtgArena->isFocused) {
         deckOverlayPlayer->show();
     }
@@ -567,4 +572,10 @@ void LotusTracker::onDraftStatus(QString eventId, QString status, int packNumber
     if (appSettings->isFirstDraft()) {
         showMessage(tr("You can choose Draft tier source between ChannelFireball LSV and Draftsim ranks in Preferences."));
     }
+}
+
+// Just for Tests
+void LotusTracker::setEventInfo(QString eventName, QString eventType)
+{
+    deckOverlayOpponent->onReceiveEventInfo(eventName, eventType);
 }

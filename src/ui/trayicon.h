@@ -27,6 +27,7 @@ public:
     void updateUserSettings();
 
 signals:
+    void sgnShowDeckOverlay();
 
 private slots:
     void signIn();

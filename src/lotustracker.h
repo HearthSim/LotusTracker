@@ -67,6 +67,8 @@ public:
     void showPreferencesScreen();
     void showMessage(QString msg, QString title = tr("Lotus Tracker"));
     void publishOrUpdatePlayerDeck(Deck deck);
+    // Just for Tests
+    void setEventInfo(QString eventName, QString eventType);
 
 signals:
 
