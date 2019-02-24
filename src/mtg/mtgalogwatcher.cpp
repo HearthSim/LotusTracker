@@ -4,19 +4,15 @@
 #include <QByteArray>
 #include <QDir>
 #include <QFileInfo>
-#include <QStandardPaths>
 
 #define CHECK_FOR_NEW_LOGS_INTERVAL 1000
 #define WATCH_TEST_LOG false
-#define LOG_PATH QString("AppData%1LocalLow%2Wizards of the Coast%3MTGA")\
-    .arg(QDir::separator()).arg(QDir::separator()).arg(QDir::separator())
 #define LOG_PATH_TEST "Documents"
 
 MtgaLogWatcher::MtgaLogWatcher(QObject *parent) : QObject(parent), 
     logFile(nullptr), timer(new QTimer(this)), lastFilePos(0)
 {
-    QString homeDir = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
-    logPath = homeDir + QDir::separator() + (WATCH_TEST_LOG ? LOG_PATH_TEST : LOG_PATH);
+    logPath = LOTUS_TRACKER->appSettings->getLogPath();
     MtgArena* mtgArena = static_cast<MtgArena*>(parent);
     if (WATCH_TEST_LOG) {
         startWatching();
@@ -39,6 +35,7 @@ MtgaLogWatcher::~MtgaLogWatcher()
 }
 
 void MtgaLogWatcher::setLogPath(QString logPath){
+    this->logPath = logPath;
     logFile = new QFile(logPath + QDir::separator() + "output_log.txt");
     if (logFile->exists()) {
 		logFilePath = logPath;

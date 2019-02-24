@@ -77,8 +77,11 @@ void DeckOverlayBase::setupWindow()
     objc_object* nsviewObject = reinterpret_cast<objc_object*>(windowObject);
     objc_object* nsWindowObject = objc_msgSend(nsviewObject, sel_registerName("window"));
     int NSWindowCollectionBehaviorCanJoinAllSpaces = 1 << 0;
-    objc_msgSend(nsWindowObject, sel_registerName("setCollectionBehavior:"), NSWindowCollectionBehaviorCanJoinAllSpaces);
-    objc_msgSend(nsWindowObject, sel_registerName("setLevel:"), sel_registerName("NSFloatingWindowLevel"));
+    int NSWindowCollectionBehaviorStationary = 1 << 4;
+    int NSWindowCollectionBehaviorFullScreenAuxiliary = 1 << 8;
+    objc_msgSend(nsWindowObject, sel_registerName("setCollectionBehavior:"), NSWindowCollectionBehaviorStationary |
+            NSWindowCollectionBehaviorCanJoinAllSpaces | NSWindowCollectionBehaviorFullScreenAuxiliary);
+    objc_msgSend(nsWindowObject, sel_registerName("setLevel:"), sel_registerName("kCGOverlayWindowLevel"));
 #else
     setWindowFlags(windowFlags() | Qt::Tool);
 #endif
@@ -497,7 +500,6 @@ void DeckOverlayBase::onHoverEnter(QHoverEvent *event)
             event->pos().x() > uiPos.x() + uiWidth) {
         return;
     }
-    LOGD("Hove enter");
     updateCardHoverUrl(getCardsHoverPosition(event));
 }
 
