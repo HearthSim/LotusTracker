@@ -18,18 +18,17 @@
 #include <objc/objc-runtime.h>
 #endif
 
-#define BASE_UI_WIDTH 160
-
 DeckOverlayBase::DeckOverlayBase(QWidget *parent) : QMainWindow(parent),
     ui(new Ui::TrackerOverlay()), cardBGSkin(APP_SETTINGS->getCardLayout()),
     mousePressed(false), mouseInitialPosition(QPoint()), cornerRadius(10), uiPos(0, 50),
     zoomMinusButton(QRect(0, 0, 0, 0)), zoomPlusButton(QRect(0, 0, 0, 0)), uiAlpha(1.0),
-    cardHoverWidth(220), coverHeight(0), uiHeight(0), uiWidth(BASE_UI_WIDTH), uiScale(2),
+    cardHoverWidth(220), coverHeight(0), uiHeight(0), uiWidth(0), uiScale(2),
     currentHoverPosition(0), hoverCard(nullptr), deck(Deck()), hidden(false), showingTooltip(false)
 {
     ui->setupUi(this);
     setupWindow();
     setupDrawTools();
+    uiWidth = screen.width() / 8;
     QString dataDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
     cachesDir = dataDir + QDir::separator() + "caches";
     if (!QFile::exists(cachesDir)) {
@@ -195,7 +194,7 @@ void DeckOverlayBase::hideCardOnHover()
 
 void DeckOverlayBase::paintEvent(QPaintEvent*)
 {
-    uiWidth = BASE_UI_WIDTH - (isShowCardManaCostEnabled ? 0 : 20) + uiScale * 10;
+    uiWidth = (screen.width() / 8) - (isShowCardManaCostEnabled ? 0 : 20) + uiScale * 10;
     QPainter painter(this);
     painter.setOpacity(uiAlpha);
     painter.setRenderHints(QPainter::HighQualityAntialiasing | QPainter::TextAntialiasing |
