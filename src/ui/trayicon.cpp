@@ -142,6 +142,10 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
                                             OpponentInfo("", "Beginner", 0));
         // Player Select Deck
         QString currentDir = QCoreApplication::applicationDirPath();
+#if defined Q_OS_MAC
+        currentDir = currentDir.replace("/Contents/MacOS", "");
+        currentDir = currentDir.left(currentDir.lastIndexOf("/"));
+#endif
         QFile *logFile = new QFile(currentDir + QDir::separator() + "PlayerDeckSubmit.txt");
         if(logFile->open(QFile::ReadOnly | QFile::Text)) {
             QString logContent = QTextStream(logFile).readAll();
@@ -158,6 +162,10 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
         MtgaLogParser *mtgaLogParser = LOTUS_TRACKER->mtgArena->getLogParser();
         // Player Select Deck
         QString currentDir = QCoreApplication::applicationDirPath();
+#if defined Q_OS_MAC
+        currentDir = currentDir.replace("/Contents/MacOS", "");
+        currentDir = currentDir.left(currentDir.lastIndexOf("/"));
+#endif
         QFile *logFile = new QFile(currentDir + QDir::separator() + "PlayerDeckSideboard.txt");
         if(logFile->open(QFile::ReadOnly | QFile::Text)) {
             QString logContent = QTextStream(logFile).readAll();
