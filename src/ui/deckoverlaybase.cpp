@@ -246,9 +246,9 @@ void DeckOverlayBase::drawCoverButtons(QPainter &painter)
 {
     int zoomButtonSize = 12 + static_cast<int> (uiScale * 1);
     int zoomButtonMargin = 5;
-    int zoomButtonY = uiPos.y() + zoomButtonMargin;
+    int zoomButtonY = uiPos.y() + zoomButtonMargin + 2;
     // Minus button
-    int zoomMinusX = uiPos.x() + zoomButtonMargin + 2;
+    int zoomMinusX = uiPos.x() + zoomButtonMargin + 3;
     QImage zoomMinus(":res/zoom_minus.png");
     QImage zoomMinusScaled = zoomMinus.scaled(zoomButtonSize, zoomButtonSize,
                                               Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
@@ -272,9 +272,9 @@ void DeckOverlayBase::drawDeckInfo(QPainter &painter)
     drawText(painter, titleFont, titlePen, deckName, titleTextOptions, true,
              uiPos.x(), getDeckNameYPosition(), titleHeight, uiWidth);
     // Deck identity
-    int manaSize = 13 + static_cast<int> (uiScale * 1);
+    int manaSize = 12 + static_cast<int> (uiScale * 1);
     int manaX = uiPos.x() + 8;
-    int manaY = uiPos.y() + uiHeight - manaSize - 4;
+    int manaY = uiPos.y() + uiHeight - manaSize - 6;
     QString deckColorIdentity = getDeckColorIdentity();
     if (deckColorIdentity != "m"){
         for (int i=0; i<deckColorIdentity.length(); i++) {

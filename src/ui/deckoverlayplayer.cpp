@@ -46,7 +46,7 @@ DeckOverlayPlayer::DeckOverlayPlayer(QWidget *parent) : DeckOverlayBase(parent),
     applyCurrentSettings();
     // Statistics
     int statisticsFontSize = 8;
-    winrateFontSize = 8;
+    winrateFontSize = 9;
 #if defined Q_OS_MAC
     statisticsFontSize += 2;
     winrateFontSize += 2;
@@ -111,7 +111,7 @@ void DeckOverlayPlayer::afterPaintEvent(QPainter &painter)
     // Preferences button
     int buttonSize = 16 + static_cast<int> (uiScale * 1);
     int buttonMarginX = 3;
-    int buttonMarginY = 2;
+    int buttonMarginY = 3;
     int preferencesButtonY = uiPos.y() + buttonMarginY;
     QImage settings(":res/preferences.png");
     QImage settingsScaled = settings.scaled(buttonSize, buttonSize,
@@ -128,18 +128,21 @@ void DeckOverlayPlayer::afterPaintEvent(QPainter &painter)
     painter.drawImage(publishButtonX, publishButtonY, publishScaled);
     publishDeckButton = QRect(publishButtonX, publishButtonY, buttonSize, buttonSize);
     // Event name and WinRate
-    QString eventNameWithWinRate = eventName;
+    QString winRate = "";
     if (deckWins > 0 || deckLosses > 0) {
-        eventNameWithWinRate = QString("%1 | %2-%3 (%4%)").arg(eventName)
-                .arg(deckWins).arg(deckLosses).arg(deckWinRate);
+        winRate = QString("%1-%2 (%3%)").arg(deckWins)
+                .arg(deckLosses).arg(deckWinRate);
     }
     winRateFont.setPointSize(winrateFontSize + (uiScale / 2));
     int winRateOptions = Qt::AlignCenter | Qt::AlignVCenter | Qt::TextDontClip;
     QFontMetrics winrateMetrics(statisticsFont);
-    int winrateTextHeight = winrateMetrics.ascent() - winrateMetrics.descent();
-    int winRateY = static_cast<int> (uiPos.y() - titleHeight - 5.5 - (uiScale / 2));
-    drawText(painter, winRateFont, winRatePen, eventNameWithWinRate, winRateOptions, true,
-             uiPos.x(), winRateY, winrateTextHeight, uiWidth);
+    int eventNameTextHeight = winrateMetrics.ascent() - winrateMetrics.descent();
+    int eventNameY = static_cast<int> (uiPos.y() + titleHeight + (uiScale / 2));
+    int winRateY = static_cast<int> (publishButtonY + buttonMarginY + titleHeight/2 + (uiScale / 2));
+    drawText(painter, winRateFont, winRatePen, eventName, winRateOptions, true,
+             uiPos.x(), eventNameY, eventNameTextHeight, uiWidth);
+    drawText(painter, winRateFont, winRatePen, winRate, winRateOptions, true,
+             uiPos.x() + buttonSize/2, winRateY, eventNameTextHeight, uiWidth);
     // Statistics
     if (!hidden && isStatisticsEnabled) {
         drawStatistics(painter);
@@ -234,7 +237,7 @@ void DeckOverlayPlayer::drawStatistics(QPainter &painter)
 
 int DeckOverlayPlayer::getDeckNameYPosition()
 {
-    return uiPos.y() - (titleHeight + 7 + (uiScale / 2)) * 2;
+    return uiPos.y() - (titleHeight + 7 + (uiScale / 2));
 }
 
 int DeckOverlayPlayer::getHoverCardXPosition()
