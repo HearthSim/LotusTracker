@@ -34,6 +34,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 HEADERS += \
     src/api/lotusapi.h \
     src/api/requestdata.h \
+    src/api/rqtparsedeckposside.h \
     src/api/rqtplayerdeck.h \
     src/api/rqtplayerdeckpublish.h \
     src/api/rqtplayerdeckupdate.h \

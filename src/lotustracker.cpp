@@ -246,6 +246,8 @@ void LotusTracker::setupLotusAPIConnectsions()
             this, &LotusTracker::onUserTokenRefreshError);
     connect(lotusAPI, &LotusTrackerAPI::sgnPlayerCollection,
             deckOverlayDraft, &DeckOverlayDraft::setPlayerCollection);
+    connect(lotusAPI, &LotusTrackerAPI::sgnParseDeckPosSideboardJson,
+            mtgArena->getLogParser(), &MtgaLogParser::onParseDeckPosSideboardJson);
 }
 
 void LotusTracker::setupLogParserConnections()
@@ -280,6 +282,8 @@ void LotusTracker::setupLogParserConnections()
             this, &LotusTracker::onEventFinish);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnDraftStatus,
             this, &LotusTracker::onDraftStatus);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnDecodeDeckPosSideboardPayload,
+            lotusAPI, &LotusTrackerAPI::onDecodeDeckPosSideboardPayload);
 }
 
 void LotusTracker::setupMtgaMatchConnections()

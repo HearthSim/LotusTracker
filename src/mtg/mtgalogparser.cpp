@@ -625,17 +625,19 @@ void MtgaLogParser::parseClientToGreMessages(QString json)
     if (jsonClientToGreMsg.empty()) {
         return;
     }
-    QJsonObject jsonPayload = jsonClientToGreMsg["Payload"].toObject();
-    if (jsonPayload.keys().contains("SubmitDeckResp")) {
-        parseSubmitDeckResp(jsonPayload);
-    }
+    QString type = jsonClientToGreMsg["clientToMatchServiceMessageType"].toString();
+    QString payload = jsonClientToGreMsg["payload"].toString();
+    emit sgnDecodeDeckPosSideboardPayload(type, payload);
 }
 
-void MtgaLogParser::parseSubmitDeckResp(QJsonObject jsonMessage)
+void MtgaLogParser::onParseDeckPosSideboardJson(QJsonObject jsonMessage)
 {
-    QJsonObject jsonDeckResp = jsonMessage["SubmitDeckResp"].toObject();
-    QJsonObject jsonDeck = jsonDeckResp["Deck"].toObject();
-    QJsonArray jsonMainDeckCards = jsonDeck["DeckCards"].toArray();
+    if (!jsonMessage.contains("submitdeckresp")) {
+        return;
+    }
+    QJsonObject jsonDeckResp = jsonMessage["submitdeckresp"].toObject();
+    QJsonObject jsonDeck = jsonDeckResp["deck"].toObject();
+    QJsonArray jsonMainDeckCards = jsonDeck["deckcardsList"].toArray();
     QMap<Card*, int> mainDeck;
     for(QJsonValueRef jsonCardRef : jsonMainDeckCards){
         int cardId = jsonCardRef.toInt();
@@ -646,7 +648,7 @@ void MtgaLogParser::parseSubmitDeckResp(QJsonObject jsonMessage)
             mainDeck[card] = 1;
         }
     }
-    QJsonArray jsonSideboardCards = jsonDeck["SideboardCards"].toArray();
+    QJsonArray jsonSideboardCards = jsonDeck["sideboardcardsList"].toArray();
     QMap<Card*, int> sideboard;
     for(QJsonValueRef jsonCardRef : jsonSideboardCards){
         int cardId = jsonCardRef.toInt();

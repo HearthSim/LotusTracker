@@ -40,7 +40,6 @@ private:
     void parsePlayerDeckSubmited(QString json);
     void parseDirectGameChallenge(QString json);
     void parseEventFinish(QString json);
-    void parseSubmitDeckResp(QJsonObject jsonMessage);
     void parseClientToGreMessages(QString json);
     void parseGreToClientMessages(QString json);
     void parseGameStateFull(QJsonObject jsonMessage);
@@ -85,8 +84,10 @@ signals:
                         int maxWins, int wins, int losses);
     void sgnDraftStatus(QString eventId, QString status, int packNumber, int pickNumber,
                         QList<Card*> availablePicks, QList<Card*> pickedCards);
+    void sgnDecodeDeckPosSideboardPayload(QString type, QString payload);
 
 public slots:
+    void onParseDeckPosSideboardJson(QJsonObject jsonMessage);
 };
 
 #endif // MTGALOGPARSER_H

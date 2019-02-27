@@ -35,7 +35,6 @@ private:
     void getPlayerDeckToUpdateRequestOnFinish();
     void getMatchInfoRequestOnFinish();
     Deck jsonToDeck(QJsonObject deckJson);
-    void getPlayerCollectionRequestOnFinish();
     void registerPlayerMatch(QString matchID);
     void uploadMatchRequestOnFinish();
     QNetworkRequest prepareGetRequest(RequestData requestData, bool checkUserAuth,
@@ -45,7 +44,7 @@ private:
     QBuffer* prepareBody(RequestData requestData);
     void sendGet(RequestData requestData, LotusTrackerAPIMethod onRequestFinish);
     void sendPatch(RequestData requestData);
-    void sendPost(RequestData requestData);
+    void sendPost(RequestData requestData, LotusTrackerAPIMethod onRequestFinish = nullptr);
     void requestOnFinish();
 
 public:
@@ -80,15 +79,19 @@ signals:
     void sgnDeckWinRate(int wins, int losses, double winRate);
     void sgnEventInfo(QString eventName, QString eventType);
     void sgnPlayerCollection(QMap<int, int> ownedCards);
+    void sgnParseDeckPosSideboardJson(QJsonObject json);
 
 public slots:
     void onRequestPlayerCollection();
+    void onDecodeDeckPosSideboardPayload(QString type, QString payload);
 
 private slots:
     void authRequestOnFinish();
     void recoverPasswordRequestOnFinish();
     void tokenRefreshRequestOnFinish();
     void onTokenRefreshed();
+    void getPlayerCollectionRequestOnFinish();
+    void onParseDeckPosSideboardPayloadRequestFinish();
 
 };
 
