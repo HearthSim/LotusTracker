@@ -15,6 +15,7 @@ private:
     void applyCurrentSettings();
     void onStartAtLoginChanged();
     void onAutoUpdateChanged();
+    void onChangeLogPathClicked();
     void onPOEnabledChanged();
     void onOOEnabledChanged();
     void onSDADEnabledChanged();

@@ -30,28 +30,14 @@ TabGeneral::TabGeneral(QWidget *parent)
     connect(ui->btCheckUpdate, &QPushButton::clicked, this, [] {
         LOTUS_TRACKER->sparkleUpdater->CheckForUpdatesNow();
     });
-    connect(ui->btOpenLog, &QPushButton::clicked, this, [this] {
-        QString file = QFileDialog::getOpenFileName(this,
-                tr("Open magic arena log"), "", tr(LOG_FILE_FILTER));
-        if (file.isEmpty())
-            return;
-        else {
-            QString logFileName = QString("%1output_log.txt").arg(QDir::separator());
-            if (file.endsWith(logFileName)) {
-                file = file.replace(logFileName, "");
-            }
-            if (file.endsWith(".app")) {
-                QString homeDir = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
-                QString userName = homeDir.right(homeDir.length() - homeDir.lastIndexOf(QDir::separator()) - 1);
-                file = file + QDir::separator() + "Contents" + QDir::separator() + "Resources" +
-                        QDir::separator() + "drive_c" + QDir::separator() + "users" +
-                        QDir::separator() + userName + QDir::separator() + LOG_PATH;
-            }
-            LOTUS_TRACKER->appSettings->setLogPath(file);
-            ui->leLog->setText(file);
-            emit sgnLogFilePathChanged(file);
-        }
-    });
+
+#if defined Q_OS_WIN
+    ui->lbLogLocation->hide();
+    ui->leLog->hide();
+    ui->btOpenLog->hide();
+#endif
+    connect(ui->btOpenLog, &QPushButton::clicked,
+            this, &TabGeneral::onChangeLogPathClicked);
     connect(ui->cbStartAtLogin, &QCheckBox::clicked,
             this, &TabGeneral::onStartAtLoginChanged);
     connect(ui->cbAutoUpdate, &QCheckBox::clicked,
@@ -125,6 +111,30 @@ void TabGeneral::onAutoUpdateChanged()
     LOTUS_TRACKER->sparkleUpdater->SetAutomaticallyChecksForUpdates(enabled);
     LOGD(QString("AutoUpdate: %1").arg(enabled ? "true" : "false"));
     APP_SETTINGS->enableAutoUpdate(enabled);
+}
+
+void TabGeneral::onChangeLogPathClicked()
+{
+    QString file = QFileDialog::getOpenFileName(this,
+            tr("Open magic arena log"), "", tr(LOG_FILE_FILTER));
+    if (file.isEmpty())
+        return;
+    else {
+        QString logFileName = QString("%1output_log.txt").arg(QDir::separator());
+        if (file.endsWith(logFileName)) {
+            file = file.replace(logFileName, "");
+        }
+        if (file.endsWith(".app")) {
+            QString homeDir = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
+            QString userName = homeDir.right(homeDir.length() - homeDir.lastIndexOf(QDir::separator()) - 1);
+            file = file + QDir::separator() + "Contents" + QDir::separator() + "Resources" +
+                    QDir::separator() + "drive_c" + QDir::separator() + "users" +
+                    QDir::separator() + userName + QDir::separator() + LOG_PATH;
+        }
+        LOTUS_TRACKER->appSettings->setLogPath(file);
+        ui->leLog->setText(file);
+        emit sgnLogFilePathChanged(file);
+    }
 }
 
 void TabGeneral::onDOEnabledChanged()
