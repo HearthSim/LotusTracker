@@ -31,6 +31,7 @@ private:
     void parsePlayerCollection(QString json);
     void parsePlayerDecks(QString json);
     void parseEventPlayerCourse(QString json);
+    void parseEventPlayerCourses(QString json);
     void parseMatchCreated(QString json);
     void parseMatchInfo(QString json);
     void parsePlayerRankInfo(QString json);
@@ -64,6 +65,7 @@ signals:
     void sgnPlayerCollection(QMap<int, int> ownedCards);
     void sgnPlayerDecks(QList<Deck> playerDecks);
     void sgnEventPlayerCourse(QString eventId, Deck currentDeck, bool isFinished);
+    void sgnEventPlayerCourses(QList<QString> events);
     void sgnMatchCreated(QString eventId, OpponentInfo opponentInfo);
     void sgnMatchInfoSeats(QList<MatchPlayer>);
     void sgnGameStart(MatchMode mode, QList<MatchZone> zones, int seatId);

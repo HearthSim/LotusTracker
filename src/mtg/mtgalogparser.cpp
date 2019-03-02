@@ -152,6 +152,8 @@ void MtgaLogParser::parseIncomingMsg(QPair<QString, QString> msg)
         parsePlayerDeckUpdate(msg.second);
     } else if (msg.first == "Event.GetPlayerCourse"){
         parseEventPlayerCourse(msg.second);
+    } else if (msg.first == "Event.GetPlayerCourses"){
+        parseEventPlayerCourses(msg.second);
     } else if (msg.first == "Event.MatchCreated"){
         parseMatchCreated(msg.second);
     } else if (msg.first == "MatchGameRoomStateChangedEvent"){
@@ -253,6 +255,21 @@ void MtgaLogParser::parseEventPlayerCourse(QString json)
         LOGD(QString("EventPlayerCourse: %1 with %2. Finished: %3").arg(eventId).arg(deck.name).arg(isFinished));
         emit sgnEventPlayerCourse(eventId, deck, isFinished);
     }
+}
+
+void MtgaLogParser::parseEventPlayerCourses(QString json)
+{
+    QJsonArray jsonEventCourses = Transformations::stringToJsonArray(json);
+    if (jsonEventCourses.empty()) {
+        return;
+    }
+    QList<QString> events;
+    for (QJsonValueRef jsonEventRef: jsonEventCourses) {
+        QJsonObject event = jsonEventRef.toObject();
+        events << event["InternalEventName"].toString();
+    }
+    LOGD(QString("EventPlayerCourses: %1 events").arg(events.size()));
+    emit sgnEventPlayerCourses(events);
 }
 
 void MtgaLogParser::parseMatchCreated(QString json)

@@ -286,6 +286,11 @@ void LotusTracker::setupLogParserConnections()
             this, &LotusTracker::onDraftStatus);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnDecodeDeckPosSideboardPayload,
             lotusAPI, &LotusTrackerAPI::onDecodeDeckPosSideboardPayload);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnEventPlayerCourses,
+            this, [this](){
+        isOnDraftScreen = false;
+        deckOverlayDraft->hide();
+    });
 }
 
 void LotusTracker::setupMtgaMatchConnections()
@@ -364,15 +369,11 @@ void LotusTracker::onPlayerCollectionUpdated(QMap<int, int> ownedCards)
 {
     deckOverlayDraft->setPlayerCollection(ownedCards);
     lotusAPI->updatePlayerCollection(ownedCards);
-    isOnDraftScreen = false;
-    deckOverlayDraft->hide();
 }
 
 void LotusTracker::onPlayerDecks(QList<Deck> playerDecks)
 {
     UNUSED(playerDecks);
-    isOnDraftScreen = false;
-    deckOverlayDraft->hide();
     hideTrackerTimer->start(2000);
 }
 
@@ -395,7 +396,6 @@ void LotusTracker::onEventPlayerCourse(QString eventId, Deck currentDeck, bool i
 void LotusTracker::onMatchStart(QString eventId, OpponentInfo opponentInfo)
 {
     isOnDraftScreen = false;
-    deckOverlayDraft->hide();
     mtgaMatch->onStartNewMatch(eventId, opponentInfo);
     // Load deck from event in course if not loaded yet (event continues without submitDeck)
     if (eventId == eventPlayerCourse.first) {
