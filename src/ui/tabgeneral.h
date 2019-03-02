@@ -15,8 +15,10 @@ private:
     void applyCurrentSettings();
     void onStartAtLoginChanged();
     void onAutoUpdateChanged();
+    void onChangeLogPathClicked();
     void onPOEnabledChanged();
     void onOOEnabledChanged();
+    void onSDADEnabledChanged();
     void onDOEnabledChanged();
     void onRBRankChanged();
     void onHideOnLoseGameFocusChanged();
@@ -27,6 +29,7 @@ public:
     ~TabGeneral();
 
 signals:
+    void sgnLogFilePathChanged(QString logPath);
     void sgnRestoreDefaults();
     void sgnDeckOverlayDraftEnabled(bool enabled);
     void sgnPlayerOverlayEnabled(bool enabled);
@@ -34,6 +37,7 @@ signals:
     void sgnDraftOverlaySource(QString source);
 
 public slots:
+    void onSwitchDraftRatingsSource();
 };
 
 #endif // TABGENERAL_H

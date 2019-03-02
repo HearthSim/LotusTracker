@@ -1,0 +1,115 @@
+
+[UnityCrossThreadLogger]6/13/2018 7:36:56 PM
+<== Event.DeckSubmit(157)
+{
+  "Id": "06660767-8498-4f76-8ff3-7f61ba5bc276",
+  "InternalEventName": "ConstructedRanked1",
+  "PlayerId": "A3461766D418FFE6",
+  "ModuleInstanceData": {
+    "SubmittedDeckWeight": 1485.8178156289998,
+    "DeckSelected": true
+  },
+  "CurrentEventState": "ReadyToMatch",
+  "CurrentModule": "TransitionToMatches",
+  "CardPool": null,
+  "CourseDeck": {
+    "id": "06660767-8498-4f76-8ff3-7f61ba5bc276",
+    "name": "Grixis the destroyer",
+    "description": null,
+    "format": "Standard",
+    "resourceId": "00000000-0000-0000-0000-000000000000",
+    "deckTileId": 65539,
+    "mainDeck": [
+      {
+        "id": "66645",
+        "quantity": 2
+      },
+      {
+        "id": "66023",
+        "quantity": 1
+      },
+      {
+        "id": "66641",
+        "quantity": 1
+      },
+      {
+        "id": "66667",
+        "quantity": 1
+      },
+      {
+        "id": "65987",
+        "quantity": 1
+      },
+      {
+        "id": "66671",
+        "quantity": 2
+      },
+      {
+        "id": "66829",
+        "quantity": 2
+      },
+      {
+        "id": "66837",
+        "quantity": 1
+      },
+      {
+        "id": "66803",
+        "quantity": 1
+      },
+      {
+        "id": "66807",
+        "quantity": 1
+      },
+      {
+        "id": "66291",
+        "quantity": 1
+      },
+      {
+        "id": "66363",
+        "quantity": 1
+      },
+      {
+        "id": "66913",
+        "quantity": 1
+      },
+      {
+        "id": "66387",
+        "quantity": 1
+      },
+      {
+        "id": "66867",
+        "quantity": 1
+      },
+      {
+        "id": "66907",
+        "quantity": 1
+      },
+      {
+        "id": "66897",
+        "quantity": 3
+      },
+      {
+        "id": "67023",
+        "quantity": 7
+      },
+      {
+        "id": "67021",
+        "quantity": 4
+      },
+      {
+        "id": "67015",
+        "quantity": 6
+      },
+      {
+        "id": "66923",
+        "quantity": 1
+      }
+    ],
+    "sideboard": [],
+    "lastUpdated": "2018-04-04T00:55:50",
+    "lockedForUse": false,
+    "lockedForEdit": false,
+    "isValid": true
+  }
+}
+ 

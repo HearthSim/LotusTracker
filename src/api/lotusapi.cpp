@@ -1,6 +1,7 @@
 #include "lotusapi.h"
 #include "macros.h"
 #include "../urls.h"
+#include "rqtparsedeckposside.h"
 #include "rqtplayerdeck.h"
 #include "rqtplayerdeckpublish.h"
 #include "rqtplayerdeckupdate.h"
@@ -460,6 +461,12 @@ void LotusTrackerAPI::onRequestPlayerCollection()
     sendGet(rqtUserCollection, onFinish);
 }
 
+void LotusTrackerAPI::onDecodeDeckPosSideboardPayload(QString type, QString payload)
+{
+    RqtParseDeckPosSide request(type, payload);
+    sendPost(request, &LotusTrackerAPI::onParseDeckPosSideboardPayloadRequestFinish);
+}
+
 void LotusTrackerAPI::getPlayerCollectionRequestOnFinish()
 {
     QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
@@ -488,6 +495,27 @@ void LotusTrackerAPI::getPlayerCollectionRequestOnFinish()
          userCollection[mtgaId.toInt()] = jsonRsp[mtgaId].toInt();
     }
     emit sgnPlayerCollection(userCollection);
+}
+
+void LotusTrackerAPI::onParseDeckPosSideboardPayloadRequestFinish()
+{
+    QNetworkReply *reply = static_cast<QNetworkReply*>(sender());
+    QJsonObject jsonRsp = Transformations::stringToJsonObject(reply->readAll());
+    if (LOG_REQUEST_ENABLED) {
+        LOGD(QString(QJsonDocument(jsonRsp).toJson()));
+    }
+    emit sgnRequestFinished();
+
+    int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    if (statusCode < 200 || statusCode > 299) {
+        QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
+        LOGW(QString("Error: %1 - %2: %3").arg(reply->errorString()).arg(reason));
+        QString message = jsonRsp["error"].toString();
+        LOTUS_TRACKER->showMessage(message);
+        return;
+    }
+
+    emit sgnParseDeckPosSideboardJson(jsonRsp);
 }
 
 void LotusTrackerAPI::uploadMatchRequestOnFinish()
@@ -548,7 +576,7 @@ QNetworkRequest LotusTrackerAPI::prepareRequest(RequestData requestData,
     }
 
     if (LOG_REQUEST_ENABLED) {
-        LOGD(QString("Request: %1").arg(url.toString()));
+        LOGD(QString("%1 Request: %2").arg(method).arg(url.toString()));
     }
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     if (userSettings.isUserLogged()) {
@@ -590,7 +618,7 @@ void LotusTrackerAPI::sendPatch(RequestData requestData)
             this, &LotusTrackerAPI::requestOnFinish);
 }
 
-void LotusTrackerAPI::sendPost(RequestData requestData)
+void LotusTrackerAPI::sendPost(RequestData requestData, LotusTrackerAPIMethod onRequestFinish)
 {
     QNetworkRequest request = prepareRequest(requestData, true, "POST");
     if (!request.hasRawHeader(QString(HEADER_AUTHORIZATION).toUtf8())) {
@@ -598,8 +626,11 @@ void LotusTrackerAPI::sendPost(RequestData requestData)
     }
     QBuffer* buffer = prepareBody(requestData);
     QNetworkReply *reply = networkManager.post(request, buffer);
-    connect(reply, &QNetworkReply::finished,
-            this, &LotusTrackerAPI::requestOnFinish);
+    if (onRequestFinish != nullptr) {
+        connect(reply, &QNetworkReply::finished, this, onRequestFinish);
+    } else {
+        connect(reply, &QNetworkReply::finished, this, &LotusTrackerAPI::requestOnFinish);
+    }
 }
 
 void LotusTrackerAPI::requestOnFinish()

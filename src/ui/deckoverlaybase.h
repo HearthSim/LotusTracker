@@ -88,7 +88,7 @@ public:
     ~DeckOverlayBase();
     Deck getDeck();
 
-    static const QString TITLE(){ return "TrackerOverlay"; }
+    static const QString TITLE(){ return "LotusTrackerOverlay"; }
 
 signals:
 

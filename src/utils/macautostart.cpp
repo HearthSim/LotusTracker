@@ -59,14 +59,17 @@ LSSharedFileListItemRef MacAutoStart::findLoginItemForCurrentBundle(CFArrayRef c
         LSSharedFileListItemRef item = (LSSharedFileListItemRef)CFArrayGetValueAtIndex(currentLoginItems, i);
 
         UInt32 resolutionFlags = kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes;
-        CFURLRef url = LSSharedFileListItemCopyResolvedURL(item, resolutionFlags, NULL);
+        CFURLRef url = NULL;
+        OSStatus err = LSSharedFileListItemResolve(item, resolutionFlags, &url, NULL);
 
-        bool foundIt = CFEqual(url, mainBundleURL);
-        CFRelease(url);
+        if(err == noErr) {
+            bool foundIt = CFEqual(url, mainBundleURL);
+            CFRelease(url);
 
-        if(foundIt) {
-            CFRelease(mainBundleURL);
-            return item;
+            if(foundIt) {
+                CFRelease(mainBundleURL);
+                return item;
+            }
         }
     }
 

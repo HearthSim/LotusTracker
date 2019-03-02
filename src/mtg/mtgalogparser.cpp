@@ -41,7 +41,10 @@ Deck MtgaLogParser::jsonObject2Deck(QJsonObject jsonDeck)
         }
         if (cardId > 0) {
             Card* card = mtgCards->findCard(cardId);
-            cards[card] = jsonCard["quantity"].toInt();
+            int qtd = jsonCard["quantity"].toInt();
+            if (card && qtd > 0) {
+                cards[card] = qtd;
+            }
         }
     }
     QJsonArray jsonSideboard = jsonDeck["sideboard"].toArray();
@@ -50,8 +53,9 @@ Deck MtgaLogParser::jsonObject2Deck(QJsonObject jsonDeck)
         QJsonObject jsonCard = jsonCardRef.toObject();
         int cardId = jsonCard["id"].toString().toInt();
         Card* card = mtgCards->findCard(cardId);
-        if (card) {
-            sideboard[card] = jsonCard["quantity"].toInt();
+        int qtd = jsonCard["quantity"].toInt();
+        if (card && qtd > 0) {
+            sideboard[card] = qtd;
         }
     }
     return Deck(id, name, cards, sideboard);
@@ -148,6 +152,8 @@ void MtgaLogParser::parseIncomingMsg(QPair<QString, QString> msg)
         parsePlayerDeckUpdate(msg.second);
     } else if (msg.first == "Event.GetPlayerCourse"){
         parseEventPlayerCourse(msg.second);
+    } else if (msg.first == "Event.GetPlayerCourses"){
+        parseEventPlayerCourses(msg.second);
     } else if (msg.first == "Event.MatchCreated"){
         parseMatchCreated(msg.second);
     } else if (msg.first == "MatchGameRoomStateChangedEvent"){
@@ -249,6 +255,21 @@ void MtgaLogParser::parseEventPlayerCourse(QString json)
         LOGD(QString("EventPlayerCourse: %1 with %2. Finished: %3").arg(eventId).arg(deck.name).arg(isFinished));
         emit sgnEventPlayerCourse(eventId, deck, isFinished);
     }
+}
+
+void MtgaLogParser::parseEventPlayerCourses(QString json)
+{
+    QJsonArray jsonEventCourses = Transformations::stringToJsonArray(json);
+    if (jsonEventCourses.empty()) {
+        return;
+    }
+    QList<QString> events;
+    for (QJsonValueRef jsonEventRef: jsonEventCourses) {
+        QJsonObject event = jsonEventRef.toObject();
+        events << event["InternalEventName"].toString();
+    }
+    LOGD(QString("EventPlayerCourses: %1 events").arg(events.size()));
+    emit sgnEventPlayerCourses(events);
 }
 
 void MtgaLogParser::parseMatchCreated(QString json)
@@ -621,17 +642,19 @@ void MtgaLogParser::parseClientToGreMessages(QString json)
     if (jsonClientToGreMsg.empty()) {
         return;
     }
-    QJsonObject jsonPayload = jsonClientToGreMsg["Payload"].toObject();
-    if (jsonPayload.keys().contains("SubmitDeckResp")) {
-        parseSubmitDeckResp(jsonPayload);
-    }
+    QString type = jsonClientToGreMsg["clientToMatchServiceMessageType"].toString();
+    QString payload = jsonClientToGreMsg["payload"].toString();
+    emit sgnDecodeDeckPosSideboardPayload(type, payload);
 }
 
-void MtgaLogParser::parseSubmitDeckResp(QJsonObject jsonMessage)
+void MtgaLogParser::onParseDeckPosSideboardJson(QJsonObject jsonMessage)
 {
-    QJsonObject jsonDeckResp = jsonMessage["SubmitDeckResp"].toObject();
-    QJsonObject jsonDeck = jsonDeckResp["Deck"].toObject();
-    QJsonArray jsonMainDeckCards = jsonDeck["DeckCards"].toArray();
+    if (!jsonMessage.contains("submitdeckresp")) {
+        return;
+    }
+    QJsonObject jsonDeckResp = jsonMessage["submitdeckresp"].toObject();
+    QJsonObject jsonDeck = jsonDeckResp["deck"].toObject();
+    QJsonArray jsonMainDeckCards = jsonDeck["deckcardsList"].toArray();
     QMap<Card*, int> mainDeck;
     for(QJsonValueRef jsonCardRef : jsonMainDeckCards){
         int cardId = jsonCardRef.toInt();
@@ -642,7 +665,7 @@ void MtgaLogParser::parseSubmitDeckResp(QJsonObject jsonMessage)
             mainDeck[card] = 1;
         }
     }
-    QJsonArray jsonSideboardCards = jsonDeck["SideboardCards"].toArray();
+    QJsonArray jsonSideboardCards = jsonDeck["sideboardcardsList"].toArray();
     QMap<Card*, int> sideboard;
     for(QJsonValueRef jsonCardRef : jsonSideboardCards){
         int cardId = jsonCardRef.toInt();

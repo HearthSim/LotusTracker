@@ -1,11 +1,16 @@
 
-build/
+build/*.*
+!build/PlayerDeckSubmit.txt
+!build/PlayerDeckSideboard.txt
 tmp/
 src/credentials.h
 src/urls.h
 dist/*.exe
 dist/*.zip
 dist/files
+dist/osx
+
+.vscode
 
 # Created by https://www.gitignore.io/api/osx,windows,gradle,c++,qt,intellij
 
@@ -188,10 +193,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-
-### Gradle ###
-.gradle
-**/build/
 
 # Ignore Gradle GUI config
 gradle-app.setting

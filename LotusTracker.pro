@@ -10,9 +10,9 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = LotusTracker
 TEMPLATE = app
-VERSION = 1.2.3
+VERSION = 1.2.4
 
-CONFIG+=c++11
+CONFIG += c++11
 
 CONFIG(debug, debug|release)
 
@@ -34,6 +34,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 HEADERS += \
     src/api/lotusapi.h \
     src/api/requestdata.h \
+    src/api/rqtparsedeckposside.h \
     src/api/rqtplayerdeck.h \
     src/api/rqtplayerdeckpublish.h \
     src/api/rqtplayerdeckupdate.h \

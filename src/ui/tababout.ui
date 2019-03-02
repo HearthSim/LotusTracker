@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>420</width>
-    <height>270</height>
+    <width>450</width>
+    <height>300</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>420</width>
-    <height>250</height>
+    <height>300</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -56,7 +56,7 @@
      <widget class="QLabel" name="lbTracker">
       <property name="geometry">
        <rect>
-        <x>240</x>
+        <x>280</x>
         <y>110</y>
         <width>151</width>
         <height>31</height>
@@ -71,8 +71,8 @@
        <rect>
         <x>20</x>
         <y>150</y>
-        <width>55</width>
-        <height>72</height>
+        <width>68</width>
+        <height>101</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
@@ -111,8 +111,8 @@
        <rect>
         <x>90</x>
         <y>150</y>
-        <width>199</width>
-        <height>91</height>
+        <width>252</width>
+        <height>121</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -156,7 +156,7 @@
      <widget class="QLabel" name="label_8">
       <property name="geometry">
        <rect>
-        <x>330</x>
+        <x>350</x>
         <y>160</y>
         <width>71</width>
         <height>61</height>
@@ -169,7 +169,7 @@
      <widget class="QLabel" name="lbVersion">
       <property name="geometry">
        <rect>
-        <x>350</x>
+        <x>370</x>
         <y>135</y>
         <width>47</width>
         <height>21</height>

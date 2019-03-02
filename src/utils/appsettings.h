@@ -28,6 +28,8 @@ public:
     void setDeckTrackerAlpha(int alpha);
     QString getCardLayout();
     void setCardLayout(QString cardLayout);
+    QString getLogPath();
+    void setLogPath(QString logPath);
     int getUnhiddenDelay();
     void setUnhiddenDelay(int unhiddenTimeout);
     bool isShowCardManaCostEnabled();
@@ -63,6 +65,8 @@ public:
     void setDeckOverlayDraftPos(QPoint pos);
     int getDeckOverlayDraftScale();
     void setDeckOverlayDraftScale(int scale);
+    bool isShowDeckAfterDraftEnabled();
+    void enableShowDeckAfterDraft(bool enabled);
     // User settings
     void setUserSettings(UserSettings userSettings, QString userName = "");
     UserSettings getUserSettings();
