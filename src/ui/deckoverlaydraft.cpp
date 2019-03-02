@@ -196,6 +196,14 @@ void DeckOverlayDraft::afterPaintEvent(QPainter &painter)
     int settingsPlusX = uiPos.x() + uiWidth - buttonSize - buttonMarginX;
     painter.drawImage(settingsPlusX, preferencesButtonY, settingsScaled);
     preferencesButton = QRect(settingsPlusX, preferencesButtonY, buttonSize, buttonSize);
+
+    // Switch ratings button
+    int switchButtonY = uiPos.y() + buttonSize + buttonMarginY + buttonMarginY;
+    QImage switchIcon(":res/switch.png");
+    QImage switchIconScaled = switchIcon.scaled(buttonSize, buttonSize,
+                                                Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    painter.drawImage(settingsPlusX, switchButtonY, switchIconScaled);
+    switchButton = QRect(settingsPlusX, switchButtonY, buttonSize, buttonSize);
 }
 
 void DeckOverlayDraft::reset()
@@ -267,6 +275,10 @@ void DeckOverlayDraft::onHoverMove(QHoverEvent *event)
         showingTooltip = true;
         QToolTip::showText(event->pos(), tr("Settings"));
     }
+    if (switchButton.contains(event->pos())) {
+        showingTooltip = true;
+        QToolTip::showText(event->pos(), tr("Switch card ratings soruce"));
+    }
     DeckOverlayBase::onHoverMove(event);
 }
 
@@ -276,6 +288,9 @@ void DeckOverlayDraft::mousePressEvent(QMouseEvent *event)
         return;
     }
     if (preferencesButton.contains(event->pos())) {
+        return;
+    }
+    if (switchButton.contains(event->pos())) {
         return;
     }
     DeckOverlayBase::mousePressEvent(event);
@@ -290,6 +305,12 @@ void DeckOverlayDraft::mouseReleaseEvent(QMouseEvent *event)
         hideCardOnHover();
         LOTUS_TRACKER->showPreferencesScreen();
         LOTUS_TRACKER->gaTracker->sendEvent("Overlay", "Preferences");
+        return;
+    }
+    if (switchButton.contains(event->pos())) {
+        hideCardOnHover();
+        emit sgnSwitchDraftRatingsSource();
+        LOTUS_TRACKER->gaTracker->sendEvent("Overlay", "Switch Ratings");
         return;
     }
     DeckOverlayBase::mouseReleaseEvent(event);

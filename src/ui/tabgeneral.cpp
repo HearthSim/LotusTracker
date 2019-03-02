@@ -79,6 +79,17 @@ TabGeneral::~TabGeneral()
     DEL(ui)
 }
 
+void TabGeneral::onSwitchDraftRatingsSource()
+{
+    QString draftSource = "lsv";
+    if (APP_SETTINGS->getDeckOverlayDraftSource() == "lsv") {
+        draftSource = "draftsim";
+    }
+    emit sgnDraftOverlaySource(draftSource);
+    LOGD(QString("DraftOverlaySource: %1").arg(draftSource));
+    APP_SETTINGS->setDeckOverlayDraftSource(draftSource);
+}
+
 void TabGeneral::applyCurrentSettings()
 {
     ui->leLog->setText(LOTUS_TRACKER->appSettings->getLogPath());

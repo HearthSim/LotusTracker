@@ -114,7 +114,7 @@
           <string>Good for new players since it provides a commentary about each card.</string>
          </property>
          <property name="text">
-          <string>Use LSV Ranks from Channelfireball.com</string>
+          <string>Use LSV Ratings from Channelfireball.com</string>
          </property>
          <property name="checked">
           <bool>true</bool>
@@ -127,7 +127,7 @@
           <string>Better option because the ratings were updated after the set launch, so they reflect better the card value.</string>
          </property>
          <property name="text">
-          <string>Use Dan Ranks from Draftsim.com</string>
+          <string>Use Dan Ratings from Draftsim.com</string>
          </property>
         </widget>
        </item>

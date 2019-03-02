@@ -15,7 +15,7 @@ private:
     QFont rankFont;
     QList<Card *> availablePicks, pickedCards;
     QMap<int, int> playerCollection;
-    QRect preferencesButton;
+    QRect preferencesButton, switchButton;
     QString getHoverCardRank();
     void udpateAvailableCardsList(QList<Card *> availablePicks, QList<Card*> pickedCards);
 
@@ -44,6 +44,7 @@ public:
 
 signals:
     void sgnRequestPlayerCollection();
+    void sgnSwitchDraftRatingsSource();
 
 public slots:
     void setPlayerCollection(QMap<int, int> ownedCards);

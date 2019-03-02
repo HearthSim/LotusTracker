@@ -36,6 +36,7 @@ signals:
     void sgnDraftOverlaySource(QString source);
 
 public slots:
+    void onSwitchDraftRatingsSource();
 };
 
 #endif // TABGENERAL_H

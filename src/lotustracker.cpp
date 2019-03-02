@@ -185,6 +185,8 @@ void LotusTracker::setupPreferencesScreen()
             this, &LotusTracker::onDeckOverlayOpponentEnabledChange);
     connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnRestoreDefaults,
             deckOverlayOpponent, &DeckOverlayOpponent::applyCurrentSettings);
+    connect(deckOverlayDraft, &DeckOverlayDraft::sgnSwitchDraftRatingsSource,
+            preferencesScreen->getTabGeneral(), &TabGeneral::onSwitchDraftRatingsSource);
     // Tab Overlay
     // --- Player Overlay
     connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnTrackerAlpha,
