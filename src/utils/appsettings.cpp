@@ -37,6 +37,7 @@
 #define KEY_OVERLAY_DRAFT_X "Tracker/draftPrefs/x"
 #define KEY_OVERLAY_DRAFT_Y "Tracker/draftPrefs/y"
 #define KEY_OVERLAY_DRAFT_SCALE "Tracker/draftPrefs/scale"
+#define KEY_OVERLAY_SHOW_DECK_AFTER_DRAFT_ENABLED "Tracker/draftPrefs/showDeckAfterDraft"
 
 #define KEY_OVERLAY_USER_ID "Tracker/user/id"
 #define KEY_OVERLAY_USER_EMAIL "Tracker/user/email"
@@ -329,6 +330,16 @@ int AppSettings::getDeckOverlayDraftScale()
 void AppSettings::setDeckOverlayDraftScale(int scale)
 {
     settings.setValue(KEY_OVERLAY_DRAFT_SCALE, scale);
+}
+
+bool AppSettings::isShowDeckAfterDraftEnabled()
+{
+    return settings.value(KEY_OVERLAY_SHOW_DECK_AFTER_DRAFT_ENABLED, true).toBool();
+}
+
+void AppSettings::enableShowDeckAfterDraft(bool enabled)
+{
+    settings.setValue(KEY_OVERLAY_SHOW_DECK_AFTER_DRAFT_ENABLED, enabled);
 }
 
 // User settings

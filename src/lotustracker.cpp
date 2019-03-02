@@ -384,7 +384,7 @@ void LotusTracker::onDeckSubmited(QString eventId, Deck deck)
 void LotusTracker::onEventPlayerCourse(QString eventId, Deck currentDeck, bool isFinished)
 {
     eventPlayerCourse = qMakePair(eventId, currentDeck);
-    if (isFinished) {
+    if (isFinished && appSettings->isShowDeckAfterDraftEnabled()) {
         deckOverlayPlayer->loadDeck(currentDeck);
         deckOverlayPlayer->show();
     }

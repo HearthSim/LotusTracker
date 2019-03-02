@@ -60,6 +60,8 @@ TabGeneral::TabGeneral(QWidget *parent)
             this, &TabGeneral::onPOEnabledChanged);
     connect(ui->cbOOEnabled, &QCheckBox::clicked,
             this, &TabGeneral::onOOEnabledChanged);
+    connect(ui->cbSDADEnabled, &QCheckBox::clicked,
+            this, &TabGeneral::onSDADEnabledChanged);
     connect(ui->cbDOEnabled, &QCheckBox::clicked,
             this, &TabGeneral::onDOEnabledChanged);
     connect(ui->rbRankLSV, &QCheckBox::clicked,
@@ -84,6 +86,7 @@ void TabGeneral::applyCurrentSettings()
     ui->btCheckUpdate->setChecked(LOTUS_TRACKER->sparkleUpdater->AutomaticallyChecksForUpdates());
     ui->cbPOEnabled->setChecked(APP_SETTINGS->isDeckOverlayPlayerEnabled());
     ui->cbOOEnabled->setChecked(APP_SETTINGS->isDeckOverlayOpponentEnabled());
+    ui->cbSDADEnabled->setChecked(APP_SETTINGS->isShowDeckAfterDraftEnabled());
     ui->cbDOEnabled->setChecked(APP_SETTINGS->isDeckOverlayDraftEnabled());
     if (APP_SETTINGS->getDeckOverlayDraftSource() == "lsv") {
         ui->rbRankLSV->setChecked(true);
@@ -146,6 +149,13 @@ void TabGeneral::onOOEnabledChanged()
     emit sgnOpponentOverlayEnabled(enabled);
     LOGD(QString("DeckOverlayOpponent: %1").arg(enabled ? "true" : "false"));
     APP_SETTINGS->enableDeckOverlayOpponent(enabled);
+}
+
+void TabGeneral::onSDADEnabledChanged()
+{
+    bool enabled = ui->cbSDADEnabled->isChecked();
+    LOGD(QString("ShowDeckAfterDraft: %1").arg(enabled ? "true" : "false"));
+    APP_SETTINGS->enableShowDeckAfterDraft(enabled);
 }
 
 void TabGeneral::onHideOnLoseGameFocusChanged()

@@ -17,6 +17,7 @@ private:
     void onAutoUpdateChanged();
     void onPOEnabledChanged();
     void onOOEnabledChanged();
+    void onSDADEnabledChanged();
     void onDOEnabledChanged();
     void onRBRankChanged();
     void onHideOnLoseGameFocusChanged();
