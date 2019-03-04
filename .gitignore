@@ -7,8 +7,8 @@ src/credentials.h
 src/urls.h
 dist/*.exe
 dist/*.zip
-dist/files
-dist/osx
+dist/win/files
+dist/osx/*.dmg
 
 .vscode
 
