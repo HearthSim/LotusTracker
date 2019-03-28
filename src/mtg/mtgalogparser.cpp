@@ -31,31 +31,33 @@ Deck MtgaLogParser::jsonObject2Deck(QJsonObject jsonDeck)
     QString name = jsonDeck["name"].toString();
     QJsonArray jsonCards = jsonDeck["mainDeck"].toArray();
     QMap<Card*, int> cards;
+    int cardId = 0;
     for(QJsonValueRef jsonCardRef : jsonCards){
-        QJsonObject jsonCard = jsonCardRef.toObject();
-        int cardId = 0;
-        if (jsonCard["id"].isString()) {
-            cardId = jsonCard["id"].toString().toInt();
+        int value = jsonCardRef.toInt();
+        if (cardId == 0) {
+            cardId = value;
         } else {
-            cardId = jsonCard["id"].toInt();
-        }
-        if (cardId > 0) {
             Card* card = mtgCards->findCard(cardId);
-            int qtd = jsonCard["quantity"].toInt();
+            int qtd = value;
             if (card && qtd > 0) {
                 cards[card] = qtd;
             }
+            cardId = 0;
         }
     }
     QJsonArray jsonSideboard = jsonDeck["sideboard"].toArray();
     QMap<Card*, int> sideboard;
     for(QJsonValueRef jsonCardRef : jsonSideboard){
-        QJsonObject jsonCard = jsonCardRef.toObject();
-        int cardId = jsonCard["id"].toString().toInt();
-        Card* card = mtgCards->findCard(cardId);
-        int qtd = jsonCard["quantity"].toInt();
-        if (card && qtd > 0) {
-            sideboard[card] = qtd;
+        int value = jsonCardRef.toInt();
+        if (cardId == 0) {
+            cardId = value;
+        } else {
+            Card* card = mtgCards->findCard(cardId);
+            int qtd = value;
+            if (card && qtd > 0) {
+                sideboard[card] = qtd;
+            }
+            cardId = 0;
         }
     }
     return Deck(id, name, cards, sideboard);
@@ -144,13 +146,13 @@ void MtgaLogParser::parseIncomingMsg(QPair<QString, QString> msg)
         parsePlayerInventoryUpdate(msg.second);
     } else if (msg.first == "PlayerInventory.GetPlayerCardsV3"){
         parsePlayerCollection(msg.second);
-    } else if (msg.first == "Deck.GetDeckLists"){
+    } else if (msg.first == "Deck.GetDeckListsV3"){
         parsePlayerDecks(msg.second);
-    } else if (msg.first == "Deck.CreateDeck"){
+    } else if (msg.first == "Deck.CreateDeckV3"){
         parsePlayerDeckCreate(msg.second);
-    } else if (msg.first == "Deck.UpdateDeck"){
+    } else if (msg.first == "Deck.UpdateDeckV3"){
         parsePlayerDeckUpdate(msg.second);
-    } else if (msg.first == "Event.GetPlayerCourse"){
+    } else if (msg.first == "Event.GetPlayerCourseV2"){
         parseEventPlayerCourse(msg.second);
     } else if (msg.first == "Event.GetPlayerCourses"){
         parseEventPlayerCourses(msg.second);
@@ -162,7 +164,7 @@ void MtgaLogParser::parseIncomingMsg(QPair<QString, QString> msg)
         parsePlayerRankInfo(msg.second);
     } else if (msg.first == "Rank.Updated"){
         parsePlayerRankUpdated(msg.second);
-    } else if (msg.first == "Event.DeckSubmit"){
+    } else if (msg.first == "Event.DeckSubmitV3"){
         parsePlayerDeckSubmited(msg.second);
     } else if (msg.first == "GreToClientEvent"){
         parseGreToClientMessages(msg.second);

@@ -51,10 +51,14 @@ QJsonArray Transformations::stringToJsonArray(QString json)
 
 QJsonObject Transformations::stringToJsonObject(QString json)
 {
+    if (json.isEmpty()) {
+        return QJsonObject();
+    }
     QJsonParseError parseError;
     QJsonObject jsonObject = QJsonDocument::fromJson(json.toUtf8(), &parseError).object();
     if (parseError.error != QJsonParseError::NoError) {
         LOGW(parseError.errorString());
+        LOGW(json);
         return QJsonObject();
     } else {
         return jsonObject;       
