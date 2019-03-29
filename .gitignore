@@ -5,8 +5,8 @@ build/*.*
 tmp/
 src/credentials.h
 src/urls.h
-dist/*.exe
-dist/*.zip
+dist/win/*.exe
+dist/win/*.zip
 dist/win/files
 dist/osx/*.dmg
 
