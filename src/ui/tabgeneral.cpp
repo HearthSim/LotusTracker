@@ -13,8 +13,8 @@
 #include <QToolTip>
 #include <QStandardPaths>
 
-#define LOG_PATH QString("AppData%1LocalLow%2Wizards Of The Coast%3MTGA")\
-    .arg(QDir::separator()).arg(QDir::separator()).arg(QDir::separator())
+#define LOG_PATH_PATTERN "AppData%1LocalLow%2Wizards Of The Coast%3MTGA"
+#define LOG_PATH QString(LOG_PATH_PATTERN).arg(QDir::separator()).arg(QDir::separator()).arg(QDir::separator())
 
 #if defined Q_OS_MAC
 #define LOG_FILE_FILTER "Magic Arena app (*.app);;Arena Log (output_log.txt)"
