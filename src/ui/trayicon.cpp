@@ -141,12 +141,12 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
         emit mtgaLogParser->sgnMatchCreated(QString("ConstructedRanked1"),
                                             OpponentInfo("", "Beginner", 0));
         // Player Select Deck
-        QString currentDir = QCoreApplication::applicationDirPath();
+        QString applicationDir = QCoreApplication::applicationDirPath();
 #if defined Q_OS_MAC
-        currentDir = currentDir.replace("/Contents/MacOS", "");
-        currentDir = currentDir.left(currentDir.lastIndexOf("/"));
+        applicationDir = currentDir.replace("/Contents/MacOS", "");
+        applicationDir = currentDir.left(currentDir.lastIndexOf("/"));
 #endif
-        QFile *logFile = new QFile(currentDir + QDir::separator() + "PlayerDeckSubmit.txt");
+        QFile *logFile = new QFile(applicationDir + QDir::separator() + "PlayerDeckSubmit.txt");
         if(logFile->open(QFile::ReadOnly | QFile::Text)) {
             QString logContent = QTextStream(logFile).readAll();
             mtgaLogParser->parse(logContent);
@@ -161,12 +161,12 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
     connect(loadSideboardAction, &QAction::triggered, this, [this](){
         MtgaLogParser *mtgaLogParser = LOTUS_TRACKER->mtgArena->getLogParser();
         // Player Select Deck
-        QString currentDir = QCoreApplication::applicationDirPath();
+        QString applicationDir = QCoreApplication::applicationDirPath();
 #if defined Q_OS_MAC
-        currentDir = currentDir.replace("/Contents/MacOS", "");
-        currentDir = currentDir.left(currentDir.lastIndexOf("/"));
+        applicationDir = currentDir.replace("/Contents/MacOS", "");
+        applicationDir = currentDir.left(currentDir.lastIndexOf("/"));
 #endif
-        QFile *logFile = new QFile(currentDir + QDir::separator() + "PlayerDeckSideboard.txt");
+        QFile *logFile = new QFile(applicationDir + QDir::separator() + "PlayerDeckSideboard.txt");
         if(logFile->open(QFile::ReadOnly | QFile::Text)) {
             QString logContent = QTextStream(logFile).readAll();
             mtgaLogParser->parse(logContent);

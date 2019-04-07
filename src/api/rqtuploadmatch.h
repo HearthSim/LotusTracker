@@ -26,6 +26,7 @@ public:
         QJsonObject player2Json{
             {"arch", matchInfo.getOpponentDeckArch()},
             {"colors", matchInfo.getOpponentDeckColorIdentity()},
+            {"name", matchInfo.opponentInfo.opponentName()},
             {"rank", matchInfo.opponentInfo.opponentRankClass()}
         };
         QJsonObject jsonObj{
