@@ -491,6 +491,9 @@ void LotusTracker::onEventFinish(QString eventId, QString deckId, QString deckCo
                                  int maxWins, int wins, int losses)
 {
     lotusAPI->uploadEventResult(eventId, deckId, deckColors, maxWins, wins, losses);
+    if (APP_SETTINGS->isShowDeckAfterDraftEnabled()) {
+        deckOverlayPlayer->reset();
+    }
 }
 
 void LotusTracker::onDeckOverlayDraftEnabledChange(bool enabled)
