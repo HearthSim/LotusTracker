@@ -9,6 +9,10 @@ dist/win/*.exe
 dist/win/*.zip
 dist/win/files
 dist/osx/*.dmg
+dist/osx/build
+dist/osx/node_modules
+dist/osx/package.json
+dist/osx/yarn.lock
 
 .vscode
 
