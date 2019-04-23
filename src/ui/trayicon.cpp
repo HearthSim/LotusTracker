@@ -216,9 +216,16 @@ void TrayIcon::configTestMenu(QMenu* testMenu)
             availableCards << card;
         }
         MtgaLogParser* logParser = LOTUS_TRACKER->mtgArena->getLogParser();
-        emit logParser->sgnDraftStatus("", "Draft.PickNext", 0, 0, availableCards, pickedCards);
+        emit logParser->sgnDraftStatus("QuickDraft_GRN_20190412", "Draft.PickNext", 1, 2, availableCards, pickedCards);
     });
     testMenu->addAction(deckOverlayDraftAction);
+    // Test deck overlay draft make pick
+    QAction *deckOverlayDraftPickAction = new QAction(tr("Parser Draft Pick"), this);
+    connect(deckOverlayDraftPickAction, &QAction::triggered, this, [](){
+        MtgaLogParser* logParser = LOTUS_TRACKER->mtgArena->getLogParser();
+        emit logParser->sgnDraftPick(66717, 1, 2);
+    });
+    testMenu->addAction(deckOverlayDraftPickAction);
     // Update user inventory
     QAction *updateUserInventoryAction = new QAction(tr("parse UserInventory"), this);
     connect(updateUserInventoryAction, &QAction::triggered, this, [](){

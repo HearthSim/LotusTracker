@@ -1,6 +1,7 @@
 #ifndef APPSETTINGS_H
 #define APPSETTINGS_H
 
+#include "../entity/card.h"
 #include "../entity/user.h"
 
 #include <QSettings>
@@ -65,6 +66,8 @@ public:
     void setDeckOverlayDraftScale(int scale);
     bool isShowDeckAfterDraftEnabled();
     void enableShowDeckAfterDraft(bool enabled);
+    void saveDraftPick(QString eventId, int packNumber, int pickNumber,
+                       int pickedCard, QList<Card*> availablePicks);
     // User settings
     void setUserSettings(UserSettings userSettings, QString userName = "");
     UserSettings getUserSettings();

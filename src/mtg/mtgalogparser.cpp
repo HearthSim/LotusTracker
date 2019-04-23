@@ -132,6 +132,8 @@ void MtgaLogParser::parseOutcomingMsg(QPair<QString, QString> msg)
         parseDirectGameChallenge(msg.second);
     } else if (msg.first == "Log.Info") {
         parseLogInfo(msg.second);
+    } else if (msg.first == "Draft.MakePick") {
+        parseDraftPick(msg.second);
     }
 }
 
@@ -701,6 +703,19 @@ void MtgaLogParser::parseEventFinish(QString json)
     int wins = jsonWinLossGate["CurrentWins"].toInt();
     int losses = jsonWinLossGate["CurrentLosses"].toInt();
     emit sgnEventFinish(eventId, deck.id, deck.colorIdentity(), maxWins, wins, losses);
+}
+
+void MtgaLogParser::parseDraftPick(QString json)
+{
+    QJsonObject jsonLogInfo = Transformations::stringToJsonObject(json);
+    if (jsonLogInfo.empty()) {
+        return;
+    }
+    QJsonObject params = jsonLogInfo["params"].toObject();
+    int cardId = params["cardId"].toString().toInt();
+    int packNumber = params["packNumber"].toString().toInt();
+    int pickNumber = params["pickNumber"].toString().toInt();
+    emit sgnDraftPick(cardId, packNumber, pickNumber);
 }
 
 void MtgaLogParser::parseDraftStatus(QString json)

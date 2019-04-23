@@ -280,6 +280,8 @@ void LotusTracker::setupLogParserConnections()
             this, &LotusTracker::onMatchEnds);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnEventFinish,
             this, &LotusTracker::onEventFinish);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnDraftPick,
+            this, &LotusTracker::onDraftPick);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnDraftStatus,
             this, &LotusTracker::onDraftStatus);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnDecodeDeckPosSideboardPayload,
@@ -567,16 +569,20 @@ void LotusTracker::onUserTokenRefreshError()
     trayIcon->updateUserSettings();
 }
 
-void LotusTracker::onDraftStatus(QString eventId, QString status, int packNumber, int pickNumber,
+void LotusTracker::onDraftPick(int mtgaId, int packNumber, int pickNumber)
+{
+    QString eventName = deckOverlayDraft->getCurrentDraftName();
+    QList<Card *> availablePicks = deckOverlayDraft->getAvailablePicks();
+    APP_SETTINGS->saveDraftPick(eventName, packNumber, pickNumber, mtgaId, availablePicks);
+}
+
+void LotusTracker::onDraftStatus(QString eventName, QString status, int packNumber, int pickNumber,
                                  QList<Card *> availablePicks, QList<Card *> pickedCards)
 {
-    UNUSED(eventId);
     UNUSED(packNumber);
     UNUSED(pickNumber);
-    UNUSED(pickedCards);
-    UNUSED(availablePicks);
     isOnDraftScreen = true;
-    deckOverlayDraft->onDraftStatus(availablePicks, pickedCards);
+    deckOverlayDraft->onDraftStatus(eventName, availablePicks, pickedCards);
     if (status == "Draft.PickNext") {
         deckOverlayDraft->show();
     } else {

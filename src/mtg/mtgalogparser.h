@@ -46,6 +46,7 @@ private:
     void parseGameStateFull(QJsonObject jsonMessage);
     void parseGameStateDiff(int playerSeatId, int gameStateId, QJsonObject jsonMessage);
     void parseDraftStatus(QString json);
+    void parseDraftPick(QString json);
     void parseLogInfo(QString json);
     void checkMulligans(int playerSeatId, QList<int> diffDeletedInstanceIds,
                         QList<MatchZone> zones);
@@ -86,6 +87,7 @@ signals:
     void sgnEventFinish(QString eventId, QString deckId, QString deckColors,
                         int maxWins, int wins, int losses);
     void sgnDraftStatus(QString eventId, QString status, int packNumber, int pickNumber,
+    void sgnDraftPick(int mtgaId, int packNumber, int pickNumber);
                         QList<Card*> availablePicks, QList<Card*> pickedCards);
     void sgnDecodeDeckPosSideboardPayload(QString type, QString payload);
     void sgnGoingToHome();

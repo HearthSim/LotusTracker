@@ -11,13 +11,13 @@ class DeckOverlayDraft : public DeckOverlayBase
     Q_OBJECT
 private:
     int rankDescTextMargin;
-    QString currentSource;
+    QString currentSource, eventName;
     QFont rankFont;
     QList<Card *> availablePicks, pickedCards;
     QMap<int, int> playerCollection;
     QRect preferencesButton;
     QString getHoverCardRank();
-    void udpateAvailableCardsList(QList<Card *> availablePicks, QList<Card*> pickedCards);
+    void udpateAvailableCardsList(QList<Card*> availablePicks, QList<Card*> pickedCards);
 
 protected:    
     virtual QList<Card*> getDeckCardsSorted();
@@ -41,13 +41,15 @@ public:
     ~DeckOverlayDraft();
     void applyCurrentSettings();
     void reset();
+    QString getCurrentDraftName();
+    QList<Card*> getAvailablePicks();
 
 signals:
     void sgnRequestPlayerCollection();
 
 public slots:
     void setPlayerCollection(QMap<int, int> ownedCards);
-    void onDraftStatus(QList<Card*> availablePicks, QList<Card*> pickedCards);
+    void onDraftStatus(QString eventName, QList<Card*> availablePicks, QList<Card*> pickedCards);
     void onSourceChanged(QString source);
 };
 

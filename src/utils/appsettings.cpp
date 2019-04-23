@@ -36,6 +36,7 @@
 #define KEY_OVERLAY_DRAFT_X "Tracker/draftPrefs/x"
 #define KEY_OVERLAY_DRAFT_Y "Tracker/draftPrefs/y"
 #define KEY_OVERLAY_DRAFT_SCALE "Tracker/draftPrefs/scale"
+#define KEY_OVERLAY_DRAFT_PICKS_PREFIX "Tracker/draftPrefs/picks"
 #define KEY_OVERLAY_SHOW_DECK_AFTER_DRAFT_ENABLED "Tracker/draftPrefs/showDeckAfterDraft"
 
 #define KEY_OVERLAY_USER_ID "Tracker/user/id"
@@ -329,6 +330,20 @@ bool AppSettings::isShowDeckAfterDraftEnabled()
 void AppSettings::enableShowDeckAfterDraft(bool enabled)
 {
     settings.setValue(KEY_OVERLAY_SHOW_DECK_AFTER_DRAFT_ENABLED, enabled);
+}
+
+void AppSettings::saveDraftPick(QString eventId, int packNumber, int pickNumber,
+                                int pickedCard, QList<Card*> availablePicks)
+{
+    QString eventPickKey = QString("%1/%2/%3_%4").arg(KEY_OVERLAY_DRAFT_PICKS_PREFIX)
+            .arg(eventId).arg(packNumber).arg(pickNumber);
+    QString picks;
+    for(Card* card : availablePicks){
+        picks += QString("%1,").arg(card->mtgaId);
+    }
+    picks = picks.left(picks.length()-1);
+    settings.setValue(QString("%1_picks").arg(eventPickKey), picks);
+    settings.setValue(QString("%1_picked").arg(eventPickKey), pickedCard);
 }
 
 // User settings

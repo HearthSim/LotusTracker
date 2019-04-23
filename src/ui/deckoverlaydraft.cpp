@@ -214,8 +214,9 @@ void DeckOverlayDraft::setPlayerCollection(QMap<int, int> ownedCards)
     }
 }
 
-void DeckOverlayDraft::onDraftStatus(QList<Card *> availablePicks, QList<Card *> pickedCards)
+void DeckOverlayDraft::onDraftStatus(QString eventName, QList<Card *> availablePicks, QList<Card *> pickedCards)
 {
+    this->eventName = eventName;
     this->availablePicks = availablePicks;
     this->pickedCards = pickedCards;
     if (playerCollection.keys().isEmpty()) {
@@ -234,7 +235,19 @@ QString DeckOverlayDraft::getHoverCardRank()
 {
     if (currentSource == "lsv") {
         return hoverCard->lsvRank;
+    } else {
+        return "";
     }
+}
+
+QString DeckOverlayDraft::getCurrentDraftName()
+{
+    return eventName;
+}
+
+QList<Card*> DeckOverlayDraft::getAvailablePicks()
+{
+    return availablePicks;
 }
 
 void DeckOverlayDraft::udpateAvailableCardsList(QList<Card*> availablePicks, QList<Card*> pickedCards)
@@ -246,7 +259,7 @@ void DeckOverlayDraft::udpateAvailableCardsList(QList<Card*> availablePicks, QLi
             if (cardPicked->mtgaId == card->mtgaId) {
                 qtdPicked++;
             }
-        }
+        };
         int qtdOwned = playerCollection[card->mtgaId] + qtdPicked;
         if (qtdOwned > 4) {
             qtdOwned = 4;
