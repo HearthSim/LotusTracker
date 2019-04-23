@@ -19,7 +19,7 @@
   <property name="windowTitle">
    <string>General</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" columnstretch="0,0,0">
+  <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" columnstretch="0,0,0">
    <property name="sizeConstraint">
     <enum>QLayout::SetDefaultConstraint</enum>
    </property>
@@ -35,48 +35,8 @@
    <property name="verticalSpacing">
     <number>0</number>
    </property>
-   <item row="30" column="1">
-    <layout class="QHBoxLayout" name="horizontalLayout_9">
-     <item>
-      <widget class="QPushButton" name="btCheckUpdate">
-       <property name="statusTip">
-        <string>Verify if there is a new version now</string>
-       </property>
-       <property name="text">
-        <string>Check for update now</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_12">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </item>
-   <item row="12" column="1">
-    <widget class="QCheckBox" name="cbOOEnabled">
-     <property name="statusTip">
-      <string>Show opponent cards drawn</string>
-     </property>
-     <property name="text">
-      <string>Enable opponent cards overlay</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="1">
-    <widget class="Line" name="line_2">
+   <item row="28" column="1">
+    <widget class="Line" name="line">
      <property name="minimumSize">
       <size>
        <width>0</width>
@@ -88,53 +48,6 @@
      </property>
     </widget>
    </item>
-   <item row="19" column="1" rowspan="3">
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Fixed</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>10</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QRadioButton" name="rbRankLSV">
-         <property name="statusTip">
-          <string>Good for new players since it provides a commentary about each card.</string>
-         </property>
-         <property name="text">
-          <string>Use LSV Ratings from Channelfireball.com</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QRadioButton" name="rbRankDraftsim">
-         <property name="statusTip">
-          <string>Better option because the ratings were updated after the set launch, so they reflect better the card value.</string>
-         </property>
-         <property name="text">
-          <string>Use Dan Ratings from Draftsim.com</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </item>
    <item row="1" column="1">
     <widget class="QCheckBox" name="cbStartAtLogin">
      <property name="statusTip">
@@ -145,6 +58,34 @@
      </property>
      <property name="checked">
       <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="30" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Settings</string>
+     </property>
+    </widget>
+   </item>
+   <item row="25" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Updates</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1">
+    <widget class="QLabel" name="lbLogLocation">
+     <property name="text">
+      <string>Magic Arena output_log.txt log file path</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="0">
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string>Game</string>
      </property>
     </widget>
    </item>
@@ -162,126 +103,7 @@
      </item>
     </layout>
    </item>
-   <item row="31" column="1">
-    <widget class="Line" name="line">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>20</height>
-      </size>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="0">
-    <widget class="QLabel" name="label_4">
-     <property name="text">
-      <string>Game</string>
-     </property>
-    </widget>
-   </item>
-   <item row="28" column="0">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Updates</string>
-     </property>
-    </widget>
-   </item>
-   <item row="24" column="1">
-    <widget class="Line" name="line_3">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>20</height>
-      </size>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="1">
-    <widget class="QCheckBox" name="cbPOEnabled">
-     <property name="statusTip">
-      <string>Show player deck with cards drawn</string>
-     </property>
-     <property name="text">
-      <string>Enable player cards overlay</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>System</string>
-     </property>
-    </widget>
-   </item>
-   <item row="29" column="1">
-    <widget class="QCheckBox" name="cbAutoUpdate">
-     <property name="statusTip">
-      <string>Automatically verify for new versions</string>
-     </property>
-     <property name="text">
-      <string>Check for updates automatically</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="2">
-    <spacer name="horizontalSpacer_6">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeType">
-      <enum>QSizePolicy::Fixed</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>10</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="33" column="0">
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string>Settings</string>
-     </property>
-    </widget>
-   </item>
-   <item row="15" column="1">
-    <widget class="QCheckBox" name="cbDOEnabled">
-     <property name="statusTip">
-      <string>Draft help show you cards ranking</string>
-     </property>
-     <property name="text">
-      <string>Enable draft helper overlay</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="14" column="1">
-    <widget class="QCheckBox" name="cbSDADEnabled">
-     <property name="statusTip">
-      <string>Nice to take that seven wins screenshot with deck list!</string>
-     </property>
-     <property name="text">
-      <string>Show deck list when draft ends</string>
-     </property>
-    </widget>
-   </item>
-   <item row="40" column="1">
+   <item row="37" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout_5">
      <item>
       <widget class="QPushButton" name="btReset">
@@ -308,6 +130,22 @@
      </item>
     </layout>
    </item>
+   <item row="1" column="2">
+    <spacer name="horizontalSpacer_6">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>10</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
    <item row="5" column="1">
     <widget class="QCheckBox" name="cbHideOnLoseGameFocus">
      <property name="statusTip">
@@ -321,10 +159,42 @@
      </property>
     </widget>
    </item>
-   <item row="7" column="1">
-    <widget class="QLabel" name="lbLogLocation">
+   <item row="12" column="1">
+    <widget class="QCheckBox" name="cbOOEnabled">
+     <property name="statusTip">
+      <string>Show opponent cards drawn</string>
+     </property>
      <property name="text">
-      <string>Magic Arena output_log.txt log file path</string>
+      <string>Enable opponent cards overlay</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="21" column="1">
+    <widget class="Line" name="line_3">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>20</height>
+      </size>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="15" column="1">
+    <widget class="QCheckBox" name="cbDOEnabled">
+     <property name="statusTip">
+      <string>Draft help show you cards ranking</string>
+     </property>
+     <property name="text">
+      <string>Enable draft helper overlay with LSV Ratings from Channelfireball.com</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
@@ -332,6 +202,89 @@
     <widget class="QLabel" name="label_6">
      <property name="text">
       <string>Draft</string>
+     </property>
+    </widget>
+   </item>
+   <item row="27" column="1">
+    <layout class="QHBoxLayout" name="horizontalLayout_9">
+     <item>
+      <widget class="QPushButton" name="btCheckUpdate">
+       <property name="statusTip">
+        <string>Verify if there is a new version now</string>
+       </property>
+       <property name="text">
+        <string>Check for update now</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_12">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>System</string>
+     </property>
+    </widget>
+   </item>
+   <item row="26" column="1">
+    <widget class="QCheckBox" name="cbAutoUpdate">
+     <property name="statusTip">
+      <string>Automatically verify for new versions</string>
+     </property>
+     <property name="text">
+      <string>Check for updates automatically</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="14" column="1">
+    <widget class="QCheckBox" name="cbSDADEnabled">
+     <property name="statusTip">
+      <string>Nice to take that seven wins screenshot with deck list!</string>
+     </property>
+     <property name="text">
+      <string>Show deck list when draft ends</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="Line" name="line_2">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>20</height>
+      </size>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="1">
+    <widget class="QCheckBox" name="cbPOEnabled">
+     <property name="statusTip">
+      <string>Show player deck with cards drawn</string>
+     </property>
+     <property name="text">
+      <string>Enable player cards overlay</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
      </property>
     </widget>
    </item>

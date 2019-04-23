@@ -185,8 +185,6 @@ void LotusTracker::setupPreferencesScreen()
             this, &LotusTracker::onDeckOverlayOpponentEnabledChange);
     connect(preferencesScreen->getTabGeneral(), &TabGeneral::sgnRestoreDefaults,
             deckOverlayOpponent, &DeckOverlayOpponent::applyCurrentSettings);
-    connect(deckOverlayDraft, &DeckOverlayDraft::sgnSwitchDraftRatingsSource,
-            preferencesScreen->getTabGeneral(), &TabGeneral::onSwitchDraftRatingsSource);
     // Tab Overlay
     // --- Player Overlay
     connect(preferencesScreen->getTabOverlay(), &TabOverlay::sgnTrackerAlpha,
@@ -579,9 +577,6 @@ void LotusTracker::onDraftStatus(QString eventId, QString status, int packNumber
     } else {
         deckOverlayDraft->reset();
         deckOverlayDraft->hide();
-    }
-    if (appSettings->isFirstDraft()) {
-        showMessage(tr("You can choose Draft tier source between ChannelFireball LSV and Draftsim ranks in Preferences."));
     }
 }
 

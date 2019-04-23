@@ -24,7 +24,7 @@ void DeckOverlayDraft::applyCurrentSettings()
 {
     move(APP_SETTINGS->getDeckOverlayDraftPos(uiWidth));
     uiScale = APP_SETTINGS->getDeckOverlayDraftScale();
-    currentSource = APP_SETTINGS->getDeckOverlayDraftSource();
+    currentSource = "lsv";
     DeckOverlayBase::onScaleChanged();
 }
 
@@ -118,7 +118,7 @@ void DeckOverlayDraft::beforeDrawCardEvent(QPainter &painter, Card *card, int ca
     int rankTextHeight = cardMetrics.ascent() - cardMetrics.descent();
     int rankTextOptions = Qt::AlignLeft | Qt::AlignVCenter | Qt::TextDontClip;
     painter.setFont(rankFont);
-    QString rank = currentSource == "lsv" ? card->lsvRank : card->draftsimRank;
+    QString rank = currentSource == "lsv" ? card->lsvRank : "";
     if (rank.length() == 1) {
         rank += ".0";
     }
@@ -160,8 +160,6 @@ void DeckOverlayDraft::drawHoverCard(QPainter &painter)
     if (currentSource == "lsv") {
         desc = QString("\t\t\t\t\tChannelFireball LSV Tier: %1\n%2")
                 .arg(getHoverCardRank()).arg(hoverCard->lsvDesc);
-    } else {
-        desc = QString("\t\t\t\t\tDraftSim Tier: %1").arg(getHoverCardRank());
     }
 
     QRect screen = QApplication::desktop()->screenGeometry();
@@ -196,14 +194,6 @@ void DeckOverlayDraft::afterPaintEvent(QPainter &painter)
     int settingsPlusX = uiPos.x() + uiWidth - buttonSize - buttonMarginX;
     painter.drawImage(settingsPlusX, preferencesButtonY, settingsScaled);
     preferencesButton = QRect(settingsPlusX, preferencesButtonY, buttonSize, buttonSize);
-
-    // Switch ratings button
-    int switchButtonY = uiPos.y() + buttonSize + buttonMarginY + buttonMarginY;
-    QImage switchIcon(":res/switch.png");
-    QImage switchIconScaled = switchIcon.scaled(buttonSize, buttonSize,
-                                                Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    painter.drawImage(settingsPlusX, switchButtonY, switchIconScaled);
-    switchButton = QRect(settingsPlusX, switchButtonY, buttonSize, buttonSize);
 }
 
 void DeckOverlayDraft::reset()
@@ -244,8 +234,6 @@ QString DeckOverlayDraft::getHoverCardRank()
 {
     if (currentSource == "lsv") {
         return hoverCard->lsvRank;
-    } else {
-        return hoverCard->draftsimRank;
     }
 }
 
@@ -275,10 +263,6 @@ void DeckOverlayDraft::onHoverMove(QHoverEvent *event)
         showingTooltip = true;
         QToolTip::showText(event->pos(), tr("Settings"));
     }
-    if (switchButton.contains(event->pos())) {
-        showingTooltip = true;
-        QToolTip::showText(event->pos(), tr("Switch card ratings soruce"));
-    }
     DeckOverlayBase::onHoverMove(event);
 }
 
@@ -288,9 +272,6 @@ void DeckOverlayDraft::mousePressEvent(QMouseEvent *event)
         return;
     }
     if (preferencesButton.contains(event->pos())) {
-        return;
-    }
-    if (switchButton.contains(event->pos())) {
         return;
     }
     DeckOverlayBase::mousePressEvent(event);
@@ -305,12 +286,6 @@ void DeckOverlayDraft::mouseReleaseEvent(QMouseEvent *event)
         hideCardOnHover();
         LOTUS_TRACKER->showPreferencesScreen();
         LOTUS_TRACKER->gaTracker->sendEvent("Overlay", "Preferences");
-        return;
-    }
-    if (switchButton.contains(event->pos())) {
-        hideCardOnHover();
-        emit sgnSwitchDraftRatingsSource();
-        LOTUS_TRACKER->gaTracker->sendEvent("Overlay", "Switch Ratings");
         return;
     }
     DeckOverlayBase::mouseReleaseEvent(event);

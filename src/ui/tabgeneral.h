@@ -20,7 +20,6 @@ private:
     void onOOEnabledChanged();
     void onSDADEnabledChanged();
     void onDOEnabledChanged();
-    void onRBRankChanged();
     void onHideOnLoseGameFocusChanged();
     void onRestoreDefaultsSettingsClicked();
 
@@ -37,7 +36,6 @@ signals:
     void sgnDraftOverlaySource(QString source);
 
 public slots:
-    void onSwitchDraftRatingsSource();
 };
 
 #endif // TABGENERAL_H

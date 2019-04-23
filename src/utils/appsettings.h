@@ -59,8 +59,6 @@ public:
     // Deck overlay Draft
     bool isDeckOverlayDraftEnabled();
     void enableDeckOverlayDraft(bool enabled);
-    QString getDeckOverlayDraftSource();
-    void setDeckOverlayDraftSource(QString source);
     QPoint getDeckOverlayDraftPos(int uiWidth);
     void setDeckOverlayDraftPos(QPoint pos);
     int getDeckOverlayDraftScale();
