@@ -130,6 +130,8 @@ void MtgaLogParser::parseOutcomingMsg(QPair<QString, QString> msg)
         parseClientToGreMessages(msg.second);
     } else if (msg.first == "DirectGame.Challenge") {
         parseDirectGameChallenge(msg.second);
+    } else if (msg.first == "Log.Info") {
+        parseLogInfo(msg.second);
     }
 }
 
@@ -724,4 +726,30 @@ void MtgaLogParser::parseDraftStatus(QString json)
         pickedCards << LOTUS_TRACKER->mtgCards->findCard(mtgaId);
     }
     emit sgnDraftStatus(eventId, status, packNumber, pickNumber, availablePicks, pickedCards);
+}
+
+void MtgaLogParser::parseLogInfo(QString json)
+{
+    QJsonObject jsonLogInfo = Transformations::stringToJsonObject(json);
+    if (jsonLogInfo.empty()) {
+        return;
+    }
+    try {
+        QJsonObject params = jsonLogInfo["params"].toObject();
+        QString messageName = params["messageName"].toString();
+        if (messageName == "Client.SceneChange") {
+            QJsonObject payloadObject = params["payloadObject"].toObject();
+            QString fromSceneName = payloadObject["fromSceneName"].toString();
+            QString toSceneName = payloadObject["toSceneName"].toString();
+            if (fromSceneName == "Draft") {
+                emit sgnLeavingDraft();
+            }
+            if (toSceneName == "Home") {
+                emit sgnGoingToHome();
+            }
+        }
+    } catch (const std::exception& ex) {
+        LOGW(ex.what())
+    }
+
 }

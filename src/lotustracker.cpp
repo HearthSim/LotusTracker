@@ -284,7 +284,12 @@ void LotusTracker::setupLogParserConnections()
             this, &LotusTracker::onDraftStatus);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnDecodeDeckPosSideboardPayload,
             lotusAPI, &LotusTrackerAPI::onDecodeDeckPosSideboardPayload);
-    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnEventPlayerCourses,
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnGoingToHome,
+            this, [this](){
+        deckOverlayPlayer->reset();
+        deckOverlayPlayer->hide();
+    });
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnLeavingDraft,
             this, [this](){
         isOnDraftScreen = false;
         deckOverlayDraft->hide();
