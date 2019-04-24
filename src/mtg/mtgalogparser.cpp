@@ -650,7 +650,9 @@ void MtgaLogParser::parseClientToGreMessages(QString json)
     }
     QString type = jsonClientToGreMsg["clientToMatchServiceMessageType"].toString();
     QString payload = jsonClientToGreMsg["payload"].toString();
-    emit sgnDecodeDeckPosSideboardPayload(type, payload);
+    if (type == "ClientToMatchServiceMessageType_ClientToGREMessage" && payload.size() >= 200) {
+        emit sgnDecodeDeckPosSideboardPayload(type, payload);
+    }
 }
 
 void MtgaLogParser::onParseDeckPosSideboardJson(QJsonObject jsonMessage)

@@ -510,6 +510,11 @@ void LotusTrackerAPI::onParseDeckPosSideboardPayloadRequestFinish()
     if (statusCode < 200 || statusCode > 299) {
         QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
         LOGW(QString("Error: %1 - %2: %3").arg(reply->errorString()).arg(reason));
+        if (statusCode == 401 || statusCode == 403) {    //Token expired
+            UserSettings userSettings = APP_SETTINGS->getUserSettings();
+            refreshToken(userSettings.refreshToken);
+            return;
+        }
         QString message = jsonRsp["error"].toString();
         LOTUS_TRACKER->showMessage(message);
         return;
@@ -532,6 +537,11 @@ void LotusTrackerAPI::uploadMatchRequestOnFinish()
     if (statusCode < 200 || statusCode > 299) {
         QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
         LOGW(QString("Error: %1 - %2").arg(reply->errorString()).arg(reason));
+        if (statusCode == 401 || statusCode == 403) {    //Token expired
+            UserSettings userSettings = APP_SETTINGS->getUserSettings();
+            refreshToken(userSettings.refreshToken);
+            return;
+        }
         QString error = jsonRsp["error"].toString();
         LOTUS_TRACKER->showMessage(error);
         return;
