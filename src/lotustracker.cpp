@@ -573,7 +573,7 @@ void LotusTracker::onDraftPick(int mtgaId, int packNumber, int pickNumber)
 {
     QString eventName = deckOverlayDraft->getCurrentDraftName();
     QList<Card *> availablePicks = deckOverlayDraft->getAvailablePicks();
-    APP_SETTINGS->saveDraftPick(eventName, packNumber, pickNumber, mtgaId, availablePicks);
+    APP_SETTINGS->setDraftPick(eventName, packNumber, pickNumber, mtgaId, availablePicks);
 }
 
 void LotusTracker::onDraftStatus(QString eventName, QString status, int packNumber, int pickNumber,

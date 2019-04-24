@@ -4,6 +4,7 @@
 #include "requestdata.h"
 #include "../entity/deck.h"
 #include "../entity/matchinfo.h"
+#include "../macros.h"
 
 class RqtUploadEventResult: public RequestData
 {
@@ -24,6 +25,17 @@ public:
             {"wins", wins},
             {"losses", losses}
         };
+        if (APP_SETTINGS->hasDraftPick(eventId)) {
+            for (int i=0; i<3; i++) {
+                for (int j=0; j<15; j++) {
+                    QString picks = APP_SETTINGS->getDraftPicks(eventId, i, j);
+                    QString picked = APP_SETTINGS->getDraftPicked(eventId, i, j);
+                    jsonObj.insert(QString("draftP%1P%2C").arg(i).arg(j), picks);
+                    jsonObj.insert(QString("draftP%1P%2P").arg(i).arg(j), picked);
+                }
+            }
+            APP_SETTINGS->clearDraftPick(eventId);
+        }
 
         _body = QJsonDocument(jsonObj);
         _path = "users/events";

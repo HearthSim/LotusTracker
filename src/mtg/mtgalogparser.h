@@ -86,8 +86,8 @@ signals:
     void sgnNewTurnStarted(int turnNumber);
     void sgnEventFinish(QString eventId, QString deckId, QString deckColors,
                         int maxWins, int wins, int losses);
-    void sgnDraftStatus(QString eventId, QString status, int packNumber, int pickNumber,
     void sgnDraftPick(int mtgaId, int packNumber, int pickNumber);
+    void sgnDraftStatus(QString eventId, QString status, int packNumber, int pickNumber,
                         QList<Card*> availablePicks, QList<Card*> pickedCards);
     void sgnDecodeDeckPosSideboardPayload(QString type, QString payload);
     void sgnGoingToHome();

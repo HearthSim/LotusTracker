@@ -66,8 +66,13 @@ public:
     void setDeckOverlayDraftScale(int scale);
     bool isShowDeckAfterDraftEnabled();
     void enableShowDeckAfterDraft(bool enabled);
-    void saveDraftPick(QString eventId, int packNumber, int pickNumber,
+    bool hasDraftPick(QString eventId);
+    void clearDraftPick(QString eventId);
+    QString getDraftPicks(QString eventId, int packNumber, int pickNumber);
+    QString getDraftPicked(QString eventId, int packNumber, int pickNumber);
+    void setDraftPick(QString eventId, int packNumber, int pickNumber,
                        int pickedCard, QList<Card*> availablePicks);
+    QString getDraftPickBaseKey(QString eventId, int packNumber, int pickNumber);
     // User settings
     void setUserSettings(UserSettings userSettings, QString userName = "");
     UserSettings getUserSettings();
