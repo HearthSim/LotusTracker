@@ -33,10 +33,10 @@
 #define KEY_OVERLAY_OPPONENT_SCALE "Tracker/opponentPrefs/scale"
 
 #define KEY_OVERLAY_DRAFT_ENABLED "Tracker/draftPrefs/enabled"
-#define KEY_OVERLAY_DRAFT_SOURCE "Tracker/draftPrefs/source"
 #define KEY_OVERLAY_DRAFT_X "Tracker/draftPrefs/x"
 #define KEY_OVERLAY_DRAFT_Y "Tracker/draftPrefs/y"
 #define KEY_OVERLAY_DRAFT_SCALE "Tracker/draftPrefs/scale"
+#define KEY_OVERLAY_DRAFT_PICKS_PREFIX "Tracker/draftPrefs/picks"
 #define KEY_OVERLAY_SHOW_DECK_AFTER_DRAFT_ENABLED "Tracker/draftPrefs/showDeckAfterDraft"
 
 #define KEY_OVERLAY_USER_ID "Tracker/user/id"
@@ -298,16 +298,6 @@ void AppSettings::enableDeckOverlayDraft(bool enabled)
     settings.setValue(KEY_OVERLAY_DRAFT_ENABLED, enabled);
 }
 
-QString AppSettings::getDeckOverlayDraftSource()
-{
-    return settings.value(KEY_OVERLAY_DRAFT_SOURCE, "lsv").toString();
-}
-
-void AppSettings::setDeckOverlayDraftSource(QString source)
-{
-    settings.setValue(KEY_OVERLAY_DRAFT_SOURCE, source);
-}
-
 QPoint AppSettings::getDeckOverlayDraftPos(int uiWidth)
 {
     UNUSED(uiWidth);
@@ -340,6 +330,51 @@ bool AppSettings::isShowDeckAfterDraftEnabled()
 void AppSettings::enableShowDeckAfterDraft(bool enabled)
 {
     settings.setValue(KEY_OVERLAY_SHOW_DECK_AFTER_DRAFT_ENABLED, enabled);
+}
+
+bool AppSettings::hasDraftPick(QString eventId)
+{
+    QString eventPickKey = QString("%1/%2/0_0_picks").arg(KEY_OVERLAY_DRAFT_PICKS_PREFIX)
+            .arg(eventId);
+    return settings.contains(eventPickKey);
+}
+
+void AppSettings::clearDraftPick(QString eventId)
+{
+    QString eventPickKey = QString("%1/%2/").arg(KEY_OVERLAY_DRAFT_PICKS_PREFIX)
+            .arg(eventId);
+    settings.remove(eventPickKey);
+}
+
+QString AppSettings::getDraftPicks(QString eventId, int packNumber, int pickNumber)
+{
+    QString eventPickKey = getDraftPickBaseKey(eventId, packNumber, pickNumber);
+    return settings.value(QString("%1_picks").arg(eventPickKey), "").toString();
+}
+
+QString AppSettings::getDraftPicked(QString eventId, int packNumber, int pickNumber)
+{
+    QString eventPickKey = getDraftPickBaseKey(eventId, packNumber, pickNumber);
+    return settings.value(QString("%1_picked").arg(eventPickKey), "").toString();
+}
+
+void AppSettings::setDraftPick(QString eventId, int packNumber, int pickNumber,
+                                int pickedCard, QList<Card*> availablePicks)
+{
+    QString eventPickKey = getDraftPickBaseKey(eventId, packNumber, pickNumber);
+    QString picks;
+    for(Card* card : availablePicks){
+        picks += QString("%1,").arg(card->mtgaId);
+    }
+    picks = picks.left(picks.length()-1);
+    settings.setValue(QString("%1_picks").arg(eventPickKey), picks);
+    settings.setValue(QString("%1_picked").arg(eventPickKey), pickedCard);
+}
+
+QString AppSettings::getDraftPickBaseKey(QString eventId, int packNumber, int pickNumber)
+{
+    return QString("%1/%2/%3_%4").arg(KEY_OVERLAY_DRAFT_PICKS_PREFIX)
+            .arg(eventId).arg(packNumber).arg(pickNumber);
 }
 
 // User settings

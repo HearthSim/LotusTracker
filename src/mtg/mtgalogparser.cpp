@@ -130,6 +130,10 @@ void MtgaLogParser::parseOutcomingMsg(QPair<QString, QString> msg)
         parseClientToGreMessages(msg.second);
     } else if (msg.first == "DirectGame.Challenge") {
         parseDirectGameChallenge(msg.second);
+    } else if (msg.first == "Log.Info") {
+        parseLogInfo(msg.second);
+    } else if (msg.first == "Draft.MakePick") {
+        parseDraftPick(msg.second);
     }
 }
 
@@ -646,7 +650,9 @@ void MtgaLogParser::parseClientToGreMessages(QString json)
     }
     QString type = jsonClientToGreMsg["clientToMatchServiceMessageType"].toString();
     QString payload = jsonClientToGreMsg["payload"].toString();
-    emit sgnDecodeDeckPosSideboardPayload(type, payload);
+    if (type == "ClientToMatchServiceMessageType_ClientToGREMessage" && payload.size() >= 200) {
+        emit sgnDecodeDeckPosSideboardPayload(type, payload);
+    }
 }
 
 void MtgaLogParser::onParseDeckPosSideboardJson(QJsonObject jsonMessage)
@@ -701,6 +707,19 @@ void MtgaLogParser::parseEventFinish(QString json)
     emit sgnEventFinish(eventId, deck.id, deck.colorIdentity(), maxWins, wins, losses);
 }
 
+void MtgaLogParser::parseDraftPick(QString json)
+{
+    QJsonObject jsonLogInfo = Transformations::stringToJsonObject(json);
+    if (jsonLogInfo.empty()) {
+        return;
+    }
+    QJsonObject params = jsonLogInfo["params"].toObject();
+    int cardId = params["cardId"].toString().toInt();
+    int packNumber = params["packNumber"].toString().toInt();
+    int pickNumber = params["pickNumber"].toString().toInt();
+    emit sgnDraftPick(cardId, packNumber, pickNumber);
+}
+
 void MtgaLogParser::parseDraftStatus(QString json)
 {
     QJsonObject jsonDraftStatus = Transformations::stringToJsonObject(json);
@@ -724,4 +743,30 @@ void MtgaLogParser::parseDraftStatus(QString json)
         pickedCards << LOTUS_TRACKER->mtgCards->findCard(mtgaId);
     }
     emit sgnDraftStatus(eventId, status, packNumber, pickNumber, availablePicks, pickedCards);
+}
+
+void MtgaLogParser::parseLogInfo(QString json)
+{
+    QJsonObject jsonLogInfo = Transformations::stringToJsonObject(json);
+    if (jsonLogInfo.empty()) {
+        return;
+    }
+    try {
+        QJsonObject params = jsonLogInfo["params"].toObject();
+        QString messageName = params["messageName"].toString();
+        if (messageName == "Client.SceneChange") {
+            QJsonObject payloadObject = params["payloadObject"].toObject();
+            QString fromSceneName = payloadObject["fromSceneName"].toString();
+            QString toSceneName = payloadObject["toSceneName"].toString();
+            if (fromSceneName == "Draft") {
+                emit sgnLeavingDraft();
+            }
+            if (toSceneName == "Home") {
+                emit sgnGoingToHome();
+            }
+        }
+    } catch (const std::exception& ex) {
+        LOGW(ex.what())
+    }
+
 }

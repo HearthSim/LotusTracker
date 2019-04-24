@@ -92,7 +92,8 @@ private slots:
     void onUserSigned(bool fromSignUp);
     void onUserTokenRefreshed();
     void onUserTokenRefreshError();
-    void onDraftStatus(QString eventId, QString status, int packNumber, int pickNumber,
+    void onDraftPick(int mtgaId, int packNumber, int pickNumber);
+    void onDraftStatus(QString eventName, QString status, int packNumber, int pickNumber,
                        QList<Card*> availablePicks, QList<Card*> pickedCards);
 };
 

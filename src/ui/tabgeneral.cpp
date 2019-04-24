@@ -50,10 +50,6 @@ TabGeneral::TabGeneral(QWidget *parent)
             this, &TabGeneral::onSDADEnabledChanged);
     connect(ui->cbDOEnabled, &QCheckBox::clicked,
             this, &TabGeneral::onDOEnabledChanged);
-    connect(ui->rbRankLSV, &QCheckBox::clicked,
-            this, &TabGeneral::onRBRankChanged);
-    connect(ui->rbRankDraftsim, &QCheckBox::clicked,
-            this, &TabGeneral::onRBRankChanged);
     connect(ui->cbHideOnLoseGameFocus, &QCheckBox::clicked,
             this, &TabGeneral::onHideOnLoseGameFocusChanged);
     connect(ui->btReset, &QPushButton::clicked,
@@ -65,17 +61,6 @@ TabGeneral::~TabGeneral()
     DEL(ui)
 }
 
-void TabGeneral::onSwitchDraftRatingsSource()
-{
-    QString draftSource = "lsv";
-    if (APP_SETTINGS->getDeckOverlayDraftSource() == "lsv") {
-        draftSource = "draftsim";
-    }
-    emit sgnDraftOverlaySource(draftSource);
-    LOGD(QString("DraftOverlaySource: %1").arg(draftSource));
-    APP_SETTINGS->setDeckOverlayDraftSource(draftSource);
-}
-
 void TabGeneral::applyCurrentSettings()
 {
     ui->leLog->setText(LOTUS_TRACKER->appSettings->getLogPath());
@@ -85,11 +70,6 @@ void TabGeneral::applyCurrentSettings()
     ui->cbOOEnabled->setChecked(APP_SETTINGS->isDeckOverlayOpponentEnabled());
     ui->cbSDADEnabled->setChecked(APP_SETTINGS->isShowDeckAfterDraftEnabled());
     ui->cbDOEnabled->setChecked(APP_SETTINGS->isDeckOverlayDraftEnabled());
-    if (APP_SETTINGS->getDeckOverlayDraftSource() == "lsv") {
-        ui->rbRankLSV->setChecked(true);
-    } else {
-        ui->rbRankDraftsim->setChecked(true);
-    }
     ui->cbHideOnLoseGameFocus->setChecked(APP_SETTINGS->isHideOnLoseGameFocusEnabled());
 }
 
@@ -143,17 +123,6 @@ void TabGeneral::onDOEnabledChanged()
     emit sgnDeckOverlayDraftEnabled(enabled);
     LOGD(QString("DeckOverlayDraftEnabled: %1").arg(enabled ? "true" : "false"));
     APP_SETTINGS->enableDeckOverlayDraft(enabled);
-}
-
-void TabGeneral::onRBRankChanged()
-{
-    QString draftSource = "lsv";
-    if (ui->rbRankDraftsim->isChecked()) {
-        draftSource = "draftsim";
-    }
-    emit sgnDraftOverlaySource(draftSource);
-    LOGD(QString("DraftOverlaySource: %1").arg(draftSource));
-    APP_SETTINGS->setDeckOverlayDraftSource(draftSource);
 }
 
 void TabGeneral::onPOEnabledChanged()
