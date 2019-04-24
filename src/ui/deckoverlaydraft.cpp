@@ -171,14 +171,20 @@ void DeckOverlayDraft::drawHoverCard(QPainter &painter)
 
     QRect descRect(descX, descY, width, height);
     painter.setPen(bgPen);
-    painter.setBrush(QBrush(QColor(70, 70, 70, 250)));
+    painter.setBrush(QBrush(QColor(25, 25, 25, 250)));
     painter.drawRoundedRect(descRect, cornerRadius, cornerRadius);
 
     int descTextOptions = Qt::AlignLeft | Qt::AlignVCenter | Qt::TextWordWrap;
     QRect textRect(descX + rankDescTextMargin, descY,
                    width - rankDescTextMargin * 2, height);
-    painter.setPen(QPen(QColor(255, 255, 150, 250)));
-    painter.drawText(textRect, descTextOptions, desc);
+    QRect textShadowRect(textRect.left()+1, textRect.top()+1,
+                   textRect.width(), textRect.height());
+
+    painter.setPen(QPen(QColor(0, 0, 0, 255)));
+    painter.drawText(textShadowRect, descTextOptions, desc);
+
+    painter.setPen(QPen(QColor(255, 255, 225, 255)));
+    painter.drawText(textRect, descTextOptions, desc);    
 }
 
 void DeckOverlayDraft::afterPaintEvent(QPainter &painter)
