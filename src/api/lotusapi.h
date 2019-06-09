@@ -3,9 +3,9 @@
 
 #include "requestdata.h"
 #include "rqtuploadplayermatch.h"
-#include "entity/deck.h"
-#include "entity/user.h"
-#include "mtg/mtgamatch.h"
+#include "../entity/deck.h"
+#include "../entity/user.h"
+#include "../mtg/mtgamatch.h"
 
 #include <QBuffer>
 #include <QObject>

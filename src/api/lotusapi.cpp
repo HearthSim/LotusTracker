@@ -1,5 +1,5 @@
 #include "lotusapi.h"
-#include "macros.h"
+#include "../macros.h"
 #include "../urls.h"
 #include "rqtparsedeckposside.h"
 #include "rqtplayerdeck.h"

@@ -1,7 +1,7 @@
 #ifndef MATCHINFO_H
 #define MATCHINFO_H
 
-#include "entity/deck.h"
+#include "deck.h"
 #include "opponentinfo.h"
 
 #include <QMap>
