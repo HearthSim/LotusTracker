@@ -1,6 +1,6 @@
 #include "deckoverlayplayer.h"
 #include "../macros.h"
-#include "urls.h"
+#include "../urls.h"
 
 #include <QAction>
 #include <QClipboard>
