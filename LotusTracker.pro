@@ -25,6 +25,10 @@ MOC_DIR = tmp
 RCC_DIR = tmp
 UI_DIR = tmp
 
+# Crow - Sentry
+
+INCLUDEPATH += ../crow/include
+
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -73,6 +77,7 @@ HEADERS += \
     src/ui/trayicon.h \
     src/utils/appsettings.h \
     src/utils/logger.h \
+    src/utils/lotusexception.h \
     src/updater/sparkleupdater.h \
     src/credentials.h \
     src/ganalytics.h \
@@ -161,6 +166,12 @@ win32 {
 
   LIBS += -luser32 -lpsapi
   LIBS += -L../WinSparkle/Release -lWinSparkle
+  LIBS += -L$$PWD/libs -llibcrow
+  LIBS += -L$$PWD/libs -llibcurl
+  LIBS += -L$$PWD/libs -llibcrypto
+  LIBS += -L$$PWD/libs -llibssl
+  LIBS += -L$$PWD/libs -llibzlibstatic
+  LIBS += -L$$PWD/libs -llibws2_32
 
   HEADERS += src/utils/winautostart.h \
       src/utils/winwindowfinder.h \
