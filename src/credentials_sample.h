@@ -12,6 +12,9 @@ public:
         return "UA-XXXXXXXX-X";
     }
 
+    static const QString GA_SENTRY_DSN() {
+        return "https://a123:b456@sentry.io/c789";
+    }
 };
 
 #endif // CREDENTIALS_H
