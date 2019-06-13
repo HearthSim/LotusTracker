@@ -17,7 +17,8 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 
-LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
+LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv),
+    crow_client(CREDENTIALS::GA_SENTRY_DSN().toStdString())
 {
     setupApp();
     setupUpdater();
@@ -56,7 +57,7 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv)
         deckOverlayOpponent->hide();
     });
     //setupMatch should be called before setupLogParser because sgnMatchInfoResult order
-    setupLotusAPIConnectsions();
+    setupLotusAPIConnections();
     setupLogParserConnections();
     setupMtgaMatchConnections();
     setupPreferencesScreen();
@@ -95,6 +96,7 @@ LotusTracker::~LotusTracker()
     DEL(mtgaMatch)
     DEL(lotusAPI)
     DEL(gaTracker)
+    crow_client.~crow();
 }
 
 int LotusTracker::run()
@@ -102,7 +104,7 @@ int LotusTracker::run()
     try {
         return isAlreadyRunning() ? 1 : exec();
     } catch (const std::exception& ex) {
-        gaTracker->sendException(ex.what());
+        trackException(LotusException(ex.what()));
         return -1;
     }
 }
@@ -224,9 +226,13 @@ void LotusTracker::setupPreferencesScreen()
     // Tab Logs
     connect(logger, &Logger::sgnLog,
             preferencesScreen->getTabLogs(), &TabLogs::onNewLog);
+    connect(logger, &Logger::sgnLog, this, [this](LogType type, const QString &log){
+        QString msg = QString("%1 - %2").arg(LOG_TYPE_NAMES[type]).arg(log);
+        crow_client.add_breadcrumb(msg.toStdString());
+    });
 }
 
-void LotusTracker::setupLotusAPIConnectsions()
+void LotusTracker::setupLotusAPIConnections()
 {
     connect(lotusAPI, &LotusTrackerAPI::sgnDeckWinRate,
             deckOverlayPlayer, &DeckOverlayPlayer::onPlayerDeckStatus);
@@ -368,6 +374,13 @@ void LotusTracker::publishOrUpdatePlayerDeck(Deck deck)
 {
     QString playerName = mtgaMatch->getPlayerName();
     lotusAPI->publishOrUpdatePlayerDeck(playerName, deck);
+}
+
+void LotusTracker::trackException(LotusException ex)
+{
+    qDebug() << ex.what();
+    gaTracker->sendException(ex.what());
+    crow_client.capture_exception(ex);
 }
 
 void LotusTracker::onPlayerCollectionUpdated(QMap<int, int> ownedCards)

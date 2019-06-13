@@ -1,4 +1,5 @@
 #include "lotustracker.h"
+#include "macros.h"
 #include "utils/lotusexception.h"
 
 #ifdef ASM_CRASH_REPORT
@@ -16,12 +17,10 @@ int main(int argc, char *argv[])
     asmCrashReport::setSignalHandler(QString(), [] (const QString &inFileName, bool inSuccess) {
       QString  message;
       if (inSuccess) {
-         message = QStringLiteral("Sorry, %1 has crashed. A log file was written to:\n\n%2\n\n"
-                                  "Please email this to mtgalotus@gmail.com." )
+         message = QStringLiteral("Sorry, %1 has crashed. A log file was written to:\n\n%2." )
                  .arg(QCoreApplication::applicationName(), inFileName);
       } else {
-         message = QStringLiteral("Sorry, %1 has crashed and we could not write a log file to:\n\n%2\n\n"
-                                  "Please contact mtgalotus@gmail.com." )
+         message = QStringLiteral("Sorry, %1 has crashed and we could not write a log file to:\n\n%2." )
                  .arg(QCoreApplication::applicationName(), inFileName);
       }
       QFile logFile(inFileName);
@@ -29,8 +28,7 @@ int main(int argc, char *argv[])
           logFile.seek(0);
           QByteArray logNewContent = logFile.readAll();
           QString content = QString::fromUtf8(logNewContent.trimmed());
-          nlohmann::crow crow_client("https://a123:b456@sentry.io/c789");
-          crow_client.capture_exception(LotusException(content));
+          LOTUS_TRACKER->trackException(LotusException(content));
       }
       QMessageBox::critical(nullptr, QObject::tr("%1 Crashed").arg(QCoreApplication::applicationName()), message);
    });
