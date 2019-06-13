@@ -16,10 +16,12 @@
 #include "ui/trayicon.h"
 #include "utils/appsettings.h"
 #include "utils/logger.h"
+#include "utils/lotusexception.h"
 #include "updater/sparkleupdater.h"
 #include "credentials.h"
 #include "ganalytics.h"
 
+#include <crow/crow.hpp>
 #include <QApplication>
 #include <QLocalServer>
 #include <QTimer>
@@ -29,6 +31,7 @@ class LotusTracker : public QApplication
     Q_OBJECT
 
 private:
+    nlohmann::crow crow_client;
     QLocalServer *localServer;
     DeckOverlayPlayer *deckOverlayPlayer;
     DeckOverlayOpponent *deckOverlayOpponent;
@@ -45,7 +48,7 @@ private:
     void setupApp();
     void setupUpdater();
     void setupPreferencesScreen();
-    void setupLotusAPIConnectsions();
+    void setupLotusAPIConnections();
     void setupLogParserConnections();
     void setupMtgaMatchConnections();
     void checkForAutoLogin();
@@ -67,6 +70,7 @@ public:
     void showPreferencesScreen();
     void showMessage(QString msg, QString title = tr("Lotus Tracker"));
     void publishOrUpdatePlayerDeck(Deck deck);
+    void trackException(LotusException ex);
     // Just for Tests
     void setEventInfo(QString eventName, QString eventType);
 
