@@ -35,8 +35,8 @@ You can download the latest version of Lotus Tracker [here](https://github.com/e
 
 ## Build Instructions
 
-* Install QT Creator
-* Rename ``urls_sample.h`` to ``urls.h``
+* Install QT Creator with MinGW 32 bits and OpenSSL
+* Rename ``credentials_sample.h`` to ``credentials.h``
 * Setup Sparkle (_Auto update framework_)
 * Open project (_LotusTracker.pro_)
 * Run
@@ -49,11 +49,11 @@ You can download the latest version of Lotus Tracker [here](https://github.com/e
 ## Sparkle on Windows
 
 * Download [WinSparkle](https://github.com/vslavik/winsparkle) 
-* Unpack to same project level folder
+* Unpack to same project level folder and rename it to `WinSparkle`
 
 ## Contributing
 
-Feel free to submit pull requests, suggest new ideas and discuss issues. Track-o-Bot is about simplicity and usability. Only features which benefit all users will be considered. 
+Feel free to submit pull requests, suggest new ideas and discuss issues.
 
 ## License
 
