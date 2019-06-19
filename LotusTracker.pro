@@ -14,8 +14,6 @@ VERSION = 1.3.0
 
 CONFIG += c++11
 
-CONFIG(debug, debug|release)
-
 # asmCrashReport - https://github.com/asmaloney/asmCrashReport
 include(asmCrashReport.pri)
 
@@ -129,56 +127,59 @@ RESOURCES += resources.qrc
 
 mac {
 
-  QT += macextras
-  ICON = res/icons/icon.icns
-  DEFINES += PLATFORM=\\\"mac\\\"
+    QT += macextras
+    ICON = res/icons/icon.icns
+    DEFINES += PLATFORM=\\\"mac\\\"
 
-  QMAKE_INFO_PLIST = Info.plist.app
+    QMAKE_INFO_PLIST = Info.plist.app
 
-  INCLUDEPATH += "\ -F/Library/Frameworks"
-  LIBS += -framework ApplicationServices -F/Library/Frameworks \
+    INCLUDEPATH += "\ -F/Library/Frameworks"
+    LIBS += -framework ApplicationServices -F/Library/Frameworks \
       -framework AppKit -framework Sparkle
 
-  HEADERS += src/utils/macautostart.h \
-      src/utils/cocoainitializer.h \
-      src/utils/macwindowfinder.h \
-      src/updater/macsparkleupdater.h
+    HEADERS += src/utils/macautostart.h \
+        src/utils/cocoainitializer.h \
+        src/utils/macwindowfinder.h \
+        src/updater/macsparkleupdater.h
 
-  SOURCES += src/utils/macautostart.cpp \
-      src/utils/macwindowfinder.cpp
+    SOURCES += src/utils/macautostart.cpp \
+        src/utils/macwindowfinder.cpp
 
-  OBJECTIVE_SOURCES += \
-    src/utils/cocoainitializer.mm \
-    src/updater/macsparkleupdater.mm
+    OBJECTIVE_SOURCES += \
+        src/utils/cocoainitializer.mm \
+        src/updater/macsparkleupdater.mm
 
 }
 
 win32 {
 
-  QT += winextras
-  RC_FILE += lotustracker.rc
+    QT += winextras
+    RC_FILE += lotustracker.rc
 
-  CONFIG += embed_manifest_exe
-  DEFINES += PLATFORM=\\\"win32\\\"
-  DEFINES += _CRT_SECURE_NO_WARNINGS
+    CONFIG += embed_manifest_exe
+    DEFINES += PLATFORM=\\\"win32\\\"
+    DEFINES += _CRT_SECURE_NO_WARNINGS
 
-  INCLUDEPATH += ../WinSparkle/include
+    INCLUDEPATH += ../WinSparkle/include
 
-  LIBS += -luser32 -lpsapi
-  LIBS += -L../WinSparkle/Release -lWinSparkle
-  LIBS += -L$$PWD/libs -llibcrow
-  LIBS += -L$$PWD/libs -llibcurl
-  LIBS += -L$$PWD/libs -llibcrypto
-  LIBS += -L$$PWD/libs -llibssl
-  LIBS += -L$$PWD/libs -llibzlibstatic
-  LIBS += -L$$PWD/libs -llibws2_32
+    LIBS += -luser32 -lpsapi
+    LIBS += -L../WinSparkle/Release -lWinSparkle
 
-  HEADERS += src/utils/winautostart.h \
-      src/utils/winwindowfinder.h \
-      src/updater/winsparkleupdater.h
+    CONFIG(release, debug|release) {
+        LIBS += -L$$PWD/libs -llibcrow
+        LIBS += -L$$PWD/libs -llibcurl
+        LIBS += -L$$PWD/libs -llibcrypto
+        LIBS += -L$$PWD/libs -llibssl
+        LIBS += -L$$PWD/libs -llibzlibstatic
+        LIBS += -L$$PWD/libs -llibws2_32
+    }
 
-  SOURCES += src/utils/winautostart.cpp \
-      src/utils/winwindowfinder.cpp \
-      src/updater/winsparkleupdater.cpp
+    HEADERS += src/utils/winautostart.h \
+        src/utils/winwindowfinder.h \
+        src/updater/winsparkleupdater.h
+
+    SOURCES += src/utils/winautostart.cpp \
+        src/utils/winwindowfinder.cpp \
+        src/updater/winsparkleupdater.cpp
 
 }

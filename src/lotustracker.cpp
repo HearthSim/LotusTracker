@@ -12,6 +12,7 @@
 #include "updater/winsparkleupdater.h"
 #endif
 
+#include <iostream>
 #include <QLocalSocket>
 #include <QMessageBox>
 #include <QNetworkRequest>
@@ -20,8 +21,12 @@
 #define LOGS_QUEUE_MAX_SIZE 100
 
 LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv),
-    crow_client(CREDENTIALS::GA_SENTRY_DSN().toStdString())
+    crow_client(nullptr)
 {
+#ifdef QT_NO_DEBUG
+    std::cout << "Initializing crow";
+    crow_client = new nlohmann::crow(CREDENTIALS::GA_SENTRY_DSN().toStdString());
+#endif
     setupApp();
     setupUpdater();
     isOnDraftScreen = false;
@@ -98,7 +103,9 @@ LotusTracker::~LotusTracker()
     DEL(mtgaMatch)
     DEL(lotusAPI)
     DEL(gaTracker)
-    crow_client.~crow();
+    if (crow_client) {
+        crow_client->~crow();
+    }
 }
 
 int LotusTracker::run()
@@ -124,7 +131,7 @@ void LotusTracker::setupApp()
   setApplicationName(APP_NAME);
   setApplicationDisplayName(APP_NAME);
   setApplicationVersion(VERSION);
-  setOrganizationName(URLs::SITE_NAME());
+  setOrganizationName("Mtg Lotus Valley");
   setOrganizationDomain(URLs::SITE());
   setWindowIcon(icon);
 }
@@ -386,13 +393,15 @@ void LotusTracker::publishOrUpdatePlayerDeck(Deck deck)
 
 void LotusTracker::trackException(LotusException ex)
 {
-    while (logsQueue.size() > 0) {
-        QString msg = logsQueue.dequeue();
-        crow_client.add_breadcrumb(msg.toStdString());
-    }
     qDebug() << ex.what();
     gaTracker->sendException(ex.what());
-    crow_client.capture_exception(ex);
+#ifdef QT_NO_DEBUG
+    while (logsQueue.size() > 0) {
+        QString msg = logsQueue.dequeue();
+        crow_client->add_breadcrumb(msg.toStdString());
+    }
+    crow_client->capture_exception(ex);
+#endif
 }
 
 void LotusTracker::onPlayerCollectionUpdated(QMap<int, int> ownedCards)
