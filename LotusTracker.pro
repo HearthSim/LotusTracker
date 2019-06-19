@@ -76,6 +76,7 @@ HEADERS += \
     src/ui/taboverlay.h \
     src/ui/trayicon.h \
     src/utils/appsettings.h \
+    src/utils/influxdb.hpp \
     src/utils/logger.h \
     src/utils/lotusexception.h \
     src/updater/sparkleupdater.h \
