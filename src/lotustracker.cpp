@@ -17,6 +17,8 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 
+#define LOGS_QUEUE_MAX_SIZE 100
+
 LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv),
     crow_client(CREDENTIALS::GA_SENTRY_DSN().toStdString())
 {
@@ -227,8 +229,14 @@ void LotusTracker::setupPreferencesScreen()
     connect(logger, &Logger::sgnLog,
             preferencesScreen->getTabLogs(), &TabLogs::onNewLog);
     connect(logger, &Logger::sgnLog, this, [this](LogType type, const QString &log){
+        if (type == DEBUG) {
+            return;
+        }
         QString msg = QString("%1 - %2").arg(LOG_TYPE_NAMES[type]).arg(log);
-        crow_client.add_breadcrumb(msg.toStdString());
+        logsQueue.enqueue(msg);
+        if (logsQueue.size() > LOGS_QUEUE_MAX_SIZE) {
+            logsQueue.dequeue();
+        }
     });
 }
 
@@ -378,6 +386,10 @@ void LotusTracker::publishOrUpdatePlayerDeck(Deck deck)
 
 void LotusTracker::trackException(LotusException ex)
 {
+    while (logsQueue.size() > 0) {
+        QString msg = logsQueue.dequeue();
+        crow_client.add_breadcrumb(msg.toStdString());
+    }
     qDebug() << ex.what();
     gaTracker->sendException(ex.what());
     crow_client.capture_exception(ex);

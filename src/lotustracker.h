@@ -24,6 +24,7 @@
 #include <crow/crow.hpp>
 #include <QApplication>
 #include <QLocalServer>
+#include <QQueue>
 #include <QTimer>
 
 class LotusTracker : public QApplication
@@ -32,6 +33,7 @@ class LotusTracker : public QApplication
 
 private:
     nlohmann::crow crow_client;
+    QQueue<QString> logsQueue;
     QLocalServer *localServer;
     DeckOverlayPlayer *deckOverlayPlayer;
     DeckOverlayOpponent *deckOverlayOpponent;
