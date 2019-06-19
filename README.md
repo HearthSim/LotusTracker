@@ -1,20 +1,20 @@
 
-Based on Hearthstone Tracker, [Track-o-Bot](https://github.com/stevschmid/track-o-bot), _Lotus Tracker_ is a [Magic The Gathering Arena](https://magic.wizards.com/en/mtgarena) deck tracker write in c++ using QT5, allowing to build a light and multiplatform software.
+Based on Hearthstone Tracker, [Track-o-Bot](https://github.com/stevschmid/track-o-bot), _Lotus Tracker_ is a [Magic The Gathering Arena](https://magic.wizards.com/en/mtgarena) deck tracker written in C++ using QT5, allowing to build a light and multiplatform software.
 
 This source code already builds a Windows and Mac OS version of Lotus Tracker.
 
 ## Features
 
 * Multiplatform (Windows and Mac OS)
-* Show player deck and mark drawed cards
-* Show opponent drawed cards
+* Show player deck and mark drawn cards
+* Show opponent drawn cards
 * Show opponent's deck archetype (Based on cards played)
 * Hover to see full card
 * Draft Helper with LSV cards tier
 * Player draw statistics
 * Player deck winrate
 * Minimize tracker on right click
-* Choose between two cards layout
+* Choose between two card layouts
 * Configure opacity and zoom
 * Dual monitor support
 * Access you collection, deck and matches in [MtgLotusValley](https://www.mtglotusvalley.com)
@@ -29,7 +29,7 @@ This source code already builds a Windows and Mac OS version of Lotus Tracker.
 
 ## Download
 
-You can download Lotus Tracker latest version [here](https://github.com/edipo2s/LotusTracker/releases/latest)
+You can download the latest version of Lotus Tracker [here](https://github.com/edipo2s/LotusTracker/releases/latest)
 
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JQWPQH3EE5RZW)
 
