@@ -3,6 +3,7 @@
 #include "urls.h"
 #include "mtg/mtgalogparser.h"
 #include "utils/cocoainitializer.h"
+#include "utils/metrics.h"
 
 #if defined Q_OS_MAC
 #include "utils/macautostart.h"
@@ -90,6 +91,13 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv),
         });
         checkConnection->start(3000);
     }
+
+    influx_metric(influxdb_cpp::builder()
+        .meas("lt_app_start")
+        .tag("autostart", APP_SETTINGS->isAutoStartEnabled() ? "true" : "false")
+        .tag("new", APP_SETTINGS->isFirstRun() ? "true" : "false")
+        .field("count", 1)
+    );
 }
 
 LotusTracker::~LotusTracker()

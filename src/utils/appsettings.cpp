@@ -4,7 +4,10 @@
 #include <QDesktopWidget>
 #include <QDir>
 #include <QStandardPaths>
+#include <QString>
+#include <QUuid>
 
+#define KEY_INSTALLATION_UUID "installationUuid"
 #define KEY_AUTOSTART "autoStart"
 #define KEY_AUTOUPDATE "autoUpdate"
 #define KEY_FIRST_RUN "isFirstRun"
@@ -55,6 +58,16 @@
 AppSettings::AppSettings(QObject *parent) : QObject(parent)
 {
     LOGD(QString("Settings saved in %1").arg(settings.fileName()));
+}
+
+QString AppSettings::getInstallationUuid()
+{
+    if (!settings.contains(KEY_INSTALLATION_UUID)) {
+        settings.setValue(KEY_INSTALLATION_UUID, QUuid::createUuid().toString(QUuid::WithoutBraces));
+        settings.sync();
+    }
+
+    return settings.value(KEY_INSTALLATION_UUID).toString();
 }
 
 bool AppSettings::isAutoStartEnabled()
