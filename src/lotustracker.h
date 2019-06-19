@@ -32,7 +32,7 @@ class LotusTracker : public QApplication
     Q_OBJECT
 
 private:
-    nlohmann::crow crow_client;
+    nlohmann::crow *crow_client;
     QQueue<QString> logsQueue;
     QLocalServer *localServer;
     DeckOverlayPlayer *deckOverlayPlayer;
