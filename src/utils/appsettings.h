@@ -5,6 +5,7 @@
 #include "../entity/user.h"
 
 #include <QSettings>
+#include <QString>
 
 class AppSettings : public QObject
 {
@@ -16,6 +17,7 @@ private:
 public:
     explicit AppSettings(QObject *parent = nullptr);
 
+    QString getInstallationUuid();
     bool isAutoStartEnabled();
     void enableAutoStart(bool enabled);
     bool isAutoUpdateEnabled();
