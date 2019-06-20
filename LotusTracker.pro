@@ -10,7 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = LotusTracker
 TEMPLATE = app
-VERSION = 1.3.0
+VERSION = 1.3.1
 
 CONFIG += c++11
 
