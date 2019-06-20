@@ -7,8 +7,8 @@
 ;General
 
   ;Name and file
-  Name "Lotus Tracker 1.3.0"
-  OutFile "Lotus Tracker 1.3.0.exe"
+  Name "Lotus Tracker 1.3.1"
+  OutFile "Lotus Tracker 1.3.1.exe"
 
   ;Default installation folder
   InstallDir "$PROGRAMFILES\Lotus Tracker"
@@ -70,7 +70,10 @@ Section "Lotus Tracker" SecLotusTracker
 
   SetOutPath "$INSTDIR"
   
-  File files\libeay32.dll
+  File files\libcrypto-1_1.dll
+  File files\libssl-1_1.dll
+  File files\libcrypto.dll
+  File files\libssl.dll
   File files\libgcc_s_dw2-1.dll
   File files\libstdc++-6.dll
   File files\libwinpthread-1.dll
@@ -78,7 +81,6 @@ Section "Lotus Tracker" SecLotusTracker
   File files\Qt5Gui.dll
   File files\Qt5Network.dll
   File files\Qt5Widgets.dll
-  File files\ssleay32.dll
   File files\WinSparkle.dll
   File files\LotusTracker.exe
 
@@ -138,7 +140,10 @@ Section "Uninstall"
   Delete "$INSTDIR\Uninstall.exe"
 
   Delete $INSTDIR\LotusTracker.exe
-  Delete $INSTDIR\libeay32.dll
+  Delete $INSTDIR\libcrypto-1_1.dll
+  Delete $INSTDIR\libssl-1_1.dll
+  Delete $INSTDIR\libcrypto.dll
+  Delete $INSTDIR\libssl.dll
   Delete $INSTDIR\libgcc_s_dw2-1.dll
   Delete $INSTDIR\libstdc++-6.dll
   Delete $INSTDIR\libwinpthread-1.dll
@@ -146,7 +151,6 @@ Section "Uninstall"
   Delete $INSTDIR\Qt5Gui.dll
   Delete $INSTDIR\Qt5Network.dll
   Delete $INSTDIR\Qt5Widgets.dll
-  Delete $INSTDIR\ssleay32.dll
   Delete $INSTDIR\WinSparkle.dll
   Delete $INSTDIR\imageformats\qicns.dll
   Delete $INSTDIR\imageformats\qico.dll
