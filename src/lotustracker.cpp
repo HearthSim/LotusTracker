@@ -75,7 +75,9 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv),
 #elif defined Q_OS_WIN
     WinAutoStart::setEnabled(APP_SETTINGS->isAutoStartEnabled());
 #endif
-    if (APP_SETTINGS->isFirstRun()) {
+    // store in a variable, as reading this will clear the first run flag
+    bool isFirstRun = APP_SETTINGS->isFirstRun();
+    if (isFirstRun) {
         startScreen->show();
         startScreen->raise();
         showMessage(tr("Lotus Tracker is running in background, you can click on tray icon for preferences."));
@@ -95,7 +97,7 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv),
     influx_metric(influxdb_cpp::builder()
         .meas("lt_app_start")
         .tag("autostart", APP_SETTINGS->isAutoStartEnabled() ? "true" : "false")
-        .tag("new", APP_SETTINGS->isFirstRun() ? "true" : "false")
+        .tag("new", isFirstRun ? "true" : "false")
         .field("count", 1)
     );
 }
