@@ -43,6 +43,7 @@ HEADERS += \
     src/api/rqtuploadmatch.h \
     src/api/rqtuploadeventresult.h \
     src/api/rqtuploadplayermatch.h \
+    src/api/untappedapi.h \
     src/entity/card.h \
     src/entity/deck.h \
     src/entity/deckarch.h \
@@ -86,6 +87,7 @@ HEADERS += \
 
 SOURCES += \
     src/api/lotusapi.cpp \
+    src/api/untappedapi.cpp \
     src/main.cpp \
     src/ganalytics.cpp \
     src/lotustracker.cpp \

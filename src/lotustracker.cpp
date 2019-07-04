@@ -45,6 +45,7 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv),
         deckOverlayOpponent->show();
     });
     lotusAPI = new LotusTrackerAPI(this);
+    untappedAPI = new UntappedAPI(this);
     startScreen = new StartScreen(nullptr, lotusAPI);
     hideTrackerTimer = new QTimer(this);
     mtgaMatch = new MtgaMatch(this, mtgCards);
@@ -66,6 +67,7 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv),
     });
     //setupMatch should be called before setupLogParser because sgnMatchInfoResult order
     setupLotusAPIConnections();
+    setupUntappedAPIConnections();
     setupLogParserConnections();
     setupMtgaMatchConnections();
     setupPreferencesScreen();
@@ -100,6 +102,7 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv),
         .tag("new", isFirstRun ? "true" : "false")
         .field("count", 1)
     );
+    untappedAPI->fetchAnonymousUploadToken();
 }
 
 LotusTracker::~LotusTracker()
@@ -279,6 +282,14 @@ void LotusTracker::setupLotusAPIConnections()
             deckOverlayDraft, &DeckOverlayDraft::setPlayerCollection);
     connect(lotusAPI, &LotusTrackerAPI::sgnParseDeckPosSideboardJson,
             mtgArena->getLogParser(), &MtgaLogParser::onParseDeckPosSideboardJson);
+}
+
+void LotusTracker::setupUntappedAPIConnections()
+{
+    connect(untappedAPI, &UntappedAPI::sgnNewAnonymousUploadToken,
+            this, [](QString uploadToken){
+        LOGD(uploadToken);
+    });
 }
 
 void LotusTracker::setupLogParserConnections()
