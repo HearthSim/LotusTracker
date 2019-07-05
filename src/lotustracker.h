@@ -15,6 +15,7 @@
 #include "ui/preferencesscreen.h"
 #include "ui/startscreen.h"
 #include "ui/trayicon.h"
+#include "utils/appsecure.h"
 #include "utils/appsettings.h"
 #include "utils/logger.h"
 #include "utils/lotusexception.h"
@@ -61,6 +62,7 @@ private:
 public:
     LotusTracker(int& argc, char **argv);
     ~LotusTracker();
+    AppSecure* appSecure;
     AppSettings* appSettings;
     Logger* logger;
     MtgArena* mtgArena;

@@ -72,6 +72,7 @@ HEADERS += \
     src/ui/tablogs.h \
     src/ui/taboverlay.h \
     src/ui/trayicon.h \
+    src/utils/appsecure.h \
     src/utils/appsettings.h \
     src/utils/influxdb.hpp \
     src/utils/logger.h \
@@ -111,6 +112,7 @@ SOURCES += \
     src/ui/tablogs.cpp \
     src/ui/taboverlay.cpp \
     src/ui/trayicon.cpp \
+    src/utils/appsecure.cpp \
     src/utils/appsettings.cpp \
     src/utils/logger.cpp \
     src/utils/metrics.cpp
@@ -163,9 +165,13 @@ win32 {
     DEFINES += PLATFORM=\\\"win32\\\"
     DEFINES += _CRT_SECURE_NO_WARNINGS
 
-    INCLUDEPATH += ../WinSparkle/include
-
     LIBS += -luser32 -lpsapi
+
+    INCLUDEPATH += ../qtkeychain
+    INCLUDEPATH += ../qtkeychain/build
+    LIBS += -L../qtkeychain/build -llibqt5keychain
+
+    INCLUDEPATH += ../WinSparkle/include
     LIBS += -L../WinSparkle/Release -lWinSparkle
 
     CONFIG(release, debug|release) {
