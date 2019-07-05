@@ -19,7 +19,6 @@ void AppSecure::store(QString key, QString value)
     if (wpj.error()) {
         LOGW(QString("Storing password failed: %1").arg(wpj.errorString()));
     }
-    LOGD("Password stored successfully");
 }
 
 QString AppSecure::restore(QString key)
@@ -47,5 +46,4 @@ void AppSecure::remove(QString key)
     if (dpj.error()) {
         LOGW(QString("Delete password failed: %1").arg(dpj.errorString()));
     }
-    LOGD("Password deleted successfully");
 }
