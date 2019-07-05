@@ -1,10 +1,13 @@
 #include "appsettings.h"
 #include "../macros.h"
+#include "../transformations.h"
 
 #include <QDesktopWidget>
 #include <QDir>
 #include <QStandardPaths>
 #include <QString>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QUuid>
 
 #define KEY_INSTALLATION_UUID "installationUuid"
@@ -42,6 +45,7 @@
 #define KEY_OVERLAY_DRAFT_PICKS_PREFIX "Tracker/draftPrefs/picks"
 #define KEY_OVERLAY_SHOW_DECK_AFTER_DRAFT_ENABLED "Tracker/draftPrefs/showDeckAfterDraft"
 
+// Deprecate KEY_OVERLAY_USER_*, using appSecure now
 #define KEY_OVERLAY_USER_ID "Tracker/user/id"
 #define KEY_OVERLAY_USER_EMAIL "Tracker/user/email"
 #define KEY_OVERLAY_USER_TOKEN "Tracker/user/token"
@@ -52,11 +56,14 @@
 #define DEFAULT_OVERLAY_VIEW_X 5
 #define DEFAULT_OVERLAY_VIEW_Y 60
 
+#define KEY_SECURE_USER_SETTINGS "user"
+
 #define LOG_PATH QString("AppData%1LocalLow%2Wizards of the Coast%3MTGA")\
     .arg(QDir::separator()).arg(QDir::separator()).arg(QDir::separator())
 
 AppSettings::AppSettings(QObject *parent) : QObject(parent)
 {
+    appSecure = new AppSecure(this);
     LOGD(QString("Settings saved in %1").arg(settings.fileName()));
 }
 
@@ -394,30 +401,55 @@ QString AppSettings::getDraftPickBaseKey(QString eventId, int packNumber, int pi
 
 void AppSettings::setUserSettings(UserSettings userSettings, QString userName)
 {
-    settings.setValue(KEY_OVERLAY_USER_ID, userSettings.userId);
-    settings.setValue(KEY_OVERLAY_USER_EMAIL, userSettings.userEmail);
-    settings.setValue(KEY_OVERLAY_USER_TOKEN, userSettings.userToken);
-    settings.setValue(KEY_OVERLAY_USER_REFRESH_TOKEN, userSettings.refreshToken);
-    settings.setValue(KEY_OVERLAY_USER_EXPIRES_EPOCH, userSettings.expiresTokenEpoch);
-    if (!userName.isEmpty()) {
-        settings.setValue(KEY_OVERLAY_USER_NAME, userName);
-    }
+    QJsonDocument json(
+                QJsonObject({
+                    { "id", userSettings.userId },
+                    { "name", userName },
+                    { "email", userSettings.userEmail },
+                    { "token", userSettings.userToken },
+                    { "refresh_token", userSettings.refreshToken },
+                    { "expires_epoch", userSettings.expiresTokenEpoch }
+                })
+    );
+    appSecure->store(KEY_SECURE_USER_SETTINGS, QString(json.toJson()));
 }
 
 UserSettings AppSettings::getUserSettings()
 {
-    UserSettings userSettings = UserSettings(settings.value(KEY_OVERLAY_USER_ID, "").toString(),
-                        settings.value(KEY_OVERLAY_USER_EMAIL, "").toString(),
-                        settings.value(KEY_OVERLAY_USER_TOKEN, "").toString(),
-                        settings.value(KEY_OVERLAY_USER_REFRESH_TOKEN, "").toString(),
-                        settings.value(KEY_OVERLAY_USER_EXPIRES_EPOCH, 0).toLongLong());
-    userSettings.setUserName(settings.value(KEY_OVERLAY_USER_NAME, "").toString());
+    if (!settings.value(KEY_OVERLAY_USER_ID, "").toString().isEmpty()) {
+        migrateUserSettings();
+    }
+    QString jsonText = appSecure->restore(KEY_SECURE_USER_SETTINGS);
+    QJsonObject json = Transformations::stringToJsonObject(jsonText);
+    UserSettings userSettings = UserSettings(json["id"].toString(""),
+                        json["email"].toString(""),
+                        json["token"].toString(""),
+                        json["refresh_token"].toString(""),
+                        json["expires_epoch"].toDouble(0));
+    userSettings.setUserName(json["name"].toString(""));
     return userSettings;
 }
 
 void AppSettings::clearUserSettings()
 {
     setUserSettings(UserSettings(), "");
+}
+
+void AppSettings::migrateUserSettings()
+{
+    UserSettings userSettings = UserSettings(settings.value(KEY_OVERLAY_USER_ID, "").toString(),
+                        settings.value(KEY_OVERLAY_USER_EMAIL, "").toString(),
+                        settings.value(KEY_OVERLAY_USER_TOKEN, "").toString(),
+                        settings.value(KEY_OVERLAY_USER_REFRESH_TOKEN, "").toString(),
+                        settings.value(KEY_OVERLAY_USER_EXPIRES_EPOCH, 0).toLongLong());
+    setUserSettings(userSettings, settings.value(KEY_OVERLAY_USER_NAME, "").toString());
+    settings.remove(KEY_OVERLAY_USER_ID);
+    settings.remove(KEY_OVERLAY_USER_EMAIL);
+    settings.remove(KEY_OVERLAY_USER_TOKEN);
+    settings.remove(KEY_OVERLAY_USER_REFRESH_TOKEN);
+    settings.remove(KEY_OVERLAY_USER_EXPIRES_EPOCH);
+    settings.remove(KEY_OVERLAY_USER_NAME);
+    LOGD("UserSettings migrated");
 }
 
 void AppSettings::restoreDefaults()

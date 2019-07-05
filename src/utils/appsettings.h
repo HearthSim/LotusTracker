@@ -1,6 +1,7 @@
 #ifndef APPSETTINGS_H
 #define APPSETTINGS_H
 
+#include "appsecure.h"
 #include "../entity/card.h"
 #include "../entity/user.h"
 
@@ -12,7 +13,9 @@ class AppSettings : public QObject
     Q_OBJECT
 
 private:
+    AppSecure* appSecure;
     QSettings settings;
+    void migrateUserSettings();
 
 public:
     explicit AppSettings(QObject *parent = nullptr);
