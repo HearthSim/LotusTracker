@@ -19,6 +19,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 
+#define ANONYMOUS_CREDENTIALS_KEY "Anonymous Usage"
 #define LOGS_QUEUE_MAX_SIZE 100
 
 LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv),
@@ -32,6 +33,7 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv),
     setupUpdater();
     isOnDraftScreen = false;
     logger = new Logger(this);
+    appSecure = new AppSecure(this);
     appSettings = new AppSettings(this);
     mtgCards = new MtgCards(this);
     mtgDecksArch = new MtgDecksArch(this);
@@ -102,7 +104,6 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv),
         .tag("new", isFirstRun ? "true" : "false")
         .field("count", 1)
     );
-    untappedAPI->fetchAnonymousUploadToken();
 }
 
 LotusTracker::~LotusTracker()
@@ -287,8 +288,8 @@ void LotusTracker::setupLotusAPIConnections()
 void LotusTracker::setupUntappedAPIConnections()
 {
     connect(untappedAPI, &UntappedAPI::sgnNewAnonymousUploadToken,
-            this, [](QString uploadToken){
-        LOGD(uploadToken);
+            this, [this](QString uploadToken){
+        appSecure->store(ANONYMOUS_CREDENTIALS_KEY, uploadToken);
     });
 }
 
@@ -600,6 +601,13 @@ void LotusTracker::checkForAutoLogin()
         case AUTH_INVALID: {
             break;
         }
+    }
+
+    QString anonymousCredentials = appSecure->restore(ANONYMOUS_CREDENTIALS_KEY);
+    if (anonymousCredentials.isEmpty()) {
+        untappedAPI->fetchAnonymousUploadToken();
+    } else {
+        LOGI(anonymousCredentials);
     }
 }
 

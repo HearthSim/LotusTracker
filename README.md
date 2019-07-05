@@ -38,8 +38,21 @@ You can download the latest version of Lotus Tracker [here](https://github.com/e
 * Install QT Creator with MinGW 32 bits and OpenSSL
 * Rename ``credentials_sample.h`` to ``credentials.h``
 * Setup Sparkle (_Auto update framework_)
+* Setup QtKeyChain
 * Open project (_LotusTracker.pro_)
 * Run
+
+## QtKeyChain on Windows
+
+* Clone [QtKeyChain](https://github.com/frankosterfeld/qtkeychain) to same Lotus Tracker project level folder
+* ```
+	* Open cmd and go for qtkeychain folder
+	* mkdir build
+	* cd build
+	* %QTDIR% should point something like e.g C:\Qt\5.12.3\mingw73_32
+	* cmake .. -DCMAKE_PREFIX_PATH=%QTDIR%\lib\cmake -G "MinGW Makefiles"
+ 	* cmake --build . --config release
+```.
 
 ## Sparkle on Mac OS X
 
@@ -49,7 +62,7 @@ You can download the latest version of Lotus Tracker [here](https://github.com/e
 ## Sparkle on Windows
 
 * Download [WinSparkle](https://github.com/vslavik/winsparkle) 
-* Unpack to same project level folder and rename it to `WinSparkle`
+* Unpack to same Lotus Tracker project level folder and rename it to `WinSparkle`
 
 ## Contributing
 
