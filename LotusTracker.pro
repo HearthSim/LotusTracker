@@ -24,6 +24,8 @@ RCC_DIR = tmp
 UI_DIR = tmp
 
 INCLUDEPATH += ./include
+INCLUDEPATH += ../qtkeychain
+INCLUDEPATH += ../qtkeychain/build
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
@@ -139,6 +141,8 @@ mac {
     QMAKE_INFO_PLIST = Info.plist.app
 
     INCLUDEPATH += "\ -F/Library/Frameworks"
+
+    LIBS += -L../qtkeychain/build -lqt5keychain
     LIBS += -framework ApplicationServices -F/Library/Frameworks \
       -framework AppKit -framework Sparkle
 
@@ -166,9 +170,6 @@ win32 {
     DEFINES += _CRT_SECURE_NO_WARNINGS
 
     LIBS += -luser32 -lpsapi
-
-    INCLUDEPATH += ../qtkeychain
-    INCLUDEPATH += ../qtkeychain/build
     LIBS += -L../qtkeychain/build -llibqt5keychain
 
     INCLUDEPATH += ../WinSparkle/include

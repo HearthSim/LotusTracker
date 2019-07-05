@@ -45,14 +45,26 @@ You can download the latest version of Lotus Tracker [here](https://github.com/e
 ## QtKeyChain on Windows
 
 * Clone [QtKeyChain](https://github.com/frankosterfeld/qtkeychain) to same Lotus Tracker project level folder
-* ```
+```
 	* Open cmd and go for qtkeychain folder
 	* mkdir build
 	* cd build
 	* %QTDIR% should point something like e.g C:\Qt\5.12.3\mingw73_32
 	* cmake .. -DCMAKE_PREFIX_PATH=%QTDIR%\lib\cmake -G "MinGW Makefiles"
  	* cmake --build . --config release
-```.
+```
+
+## QtKeyChain on OSX
+
+* Clone [QtKeyChain](https://github.com/frankosterfeld/qtkeychain) to same Lotus Tracker project level folder
+```
+	* Open terminal and go for qtkeychain folder
+	* mkdir build
+	* cd build
+	* %QTDIR% should point something like e.g ~\Qt\5.12.3\clang_64
+	* cmake .. -DCMAKE_PREFIX_PATH=${QTDIR}/lib/cmake
+	* make
+```
 
 ## Sparkle on Mac OS X
 
