@@ -83,7 +83,10 @@ public:
     UserSettings getUserSettings();
     void clearUserSettings();
     void restoreDefaults();
-
+    // Untapped
+    void setUntappedAnonymousUploadToken(QString uploadToken);
+    QString getUntappedAnonymousUploadToken();
+    void clearUntappedAnonymousUploadToken();
 };
 
 #endif // APPSETTINGS_H

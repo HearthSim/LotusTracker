@@ -57,6 +57,7 @@
 #define DEFAULT_OVERLAY_VIEW_Y 60
 
 #define KEY_SECURE_USER_SETTINGS "user"
+#define KEY_SECURE_ANONYMOUS_TOKEN "Anonymous Usage"
 
 #define LOG_PATH QString("AppData%1LocalLow%2Wizards of the Coast%3MTGA")\
     .arg(QDir::separator()).arg(QDir::separator()).arg(QDir::separator())
@@ -471,4 +472,21 @@ void AppSettings::restoreDefaults()
     settings.remove(KEY_OVERLAY_DRAFT_X);
     settings.remove(KEY_OVERLAY_DRAFT_Y);
     settings.remove(KEY_OVERLAY_DRAFT_SCALE);
+}
+
+// Untapped
+
+void AppSettings::setUntappedAnonymousUploadToken(QString uploadToken)
+{
+    appSecure->store(KEY_SECURE_ANONYMOUS_TOKEN, uploadToken);
+}
+
+QString AppSettings::getUntappedAnonymousUploadToken()
+{
+    return appSecure->restore(KEY_SECURE_ANONYMOUS_TOKEN);
+}
+
+void AppSettings::clearUntappedAnonymousUploadToken()
+{
+    return appSecure->remove(KEY_SECURE_ANONYMOUS_TOKEN);
 }
