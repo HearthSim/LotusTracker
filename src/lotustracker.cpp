@@ -45,11 +45,11 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv),
         deckOverlayOpponent->show();
     });
     lotusAPI = new LotusTrackerAPI(this);
-    untappedAPI = new UntappedAPI(this);
     startScreen = new StartScreen(nullptr, lotusAPI);
     hideTrackerTimer = new QTimer(this);
     mtgaMatch = new MtgaMatch(this, mtgCards);
     gaTracker = new GAnalytics(CREDENTIALS::GA_ID());
+    untapped = new Untapped(this);
     connect(mtgArena, &MtgArena::sgnMTGAStarted,
             this, &LotusTracker::onGameStarted);
     connect(mtgArena, &MtgArena::sgnMTGAFocusChanged,
@@ -67,7 +67,6 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv),
     });
     //setupMatch should be called before setupLogParser because sgnMatchInfoResult order
     setupLotusAPIConnections();
-    setupUntappedAPIConnections();
     setupLogParserConnections();
     setupMtgaMatchConnections();
     setupPreferencesScreen();
@@ -91,7 +90,6 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv),
                 LOGD("Internet connection OK");
                 checkConnection->stop();
                 checkForAutoLogin();
-                checkForUntappedUploadToken();
             }
         });
         checkConnection->start(3000);
@@ -282,14 +280,6 @@ void LotusTracker::setupLotusAPIConnections()
             deckOverlayDraft, &DeckOverlayDraft::setPlayerCollection);
     connect(lotusAPI, &LotusTrackerAPI::sgnParseDeckPosSideboardJson,
             mtgArena->getLogParser(), &MtgaLogParser::onParseDeckPosSideboardJson);
-}
-
-void LotusTracker::setupUntappedAPIConnections()
-{
-    connect(untappedAPI, &UntappedAPI::sgnNewAnonymousUploadToken,
-            this, [this](QString uploadToken){
-        appSettings->setUntappedAnonymousUploadToken(uploadToken);
-    });
 }
 
 void LotusTracker::setupLogParserConnections()
@@ -600,13 +590,6 @@ void LotusTracker::checkForAutoLogin()
         case AUTH_INVALID: {
             break;
         }
-    }
-}
-
-void LotusTracker::checkForUntappedUploadToken()
-{
-    if (appSettings->getUntappedAnonymousUploadToken().isEmpty()) {
-        untappedAPI->fetchAnonymousUploadToken();
     }
 }
 
