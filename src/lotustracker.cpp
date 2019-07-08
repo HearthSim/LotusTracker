@@ -87,6 +87,7 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv),
         connect(checkConnection, &QTimer::timeout, this, [this]() {
             LOGD("Checking internet connection..");
             if (isOnline()) {
+                untapped->checkForUntappedUploadToken();
                 LOGD("Internet connection OK");
                 checkConnection->stop();
                 checkForAutoLogin();
@@ -523,7 +524,7 @@ void LotusTracker::onGameCompleted(QMap<int, int> teamIdWins)
     hideTrackerTimer->start(5000);
 }
 
-void LotusTracker::onMatchEnds(int winningTeamId)
+void LotusTracker::onMatchEnds(int winningTeamId, QStack<QString> matchLogMsgs)
 {
     if (!mtgaMatch->isRunning) {
         return;
@@ -534,6 +535,7 @@ void LotusTracker::onMatchEnds(int winningTeamId)
                               deckOverlayPlayer->getDeck(),
                               mtgaMatch->getPlayerRankInfo().first);
     }
+    untapped->preparedMatchLogFile(matchLogMsgs);
     gaTracker->sendEvent("Match", "ends");
 }
 

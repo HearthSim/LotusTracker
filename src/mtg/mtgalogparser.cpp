@@ -12,7 +12,7 @@
 #define REGEXP_MSG_JSON "(\\{|\\[)(\\n\\s+.*)+\\n*(\\}||\\])"
 
 MtgaLogParser::MtgaLogParser(QObject *parent, MtgCards *mtgCards)
-    : QObject(parent), mtgCards(mtgCards)
+    : QObject(parent), matchRunning(false), mtgCards(mtgCards)
 {
     reRawMsg = QRegularExpression(REGEXP_RAW_MSG);
     reMsgNumber = QRegularExpression(REGEXP_MSG_RESPONSE_NUMBER);
@@ -65,6 +65,12 @@ Deck MtgaLogParser::jsonObject2Deck(QJsonObject jsonDeck)
 
 void MtgaLogParser::parse(QString logNewContent)
 {
+    if (logNewContent.contains("Event.MatchCreated")) {
+        matchRunning = true;
+    }
+    if (matchRunning) {
+        matchLogMsgs.push(logNewContent);
+    }
     // Extract raw msgs
     QRegularExpressionMatchIterator iterator = reRawMsg.globalMatch(logNewContent + "\n");
     QList<QString> rawMsgs;
@@ -330,7 +336,9 @@ void MtgaLogParser::parseMatchInfo(QString json)
             }
         }
         LOGD("MatchInfoResult");
-        emit sgnMatchResult(matchWinningTeamId);
+        emit sgnMatchResult(matchWinningTeamId, matchLogMsgs);
+        matchRunning = false;
+        matchLogMsgs.clear();
     }
 }
 
