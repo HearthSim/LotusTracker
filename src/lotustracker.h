@@ -2,7 +2,6 @@
 #define ARENATRACKER_H
 
 #include "api/lotusapi.h"
-#include "api/untappedapi.h"
 #include "entity/matchinfo.h"
 #include "entity/opponentinfo.h"
 #include "mtg/mtgarena.h"
@@ -18,6 +17,7 @@
 #include "utils/appsettings.h"
 #include "utils/logger.h"
 #include "utils/lotusexception.h"
+#include "utils/untapped.h"
 #include "updater/sparkleupdater.h"
 #include "credentials.h"
 #include "ganalytics.h"
@@ -43,7 +43,7 @@ private:
     PreferencesScreen *preferencesScreen;
     StartScreen *startScreen;
     LotusTrackerAPI *lotusAPI;
-    UntappedAPI *untappedAPI;
+    Untapped *untapped;
     QPair<QString, Deck> eventPlayerCourse;
     QTimer *hideTrackerTimer, *checkConnection;
     bool isOnDraftScreen;
@@ -53,11 +53,9 @@ private:
     void setupUpdater();
     void setupPreferencesScreen();
     void setupLotusAPIConnections();
-    void setupUntappedAPIConnections();
     void setupLogParserConnections();
     void setupMtgaMatchConnections();
     void checkForAutoLogin();
-    void checkForUntappedUploadToken();
 
 public:
     LotusTracker(int& argc, char **argv);

@@ -80,6 +80,7 @@ HEADERS += \
     src/utils/logger.h \
     src/utils/lotusexception.h \
     src/utils/metrics.h \
+    src/utils/untapped.h \
     src/updater/sparkleupdater.h \
     src/credentials.h \
     src/ganalytics.h \
@@ -117,7 +118,8 @@ SOURCES += \
     src/utils/appsecure.cpp \
     src/utils/appsettings.cpp \
     src/utils/logger.cpp \
-    src/utils/metrics.cpp
+    src/utils/metrics.cpp \
+    src/utils/untapped.cpp
 
 FORMS += \
     src/ui/decktrackerbase.ui \
