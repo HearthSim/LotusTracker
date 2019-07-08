@@ -12,6 +12,7 @@
 #include "../entity/matchzonetransfer.h"
 
 #include <QJsonObject>
+#include <QStack>
 #include <QObject>
 #include <QTimer>
 
@@ -20,9 +21,11 @@ class MtgaLogParser : public QObject
     Q_OBJECT
 
 private:
+    bool matchRunning;
     QRegularExpression reRawMsg, reMsgNumber, reMsgId, reMsgJson;
     MtgCards *mtgCards;
     QList<int> msgResponseNumbers;
+    QStack<QString> matchLogMsgs;
     Deck jsonObject2Deck(QJsonObject jsonDeck);
     void parseOutcomingMsg(QPair<QString, QString> msg);
     void parseIncomingMsg(QPair<QString, QString> msg);
@@ -62,6 +65,7 @@ public:
     void parse(QString logNewContent);
 
 signals:
+    void sgnMtgaClientVersion(QString version);
     void sgnPlayerInventory(PlayerInventory playerInventory);
     void sgnPlayerInventoryUpdate(QList<int> newCards);
     void sgnPlayerCollection(QMap<int, int> ownedCards);
@@ -72,7 +76,7 @@ signals:
     void sgnMatchInfoSeats(QList<MatchPlayer>);
     void sgnGameStart(MatchMode mode, QList<MatchZone> zones, int seatId);
     void sgnGameCompleted(QMap<int, int> teamIdWins);
-    void sgnMatchResult(int winningTeamId);
+    void sgnMatchResult(int winningTeamId, QStack<QString> matchLogMsgs);
     void sgnPlayerRankInfo(QPair<QString, int> playerRankInfo);
     void sgnPlayerRankUpdated(QPair<QString, int> playerNewRank);
     void sgnPlayerDeckCreated(Deck deck);

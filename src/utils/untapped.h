@@ -16,6 +16,8 @@ private:
 
 public:
     explicit Untapped(QObject *parent = nullptr);
+    void checkForUntappedUploadToken();
+    void preparedMatchLogFile(QStack<QString> matchLogMsgs);
 
 signals:
 
