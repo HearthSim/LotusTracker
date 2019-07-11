@@ -3,6 +3,7 @@
 
 #include "mtgcards.h"
 #include "../entity/deck.h"
+#include "../entity/eventplayercourse.h"
 #include "../entity/user.h"
 #include "../entity/opponentinfo.h"
 #include "../entity/matchinfo.h"
@@ -72,7 +73,7 @@ signals:
     void sgnPlayerInventoryUpdate(QList<int> newCards);
     void sgnPlayerCollection(QMap<int, int> ownedCards);
     void sgnPlayerDecks(QList<Deck> playerDecks);
-    void sgnEventPlayerCourse(QString eventId, Deck currentDeck, bool isFinished);
+    void sgnEventPlayerCourse(EventPlayerCourse eventPlayerCourse, bool isFinished);
     void sgnEventPlayerCourses(QList<QString> events);
     void sgnMatchCreated(QString eventId, OpponentInfo opponentInfo);
     void sgnMatchInfoSeats(QList<MatchPlayer>);

@@ -57,7 +57,7 @@ void MtgArena::onLogFilePathChanged(QString logPath)
 void MtgArena::onMtgaClientVersion(QString version)
 {
     if (version != mtgaVersion) {
-        LOGI(mtgaVersion);
+        LOGI(QString("MTGA client version: %1").arg(version));
     }
     mtgaVersion = version;
 }

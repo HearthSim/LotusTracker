@@ -49,6 +49,7 @@ HEADERS += \
     src/entity/card.h \
     src/entity/deck.h \
     src/entity/deckarch.h \
+    src/entity/eventplayercourse.h \
     src/entity/user.h \
     src/entity/matchinfo.h \
     src/entity/matchplayer.h \
