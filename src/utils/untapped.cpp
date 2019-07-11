@@ -20,6 +20,11 @@ void Untapped::checkForUntappedUploadToken()
     }
 }
 
+void Untapped::setEventPlayerCourse(EventPlayerCourse eventPlayerCourse)
+{
+    this->eventPlayerCourse = eventPlayerCourse;
+}
+
 void Untapped::setupUntappedAPIConnections()
 {
     connect(untappedAPI, &UntappedAPI::sgnNewAnonymousUploadToken,
@@ -41,4 +46,26 @@ void Untapped::preparedMatchLogFile(QStack<QString> matchLogMsgs)
     }
     logFile.flush();
     logFile.close();
+}
+
+void Untapped::uploadLogFile(MatchInfo matchInfo, QStack<QString> matchLogMsgs)
+{
+    preparedMatchLogFile(matchLogMsgs);
+    QJsonDocument descriptor(
+        QJsonObject({
+            { "summarizedMessageCount", matchInfo.summarizedMessage },
+            { "client", QString("lt-%1").arg(qApp->applicationVersion()) },
+            { "mtgaVersion", LOTUS_TRACKER->mtgArena->getClientVersion() },
+            { "upload_token", APP_SETTINGS->getUntappedAnonymousUploadToken() },
+            { "event", QJsonObject({
+              { "name", matchInfo.eventId },
+              { "maxWins", eventPlayerCourse.eventId == matchInfo.eventId ? eventPlayerCourse.maxWins : NULL },
+              { "maxLosses", eventPlayerCourse.eventId == matchInfo.eventId ? eventPlayerCourse.maxLosses : NULL },
+              { "currentWins", eventPlayerCourse.eventId == matchInfo.eventId ? eventPlayerCourse.currentWins : NULL },
+              { "currentLosses", eventPlayerCourse.eventId == matchInfo.eventId ? eventPlayerCourse.currentLosses : NULL },
+              { "processedMatchIds", eventPlayerCourse.eventId == matchInfo.eventId ? eventPlayerCourse.processedMatchIds : QJsonArray() },
+            })}
+        })
+    );
+    LOGI(QString(descriptor.toJson()));
 }

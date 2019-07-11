@@ -540,7 +540,7 @@ void LotusTracker::onMatchEnds(int winningTeamId, QStack<QString> matchLogMsgs)
                               deckOverlayPlayer->getDeck(),
                               mtgaMatch->getPlayerRankInfo().first);
     }
-    untapped->preparedMatchLogFile(matchLogMsgs);
+    untapped->uploadLogFile(mtgaMatch->getInfo(), matchLogMsgs);
     gaTracker->sendEvent("Match", "ends");
 }
 
