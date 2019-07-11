@@ -22,7 +22,7 @@
 #define LOGS_QUEUE_MAX_SIZE 100
 
 LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv),
-    crow_client(nullptr)
+    crow_client(nullptr), eventPlayerCourse()
 {
 #ifdef QT_NO_DEBUG
     std::cout << "Initializing crow";
@@ -439,11 +439,12 @@ void LotusTracker::onDeckSubmited(QString eventId, Deck deck)
     lotusAPI->getMatchInfo(eventId, deck.id);
 }
 
-void LotusTracker::onEventPlayerCourse(QString eventId, Deck currentDeck, bool isFinished)
+void LotusTracker::onEventPlayerCourse(EventPlayerCourse eventPlayerCourse, bool isFinished)
 {
-    eventPlayerCourse = qMakePair(eventId, currentDeck);
+    this->eventPlayerCourse = eventPlayerCourse;
+    this->untapped->setEventPlayerCourse(eventPlayerCourse);
     if (isFinished && appSettings->isShowDeckAfterDraftEnabled()) {
-        deckOverlayPlayer->loadDeck(currentDeck);
+        deckOverlayPlayer->loadDeck(eventPlayerCourse.currentDeck);
         deckOverlayPlayer->show();
     }
 }
@@ -453,8 +454,8 @@ void LotusTracker::onMatchStart(QString eventId, OpponentInfo opponentInfo)
     isOnDraftScreen = false;
     mtgaMatch->onStartNewMatch(eventId, opponentInfo);
     // Load deck from event in course if not loaded yet (event continues without submitDeck)
-    if (eventId == eventPlayerCourse.first) {
-        Deck deck = eventPlayerCourse.second;
+    if (eventId == eventPlayerCourse.eventId) {
+        Deck deck = eventPlayerCourse.currentDeck;
         deckOverlayPlayer->loadDeck(deck);
         lotusAPI->getMatchInfo(eventId, deck.id);
     }

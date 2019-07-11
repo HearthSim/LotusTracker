@@ -269,7 +269,15 @@ void MtgaLogParser::parseEventPlayerCourse(QString json)
         Deck deck = jsonObject2Deck(jsonEventPlayerCourseDeck);
         bool isFinished = currentModule == "ClaimPrize";
         LOGD(QString("EventPlayerCourse: %1 with %2. Finished: %3").arg(eventId).arg(deck.name).arg(isFinished));
-        emit sgnEventPlayerCourse(eventId, deck, isFinished);
+        QJsonObject jsonWinLossGate = jsonEventPlayerCourse["ModuleInstanceData"].toObject()["WinLossGate"].toObject();
+        int maxWins = jsonWinLossGate["MaxWins"].toInt(-1);
+        int maxLosses = jsonWinLossGate["MaxLosses"].toInt(-1);
+        int currentWins = jsonWinLossGate["CurrentWins"].toInt(-1);
+        int currentLosses = jsonWinLossGate["CurrentLosses"].toInt(-1);
+        QJsonArray processedMatchIds = jsonWinLossGate["ProcessedMatchIds"].toArray();
+        EventPlayerCourse eventPlayerCourse(eventId, deck, maxWins, maxLosses,
+                                            currentWins, currentLosses, processedMatchIds);
+        emit sgnEventPlayerCourse(eventPlayerCourse, isFinished);
     }
 }
 

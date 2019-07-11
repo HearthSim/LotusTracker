@@ -2,6 +2,7 @@
 #define ARENATRACKER_H
 
 #include "api/lotusapi.h"
+#include "entity/eventplayercourse.h"
 #include "entity/matchinfo.h"
 #include "entity/opponentinfo.h"
 #include "mtg/mtgarena.h"
@@ -24,6 +25,7 @@
 
 #include <crow/crow.hpp>
 #include <QApplication>
+#include <QJsonObject>
 #include <QLocalServer>
 #include <QQueue>
 #include <QTimer>
@@ -44,7 +46,7 @@ private:
     StartScreen *startScreen;
     LotusTrackerAPI *lotusAPI;
     Untapped *untapped;
-    QPair<QString, Deck> eventPlayerCourse;
+    EventPlayerCourse eventPlayerCourse;
     QTimer *hideTrackerTimer, *checkConnection;
     bool isOnDraftScreen;
     bool isAlreadyRunning();
@@ -84,7 +86,7 @@ private slots:
     void onPlayerCollectionUpdated(QMap<int, int> ownedCards);
     void onPlayerDecks(QList<Deck> playerDecks);
     void onDeckSubmited(QString eventId, Deck deck);
-    void onEventPlayerCourse(QString eventId, Deck currentDeck, bool isFinished);
+    void onEventPlayerCourse(EventPlayerCourse eventPlayerCourse, bool isFinished);
     void onMatchStart(QString eventId, OpponentInfo match);
     void onGameStart(MatchMode mode, QList<MatchZone> zones, int seatId);
     void onGameStarted();
