@@ -65,6 +65,7 @@ public:
     void parse(QString logNewContent);
 
 signals:
+    void sgnSummarizedMessage();
     void sgnMtgaClientVersion(QString version);
     void sgnPlayerInventory(PlayerInventory playerInventory);
     void sgnPlayerInventoryUpdate(QList<int> newCards);

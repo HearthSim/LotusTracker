@@ -35,6 +35,7 @@ void MtgaMatch::onStartNewMatch(QString eventId, OpponentInfo opponentInfo)
     stackOwnerTrack.clear();
     stackZoneSrcTrack.clear();
     currentTurn = 1;
+    summarizedMessage = 0;
     isRunning = true;
     LOGI("New match started")
 }
@@ -95,6 +96,7 @@ void MtgaMatch::onEndCurrentMatch(int winningTeamId)
     }
     isRunning = false;
     matchInfo.playerMatchWins = player.teamId() == winningTeamId;
+    matchInfo.summarizedMessage = summarizedMessage;
     LOGI(QString("%1 wins").arg(matchInfo.playerMatchWins ? "Player" : "Opponent"))
 }
 
@@ -313,6 +315,11 @@ void MtgaMatch::onNewTurnStarted(int turnNumber)
     }
     currentTurn = turnNumber;
     LOGI(QString("Turn %1 started").arg(turnNumber));
+}
+
+void MtgaMatch::onSummarizedMessage()
+{
+    summarizedMessage++;
 }
 
 void MtgaMatch::updateZones(MatchStateDiff matchStateDiff)
