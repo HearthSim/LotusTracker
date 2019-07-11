@@ -134,7 +134,9 @@ void MtgaLogParser::parse(QString logNewContent)
 
 void MtgaLogParser::parseOutcomingMsg(QPair<QString, QString> msg)
 {
-    if (msg.first == "ClientToMatchServiceMessageType_ClientToGREMessage") {
+    if (msg.first == "Authenticate") {
+        parseAuthenticate(msg.second);
+    } else if (msg.first == "ClientToMatchServiceMessageType_ClientToGREMessage") {
         parseClientToGreMessages(msg.second);
     } else if (msg.first == "DirectGame.Challenge") {
         parseDirectGameChallenge(msg.second);
@@ -715,6 +717,17 @@ void MtgaLogParser::parseEventFinish(QString json)
     int wins = jsonWinLossGate["CurrentWins"].toInt();
     int losses = jsonWinLossGate["CurrentLosses"].toInt();
     emit sgnEventFinish(eventId, deck.id, deck.colorIdentity(), maxWins, wins, losses);
+}
+
+void MtgaLogParser::parseAuthenticate(QString json)
+{
+    QJsonObject jsonAuthenticate = Transformations::stringToJsonObject(json);
+    if (jsonAuthenticate.empty()) {
+        return;
+    }
+    QJsonObject params = jsonAuthenticate["params"].toObject();
+    QString version = params["clientVersion"].toString();
+    emit sgnMtgaClientVersion(version);
 }
 
 void MtgaLogParser::parseDraftPick(QString json)

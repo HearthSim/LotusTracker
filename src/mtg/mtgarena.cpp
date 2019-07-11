@@ -14,8 +14,8 @@
 #define SLOW_FIND_WINDOW_INTERVAL 5000
 #define FAST_FIND_WINDOW_INTERVAL 1000
 
-MtgArena::MtgArena(QObject *parent)
-    : QObject(parent), isFocused(false), isRunning(false)
+MtgArena::MtgArena(QObject *parent): QObject(parent),
+     isFocused(false), isRunning(false)
 {
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &MtgArena::findGameWindow);
@@ -38,6 +38,11 @@ MtgArena::~MtgArena()
     DEL(logWatcher);
 }
 
+QString MtgArena::getClientVersion()
+{
+    return mtgaVersion;
+}
+
 MtgaLogParser* MtgArena::getLogParser()
 {
     return logParser;
@@ -47,6 +52,14 @@ void MtgArena::onLogFilePathChanged(QString logPath)
 {
     logWatcher->setLogPath(logPath);
     logWatcher->stopWatching();
+}
+
+void MtgArena::onMtgaClientVersion(QString version)
+{
+    if (version != mtgaVersion) {
+        LOGI(mtgaVersion);
+    }
+    mtgaVersion = version;
 }
 
 void MtgArena::findGameWindow()

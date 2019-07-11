@@ -285,6 +285,8 @@ void LotusTracker::setupLotusAPIConnections()
 
 void LotusTracker::setupLogParserConnections()
 {
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnMtgaClientVersion,
+            mtgArena, &MtgArena::onMtgaClientVersion);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerCollection,
             this, &LotusTracker::onPlayerCollectionUpdated);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDecks,
