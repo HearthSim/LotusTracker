@@ -47,7 +47,7 @@ public:
     MatchMode mode;
     QList<GameInfo> games;
     bool playerMatchWins;
-    int playerGameWins, playerGameLoses;
+    int playerGameWins, playerGameLoses, summarizedMessage;
 
     explicit MatchInfo(QString eventId = "", OpponentInfo opponentInfo = OpponentInfo());
     void createNewGame();

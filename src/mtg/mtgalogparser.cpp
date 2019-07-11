@@ -114,6 +114,8 @@ void MtgaLogParser::parse(QString logNewContent)
             if (msgJson.at(0) == '[' && msgJson.right(1) != ']') {
                 msgJson += "]";
             }
+        } else if (msg.contains("[Message summarized")) {
+            emit sgnSummarizedMessage();
         }
         if (msg.contains("==>") || msg.contains("to Match")) {
             outcomingMsgs << QPair<QString, QString>(msgId, msgJson);

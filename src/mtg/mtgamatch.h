@@ -44,7 +44,7 @@ private:
     QMap<int, int> stackOwnerTrack;
     // objectId, zoneType
     QMap<int, ZoneType> stackZoneSrcTrack;
-    int currentTurn;
+    int currentTurn, summarizedMessage;
     void updateZones(MatchStateDiff matchStateDiff);
     void updateIdsChanged(MatchStateDiff matchStateDiff);
     void notifyHandCardsDraw(MatchStateDiff matchStateDiff);
@@ -90,6 +90,7 @@ public slots:
     void onOpponentTakesMulligan(int opponentSeatId);
     void onMatchStateDiff(MatchStateDiff matchStateDiff);
     void onNewTurnStarted(int turnNumber);
+    void onSummarizedMessage();
 };
 
 #endif // MTGAMATCH_H

@@ -87,10 +87,10 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv),
         connect(checkConnection, &QTimer::timeout, this, [this]() {
             LOGD("Checking internet connection..");
             if (isOnline()) {
-                untapped->checkForUntappedUploadToken();
                 LOGD("Internet connection OK");
                 checkConnection->stop();
                 checkForAutoLogin();
+                untapped->checkForUntappedUploadToken();
             }
         });
         checkConnection->start(3000);
@@ -295,6 +295,8 @@ void LotusTracker::setupLogParserConnections()
             lotusAPI, &LotusTrackerAPI::createPlayerDeck);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckUpdated,
             lotusAPI, &LotusTrackerAPI::updatePlayerDeck);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnSummarizedMessage,
+            mtgaMatch, &MtgaMatch::onSummarizedMessage);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerRankInfo,
             mtgaMatch, &MtgaMatch::onPlayerRankInfo);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckSubmited,
