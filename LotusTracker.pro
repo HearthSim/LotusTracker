@@ -17,15 +17,15 @@ CONFIG += c++11
 # asmCrashReport - https://github.com/asmaloney/asmCrashReport
 include(asmCrashReport.pri)
 
+# QtKeychain
+INCLUDEPATH += ./include
+INCLUDEPATH += ../qtkeychain
+
 DESTDIR = build
 OBJECTS_DIR = tmp
 MOC_DIR = tmp
 RCC_DIR = tmp
 UI_DIR = tmp
-
-INCLUDEPATH += ./include
-INCLUDEPATH += ../qtkeychain
-INCLUDEPATH += ../qtkeychain/build
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
@@ -170,12 +170,19 @@ win32 {
     DEFINES += _CRT_SECURE_NO_WARNINGS
 
     LIBS += -luser32 -lpsapi
-    LIBS += -L../qtkeychain/build -llibqt5keychain
 
     INCLUDEPATH += ../WinSparkle/include
     LIBS += -L../WinSparkle/Release -lWinSparkle
 
+    CONFIG(debug, debug|release) {
+        INCLUDEPATH += ../qtkeychain/build/Debug
+        LIBS += -L../qtkeychain/build/Debug -llibqt5keychain
+    }
+
     CONFIG(release, debug|release) {
+        INCLUDEPATH += ../qtkeychain/build/Release
+        LIBS += -L../qtkeychain/build/Release -llibqt5keychain
+        #Lib crow and dependencies
         LIBS += -L$$PWD/libs -llibcrow
         LIBS += -L$$PWD/libs -llibcurl
         LIBS += -L$$PWD/libs -llibcrypto

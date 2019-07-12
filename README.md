@@ -42,27 +42,25 @@ You can download the latest version of Lotus Tracker [here](https://github.com/e
 * Open project (_LotusTracker.pro_)
 * Run
 
-## QtKeyChain on Windows
+## QtKeychain on Windows
 
-* Clone [QtKeyChain](https://github.com/frankosterfeld/qtkeychain) to same Lotus Tracker project level folder
+* Clone [QtKeychain](https://github.com/frankosterfeld/qtkeychain) to same Lotus Tracker project level folder
 ```
-	* Open cmd and go for qtkeychain folder
-	* mkdir build
-	* cd build
-	* %QTDIR% should point something like e.g C:\Qt\5.12.3\mingw73_32
-	* cmake .. -DCMAKE_PREFIX_PATH=%QTDIR%\lib\cmake -G "MinGW Makefiles"
- 	* cmake --build . --config release
+	* Set Environment Variable %QTDIR% to QT5 ming folder (e.g C:\Qt\5.12.3\mingw73_32)
+	* Open CMD (not works with power shell) and go for qtkeychain folder
+	* mkdir "build/Debug" && cd build\Debug
+	* cmake ..\.. -DCMAKE_PREFIX_PATH=%QTDIR%\lib\cmake -DCMAKE_BUILD_TYPE=Debug -G "MinGW Makefiles"
+ 	* cmake --build .
 ```
 
-## QtKeyChain on OSX
+## QtKeychain on OSX
 
-* Clone [QtKeyChain](https://github.com/frankosterfeld/qtkeychain) to same Lotus Tracker project level folder
+* Clone [QtKeychain](https://github.com/frankosterfeld/qtkeychain) to same Lotus Tracker project level folder
 ```
-	* Open terminal and go for qtkeychain folder
-	* mkdir build
-	* cd build
-	* %QTDIR% should point something like e.g ~\Qt\5.12.3\clang_64
-	* cmake .. -DCMAKE_PREFIX_PATH=${QTDIR}/lib/cmake
+	* Set Environment Variable %QTDIR% to QT5 clang (e.g ~\Qt\5.12.3\clang_64)
+	* Open Terminal and go for qtkeychain folder
+	* mkdir build && mkdir build/Debug && cd build/Debug
+	* cmake .. -DCMAKE_PREFIX_PATH=${QTDIR}/lib/cmake -DCMAKE_BUILD_TYPE=Debug
 	* make
 ```
 
