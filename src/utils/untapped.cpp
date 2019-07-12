@@ -3,7 +3,6 @@
 
 #include <QApplication>
 #include <QDir>
-#include <QFile>
 #include <QStandardPaths>
 
 Untapped::Untapped(QObject *parent) : QObject(parent)
@@ -11,6 +10,15 @@ Untapped::Untapped(QObject *parent) : QObject(parent)
     dataDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
     untappedAPI = new UntappedAPI(this);
     setupUntappedAPIConnections();
+}
+
+void Untapped::setupUntappedAPIConnections()
+{
+    connect(untappedAPI, &UntappedAPI::sgnS3PutInfo, this, &Untapped::onS3PutInfo);
+    connect(untappedAPI, &UntappedAPI::sgnNewAnonymousUploadToken,
+            this, [](QString uploadToken){
+        APP_SETTINGS->setUntappedAnonymousUploadToken(uploadToken);
+    });
 }
 
 void Untapped::checkForUntappedUploadToken()
@@ -25,15 +33,14 @@ void Untapped::setEventPlayerCourse(EventPlayerCourse eventPlayerCourse)
     this->eventPlayerCourse = eventPlayerCourse;
 }
 
-void Untapped::setupUntappedAPIConnections()
+void Untapped::uploadLogFile(MatchInfo matchInfo, QStack<QString> matchLogMsgs)
 {
-    connect(untappedAPI, &UntappedAPI::sgnNewAnonymousUploadToken,
-            this, [](QString uploadToken){
-        APP_SETTINGS->setUntappedAnonymousUploadToken(uploadToken);
-    });
+    this->matchInfo = matchInfo;
+    preparedMatchLogFile(matchLogMsgs);
+    untappedAPI->requestS3PutUrl();
 }
 
-void Untapped::preparedMatchLogFile(QStack<QString> matchLogMsgs)
+QString Untapped::preparedMatchLogFile(QStack<QString> matchLogMsgs)
 {
     QFile logFile(dataDir + QDir::separator() + "log.txt");
     if (logFile.exists()) {
@@ -46,13 +53,14 @@ void Untapped::preparedMatchLogFile(QStack<QString> matchLogMsgs)
     }
     logFile.flush();
     logFile.close();
+    return logFile.fileName();
 }
 
-void Untapped::uploadLogFile(MatchInfo matchInfo, QStack<QString> matchLogMsgs)
+QJsonDocument Untapped::preparedMatchDescriptor(QString timestamp)
 {
-    preparedMatchLogFile(matchLogMsgs);
-    QJsonDocument descriptor(
+    return QJsonDocument(
         QJsonObject({
+            { "timestamp", timestamp },
             { "summarizedMessageCount", matchInfo.summarizedMessage },
             { "client", QString("lt-%1").arg(qApp->applicationVersion()) },
             { "mtgaVersion", LOTUS_TRACKER->mtgArena->getClientVersion() },
@@ -67,5 +75,11 @@ void Untapped::uploadLogFile(MatchInfo matchInfo, QStack<QString> matchLogMsgs)
             })}
         })
     );
+}
+
+void Untapped::onS3PutInfo(QString putUrl, QString timestamp)
+{
+    QJsonDocument descriptor = preparedMatchDescriptor(timestamp);
     LOGI(QString(descriptor.toJson()));
+    LOGI("Upload");
 }

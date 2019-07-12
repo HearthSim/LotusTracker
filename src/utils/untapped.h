@@ -5,6 +5,7 @@
 #include "entity/eventplayercourse.h"
 #include "entity/matchinfo.h"
 
+#include <QFile>
 #include <QJsonObject>
 #include <QObject>
 #include <QStack>
@@ -17,8 +18,10 @@ private:
     UntappedAPI *untappedAPI;
     QString dataDir;
     QJsonObject matchDescriptor;
+    MatchInfo matchInfo;
     void setupUntappedAPIConnections();
-    void preparedMatchLogFile(QStack<QString> matchLogMsgs);
+    QString preparedMatchLogFile(QStack<QString> matchLogMsgs);
+    QJsonDocument preparedMatchDescriptor(QString timestamp);
 
 public:
     explicit Untapped(QObject *parent = nullptr);
@@ -27,6 +30,9 @@ public:
     void uploadLogFile(MatchInfo matchInfo, QStack<QString> matchLogMsgs);
 
 signals:
+
+private slots:
+    void onS3PutInfo(QString putUrl, QString timestamp);
 
 public slots:
 };
