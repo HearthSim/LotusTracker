@@ -3,11 +3,22 @@
 
 #include <QApplication>
 #include <QDir>
+#include <QProcess>
 #include <QStandardPaths>
+
+#define TAR_PATH "bin/tar.exe"
+#define XZ_PATH "bin/xz.exe"
 
 Untapped::Untapped(QObject *parent) : QObject(parent)
 {
-    dataDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+    QString dataDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+    tempDir = QFile(dataDir + QDir::separator() + "temp").fileName();
+    QDir dir(tempDir);
+    if (!dir.exists() || dir.isEmpty()) {
+        QDir dir;
+        dir.mkpath(tempDir);
+    }
+
     untappedAPI = new UntappedAPI(this);
     setupUntappedAPIConnections();
 }
@@ -40,9 +51,9 @@ void Untapped::uploadLogFile(MatchInfo matchInfo, QStack<QString> matchLogMsgs)
     untappedAPI->requestS3PutUrl();
 }
 
-QString Untapped::preparedMatchLogFile(QStack<QString> matchLogMsgs)
+void Untapped::preparedMatchLogFile(QStack<QString> matchLogMsgs)
 {
-    QFile logFile(dataDir + QDir::separator() + "log.txt");
+    QFile logFile(tempDir + QDir::separator() + "log.txt");
     if (logFile.exists()) {
       logFile.remove();
     }
@@ -53,7 +64,7 @@ QString Untapped::preparedMatchLogFile(QStack<QString> matchLogMsgs)
     }
     logFile.flush();
     logFile.close();
-    return logFile.fileName();
+    QProcess::execute(XZ_PATH, QStringList() << "-f" << logFile.fileName());
 }
 
 void Untapped::preparedMatchDescriptor(QString timestamp)
@@ -95,7 +106,25 @@ QJsonValue Untapped::eventCourseIntToJsonValue(int value)
 
 void Untapped::onS3PutInfo(QString putUrl, QString timestamp)
 {
-    QJsonDocument descriptor = preparedMatchDescriptor(timestamp);
-    LOGI(QString(descriptor.toJson()));
+    preparedMatchDescriptor(timestamp);
+    preparedPutPayloadFile();
     LOGI("Upload");
+}
+
+void Untapped::preparedPutPayloadFile()
+{
+    QFile packedFile(tempDir + QDir::separator() + "match.packed");
+    if (packedFile.exists()) {
+      packedFile.remove();
+    }
+    QStringList args;
+    args << "-cf";
+    args << packedFile.fileName();
+    args << "-C";
+    args << tempDir;
+    args << "descriptor.json";
+    args << "log.txt.xz";
+    QProcess::execute(TAR_PATH, args);
+    QFile(tempDir + QDir::separator() + "descriptor.json").remove();
+    QFile(tempDir + QDir::separator() + "log.txt.xz").remove();
 }

@@ -16,12 +16,13 @@ class Untapped : public QObject
 private:
     EventPlayerCourse eventPlayerCourse;
     UntappedAPI *untappedAPI;
-    QString dataDir;
+    QString tempDir;
     QJsonObject matchDescriptor;
     MatchInfo matchInfo;
     void setupUntappedAPIConnections();
-    QString preparedMatchLogFile(QStack<QString> matchLogMsgs);
+    void preparedMatchLogFile(QStack<QString> matchLogMsgs);
     void preparedMatchDescriptor(QString timestamp);
+    void preparedPutPayloadFile();
     QJsonValue eventCourseIntToJsonValue(int value);
 
 public:
