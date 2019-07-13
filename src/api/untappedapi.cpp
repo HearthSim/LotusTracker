@@ -63,9 +63,6 @@ void UntappedAPI::requestS3PutUrlWithRetry()
             LOGD(rsp);
         }
         int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-        if (requestRetries == 0) {
-            statusCode = 304;
-        }
         if (statusCode < 200 || statusCode > 299) {
             if (requestRetries < 3) {
                 requestRetries++;
