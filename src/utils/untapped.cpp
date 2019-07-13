@@ -56,9 +56,9 @@ QString Untapped::preparedMatchLogFile(QStack<QString> matchLogMsgs)
     return logFile.fileName();
 }
 
-QJsonDocument Untapped::preparedMatchDescriptor(QString timestamp)
+void Untapped::preparedMatchDescriptor(QString timestamp)
 {
-    return QJsonDocument(
+    QJsonDocument descriptor(
         QJsonObject({
             { "timestamp", timestamp },
             { "summarizedMessageCount", matchInfo.summarizedMessage },
@@ -67,14 +67,30 @@ QJsonDocument Untapped::preparedMatchDescriptor(QString timestamp)
             { "upload_token", APP_SETTINGS->getUntappedAnonymousUploadToken() },
             { "event", QJsonObject({
               { "name", matchInfo.eventId },
-              { "maxWins", eventPlayerCourse.eventId == matchInfo.eventId ? eventPlayerCourse.maxWins : NULL },
-              { "maxLosses", eventPlayerCourse.eventId == matchInfo.eventId ? eventPlayerCourse.maxLosses : NULL },
-              { "currentWins", eventPlayerCourse.eventId == matchInfo.eventId ? eventPlayerCourse.currentWins : NULL },
-              { "currentLosses", eventPlayerCourse.eventId == matchInfo.eventId ? eventPlayerCourse.currentLosses : NULL },
+              { "maxWins", eventCourseIntToJsonValue(eventPlayerCourse.maxWins) },
+              { "maxLosses", eventCourseIntToJsonValue(eventPlayerCourse.maxLosses) },
+              { "currentWins", eventCourseIntToJsonValue(eventPlayerCourse.currentWins) },
+              { "currentLosses", eventCourseIntToJsonValue(eventPlayerCourse.currentLosses) },
               { "processedMatchIds", eventPlayerCourse.eventId == matchInfo.eventId ? eventPlayerCourse.processedMatchIds : QJsonArray() },
             })}
         })
     );
+    QFile descriptorFile(tempDir + QDir::separator() + "descriptor.json");
+    if (descriptorFile.exists()) {
+      descriptorFile.remove();
+    }
+    descriptorFile.open(QIODevice::WriteOnly | QIODevice::Text);
+    descriptorFile.write(descriptor.toJson());
+    descriptorFile.flush();
+    descriptorFile.close();
+}
+
+QJsonValue Untapped::eventCourseIntToJsonValue(int value)
+{
+    if (eventPlayerCourse.eventId != matchInfo.eventId || value < 0) {
+        return QJsonValue::Null;
+    }
+    return QJsonValue(value);
 }
 
 void Untapped::onS3PutInfo(QString putUrl, QString timestamp)

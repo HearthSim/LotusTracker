@@ -21,7 +21,8 @@ private:
     MatchInfo matchInfo;
     void setupUntappedAPIConnections();
     QString preparedMatchLogFile(QStack<QString> matchLogMsgs);
-    QJsonDocument preparedMatchDescriptor(QString timestamp);
+    void preparedMatchDescriptor(QString timestamp);
+    QJsonValue eventCourseIntToJsonValue(int value);
 
 public:
     explicit Untapped(QObject *parent = nullptr);
