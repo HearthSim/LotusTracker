@@ -22,7 +22,7 @@ public:
             {"event", matchInfo.eventId},
             {"opponentDeckArch", matchInfo.getOpponentDeckArch()},
             {"opponentDeckColors", matchInfo.getOpponentDeckColorIdentity()},
-            {"opponentName", matchInfo.opponentInfo.opponentName()},
+            {"opponentName", matchInfo.opponent.name()},
             {"playerDeckArch", playerDeck.arch()},
             {"playerDeckColors", playerDeck.colorIdentity()},
             {"wins", matchInfo.playerMatchWins}

@@ -94,15 +94,30 @@ void Untapped::preparedMatchDescriptor(QString timestamp)
             { "mtgaVersion", LOTUS_TRACKER->mtgArena->getClientVersion() },
             { "upload_token", APP_SETTINGS->getUntappedAnonymousUploadToken() },
             { "match", QJsonObject({
-              { "matchId", matchInfo.matchId },
-              { "deck", QJsonObject({
+                { "matchId", matchInfo.matchId },
+                { "deck", QJsonObject({
                 { "mainDeck", cardsToJsonArray(playerDeck.cards()) },
                 { "sideboard", cardsToJsonArray(playerDeck.sideboard()) },
                 { "name", playerDeck.name },
                 { "boxId", playerDeck.id },
                 { "deckTileId", playerDeck.deckTileId },
                 { "cardSkins", cardSkins }
-              })}
+            })},
+                { "player", QJsonObject({
+                    { "name", matchInfo.player.name() },
+                    { "accountId", matchInfo.player.accountId() },
+                    { "teamId", matchInfo.player.teamId() },
+                    { "systemSeatId", matchInfo.player.seatId() },
+                })},
+                { "opponents", QJsonArray({
+                    QJsonObject({
+                        { "name", matchInfo.opponent.name() },
+                        { "accountId", matchInfo.opponent.accountId() },
+                        { "teamId", matchInfo.opponent.teamId() },
+                        { "systemSeatId", matchInfo.opponent.seatId() },
+                        { "postMatchRankInfo", QJsonValue::Null }
+                    })
+                })}
             })},
             { "event", QJsonObject({
               { "name", matchInfo.eventId },
