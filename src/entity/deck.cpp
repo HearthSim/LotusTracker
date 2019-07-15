@@ -2,8 +2,10 @@
 #include "../macros.h"
 #include "../transformations.h"
 
-Deck::Deck(QString id, QString name, QMap<Card*, int> cards, QMap<Card*, int> sideboard)
-    : id(id), name(name), showOnlyRemainingCards(false){
+Deck::Deck(QString id, QString name, QMap<Card*, int> cards, QMap<Card*, int> sideboard,
+           int deckTileId, QList<QPair<int, QString>> cardSkins)
+    : id(id), name(name), deckTileId(deckTileId), cardSkins(cardSkins),
+      showOnlyRemainingCards(false){
     cardsInitial = cards;
     cardsSideboard = sideboard;
     for (Card *card : cards.keys()) {

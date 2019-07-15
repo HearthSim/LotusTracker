@@ -3,7 +3,6 @@
 #include "urls.h"
 #include "mtg/mtgalogparser.h"
 #include "utils/cocoainitializer.h"
-#include "utils/metrics.h"
 
 #if defined Q_OS_MAC
 #include "utils/macautostart.h"
@@ -525,7 +524,8 @@ void LotusTracker::onGameCompleted(QMap<int, int> teamIdWins)
     if (!mtgaMatch->isRunning) {
         return;
     }
-    mtgaMatch->onGameCompleted(deckOverlayOpponent->getDeck(), teamIdWins);
+    mtgaMatch->onGameCompleted(deckOverlayPlayer->getDeck(),
+                               deckOverlayOpponent->getDeck(), teamIdWins);
     hideTrackerTimer->start(5000);
 }
 

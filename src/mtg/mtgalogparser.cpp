@@ -60,7 +60,16 @@ Deck MtgaLogParser::jsonObject2Deck(QJsonObject jsonDeck)
             cardId = 0;
         }
     }
-    return Deck(id, name, cards, sideboard);
+    int deckTileId = jsonDeck["deckTileId"].toInt();
+    QList<QPair<int, QString>> cardSkins;
+    QJsonArray jsonCardSkins = jsonDeck["cardSkins"].toArray();
+    for(QJsonValueRef jsonCardSkinRef : jsonCardSkins){
+        QJsonObject cardSkin = jsonCardSkinRef.toObject();
+        int grpId = cardSkin["grpId"].toInt();
+        QString ccv = cardSkin["ccv"].toString();
+        cardSkins << qMakePair(grpId, ccv);
+    }
+    return Deck(id, name, cards, sideboard, deckTileId, cardSkins);
 }
 
 void MtgaLogParser::parse(QString logNewContent)

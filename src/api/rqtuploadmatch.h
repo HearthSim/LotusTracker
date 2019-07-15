@@ -50,7 +50,7 @@ private:
         for (GameInfo gameInfo : games) {
             gameNumber += 1;
             QString first = gameInfo.playerGoFirst ? "player1" : "player2";
-            QJsonObject jsonOpponentCards = cards2JsonMapValue(gameInfo.opponentDeck.currentCards());
+            QJsonObject jsonOpponentCards = cards2JsonMapValue(gameInfo.opponentRevealedDeck.currentCards());
             QJsonObject jsonGame{
                 {"duration", gameInfo.duration},
                 {"first", first},

@@ -4,6 +4,7 @@
 
 #include "lotustracker.h"
 #include "utils/appsettings.h"
+#include "utils/metrics.h"
 #include "utils/logger.h"
 
 #include <QApplication>
