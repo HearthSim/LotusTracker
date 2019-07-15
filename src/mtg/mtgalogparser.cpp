@@ -386,13 +386,16 @@ void MtgaLogParser::parsePlayerRankUpdated(QString json)
     if (jsonPlayerRankUpdate.empty()) {
         return;
     }
-    int oldRankTier = jsonPlayerRankUpdate["oldTier"].toInt();
-    int newRankTier = jsonPlayerRankUpdate["newTier"].toInt();
-    if (newRankTier != oldRankTier) {
-        QString rankClass = jsonPlayerRankUpdate["newClass"].toString();
-        LOGD(QString("RankUpdate: new rank %1").arg(rankClass));
-        emit sgnPlayerRankUpdated(qMakePair(rankClass, newRankTier));
-    }
+    QString rankClass = jsonPlayerRankUpdate["newClass"].toString();
+    int rankTier = jsonPlayerRankUpdate["newLevel"].toInt();
+    int rankStep = jsonPlayerRankUpdate["newStep"].toInt();
+    QString oldClass = jsonPlayerRankUpdate["oldClass"].toString();
+    int oldTier = jsonPlayerRankUpdate["oldLevel"].toInt();
+    int oldStep = jsonPlayerRankUpdate["oldStep"].toInt();
+    RankInfo playerCurrentRankInfo(rankClass, rankTier, rankStep);
+    RankInfo playerOldRankInfo(oldClass, oldTier, oldStep);
+    int seasonOrdinal = jsonPlayerRankUpdate["seasonOrdinal"].toInt();
+    emit sgnPlayerRankUpdated(playerCurrentRankInfo, playerOldRankInfo, seasonOrdinal);
 }
 
 void MtgaLogParser::parsePlayerDeckCreate(QString json)

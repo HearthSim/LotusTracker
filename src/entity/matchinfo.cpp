@@ -2,7 +2,7 @@
 #include "../macros.h"
 
 MatchInfo::MatchInfo(QString matchId, QString eventId, RankInfo opponentRankInfo):
-    matchId(matchId), eventId(eventId), player(MatchPlayer()), playerRankInfo(RankInfo()),
+    matchId(matchId), eventId(eventId), player(MatchPlayer()), playerCurrentRankInfo(RankInfo()),
     opponent(MatchPlayer()), opponentRankInfo(opponentRankInfo), mode(MatchMode_UNKNOWN),
     playerMatchWins(false), playerGameWins(0), playerGameLoses(0)
 {

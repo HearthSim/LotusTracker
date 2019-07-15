@@ -48,13 +48,14 @@ public:
     QString matchId;
     QString eventId;
     MatchPlayer player;
-    RankInfo playerRankInfo;
+    RankInfo playerCurrentRankInfo;
+    RankInfo playerOldRankInfo;
     MatchPlayer opponent;
     RankInfo opponentRankInfo;
     MatchMode mode;
     QList<GameInfo> games;
     bool playerMatchWins;
-    int playerGameWins, playerGameLoses, summarizedMessage;
+    int playerGameWins, playerGameLoses, seasonOrdinal, summarizedMessage;
 
     explicit MatchInfo(QString matchId = "", QString eventId = "",
                        RankInfo opponentInfo = RankInfo());

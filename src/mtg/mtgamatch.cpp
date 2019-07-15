@@ -107,6 +107,14 @@ void MtgaMatch::onPlayerRankInfo(QPair<QString, int> playerRankInfo)
     this->playerRankInfo = playerRankInfo;
 }
 
+void MtgaMatch::onPlayerRankUpdated(RankInfo playerCurrentRankInfo,
+                                    RankInfo playerOldRankInfo, int seasonOrdinal)
+{
+    matchInfo.playerCurrentRankInfo = playerCurrentRankInfo;
+    matchInfo.playerOldRankInfo = playerOldRankInfo;
+    matchInfo.seasonOrdinal = seasonOrdinal;
+}
+
 void MtgaMatch::onPlayerTakesMulligan(QMap<int, int> newHandDrawed)
 {
     if (!isRunning) {

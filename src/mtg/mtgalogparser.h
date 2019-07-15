@@ -82,7 +82,8 @@ signals:
     void sgnGameCompleted(QMap<int, int> teamIdWins);
     void sgnMatchResult(int winningTeamId, QStack<QString> matchLogMsgs);
     void sgnPlayerRankInfo(QPair<QString, int> playerRankInfo);
-    void sgnPlayerRankUpdated(QPair<QString, int> playerNewRank);
+    void sgnPlayerRankUpdated(RankInfo playerCurrentRankInfo,
+                              RankInfo playerOldRankInfo, int seasonOrdinal);
     void sgnPlayerDeckCreated(Deck deck);
     void sgnPlayerDeckUpdated(Deck deck);
     void sgnPlayerDeckSubmited(QString eventId, Deck deck);
