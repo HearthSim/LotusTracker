@@ -3,21 +3,26 @@
 
 #include <QString>
 
-class OpponentInfo
+class RankInfo
 {
 private:
-    QString _opponentName;
-    QString _opponentRankClass;
-    int _opponentRankTier;
+    QString _class;
+    int _tier;
+    int _step;
+    int _mythicLeaderboardPlace;
+    double _mythicPercentile;
+
 public:
+    RankInfo(QString rankClass = "", int rankTier = -1, int rankStep = -1,
+             int mythicLeaderboardPlace = -1, double mythicPercentile = -1)
+        : _class(rankClass), _tier(rankTier), _step(rankStep),
+          _mythicLeaderboardPlace(mythicLeaderboardPlace), _mythicPercentile(mythicPercentile){}
 
-    OpponentInfo(QString opponentName = "", QString opponentRankClass = "", int opponentRankTier = 0)
-        : _opponentName(opponentName), _opponentRankClass(opponentRankClass),
-          _opponentRankTier(opponentRankTier) {}
-
-    QString opponentName(){ return _opponentName; }
-    QString opponentRankClass(){ return _opponentRankClass; }
-    int opponentRankTier(){ return _opponentRankTier; }
+    QString rankClass(){ return _class; }
+    int rankTier(){ return _tier; }
+    int rankStep(){ return _step; }
+    int mythicLeaderboardPlace(){ return _mythicLeaderboardPlace; }
+    double mythicPercentile(){ return _mythicPercentile; }
 
 };
 

@@ -1,8 +1,9 @@
 #include "matchinfo.h"
 #include "../macros.h"
 
-MatchInfo::MatchInfo(QString matchId, QString eventId, OpponentInfo opponentInfo):
-    matchId(matchId), eventId(eventId), opponentInfo(opponentInfo), mode(MatchMode_UNKNOWN),
+MatchInfo::MatchInfo(QString matchId, QString eventId, RankInfo opponentRankInfo):
+    matchId(matchId), eventId(eventId), player(MatchPlayer()), playerRankInfo(RankInfo()),
+    opponent(MatchPlayer()), opponentRankInfo(opponentRankInfo), mode(MatchMode_UNKNOWN),
     playerMatchWins(false), playerGameWins(0), playerGameLoses(0)
 {
     games.clear();

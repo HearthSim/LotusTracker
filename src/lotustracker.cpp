@@ -448,10 +448,11 @@ void LotusTracker::onEventPlayerCourse(EventPlayerCourse eventPlayerCourse, bool
     }
 }
 
-void LotusTracker::onMatchStart(QString matchId, QString eventId, OpponentInfo opponentInfo)
+void LotusTracker::onMatchStart(QString matchId, QString eventId,
+                                QString opponentName, RankInfo opponentInfo)
 {
     isOnDraftScreen = false;
-    mtgaMatch->onStartNewMatch(matchId, eventId, opponentInfo);
+    mtgaMatch->onStartNewMatch(matchId, eventId, opponentName, opponentInfo);
     // Load deck from event in course if not loaded yet (event continues without submitDeck)
     if (eventId == eventPlayerCourse.eventId) {
         Deck deck = eventPlayerCourse.currentDeck;
