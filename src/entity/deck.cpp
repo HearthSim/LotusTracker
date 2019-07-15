@@ -20,10 +20,10 @@ QString Deck::arch()
     return _arch;
 }
 
-QMap<Card*, int> Deck::cards(bool ignoreSideboarding)
+QMap<Card*, int> Deck::cards(bool withSideboardChanges)
 {
-    if (!ignoreSideboarding && !cardsSideboardingInitial.isEmpty()) {
-        return cardsSideboardingInitial;
+    if (withSideboardChanges && !cardsWithSideboardInitial.isEmpty()) {
+        return cardsWithSideboardInitial;
     } else {
         return cardsInitial;
     }
@@ -82,7 +82,7 @@ int Deck::totalCardsOfQtd(int qtd)
 
 void Deck::updateCards(QMap<Card*, int> cards, QMap<Card*, int> sideboard)
 {
-    cardsSideboardingInitial = cards;
+    cardsWithSideboardInitial = cards;
     cardsSideboard = sideboard;
     reset();
 }
