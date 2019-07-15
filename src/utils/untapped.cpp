@@ -107,7 +107,7 @@ void Untapped::preparedMatchDescriptor(QString timestamp)
                     { "name", matchInfo.player.name() },
                     { "accountId", matchInfo.player.accountId() },
                     { "teamId", matchInfo.player.teamId() },
-                    { "systemSeatId", matchInfo.player.seatId() },
+                    { "systemSeatId", matchInfo.player.seatId() }
                 })},
                 { "opponents", QJsonArray({
                     QJsonObject({
@@ -115,6 +115,13 @@ void Untapped::preparedMatchDescriptor(QString timestamp)
                         { "accountId", matchInfo.opponent.accountId() },
                         { "teamId", matchInfo.opponent.teamId() },
                         { "systemSeatId", matchInfo.opponent.seatId() },
+                        { "preMatchRankInfo", QJsonObject({
+                            { "rankClass", matchInfo.opponentRankInfo.rankClass() },
+                            { "tier", intToJsonValue(matchInfo.opponentRankInfo.rankTier()) },
+                            { "step", intToJsonValue(matchInfo.opponentRankInfo.rankStep()) },
+                            { "mythicLeaderboardPlace", matchInfo.opponentRankInfo.mythicLeaderboardPlace() },
+                            { "mythicPercentile", matchInfo.opponentRankInfo.mythicPercentile() }
+                        })},
                         { "postMatchRankInfo", QJsonValue::Null }
                     })
                 })}
@@ -153,7 +160,15 @@ QJsonArray Untapped::cardsToJsonArray(QMap<Card *, int> cards)
 
 QJsonValue Untapped::eventCourseIntToJsonValue(int value)
 {
-    if (eventPlayerCourse.eventId != matchInfo.eventId || value < 0) {
+    if (eventPlayerCourse.eventId != matchInfo.eventId) {
+        return QJsonValue::Null;
+    }
+    return intToJsonValue(value);
+}
+
+QJsonValue Untapped::intToJsonValue(int value)
+{
+    if (value < 0) {
         return QJsonValue::Null;
     }
     return QJsonValue(value);

@@ -25,6 +25,7 @@ private:
     void preparedPutPayloadFile();
     QJsonArray cardsToJsonArray(QMap<Card*, int> cards);
     QJsonValue eventCourseIntToJsonValue(int value);
+    QJsonValue intToJsonValue(int value);
 
 public:
     explicit Untapped(QObject *parent = nullptr);
