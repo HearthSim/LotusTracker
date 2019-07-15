@@ -300,6 +300,8 @@ void LotusTracker::setupLogParserConnections()
             mtgaMatch, &MtgaMatch::onSummarizedMessage);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerRankInfo,
             mtgaMatch, &MtgaMatch::onPlayerRankInfo);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerRankUpdated,
+            mtgaMatch, &MtgaMatch::onPlayerRankUpdated);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckSubmited,
             this, &LotusTracker::onDeckSubmited);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckWithSideboardSubmited,

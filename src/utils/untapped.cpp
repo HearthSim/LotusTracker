@@ -78,14 +78,6 @@ void Untapped::preparedMatchDescriptor(QString timestamp)
         );
         return;
     }
-    Deck playerDeck = matchInfo.games[0].playerDeck;
-    QJsonArray cardSkins;
-    for (QPair<int, QString> cardSkin : playerDeck.cardSkins) {
-        cardSkins.append(QJsonObject({
-            { "grpId", cardSkin.first },
-            { "ccv", cardSkin.second }
-        }));
-    }
     QJsonDocument descriptor(
         QJsonObject({
             { "timestamp", timestamp },
@@ -95,46 +87,12 @@ void Untapped::preparedMatchDescriptor(QString timestamp)
             { "upload_token", APP_SETTINGS->getUntappedAnonymousUploadToken() },
             { "match", QJsonObject({
                 { "matchId", matchInfo.matchId },
-                { "deck", QJsonObject({
-                { "mainDeck", cardsToJsonArray(playerDeck.cards()) },
-                { "sideboard", cardsToJsonArray(playerDeck.sideboard()) },
-                { "name", playerDeck.name },
-                { "boxId", playerDeck.id },
-                { "deckTileId", playerDeck.deckTileId },
-                { "cardSkins", cardSkins }
+                { "deck", getMatchDeckDescriptor() },
+                { "player", getMatchPlayerDescriptor() },
+                { "opponents", getMatchOpponentsDescriptor() },
+                { "seasonOrdinal", matchInfo.seasonOrdinal }
             })},
-                { "player", QJsonObject({
-                    { "name", matchInfo.player.name() },
-                    { "accountId", matchInfo.player.accountId() },
-                    { "teamId", matchInfo.player.teamId() },
-                    { "systemSeatId", matchInfo.player.seatId() }
-                })},
-                { "opponents", QJsonArray({
-                    QJsonObject({
-                        { "name", matchInfo.opponent.name() },
-                        { "accountId", matchInfo.opponent.accountId() },
-                        { "teamId", matchInfo.opponent.teamId() },
-                        { "systemSeatId", matchInfo.opponent.seatId() },
-                        { "preMatchRankInfo", QJsonObject({
-                            { "rankClass", matchInfo.opponentRankInfo.rankClass() },
-                            { "tier", intToJsonValue(matchInfo.opponentRankInfo.rankTier()) },
-                            { "step", intToJsonValue(matchInfo.opponentRankInfo.rankStep()) },
-                            { "mythicLeaderboardPlace", matchInfo.opponentRankInfo.mythicLeaderboardPlace() },
-                            { "mythicPercentile", matchInfo.opponentRankInfo.mythicPercentile() }
-                        })},
-                        { "postMatchRankInfo", QJsonValue::Null }
-                    })
-                })}
-            })},
-            { "event", QJsonObject({
-              { "name", matchInfo.eventId },
-              { "maxWins", eventCourseIntToJsonValue(eventPlayerCourse.maxWins) },
-              { "maxLosses", eventCourseIntToJsonValue(eventPlayerCourse.maxLosses) },
-              { "currentWins", eventCourseIntToJsonValue(eventPlayerCourse.currentWins) },
-              { "currentLosses", eventCourseIntToJsonValue(eventPlayerCourse.currentLosses) },
-              { "processedMatchIds", eventPlayerCourse.eventId == matchInfo.eventId
-                ? eventPlayerCourse.processedMatchIds : QJsonArray() },
-            })}
+            { "event", getMatchEventDescriptor() }
         })
     );
     QFile descriptorFile(tempDir + QDir::separator() + "descriptor.json");
@@ -145,6 +103,79 @@ void Untapped::preparedMatchDescriptor(QString timestamp)
     descriptorFile.write(descriptor.toJson());
     descriptorFile.flush();
     descriptorFile.close();
+}
+
+QJsonObject Untapped::getMatchDeckDescriptor()
+{
+    Deck playerDeck = matchInfo.games[0].playerDeck;
+    QJsonArray cardSkins;
+    for (QPair<int, QString> cardSkin : playerDeck.cardSkins) {
+        cardSkins.append(QJsonObject({
+            { "grpId", cardSkin.first },
+            { "ccv", cardSkin.second }
+        }));
+    }
+    return QJsonObject({
+       { "mainDeck", cardsToJsonArray(playerDeck.cards()) },
+       { "sideboard", cardsToJsonArray(playerDeck.sideboard()) },
+       { "name", playerDeck.name },
+       { "boxId", playerDeck.id },
+       { "deckTileId", playerDeck.deckTileId },
+       { "cardSkins", cardSkins }
+   });
+}
+
+QJsonObject Untapped::getMatchPlayerDescriptor()
+{
+    return QJsonObject({
+       { "name", matchInfo.player.name() },
+       { "accountId", matchInfo.player.accountId() },
+       { "teamId", matchInfo.player.teamId() },
+       { "systemSeatId", matchInfo.player.seatId() },
+       { "preMatchRankInfo", QJsonObject({
+           { "rankClass", matchInfo.playerCurrentRankInfo.rankClass() },
+           { "tier", intToJsonValue(matchInfo.playerCurrentRankInfo.rankTier()) },
+           { "step", intToJsonValue(matchInfo.playerCurrentRankInfo.rankStep()) }
+       })},
+       { "postMatchRankInfo", QJsonObject({
+           { "rankClass", matchInfo.playerOldRankInfo.rankClass() },
+           { "tier", intToJsonValue(matchInfo.playerOldRankInfo.rankTier()) },
+           { "step", intToJsonValue(matchInfo.playerOldRankInfo.rankStep()) }
+       })}
+    });
+}
+
+QJsonArray Untapped::getMatchOpponentsDescriptor()
+{
+    return QJsonArray({
+        QJsonObject({
+            { "name", matchInfo.opponent.name() },
+            { "accountId", matchInfo.opponent.accountId() },
+            { "teamId", matchInfo.opponent.teamId() },
+            { "systemSeatId", matchInfo.opponent.seatId() },
+            { "preMatchRankInfo", QJsonObject({
+                { "rankClass", matchInfo.opponentRankInfo.rankClass() },
+                { "tier", intToJsonValue(matchInfo.opponentRankInfo.rankTier()) },
+                { "step", intToJsonValue(matchInfo.opponentRankInfo.rankStep()) },
+                { "mythicLeaderboardPlace", matchInfo.opponentRankInfo.mythicLeaderboardPlace() },
+                { "mythicPercentile", matchInfo.opponentRankInfo.mythicPercentile() }
+            })},
+            { "postMatchRankInfo", QJsonValue::Null }
+        })
+                      });
+}
+
+QJsonObject Untapped::getMatchEventDescriptor()
+{
+    return QJsonObject({
+       { "name", matchInfo.eventId },
+       { "maxWins", eventCourseIntToJsonValue(eventPlayerCourse.maxWins) },
+       { "maxLosses", eventCourseIntToJsonValue(eventPlayerCourse.maxLosses) },
+       { "currentWins", eventCourseIntToJsonValue(eventPlayerCourse.currentWins) },
+       { "currentLosses", eventCourseIntToJsonValue(eventPlayerCourse.currentLosses) },
+       { "processedMatchIds", eventPlayerCourse.eventId == matchInfo.eventId
+         ? eventPlayerCourse.processedMatchIds : QJsonArray() },
+     });
 }
 
 QJsonArray Untapped::cardsToJsonArray(QMap<Card *, int> cards)
@@ -167,6 +198,14 @@ QJsonValue Untapped::eventCourseIntToJsonValue(int value)
 }
 
 QJsonValue Untapped::intToJsonValue(int value)
+{
+    if (value < 0) {
+        return QJsonValue::Null;
+    }
+    return QJsonValue(value);
+}
+
+QJsonValue Untapped::doubleToJsonValue(double value)
 {
     if (value < 0) {
         return QJsonValue::Null;

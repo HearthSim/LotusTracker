@@ -84,6 +84,8 @@ signals:
 public slots:
     void onMatchInfoSeats(QList<MatchPlayer> players);
     void onPlayerRankInfo(QPair<QString, int> playerRankInfo);
+    void onPlayerRankUpdated(RankInfo playerCurrentRankInfo,
+                              RankInfo playerOldRankInfo, int seasonOrdinal);
     void onPlayerTakesMulligan(QMap<int, int> newHandDrawed);
     void onOpponentTakesMulligan(int opponentSeatId);
     void onMatchStateDiff(MatchStateDiff matchStateDiff);
