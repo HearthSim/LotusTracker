@@ -76,13 +76,17 @@ void Untapped::preparedMatchDescriptor(QString timestamp)
             { "client", QString("lt-%1").arg(qApp->applicationVersion()) },
             { "mtgaVersion", LOTUS_TRACKER->mtgArena->getClientVersion() },
             { "upload_token", APP_SETTINGS->getUntappedAnonymousUploadToken() },
+            { "match", QJsonObject({
+              { "matchId", matchInfo.matchId }
+            })},
             { "event", QJsonObject({
               { "name", matchInfo.eventId },
               { "maxWins", eventCourseIntToJsonValue(eventPlayerCourse.maxWins) },
               { "maxLosses", eventCourseIntToJsonValue(eventPlayerCourse.maxLosses) },
               { "currentWins", eventCourseIntToJsonValue(eventPlayerCourse.currentWins) },
               { "currentLosses", eventCourseIntToJsonValue(eventPlayerCourse.currentLosses) },
-              { "processedMatchIds", eventPlayerCourse.eventId == matchInfo.eventId ? eventPlayerCourse.processedMatchIds : QJsonArray() },
+              { "processedMatchIds", eventPlayerCourse.eventId == matchInfo.eventId
+                ? eventPlayerCourse.processedMatchIds : QJsonArray() },
             })}
         })
     );

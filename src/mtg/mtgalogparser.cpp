@@ -305,11 +305,12 @@ void MtgaLogParser::parseMatchCreated(QString json)
     QString opponentName = jsonMatchCreated["opponentScreenName"].toString();
     QString opponentRankClass = jsonMatchCreated["opponentRankingClass"].toString();
     int opponentRankTier = jsonMatchCreated["opponentRankingTier"].toInt();
+    QString matchId = jsonMatchCreated["matchId"].toString();
     QString eventId = jsonMatchCreated["eventId"].toString();
     OpponentInfo opponentInfo(opponentName, opponentRankClass, opponentRankTier);
     LOGD(QString("MatchCreated: Opponent %1, rank: %2(%3)").arg(opponentName)
          .arg(opponentRankClass).arg(opponentRankTier));
-    emit sgnMatchCreated(eventId, opponentInfo);
+    emit sgnMatchCreated(matchId, eventId, opponentInfo);
 }
 
 void MtgaLogParser::parseMatchInfo(QString json)

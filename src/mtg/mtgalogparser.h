@@ -75,7 +75,7 @@ signals:
     void sgnPlayerDecks(QList<Deck> playerDecks);
     void sgnEventPlayerCourse(EventPlayerCourse eventPlayerCourse, bool isFinished);
     void sgnEventPlayerCourses(QList<QString> events);
-    void sgnMatchCreated(QString eventId, OpponentInfo opponentInfo);
+    void sgnMatchCreated(QString matchId, QString eventId, OpponentInfo opponentInfo);
     void sgnMatchInfoSeats(QList<MatchPlayer>);
     void sgnGameStart(MatchMode mode, QList<MatchZone> zones, int seatId);
     void sgnGameCompleted(QMap<int, int> teamIdWins);

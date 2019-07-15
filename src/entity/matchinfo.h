@@ -42,6 +42,7 @@ public:
 class MatchInfo
 {
 public:
+    QString matchId;
     QString eventId;
     OpponentInfo opponentInfo;
     MatchMode mode;
@@ -49,7 +50,8 @@ public:
     bool playerMatchWins;
     int playerGameWins, playerGameLoses, summarizedMessage;
 
-    explicit MatchInfo(QString eventId = "", OpponentInfo opponentInfo = OpponentInfo());
+    explicit MatchInfo(QString matchId = "", QString eventId = "",
+                       OpponentInfo opponentInfo = OpponentInfo());
     void createNewGame();
     GameInfo& currentGame();
     QMap<Card*, int> getOpponentMatchesCards();

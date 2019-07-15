@@ -61,7 +61,7 @@ public:
     QString getPlayerName();
     MatchInfo getInfo();
     QPair<QString, int> getPlayerRankInfo();
-    void onStartNewMatch(QString eventId, OpponentInfo matchInfo);
+    void onStartNewMatch(QString matchId, QString eventId, OpponentInfo matchInfo);
     void onGameStart(MatchMode mode, QList<MatchZone> gameZones, int seatId);
     void onGameCompleted(Deck opponentDeck, QMap<int, int> teamIdWins);
     void onEndCurrentMatch(int winningTeamId);
