@@ -63,7 +63,7 @@ public:
     QPair<QString, int> getPlayerRankInfo();
     void onStartNewMatch(QString matchId, QString eventId, OpponentInfo matchInfo);
     void onGameStart(MatchMode mode, QList<MatchZone> gameZones, int seatId);
-    void onGameCompleted(Deck opponentDeck, QMap<int, int> teamIdWins);
+    void onGameCompleted(Deck playerDeck, Deck opponentRevealedDeck, QMap<int, int> teamIdWins);
     void onEndCurrentMatch(int winningTeamId);
 
 signals:

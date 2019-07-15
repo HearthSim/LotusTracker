@@ -19,10 +19,13 @@ private:
 public:
     QString id;
     QString name;
+    int deckTileId;
+    QList<QPair<int, QString>> cardSkins;
     bool showOnlyRemainingCards;
 
     explicit Deck(QString id = "", QString name = "",
-         QMap<Card*, int> cards = {}, QMap<Card*, int> sideboard = {});
+                  QMap<Card*, int> cards = {}, QMap<Card*, int> sideboard = {},
+                  int deckTileId = 0, QList<QPair<int, QString>> cardSkins = {});
     QString arch();
     QMap<Card*, int> cards(bool withSideboardChanges = false);
     QMap<Card*, int> sideboard();

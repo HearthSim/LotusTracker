@@ -23,6 +23,7 @@ private:
     void preparedMatchLogFile(QStack<QString> matchLogMsgs);
     void preparedMatchDescriptor(QString timestamp);
     void preparedPutPayloadFile();
+    QJsonArray cardsToJsonArray(QMap<Card*, int> cards);
     QJsonValue eventCourseIntToJsonValue(int value);
 
 public:

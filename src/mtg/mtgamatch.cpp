@@ -70,12 +70,13 @@ void MtgaMatch::onGameStart(MatchMode mode, QList<MatchZone> zones, int seatId)
     LOGI(QString("%1 go first").arg(playerGoFirst ? "Player" : "Opponent"))
 }
 
-void MtgaMatch::onGameCompleted(Deck opponentDeck, QMap<int, int> teamIdWins)
+void MtgaMatch::onGameCompleted(Deck playerDeck, Deck opponentRevealedDeck, QMap<int, int> teamIdWins)
 {
     if (!isRunning) {
         return;
     }
-    matchInfo.currentGame().opponentDeck = opponentDeck;
+    matchInfo.currentGame().playerDeck = playerDeck;
+    matchInfo.currentGame().opponentRevealedDeck = opponentRevealedDeck;
     int playerCurrentWins = 0;
     for(int i=0; i<matchInfo.games.size()-1; i++) {
         GameInfo game = matchInfo.games[i];

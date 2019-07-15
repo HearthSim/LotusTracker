@@ -27,7 +27,7 @@ GameInfo& MatchInfo::currentGame()
 QMap<Card*, int> MatchInfo::getOpponentMatchesCards() {
     QMap<Card*, int> opponentMatchCards;
     for (GameInfo gameInfo : games) {
-        QMap<Card*, int> gameOpponentCards = gameInfo.opponentDeck.currentCards();
+        QMap<Card*, int> gameOpponentCards = gameInfo.opponentRevealedDeck.currentCards();
         for (Card* card : gameOpponentCards.keys()){
             if (opponentMatchCards.keys().contains(card)) {
                 opponentMatchCards[card] += gameOpponentCards[card];

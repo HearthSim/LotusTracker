@@ -59,8 +59,8 @@ void Untapped::preparedMatchLogFile(QStack<QString> matchLogMsgs)
     }
     logFile.open(QIODevice::WriteOnly | QIODevice::Text);
     while(!matchLogMsgs.isEmpty()) {
+        logFile.seek(0);
         logFile.write(matchLogMsgs.pop().toUtf8());
-        logFile.seek(logFile.size());
     }
     logFile.flush();
     logFile.close();
@@ -69,6 +69,23 @@ void Untapped::preparedMatchLogFile(QStack<QString> matchLogMsgs)
 
 void Untapped::preparedMatchDescriptor(QString timestamp)
 {
+    if (matchInfo.games.isEmpty()) {
+        influx_metric(influxdb_cpp::builder()
+            .meas("lt_match_without_games")
+            .tag("matchId", matchInfo.matchId.toStdString())
+            .tag("event", matchInfo.eventId.toStdString())
+            .field("count", 1)
+        );
+        return;
+    }
+    Deck playerDeck = matchInfo.games[0].playerDeck;
+    QJsonArray cardSkins;
+    for (QPair<int, QString> cardSkin : playerDeck.cardSkins) {
+        cardSkins.append(QJsonObject({
+            { "grpId", cardSkin.first },
+            { "ccv", cardSkin.second }
+        }));
+    }
     QJsonDocument descriptor(
         QJsonObject({
             { "timestamp", timestamp },
@@ -77,7 +94,15 @@ void Untapped::preparedMatchDescriptor(QString timestamp)
             { "mtgaVersion", LOTUS_TRACKER->mtgArena->getClientVersion() },
             { "upload_token", APP_SETTINGS->getUntappedAnonymousUploadToken() },
             { "match", QJsonObject({
-              { "matchId", matchInfo.matchId }
+              { "matchId", matchInfo.matchId },
+              { "deck", QJsonObject({
+                { "mainDeck", cardsToJsonArray(playerDeck.cards()) },
+                { "sideboard", cardsToJsonArray(playerDeck.sideboard()) },
+                { "name", playerDeck.name },
+                { "boxId", playerDeck.id },
+                { "deckTileId", playerDeck.deckTileId },
+                { "cardSkins", cardSkins }
+              })}
             })},
             { "event", QJsonObject({
               { "name", matchInfo.eventId },
@@ -98,6 +123,17 @@ void Untapped::preparedMatchDescriptor(QString timestamp)
     descriptorFile.write(descriptor.toJson());
     descriptorFile.flush();
     descriptorFile.close();
+}
+
+QJsonArray Untapped::cardsToJsonArray(QMap<Card *, int> cards)
+{
+    QJsonArray cardsArray;
+    for (Card* card : cards.keys()) {
+        for(int i=0; i<cards[card]; i++) {
+            cardsArray.append(card->mtgaId);
+        }
+    }
+    return cardsArray;
 }
 
 QJsonValue Untapped::eventCourseIntToJsonValue(int value)

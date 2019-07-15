@@ -23,10 +23,12 @@ private:
 public:
     bool playerGoFirst, playerMulligan, opponentMulligan, isCompleted, playerWins;
     int duration;
-    Deck opponentDeck;
+    Deck playerDeck;
+    Deck opponentRevealedDeck;
 
     GameInfo(): playerGoFirst(false), playerMulligan(false), opponentMulligan(false),
-        isCompleted(false), playerWins(false), duration(0), opponentDeck(Deck()){
+        isCompleted(false), playerWins(false), duration(0), playerDeck(Deck()),
+        opponentRevealedDeck(Deck()){
         timer.start();
     }
 
