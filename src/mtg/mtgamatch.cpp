@@ -1,4 +1,5 @@
 #include "mtgamatch.h"
+#include "../entity/matchplayer.h"
 #include "../macros.h"
 
 MtgaMatch::MtgaMatch(QObject *parent, MtgCards *mtgCards)
@@ -9,7 +10,7 @@ MtgaMatch::MtgaMatch(QObject *parent, MtgCards *mtgCards)
 
 QString MtgaMatch::getPlayerName()
 {
-    return player.name();
+    return matchInfo.player.name();
 }
 
 MatchInfo MtgaMatch::getInfo()
@@ -22,14 +23,14 @@ QPair<QString, int> MtgaMatch::getPlayerRankInfo()
     return playerRankInfo;
 }
 
-void MtgaMatch::onStartNewMatch(QString matchId, QString eventId, OpponentInfo opponentInfo)
+void MtgaMatch::onStartNewMatch(QString matchId, QString eventId,
+                                QString opponentName, RankInfo opponentInfo)
 {
     if (isRunning) {
         onEndCurrentMatch(0);
     }
+    this->opponentName = opponentName;
     matchInfo = MatchInfo(matchId, eventId, opponentInfo);
-    player = MatchPlayer();
-    opponent = MatchPlayer();
     //don't clear playerRankInfo because it is set before startNewMatch
     gameZones.clear();
     stackOwnerTrack.clear();
@@ -46,13 +47,13 @@ void MtgaMatch::onMatchInfoSeats(QList<MatchPlayer> players)
         return;
     }
     for (MatchPlayer matchPlayer : players) {
-        if (matchPlayer.name() == matchInfo.opponentInfo.opponentName()) {
-            opponent = MatchPlayer(matchPlayer.name(), matchPlayer.seatId(), matchPlayer.teamId());
+        if (matchPlayer.name() == opponentName) {
+            matchInfo.opponent = matchPlayer;
         } else {
-            player = MatchPlayer(matchPlayer.name(), matchPlayer.seatId(), matchPlayer.teamId());
+            matchInfo.player = matchPlayer;
         }
     }
-    emit sgnPlayerUserName(player.name());
+    emit sgnPlayerUserName(matchInfo.player.name());
 }
 
 void MtgaMatch::onGameStart(MatchMode mode, QList<MatchZone> zones, int seatId)
@@ -65,7 +66,7 @@ void MtgaMatch::onGameStart(MatchMode mode, QList<MatchZone> zones, int seatId)
     for (MatchZone zone : zones) {
         gameZones[zone.id()] = zone;
     }
-    bool playerGoFirst = player.seatId() == seatId;
+    bool playerGoFirst = matchInfo.player.seatId() == seatId;
     matchInfo.currentGame().playerGoFirst = playerGoFirst;
     LOGI(QString("%1 go first").arg(playerGoFirst ? "Player" : "Opponent"))
 }
@@ -84,8 +85,8 @@ void MtgaMatch::onGameCompleted(Deck playerDeck, Deck opponentRevealedDeck, QMap
             playerCurrentWins += 1;
         }
     }
-    matchInfo.playerGameWins = teamIdWins[player.teamId()];
-    matchInfo.playerGameLoses = teamIdWins[opponent.teamId()];
+    matchInfo.playerGameWins = teamIdWins[matchInfo.player.teamId()];
+    matchInfo.playerGameLoses = teamIdWins[matchInfo.opponent.teamId()];
     bool playerGameWins = matchInfo.playerGameWins > playerCurrentWins;
     matchInfo.currentGame().finish(playerGameWins);
 }
@@ -96,7 +97,7 @@ void MtgaMatch::onEndCurrentMatch(int winningTeamId)
         return;
     }
     isRunning = false;
-    matchInfo.playerMatchWins = player.teamId() == winningTeamId;
+    matchInfo.playerMatchWins = matchInfo.player.teamId() == winningTeamId;
     matchInfo.summarizedMessage = summarizedMessage;
     LOGI(QString("%1 wins").arg(matchInfo.playerMatchWins ? "Player" : "Opponent"))
 }
@@ -114,14 +115,14 @@ void MtgaMatch::onPlayerTakesMulligan(QMap<int, int> newHandDrawed)
     matchInfo.currentGame().playerMulligan = true;
     QMap<int, int> handObjectIds;
     for (MatchZone zone : gameZones.values()) {
-        if (zone.type() == ZoneType_HAND && zone.ownerSeatId() == player.seatId()) {
+        if (zone.type() == ZoneType_HAND && zone.ownerSeatId() == matchInfo.player.seatId()) {
             handObjectIds = zone.objectIds;
             break;
         }
     }
     for (int zoneId : gameZones.keys()) {
         MatchZone zone = gameZones[zoneId];
-        if (zone.type() == ZoneType_LIBRARY && zone.ownerSeatId() == player.seatId()) {
+        if (zone.type() == ZoneType_LIBRARY && zone.ownerSeatId() == matchInfo.player.seatId()) {
             for (int objectId : handObjectIds.keys()) {
                 zone.objectIds[objectId] = 0;
                 Card* card = mtgCards->findCard(handObjectIds[objectId]);
@@ -154,7 +155,7 @@ void MtgaMatch::onMatchStateDiff(MatchStateDiff matchStateDiff)
     }
     // Initial player hand draws
     for (MatchZone zone : gameZones) {
-        if (zone.type() == ZoneType_HAND && zone.ownerSeatId() == player.seatId()) {
+        if (zone.type() == ZoneType_HAND && zone.ownerSeatId() == matchInfo.player.seatId()) {
             if (zone.objectIds.size() == 0) {
                 notifyHandCardsDraw(matchStateDiff);
             }
@@ -184,7 +185,7 @@ void MtgaMatch::onMatchStateDiff(MatchStateDiff matchStateDiff)
 void MtgaMatch::notifyHandCardsDraw(MatchStateDiff matchStateDiff)
 {
     for (MatchZone zone : matchStateDiff.zones()) {
-        if (zone.type() == ZoneType_HAND && zone.ownerSeatId() == player.seatId()) {
+        if (zone.type() == ZoneType_HAND && zone.ownerSeatId() == matchInfo.player.seatId()) {
             for(int mtgaCardId : zone.objectIds.values()) {
                 Card* card = mtgCards->findCard(mtgaCardId);
                 LOGI(QString("Player draw %1").arg(card->name));
@@ -368,10 +369,10 @@ QString MtgaMatch::getOwnerIdentifier(int objectId, MatchZone zoneSrc)
 {
     int ownerId = zoneSrc.type() == ZoneType_STACK ? stackOwnerTrack[objectId]
               : zoneSrc.ownerSeatId();
-    if (ownerId == player.seatId()) {
+    if (ownerId == matchInfo.player.seatId()) {
         return "Player";
     }
-    if (ownerId == opponent.seatId()) {
+    if (ownerId == matchInfo.opponent.seatId()) {
         return "Opponent";
     }
     return "Unknown";

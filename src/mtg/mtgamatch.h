@@ -5,7 +5,6 @@
 #include "../entity/deck.h"
 #include "../entity/matchinfo.h"
 #include "../entity/matchstatediff.h"
-#include "../entity/matchplayer.h"
 #include "../entity/matchzone.h"
 #include "../entity/matchzonetransfer.h"
 #include "../mtg/mtgcards.h"
@@ -34,10 +33,9 @@ class MtgaMatch : public QObject
 {
     Q_OBJECT
 private:
+    QString opponentName;
     MtgCards *mtgCards;
     MatchInfo matchInfo;
-    MatchPlayer player;
-    MatchPlayer opponent;
     QPair<QString, int> playerRankInfo;
     QMap<int, MatchZone> gameZones;
     // objectId, ownerId
@@ -61,7 +59,7 @@ public:
     QString getPlayerName();
     MatchInfo getInfo();
     QPair<QString, int> getPlayerRankInfo();
-    void onStartNewMatch(QString matchId, QString eventId, OpponentInfo matchInfo);
+    void onStartNewMatch(QString matchId, QString eventId, QString opponentName, RankInfo matchInfo);
     void onGameStart(MatchMode mode, QList<MatchZone> gameZones, int seatId);
     void onGameCompleted(Deck playerDeck, Deck opponentRevealedDeck, QMap<int, int> teamIdWins);
     void onEndCurrentMatch(int winningTeamId);

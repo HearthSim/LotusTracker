@@ -319,7 +319,7 @@ void MtgaLogParser::parseMatchCreated(QString json)
     OpponentInfo opponentInfo(opponentName, opponentRankClass, opponentRankTier);
     LOGD(QString("MatchCreated: Opponent %1, rank: %2(%3)").arg(opponentName)
          .arg(opponentRankClass).arg(opponentRankTier));
-    emit sgnMatchCreated(matchId, eventId, opponentInfo);
+    emit sgnMatchCreated(matchId, eventId, opponentName, opponentInfo);
 }
 
 void MtgaLogParser::parseMatchInfo(QString json)
@@ -338,9 +338,10 @@ void MtgaLogParser::parseMatchInfo(QString json)
         for (QJsonValueRef jsonPlayerRef : jsonPlayers) {
             QJsonObject jsonPlayer = jsonPlayerRef.toObject();
             QString playerName = jsonPlayer["playerName"].toString();
+            QString playerAccountId = jsonPlayer["userId"].toString();
             int playerSeat = jsonPlayer["systemSeatId"].toInt();
             int playerTeamId = jsonPlayer["teamId"].toInt();
-            matchPlayers << MatchPlayer(playerName, playerSeat, playerTeamId);
+            matchPlayers << MatchPlayer(playerName, playerAccountId, playerSeat, playerTeamId);
         }
         LOGD("MatchInfoSeats");
         emit sgnMatchInfoSeats(matchPlayers);

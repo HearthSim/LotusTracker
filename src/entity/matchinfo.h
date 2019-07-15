@@ -2,6 +2,7 @@
 #define MATCHINFO_H
 
 #include "deck.h"
+#include "matchplayer.h"
 #include "opponentinfo.h"
 
 #include <QMap>
@@ -47,6 +48,8 @@ public:
     QString matchId;
     QString eventId;
     OpponentInfo opponentInfo;
+    MatchPlayer player;
+    MatchPlayer opponent;
     MatchMode mode;
     QList<GameInfo> games;
     bool playerMatchWins;
