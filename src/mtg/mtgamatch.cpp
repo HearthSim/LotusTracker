@@ -22,12 +22,12 @@ QPair<QString, int> MtgaMatch::getPlayerRankInfo()
     return playerRankInfo;
 }
 
-void MtgaMatch::onStartNewMatch(QString eventId, OpponentInfo opponentInfo)
+void MtgaMatch::onStartNewMatch(QString matchId, QString eventId, OpponentInfo opponentInfo)
 {
     if (isRunning) {
         onEndCurrentMatch(0);
     }
-    matchInfo = MatchInfo(eventId, opponentInfo);
+    matchInfo = MatchInfo(matchId, eventId, opponentInfo);
     player = MatchPlayer();
     opponent = MatchPlayer();
     //don't clear playerRankInfo because it is set before startNewMatch
