@@ -12,7 +12,7 @@ private:
     QString _arch;
     QString _colorIdentity;
     QMap<Card*, int> cardsInitial;
-    QMap<Card*, int> cardsSideboardingInitial;
+    QMap<Card*, int> cardsWithSideboardInitial;
     QMap<Card*, int> cardsCurrent;
     QMap<Card*, int> cardsSideboard;
 
@@ -24,7 +24,7 @@ public:
     explicit Deck(QString id = "", QString name = "",
          QMap<Card*, int> cards = {}, QMap<Card*, int> sideboard = {});
     QString arch();
-    QMap<Card*, int> cards(bool ignoreCardsWithSideboard = false);
+    QMap<Card*, int> cards(bool withSideboardChanges = false);
     QMap<Card*, int> sideboard();
     QMap<Card*, int> currentCards();
     int totalCards();
