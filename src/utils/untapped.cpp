@@ -90,6 +90,11 @@ void Untapped::preparedMatchDescriptor(QString timestamp)
                 { "deck", getMatchDeckDescriptor() },
                 { "player", getMatchPlayerDescriptor() },
                 { "opponents", getMatchOpponentsDescriptor() },
+                { "result", QJsonObject({
+                    { "scope", matchInfo.resultSpec.scope },
+                    { "result", matchInfo.resultSpec.result },
+                    { "winningTeamId", matchInfo.resultSpec.winningTeamId }
+                })},
                 { "seasonOrdinal", matchInfo.seasonOrdinal }
             })},
             { "event", getMatchEventDescriptor() }

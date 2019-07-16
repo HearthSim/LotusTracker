@@ -27,7 +27,7 @@ void MtgaMatch::onStartNewMatch(QString matchId, QString eventId,
                                 QString opponentName, RankInfo opponentInfo)
 {
     if (isRunning) {
-        onEndCurrentMatch(0);
+        onEndCurrentMatch(ResultSpec());
     }
     this->opponentName = opponentName;
     matchInfo = MatchInfo(matchId, eventId, opponentInfo);
@@ -71,11 +71,9 @@ void MtgaMatch::onGameStart(MatchMode mode, QList<MatchZone> zones, int seatId)
     LOGI(QString("%1 go first").arg(playerGoFirst ? "Player" : "Opponent"))
 }
 
-void MtgaMatch::onGameCompleted(Deck playerDeck, Deck opponentRevealedDeck, QMap<int, int> teamIdWins)
+void MtgaMatch::onGameCompleted(Deck playerDeck, Deck opponentRevealedDeck,
+                                ResultSpec resultSpec)
 {
-    if (!isRunning) {
-        return;
-    }
     matchInfo.currentGame().playerDeck = playerDeck;
     matchInfo.currentGame().opponentRevealedDeck = opponentRevealedDeck;
     int playerCurrentWins = 0;
@@ -85,19 +83,18 @@ void MtgaMatch::onGameCompleted(Deck playerDeck, Deck opponentRevealedDeck, QMap
             playerCurrentWins += 1;
         }
     }
-    matchInfo.playerGameWins = teamIdWins[matchInfo.player.teamId()];
-    matchInfo.playerGameLoses = teamIdWins[matchInfo.opponent.teamId()];
-    bool playerGameWins = matchInfo.playerGameWins > playerCurrentWins;
+    bool playerGameWins = matchInfo.player.teamId() == resultSpec.winningTeamId;
     matchInfo.currentGame().finish(playerGameWins);
 }
 
-void MtgaMatch::onEndCurrentMatch(int winningTeamId)
+void MtgaMatch::onEndCurrentMatch(ResultSpec resultSpec)
 {
     if (!isRunning) {
         return;
     }
     isRunning = false;
-    matchInfo.playerMatchWins = matchInfo.player.teamId() == winningTeamId;
+    matchInfo.resultSpec = resultSpec;
+    matchInfo.playerMatchWins = matchInfo.player.teamId() == resultSpec.winningTeamId;
     matchInfo.summarizedMessage = summarizedMessage;
     LOGI(QString("%1 wins").arg(matchInfo.playerMatchWins ? "Player" : "Opponent"))
 }

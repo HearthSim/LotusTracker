@@ -4,7 +4,7 @@
 MatchInfo::MatchInfo(QString matchId, QString eventId, RankInfo opponentRankInfo):
     matchId(matchId), eventId(eventId), player(MatchPlayer()), playerCurrentRankInfo(RankInfo()),
     opponent(MatchPlayer()), opponentRankInfo(opponentRankInfo), mode(MatchMode_UNKNOWN),
-    playerMatchWins(false), playerGameWins(0), playerGameLoses(0)
+    resultSpec(ResultSpec()), playerMatchWins(false), playerGameWins(0), playerGameLoses(0)
 {
     games.clear();
 }
