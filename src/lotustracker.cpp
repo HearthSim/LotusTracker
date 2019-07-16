@@ -46,6 +46,7 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv),
     lotusAPI = new LotusTrackerAPI(this);
     startScreen = new StartScreen(nullptr, lotusAPI);
     hideTrackerTimer = new QTimer(this);
+    waitPosMatchRankInfoTimer = new QTimer(this);
     mtgaMatch = new MtgaMatch(this, mtgCards);
     gaTracker = new GAnalytics(CREDENTIALS::GA_ID());
     untapped = new Untapped(this);
@@ -63,6 +64,10 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv),
         deckOverlayPlayer->hide();
         deckOverlayOpponent->reset();
         deckOverlayOpponent->hide();
+    });
+    connect(waitPosMatchRankInfoTimer, &QTimer::timeout, this, [this]{
+        waitPosMatchRankInfoTimer->stop();
+        uploadMatch();
     });
     //setupMatch should be called before setupLogParser because sgnMatchInfoResult order
     setupLotusAPIConnections();
@@ -302,6 +307,8 @@ void LotusTracker::setupLogParserConnections()
             mtgaMatch, &MtgaMatch::onPlayerRankInfo);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerRankUpdated,
             mtgaMatch, &MtgaMatch::onPlayerRankUpdated);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerMythicRatingUpdated,
+            mtgaMatch, &MtgaMatch::onPlayerMythicRatingUpdated);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckSubmited,
             this, &LotusTracker::onDeckSubmited);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckWithSideboardSubmited,
@@ -532,19 +539,24 @@ void LotusTracker::onGameCompleted(QMap<int, int> teamIdWins)
     hideTrackerTimer->start(5000);
 }
 
-void LotusTracker::onMatchEnds(int winningTeamId, QStack<QString> matchLogMsgs)
+void LotusTracker::onMatchEnds(int winningTeamId)
 {
     if (!mtgaMatch->isRunning) {
         return;
     }
     mtgaMatch->onEndCurrentMatch(winningTeamId);
+    waitPosMatchRankInfoTimer->start(2000);
+    gaTracker->sendEvent("Match", "ends");
+}
+
+void LotusTracker::uploadMatch()
+{
     if (mtgaMatch->getInfo().eventId != "NPE"){
         lotusAPI->uploadMatch(mtgaMatch->getInfo(),
                               deckOverlayPlayer->getDeck(),
                               mtgaMatch->getPlayerRankInfo().first);
     }
-    untapped->uploadLogFile(mtgaMatch->getInfo(), matchLogMsgs);
-    gaTracker->sendEvent("Match", "ends");
+    untapped->uploadMatchToUntapped(mtgaMatch->getInfo(), mtgArena->getLogParser()->getLastMatchLog());
 }
 
 void LotusTracker::onEventFinish(QString eventId, QString deckId, QString deckColors,

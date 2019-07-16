@@ -26,7 +26,7 @@ private:
     QRegularExpression reRawMsg, reMsgNumber, reMsgId, reMsgJson;
     MtgCards *mtgCards;
     QList<int> msgResponseNumbers;
-    QStack<QString> matchLogMsgs;
+    QStack<QString> lastMatchLogMsgs;
     Deck jsonObject2Deck(QJsonObject jsonDeck);
     void parseOutcomingMsg(QPair<QString, QString> msg);
     void parseIncomingMsg(QPair<QString, QString> msg);
@@ -40,6 +40,7 @@ private:
     void parseMatchInfo(QString json);
     void parsePlayerRankInfo(QString json);
     void parsePlayerRankUpdated(QString json);
+    void parsePlayerMythicRatingUpdated(QString json);
     void parsePlayerDeckCreate(QString json);
     void parsePlayerDeckUpdate(QString json);
     void parsePlayerDeckSubmited(QString json);
@@ -65,6 +66,7 @@ public:
     explicit MtgaLogParser(QObject *parent = nullptr, MtgCards *mtgCards = nullptr);
     ~MtgaLogParser();
     void parse(QString logNewContent);
+    QStack<QString> getLastMatchLog();
 
 signals:
     void sgnSummarizedMessage();
@@ -80,10 +82,12 @@ signals:
     void sgnMatchInfoSeats(QList<MatchPlayer>);
     void sgnGameStart(MatchMode mode, QList<MatchZone> zones, int seatId);
     void sgnGameCompleted(QMap<int, int> teamIdWins);
-    void sgnMatchResult(int winningTeamId, QStack<QString> matchLogMsgs);
+    void sgnMatchResult(int winningTeamId);
     void sgnPlayerRankInfo(QPair<QString, int> playerRankInfo);
     void sgnPlayerRankUpdated(RankInfo playerCurrentRankInfo,
                               RankInfo playerOldRankInfo, int seasonOrdinal);
+    void sgnPlayerMythicRatingUpdated(double oldMythicPercentile, double newMythicPercentile,
+                                      int newMythicLeaderboardPlacement);
     void sgnPlayerDeckCreated(Deck deck);
     void sgnPlayerDeckUpdated(Deck deck);
     void sgnPlayerDeckSubmited(QString eventId, Deck deck);

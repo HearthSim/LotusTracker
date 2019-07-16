@@ -44,7 +44,7 @@ void Untapped::setEventPlayerCourse(EventPlayerCourse eventPlayerCourse)
     this->eventPlayerCourse = eventPlayerCourse;
 }
 
-void Untapped::uploadLogFile(MatchInfo matchInfo, QStack<QString> matchLogMsgs)
+void Untapped::uploadMatchToUntapped(MatchInfo matchInfo, QStack<QString> matchLogMsgs)
 {
     this->matchInfo = matchInfo;
     preparedMatchLogFile(matchLogMsgs);
@@ -58,8 +58,8 @@ void Untapped::preparedMatchLogFile(QStack<QString> matchLogMsgs)
       logFile.remove();
     }
     logFile.open(QIODevice::WriteOnly | QIODevice::Text);
+    logFile.seek(0);
     while(!matchLogMsgs.isEmpty()) {
-        logFile.seek(0);
         logFile.write(matchLogMsgs.pop().toUtf8());
     }
     logFile.flush();
@@ -135,12 +135,16 @@ QJsonObject Untapped::getMatchPlayerDescriptor()
        { "preMatchRankInfo", QJsonObject({
            { "rankClass", matchInfo.playerCurrentRankInfo.rankClass() },
            { "tier", intToJsonValue(matchInfo.playerCurrentRankInfo.rankTier()) },
-           { "step", intToJsonValue(matchInfo.playerCurrentRankInfo.rankStep()) }
+           { "step", intToJsonValue(matchInfo.playerCurrentRankInfo.rankStep()) },
+           { "mythicLeaderboardPlace", intToJsonValue(matchInfo.playerCurrentRankInfo.mythicLeaderboardPlace()) },
+           { "mythicPercentile", doubleToJsonValue(matchInfo.playerCurrentRankInfo.mythicPercentile()) }
        })},
        { "postMatchRankInfo", QJsonObject({
            { "rankClass", matchInfo.playerOldRankInfo.rankClass() },
            { "tier", intToJsonValue(matchInfo.playerOldRankInfo.rankTier()) },
-           { "step", intToJsonValue(matchInfo.playerOldRankInfo.rankStep()) }
+           { "step", intToJsonValue(matchInfo.playerOldRankInfo.rankStep()) },
+           { "mythicLeaderboardPlace", intToJsonValue(matchInfo.playerOldRankInfo.mythicLeaderboardPlace()) },
+           { "mythicPercentile", doubleToJsonValue(matchInfo.playerOldRankInfo.mythicPercentile()) }
        })}
     });
 }

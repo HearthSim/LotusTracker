@@ -86,6 +86,8 @@ public slots:
     void onPlayerRankInfo(QPair<QString, int> playerRankInfo);
     void onPlayerRankUpdated(RankInfo playerCurrentRankInfo,
                               RankInfo playerOldRankInfo, int seasonOrdinal);
+    void onPlayerMythicRatingUpdated(double oldMythicPercentile, double newMythicPercentile,
+                                          int newMythicLeaderboardPlacement);
     void onPlayerTakesMulligan(QMap<int, int> newHandDrawed);
     void onOpponentTakesMulligan(int opponentSeatId);
     void onMatchStateDiff(MatchStateDiff matchStateDiff);

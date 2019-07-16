@@ -115,6 +115,13 @@ void MtgaMatch::onPlayerRankUpdated(RankInfo playerCurrentRankInfo,
     matchInfo.seasonOrdinal = seasonOrdinal;
 }
 
+void MtgaMatch::onPlayerMythicRatingUpdated(double oldMythicPercentile, double newMythicPercentile,
+                                            int newMythicLeaderboardPlacement)
+{
+    matchInfo.playerCurrentRankInfo.setMythicInfo(newMythicPercentile, newMythicLeaderboardPlacement);
+    matchInfo.playerOldRankInfo.setMythicInfo(oldMythicPercentile);
+}
+
 void MtgaMatch::onPlayerTakesMulligan(QMap<int, int> newHandDrawed)
 {
     if (!isRunning) {
