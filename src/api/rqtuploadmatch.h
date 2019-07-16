@@ -13,8 +13,13 @@ public:
     RqtUploadMatch(MatchInfo matchInfo, Deck playerDeck, QString playerRankClass) {
         QJsonObject jsonGamesMapValue = games2JsonMapValue(matchInfo.games);
         QString winner = matchInfo.playerMatchWins ? "player1" : "player2";
-        QString gameResult = QString("%1x%2").arg(matchInfo.playerGameWins)
-                .arg(matchInfo.playerGameLoses);
+        int playerGameWins = 0;
+        int playerGameLoses = 0;
+        for(GameInfo game : matchInfo.games) {
+            playerGameWins += game.playerWins ? 1 : 0;
+            playerGameLoses += game.playerWins ? 0 : 1;
+        }
+        QString gameResult = QString("%1x%2").arg(playerGameWins).arg(playerGameLoses);
         QJsonObject player1Json{
             {"arch", playerDeck.arch()},
             {"cards", cards2JsonMapValue(playerDeck.cards(true))},

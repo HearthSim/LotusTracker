@@ -364,17 +364,16 @@ void MtgaLogParser::parseMatchInfo(QString json)
     if (roomState == "MatchGameRoomStateType_MatchCompleted"){
         QJsonObject jsonFinalMatchResult = jsonRoomInfo["finalMatchResult"].toObject();
         QJsonArray jsonResults = jsonFinalMatchResult["resultList"].toArray();
-        int matchWinningTeamId = -1;
         for (QJsonValueRef jsonPlayerRef : jsonResults) {
             QJsonObject jsonResult = jsonPlayerRef.toObject();
-            QString resultScope = jsonResult["scope"].toString();
-            int winningTeamId = jsonResult["winningTeamId"].toInt();
-            if (resultScope == "MatchScope_Match") {
-                matchWinningTeamId = winningTeamId;
+            QString scope = jsonResult["scope"].toString();
+            if (scope == "MatchScope_Match") {
+                QString result = jsonResult["result"].toString();
+                int winningTeamId = jsonResult["winningTeamId"].toInt();
+                emit sgnMatchResult(ResultSpec(scope, result, winningTeamId));
+                LOGD("MatchInfoResult");
             }
         }
-        LOGD("MatchInfoResult");
-        emit sgnMatchResult(matchWinningTeamId);
     }
 }
 
@@ -518,7 +517,12 @@ void MtgaLogParser::parseGameStateDiff(int playerSeatId, int gameStateId, QJsonO
     QJsonObject jsonInfoObject = jsonMessage["gameInfo"].toObject();
     if (jsonInfoObject["matchState"].toString() == "MatchState_GameComplete") {
         QJsonArray jsonResults = jsonInfoObject["results"].toArray();
-        emit sgnGameCompleted(getGameResults(jsonResults));
+        QJsonObject jsonResult = jsonResults.last().toObject();
+        QString scope = jsonResult["scope"].toString();
+        QString reason = jsonResult["reason"].toString();
+        QString result = jsonResult["result"].toString();
+        int winningTeamId = jsonResult["winningTeamId"].toInt();
+        emit sgnGameCompleted(ResultSpec(scope, result, winningTeamId, reason));
         return;
     }
     QList<MatchZone> zones = getMatchZones(jsonMessage);
@@ -566,24 +570,6 @@ void MtgaLogParser::parseGameStateDiff(int playerSeatId, int gameStateId, QJsonO
     MatchStateDiff matchStateDiff(gameStateId, zones, idsChanged, idsZoneChanged);
     emit sgnMatchStateDiff(matchStateDiff);
     return;
-}
-
-QMap<int, int> MtgaLogParser::getGameResults(QJsonArray jsonResults)
-{
-    QMap<int, int> teamIdWins;
-    for (QJsonValueRef jsonPlayerRef : jsonResults) {
-        QJsonObject jsonResult = jsonPlayerRef.toObject();
-        QString resultScope = jsonResult["scope"].toString();
-        int winningTeamId = jsonResult["winningTeamId"].toInt();
-        if (resultScope == "MatchScope_Game") {
-            if (teamIdWins.keys().contains(winningTeamId)) {
-                teamIdWins[winningTeamId] += 1;
-            } else {
-                teamIdWins[winningTeamId] = 1;
-            }
-        }
-    }
-    return teamIdWins;
 }
 
 QList<MatchZone> MtgaLogParser::getMatchZones(QJsonObject jsonGameStateMessage)

@@ -7,6 +7,7 @@
 #include "../entity/matchstatediff.h"
 #include "../entity/matchzone.h"
 #include "../entity/matchzonetransfer.h"
+#include "../entity/resultspec.h"
 #include "../mtg/mtgcards.h"
 
 #include <QObject>
@@ -61,8 +62,8 @@ public:
     QPair<QString, int> getPlayerRankInfo();
     void onStartNewMatch(QString matchId, QString eventId, QString opponentName, RankInfo matchInfo);
     void onGameStart(MatchMode mode, QList<MatchZone> gameZones, int seatId);
-    void onGameCompleted(Deck playerDeck, Deck opponentRevealedDeck, QMap<int, int> teamIdWins);
-    void onEndCurrentMatch(int winningTeamId);
+    void onGameCompleted(Deck playerDeck, Deck opponentRevealedDeck, ResultSpec resultSpec);
+    void onEndCurrentMatch(ResultSpec resultSpec);
 
 signals:
     void sgnPlayerUserName(QString userName);

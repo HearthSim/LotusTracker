@@ -4,13 +4,14 @@
 #include "mtgcards.h"
 #include "../entity/deck.h"
 #include "../entity/eventplayercourse.h"
-#include "../entity/user.h"
-#include "../entity/opponentinfo.h"
 #include "../entity/matchinfo.h"
 #include "../entity/matchplayer.h"
 #include "../entity/matchstatediff.h"
 #include "../entity/matchzone.h"
 #include "../entity/matchzonetransfer.h"
+#include "../entity/opponentinfo.h"
+#include "../entity/resultspec.h"
+#include "../entity/user.h"
 
 #include <QJsonObject>
 #include <QStack>
@@ -60,7 +61,6 @@ private:
     QList<MatchZone> getMatchZones(QJsonObject jsonGameStateMessage);
     QMap<int, int> getIdsChanged(QJsonArray jsonGSMAnnotations);
     QMap<int, MatchZoneTransfer> getIdsZoneChanged(QJsonArray jsonGSMAnnotations);
-    QMap<int, int> getGameResults(QJsonArray jsonResults);
 
 public:
     explicit MtgaLogParser(QObject *parent = nullptr, MtgCards *mtgCards = nullptr);
@@ -81,8 +81,8 @@ signals:
                          QString opponentName, RankInfo opponentInfo);
     void sgnMatchInfoSeats(QList<MatchPlayer>);
     void sgnGameStart(MatchMode mode, QList<MatchZone> zones, int seatId);
-    void sgnGameCompleted(QMap<int, int> teamIdWins);
-    void sgnMatchResult(int winningTeamId);
+    void sgnGameCompleted(ResultSpec resultSpec);
+    void sgnMatchResult(ResultSpec resultSpec);
     void sgnPlayerRankInfo(QPair<QString, int> playerRankInfo);
     void sgnPlayerRankUpdated(RankInfo playerCurrentRankInfo,
                               RankInfo playerOldRankInfo, int seasonOrdinal);

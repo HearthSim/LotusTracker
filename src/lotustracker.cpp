@@ -529,22 +529,22 @@ void LotusTracker::onGameStopped()
     gaTracker->endSession();
 }
 
-void LotusTracker::onGameCompleted(QMap<int, int> teamIdWins)
+void LotusTracker::onGameCompleted(ResultSpec resultSpec)
 {
     if (!mtgaMatch->isRunning) {
         return;
     }
     mtgaMatch->onGameCompleted(deckOverlayPlayer->getDeck(),
-                               deckOverlayOpponent->getDeck(), teamIdWins);
+                               deckOverlayOpponent->getDeck(), resultSpec);
     hideTrackerTimer->start(5000);
 }
 
-void LotusTracker::onMatchEnds(int winningTeamId)
+void LotusTracker::onMatchEnds(ResultSpec resultSpec)
 {
     if (!mtgaMatch->isRunning) {
         return;
     }
-    mtgaMatch->onEndCurrentMatch(winningTeamId);
+    mtgaMatch->onEndCurrentMatch(resultSpec);
     waitPosMatchRankInfoTimer->start(2000);
     gaTracker->sendEvent("Match", "ends");
 }

@@ -5,6 +5,7 @@
 #include "entity/eventplayercourse.h"
 #include "entity/matchinfo.h"
 #include "entity/opponentinfo.h"
+#include "entity/resultspec.h"
 #include "mtg/mtgarena.h"
 #include "mtg/mtgcards.h"
 #include "mtg/mtgdecksarch.h"
@@ -94,8 +95,8 @@ private slots:
     void onGameStarted();
     void onGameFocusChanged(bool hasFocus);
     void onGameStopped();
-    void onGameCompleted(QMap<int, int> teamIdWins);
-    void onMatchEnds(int winningTeamId);
+    void onGameCompleted(ResultSpec resultSpec);
+    void onMatchEnds(ResultSpec resultSpec);
     void onEventFinish(QString eventId, QString deckId, QString deckColors,
                        int maxWins, int wins, int losses);
     void onDeckOverlayDraftEnabledChange(bool enabled);

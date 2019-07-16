@@ -4,6 +4,7 @@
 #include "deck.h"
 #include "matchplayer.h"
 #include "opponentinfo.h"
+#include "resultspec.h"
 
 #include <QMap>
 #include <QPair>
@@ -54,6 +55,7 @@ public:
     RankInfo opponentRankInfo;
     MatchMode mode;
     QList<GameInfo> games;
+    ResultSpec resultSpec;
     bool playerMatchWins;
     int playerGameWins, playerGameLoses, seasonOrdinal, summarizedMessage;
 
