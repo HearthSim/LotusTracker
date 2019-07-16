@@ -27,10 +27,11 @@ public:
     int duration;
     Deck playerDeck;
     Deck opponentRevealedDeck;
+    ResultSpec resultSpec;
 
     GameInfo(): playerGoFirst(false), playerMulligan(false), opponentMulligan(false),
         isCompleted(false), playerWins(false), duration(0), playerDeck(Deck()),
-        opponentRevealedDeck(Deck()){
+        opponentRevealedDeck(Deck()), resultSpec(ResultSpec()){
         timer.start();
     }
 
