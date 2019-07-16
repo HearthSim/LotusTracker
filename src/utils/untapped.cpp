@@ -87,14 +87,11 @@ void Untapped::preparedMatchDescriptor(QString timestamp)
             { "upload_token", APP_SETTINGS->getUntappedAnonymousUploadToken() },
             { "match", QJsonObject({
                 { "matchId", matchInfo.matchId },
-                { "deck", getMatchDeckDescriptor() },
+                { "deck", deckToJsonObject(matchInfo.games[0].playerDeck) },
+                { "games", getMatchGamesDescriptor() },
                 { "player", getMatchPlayerDescriptor() },
                 { "opponents", getMatchOpponentsDescriptor() },
-                { "result", QJsonObject({
-                    { "scope", matchInfo.resultSpec.scope },
-                    { "result", matchInfo.resultSpec.result },
-                    { "winningTeamId", matchInfo.resultSpec.winningTeamId }
-                })},
+                { "result", resultSpecToJsonObject(matchInfo.resultSpec) },
                 { "seasonOrdinal", matchInfo.seasonOrdinal }
             })},
             { "event", getMatchEventDescriptor() }
@@ -110,24 +107,18 @@ void Untapped::preparedMatchDescriptor(QString timestamp)
     descriptorFile.close();
 }
 
-QJsonObject Untapped::getMatchDeckDescriptor()
+QJsonArray Untapped::getMatchGamesDescriptor()
 {
-    Deck playerDeck = matchInfo.games[0].playerDeck;
-    QJsonArray cardSkins;
-    for (QPair<int, QString> cardSkin : playerDeck.cardSkins) {
-        cardSkins.append(QJsonObject({
-            { "grpId", cardSkin.first },
-            { "ccv", cardSkin.second }
+    QJsonArray games;
+    for(GameInfo game : matchInfo.games) {
+        games.append(QJsonObject({
+            { "deck", deckToJsonObject(game.playerDeck) },
+            { "duration", game.duration },
+            { "opponentRevealedCards", cardsToJsonArray(game.opponentRevealedDeck.cards()) },
+            { "result", resultSpecToJsonObject(game.resultSpec) }
         }));
     }
-    return QJsonObject({
-       { "mainDeck", cardsToJsonArray(playerDeck.cards()) },
-       { "sideboard", cardsToJsonArray(playerDeck.sideboard()) },
-       { "name", playerDeck.name },
-       { "boxId", playerDeck.id },
-       { "deckTileId", playerDeck.deckTileId },
-       { "cardSkins", cardSkins }
-   });
+    return games;
 }
 
 QJsonObject Untapped::getMatchPlayerDescriptor()
@@ -171,7 +162,7 @@ QJsonArray Untapped::getMatchOpponentsDescriptor()
             })},
             { "postMatchRankInfo", QJsonValue::Null }
         })
-                      });
+    });
 }
 
 QJsonObject Untapped::getMatchEventDescriptor()
@@ -196,6 +187,38 @@ QJsonArray Untapped::cardsToJsonArray(QMap<Card *, int> cards)
         }
     }
     return cardsArray;
+}
+
+QJsonObject Untapped::deckToJsonObject(Deck deck)
+{
+    QJsonArray cardSkins;
+    for (QPair<int, QString> cardSkin : deck.cardSkins) {
+        cardSkins.append(QJsonObject({
+            { "grpId", cardSkin.first },
+            { "ccv", cardSkin.second }
+        }));
+    }
+    return QJsonObject({
+       { "mainDeck", cardsToJsonArray(deck.cards()) },
+       { "sideboard", cardsToJsonArray(deck.sideboard()) },
+       { "name", deck.name },
+       { "boxId", deck.id },
+       { "deckTileId", deck.deckTileId },
+       { "cardSkins", cardSkins }
+    });
+}
+
+QJsonObject Untapped::resultSpecToJsonObject(ResultSpec resultSpec)
+{
+    QJsonObject resultJson({
+        { "scope", resultSpec.scope },
+        { "result", resultSpec.result },
+        { "winningTeamId", resultSpec.winningTeamId }
+    });
+    if (!resultSpec.reason.isEmpty()) {
+        resultJson.insert("reason", resultSpec.reason);
+    }
+    return resultJson;
 }
 
 QJsonValue Untapped::eventCourseIntToJsonValue(int value)

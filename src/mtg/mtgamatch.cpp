@@ -83,6 +83,7 @@ void MtgaMatch::onGameCompleted(Deck playerDeck, Deck opponentRevealedDeck,
             playerCurrentWins += 1;
         }
     }
+    matchInfo.currentGame().resultSpec = resultSpec;
     bool playerGameWins = matchInfo.player.teamId() == resultSpec.winningTeamId;
     matchInfo.currentGame().finish(playerGameWins);
 }
