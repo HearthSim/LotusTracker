@@ -78,7 +78,7 @@ void MtgaLogParser::parse(QString logNewContent)
         matchRunning = true;
     }
     if (matchRunning) {
-        matchLogMsgs.push(logNewContent);
+        lastMatchLogMsgs.push(logNewContent);
     }
     // Extract raw msgs
     QRegularExpressionMatchIterator iterator = reRawMsg.globalMatch(logNewContent + "\n");
@@ -141,6 +141,16 @@ void MtgaLogParser::parse(QString logNewContent)
     }
 }
 
+QStack<QString> MtgaLogParser::getLastMatchLog()
+{
+    matchRunning = false;
+    QStack<QString> matchLogMsgs;
+    while (!lastMatchLogMsgs.isEmpty()) {
+        matchLogMsgs.push(lastMatchLogMsgs.pop());
+    }
+    return matchLogMsgs;
+}
+
 void MtgaLogParser::parseOutcomingMsg(QPair<QString, QString> msg)
 {
     if (msg.first == "Authenticate") {
@@ -187,6 +197,8 @@ void MtgaLogParser::parseIncomingMsg(QPair<QString, QString> msg)
         parsePlayerRankInfo(msg.second);
     } else if (msg.first == "Rank.Updated"){
         parsePlayerRankUpdated(msg.second);
+    } else if (msg.first == "MythicRating.Updated"){
+        parsePlayerMythicRatingUpdated(msg.second);
     } else if (msg.first == "Event.DeckSubmitV3"){
         parsePlayerDeckSubmited(msg.second);
     } else if (msg.first == "GreToClientEvent"){
@@ -362,9 +374,7 @@ void MtgaLogParser::parseMatchInfo(QString json)
             }
         }
         LOGD("MatchInfoResult");
-        emit sgnMatchResult(matchWinningTeamId, matchLogMsgs);
-        matchRunning = false;
-        matchLogMsgs.clear();
+        emit sgnMatchResult(matchWinningTeamId);
     }
 }
 
@@ -396,6 +406,18 @@ void MtgaLogParser::parsePlayerRankUpdated(QString json)
     RankInfo playerOldRankInfo(oldClass, oldTier, oldStep);
     int seasonOrdinal = jsonPlayerRankUpdate["seasonOrdinal"].toInt();
     emit sgnPlayerRankUpdated(playerCurrentRankInfo, playerOldRankInfo, seasonOrdinal);
+}
+
+void MtgaLogParser::parsePlayerMythicRatingUpdated(QString json)
+{
+    QJsonObject jsonPlayerMythicRatingUpdate = Transformations::stringToJsonObject(json);
+    if (jsonPlayerMythicRatingUpdate.empty()) {
+        return;
+    }
+    double oldMythicPercentile = jsonPlayerMythicRatingUpdate["oldMythicPercentile"].toDouble();
+    double newMythicPercentile = jsonPlayerMythicRatingUpdate["newMythicPercentile"].toDouble();
+    int newMythicLeaderboardPlacement = jsonPlayerMythicRatingUpdate["newMythicLeaderboardPlacement"].toInt();
+    emit sgnPlayerMythicRatingUpdated(oldMythicPercentile, newMythicPercentile, newMythicLeaderboardPlacement);
 }
 
 void MtgaLogParser::parsePlayerDeckCreate(QString json)

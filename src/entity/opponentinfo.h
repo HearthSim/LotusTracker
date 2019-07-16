@@ -18,6 +18,12 @@ public:
         : _class(rankClass), _tier(rankTier), _step(rankStep),
           _mythicLeaderboardPlace(mythicLeaderboardPlace), _mythicPercentile(mythicPercentile){}
 
+    void setMythicInfo(double mythicPercentile, int mythicLeaderboardPlacement = -1)
+    {
+        _mythicPercentile = mythicPercentile;
+        _mythicLeaderboardPlace = mythicLeaderboardPlacement;
+    }
+
     QString rankClass(){ return _class; }
     int rankTier(){ return _tier; }
     int rankStep(){ return _step; }

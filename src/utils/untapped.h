@@ -36,7 +36,7 @@ public:
     explicit Untapped(QObject *parent = nullptr);
     void checkForUntappedUploadToken();
     void setEventPlayerCourse(EventPlayerCourse eventPlayerCourse);
-    void uploadLogFile(MatchInfo matchInfo, QStack<QString> matchLogMsgs);
+    void uploadMatchToUntapped(MatchInfo matchInfo, QStack<QString> matchLogMsgs);
 
 signals:
 

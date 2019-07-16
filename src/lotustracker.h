@@ -47,7 +47,7 @@ private:
     LotusTrackerAPI *lotusAPI;
     Untapped *untapped;
     EventPlayerCourse eventPlayerCourse;
-    QTimer *hideTrackerTimer, *checkConnection;
+    QTimer *checkConnection, *hideTrackerTimer, *waitPosMatchRankInfoTimer;
     bool isOnDraftScreen;
     bool isAlreadyRunning();
     bool isOnline();
@@ -58,6 +58,7 @@ private:
     void setupLogParserConnections();
     void setupMtgaMatchConnections();
     void checkForAutoLogin();
+    void uploadMatch();
 
 public:
     LotusTracker(int& argc, char **argv);
@@ -94,7 +95,7 @@ private slots:
     void onGameFocusChanged(bool hasFocus);
     void onGameStopped();
     void onGameCompleted(QMap<int, int> teamIdWins);
-    void onMatchEnds(int winningTeamId, QStack<QString> matchLogMsgs);
+    void onMatchEnds(int winningTeamId);
     void onEventFinish(QString eventId, QString deckId, QString deckColors,
                        int maxWins, int wins, int losses);
     void onDeckOverlayDraftEnabledChange(bool enabled);
