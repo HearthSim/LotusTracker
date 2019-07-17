@@ -493,6 +493,18 @@ void LotusTracker::onGameStart(GameInfo gameInfo, QList<MatchZone> zones, int se
     if (APP_SETTINGS->isFirstMatch()) {
         showMessage(tr("You can hide/show the overlay with a mouse right click on it."));
     }
+    influx_metric(influxdb_cpp::builder()
+        .meas("lt_game_start")
+        .tag("game_number", QString("%1").arg(gameInfo.number).toStdString())
+        .tag("super_format", gameInfo.superFormat.toStdString())
+        .tag("match_win_condition", gameInfo.winCondition.toStdString())
+        .tag("game_variant", gameInfo.variant.toStdString())
+        .tag("game_type", gameInfo.type.toStdString())
+        .tag("event_name", mtgaMatch->getMatchDetails().eventId.toStdString())
+        .field("match_id", mtgaMatch->getMatchDetails().matchId.toStdString())
+        .field("count", 1)
+    );
+
 }
 
 void LotusTracker::onGameStarted()
