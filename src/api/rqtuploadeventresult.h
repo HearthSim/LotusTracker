@@ -3,7 +3,7 @@
 
 #include "requestdata.h"
 #include "../entity/deck.h"
-#include "../entity/matchinfo.h"
+#include "../entity/matchdetails.h"
 #include "../macros.h"
 
 class RqtUploadEventResult: public RequestData

@@ -1,7 +1,7 @@
-#include "matchinfo.h"
+#include "matchdetails.h"
 #include "../macros.h"
 
-MatchInfo::MatchInfo(QString matchId, QString eventId, RankInfo opponentRankInfo):
+MatchDetails::MatchDetails(QString matchId, QString eventId, RankInfo opponentRankInfo):
     matchId(matchId), eventId(eventId), player(MatchPlayer()), playerCurrentRankInfo(RankInfo()),
     opponent(MatchPlayer()), opponentRankInfo(opponentRankInfo), resultSpec(ResultSpec()),
     playerMatchWins(false), playerGameWins(0), playerGameLoses(0)
@@ -9,25 +9,25 @@ MatchInfo::MatchInfo(QString matchId, QString eventId, RankInfo opponentRankInfo
     games.clear();
 }
 
-void MatchInfo::createNewGame(GameDetails details)
+void MatchDetails::createNewGame(GameInfo gameInfo)
 {
     if (games.size() == 0 || currentGame().isCompleted) {
-        games << GameInfo(details);
+        games << GameDetails(gameInfo);
     }
 }
 
-GameInfo& MatchInfo::currentGame()
+GameDetails& MatchDetails::currentGame()
 {
     if (games.size() == 0) {
         LOGW("Invalid game state");
-        games << GameInfo(GameDetails());
+        games << GameDetails(GameInfo());
     }
     return games.last();
 }
 
-QMap<Card*, int> MatchInfo::getOpponentMatchesCards() {
+QMap<Card*, int> MatchDetails::getOpponentMatchesCards() {
     QMap<Card*, int> opponentMatchCards;
-    for (GameInfo gameInfo : games) {
+    for (GameDetails gameInfo : games) {
         QMap<Card*, int> gameOpponentCards = gameInfo.opponentRevealedDeck.currentCards();
         for (Card* card : gameOpponentCards.keys()){
             if (opponentMatchCards.keys().contains(card)) {
@@ -39,13 +39,13 @@ QMap<Card*, int> MatchInfo::getOpponentMatchesCards() {
     }
     return opponentMatchCards;
 }
-QString MatchInfo::getOpponentDeckArch()
+QString MatchDetails::getOpponentDeckArch()
 {
     QMap<Card*, int> cards = getOpponentMatchesCards();
     return LOTUS_TRACKER->mtgDecksArch->findDeckArchitecture(cards);
 }
 
-QString MatchInfo::getOpponentDeckColorIdentity()
+QString MatchDetails::getOpponentDeckColorIdentity()
 {
     QMap<Card*, int> cards = getOpponentMatchesCards();
     return Deck::calcColorIdentity(cards, true);

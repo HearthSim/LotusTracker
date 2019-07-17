@@ -10,12 +10,12 @@ MtgaMatch::MtgaMatch(QObject *parent, MtgCards *mtgCards)
 
 QString MtgaMatch::getPlayerName()
 {
-    return matchInfo.player.name();
+    return matchDetails.player.name();
 }
 
-MatchInfo MtgaMatch::getInfo()
+MatchDetails MtgaMatch::getInfo()
 {
-    return matchInfo;
+    return matchDetails;
 }
 
 QPair<QString, int> MtgaMatch::getPlayerRankInfo()
@@ -30,7 +30,7 @@ void MtgaMatch::onStartNewMatch(QString matchId, QString eventId,
         onEndCurrentMatch(ResultSpec());
     }
     this->opponentName = opponentName;
-    matchInfo = MatchInfo(matchId, eventId, opponentInfo);
+    matchDetails = MatchDetails(matchId, eventId, opponentInfo);
     //don't clear playerRankInfo because it is set before startNewMatch
     gameZones.clear();
     stackOwnerTrack.clear();
@@ -48,43 +48,43 @@ void MtgaMatch::onMatchInfoSeats(QList<MatchPlayer> players)
     }
     for (MatchPlayer matchPlayer : players) {
         if (matchPlayer.name() == opponentName) {
-            matchInfo.opponent = matchPlayer;
+            matchDetails.opponent = matchPlayer;
         } else {
-            matchInfo.player = matchPlayer;
+            matchDetails.player = matchPlayer;
         }
     }
-    emit sgnPlayerUserName(matchInfo.player.name());
+    emit sgnPlayerUserName(matchDetails.player.name());
 }
 
-void MtgaMatch::onGameStart(GameDetails details, QList<MatchZone> zones, int seatId)
+void MtgaMatch::onGameStart(GameInfo gameInfo, QList<MatchZone> zones, int seatId)
 {
     if (!isRunning) {
         return;
     }
-    matchInfo.createNewGame(details);
+    matchDetails.createNewGame(gameInfo);
     for (MatchZone zone : zones) {
         gameZones[zone.id()] = zone;
     }
-    bool playerGoFirst = matchInfo.player.seatId() == seatId;
-    matchInfo.currentGame().playerGoFirst = playerGoFirst;
+    bool playerGoFirst = matchDetails.player.seatId() == seatId;
+    matchDetails.currentGame().playerGoFirst = playerGoFirst;
     LOGI(QString("%1 go first").arg(playerGoFirst ? "Player" : "Opponent"))
 }
 
 void MtgaMatch::onGameCompleted(Deck playerDeck, Deck opponentRevealedDeck,
                                 ResultSpec resultSpec)
 {
-    matchInfo.currentGame().playerDeck = playerDeck;
-    matchInfo.currentGame().opponentRevealedDeck = opponentRevealedDeck;
+    matchDetails.currentGame().playerDeck = playerDeck;
+    matchDetails.currentGame().opponentRevealedDeck = opponentRevealedDeck;
     int playerCurrentWins = 0;
-    for(int i=0; i<matchInfo.games.size()-1; i++) {
-        GameInfo game = matchInfo.games[i];
+    for(int i=0; i<matchDetails.games.size()-1; i++) {
+        GameDetails game = matchDetails.games[i];
         if (game.playerWins) {
             playerCurrentWins += 1;
         }
     }
-    matchInfo.currentGame().resultSpec = resultSpec;
-    bool playerGameWins = matchInfo.player.teamId() == resultSpec.winningTeamId;
-    matchInfo.currentGame().finish(playerGameWins);
+    matchDetails.currentGame().resultSpec = resultSpec;
+    bool playerGameWins = matchDetails.player.teamId() == resultSpec.winningTeamId;
+    matchDetails.currentGame().finish(playerGameWins);
 }
 
 void MtgaMatch::onEndCurrentMatch(ResultSpec resultSpec)
@@ -93,10 +93,10 @@ void MtgaMatch::onEndCurrentMatch(ResultSpec resultSpec)
         return;
     }
     isRunning = false;
-    matchInfo.resultSpec = resultSpec;
-    matchInfo.playerMatchWins = matchInfo.player.teamId() == resultSpec.winningTeamId;
-    matchInfo.summarizedMessage = summarizedMessage;
-    LOGI(QString("%1 wins").arg(matchInfo.playerMatchWins ? "Player" : "Opponent"))
+    matchDetails.resultSpec = resultSpec;
+    matchDetails.playerMatchWins = matchDetails.player.teamId() == resultSpec.winningTeamId;
+    matchDetails.summarizedMessage = summarizedMessage;
+    LOGI(QString("%1 wins").arg(matchDetails.playerMatchWins ? "Player" : "Opponent"))
 }
 
 void MtgaMatch::onPlayerRankInfo(QPair<QString, int> playerRankInfo)
@@ -107,16 +107,16 @@ void MtgaMatch::onPlayerRankInfo(QPair<QString, int> playerRankInfo)
 void MtgaMatch::onPlayerRankUpdated(RankInfo playerCurrentRankInfo,
                                     RankInfo playerOldRankInfo, int seasonOrdinal)
 {
-    matchInfo.playerCurrentRankInfo = playerCurrentRankInfo;
-    matchInfo.playerOldRankInfo = playerOldRankInfo;
-    matchInfo.seasonOrdinal = seasonOrdinal;
+    matchDetails.playerCurrentRankInfo = playerCurrentRankInfo;
+    matchDetails.playerOldRankInfo = playerOldRankInfo;
+    matchDetails.seasonOrdinal = seasonOrdinal;
 }
 
 void MtgaMatch::onPlayerMythicRatingUpdated(double oldMythicPercentile, double newMythicPercentile,
                                             int newMythicLeaderboardPlacement)
 {
-    matchInfo.playerCurrentRankInfo.setMythicInfo(newMythicPercentile, newMythicLeaderboardPlacement);
-    matchInfo.playerOldRankInfo.setMythicInfo(oldMythicPercentile);
+    matchDetails.playerCurrentRankInfo.setMythicInfo(newMythicPercentile, newMythicLeaderboardPlacement);
+    matchDetails.playerOldRankInfo.setMythicInfo(oldMythicPercentile);
 }
 
 void MtgaMatch::onPlayerTakesMulligan(QMap<int, int> newHandDrawed)
@@ -124,17 +124,17 @@ void MtgaMatch::onPlayerTakesMulligan(QMap<int, int> newHandDrawed)
     if (!isRunning) {
         return;
     }
-    matchInfo.currentGame().playerMulligan = true;
+    matchDetails.currentGame().playerMulligan = true;
     QMap<int, int> handObjectIds;
     for (MatchZone zone : gameZones.values()) {
-        if (zone.type() == ZoneType_HAND && zone.ownerSeatId() == matchInfo.player.seatId()) {
+        if (zone.type() == ZoneType_HAND && zone.ownerSeatId() == matchDetails.player.seatId()) {
             handObjectIds = zone.objectIds;
             break;
         }
     }
     for (int zoneId : gameZones.keys()) {
         MatchZone zone = gameZones[zoneId];
-        if (zone.type() == ZoneType_LIBRARY && zone.ownerSeatId() == matchInfo.player.seatId()) {
+        if (zone.type() == ZoneType_LIBRARY && zone.ownerSeatId() == matchDetails.player.seatId()) {
             for (int objectId : handObjectIds.keys()) {
                 zone.objectIds[objectId] = 0;
                 Card* card = mtgCards->findCard(handObjectIds[objectId]);
@@ -157,7 +157,7 @@ void MtgaMatch::onOpponentTakesMulligan(int opponentSeatId)
     if (!isRunning) {
         return;
     }
-    matchInfo.currentGame().opponentMulligan = true;
+    matchDetails.currentGame().opponentMulligan = true;
 }
 
 void MtgaMatch::onMatchStateDiff(MatchStateDiff matchStateDiff)
@@ -167,7 +167,7 @@ void MtgaMatch::onMatchStateDiff(MatchStateDiff matchStateDiff)
     }
     // Initial player hand draws
     for (MatchZone zone : gameZones) {
-        if (zone.type() == ZoneType_HAND && zone.ownerSeatId() == matchInfo.player.seatId()) {
+        if (zone.type() == ZoneType_HAND && zone.ownerSeatId() == matchDetails.player.seatId()) {
             if (zone.objectIds.size() == 0) {
                 notifyHandCardsDraw(matchStateDiff);
             }
@@ -197,7 +197,7 @@ void MtgaMatch::onMatchStateDiff(MatchStateDiff matchStateDiff)
 void MtgaMatch::notifyHandCardsDraw(MatchStateDiff matchStateDiff)
 {
     for (MatchZone zone : matchStateDiff.zones()) {
-        if (zone.type() == ZoneType_HAND && zone.ownerSeatId() == matchInfo.player.seatId()) {
+        if (zone.type() == ZoneType_HAND && zone.ownerSeatId() == matchDetails.player.seatId()) {
             for(int mtgaCardId : zone.objectIds.values()) {
                 Card* card = mtgCards->findCard(mtgaCardId);
                 LOGI(QString("Player draw %1").arg(card->name));
@@ -381,10 +381,10 @@ QString MtgaMatch::getOwnerIdentifier(int objectId, MatchZone zoneSrc)
 {
     int ownerId = zoneSrc.type() == ZoneType_STACK ? stackOwnerTrack[objectId]
               : zoneSrc.ownerSeatId();
-    if (ownerId == matchInfo.player.seatId()) {
+    if (ownerId == matchDetails.player.seatId()) {
         return "Player";
     }
-    if (ownerId == matchInfo.opponent.seatId()) {
+    if (ownerId == matchDetails.opponent.seatId()) {
         return "Opponent";
     }
     return "Unknown";

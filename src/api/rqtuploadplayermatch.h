@@ -3,7 +3,7 @@
 
 #include "requestdata.h"
 #include "../entity/deck.h"
-#include "../entity/matchinfo.h"
+#include "../entity/matchdetails.h"
 
 #include <QDate>
 
@@ -16,16 +16,16 @@ public:
         _path = "";
     }
 
-    RqtRegisterPlayerMatch(MatchInfo matchInfo, Deck playerDeck) {
+    RqtRegisterPlayerMatch(MatchDetails matchDetails, Deck playerDeck) {
         QJsonObject jsonObj{
             {"deck", playerDeck.id},
-            {"event", matchInfo.eventId},
-            {"opponentDeckArch", matchInfo.getOpponentDeckArch()},
-            {"opponentDeckColors", matchInfo.getOpponentDeckColorIdentity()},
-            {"opponentName", matchInfo.opponent.name()},
+            {"event", matchDetails.eventId},
+            {"opponentDeckArch", matchDetails.getOpponentDeckArch()},
+            {"opponentDeckColors", matchDetails.getOpponentDeckColorIdentity()},
+            {"opponentName", matchDetails.opponent.name()},
             {"playerDeckArch", playerDeck.arch()},
             {"playerDeckColors", playerDeck.colorIdentity()},
-            {"wins", matchInfo.playerMatchWins}
+            {"wins", matchDetails.playerMatchWins}
         };
 
         _body = QJsonDocument(jsonObj);

@@ -3,7 +3,7 @@
 
 #include "api/untappedapi.h"
 #include "entity/eventplayercourse.h"
-#include "entity/matchinfo.h"
+#include "entity/matchdetails.h"
 #include "untappedmatchdescriptor.h"
 
 #include <QFile>
@@ -19,7 +19,7 @@ private:
     EventPlayerCourse eventPlayerCourse;
     QString tempDir;
     QJsonObject matchDescriptor;
-    MatchInfo matchInfo;
+    MatchDetails matchDetails;
     UntappedMatchDescriptor untappedMatchDescriptor;
     void setupUntappedAPIConnections();
     void prepareMatchLogFile(QStack<QString> matchLogMsgs);
@@ -30,7 +30,7 @@ public:
     explicit Untapped(QObject *parent = nullptr);
     void checkForUntappedUploadToken();
     void setEventPlayerCourse(EventPlayerCourse eventPlayerCourse);
-    void uploadMatchToUntapped(MatchInfo matchInfo, QStack<QString> matchLogMsgs);
+    void uploadMatchToUntapped(MatchDetails matchDetails, QStack<QString> matchLogMsgs);
 
 signals:
 

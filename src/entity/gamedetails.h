@@ -3,12 +3,12 @@
 
 #include <QString>
 
-class GameDetails
+class GameInfo
 {
 public:
     QString winCondition;
 
-    GameDetails(QString winCondition = ""): winCondition(winCondition) {}
+    GameInfo(QString winCondition = ""): winCondition(winCondition) {}
 };
 
 #endif // GAMEDETAILS_H

@@ -473,12 +473,12 @@ void LotusTracker::onMatchStart(QString matchId, QString eventId,
     gaTracker->sendEvent("Match", "starts", eventId);
 }
 
-void LotusTracker::onGameStart(GameDetails details, QList<MatchZone> zones, int seatId)
+void LotusTracker::onGameStart(GameInfo gameInfo, QList<MatchZone> zones, int seatId)
 {
     if (!mtgaMatch->isRunning) {
         return;
     }
-    mtgaMatch->onGameStart(details, zones, seatId);
+    mtgaMatch->onGameStart(gameInfo, zones, seatId);
     LOGD(QString("mtgArena->isFocused: %1").arg(mtgArena->isFocused));
     if (APP_SETTINGS->isDeckOverlayPlayerEnabled() && mtgArena->isFocused) {
         deckOverlayPlayer->show();

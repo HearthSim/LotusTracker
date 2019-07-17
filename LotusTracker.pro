@@ -52,9 +52,9 @@ HEADERS += \
     src/entity/eventplayercourse.h \
     src/entity/gamedetails.h \
     src/entity/gameinfo.h \
+    src/entity/matchdetails.h \
     src/entity/resultspec.h \
     src/entity/user.h \
-    src/entity/matchinfo.h \
     src/entity/matchplayer.h \
     src/entity/matchstatediff.h \
     src/entity/matchzone.h \

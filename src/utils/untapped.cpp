@@ -44,9 +44,9 @@ void Untapped::setEventPlayerCourse(EventPlayerCourse eventPlayerCourse)
     this->eventPlayerCourse = eventPlayerCourse;
 }
 
-void Untapped::uploadMatchToUntapped(MatchInfo matchInfo, QStack<QString> matchLogMsgs)
+void Untapped::uploadMatchToUntapped(MatchDetails matchDetails, QStack<QString> matchLogMsgs)
 {
-    this->matchInfo = matchInfo;
+    this->matchDetails = matchDetails;
     prepareMatchLogFile(matchLogMsgs);
     untappedAPI->requestS3PutUrl();
 }
@@ -69,7 +69,7 @@ void Untapped::prepareMatchLogFile(QStack<QString> matchLogMsgs)
 
 void Untapped::prepareMatchDescriptor(QString timestamp)
 {
-    QJsonDocument descriptor = untappedMatchDescriptor.prepareNewDescriptor(matchInfo, timestamp,
+    QJsonDocument descriptor = untappedMatchDescriptor.prepareNewDescriptor(matchDetails, timestamp,
                                                                             eventPlayerCourse);
     QFile descriptorFile(tempDir + QDir::separator() + "descriptor.json");
     if (descriptorFile.exists()) {
@@ -83,11 +83,11 @@ void Untapped::prepareMatchDescriptor(QString timestamp)
 
 void Untapped::onS3PutInfo(QString putUrl, QString timestamp)
 {
-    if (matchInfo.games.isEmpty()) {
+    if (matchDetails.games.isEmpty()) {
         influx_metric(influxdb_cpp::builder()
             .meas("lt_match_without_games")
-            .tag("matchId", matchInfo.matchId.toStdString())
-            .tag("event", matchInfo.eventId.toStdString())
+            .tag("matchId", matchDetails.matchId.toStdString())
+            .tag("event", matchDetails.eventId.toStdString())
             .field("count", 1)
         );
         return;

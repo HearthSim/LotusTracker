@@ -423,11 +423,11 @@ Deck LotusTrackerAPI::jsonToDeck(QJsonObject deckJson)
     return Deck(id, name, cards, sideboard);
 }
 
-void LotusTrackerAPI::uploadMatch(MatchInfo matchInfo, Deck playerDeck,
+void LotusTrackerAPI::uploadMatch(MatchDetails matchDetails, Deck playerDeck,
                                    QString playerRankClass)
 {
-    rqtRegisterPlayerMatch = RqtRegisterPlayerMatch(matchInfo, playerDeck);
-    RqtUploadMatch rqtUploadMatch(matchInfo, playerDeck, playerRankClass);
+    rqtRegisterPlayerMatch = RqtRegisterPlayerMatch(matchDetails, playerDeck);
+    RqtUploadMatch rqtUploadMatch(matchDetails, playerDeck, playerRankClass);
     QNetworkRequest request = prepareRequest(rqtUploadMatch, false);
     QBuffer* buffer = prepareBody(rqtUploadMatch);
     QNetworkReply *reply = networkManager.post(request, buffer);

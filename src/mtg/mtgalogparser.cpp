@@ -496,14 +496,14 @@ void MtgaLogParser::parseGreToClientMessages(QString json)
 
 void MtgaLogParser::parseGameStateFull(QJsonObject jsonMessage)
 {
-    QJsonObject gameInfo = jsonMessage["gameInfo"].toObject();
-    QString winCondition = gameInfo["matchWinCondition"].toString();
-    GameDetails details(winCondition);
+    QJsonObject gameInfoJson = jsonMessage["gameInfo"].toObject();
+    QString winCondition = gameInfoJson["matchWinCondition"].toString();
+    GameInfo gameInfo(winCondition);
     QList<MatchZone> zones = getMatchZones(jsonMessage);
     int seatId = jsonMessage["turnInfo"].toObject()["decisionPlayer"].toInt();
     LOGD(QString("GameStart WinCondition: %1, Zones: %2, DecisionPlayer: %3")
          .arg(winCondition).arg(zones.size()).arg(seatId));
-    emit sgnGameStart(details, zones, seatId);
+    emit sgnGameStart(gameInfo, zones, seatId);
 }
 
 void MtgaLogParser::parseGameStateDiff(int playerSeatId, int gameStateId, QJsonObject jsonMessage)

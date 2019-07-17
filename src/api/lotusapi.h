@@ -63,7 +63,7 @@ public:
     void updatePlayerDeck(Deck deck);
     void publishOrUpdatePlayerDeck(QString playerName, Deck deck);
     void getMatchInfo(QString eventId, QString deckId);
-    void uploadMatch(MatchInfo matchInfo, Deck playerDeck,
+    void uploadMatch(MatchDetails matchDetails, Deck playerDeck,
                      QString playerRankClass);
     void uploadEventResult(QString eventId, QString deckId, QString deckColors,
                            int maxWins, int wins, int losses);
