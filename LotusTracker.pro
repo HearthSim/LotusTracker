@@ -97,12 +97,12 @@ HEADERS += \
 SOURCES += \
     src/api/lotusapi.cpp \
     src/api/untappedapi.cpp \
+    src/entity/matchdetails.cpp \
     src/main.cpp \
     src/ganalytics.cpp \
     src/lotustracker.cpp \
     src/transformations.cpp \
     src/entity/deck.cpp \
-    src/entity/matchinfo.cpp \
     src/mtg/mtgarena.cpp \
     src/mtg/mtgalogparser.cpp \
     src/mtg/mtgalogwatcher.cpp \

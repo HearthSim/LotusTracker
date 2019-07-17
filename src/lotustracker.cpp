@@ -301,6 +301,10 @@ void LotusTracker::setupLogParserConnections()
             lotusAPI, &LotusTrackerAPI::createPlayerDeck);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerDeckUpdated,
             lotusAPI, &LotusTrackerAPI::updatePlayerDeck);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnActivePlayer,
+            mtgaMatch, &MtgaMatch::onActivePlayer);
+    connect(mtgArena->getLogParser(), &MtgaLogParser::sgnDecisionPlayer,
+            mtgaMatch, &MtgaMatch::onDecisionPlayer);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnSummarizedMessage,
             mtgaMatch, &MtgaMatch::onSummarizedMessage);
     connect(mtgArena->getLogParser(), &MtgaLogParser::sgnPlayerRankInfo,
@@ -551,12 +555,13 @@ void LotusTracker::onMatchEnds(ResultSpec resultSpec)
 
 void LotusTracker::uploadMatch()
 {
-    if (mtgaMatch->getInfo().eventId != "NPE"){
-        lotusAPI->uploadMatch(mtgaMatch->getInfo(),
+    if (mtgaMatch->getMatchDetails().eventId != "NPE"){
+        lotusAPI->uploadMatch(mtgaMatch->getMatchDetails(),
                               deckOverlayPlayer->getDeck(),
                               mtgaMatch->getPlayerRankInfo().first);
     }
-    untapped->uploadMatchToUntapped(mtgaMatch->getInfo(), mtgArena->getLogParser()->getLastMatchLog());
+    untapped->uploadMatchToUntapped(mtgaMatch->getMatchDetails(),
+                                    mtgArena->getLogParser()->getLastMatchLog());
 }
 
 void LotusTracker::onEventFinish(QString eventId, QString deckId, QString deckColors,

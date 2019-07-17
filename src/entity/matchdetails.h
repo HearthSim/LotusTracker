@@ -13,6 +13,9 @@
 
 class MatchDetails
 {
+private:
+    int nextGameActivePlayer, nextGameDecisionPlayer;
+
 public:
     QString matchId;
     QString eventId;
@@ -33,6 +36,10 @@ public:
     QMap<Card*, int> getOpponentMatchesCards();
     QString getOpponentDeckArch();
     QString getOpponentDeckColorIdentity();
+
+public slots:
+    void onActivePlayer(int player);
+    void onDecisionPlayer(int player);
 
 };
 

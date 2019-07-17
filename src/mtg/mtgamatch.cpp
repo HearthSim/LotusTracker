@@ -13,7 +13,7 @@ QString MtgaMatch::getPlayerName()
     return matchDetails.player.name();
 }
 
-MatchDetails MtgaMatch::getInfo()
+MatchDetails MtgaMatch::getMatchDetails()
 {
     return matchDetails;
 }
@@ -82,6 +82,7 @@ void MtgaMatch::onGameCompleted(Deck playerDeck, Deck opponentRevealedDeck,
             playerCurrentWins += 1;
         }
     }
+    matchDetails.currentGame().turns = currentTurn;
     matchDetails.currentGame().resultSpec = resultSpec;
     bool playerGameWins = matchDetails.player.teamId() == resultSpec.winningTeamId;
     matchDetails.currentGame().finish(playerGameWins);
@@ -334,6 +335,16 @@ void MtgaMatch::onNewTurnStarted(int turnNumber)
 void MtgaMatch::onSummarizedMessage()
 {
     summarizedMessage++;
+}
+
+void MtgaMatch::onActivePlayer(int player)
+{
+    matchDetails.onActivePlayer(player);
+}
+
+void MtgaMatch::onDecisionPlayer(int player)
+{
+    matchDetails.onDecisionPlayer(player);
 }
 
 void MtgaMatch::updateZones(MatchStateDiff matchStateDiff)

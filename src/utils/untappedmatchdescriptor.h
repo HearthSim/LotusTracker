@@ -23,8 +23,9 @@ private:
     QJsonObject deckToJsonObject(Deck deck);
     QJsonObject resultSpecToJsonObject(ResultSpec resultSpec);
     QJsonValue eventCourseIntToJsonValue(QString eventId, int value);
-    QJsonValue intToJsonValue(int value);
-    QJsonValue doubleToJsonValue(double value);
+    QJsonValue stringOrNullJsonValue(QString value);
+    QJsonValue intOrNullJsonValue(int value);
+    QJsonValue doubleOrNullToJsonValue(double value);
 
 public:
     explicit UntappedMatchDescriptor(QObject *parent = nullptr);

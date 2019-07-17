@@ -86,7 +86,7 @@ void Deck::updateCards(QMap<Card*, int> cards, QMap<Card*, int> sideboard)
 {
     cardsWithSideboardInitial = cards;
     cardsSideboard = sideboard;
-    reset();
+    reset(true);
 }
 
 void Deck::updateTitle(QString title)
@@ -99,10 +99,10 @@ void Deck::clear()
     cardsCurrent.clear();
 }
 
-void Deck::reset()
+void Deck::reset(bool keepSideboardChanges)
 {
     cardsCurrent.clear();
-    QMap<Card*, int> cards = this->cards();
+    QMap<Card*, int> cards = this->cards(keepSideboardChanges);
     for (Card *card : cards.keys()) {
         cardsCurrent[card] = cards[card];
     }
