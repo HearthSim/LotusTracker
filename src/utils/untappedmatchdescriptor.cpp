@@ -38,7 +38,13 @@ QJsonArray UntappedMatchDescriptor::getMatchGamesDescriptor()
         games.append(QJsonObject({
             { "deck", deckToJsonObject(game.playerDeck) },
             { "duration", game.duration },
+            { "mulliganType", game.gameInfo.mulliganType },
+            { "number", game.gameInfo.number },
+            { "superFormat", game.gameInfo.superFormat },
+            { "type", game.gameInfo.type },
+            { "variant", game.gameInfo.variant },
             { "matchWinCondition", game.gameInfo.winCondition },
+            { "playerRevealedCards", getPlayerRevealedCards(game.playerDeck) },
             { "opponentRevealedCards", cardsToJsonArray(game.opponentRevealedDeck.currentCards()) },
             { "result", resultSpecToJsonObject(game.resultSpec) }
         }));
@@ -100,7 +106,16 @@ QJsonObject UntappedMatchDescriptor::getMatchEventDescriptor(EventPlayerCourse e
        { "currentLosses", eventCourseIntToJsonValue(eventPlayerCourse.eventId, eventPlayerCourse.currentLosses) },
        { "processedMatchIds", eventPlayerCourse.eventId == matchDetails.eventId
          ? eventPlayerCourse.processedMatchIds : QJsonArray() },
-     });
+                       });
+}
+
+QJsonArray UntappedMatchDescriptor::getPlayerRevealedCards(Deck deck)
+{
+    QMap<Card*, int> revealedCards = deck.cards();
+    for (Card* card : deck.currentCards().keys()) {
+        revealedCards[card] -= deck.currentCards()[card];
+    }
+    return cardsToJsonArray(revealedCards);
 }
 
 QJsonArray UntappedMatchDescriptor::cardsToJsonArray(QMap<Card *, int> cards)

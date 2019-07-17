@@ -18,6 +18,7 @@ private:
     QJsonObject getMatchPlayerDescriptor();
     QJsonArray getMatchOpponentsDescriptor();
     QJsonObject getMatchEventDescriptor(EventPlayerCourse eventPlayerCourse);
+    QJsonArray getPlayerRevealedCards(Deck deck);
     QJsonArray cardsToJsonArray(QMap<Card*, int> cards);
     QJsonObject deckToJsonObject(Deck deck);
     QJsonObject resultSpecToJsonObject(ResultSpec resultSpec);
