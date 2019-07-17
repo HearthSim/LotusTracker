@@ -497,8 +497,13 @@ void MtgaLogParser::parseGreToClientMessages(QString json)
 void MtgaLogParser::parseGameStateFull(QJsonObject jsonMessage)
 {
     QJsonObject gameInfoJson = jsonMessage["gameInfo"].toObject();
+    QString mulliganType = gameInfoJson["mulliganType"].toString();
+    int number = gameInfoJson["gameNumber"].toInt();
+    QString superFormat = gameInfoJson["superFormat"].toString();
+    QString type = gameInfoJson["type"].toString();
+    QString variant = gameInfoJson["variant"].toString();
     QString winCondition = gameInfoJson["matchWinCondition"].toString();
-    GameInfo gameInfo(winCondition);
+    GameInfo gameInfo(mulliganType, number, superFormat, type, variant, winCondition);
     QList<MatchZone> zones = getMatchZones(jsonMessage);
     int seatId = jsonMessage["turnInfo"].toObject()["decisionPlayer"].toInt();
     LOGD(QString("GameStart WinCondition: %1, Zones: %2, DecisionPlayer: %3")
