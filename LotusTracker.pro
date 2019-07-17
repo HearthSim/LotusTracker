@@ -83,6 +83,7 @@ HEADERS += \
     src/utils/lotusexception.h \
     src/utils/metrics.h \
     src/utils/untapped.h \
+    src/utils/untappedmatchdescriptor.h \
     src/updater/sparkleupdater.h \
     src/credentials.h \
     src/ganalytics.h \
@@ -121,7 +122,8 @@ SOURCES += \
     src/utils/appsettings.cpp \
     src/utils/logger.cpp \
     src/utils/metrics.cpp \
-    src/utils/untapped.cpp
+    src/utils/untapped.cpp \
+    src/utils/untappedmatchdescriptor.cpp
 
 FORMS += \
     src/ui/decktrackerbase.ui \
