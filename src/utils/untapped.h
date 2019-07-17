@@ -24,7 +24,7 @@ private:
     void setupUntappedAPIConnections();
     void prepareMatchLogFile(QStack<QString> matchLogMsgs);
     void prepareMatchDescriptor(QString timestamp);
-    void preparePutPayloadFile();
+    QByteArray getUploadData();
 
 public:
     explicit Untapped(QObject *parent = nullptr);
