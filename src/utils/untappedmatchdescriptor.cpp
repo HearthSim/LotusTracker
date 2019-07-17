@@ -52,7 +52,9 @@ QJsonArray UntappedMatchDescriptor::getMatchGamesDescriptor()
             { "matchWinCondition", stringOrNullJsonValue(game.gameInfo.winCondition) },
             { "mulliganType", stringOrNullJsonValue(game.gameInfo.mulliganType) },
             { "playerRevealedCards", getPlayerRevealedCards(game.playerDeck) },
-            { "opponentRevealedCards", cardsToJsonArray(game.opponentRevealedDeck.currentCards()) },
+            { "opponentRevealedCards", QJsonArray({
+                  cardsToJsonArray(game.opponentRevealedDeck.currentCards())
+            })},
             { "result", resultSpecToJsonObject(game.resultSpec) }
         }));
     }
