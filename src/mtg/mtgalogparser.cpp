@@ -25,7 +25,45 @@ MtgaLogParser::~MtgaLogParser()
 
 }
 
-Deck MtgaLogParser::jsonObject2Deck(QJsonObject jsonDeck)
+Deck MtgaLogParser::jsonObject2DeckV1(QJsonObject jsonDeck)
+{
+    QString id = jsonDeck["id"].toString();
+    QString name = jsonDeck["name"].toString();
+    QJsonArray jsonCards = jsonDeck["mainDeck"].toArray();
+    QMap<Card*, int> cards;
+    for(QJsonValueRef jsonCardRef : jsonCards){
+        QJsonObject value = jsonCardRef.toObject();
+        int cardId = value["id"].toInt();
+        Card* card = mtgCards->findCard(cardId);
+        int qtd = value["quantity"].toInt();
+        if (card && qtd > 0) {
+            cards[card] = qtd;
+        }
+    }
+    QJsonArray jsonSideboard = jsonDeck["sideboard"].toArray();
+    QMap<Card*, int> sideboard;
+    for(QJsonValueRef jsonCardRef : jsonSideboard){
+        QJsonObject value = jsonCardRef.toObject();
+        int cardId = value["id"].toInt();
+        Card* card = mtgCards->findCard(cardId);
+        int qtd = value["quantity"].toInt();
+        if (card && qtd > 0) {
+            sideboard[card] = qtd;
+        }
+    }
+    int deckTileId = jsonDeck["deckTileId"].toInt();
+    QList<QPair<int, QString>> cardSkins;
+    QJsonArray jsonCardSkins = jsonDeck["cardSkins"].toArray();
+    for(QJsonValueRef jsonCardSkinRef : jsonCardSkins){
+        QJsonObject cardSkin = jsonCardSkinRef.toObject();
+        int grpId = cardSkin["grpId"].toInt();
+        QString ccv = cardSkin["ccv"].toString();
+        cardSkins << qMakePair(grpId, ccv);
+    }
+    return Deck(id, name, cards, sideboard, deckTileId, cardSkins);
+}
+
+Deck MtgaLogParser::jsonObject2DeckV3(QJsonObject jsonDeck)
 {
     QString id = jsonDeck["id"].toString();
     QString name = jsonDeck["name"].toString();
@@ -157,8 +195,8 @@ void MtgaLogParser::parseOutcomingMsg(QPair<QString, QString> msg)
         parseAuthenticate(msg.second);
     } else if (msg.first == "ClientToMatchServiceMessageType_ClientToGREMessage") {
         parseClientToGreMessages(msg.second);
-    } else if (msg.first == "DirectGame.Challenge") {
-        parseDirectGameChallenge(msg.second);
+    } else if (msg.first == "DirectGame.Challenge" || msg.first == "Event.AIPractice") {
+        parseAIPracticeOrDirectGameDeck(msg.second);
     } else if (msg.first == "Log.Info") {
         parseLogInfo(msg.second);
     } else if (msg.first == "Draft.MakePick") {
@@ -271,7 +309,7 @@ void MtgaLogParser::parsePlayerDecks(QString json)
     QList<Deck> playerDecks;
     for (QJsonValueRef jsonDeckRef: jsonPlayerDecks) {
         QJsonObject jsonDeck = jsonDeckRef.toObject();
-        playerDecks << jsonObject2Deck(jsonDeck);
+        playerDecks << jsonObject2DeckV3(jsonDeck);
     }
     LOGD(QString("PlayerDecks: %1 decks").arg(playerDecks.size()));
     emit sgnPlayerDecks(playerDecks);
@@ -287,7 +325,7 @@ void MtgaLogParser::parseEventPlayerCourse(QString json)
     if (!jsonEventPlayerCourse["CourseDeck"].isNull()) {
         QString currentModule = jsonEventPlayerCourse["CurrentModule"].toString();
         QJsonObject jsonEventPlayerCourseDeck = jsonEventPlayerCourse["CourseDeck"].toObject();
-        Deck deck = jsonObject2Deck(jsonEventPlayerCourseDeck);
+        Deck deck = jsonObject2DeckV3(jsonEventPlayerCourseDeck);
         bool isFinished = currentModule == "ClaimPrize";
         LOGD(QString("EventPlayerCourse: %1 with %2. Finished: %3").arg(eventId).arg(deck.name).arg(isFinished));
         QJsonObject jsonWinLossGate = jsonEventPlayerCourse["ModuleInstanceData"].toObject()["WinLossGate"].toObject();
@@ -425,7 +463,7 @@ void MtgaLogParser::parsePlayerDeckCreate(QString json)
     if (jsonPlayerCreateDeck.empty()) {
         return;
     }
-    Deck deck = jsonObject2Deck(jsonPlayerCreateDeck);
+    Deck deck = jsonObject2DeckV3(jsonPlayerCreateDeck);
     LOGD(QString("PlayerCreateDeck: %1").arg(deck.name));
     emit sgnPlayerDeckCreated(deck);
 }
@@ -436,7 +474,7 @@ void MtgaLogParser::parsePlayerDeckUpdate(QString json)
     if (jsonPlayerUpdateDeck.empty()) {
         return;
     }
-    Deck deck = jsonObject2Deck(jsonPlayerUpdateDeck);
+    Deck deck = jsonObject2DeckV3(jsonPlayerUpdateDeck);
     LOGD(QString("PlayerUpdateDeck: %1").arg(deck.name));
     emit sgnPlayerDeckUpdated(deck);
 }
@@ -449,22 +487,27 @@ void MtgaLogParser::parsePlayerDeckSubmited(QString json)
     }
     QString eventId = jsonPlayerDeckSubmited["InternalEventName"].toString();
     QJsonObject jsonDeck = jsonPlayerDeckSubmited["CourseDeck"].toObject();
-    Deck deckSubmited = jsonObject2Deck(jsonDeck);
+    Deck deckSubmited = jsonObject2DeckV3(jsonDeck);
     LOGD(QString("Deck submited: %1").arg(deckSubmited.name));
     emit sgnPlayerDeckSubmited(eventId, deckSubmited);
 }
 
-void MtgaLogParser::parseDirectGameChallenge(QString json)
+void MtgaLogParser::parseAIPracticeOrDirectGameDeck(QString json)
 {
     QJsonObject jsonMessage = Transformations::stringToJsonObject(json);
     QJsonObject jsonParams = jsonMessage["params"].toObject();
     QString jsonDeckString = jsonParams["deck"].toString().replace("\\", "")
             .replace("\"Id\"", "\"id\"").replace("\"Quantity\"", "\"quantity\"");
-    LOGD(jsonDeckString);
-    QJsonObject jsonDeck = Transformations::stringToJsonObject(jsonDeckString);
-    Deck deckSubmited = jsonObject2Deck(jsonDeck);
+    QJsonObject jsonDeck = Transformations::stringToJsonObject(jsonDeckString);    
+    Deck deckSubmited;
+    if (jsonDeckString.contains("quantity")) {
+        deckSubmited = jsonObject2DeckV1(jsonDeck);
+    } else {
+        deckSubmited = jsonObject2DeckV3(jsonDeck);
+    }
     LOGD(QString("Deck submited: %1").arg(deckSubmited.name));
-    emit sgnPlayerDeckSubmited("DirectGame", deckSubmited);
+    QString eventName = jsonParams.contains("botDeckId") ? "AIPractice" : "DirectGame";
+    emit sgnPlayerDeckSubmited(eventName, deckSubmited);
 }
 
 void MtgaLogParser::parseGreToClientMessages(QString json)
@@ -754,7 +797,7 @@ void MtgaLogParser::parseEventFinish(QString json)
     }    
     QString eventId = jsonClainPrize["InternalEventName"].toString();
     QJsonObject jsonCourseDeck = jsonClainPrize["CourseDeck"].toObject();
-    Deck deck = jsonObject2Deck(jsonCourseDeck);
+    Deck deck = jsonObject2DeckV3(jsonCourseDeck);
     QJsonObject jsonWinLossGate = jsonClainPrize["ModuleInstanceData"].toObject()["WinLossGate"].toObject();
     int maxWins = jsonWinLossGate["MaxWins"].toInt();
     int wins = jsonWinLossGate["CurrentWins"].toInt();
