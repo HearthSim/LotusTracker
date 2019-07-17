@@ -37,7 +37,7 @@ public:
         QJsonObject jsonObj{
             {"event", matchInfo.eventId},
             {"games", jsonGamesMapValue },
-            {"mode", MatchInfo::MatchModeToString(matchInfo.mode)},
+            {"mode", toGameMode(matchInfo.games[0].details.winCondition)},
             {"player1", player1Json},
             {"player2", player2Json},
             {"result", gameResult},
@@ -49,6 +49,18 @@ public:
     }
 
 private:
+    QString toGameMode(QString winCondition)
+    {
+        QString mode = "Unknown";
+        if (winCondition == "MatchWinCondition_SingleElimination"){
+            mode = "Single";
+        }
+        if (winCondition == "MatchWinCondition_Best2of3"){
+            mode = "Best of 3";
+        }
+        return mode;
+    }
+
     QJsonObject games2JsonMapValue(QList<GameInfo> games){
         QJsonObject jsonGames;
         int gameNumber = 0;

@@ -56,13 +56,12 @@ void MtgaMatch::onMatchInfoSeats(QList<MatchPlayer> players)
     emit sgnPlayerUserName(matchInfo.player.name());
 }
 
-void MtgaMatch::onGameStart(MatchMode mode, QList<MatchZone> zones, int seatId)
+void MtgaMatch::onGameStart(GameDetails details, QList<MatchZone> zones, int seatId)
 {
     if (!isRunning) {
         return;
     }
-    matchInfo.createNewGame();
-    matchInfo.mode = mode;
+    matchInfo.createNewGame(details);
     for (MatchZone zone : zones) {
         gameZones[zone.id()] = zone;
     }
