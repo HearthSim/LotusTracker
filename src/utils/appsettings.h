@@ -84,6 +84,8 @@ public:
     void clearUserSettings();
     void restoreDefaults();
     // Untapped
+    void acceptUntappedToS();
+    bool hasAcceptedUntappedToS();
     void setUntappedAnonymousUploadToken(QString uploadToken);
     QString getUntappedAnonymousUploadToken();
     void clearUntappedAnonymousUploadToken();

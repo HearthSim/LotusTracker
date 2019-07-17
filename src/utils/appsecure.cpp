@@ -17,7 +17,7 @@ void AppSecure::store(QString key, QString value)
     wpj.start();
     loop.exec();
     if (wpj.error()) {
-        LOGW(QString("Storing password failed: %1").arg(wpj.errorString()));
+        LOGW(QString("Storing key failed: %1").arg(wpj.errorString()));
     }
 }
 
@@ -30,7 +30,7 @@ QString AppSecure::restore(QString key)
     loop.exec();
     const QString value = rpj.textData();
     if (rpj.error()) {
-        LOGW(QString("Restoring password failed: %1").arg(rpj.errorString()));
+        LOGW(QString("Restoring key failed: %1").arg(rpj.errorString()));
     }
     return value;
 

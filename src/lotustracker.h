@@ -60,6 +60,7 @@ private:
     void setupLogParserConnections();
     void setupMtgaMatchConnections();
     void checkForAutoLogin();
+    void checkUntappedTermsOfServices();
     void uploadMatch();
 
 public:
