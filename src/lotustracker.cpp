@@ -464,6 +464,9 @@ void LotusTracker::onEventPlayerCourse(EventPlayerCourse eventPlayerCourse, bool
 void LotusTracker::onMatchStart(QString matchId, QString eventId,
                                 QString opponentName, RankInfo opponentInfo)
 {
+    if (!appSettings->hasAcceptedUntappedToS()) {
+        return;
+    }
     isOnDraftScreen = false;
     mtgaMatch->onStartNewMatch(matchId, eventId, opponentName, opponentInfo);
     // Load deck from event in course if not loaded yet (event continues without submitDeck)
@@ -632,6 +635,25 @@ void LotusTracker::checkForAutoLogin()
     }
 }
 
+void LotusTracker::checkUntappedTermsOfServices()
+{
+    if (appSettings->hasAcceptedUntappedToS()) {
+        return;
+    }
+    QString msg = "Lotus Tracker is now uploading games for Untapped.gg."
+                  "<br/>By continue using Lotus Tracker, you agree with"
+                  " Untapped <a href='https://hearthsim.net/legal/terms-of-service.html'>Terms of Service</a>.";
+    QMessageBox messageBox("Untapped Terms of Service", msg,QMessageBox::Question,
+                           QMessageBox::Ok, QMessageBox::Close, 0);
+    messageBox.setTextFormat(Qt::RichText);
+    int ret = messageBox.exec();
+    if (ret == QMessageBox::Ok) {
+        appSettings->acceptUntappedToS();
+    } else {
+        showMessage("Lotus Tracker can't work without accept terms.");
+    }
+}
+
 void LotusTracker::onUserSigned(bool fromSignUp)
 {
     if (fromSignUp) {
@@ -663,6 +685,9 @@ void LotusTracker::onDraftPick(int mtgaId, int packNumber, int pickNumber)
 void LotusTracker::onDraftStatus(QString eventName, QString status, int packNumber, int pickNumber,
                                  QList<Card *> availablePicks, QList<Card *> pickedCards)
 {
+    if (!appSettings->hasAcceptedUntappedToS()) {
+        return;
+    }
     UNUSED(packNumber);
     UNUSED(pickNumber);
     isOnDraftScreen = true;

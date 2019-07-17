@@ -56,8 +56,9 @@
 #define DEFAULT_OVERLAY_VIEW_X 5
 #define DEFAULT_OVERLAY_VIEW_Y 60
 
-#define KEY_SECURE_USER_SETTINGS "user"
+#define KEY_SECURE_ACCEPTS_TOS "Accepts ToS"
 #define KEY_SECURE_ANONYMOUS_TOKEN "Anonymous Usage"
+#define KEY_SECURE_USER_SETTINGS "user"
 
 #define LOG_PATH QString("AppData%1LocalLow%2Wizards of the Coast%3MTGA")\
     .arg(QDir::separator()).arg(QDir::separator()).arg(QDir::separator())
@@ -475,6 +476,16 @@ void AppSettings::restoreDefaults()
 }
 
 // Untapped
+
+void AppSettings::acceptUntappedToS()
+{
+    appSecure->store(KEY_SECURE_ACCEPTS_TOS, "yes");
+}
+
+bool AppSettings::hasAcceptedUntappedToS()
+{
+    return appSecure->restore(KEY_SECURE_ACCEPTS_TOS) == "yes";
+}
 
 void AppSettings::setUntappedAnonymousUploadToken(QString uploadToken)
 {
