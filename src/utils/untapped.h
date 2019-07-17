@@ -2,9 +2,9 @@
 #define UNTAPPED_H
 
 #include "api/untappedapi.h"
-#include "entity/deck.h"
 #include "entity/eventplayercourse.h"
 #include "entity/matchinfo.h"
+#include "untappedmatchdescriptor.h"
 
 #include <QFile>
 #include <QJsonObject>
@@ -15,25 +15,16 @@ class Untapped : public QObject
 {
     Q_OBJECT
 private:
-    EventPlayerCourse eventPlayerCourse;
     UntappedAPI *untappedAPI;
+    EventPlayerCourse eventPlayerCourse;
     QString tempDir;
     QJsonObject matchDescriptor;
     MatchInfo matchInfo;
+    UntappedMatchDescriptor untappedMatchDescriptor;
     void setupUntappedAPIConnections();
-    void preparedMatchLogFile(QStack<QString> matchLogMsgs);
-    void preparedMatchDescriptor(QString timestamp);
-    QJsonArray getMatchGamesDescriptor();
-    QJsonObject getMatchPlayerDescriptor();
-    QJsonArray getMatchOpponentsDescriptor();
-    QJsonObject getMatchEventDescriptor();
-    void preparedPutPayloadFile();
-    QJsonArray cardsToJsonArray(QMap<Card*, int> cards);
-    QJsonObject deckToJsonObject(Deck deck);
-    QJsonObject resultSpecToJsonObject(ResultSpec resultSpec);
-    QJsonValue eventCourseIntToJsonValue(int value);
-    QJsonValue intToJsonValue(int value);
-    QJsonValue doubleToJsonValue(double value);
+    void prepareMatchLogFile(QStack<QString> matchLogMsgs);
+    void prepareMatchDescriptor(QString timestamp);
+    void preparePutPayloadFile();
 
 public:
     explicit Untapped(QObject *parent = nullptr);
