@@ -29,7 +29,8 @@ private:
     MtgCards *mtgCards;
     QList<int> msgResponseNumbers;
     QStack<QString> lastMatchLogMsgs;
-    Deck jsonObject2Deck(QJsonObject jsonDeck);
+    Deck jsonObject2DeckV1(QJsonObject jsonDeck);
+    Deck jsonObject2DeckV3(QJsonObject jsonDeck);
     void parseOutcomingMsg(QPair<QString, QString> msg);
     void parseIncomingMsg(QPair<QString, QString> msg);
     void parsePlayerInventory(QString json);
@@ -46,7 +47,7 @@ private:
     void parsePlayerDeckCreate(QString json);
     void parsePlayerDeckUpdate(QString json);
     void parsePlayerDeckSubmited(QString json);
-    void parseDirectGameChallenge(QString json);
+    void parseAIPracticeOrDirectGameDeck(QString json);
     void parseEventFinish(QString json);
     void parseAuthenticate(QString json);
     void parseClientToGreMessages(QString json);
