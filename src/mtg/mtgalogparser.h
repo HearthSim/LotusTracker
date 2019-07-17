@@ -70,7 +70,6 @@ public:
     QStack<QString> getLastMatchLog();
 
 signals:
-    void sgnSummarizedMessage();
     void sgnMtgaClientVersion(QString version);
     void sgnPlayerInventory(PlayerInventory playerInventory);
     void sgnPlayerInventoryUpdate(QList<int> newCards);
@@ -106,6 +105,9 @@ signals:
     void sgnDecodeDeckPosSideboardPayload(QString type, QString payload);
     void sgnGoingToHome();
     void sgnLeavingDraft();
+    void sgnSummarizedMessage();
+    void sgnActivePlayer(int player);
+    void sgnDecisionPlayer(int player);
 
 public slots:
     void onParseDeckPosSideboardJson(QJsonObject jsonMessage);

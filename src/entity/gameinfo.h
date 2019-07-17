@@ -5,6 +5,7 @@
 #include "gamedetails.h"
 #include "resultspec.h"
 
+#include <QDateTime>
 #include <QElapsedTimer>
 
 class GameDetails
@@ -15,14 +16,17 @@ private:
 public:
     GameInfo gameInfo;
     bool playerGoFirst, playerMulligan, opponentMulligan, isCompleted, playerWins;
-    int duration;
+    int activePlayer, decisionPlayer, duration, turns;
+    qint64 startTime;
     Deck playerDeck;
     Deck opponentRevealedDeck;
     ResultSpec resultSpec;
 
-    GameDetails(GameInfo gameInfo): gameInfo(gameInfo), playerGoFirst(false),
-        playerMulligan(false), opponentMulligan(false), isCompleted(false),
-        playerWins(false), duration(0), playerDeck(Deck()),
+    GameDetails(GameInfo gameInfo, int activePlayer = 0, int decisionPlayer = 0):
+        gameInfo(gameInfo), playerGoFirst(false), playerMulligan(false),
+        opponentMulligan(false), isCompleted(false), playerWins(false),
+        activePlayer(activePlayer), decisionPlayer(decisionPlayer), duration(0),
+        turns(0), startTime(QDateTime::currentMSecsSinceEpoch()), playerDeck(Deck()),
         opponentRevealedDeck(Deck()), resultSpec(ResultSpec()){
         timer.start();
     }

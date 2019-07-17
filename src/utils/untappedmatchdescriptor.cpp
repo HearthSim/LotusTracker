@@ -1,6 +1,8 @@
 #include "untappedmatchdescriptor.h"
 #include "../macros.h"
 
+#include <QtMath>
+
 UntappedMatchDescriptor::UntappedMatchDescriptor(QObject *parent) : QObject(parent)
 {
 
@@ -34,16 +36,21 @@ QJsonDocument UntappedMatchDescriptor::prepareNewDescriptor(MatchDetails matchDe
 QJsonArray UntappedMatchDescriptor::getMatchGamesDescriptor()
 {
     QJsonArray games;
+    qint64 matchStartTime = matchDetails.games.first().startTime;
     for(GameDetails game : matchDetails.games) {
         games.append(QJsonObject({
             { "deck", deckToJsonObject(game.playerDeck) },
             { "duration", game.duration },
-            { "mulliganType", game.gameInfo.mulliganType },
             { "number", game.gameInfo.number },
-            { "superFormat", game.gameInfo.superFormat },
-            { "type", game.gameInfo.type },
-            { "variant", game.gameInfo.variant },
-            { "matchWinCondition", game.gameInfo.winCondition },
+            { "relativeStartTime", qFloor((game.startTime - matchStartTime) / 1000) },
+            { "turns", game.turns },
+            { "initialActivePlayer", game.activePlayer },
+            { "initialDecisionPlayer", game.decisionPlayer },
+            { "superFormat", stringOrNullJsonValue(game.gameInfo.superFormat) },
+            { "type", stringOrNullJsonValue(game.gameInfo.type) },
+            { "variant", stringOrNullJsonValue(game.gameInfo.variant) },
+            { "matchWinCondition", stringOrNullJsonValue(game.gameInfo.winCondition) },
+            { "mulliganType", stringOrNullJsonValue(game.gameInfo.mulliganType) },
             { "playerRevealedCards", getPlayerRevealedCards(game.playerDeck) },
             { "opponentRevealedCards", cardsToJsonArray(game.opponentRevealedDeck.currentCards()) },
             { "result", resultSpecToJsonObject(game.resultSpec) }
@@ -61,17 +68,17 @@ QJsonObject UntappedMatchDescriptor::getMatchPlayerDescriptor()
        { "systemSeatId", matchDetails.player.seatId() },
        { "preMatchRankInfo", QJsonObject({
            { "rankClass", matchDetails.playerCurrentRankInfo.rankClass() },
-           { "tier", intToJsonValue(matchDetails.playerCurrentRankInfo.rankTier()) },
-           { "step", intToJsonValue(matchDetails.playerCurrentRankInfo.rankStep()) },
-           { "mythicLeaderboardPlace", intToJsonValue(matchDetails.playerCurrentRankInfo.mythicLeaderboardPlace()) },
-           { "mythicPercentile", doubleToJsonValue(matchDetails.playerCurrentRankInfo.mythicPercentile()) }
+           { "tier", intOrNullJsonValue(matchDetails.playerCurrentRankInfo.rankTier()) },
+           { "step", intOrNullJsonValue(matchDetails.playerCurrentRankInfo.rankStep()) },
+           { "mythicLeaderboardPlace", intOrNullJsonValue(matchDetails.playerCurrentRankInfo.mythicLeaderboardPlace()) },
+           { "mythicPercentile", doubleOrNullToJsonValue(matchDetails.playerCurrentRankInfo.mythicPercentile()) }
        })},
        { "postMatchRankInfo", QJsonObject({
            { "rankClass", matchDetails.playerOldRankInfo.rankClass() },
-           { "tier", intToJsonValue(matchDetails.playerOldRankInfo.rankTier()) },
-           { "step", intToJsonValue(matchDetails.playerOldRankInfo.rankStep()) },
-           { "mythicLeaderboardPlace", intToJsonValue(matchDetails.playerOldRankInfo.mythicLeaderboardPlace()) },
-           { "mythicPercentile", doubleToJsonValue(matchDetails.playerOldRankInfo.mythicPercentile()) }
+           { "tier", intOrNullJsonValue(matchDetails.playerOldRankInfo.rankTier()) },
+           { "step", intOrNullJsonValue(matchDetails.playerOldRankInfo.rankStep()) },
+           { "mythicLeaderboardPlace", intOrNullJsonValue(matchDetails.playerOldRankInfo.mythicLeaderboardPlace()) },
+           { "mythicPercentile", doubleOrNullToJsonValue(matchDetails.playerOldRankInfo.mythicPercentile()) }
        })}
     });
 }
@@ -86,8 +93,8 @@ QJsonArray UntappedMatchDescriptor::getMatchOpponentsDescriptor()
             { "systemSeatId", matchDetails.opponent.seatId() },
             { "preMatchRankInfo", QJsonObject({
                 { "rankClass", matchDetails.opponentRankInfo.rankClass() },
-                { "tier", intToJsonValue(matchDetails.opponentRankInfo.rankTier()) },
-                { "step", intToJsonValue(matchDetails.opponentRankInfo.rankStep()) },
+                { "tier", intOrNullJsonValue(matchDetails.opponentRankInfo.rankTier()) },
+                { "step", intOrNullJsonValue(matchDetails.opponentRankInfo.rankStep()) },
                 { "mythicLeaderboardPlace", matchDetails.opponentRankInfo.mythicLeaderboardPlace() },
                 { "mythicPercentile", matchDetails.opponentRankInfo.mythicPercentile() }
             })},
@@ -166,10 +173,18 @@ QJsonValue UntappedMatchDescriptor::eventCourseIntToJsonValue(QString eventId, i
     if (eventId != matchDetails.eventId) {
         return QJsonValue::Null;
     }
-    return intToJsonValue(value);
+    return intOrNullJsonValue(value);
 }
 
-QJsonValue UntappedMatchDescriptor::intToJsonValue(int value)
+QJsonValue UntappedMatchDescriptor::stringOrNullJsonValue(QString value)
+{
+    if (value.isEmpty()) {
+        return QJsonValue::Null;
+    }
+    return QJsonValue(value);
+}
+
+QJsonValue UntappedMatchDescriptor::intOrNullJsonValue(int value)
 {
     if (value < 0) {
         return QJsonValue::Null;
@@ -177,7 +192,7 @@ QJsonValue UntappedMatchDescriptor::intToJsonValue(int value)
     return QJsonValue(value);
 }
 
-QJsonValue UntappedMatchDescriptor::doubleToJsonValue(double value)
+QJsonValue UntappedMatchDescriptor::doubleOrNullToJsonValue(double value)
 {
     if (value < 0) {
         return QJsonValue::Null;

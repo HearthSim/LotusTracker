@@ -37,7 +37,7 @@ public:
     void updateCards(QMap<Card*, int> cards, QMap<Card*, int> sideboard);
     void updateTitle(QString title);
     void clear();
-    void reset();
+    void reset(bool keepSideboardChanges = false);
     bool isReseted();
 
     QString colorIdentity(bool useStartCalc = true, bool includeLands = false);

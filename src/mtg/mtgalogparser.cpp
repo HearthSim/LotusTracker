@@ -482,6 +482,17 @@ void MtgaLogParser::parseGreToClientMessages(QString json)
                    messageType == "GREMessageType_QueuedGameStateMessage") {
             int gameStateId = jsonMessage["gameStateId"].toInt();
             QJsonObject jsonGameStateMessage = jsonMessage["gameStateMessage"].toObject();
+            if (jsonGameStateMessage.contains("turnInfo")) {
+                QJsonObject jsonTurnInfo = jsonGameStateMessage["turnInfo"].toObject();
+                if (jsonTurnInfo.contains("activePlayer")) {
+                    int activePlayer = jsonTurnInfo["activePlayer"].toInt();
+                    emit sgnActivePlayer(activePlayer);
+                }
+                if (jsonTurnInfo.contains("decisionPlayer")) {
+                    int decisionPlayer = jsonTurnInfo["decisionPlayer"].toInt();
+                    emit sgnDecisionPlayer(decisionPlayer);
+                }
+            }
             QString gameStateType = jsonGameStateMessage["type"].toString();
             if (gameStateType == "GameStateType_Full") {
                 parseGameStateFull(jsonGameStateMessage);

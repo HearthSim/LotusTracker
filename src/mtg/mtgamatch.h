@@ -58,7 +58,7 @@ public:
     explicit MtgaMatch(QObject *parent = nullptr, MtgCards *mtgCards = nullptr);
     bool isRunning;
     QString getPlayerName();
-    MatchDetails getInfo();
+    MatchDetails getMatchDetails();
     QPair<QString, int> getPlayerRankInfo();
     void onStartNewMatch(QString matchId, QString eventId, QString opponentName, RankInfo matchDetails);
     void onGameStart(GameInfo gameInfo, QList<MatchZone> gameZones, int seatId);
@@ -94,6 +94,8 @@ public slots:
     void onMatchStateDiff(MatchStateDiff matchStateDiff);
     void onNewTurnStarted(int turnNumber);
     void onSummarizedMessage();
+    void onActivePlayer(int player);
+    void onDecisionPlayer(int player);
 };
 
 #endif // MTGAMATCH_H

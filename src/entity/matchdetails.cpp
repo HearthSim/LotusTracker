@@ -12,7 +12,9 @@ MatchDetails::MatchDetails(QString matchId, QString eventId, RankInfo opponentRa
 void MatchDetails::createNewGame(GameInfo gameInfo)
 {
     if (games.size() == 0 || currentGame().isCompleted) {
-        games << GameDetails(gameInfo);
+        games << GameDetails(gameInfo, nextGameActivePlayer, nextGameDecisionPlayer);
+        nextGameActivePlayer = 0;
+        nextGameDecisionPlayer = 0;
     }
 }
 
@@ -49,4 +51,26 @@ QString MatchDetails::getOpponentDeckColorIdentity()
 {
     QMap<Card*, int> cards = getOpponentMatchesCards();
     return Deck::calcColorIdentity(cards, true);
+}
+
+void MatchDetails::onActivePlayer(int player)
+{
+    if (games.size() == 0 && nextGameActivePlayer == 0) {
+        nextGameActivePlayer = player;
+    }
+    if (games.size() > 0 && currentGame().activePlayer == 0) {
+        currentGame().activePlayer = player;
+        nextGameActivePlayer = 0;
+    }
+}
+
+void MatchDetails::onDecisionPlayer(int player)
+{
+    if (games.size() == 0 && nextGameDecisionPlayer == 0) {
+        nextGameDecisionPlayer = player;
+    }
+    if (games.size() > 0 && currentGame().decisionPlayer == 0) {
+        currentGame().decisionPlayer = player;
+        nextGameDecisionPlayer = 0;
+    }
 }
