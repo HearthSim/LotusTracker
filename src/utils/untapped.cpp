@@ -86,18 +86,30 @@ void Untapped::onS3PutInfo(QString putUrl, QString timestamp)
     if (matchDetails.games.isEmpty()) {
         influx_metric(influxdb_cpp::builder()
             .meas("lt_match_without_games")
-            .tag("matchId", matchDetails.matchId.toStdString())
             .tag("event", matchDetails.eventId.toStdString())
+            .field("matchId", matchDetails.matchId.toStdString())
             .field("count", 1)
         );
         return;
     }
-    prepareMatchDescriptor(timestamp);
-    preparePutPayloadFile();
-    LOGI("Upload");
+    prepareMatchDescriptor(timestamp);    
+    QByteArray uploadData = getUploadData();
+    if (uploadData.isEmpty()) {
+        LOGI("Error while packing data for upload");
+        influx_metric(influxdb_cpp::builder()
+            .meas("lt_untapped_packing_failed")
+            .tag("matchId", matchDetails.matchId.toStdString())
+            .field("count", 1)
+        );
+        return;
+    }
+    LOGD(matchDetails.matchId);
+    LOGD(putUrl);
+    UntappedUploadData untappedUploadData(matchDetails.matchId, putUrl, uploadData);
+    untappedAPI->uploadMatch(untappedUploadData);
 }
 
-void Untapped::preparePutPayloadFile()
+QByteArray Untapped::getUploadData()
 {
     QFile packedFile(tempDir + QDir::separator() + "match.packed");
     if (packedFile.exists()) {
@@ -113,4 +125,12 @@ void Untapped::preparePutPayloadFile()
     QProcess::execute(TAR_PATH, args);
     QFile(tempDir + QDir::separator() + "descriptor.json").remove();
     QFile(tempDir + QDir::separator() + "log.txt.xz").remove();
+
+    if (packedFile.exists()) {
+        packedFile.open(QIODevice::ReadOnly);
+        packedFile.seek(0);
+        return packedFile.readAll();
+    } else {
+        return QByteArray();
+    }
 }

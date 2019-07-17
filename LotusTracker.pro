@@ -60,6 +60,7 @@ HEADERS += \
     src/entity/matchzone.h \
     src/entity/matchzonetransfer.h \
     src/entity/opponentinfo.h \
+    src/entity/untappeduploaddata.h \
     src/mtg/mtgarena.h \
     src/mtg/mtgalogparser.h \
     src/mtg/mtgalogwatcher.h \

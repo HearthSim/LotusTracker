@@ -18,7 +18,7 @@ QJsonDocument UntappedMatchDescriptor::prepareNewDescriptor(MatchDetails matchDe
             { "summarizedMessageCount", matchDetails.summarizedMessage },
             { "client", QString("lt-%1").arg(qApp->applicationVersion()) },
             { "mtgaVersion", LOTUS_TRACKER->mtgArena->getClientVersion() },
-            { "upload_token", APP_SETTINGS->getUntappedAnonymousUploadToken() },
+            { "uploadToken", APP_SETTINGS->getUntappedAnonymousUploadToken() },
             { "match", QJsonObject({
                 { "matchId", matchDetails.matchId },
                 { "deck", deckToJsonObject(matchDetails.games[0].playerDeck) },
