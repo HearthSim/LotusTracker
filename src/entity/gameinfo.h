@@ -7,20 +7,20 @@
 
 #include <QElapsedTimer>
 
-class GameInfo
+class GameDetails
 {
 private:
     QElapsedTimer timer;
 
 public:
-    GameDetails details;
+    GameInfo gameInfo;
     bool playerGoFirst, playerMulligan, opponentMulligan, isCompleted, playerWins;
     int duration;
     Deck playerDeck;
     Deck opponentRevealedDeck;
     ResultSpec resultSpec;
 
-    GameInfo(GameDetails details): details(details), playerGoFirst(false),
+    GameDetails(GameInfo gameInfo): gameInfo(gameInfo), playerGoFirst(false),
         playerMulligan(false), opponentMulligan(false), isCompleted(false),
         playerWins(false), duration(0), playerDeck(Deck()),
         opponentRevealedDeck(Deck()), resultSpec(ResultSpec()){

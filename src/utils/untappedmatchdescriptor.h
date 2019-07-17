@@ -4,7 +4,7 @@
 #include "../entity/card.h"
 #include "../entity/deck.h"
 #include "../entity/eventplayercourse.h"
-#include "../entity/matchinfo.h"
+#include "../entity/matchdetails.h"
 #include "../entity/resultspec.h"
 
 #include <QObject>
@@ -13,7 +13,7 @@ class UntappedMatchDescriptor : public QObject
 {
     Q_OBJECT
 private:
-    MatchInfo matchInfo;
+    MatchDetails matchDetails;
     QJsonArray getMatchGamesDescriptor();
     QJsonObject getMatchPlayerDescriptor();
     QJsonArray getMatchOpponentsDescriptor();
@@ -27,7 +27,7 @@ private:
 
 public:
     explicit UntappedMatchDescriptor(QObject *parent = nullptr);
-    QJsonDocument prepareNewDescriptor(MatchInfo matchInfo, QString timestamp,
+    QJsonDocument prepareNewDescriptor(MatchDetails matchDetails, QString timestamp,
                                        EventPlayerCourse eventPlayerCourse);
 
 signals:

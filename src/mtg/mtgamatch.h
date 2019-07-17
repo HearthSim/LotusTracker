@@ -3,7 +3,7 @@
 
 #include "../entity/card.h"
 #include "../entity/deck.h"
-#include "../entity/matchinfo.h"
+#include "../entity/matchdetails.h"
 #include "../entity/matchstatediff.h"
 #include "../entity/matchzone.h"
 #include "../entity/matchzonetransfer.h"
@@ -36,7 +36,7 @@ class MtgaMatch : public QObject
 private:
     QString opponentName;
     MtgCards *mtgCards;
-    MatchInfo matchInfo;
+    MatchDetails matchDetails;
     QPair<QString, int> playerRankInfo;
     QMap<int, MatchZone> gameZones;
     // objectId, ownerId
@@ -58,10 +58,10 @@ public:
     explicit MtgaMatch(QObject *parent = nullptr, MtgCards *mtgCards = nullptr);
     bool isRunning;
     QString getPlayerName();
-    MatchInfo getInfo();
+    MatchDetails getInfo();
     QPair<QString, int> getPlayerRankInfo();
-    void onStartNewMatch(QString matchId, QString eventId, QString opponentName, RankInfo matchInfo);
-    void onGameStart(GameDetails details, QList<MatchZone> gameZones, int seatId);
+    void onStartNewMatch(QString matchId, QString eventId, QString opponentName, RankInfo matchDetails);
+    void onGameStart(GameInfo gameInfo, QList<MatchZone> gameZones, int seatId);
     void onGameCompleted(Deck playerDeck, Deck opponentRevealedDeck, ResultSpec resultSpec);
     void onEndCurrentMatch(ResultSpec resultSpec);
 

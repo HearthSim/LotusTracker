@@ -11,7 +11,7 @@
 #include <QPair>
 #include <QString>
 
-class MatchInfo
+class MatchDetails
 {
 public:
     QString matchId;
@@ -21,15 +21,15 @@ public:
     RankInfo playerOldRankInfo;
     MatchPlayer opponent;
     RankInfo opponentRankInfo;
-    QList<GameInfo> games;
+    QList<GameDetails> games;
     ResultSpec resultSpec;
     bool playerMatchWins;
     int playerGameWins, playerGameLoses, seasonOrdinal, summarizedMessage;
 
-    explicit MatchInfo(QString matchId = "", QString eventId = "",
+    explicit MatchDetails(QString matchId = "", QString eventId = "",
                        RankInfo opponentInfo = RankInfo());
-    void createNewGame(GameDetails details);
-    GameInfo& currentGame();
+    void createNewGame(GameInfo gameInfo);
+    GameDetails& currentGame();
     QMap<Card*, int> getOpponentMatchesCards();
     QString getOpponentDeckArch();
     QString getOpponentDeckColorIdentity();

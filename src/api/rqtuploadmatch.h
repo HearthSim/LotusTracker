@@ -3,19 +3,19 @@
 
 #include "requestdata.h"
 #include "../entity/deck.h"
-#include "../entity/matchinfo.h"
+#include "../entity/matchdetails.h"
 
 #include <QDate>
 
 class RqtUploadMatch: public RequestData
 {
 public:
-    RqtUploadMatch(MatchInfo matchInfo, Deck playerDeck, QString playerRankClass) {
-        QJsonObject jsonGamesMapValue = games2JsonMapValue(matchInfo.games);
-        QString winner = matchInfo.playerMatchWins ? "player1" : "player2";
+    RqtUploadMatch(MatchDetails matchDetails, Deck playerDeck, QString playerRankClass) {
+        QJsonObject jsonGamesMapValue = games2JsonMapValue(matchDetails.games);
+        QString winner = matchDetails.playerMatchWins ? "player1" : "player2";
         int playerGameWins = 0;
         int playerGameLoses = 0;
-        for(GameInfo game : matchInfo.games) {
+        for(GameDetails game : matchDetails.games) {
             playerGameWins += game.playerWins ? 1 : 0;
             playerGameLoses += game.playerWins ? 0 : 1;
         }
@@ -29,15 +29,15 @@ public:
             {"rank", playerRankClass}
         };
         QJsonObject player2Json{
-            {"arch", matchInfo.getOpponentDeckArch()},
-            {"colors", matchInfo.getOpponentDeckColorIdentity()},
-            {"name", matchInfo.opponent.name()},
-            {"rank", matchInfo.opponentRankInfo.rankClass()}
+            {"arch", matchDetails.getOpponentDeckArch()},
+            {"colors", matchDetails.getOpponentDeckColorIdentity()},
+            {"name", matchDetails.opponent.name()},
+            {"rank", matchDetails.opponentRankInfo.rankClass()}
         };
         QJsonObject jsonObj{
-            {"event", matchInfo.eventId},
+            {"event", matchDetails.eventId},
             {"games", jsonGamesMapValue },
-            {"mode", toGameMode(matchInfo.games[0].details.winCondition)},
+            {"mode", toGameMode(matchDetails.games[0].gameInfo.winCondition)},
             {"player1", player1Json},
             {"player2", player2Json},
             {"result", gameResult},
@@ -61,10 +61,10 @@ private:
         return mode;
     }
 
-    QJsonObject games2JsonMapValue(QList<GameInfo> games){
+    QJsonObject games2JsonMapValue(QList<GameDetails> games){
         QJsonObject jsonGames;
         int gameNumber = 0;
-        for (GameInfo gameInfo : games) {
+        for (GameDetails gameInfo : games) {
             gameNumber += 1;
             QString first = gameInfo.playerGoFirst ? "player1" : "player2";
             QJsonObject jsonOpponentCards = cards2JsonMapValue(gameInfo.opponentRevealedDeck.currentCards());
