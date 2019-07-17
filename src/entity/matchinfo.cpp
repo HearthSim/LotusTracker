@@ -3,16 +3,16 @@
 
 MatchInfo::MatchInfo(QString matchId, QString eventId, RankInfo opponentRankInfo):
     matchId(matchId), eventId(eventId), player(MatchPlayer()), playerCurrentRankInfo(RankInfo()),
-    opponent(MatchPlayer()), opponentRankInfo(opponentRankInfo), mode(MatchMode_UNKNOWN),
-    resultSpec(ResultSpec()), playerMatchWins(false), playerGameWins(0), playerGameLoses(0)
+    opponent(MatchPlayer()), opponentRankInfo(opponentRankInfo), resultSpec(ResultSpec()),
+    playerMatchWins(false), playerGameWins(0), playerGameLoses(0)
 {
     games.clear();
 }
 
-void MatchInfo::createNewGame()
+void MatchInfo::createNewGame(GameDetails details)
 {
     if (games.size() == 0 || currentGame().isCompleted) {
-        games << GameInfo();
+        games << GameInfo(details);
     }
 }
 
@@ -20,7 +20,7 @@ GameInfo& MatchInfo::currentGame()
 {
     if (games.size() == 0) {
         LOGW("Invalid game state");
-        games << GameInfo();
+        games << GameInfo(GameDetails());
     }
     return games.last();
 }
@@ -49,12 +49,4 @@ QString MatchInfo::getOpponentDeckColorIdentity()
 {
     QMap<Card*, int> cards = getOpponentMatchesCards();
     return Deck::calcColorIdentity(cards, true);
-}
-
-QString MatchInfo::MatchModeToString(MatchMode matchMode)
-{
-    QMap<MatchMode, QString> matchModeNames = {
-        {MatchMode_SINGLE, "Single"}, {MatchMode_BEST_OF_3, "Best of 3"},
-        {MatchMode_UNKNOWN, "Unknown"} };
-    return matchModeNames[matchMode];
 }

@@ -4,6 +4,7 @@
 #include "mtgcards.h"
 #include "../entity/deck.h"
 #include "../entity/eventplayercourse.h"
+#include "../entity/gamedetails.h"
 #include "../entity/matchinfo.h"
 #include "../entity/matchplayer.h"
 #include "../entity/matchstatediff.h"
@@ -80,7 +81,7 @@ signals:
     void sgnMatchCreated(QString matchId, QString eventId,
                          QString opponentName, RankInfo opponentInfo);
     void sgnMatchInfoSeats(QList<MatchPlayer>);
-    void sgnGameStart(MatchMode mode, QList<MatchZone> zones, int seatId);
+    void sgnGameStart(GameDetails details, QList<MatchZone> zones, int seatId);
     void sgnGameCompleted(ResultSpec resultSpec);
     void sgnMatchResult(ResultSpec resultSpec);
     void sgnPlayerRankInfo(QPair<QString, int> playerRankInfo);

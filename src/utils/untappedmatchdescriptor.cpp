@@ -38,6 +38,7 @@ QJsonArray UntappedMatchDescriptor::getMatchGamesDescriptor()
         games.append(QJsonObject({
             { "deck", deckToJsonObject(game.playerDeck) },
             { "duration", game.duration },
+            { "matchWinCondition", game.details.winCondition },
             { "opponentRevealedCards", cardsToJsonArray(game.opponentRevealedDeck.currentCards()) },
             { "result", resultSpecToJsonObject(game.resultSpec) }
         }));

@@ -498,18 +498,12 @@ void MtgaLogParser::parseGameStateFull(QJsonObject jsonMessage)
 {
     QJsonObject gameInfo = jsonMessage["gameInfo"].toObject();
     QString winCondition = gameInfo["matchWinCondition"].toString();
-    MatchMode mode = MatchMode_UNKNOWN;
-    if (winCondition == "MatchWinCondition_SingleElimination") {
-        mode = MatchMode_SINGLE;
-    }
-    if (winCondition == "MatchWinCondition_Best2of3") {
-        mode = MatchMode_BEST_OF_3;
-    }
+    GameDetails details(winCondition);
     QList<MatchZone> zones = getMatchZones(jsonMessage);
     int seatId = jsonMessage["turnInfo"].toObject()["decisionPlayer"].toInt();
-    LOGD(QString("GameStart Mode: %1, Zones: %2, DecisionPlayer: %3")
-         .arg(MatchInfo::MatchModeToString(mode)).arg(zones.size()).arg(seatId));
-    emit sgnGameStart(mode, zones, seatId);
+    LOGD(QString("GameStart WinCondition: %1, Zones: %2, DecisionPlayer: %3")
+         .arg(winCondition).arg(zones.size()).arg(seatId));
+    emit sgnGameStart(details, zones, seatId);
 }
 
 void MtgaLogParser::parseGameStateDiff(int playerSeatId, int gameStateId, QJsonObject jsonMessage)

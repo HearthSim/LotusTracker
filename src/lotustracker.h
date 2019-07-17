@@ -3,6 +3,7 @@
 
 #include "api/lotusapi.h"
 #include "entity/eventplayercourse.h"
+#include "entity/gamedetails.h"
 #include "entity/matchinfo.h"
 #include "entity/opponentinfo.h"
 #include "entity/resultspec.h"
@@ -91,7 +92,7 @@ private slots:
     void onEventPlayerCourse(EventPlayerCourse eventPlayerCourse, bool isFinished);
     void onMatchStart(QString matchId, QString eventId,
                       QString opponentName, RankInfo match);
-    void onGameStart(MatchMode mode, QList<MatchZone> zones, int seatId);
+    void onGameStart(GameDetails details, QList<MatchZone> zones, int seatId);
     void onGameStarted();
     void onGameFocusChanged(bool hasFocus);
     void onGameStopped();
