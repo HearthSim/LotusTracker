@@ -70,13 +70,15 @@ Section "Lotus Tracker" SecLotusTracker
 
   SetOutPath "$INSTDIR"
   
-  File files\libcrypto-1_1.dll
-  File files\libssl-1_1.dll
   File files\libcrypto.dll
+  File files\libcrypto-1_1.dll
+  File files\libeay32.dll
   File files\libssl.dll
+  File files\libssl-1_1.dll
   File files\libgcc_s_dw2-1.dll
   File files\libstdc++-6.dll
   File files\libwinpthread-1.dll
+  File files\ssleay32.dll
   File files\Qt5Core.dll
   File files\Qt5Gui.dll
   File files\Qt5Network.dll
@@ -140,13 +142,15 @@ Section "Uninstall"
   Delete "$INSTDIR\Uninstall.exe"
 
   Delete $INSTDIR\LotusTracker.exe
-  Delete $INSTDIR\libcrypto-1_1.dll
-  Delete $INSTDIR\libssl-1_1.dll
   Delete $INSTDIR\libcrypto.dll
+  Delete $INSTDIR\libcrypto-1_1.dll
+  Delete $INSTDIR\libeay32.dll
   Delete $INSTDIR\libssl.dll
+  Delete $INSTDIR\libssl-1_1.dll
   Delete $INSTDIR\libgcc_s_dw2-1.dll
   Delete $INSTDIR\libstdc++-6.dll
   Delete $INSTDIR\libwinpthread-1.dll
+  Delete $INSTDIR\ssleay32.dll
   Delete $INSTDIR\Qt5Core.dll
   Delete $INSTDIR\Qt5Gui.dll
   Delete $INSTDIR\Qt5Network.dll
