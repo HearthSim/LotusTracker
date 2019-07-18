@@ -103,8 +103,6 @@ void Untapped::onS3PutInfo(QString putUrl, QString timestamp)
         );
         return;
     }
-    LOGD(matchDetails.matchId);
-    LOGD(putUrl);
     UntappedUploadData untappedUploadData(matchDetails.matchId, putUrl, uploadData);
     untappedAPI->uploadMatch(untappedUploadData);
 }
