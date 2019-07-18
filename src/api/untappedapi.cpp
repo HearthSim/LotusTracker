@@ -108,7 +108,7 @@ void UntappedAPI::uploadMatchWithRetry()
             QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
             LOGW(QString("Error: %1 - %2").arg(reply->errorString()).arg(reason));
             influx_metric(influxdb_cpp::builder()
-                .meas("lt_untapped_upload_failed")
+                .meas("lt_untapped_log_upload_failed")
                 .tag("status", QString("%1").arg(statusCode).toStdString())
                 .tag("reason", reason.toStdString())
                 .field("matchId", untappedUploadData.matchId.toStdString())
@@ -118,6 +118,11 @@ void UntappedAPI::uploadMatchWithRetry()
         }
 
         LOGI("Match upload success to Untapped.gg");
+        influx_metric(influxdb_cpp::builder()
+            .meas("lt_untapped_log_upload_success")
+            .field("matchId", untappedUploadData.matchId.toStdString())
+            .field("count", 1)
+        );
     });
 }
 

@@ -97,7 +97,7 @@ void Untapped::onS3PutInfo(QString putUrl, QString timestamp)
     if (uploadData.isEmpty()) {
         LOGI("Error while packing data for upload");
         influx_metric(influxdb_cpp::builder()
-            .meas("lt_untapped_packing_failed")
+            .meas("lt_untapped_log_packing_failed")
             .tag("matchId", matchDetails.matchId.toStdString())
             .field("count", 1)
         );
