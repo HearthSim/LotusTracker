@@ -6,7 +6,7 @@ tmp/
 src/credentials.h
 dist/win/*.exe
 dist/win/*.zip
-dist/win/files
+dist/win/files/LotusTracker.exe
 dist/osx/*.dmg
 dist/osx/build
 dist/osx/node_modules
@@ -34,7 +34,6 @@ dist/osx/yarn.lock
 # Compiled Dynamic libraries
 *.so
 *.dylib
-*.dll
 
 # Fortran module files
 *.mod
@@ -47,7 +46,6 @@ dist/osx/yarn.lock
 *.lib
 
 # Executables
-*.exe
 *.out
 *.app
 !Info.plist.app
