@@ -35,6 +35,8 @@
 ;--------------------------------
 ;Pages
 
+  !insertmacro MUI_PAGE_WELCOME
+  !insertmacro MUI_PAGE_LICENSE "files\untappedTermsOfService.txt"
   !insertmacro MUI_PAGE_LICENSE "files\copyright.txt"
   !insertmacro MUI_PAGE_DIRECTORY
 
@@ -53,8 +55,10 @@
   !define MUI_FINISHPAGE_RUN_TEXT "Start Lotus Tracker"
   !insertmacro MUI_PAGE_FINISH
   
+  !insertmacro MUI_UNPAGE_WELCOME
   !insertmacro MUI_UNPAGE_CONFIRM
   !insertmacro MUI_UNPAGE_INSTFILES
+  !insertmacro MUI_UNPAGE_FINISH
   
 ;--------------------------------
 ;Languages
