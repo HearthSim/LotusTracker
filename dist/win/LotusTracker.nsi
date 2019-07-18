@@ -90,18 +90,19 @@ Section "Lotus Tracker" SecLotusTracker
   File files\WinSparkle.dll
   File files\LotusTracker.exe
 
-  SetOutPath "$INSTDIR\imageformats"
-  
+  SetOutPath "$INSTDIR\bin"
+  File files\bin\tar.exe
+  File files\bin\xz.exe
+
+  SetOutPath "$INSTDIR\imageformats"  
   File files\imageformats\qicns.dll
   File files\imageformats\qico.dll
   File files\imageformats\qjpeg.dll
 
-  SetOutPath "$INSTDIR\platforms"
-  
+  SetOutPath "$INSTDIR\platforms"  
   File files\platforms\qwindows.dll
 
-  SetOutPath "$INSTDIR\tools"
-  
+  SetOutPath "$INSTDIR\tools"  
   File files\tools\addr2line.exe
   File files\tools\cygiconv-2.dll
   File files\tools\cygintl-8.dll
@@ -160,6 +161,8 @@ Section "Uninstall"
   Delete $INSTDIR\Qt5Network.dll
   Delete $INSTDIR\Qt5Widgets.dll
   Delete $INSTDIR\WinSparkle.dll
+  Delete $INSTDIR\bin\tar.exe
+  Delete $INSTDIR\bin\xz.exe
   Delete $INSTDIR\imageformats\qicns.dll
   Delete $INSTDIR\imageformats\qico.dll
   Delete $INSTDIR\imageformats\qjpeg.dll
@@ -170,6 +173,7 @@ Section "Uninstall"
   Delete $INSTDIR\tools\cygwin1.dll
   Delete $INSTDIR\tools\cygz.dll
 
+  RMDir "$INSTDIR\bin"
   RMDir "$INSTDIR\imageformats"
   RMDir "$INSTDIR\platforms"
   RMDir "$INSTDIR\tools"
