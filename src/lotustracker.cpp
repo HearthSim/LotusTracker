@@ -106,6 +106,8 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv),
         .tag("new", isFirstRun ? "true" : "false")
         .field("count", 1)
     );
+
+    checkUntappedTermsOfServices();
 }
 
 LotusTracker::~LotusTracker()
@@ -406,6 +408,7 @@ void LotusTracker::showPreferencesScreen()
 {
     preferencesScreen->show();
     preferencesScreen->raise();
+    checkUntappedTermsOfServices();
 }
 
 void LotusTracker::showMessage(QString msg, QString title)
