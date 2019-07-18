@@ -80,6 +80,7 @@ Section "Lotus Tracker" SecLotusTracker
   File files\libssl.dll
   File files\libssl-1_1.dll
   File files\libgcc_s_dw2-1.dll
+  File files\libqt5keychain.dll
   File files\libstdc++-6.dll
   File files\libwinpthread-1.dll
   File files\ssleay32.dll
@@ -153,6 +154,7 @@ Section "Uninstall"
   Delete $INSTDIR\libssl.dll
   Delete $INSTDIR\libssl-1_1.dll
   Delete $INSTDIR\libgcc_s_dw2-1.dll
+  Delete $INSTDIR\libqt5keychain.dll
   Delete $INSTDIR\libstdc++-6.dll
   Delete $INSTDIR\libwinpthread-1.dll
   Delete $INSTDIR\ssleay32.dll

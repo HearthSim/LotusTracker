@@ -29,9 +29,6 @@ QString AppSecure::restore(QString key)
     rpj.start();
     loop.exec();
     const QString value = rpj.textData();
-    if (rpj.error()) {
-        LOGW(QString("Restoring key failed: %1").arg(rpj.errorString()));
-    }
     return value;
 
 }
@@ -43,7 +40,4 @@ void AppSecure::remove(QString key)
     dpj.connect(&dpj, SIGNAL(finished(QKeychain::Job*)), &loop, SLOT(quit()));
     dpj.start();
     loop.exec();
-    if (dpj.error()) {
-        LOGW(QString("Delete password failed: %1").arg(dpj.errorString()));
-    }
 }

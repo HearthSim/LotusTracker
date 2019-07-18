@@ -83,7 +83,7 @@ void UntappedAPI::requestS3PutUrlWithRetry()
         }
 
         QJsonObject jsonRsp = Transformations::stringToJsonObject(rsp);
-        LOGI(QString("Received shortid: %1").arg( jsonRsp["shortid"].toString()));
+        LOGI(QString("Shortid: %1").arg( jsonRsp["shortid"].toString()));
         QString putUrl = jsonRsp["put_url"].toString();
         QString timestamp = reply->rawHeader("date");
         emit sgnS3PutInfo(putUrl, timestamp);
