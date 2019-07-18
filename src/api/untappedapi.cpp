@@ -72,6 +72,13 @@ void UntappedAPI::requestS3PutUrlWithRetry()
             }
             QString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
             LOGW(QString("Error: %1 - %2").arg(reply->errorString()).arg(reason));
+            influx_metric(influxdb_cpp::builder()
+                .meas("lt_untapped_s3_puturl_failed")
+                .tag("status", QString("%1").arg(statusCode).toStdString())
+                .tag("reason", reason.toStdString())
+                .field("matchId", untappedUploadData.matchId.toStdString())
+                .field("count", 1)
+            );
             return;
         }
 
