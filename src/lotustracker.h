@@ -94,7 +94,7 @@ private slots:
     void onMatchStart(QString matchId, QString eventId,
                       QString opponentName, RankInfo match);
     void onGameStart(GameInfo gameInfo, QList<MatchZone> zones, int seatId);
-    void onGameStarted();
+    void onMTGAStarted();
     void onGameFocusChanged(bool hasFocus);
     void onGameStopped();
     void onGameCompleted(ResultSpec resultSpec);

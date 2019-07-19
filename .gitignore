@@ -5,6 +5,7 @@ build/*.*
 tmp/
 src/credentials.h
 dist/win/*.exe
+dist/win/*.p12
 dist/win/*.pfx
 dist/win/*.zip
 dist/win/files/LotusTracker.exe

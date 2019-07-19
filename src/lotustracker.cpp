@@ -51,7 +51,7 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv),
     gaTracker = new GAnalytics(CREDENTIALS::GA_ID());
     untapped = new Untapped(this);
     connect(mtgArena, &MtgArena::sgnMTGAStarted,
-            this, &LotusTracker::onGameStarted);
+            this, &LotusTracker::onMTGAStarted);
     connect(mtgArena, &MtgArena::sgnMTGAFocusChanged,
             this, &LotusTracker::onGameFocusChanged);
     connect(mtgArena, &MtgArena::sgnMTGAStopped,
@@ -435,6 +435,11 @@ void LotusTracker::trackException(LotusException ex)
 #endif
 }
 
+void LotusTracker::onMTGAStarted()
+{
+    gaTracker->startSession();
+}
+
 void LotusTracker::onPlayerCollectionUpdated(QMap<int, int> ownedCards)
 {
     deckOverlayDraft->setPlayerCollection(ownedCards);
@@ -485,7 +490,7 @@ void LotusTracker::onMatchStart(QString matchId, QString eventId,
 
 void LotusTracker::onGameStart(GameInfo gameInfo, QList<MatchZone> zones, int seatId)
 {
-    if (!mtgaMatch->isRunning) {
+    if (!appSettings->hasAcceptedUntappedToS() || !mtgaMatch->isRunning) {
         return;
     }
     mtgaMatch->onGameStart(gameInfo, zones, seatId);
@@ -513,13 +518,11 @@ void LotusTracker::onGameStart(GameInfo gameInfo, QList<MatchZone> zones, int se
 
 }
 
-void LotusTracker::onGameStarted()
-{
-    gaTracker->startSession();
-}
-
 void LotusTracker::onGameFocusChanged(bool hasFocus)
 {
+    if (!appSettings->hasAcceptedUntappedToS()) {
+        return;
+    }
     if (isOnDraftScreen && APP_SETTINGS->isDeckOverlayDraftEnabled()) {
         if (hasFocus) {
             deckOverlayDraft->show();
@@ -553,7 +556,7 @@ void LotusTracker::onGameStopped()
 
 void LotusTracker::onGameCompleted(ResultSpec resultSpec)
 {
-    if (!mtgaMatch->isRunning) {
+    if (!appSettings->hasAcceptedUntappedToS() || !mtgaMatch->isRunning) {
         return;
     }
     mtgaMatch->onGameCompleted(deckOverlayPlayer->getDeck(),
@@ -563,7 +566,7 @@ void LotusTracker::onGameCompleted(ResultSpec resultSpec)
 
 void LotusTracker::onMatchEnds(ResultSpec resultSpec)
 {
-    if (!mtgaMatch->isRunning) {
+    if (!appSettings->hasAcceptedUntappedToS() || !mtgaMatch->isRunning) {
         return;
     }
     mtgaMatch->onEndCurrentMatch(resultSpec);

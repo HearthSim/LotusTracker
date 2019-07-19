@@ -2,9 +2,10 @@
 #include "../macros.h"
 
 MatchDetails::MatchDetails(QString matchId, QString eventId, RankInfo opponentRankInfo):
-    matchId(matchId), eventId(eventId), player(MatchPlayer()), playerCurrentRankInfo(RankInfo()),
-    opponent(MatchPlayer()), opponentRankInfo(opponentRankInfo), resultSpec(ResultSpec()),
-    playerMatchWins(false), playerGameWins(0), playerGameLoses(0), seasonOrdinal(0), summarizedMessage(0)
+    nextGameActivePlayer(0), nextGameDecisionPlayer(0), matchId(matchId), eventId(eventId),
+    player(MatchPlayer()), playerCurrentRankInfo(RankInfo()), opponent(MatchPlayer()),
+    opponentRankInfo(opponentRankInfo), resultSpec(ResultSpec()), playerMatchWins(false),
+    playerGameWins(0), playerGameLoses(0), seasonOrdinal(0), summarizedMessage(0)
 {
     games.clear();
 }

@@ -46,6 +46,15 @@ void Untapped::setEventPlayerCourse(EventPlayerCourse eventPlayerCourse)
 
 void Untapped::uploadMatchToUntapped(MatchDetails matchDetails, QStack<QString> matchLogMsgs)
 {
+    if (matchDetails.games.isEmpty() || matchDetails.games.first().duration == 0) {
+        influx_metric(influxdb_cpp::builder()
+            .meas("lt_match_without_games")
+            .tag("event", matchDetails.eventId.toStdString())
+            .field("matchId", matchDetails.matchId.toStdString())
+            .field("count", 1)
+        );
+        return;
+    }
     this->matchDetails = matchDetails;
     prepareMatchLogFile(matchLogMsgs);
     untappedAPI->requestS3PutUrl();
@@ -83,15 +92,6 @@ void Untapped::prepareMatchDescriptor(QString timestamp)
 
 void Untapped::onS3PutInfo(QString putUrl, QString timestamp)
 {
-    if (matchDetails.games.isEmpty()) {
-        influx_metric(influxdb_cpp::builder()
-            .meas("lt_match_without_games")
-            .tag("event", matchDetails.eventId.toStdString())
-            .field("matchId", matchDetails.matchId.toStdString())
-            .field("count", 1)
-        );
-        return;
-    }
     prepareMatchDescriptor(timestamp);    
     QByteArray uploadData = getUploadData();
     if (uploadData.isEmpty()) {
