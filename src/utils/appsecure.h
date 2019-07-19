@@ -16,11 +16,6 @@ public:
     QString restore(QString key);
     void remove(QString key);
 
-private:
-    WritePasswordJob wpj;
-    ReadPasswordJob rpj;
-    DeletePasswordJob dpj;
-
 signals:
 
 public slots:

@@ -1,15 +1,13 @@
 #include "appsecure.h"
 #include "../macros.h"
 
-AppSecure::AppSecure(QObject *parent) : QObject(parent),
-    wpj(QLatin1String(APP_NAME)), rpj(QLatin1String(APP_NAME)), dpj(QLatin1String(APP_NAME)) {
-    wpj.setAutoDelete(false);
-    rpj.setAutoDelete(false);
-    dpj.setAutoDelete(false);
+AppSecure::AppSecure(QObject *parent) : QObject(parent) {
 }
 
 void AppSecure::store(QString key, QString value)
 {
+    WritePasswordJob wpj(QLatin1String(APP_NAME));
+    wpj.setAutoDelete(false);
     wpj.setKey(key);
     wpj.setTextData(value);
     QEventLoop loop;
@@ -23,18 +21,21 @@ void AppSecure::store(QString key, QString value)
 
 QString AppSecure::restore(QString key)
 {
+    ReadPasswordJob rpj(QLatin1String(APP_NAME));
+    rpj.setAutoDelete(false);
     rpj.setKey(key);
     QEventLoop loop;
     rpj.connect(&rpj, SIGNAL(finished(QKeychain::Job*)), &loop, SLOT(quit()));
     rpj.start();
     loop.exec();
-    const QString value = rpj.textData();
-    return value;
+    return rpj.textData();
 
 }
 
 void AppSecure::remove(QString key)
 {
+    DeletePasswordJob dpj(QLatin1String(APP_NAME));
+    dpj.setAutoDelete(false);
     dpj.setKey(key);
     QEventLoop loop;
     dpj.connect(&dpj, SIGNAL(finished(QKeychain::Job*)), &loop, SLOT(quit()));
