@@ -36,7 +36,6 @@
 ;Pages
 
   !insertmacro MUI_PAGE_WELCOME
-  !insertmacro MUI_PAGE_LICENSE "files\untappedTermsOfService.txt"
   !insertmacro MUI_PAGE_LICENSE "files\copyright.txt"
   !insertmacro MUI_PAGE_DIRECTORY
 
