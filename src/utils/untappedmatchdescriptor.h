@@ -29,7 +29,8 @@ private:
 
 public:
     explicit UntappedMatchDescriptor(QObject *parent = nullptr);
-    QJsonDocument prepareNewDescriptor(MatchDetails matchDetails, QString timestamp,
+    QJsonDocument prepareNewDescriptor(MatchDetails matchDetails,
+                                       QString timestamp, QString uploadToken,
                                        EventPlayerCourse eventPlayerCourse);
 
 signals:

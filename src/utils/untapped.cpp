@@ -76,10 +76,10 @@ void Untapped::prepareMatchLogFile(QStack<QString> matchLogMsgs)
     QProcess::execute(XZ_PATH, QStringList() << "-f" << logFile.fileName());
 }
 
-void Untapped::prepareMatchDescriptor(QString timestamp)
+void Untapped::prepareMatchDescriptor(QString timestamp, QString uploadToken)
 {
     QJsonDocument descriptor = untappedMatchDescriptor.prepareNewDescriptor(matchDetails, timestamp,
-                                                                            eventPlayerCourse);
+                                                                            uploadToken, eventPlayerCourse);
     QFile descriptorFile(tempDir + QDir::separator() + "descriptor.json");
     if (descriptorFile.exists()) {
       descriptorFile.remove();
@@ -92,12 +92,26 @@ void Untapped::prepareMatchDescriptor(QString timestamp)
 
 void Untapped::onS3PutInfo(QString putUrl, QString timestamp)
 {
-    prepareMatchDescriptor(timestamp);    
+    QString uploadToken = APP_SETTINGS->getUntappedAnonymousUploadToken();
+    if (uploadToken.size() != 36) {
+        LOGI("Invalid upload token");
+        influx_metric(influxdb_cpp::builder()
+            .meas("lt_untapped_log_upload_failed")
+            .tag("reason", "Invalid Upload Token")
+            .tag("matchId", matchDetails.matchId.toStdString())
+            .field("count", 1)
+            .field("uploadToken", uploadToken.toStdString())
+        );
+        APP_SETTINGS->clearUntappedAnonymousUploadToken();
+        return;
+    }
+    prepareMatchDescriptor(timestamp, uploadToken);
     QByteArray uploadData = getUploadData();
     if (uploadData.isEmpty()) {
         LOGI("Error while packing data for upload");
         influx_metric(influxdb_cpp::builder()
-            .meas("lt_untapped_log_packing_failed")
+            .meas("lt_untapped_log_upload_failed")
+            .tag("reason", "Packing")
             .tag("matchId", matchDetails.matchId.toStdString())
             .field("count", 1)
         );

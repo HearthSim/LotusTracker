@@ -475,6 +475,7 @@ void LotusTracker::onMatchStart(QString matchId, QString eventId,
     if (!appSettings->hasAcceptedUntappedToS()) {
         return;
     }
+    untapped->checkForUntappedUploadToken();
     isOnDraftScreen = false;
     mtgaMatch->onStartNewMatch(matchId, eventId, opponentName, opponentInfo);
     // Load deck from event in course if not loaded yet (event continues without submitDeck)

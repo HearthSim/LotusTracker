@@ -23,7 +23,7 @@ private:
     UntappedMatchDescriptor untappedMatchDescriptor;
     void setupUntappedAPIConnections();
     void prepareMatchLogFile(QStack<QString> matchLogMsgs);
-    void prepareMatchDescriptor(QString timestamp);
+    void prepareMatchDescriptor(QString timestamp, QString uploadToken);
     QByteArray getUploadData();
 
 public:
