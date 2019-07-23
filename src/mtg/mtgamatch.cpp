@@ -250,11 +250,22 @@ void MtgaMatch::notifyCardZoneChange(int objectId, int oldObjectId, MatchZone zo
             break;
         }
         case TRANSFER_DISCARD_FROM_LIBRARY: {
+            if (card->mtgaId == 0) {
+                for (MatchZone zone : gameZones) {
+                    if (zone.type() == ZoneType_LIMBO) {
+                        card = getCardByObjectId(zone, objectId);
+                        cardName = card ? card->name : QString("Object %1").arg(objectId);
+                        break;
+                    }
+                }
+            }
             LOGI(QString("%1 discarded from library").arg(cardName));
-            if (isTransferFromPlayer) {
-                emit sgnPlayerDiscardFromLibraryCard(card);
-            } else {
-                emit sgnOpponentDiscardFromLibraryCard(card);
+            if (card->mtgaId > 0) {
+                if (isTransferFromPlayer) {
+                    emit sgnPlayerDiscardFromLibraryCard(card);
+                } else {
+                    emit sgnOpponentDiscardFromLibraryCard(card);
+                }
             }
             break;
         }
