@@ -70,18 +70,18 @@ QJsonObject UntappedMatchDescriptor::getMatchPlayerDescriptor()
        { "teamId", matchDetails.player.teamId() },
        { "systemSeatId", matchDetails.player.seatId() },
        { "preMatchRankInfo", QJsonObject({
-           { "rankClass", matchDetails.playerCurrentRankInfo.rankClass() },
-           { "tier", intOrNullJsonValue(matchDetails.playerCurrentRankInfo.rankTier()) },
-           { "step", intOrNullJsonValue(matchDetails.playerCurrentRankInfo.rankStep()) },
-           { "mythicLeaderboardPlace", intOrNullJsonValue(matchDetails.playerCurrentRankInfo.mythicLeaderboardPlace()) },
-           { "mythicPercentile", doubleOrNullToJsonValue(matchDetails.playerCurrentRankInfo.mythicPercentile()) }
-       })},
-       { "postMatchRankInfo", QJsonObject({
            { "rankClass", matchDetails.playerOldRankInfo.rankClass() },
            { "tier", intOrNullJsonValue(matchDetails.playerOldRankInfo.rankTier()) },
            { "step", intOrNullJsonValue(matchDetails.playerOldRankInfo.rankStep()) },
            { "mythicLeaderboardPlace", intOrNullJsonValue(matchDetails.playerOldRankInfo.mythicLeaderboardPlace()) },
            { "mythicPercentile", doubleOrNullToJsonValue(matchDetails.playerOldRankInfo.mythicPercentile()) }
+       })},
+       { "postMatchRankInfo", QJsonObject({
+           { "rankClass", matchDetails.playerCurrentRankInfo.rankClass() },
+           { "tier", intOrNullJsonValue(matchDetails.playerCurrentRankInfo.rankTier()) },
+           { "step", intOrNullJsonValue(matchDetails.playerCurrentRankInfo.rankStep()) },
+           { "mythicLeaderboardPlace", intOrNullJsonValue(matchDetails.playerCurrentRankInfo.mythicLeaderboardPlace()) },
+           { "mythicPercentile", doubleOrNullToJsonValue(matchDetails.playerCurrentRankInfo.mythicPercentile()) }
        })}
     });
 }
