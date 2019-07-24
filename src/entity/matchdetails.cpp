@@ -16,6 +16,10 @@ void MatchDetails::createNewGame(GameInfo gameInfo)
         games << GameDetails(gameInfo, nextGameActivePlayer, nextGameDecisionPlayer);
         nextGameActivePlayer = 0;
         nextGameDecisionPlayer = 0;
+        return;
+    }
+    if (currentGame().gameInfo.type.isEmpty()) {
+        currentGame().gameInfo = gameInfo;
     }
 }
 
