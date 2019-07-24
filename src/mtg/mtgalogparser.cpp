@@ -6,10 +6,10 @@
 #include <QList>
 #include <QRegularExpression>
 
-#define REGEXP_RAW_MSG "\\s(==>|to\\sMatch|<==|Incoming|Match\\sto).+(\\s|\\n)(\\{|\\[)(\\n\\s+.*)+\\n+(\\}|\\])\\n"
+#define REGEXP_RAW_MSG "\\s(==>|to\\sMatch|<==|Incoming|Match\\sto).+(\\s|\\n)[{\\[]([,:{}\\[\\]0-9.\\-+Eaeflnr-u\\s\\n\\r\\t]|\".*?\")+[}\\]]\\n"
 #define REGEXP_MSG_RESPONSE_NUMBER "((?<=\\s)\\d+(?=\\:\\s)|(?<=\\()\\d+(?=\\)))"
 #define REGEXP_MSG_ID "[\\w\\.]+(?=(\\(|((\\s|\\n)(\\{|\\[))))"
-#define REGEXP_MSG_JSON "(\\{|\\[)(\\n\\s+.*)+\\n*(\\}||\\])"
+#define REGEXP_MSG_JSON "[{\\[]([,:{}\\[\\]0-9.\\-+Eaeflnr-u\\s\\n\\r\\t]|\".*?\")+[}\\]]\\n"
 
 MtgaLogParser::MtgaLogParser(QObject *parent, MtgCards *mtgCards)
     : QObject(parent), matchRunning(false), mtgCards(mtgCards)
