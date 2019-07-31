@@ -1,7 +1,7 @@
-Copyright 2018-2018 Edipo Souza
+Copyright 2018-2019 Edipo Souza
 
-This software is provided as an open source project, free for use and share. Lotus Tracker collect user information about Magic the Gathering Arena card game, such as user collection, wildcards, deck and matches.
+This software is provided as an open source project, free to use and share. Lotus Tracker collects user information about the Magic the Gathering Arena card game, such as user collection, wildcards, decks and matches.
 
-Lotus Tracker will not shared any user data, but anonymously, match data will be data be used for statistics propourse.
+Lotus Tracker will not share any user data, but anonymous match data may be used for statistics purposes.
 
-Permission is granted to anyone to use this software for non-commercial purpose. The code is free for study and contribution, but not allowed to be altered and redistribute as other application for MtgArena.
+Permission is granted to anyone for non-commercial use of this software. The code is free for study and contribution, but not allowed to be altered and redistributed as another application for MtgArena.
