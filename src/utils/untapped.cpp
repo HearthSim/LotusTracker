@@ -3,7 +3,6 @@
 
 #include <QApplication>
 #include <QDir>
-#include <QProcess>
 #include <QStandardPaths>
 
 #define TAR_PATH "bin/tar.exe"
@@ -19,16 +18,20 @@ Untapped::Untapped(QObject *parent) : QObject(parent)
         dir.mkpath(tempDir);
     }
 
-    untappedAPI = new UntappedAPI(this);
-    setupUntappedAPIConnections();
+    untappedAPI = new UntappedAPI(this);    
+    processVerify = new QProcess(this);
+    setupUntappedConnections();
 }
 
-void Untapped::setupUntappedAPIConnections()
+void Untapped::setupUntappedConnections()
 {
     connect(untappedAPI, &UntappedAPI::sgnS3PutInfo, this, &Untapped::onS3PutInfo);
     connect(untappedAPI, &UntappedAPI::sgnNewAnonymousUploadToken,
             this, [](QString uploadToken){
         APP_SETTINGS->setUntappedAnonymousUploadToken(uploadToken);
+    });
+    connect(processVerify, &QProcess::readyReadStandardOutput, this, [this](){
+        processVerifyOut = processVerify->readAllStandardOutput();
     });
 }
 
@@ -139,10 +142,20 @@ QByteArray Untapped::getUploadData()
     QFile(tempDir + QDir::separator() + "log.txt.xz").remove();
 
     if (packedFile.exists()) {
-        packedFile.open(QIODevice::ReadOnly);
-        packedFile.seek(0);
-        return packedFile.readAll();
-    } else {
-        return QByteArray();
+        //Verify tar file content
+        QStringList argsVerify;
+        argsVerify << "-tf";
+        argsVerify << packedFile.fileName();
+        processVerify->start(TAR_PATH, argsVerify);
+        processVerify->waitForFinished();
+        //Return it's contents if it contains the required files
+        if (processVerifyOut.contains("descriptor.json")
+                && processVerifyOut.contains("log.txt.xz")) {
+            processVerifyOut = "";
+            packedFile.open(QIODevice::ReadOnly);
+            packedFile.seek(0);
+            return packedFile.readAll();
+        }
     }
+    return QByteArray();
 }

@@ -9,6 +9,7 @@
 #include <QFile>
 #include <QJsonObject>
 #include <QObject>
+#include <QProcess>
 #include <QStack>
 
 class Untapped : public QObject
@@ -16,12 +17,13 @@ class Untapped : public QObject
     Q_OBJECT
 private:
     UntappedAPI *untappedAPI;
+    QProcess* processVerify;
     EventPlayerCourse eventPlayerCourse;
-    QString tempDir;
+    QString tempDir, processVerifyOut;
     QJsonObject matchDescriptor;
     MatchDetails matchDetails;
     UntappedMatchDescriptor untappedMatchDescriptor;
-    void setupUntappedAPIConnections();
+    void setupUntappedConnections();
     void prepareMatchLogFile(QStack<QString> matchLogMsgs);
     void prepareMatchDescriptor(QString timestamp, QString uploadToken);
     QByteArray getUploadData();
