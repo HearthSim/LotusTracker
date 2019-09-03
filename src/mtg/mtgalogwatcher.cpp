@@ -12,6 +12,7 @@
 MtgaLogWatcher::MtgaLogWatcher(QObject *parent) : QObject(parent), 
     logFile(nullptr), timer(new QTimer(this)), lastFilePos(0)
 {
+    enableVerboseLogs();
     logPath = LOTUS_TRACKER->appSettings->getLogPath();
     MtgArena* mtgArena = static_cast<MtgArena*>(parent);
     if (WATCH_TEST_LOG) {
@@ -100,4 +101,21 @@ void MtgaLogWatcher::checkForNewLogs()
         emit sgnNewLogContent(QString::fromUtf8(logNewContent.trimmed()));
         lastFilePos = logFile->pos();
     }
+}
+
+void MtgaLogWatcher::enableVerboseLogs()
+{
+    QSettings settings("Wizards Of The Coast", "MTGA");
+    QString key = "UseVerboseLogs";
+    QString fullKey = QString("%1_h%2").arg(key).arg(djb2Hash(key));
+    settings.setValue(fullKey, 1);
+}
+
+unsigned int MtgaLogWatcher::djb2Hash(QString key)
+{
+    unsigned int hash = 5381;
+    for (QChar c : key) {
+        hash = (hash * 33) ^ c.unicode();
+    }
+    return hash;
 }

@@ -17,6 +17,8 @@ private:
     QString logFilePath;
     qint64 lastFilePos;
     void checkForNewLogs();
+    void enableVerboseLogs();
+    unsigned int djb2Hash(QString key);
 
 public:
     MtgaLogWatcher(QObject *parent);
