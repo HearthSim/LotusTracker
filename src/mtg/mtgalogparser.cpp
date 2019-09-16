@@ -512,6 +512,10 @@ void MtgaLogParser::parseAIPracticeOrDirectGameDeck(QString json)
 
 void MtgaLogParser::parseGreToClientMessages(QString json)
 {
+    if (json.contains("[Message summarized")) {
+        emit sgnSummarizedMessage();
+        return;
+    }
     QJsonObject jsonGreToClientMsg = Transformations::stringToJsonObject(json);
     if (jsonGreToClientMsg.empty()) {
         return;
