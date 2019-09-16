@@ -98,7 +98,7 @@ void MtgaLogWatcher::checkForNewLogs()
 	} else {
 		logFile->seek(lastFilePos);
 		QByteArray logNewContent = logFile->readAll();
-        emit sgnNewLogContent(QString::fromUtf8(logNewContent.trimmed()));
+        emit sgnNewLogContent(QString::fromUtf8(logNewContent));
         lastFilePos = logFile->pos();
     }
 }

@@ -119,7 +119,7 @@ void MtgaLogParser::parse(QString logNewContent)
         lastMatchLogMsgs.push(logNewContent);
     }
     // Extract raw msgs
-    QRegularExpressionMatchIterator iterator = reRawMsg.globalMatch(logNewContent + "\n");
+    QRegularExpressionMatchIterator iterator = reRawMsg.globalMatch(logNewContent);
     QList<QString> rawMsgs;
     while (iterator.hasNext()) {
         rawMsgs << iterator.next().captured(0);
