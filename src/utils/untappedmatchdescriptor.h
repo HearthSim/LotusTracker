@@ -21,7 +21,7 @@ private:
     QJsonArray getPlayerRevealedCards(Deck deck);
     QJsonArray cardsToJsonArray(QMap<Card*, int> cards);
     QJsonObject deckToJsonObject(Deck deck);
-    QJsonObject resultSpecToJsonObject(ResultSpec resultSpec);
+    QJsonValue resultSpecToJsonObject(ResultSpec resultSpec);
     QJsonValue eventCourseIntToJsonValue(QString eventId, int value);
     QJsonValue stringOrNullJsonValue(QString value);
     QJsonValue intOrNullJsonValue(int value);

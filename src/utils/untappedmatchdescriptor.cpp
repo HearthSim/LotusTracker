@@ -158,8 +158,11 @@ QJsonObject UntappedMatchDescriptor::deckToJsonObject(Deck deck)
     });
 }
 
-QJsonObject UntappedMatchDescriptor::resultSpecToJsonObject(ResultSpec resultSpec)
+QJsonValue UntappedMatchDescriptor::resultSpecToJsonObject(ResultSpec resultSpec)
 {
+    if (resultSpec.result.isEmpty()) {
+        return QJsonValue::Null;
+    }
     QJsonObject resultJson({
         { "scope", resultSpec.scope },
         { "result", resultSpec.result },
