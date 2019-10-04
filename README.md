@@ -29,7 +29,7 @@ This source code already builds a Windows and Mac OS version of Lotus Tracker.
 
 ## Download
 
-You can download the latest version of Lotus Tracker [here](https://github.com/edipo2s/LotusTracker/releases/latest)
+You can download the latest version of Lotus Tracker [here](https://github.com/HearthSim/LotusTracker/releases)
 
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JQWPQH3EE5RZW)
 
