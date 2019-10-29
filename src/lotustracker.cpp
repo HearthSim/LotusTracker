@@ -469,15 +469,15 @@ void LotusTracker::onEventPlayerCourse(EventPlayerCourse eventPlayerCourse, bool
     }
 }
 
-void LotusTracker::onMatchStart(QString matchId, QString eventId,
-                                QString opponentName, RankInfo opponentInfo)
+void LotusTracker::onMatchStart(QString matchId, QString eventId, QMap<Card*, int> playerCommanders,
+                                QString opponentName, RankInfo opponentInfo, QMap<Card*, int> opponentCommanders)
 {
     if (!appSettings->hasAcceptedUntappedToS()) {
         return;
     }
     untapped->checkForUntappedUploadToken();
     isOnDraftScreen = false;
-    mtgaMatch->onStartNewMatch(matchId, eventId, opponentName, opponentInfo);
+    mtgaMatch->onStartNewMatch(matchId, eventId, playerCommanders, opponentName, opponentInfo, opponentCommanders);
     // Load deck from event in course if not loaded yet (event continues without submitDeck)
     if (eventId == eventPlayerCourse.eventId) {
         Deck deck = eventPlayerCourse.currentDeck;

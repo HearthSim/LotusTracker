@@ -23,14 +23,14 @@ QPair<QString, int> MtgaMatch::getPlayerRankInfo()
     return playerRankInfo;
 }
 
-void MtgaMatch::onStartNewMatch(QString matchId, QString eventId,
-                                QString opponentName, RankInfo opponentInfo)
+void MtgaMatch::onStartNewMatch(QString matchId, QString eventId, QMap<Card*, int> playerCommanders,
+                                QString opponentName, RankInfo opponentInfo, QMap<Card*, int> opponentCommanders)
 {
     if (isRunning) {
         onEndCurrentMatch(ResultSpec());
     }
     this->opponentName = opponentName;
-    matchDetails = MatchDetails(matchId, eventId, opponentInfo);
+    matchDetails = MatchDetails(matchId, eventId, playerCommanders, opponentInfo, opponentCommanders);
     //don't clear playerRankInfo because it is set before startNewMatch
     gameZones.clear();
     stackOwnerTrack.clear();

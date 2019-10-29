@@ -1,11 +1,13 @@
 #include "matchdetails.h"
 #include "../macros.h"
 
-MatchDetails::MatchDetails(QString matchId, QString eventId, RankInfo opponentRankInfo):
+MatchDetails::MatchDetails(QString matchId, QString eventId, QMap<Card*, int> playerCommanders,
+                           RankInfo opponentRankInfo, QMap<Card*, int> opponentCommanders):
     nextGameActivePlayer(0), nextGameDecisionPlayer(0), matchId(matchId), eventId(eventId),
-    player(MatchPlayer()), playerCurrentRankInfo(RankInfo()), opponent(MatchPlayer()),
-    opponentRankInfo(opponentRankInfo), resultSpec(ResultSpec()), playerMatchWins(false),
-    playerGameWins(0), playerGameLoses(0), seasonOrdinal(0), summarizedMessage(0)
+    player(MatchPlayer()), playerCommanders(playerCommanders), playerCurrentRankInfo(RankInfo()),
+    opponent(MatchPlayer()), opponentCommanders(opponentCommanders), opponentRankInfo(opponentRankInfo),
+    resultSpec(ResultSpec()), playerMatchWins(false), playerGameWins(0), playerGameLoses(0),
+    seasonOrdinal(0), summarizedMessage(0)
 {
     games.clear();
 }
