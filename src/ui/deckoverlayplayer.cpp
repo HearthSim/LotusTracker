@@ -293,6 +293,11 @@ void DeckOverlayPlayer::onPlayerDrawCard(Card* card)
     }
 }
 
+void DeckOverlayPlayer::onPlayerRevealCard(Card* card)
+{
+    deck.revealCard(card);
+}
+
 void DeckOverlayPlayer::onPlayerDeckStatus(int wins, int losses, double winRate)
 {
     deckWins = wins;

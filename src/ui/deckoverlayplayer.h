@@ -56,6 +56,7 @@ public slots:
     void onPlayerPutOnLibraryCard(Card* card);
     void onPlayerPutOnHandCard(Card* card);
     void onPlayerDrawCard(Card* card);
+    void onPlayerRevealCard(Card* card);
     void onPlayerDeckStatus(int wins, int losses, double winRate);
     void onReceiveEventInfo(QString name, QString type);
     void onPlayerDiscardCard(Card* card);

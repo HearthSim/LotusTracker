@@ -621,8 +621,9 @@ void MtgaLogParser::parseGameStateDiff(int playerSeatId, int gameStateId, QJsonO
         checkMulligans(playerSeatId, diffDeletedInstanceIds, zones);
     }
     QMap<int, int> idsChanged = getIdsChanged(jsonGSMAnnotations);
+    QList<QPair<int, int>> revealedCardCreated = getIdsRevealedCardCreated(jsonGSMAnnotations, jsonGameObjects);
     QMap<int, MatchZoneTransfer> idsZoneChanged = getIdsZoneChanged(jsonGSMAnnotations);
-    MatchStateDiff matchStateDiff(gameStateId, zones, idsChanged, idsZoneChanged);
+    MatchStateDiff matchStateDiff(gameStateId, zones, idsChanged, idsZoneChanged, revealedCardCreated);
     emit sgnMatchStateDiff(matchStateDiff);
     return;
 }
@@ -740,6 +741,28 @@ QMap<int, MatchZoneTransfer> MtgaLogParser::getIdsZoneChanged(QJsonArray jsonGSM
         }
     }
     return idsZoneChanged;
+}
+
+QList<QPair<int, int>> MtgaLogParser::getIdsRevealedCardCreated(QJsonArray jsonGSMAnnotations, QJsonArray jsonGameObjects)
+{
+    QList<QPair<int, int>> revealedCardCreated;
+    for (QJsonValueRef jsonAnnotationRef : jsonGSMAnnotations) {
+        QJsonObject jsonAnnotation = jsonAnnotationRef.toObject();
+        QString type = jsonAnnotation["type"].toArray().first().toString();
+        if (type == "AnnotationType_RevealedCardCreated") {
+            int instanceId = jsonAnnotation["affectedIds"].toArray().first().toInt();
+            for (QJsonValueRef jsonGameObjectRef : jsonGameObjects) {
+                QJsonObject jsonGameObject = jsonGameObjectRef.toObject();
+                if(jsonGameObject["instanceId"].toInt() == instanceId) {
+                    int grpId = jsonGameObject["grpId"].toInt();
+                    int ownerId = jsonGameObject["ownerSeatId"].toInt();
+                    revealedCardCreated << qMakePair(grpId, ownerId);
+                    break;
+                }
+            }
+        }
+    }
+    return revealedCardCreated;
 }
 
 void MtgaLogParser::parseClientToGreMessages(QString json)
