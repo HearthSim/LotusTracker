@@ -22,7 +22,7 @@ QJsonDocument UntappedMatchDescriptor::prepareNewDescriptor(MatchDetails matchDe
             { "uploadToken", uploadToken },
             { "match", QJsonObject({
                 { "matchId", matchDetails.matchId },
-                { "deck", deckToJsonObject(matchDetails.games[0].playerDeck) },
+                { "deck", deckToJsonObject(matchDetails.games[0].playerDeck, matchDetails.playerCommanders) },
                 { "games", getMatchGamesDescriptor() },
                 { "player", getMatchPlayerDescriptor() },
                 { "opponents", getMatchOpponentsDescriptor() },
@@ -40,7 +40,7 @@ QJsonArray UntappedMatchDescriptor::getMatchGamesDescriptor()
     qint64 matchStartTime = matchDetails.games.first().startTime;
     for(GameDetails game : matchDetails.games) {
         games.append(QJsonObject({
-            { "deck", deckToJsonObject(game.playerDeck) },
+            { "deck", deckToJsonObject(game.playerDeck, matchDetails.playerCommanders) },
             { "duration", game.duration },
             { "number", game.gameInfo.number },
             { "relativeStartTime", qFloor((game.startTime - matchStartTime) / 1000) },
@@ -56,6 +56,7 @@ QJsonArray UntappedMatchDescriptor::getMatchGamesDescriptor()
             { "opponentRevealedCards", QJsonArray({
                   cardsToJsonArray(game.opponentRevealedDeck.currentCards())
             })},
+            { "opponentCommanders", cardsToJsonArray(matchDetails.opponentCommanders) },
             { "result", resultSpecToJsonObject(game.resultSpec) }
         }));
     }
@@ -139,7 +140,7 @@ QJsonArray UntappedMatchDescriptor::cardsToJsonArray(QMap<Card *, int> cards)
     return cardsArray;
 }
 
-QJsonObject UntappedMatchDescriptor::deckToJsonObject(Deck deck)
+QJsonObject UntappedMatchDescriptor::deckToJsonObject(Deck deck, QMap<Card*, int> playerCommanders)
 {
     QJsonArray cardSkins;
     for (QPair<int, QString> cardSkin : deck.cardSkins) {
@@ -149,6 +150,7 @@ QJsonObject UntappedMatchDescriptor::deckToJsonObject(Deck deck)
         }));
     }
     return QJsonObject({
+       { "commanders", cardsToJsonArray(playerCommanders) },
        { "mainDeck", cardsToJsonArray(deck.cards()) },
        { "sideboard", cardsToJsonArray(deck.sideboard()) },
        { "name", deck.name },

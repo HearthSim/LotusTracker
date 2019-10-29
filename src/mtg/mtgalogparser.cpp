@@ -68,9 +68,26 @@ Deck MtgaLogParser::jsonObject2DeckV3(QJsonObject jsonDeck)
     QString id = jsonDeck["id"].toString();
     QString name = jsonDeck["name"].toString();
     QJsonArray jsonCards = jsonDeck["mainDeck"].toArray();
+    QMap<Card*, int> cards = v3JsonArray2List(jsonCards);
+    QJsonArray jsonSideboard = jsonDeck["sideboard"].toArray();
+    QMap<Card*, int> sideboard = v3JsonArray2List(jsonSideboard);
+    int deckTileId = jsonDeck["deckTileId"].toInt();
+    QList<QPair<int, QString>> cardSkins;
+    QJsonArray jsonCardSkins = jsonDeck["cardSkins"].toArray();
+    for(QJsonValueRef jsonCardSkinRef : jsonCardSkins){
+        QJsonObject cardSkin = jsonCardSkinRef.toObject();
+        int grpId = cardSkin["grpId"].toInt();
+        QString ccv = cardSkin["ccv"].toString();
+        cardSkins << qMakePair(grpId, ccv);
+    }
+    return Deck(id, name, cards, sideboard, deckTileId, cardSkins);
+}
+
+QMap<Card*, int> MtgaLogParser::v3JsonArray2List(QJsonArray cardsArrayV3)
+{
     QMap<Card*, int> cards;
     int cardId = 0;
-    for(QJsonValueRef jsonCardRef : jsonCards){
+    for(QJsonValueRef jsonCardRef : cardsArrayV3){
         int value = jsonCardRef.toInt();
         if (cardId == 0) {
             cardId = value;
@@ -83,31 +100,7 @@ Deck MtgaLogParser::jsonObject2DeckV3(QJsonObject jsonDeck)
             cardId = 0;
         }
     }
-    QJsonArray jsonSideboard = jsonDeck["sideboard"].toArray();
-    QMap<Card*, int> sideboard;
-    for(QJsonValueRef jsonCardRef : jsonSideboard){
-        int value = jsonCardRef.toInt();
-        if (cardId == 0) {
-            cardId = value;
-        } else {
-            Card* card = mtgCards->findCard(cardId);
-            int qtd = value;
-            if (card && qtd > 0) {
-                sideboard[card] = qtd;
-            }
-            cardId = 0;
-        }
-    }
-    int deckTileId = jsonDeck["deckTileId"].toInt();
-    QList<QPair<int, QString>> cardSkins;
-    QJsonArray jsonCardSkins = jsonDeck["cardSkins"].toArray();
-    for(QJsonValueRef jsonCardSkinRef : jsonCardSkins){
-        QJsonObject cardSkin = jsonCardSkinRef.toObject();
-        int grpId = cardSkin["grpId"].toInt();
-        QString ccv = cardSkin["ccv"].toString();
-        cardSkins << qMakePair(grpId, ccv);
-    }
-    return Deck(id, name, cards, sideboard, deckTileId, cardSkins);
+    return cards;
 }
 
 void MtgaLogParser::parse(QString logNewContent)
@@ -366,13 +359,18 @@ void MtgaLogParser::parseMatchCreated(QString json)
     int opponentRankTier = jsonMatchCreated["opponentRankingTier"].toInt();
     int opponentMythicLeaderboardPlace = jsonMatchCreated["opponentMythicLeaderboardPlace"].toInt();
     double opponentMythicPercentile = jsonMatchCreated["opponentMythicPercentile"].toDouble();
+    QJsonArray opponentCommanderGrpIds = jsonMatchCreated["opponentCommanderGrpIds"].toArray();
+    QMap<Card*, int> opponentCommanders = v3JsonArray2List(opponentCommanderGrpIds);
+    QJsonArray commanderGrpIds = jsonMatchCreated["commanderGrpIds"].toArray();
+    QMap<Card*, int> playerCommanders = v3JsonArray2List(commanderGrpIds);
     QString matchId = jsonMatchCreated["matchId"].toString();
     QString eventId = jsonMatchCreated["eventId"].toString();
     RankInfo opponentInfo(opponentRankClass, opponentRankTier, -1,
                           opponentMythicLeaderboardPlace, opponentMythicPercentile);
     LOGD(QString("MatchCreated: Opponent %1, rank: %2(%3)").arg(opponentName)
          .arg(opponentRankClass).arg(opponentRankTier));
-    emit sgnMatchCreated(matchId, eventId, opponentName, opponentInfo);
+    emit sgnMatchCreated(matchId, eventId, playerCommanders,
+                         opponentName, opponentInfo, opponentCommanders);
 }
 
 void MtgaLogParser::parseMatchInfo(QString json)

@@ -31,6 +31,7 @@ private:
     QStack<QString> lastMatchLogMsgs;
     Deck jsonObject2DeckV1(QJsonObject jsonDeck);
     Deck jsonObject2DeckV3(QJsonObject jsonDeck);
+    QMap<Card*, int> v3JsonArray2List(QJsonArray cardsV3);
     void parseOutcomingMsg(QPair<QString, QString> msg);
     void parseIncomingMsg(QPair<QString, QString> msg);
     void parsePlayerInventory(QString json);
@@ -78,8 +79,8 @@ signals:
     void sgnPlayerDecks(QList<Deck> playerDecks);
     void sgnEventPlayerCourse(EventPlayerCourse eventPlayerCourse, bool isFinished);
     void sgnEventPlayerCourses(QList<QString> events);
-    void sgnMatchCreated(QString matchId, QString eventId,
-                         QString opponentName, RankInfo opponentInfo);
+    void sgnMatchCreated(QString matchId, QString eventId, QMap<Card*, int> playerCommanders,
+                         QString opponentName, RankInfo opponentInfo, QMap<Card*, int> opponentCommanders);
     void sgnMatchInfoSeats(QList<MatchPlayer>);
     void sgnGameStart(GameInfo gameInfo, QList<MatchZone> zones, int seatId);
     void sgnGameCompleted(ResultSpec resultSpec);

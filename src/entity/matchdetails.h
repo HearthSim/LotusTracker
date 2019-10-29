@@ -20,17 +20,19 @@ public:
     QString matchId;
     QString eventId;
     MatchPlayer player;
+    QMap<Card*, int> playerCommanders;
     RankInfo playerCurrentRankInfo;
     RankInfo playerOldRankInfo;
     MatchPlayer opponent;
+    QMap<Card*, int> opponentCommanders;
     RankInfo opponentRankInfo;
     QList<GameDetails> games;
     ResultSpec resultSpec;
     bool playerMatchWins;
     int playerGameWins, playerGameLoses, seasonOrdinal, summarizedMessage;
 
-    explicit MatchDetails(QString matchId = "", QString eventId = "",
-                       RankInfo opponentInfo = RankInfo());
+    explicit MatchDetails(QString matchId = "", QString eventId = "", QMap<Card*, int> playerCommanders = {},
+                          RankInfo opponentInfo = RankInfo(), QMap<Card*, int> opponentCommanders = {});
     void createNewGame(GameInfo gameInfo);
     GameDetails& currentGame();
     QMap<Card*, int> getOpponentMatchesCards();
