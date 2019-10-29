@@ -4,8 +4,8 @@
 
 Deck::Deck(QString id, QString name, QMap<Card*, int> cards, QMap<Card*, int> sideboard,
            int deckTileId, QList<QPair<int, QString>> cardSkins)
-    : id(id), name(name), deckTileId(deckTileId), cardSkins(cardSkins),
-      showOnlyRemainingCards(false){
+    : cardsRevealed({}), id(id), name(name), deckTileId(deckTileId), cardSkins(cardSkins),
+      showOnlyRemainingCards(false) {
     cardsInitial = cards;
     cardsSideboard = sideboard;
     for (Card *card : cards.keys()) {
@@ -49,6 +49,11 @@ QMap<Card*, int> Deck::currentCards()
         return onlyRemainingCards;
     }
     return cardsCurrent;
+}
+
+QMap<Card*, int> Deck::getCardsRevealed()
+{
+    return cardsRevealed;
 }
 
 int Deck::totalCards()
@@ -97,11 +102,13 @@ void Deck::updateTitle(QString title)
 void Deck::clear()
 {
     cardsCurrent.clear();
+    cardsRevealed.clear();
 }
 
 void Deck::reset(bool keepSideboardChanges)
 {
     cardsCurrent.clear();
+    cardsRevealed.clear();
     QMap<Card*, int> cards = this->cards(keepSideboardChanges);
     for (Card *card : cards.keys()) {
         cardsCurrent[card] = cards[card];
@@ -134,6 +141,15 @@ bool Deck::drawCard(Card *card)
         return true;
     } else {
         return false;
+    }
+}
+
+void Deck::revealCard(Card *card)
+{
+    if (cardsRevealed.keys().contains(card)) {
+        cardsRevealed[card] += 1;
+    } else {
+        cardsRevealed[card] = 1;
     }
 }
 

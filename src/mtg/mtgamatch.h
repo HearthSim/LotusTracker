@@ -44,11 +44,14 @@ private:
     // objectId, zoneType
     QMap<int, ZoneType> stackZoneSrcTrack;
     int currentTurn, summarizedMessage;
+    QMap<int, int> revealedCards;
+    QMap<int, int> revealedCardsPlayed;
     void updateZones(MatchStateDiff matchStateDiff);
     void updateIdsChanged(MatchStateDiff matchStateDiff);
     void notifyHandCardsDraw(MatchStateDiff matchStateDiff);
     void notifyCardZoneChange(int objectId, int oldObjectId, MatchZone zoneSrc,
                               MatchZone zoneDst, ZoneTransferType zoneTransferType);
+    void emitPlayerCardRevealSignal(Card* card);
     Card* getCardByObjectId(MatchZone zoneDst, int objectId);
     QString getOwnerIdentifier(int objectId, MatchZone zoneSrc);
     ZoneTransferType getZoneTransferType(int objectId, MatchZone zoneSrc,
@@ -72,6 +75,7 @@ signals:
     void sgnPlayerPutOnHandCard(Card* card);
     void sgnPlayerDrawCard(Card* card);
     void sgnPlayerPlayCard(Card* card);
+    void sgnPlayerRevealCard(Card* card);
     void sgnPlayerDiscardCard(Card* card);
     void sgnPlayerDiscardFromLibraryCard(Card* card);
     void sgnPlayerPutOnBattlefieldCard(Card* card);

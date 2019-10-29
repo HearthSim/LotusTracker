@@ -37,6 +37,8 @@ void MtgaMatch::onStartNewMatch(QString matchId, QString eventId, QMap<Card*, in
     stackZoneSrcTrack.clear();
     currentTurn = 1;
     summarizedMessage = 0;
+    revealedCards = {};
+    revealedCardsPlayed = {};
     isRunning = true;
     LOGI("New match started")
 }
@@ -193,6 +195,24 @@ void MtgaMatch::onMatchStateDiff(MatchStateDiff matchStateDiff)
                                                                 zoneDst, zoneTransferCategory);
         notifyCardZoneChange(objectId, oldObjectId, zoneSrc, zoneDst, zoneTransferType);
     }
+    // Analyse objects revealed
+    QList<QPair<int, int>> revealedCardCreated = matchStateDiff.revealedCardCreated();
+    for (QPair<int, int> revealedCardCreated : revealedCardCreated) {
+        bool isPlayerCardRevealed = revealedCardCreated.second == matchDetails.player.seatId();
+        if (!isPlayerCardRevealed) {
+            continue;
+        }
+        int grpId = revealedCardCreated.first;
+        if (this->revealedCards.keys().contains(grpId)) {
+            this->revealedCards[grpId] += 1;
+        } else {
+            this->revealedCards.insert(grpId, 0);
+        }
+        Card* card = mtgCards->findCard(grpId);
+        if (card->mtgaId > 0) {
+            emit sgnPlayerRevealCard(card);
+        }
+    }
 }
 
 void MtgaMatch::notifyHandCardsDraw(MatchStateDiff matchStateDiff)
@@ -230,6 +250,7 @@ void MtgaMatch::notifyCardZoneChange(int objectId, int oldObjectId, MatchZone zo
             QString action = zoneTransferType == TRANSFER_CAST ? "cast" : "play";
             LOGI(QString("%1 %2 %3").arg(ownerIdenfitier).arg(action).arg(cardName));
             if (isTransferFromPlayer) {
+                emitPlayerCardRevealSignal(card);
                 emit sgnPlayerPlayCard(card);
             } else {
                 emit sgnOpponentPlayCard(card);
@@ -243,6 +264,7 @@ void MtgaMatch::notifyCardZoneChange(int objectId, int oldObjectId, MatchZone zo
         case TRANSFER_DISCARD: {
             LOGI(QString("%1 discarded").arg(cardName));
             if (isTransferFromPlayer) {
+                emitPlayerCardRevealSignal(card);
                 emit sgnPlayerDiscardCard(card);
             } else {
                 emit sgnOpponentDiscardCard(card);
@@ -262,6 +284,7 @@ void MtgaMatch::notifyCardZoneChange(int objectId, int oldObjectId, MatchZone zo
             LOGI(QString("%1 discarded from library").arg(cardName));
             if (card->mtgaId > 0) {
                 if (isTransferFromPlayer) {
+                    emitPlayerCardRevealSignal(card);
                     emit sgnPlayerDiscardFromLibraryCard(card);
                 } else {
                     emit sgnOpponentDiscardFromLibraryCard(card);
@@ -284,6 +307,7 @@ void MtgaMatch::notifyCardZoneChange(int objectId, int oldObjectId, MatchZone zo
         case TRANSFER_PUT_ON_BATTLEFIELD: {
             LOGI(QString("%1 put %2 on battlefield").arg(ownerIdenfitier).arg(cardName));
             if (isTransferFromPlayer) {
+                emitPlayerCardRevealSignal(card);
                 emit sgnPlayerPutOnBattlefieldCard(card);
             } else {
                 emit sgnOpponentPutOnBattlefieldCard(card);
@@ -331,6 +355,23 @@ void MtgaMatch::notifyCardZoneChange(int objectId, int oldObjectId, MatchZone zo
             LOGD(QString("*** %1 move %2 from %3 to %4").arg(ownerIdenfitier)
                  .arg(cardName).arg(zoneSrc.name()).arg(zoneDst.name()));
         }
+    }
+}
+
+void MtgaMatch::emitPlayerCardRevealSignal(Card *card)
+{
+    if (this->revealedCards.keys().contains(card->mtgaId)) {
+        int qtdRevealed = this->revealedCards[card->mtgaId];
+        if (this->revealedCardsPlayed.keys().contains(card->mtgaId)) {
+            if (this->revealedCardsPlayed[card->mtgaId] >= qtdRevealed) {
+                emit sgnPlayerRevealCard(card);
+            }
+            this->revealedCardsPlayed[card->mtgaId] += 1;
+        } else {
+            this->revealedCardsPlayed.insert(card->mtgaId, 1);
+        }
+    } else {
+        emit sgnPlayerRevealCard(card);
     }
 }
 

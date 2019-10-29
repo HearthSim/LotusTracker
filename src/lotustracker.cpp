@@ -358,6 +358,8 @@ void LotusTracker::setupMtgaMatchConnections()
             deckOverlayPlayer, &DeckOverlayPlayer::onPlayerPutOnHandCard);
     connect(mtgaMatch, &MtgaMatch::sgnPlayerDrawCard,
             deckOverlayPlayer, &DeckOverlayPlayer::onPlayerDrawCard);
+    connect(mtgaMatch, &MtgaMatch::sgnPlayerRevealCard,
+            deckOverlayPlayer, &DeckOverlayPlayer::onPlayerRevealCard);
     connect(mtgaMatch, &MtgaMatch::sgnPlayerDiscardCard,
             deckOverlayPlayer, &DeckOverlayPlayer::onPlayerDiscardCard);
     connect(mtgaMatch, &MtgaMatch::sgnPlayerDiscardFromLibraryCard,

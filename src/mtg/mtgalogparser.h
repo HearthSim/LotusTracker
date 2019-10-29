@@ -64,6 +64,7 @@ private:
     QList<MatchZone> getMatchZones(QJsonObject jsonGameStateMessage);
     QMap<int, int> getIdsChanged(QJsonArray jsonGSMAnnotations);
     QMap<int, MatchZoneTransfer> getIdsZoneChanged(QJsonArray jsonGSMAnnotations);
+    QList<QPair<int, int>> getIdsRevealedCardCreated(QJsonArray jsonGSMAnnotations, QJsonArray jsonGameObjects);
 
 public:
     explicit MtgaLogParser(QObject *parent = nullptr, MtgCards *mtgCards = nullptr);
