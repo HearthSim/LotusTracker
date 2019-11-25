@@ -25,39 +25,42 @@ class MtgaLogParser : public QObject
 
 private:
     bool matchRunning;
-    QRegularExpression reRawMsg, reMsgNumber, reMsgId, reMsgJson;
+    QRegularExpression reRawMsg, reMsgId, reMsgJson;
     MtgCards *mtgCards;
-    QList<int> msgResponseNumbers;
+    QList<int> msgRequestIds, msgResponseIds;
     QStack<QString> lastMatchLogMsgs;
     Deck jsonObject2DeckV1(QJsonObject jsonDeck);
     Deck jsonObject2DeckV3(QJsonObject jsonDeck);
     QMap<Card*, int> v3JsonArray2List(QJsonArray cardsV3);
     void parseOutcomingMsg(QPair<QString, QString> msg);
-    void parseIncomingMsg(QPair<QString, QString> msg);
-    void parsePlayerInventory(QString json);
-    void parsePlayerInventoryUpdate(QString json);
-    void parsePlayerCollection(QString json);
-    void parsePlayerDecks(QString json);
-    void parseEventPlayerCourse(QString json);
-    void parseEventPlayerCourses(QString json);
-    void parseMatchCreated(QString json);
+    void parseIncomingMsg(QPair<QString, QJsonObject> msg);
+    void parseMatchMsg(QPair<QString, QString> msg);
+
+    void parsePlayerInventory(QJsonObject json);
+    void parsePlayerInventoryUpdate(QJsonObject json);
+    void parsePlayerCollection(QJsonObject json);
+    void parsePlayerDecks(QJsonObject json);
+    void parseEventPlayerCourse(QJsonObject json);
+    void parseEventPlayerCourses(QJsonObject json);
+    void parseMatchCreated(QJsonObject json);
     void parseMatchInfo(QString json);
-    void parsePlayerRankInfo(QString json);
-    void parsePlayerRankUpdated(QString json);
-    void parsePlayerMythicRatingUpdated(QString json);
-    void parsePlayerDeckCreate(QString json);
-    void parsePlayerDeckUpdate(QString json);
-    void parsePlayerDeckSubmited(QString json);
+    void parsePlayerRankInfo(QJsonObject json);
+    void parsePlayerRankUpdated(QJsonObject json);
+    void parsePlayerMythicRatingUpdated(QJsonObject json);
+    void parsePlayerDeckCreate(QJsonObject json);
+    void parsePlayerDeckUpdate(QJsonObject json);
+    void parsePlayerDeckSubmited(QJsonObject json);
     void parseAIPracticeOrDirectGameDeck(QString json);
-    void parseEventFinish(QString json);
+    void parseEventFinish(QJsonObject json);
     void parseAuthenticate(QString json);
     void parseClientToGreMessages(QString json);
     void parseGreToClientMessages(QString json);
     void parseGameStateFull(QJsonObject jsonMessage);
     void parseGameStateDiff(int playerSeatId, int gameStateId, QJsonObject jsonMessage);
-    void parseDraftStatus(QString json);
+    void parseDraftStatus(QJsonObject json);
     void parseDraftPick(QString json);
     void parseLogInfo(QString json);
+
     void checkMulligans(int playerSeatId, QList<int> diffDeletedInstanceIds,
                         QList<MatchZone> zones);
     bool listContainsSublist(QList<int> list, QList<int> subList);
