@@ -17,8 +17,10 @@ CONFIG += c++11
 # asmCrashReport - https://github.com/asmaloney/asmCrashReport
 include(asmCrashReport.pri)
 
+# Crow
+INCLUDEPATH += $$PWD/include
+
 # QtKeychain
-INCLUDEPATH += ./include
 INCLUDEPATH += ../qtkeychain
 
 DESTDIR = build
@@ -193,11 +195,11 @@ win32 {
         LIBS += -L../qtkeychain/build/Release -llibqt5keychain
         #Lib crow and dependencies
         LIBS += -L$$PWD/libs -llibcrow
-        LIBS += -L$$PWD/libs -llibcurl
         LIBS += -L$$PWD/libs -llibcrypto
+        LIBS += -L$$PWD/libs -llibcurl
         LIBS += -L$$PWD/libs -llibssl
-        LIBS += -L$$PWD/libs -llibzlibstatic
         LIBS += -L$$PWD/libs -llibws2_32
+        LIBS += -L$$PWD/libs -llibzlibstatic
     }
 
     HEADERS += src/utils/winautostart.h \

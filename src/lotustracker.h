@@ -61,6 +61,7 @@ private:
     void setupMtgaMatchConnections();
     void checkForAutoLogin();
     void checkUntappedTermsOfServices();
+    void showDepreciatedMsg();
     void uploadMatch();
 
 public:

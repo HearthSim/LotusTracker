@@ -13,6 +13,7 @@
 #endif
 
 #include <iostream>
+#include <QDesktopServices>
 #include <QLocalSocket>
 #include <QMessageBox>
 #include <QNetworkRequest>
@@ -108,6 +109,7 @@ LotusTracker::LotusTracker(int& argc, char **argv): QApplication(argc, argv),
     );
 
     checkUntappedTermsOfServices();
+    showDepreciatedMsg();
 }
 
 LotusTracker::~LotusTracker()
@@ -660,6 +662,18 @@ void LotusTracker::checkUntappedTermsOfServices()
         appSettings->acceptUntappedToS();
     } else {
         showMessage("Lotus Tracker can't work without accept terms.");
+    }
+}
+
+void LotusTracker::showDepreciatedMsg()
+{
+    QString msg = "Lotus Tracker is no longer maintained, please migrate to Untapped Companion.";
+    QMessageBox messageBox("Lotus Tracker has been discontinued", msg,QMessageBox::Question,
+                           QMessageBox::Open, QMessageBox::Close, 0);
+    messageBox.setTextFormat(Qt::RichText);
+    int ret = messageBox.exec();
+    if (ret == QMessageBox::Open) {
+        QDesktopServices::openUrl(QUrl("https://www.mtglotusvalley.com/goodbye"));
     }
 }
 

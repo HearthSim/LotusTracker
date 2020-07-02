@@ -196,8 +196,8 @@ void MtgaMatch::onMatchStateDiff(MatchStateDiff matchStateDiff)
         notifyCardZoneChange(objectId, oldObjectId, zoneSrc, zoneDst, zoneTransferType);
     }
     // Analyse objects revealed
-    QList<QPair<int, int>> revealedCardCreated = matchStateDiff.revealedCardCreated();
-    for (QPair<int, int> revealedCardCreated : revealedCardCreated) {
+    QList<QPair<int, int>> revealedCardsCreated = matchStateDiff.revealedCardCreated();
+    for (QPair<int, int> revealedCardCreated : revealedCardsCreated) {
         bool isPlayerCardRevealed = revealedCardCreated.second == matchDetails.player.seatId();
         if (!isPlayerCardRevealed) {
             continue;
