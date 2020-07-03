@@ -10,7 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = LotusTracker
 TEMPLATE = app
-VERSION = 1.4.7
+VERSION = 1.4.8
 
 CONFIG += c++11
 
@@ -193,13 +193,6 @@ win32 {
     CONFIG(release, debug|release) {
         INCLUDEPATH += ../qtkeychain/build/Release
         LIBS += -L../qtkeychain/build/Release -llibqt5keychain
-        #Lib crow and dependencies
-        LIBS += -L$$PWD/libs -llibcrow
-        LIBS += -L$$PWD/libs -llibcrypto
-        LIBS += -L$$PWD/libs -llibcurl
-        LIBS += -L$$PWD/libs -llibssl
-        LIBS += -L$$PWD/libs -llibws2_32
-        LIBS += -L$$PWD/libs -llibzlibstatic
     }
 
     HEADERS += src/utils/winautostart.h \
